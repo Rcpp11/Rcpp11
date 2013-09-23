@@ -1,0 +1,19 @@
+
+rm -f confdefs.h config.log config.status \
+	src/*.o src/*.so src/*.a src/*.d src/*.dll src/*.rc \
+	RcppSrc/*.o RcppSrc/*.a inst/Rcpp-version.txt \
+	inst/lib/libRcpp.so inst/lib/Rcpp*.h inst/lib/libRcpp.a \
+	inst/unitTests/testRcppModule/src/*.o \
+	inst/unitTests/testRcppModule/src/*.so \
+	inst/unitTests/testRcppClass/src/*.o \
+	inst/unitTests/testRcppClass/src/*.so \
+	src/Makedeps libRcpp.a \
+	build/Rcpp.pdf \
+	src/symbols.rds \
+	inst/unitTests/testRcppClass/src/symbols.rds \
+	
+rm -rf	autom4te.cache inst/lib/ inst/doc/man/ inst/doc/html/ inst/doc/latex/ \
+   	inst/doc/auto inst/doc/Rcpp-*/auto/ src-* vignettes/auto
+
+find . -name \*~ -exec rm {} \;
+find . -name \*.flc -exec rm {} \;

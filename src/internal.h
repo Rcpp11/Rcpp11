@@ -1,0 +1,105 @@
+//
+// internal.h: Rcpp R/C++ interface class library -- 
+//
+// Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
+//
+// This file is part of Rcpp11.
+//
+// Rcpp11 is free software: you can redistribute it and/or modify it
+// under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 2 of the License, or
+// (at your option) any later version.
+//
+// Rcpp11 is distributed in the hope that it will be useful, but
+// WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
+
+#ifndef Rcpp_internal_h
+#define Rcpp_internal_h
+
+#include <R_ext/Rdynload.h>
+
+#define CALLFUN_0(name) SEXP name()
+#define CALLFUN_1(name) SEXP name(SEXP)
+#define CALLFUN_2(name) SEXP name(SEXP,SEXP)
+#define CALLFUN_3(name) SEXP name(SEXP,SEXP,SEXP)
+#define CALLFUN_4(name) SEXP name(SEXP,SEXP,SEXP,SEXP)
+#define CALLFUN_5(name) SEXP name(SEXP,SEXP,SEXP,SEXP,SEXP)
+#define EXTFUN(name) SEXP name(SEXP)
+
+// this file contains declarations of functions that are not 
+// exported via Rcpp.h but are needed to make Rcpp work internally
+
+#ifdef __cplusplus
+SEXP get_Rcpp_protection_stack() ;
+namespace Rcpp{
+    SEXP Rcpp_PreserveObject(SEXP x) ;
+    void Rcpp_ReleaseObject(SEXP x) ;
+    SEXP Rcpp_ReplaceObject(SEXP x, SEXP y) ;
+}
+extern "C" {
+#endif
+
+    CALLFUN_1(as_character_externalptr) ;
+
+    CALLFUN_1(Class__name);
+    CALLFUN_1(Class__has_default_constructor) ;
+
+    CALLFUN_1(CppClass__complete);
+    CALLFUN_1(CppClass__methods);
+    
+    CALLFUN_1(Module__classes_info) ;
+    CALLFUN_1(Module__complete) ;
+    CALLFUN_1(Module__functions_arity);
+    CALLFUN_1(Module__functions_names);
+    CALLFUN_2(Module__get_class);
+    CALLFUN_2(Module__has_class);
+    CALLFUN_2(Module__has_function);
+    CALLFUN_2(Module__get_function);
+    CALLFUN_1(Module__name);
+    CALLFUN_2(CppObject__finalize);
+    
+    CALLFUN_0(get_rcpp_cache);
+    CALLFUN_0(init_Rcpp_cache);
+    
+    CALLFUN_0(reset_current_error);
+    CALLFUN_1(rcpp_error_recorder);
+    CALLFUN_0(rcpp_get_current_error);
+    int error_occured() ;
+    CALLFUN_1(rcpp_set_stack_trace);
+    CALLFUN_0(rcpp_get_stack_trace);
+    
+    CALLFUN_3(CppField__get);
+    CALLFUN_4(CppField__set);
+
+    CALLFUN_0(rcpp_capabilities) ;
+    
+    /* .External functions */
+    EXTFUN(CppMethod__invoke) ;
+    EXTFUN(CppMethod__invoke_void) ;
+    EXTFUN(CppMethod__invoke_notvoid) ;
+    EXTFUN(InternalFunction_invoke) ;
+    EXTFUN(Module__invoke) ;
+    EXTFUN(class__newInstance) ;
+    EXTFUN(class__dummyInstance) ;
+    
+    void init_Rcpp_routines(DllInfo*) ;
+    const char * sexp_to_name(int sexp_type); 
+    
+#ifdef __cplusplus
+}
+#endif
+
+#undef CALLFUN_0
+#undef CALLFUN_1
+#undef CALLFUN_2
+#undef CALLFUN_3
+#undef CALLFUN_4
+#undef CALLFUN_5
+
+#endif

@@ -13,7 +13,7 @@ repository decides to finally allow `C++11`.
  in `Rcpp` because of too strong requirements, because it once was there, because someone 
 somewhere might use it... For example the `RCPP_FUNCTION_..` macros that are 
  planned to be removed in july 2014 () in `Rcpp`. These macros will not be in `Rcpp11`.
- - the `RcppDate` etc ... classes in `Rcpp` are using a design that is different 
+ - the `Date` etc ... classes in `Rcpp` are using a design that is different 
  from all other classes of Rcpp, the proxy design. These classes will not be in `Rcpp11`. 
  Replacements might be included at a later stage if it is needed. Replacements should 
  follow the design principles of classes of the `Rcpp` API, e.g. `RObject`, ...
