@@ -2,6 +2,7 @@
 // lapply.h:  lapply
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -32,7 +33,8 @@ class Lapply : public VectorBase<
 > {
 public:         
 	typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
-	typedef typename std::result_of<Function>::type result_type ;
+	typedef Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+	typedef typename std::result_of<Function(STORAGE)>::type result_type ;
 	
 	Lapply( const VEC& vec_, Function fun_ ) : 
 		vec(vec_), fun(fun_){}
