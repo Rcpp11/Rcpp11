@@ -10,8 +10,8 @@ Description: Some examples from the Rcpp Modules documentation, with
  explicit loading of some objects.
 License: GPL(>=2)
 LazyLoad: yes
-Depends: R (>= 2.15.0), Rcpp, methods
-Imports: Rcpp (>= 0.8.5), methods
-LinkingTo: Rcpp
+Depends: R (>= 2.15.0), Rcpp11, methods
+Imports: Rcpp11 (>= 0.8.5), methods
+LinkingTo: Rcpp11
 Packaged: 2012-04-14 18:42:28 UTC; jmc
 
