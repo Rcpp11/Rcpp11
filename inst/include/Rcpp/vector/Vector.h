@@ -511,11 +511,25 @@ public:
     static Vector create(){
         return Vector( 0 ) ;
     }
-
+    template <typename... Args> static Vector create(Args... args) ;
     
-    #include <Rcpp/generated/Vector__create.h>
-
-    // template <typename... Args> static Vector create(Args... args) ;
+private:
+    
+    template <typename T, typename... Args>
+    void set_value( NumberToType<sizeof...(Args) + 1>, int i, const T& obj, const Args&... pack ) ;
+    
+    template <typename T>
+    void set_value( NumberToType<1>, int i, const T& obj ) ;
+    
+    template <typename T, typename... Args>
+    void set_value_with_names( NumberToType<sizeof...(Args) + 1>, int i, SEXP names, const T& obj, const Args&... pack ) ;
+    
+    template <typename T>
+    void set_value_with_names( NumberToType<1>, int i, SEXP names, const T& obj ) ;
+    
+    template <typename... Args> static Vector create__impl(std::true_type  , Args... );
+    template <typename... Args> static Vector create__impl(std::false_type , Args... );
+    
     
 } ; /* Vector */
 

@@ -690,15 +690,65 @@ namespace Rcpp{
         }
 
     }
+
+    template <int RTYPE>
+    template <typename T>
+    inline void Vector<RTYPE>::set_value_with_names( NumberToType<1>, int i, SEXP names, const T& obj ){
+        this->operator[](i) = converter_type::get(obj) ;
+        SET_STRING_ELT( names, i, Rf_mkChar( internal::get_object_name(obj) ) ) ;
+    }
+    
+    template <int RTYPE>
+    template <typename T, typename... Args>
+    inline void Vector<RTYPE>::set_value_with_names( NumberToType<sizeof...(Args) + 1>, int i, SEXP names, const T& obj, const Args&... pack ){
+        this->operator[](i) = converter_type::get(obj) ;
+        SET_STRING_ELT( names, i, Rf_mkChar( internal::get_object_name(obj) ) ) ;
+        set_value_with_names( typename ::NumberToType< sizeof...(Args) >() , i+1, names, pack... ) ;
+    }
+    
+    template <int RTYPE>
+    template <typename T>
+    inline void Vector<RTYPE>::set_value( NumberToType<1>, int i, const T& obj ){
+        this->operator[](i) = converter_type::get(obj) ;
+    }
+    
+    template <int RTYPE>
+    template <typename T, typename... Args>
+    inline void Vector<RTYPE>::set_value( NumberToType<sizeof...(Args) + 1>, int i, const T& obj, const Args&... pack ){
+        this->operator[](i) = converter_type::get(obj) ;
+        set_value( typename ::NumberToType< sizeof...(Args) >() , i+1, pack... ) ;
+    }
     
     
-    // template <int RTYPE>
-    // template <typename... Args> 
-    // static Vector<RTYPE> Vector<RTYPE>::create(Args... args){
-    //     const int depth = sizeof...(args);
-    //     Vector<RTYPE> out( depth ) ;
-    //     
-    // }
+    template <int RTYPE>
+    template <typename... Args> 
+    Vector<RTYPE> Vector<RTYPE>::create__impl(std::true_type, Args... args ){
+        const int n = sizeof...(Args) ; 
+        Vector<RTYPE> out = no_init(n) ;
+        CharacterVector names = no_init(n) ;
+        if( n ){
+            out.set_value_with_names( NumberToType<n>() , 0, names, args...) ;
+        }
+        out.attr( "names") = names ;
+        return out ;
+    }
+    
+    template <int RTYPE>
+    template <typename... Args> 
+    Vector<RTYPE> Vector<RTYPE>::create__impl(std::false_type, Args... args ){
+        const int n = sizeof...(Args) ;
+        Vector<RTYPE> out = no_init(n) ;
+        if( n ){
+            out.set_value( NumberToType<n>(), 0, args...) ;
+        }
+        return out ;
+    }
+    
+    template <int RTYPE>
+    template <typename... Args> 
+    Vector<RTYPE> Vector<RTYPE>::create(Args... args){
+        return create__impl( typename Rcpp::traits::has_names<Args...>::type(), args...) ;
+    }
     
     
     

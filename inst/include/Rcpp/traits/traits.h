@@ -49,5 +49,7 @@
 #include <Rcpp/traits/expands_to_logical_impl.h>
 #include <Rcpp/traits/sfinae.h>
 
+template <unsigned int N> struct NumberToType { };
+
 #endif
 
