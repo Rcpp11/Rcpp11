@@ -64,13 +64,12 @@ test.exceptions <- function(){
 	checkTrue( "std::range_error" %in% class(e), msg = "exception class std::range_error" )
 	checkEquals( e$message, "boom", msg = "exception message" )
 
-	if( can.demangle ){
-		# same with direct handler
-		e <- tryCatch(  exceptions_(), "std::range_error" = function(e) e )
-		checkTrue( "C++Error" %in% class(e), msg = "(direct handler) exception class C++Error" )
-		checkTrue( "std::range_error" %in% class(e), msg = "(direct handler) exception class std::range_error" )
-		checkEquals( e$message, "boom", msg = "(direct handler) exception message" )
-	}
+	# same with direct handler
+	e <- tryCatch(  exceptions_(), "std::range_error" = function(e) e )
+	checkTrue( "C++Error" %in% class(e), msg = "(direct handler) exception class C++Error" )
+	checkTrue( "std::range_error" %in% class(e), msg = "(direct handler) exception class std::range_error" )
+	checkEquals( e$message, "boom", msg = "(direct handler) exception message" )
+	
 	f <- function(){
 		try( exceptions_(), silent = TRUE)
 		"hello world"

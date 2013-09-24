@@ -11,7 +11,7 @@ Description: Some examples from the Rcpp Modules documentation, with
 License: GPL(>=2)
 LazyLoad: yes
 Depends: R (>= 2.15.0), Rcpp11, methods
-Imports: Rcpp11 (>= 0.8.5), methods
+Imports: Rcpp11, methods
 LinkingTo: Rcpp11
 Packaged: 2012-04-14 18:42:28 UTC; jmc
 
