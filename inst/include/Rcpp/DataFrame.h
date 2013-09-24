@@ -41,9 +41,10 @@ namespace Rcpp{
 
         int nrows() const ;
         
-        static DataFrame create(){ return DataFrame() ; }
-
-#include <Rcpp/generated/DataFrame_generated.h>           
+        template <typename... Args>
+        static DataFrame create(const Args&... args){
+            return from_list( List::create( args...) ) ;
+        }
 
     private:
         void set_sexp(SEXP x) ;
