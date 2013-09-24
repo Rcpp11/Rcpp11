@@ -357,10 +357,6 @@ namespace Rcpp {
         return *this ;
     }
 
-    RObject::AttributeProxy RObject::attr( const std::string& name) const{
-        return AttributeProxy( *this, name)  ;
-    }
-
     /* S4 */
 
     bool RObject::hasSlot(const std::string& name) const {

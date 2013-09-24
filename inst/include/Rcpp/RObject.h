@@ -206,7 +206,9 @@ namespace Rcpp{
          * wrap is called on the right side of the assignment it can be anything
          * wrap can handle. 
          */
-        AttributeProxy attr( const std::string& name) const  ;
+        inline AttributeProxy attr( const std::string& name) const {
+            return AttributeProxy( *this, name)  ;    
+        }
     
         /**
          * is this object NULL
