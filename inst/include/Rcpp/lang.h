@@ -1,5 +1,5 @@
 //
-// lang.h: Rcpp R/C++ interface class library -- extra lang_* functions
+// lang.h:  extra lang_* functions
 //
 // Copyright (C) 2011 Dirk Eddelbuettel and Romain Francois
 //

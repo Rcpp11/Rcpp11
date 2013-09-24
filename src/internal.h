@@ -1,5 +1,5 @@
 //
-// internal.h: Rcpp R/C++ interface class library -- 
+// internal.h:  
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois

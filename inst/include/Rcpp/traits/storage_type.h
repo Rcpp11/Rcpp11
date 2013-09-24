@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// r_sexptype_traits.h: Rcpp R/C++ interface class library -- traits to help wrap
+// r_sexptype_traits.h:  traits to help wrap
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

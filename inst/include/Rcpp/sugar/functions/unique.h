@@ -1,5 +1,5 @@
 //
-// unique.h: Rcpp R/C++ interface class library -- unique
+// unique.h:  unique
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

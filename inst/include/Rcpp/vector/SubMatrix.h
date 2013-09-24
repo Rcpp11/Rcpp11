@@ -1,5 +1,5 @@
 //
-// SubMatrix.h: Rcpp R/C++ interface class library -- sub matrices
+// SubMatrix.h:  sub matrices
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

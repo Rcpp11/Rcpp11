@@ -41,7 +41,6 @@
 
 #include <Rcpp/Vector.h>
 #include <Rcpp/sugar/nona/nona.h>
-#include <Rcpp/Fast.h>
 #include <Rcpp/Extractor.h>
 
 #include <Rcpp/XPtr.h>

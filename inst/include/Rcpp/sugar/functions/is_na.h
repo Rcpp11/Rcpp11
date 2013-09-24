@@ -1,5 +1,5 @@
 //
-// is_na.h: Rcpp R/C++ interface class library -- is_na
+// is_na.h:  is_na
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

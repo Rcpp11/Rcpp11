@@ -1,5 +1,5 @@
 //
-// hash.h: Rcpp R/C++ interface class library -- hashing
+// hash.h:  hashing
 //
 // Copyright (C) 2012  Dirk Eddelbuettel and Romain Francois
 //

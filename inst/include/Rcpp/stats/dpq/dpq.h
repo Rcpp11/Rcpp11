@@ -1,5 +1,5 @@
 //
-// dpq.h: Rcpp R/C++ interface class library -- normal distribution
+// dpq.h:  normal distribution
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

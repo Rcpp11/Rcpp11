@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// r_vector.h: Rcpp R/C++ interface class library -- information about R vectors
+// r_vector.h:  information about R vectors
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

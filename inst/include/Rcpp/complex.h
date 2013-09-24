@@ -1,5 +1,5 @@
 //
-// complex.h: Rcpp R/C++ interface class library -- binary operators for Rcomplex
+// complex.h:  binary operators for Rcomplex
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

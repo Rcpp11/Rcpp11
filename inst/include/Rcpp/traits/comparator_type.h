@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// comparator_type.h: Rcpp R/C++ interface class library -- comparator
+// comparator_type.h:  comparator
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

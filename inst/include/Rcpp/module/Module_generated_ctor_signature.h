@@ -1,5 +1,5 @@
 //
-// Module_generated_ctor_signature.h: Rcpp R/C++ interface class library --
+// Module_generated_ctor_signature.h: 
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

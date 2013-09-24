@@ -1,5 +1,5 @@
 //
-// divides.h: Rcpp R/C++ interface class library -- operator-
+// divides.h:  operator-
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

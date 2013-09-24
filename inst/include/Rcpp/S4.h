@@ -1,5 +1,5 @@
 //
-// S4.h: Rcpp R/C++ interface class library -- S4 objects
+// S4.h:  S4 objects
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

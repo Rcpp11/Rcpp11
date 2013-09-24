@@ -1,5 +1,5 @@
 //
-// DataFrame_generated.h: Rcpp R/C++ interface class library -- data frames
+// DataFrame_generated.h:  data frames
 //
 // Copyright (C) 2010 - 2013  Dirk Eddelbuettel and Romain Francois
 //

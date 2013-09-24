@@ -1,5 +1,5 @@
 //
-// mapply.h: Rcpp R/C++ interface class library -- mapply
+// mapply.h:  mapply
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

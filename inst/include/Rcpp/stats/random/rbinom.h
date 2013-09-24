@@ -1,5 +1,5 @@
 //
-// rbinom.h: Rcpp R/C++ interface class library -- 
+// rbinom.h:  
 //
 // Copyright (C) 2010 - 2012 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// XPtr.cpp: Rcpp R/C++ interface class library -- external pointer unit tests
+// XPtr.cpp:  external pointer unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

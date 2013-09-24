@@ -1,5 +1,5 @@
 //
-// exporter.h: Rcpp R/C++ interface class library -- identify if a class has a nested iterator typedef
+// exporter.h:  identify if a class has a nested iterator typedef
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

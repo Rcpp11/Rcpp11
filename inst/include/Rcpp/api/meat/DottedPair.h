@@ -1,5 +1,5 @@
 //
-// DottedPair.h: Rcpp R/C++ interface class library --  DottedPair meat
+// DottedPair.h:   DottedPair meat
 //
 // Copyright (C) 2012 - 2013    Dirk Eddelbuettel and Romain Francois
 //

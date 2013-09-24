@@ -1,5 +1,5 @@
 //
-// Timer.cpp: Rcpp R/C++ interface class library -- Rcpp benchmark utility
+// Timer.cpp:  Rcpp benchmark utility
 //
 // Copyright (C) 2012 JJ Allaire, Dirk Eddelbuettel and Romain Francois
 //

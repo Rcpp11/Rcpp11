@@ -1,5 +1,5 @@
 //
-// Vector.h: Rcpp R/C++ interface class library -- vectors
+// Vector.h:  vectors
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

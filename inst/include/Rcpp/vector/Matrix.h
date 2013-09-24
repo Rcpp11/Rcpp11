@@ -1,5 +1,5 @@
 //
-// Matrix.h: Rcpp R/C++ interface class library -- matrices
+// Matrix.h:  matrices
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //
@@ -28,8 +28,8 @@ class Matrix : public Vector<RTYPE>, public MatrixBase<RTYPE,true, Matrix<RTYPE>
     int nrows ; 
     
 public:
-    struct r_type : traits::integral_constant<int,RTYPE>{} ;
-    struct can_have_na : traits::true_type{} ;
+    struct r_type : std::integral_constant<int,RTYPE>{} ;
+    struct can_have_na : std::true_type{} ;
     typedef MatrixRow<RTYPE> Row ;
     typedef MatrixColumn<RTYPE> Column ;
     typedef SubMatrix<RTYPE> Sub ;
@@ -112,10 +112,10 @@ private:
     }
     
     template <typename U>
-    void fill_diag__dispatch( traits::false_type, const U& u) ;
+    void fill_diag__dispatch( std::false_type, const U& u) ;
         
     template <typename U>
-    void fill_diag__dispatch( traits::true_type, const U& u) ;
+    void fill_diag__dispatch( std::true_type, const U& u) ;
 
     template <bool NA, typename MAT>
     void import_matrix_expression( const MatrixBase<RTYPE,NA,MAT>& other, int nr, int nc ) ;

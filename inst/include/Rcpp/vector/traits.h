@@ -1,5 +1,5 @@
 //
-// traits.h: Rcpp R/C++ interface class library -- support traits for vector
+// traits.h:  support traits for vector
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

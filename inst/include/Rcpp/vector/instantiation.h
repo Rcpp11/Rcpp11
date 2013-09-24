@@ -1,5 +1,5 @@
 //
-// instantiation.h: Rcpp R/C++ interface class library -- 
+// instantiation.h:  
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// not.h: Rcpp R/C++ interface class library -- 
+// not.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

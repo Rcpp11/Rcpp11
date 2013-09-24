@@ -1,5 +1,5 @@
 //
-// max.h: Rcpp R/C++ interface class library -- max
+// max.h:  max
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// eval_methods.h: Rcpp R/C++ interface class library -- 
+// eval_methods.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

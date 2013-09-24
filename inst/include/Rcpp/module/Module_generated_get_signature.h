@@ -1,5 +1,5 @@
 //
-// Module_generated_get_signature.h: Rcpp R/C++ interface class library --
+// Module_generated_get_signature.h: 
 //
 // Copyright (C) 2010 - 2011 Doug Bates, Dirk Eddelbuettel and Romain Francois
 //

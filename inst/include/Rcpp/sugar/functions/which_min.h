@@ -1,5 +1,5 @@
 //
-// which_min.h: Rcpp R/C++ interface class library -- which.min
+// which_min.h:  which.min
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

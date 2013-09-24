@@ -1,5 +1,5 @@
 //
-// sum.h: Rcpp R/C++ interface class library -- sum
+// sum.h:  sum
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

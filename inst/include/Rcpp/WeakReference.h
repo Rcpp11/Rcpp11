@@ -1,5 +1,5 @@
 //
-// WeakReference.h: Rcpp R/C++ interface class library -- weak references
+// WeakReference.h:  weak references
 //
 // Copyright (C) 2009 - 2011    Dirk Eddelbuettel and Romain Francois
 //

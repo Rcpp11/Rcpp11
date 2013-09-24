@@ -1,5 +1,5 @@
 //
-// diag.h: Rcpp R/C++ interface class library -- diag
+// diag.h:  diag
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

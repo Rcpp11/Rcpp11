@@ -1,5 +1,5 @@
 //
-// geom.h: Rcpp R/C++ interface class library -- 
+// geom.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

@@ -2,7 +2,7 @@
 //
 // auto generated file (from script/stats.R) 
 //
-// unif.h: Rcpp R/C++ interface class library -- 
+// unif.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

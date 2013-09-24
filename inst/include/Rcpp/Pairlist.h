@@ -1,5 +1,5 @@
 //
-// Pairlist.h: Rcpp R/C++ interface class library -- pair lists objects (LISTSXP)
+// Pairlist.h:  pair lists objects (LISTSXP)
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

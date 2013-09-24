@@ -1,5 +1,5 @@
 //
-// head.h: Rcpp R/C++ interface class library -- head
+// head.h:  head
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

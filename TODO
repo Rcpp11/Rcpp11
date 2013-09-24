@@ -22,9 +22,6 @@ API
 
     o   Rcpp::Factor and Rcpp::Ordered
 
-    o   Fast indexing and g++ 4.5.0 or later: open issue of why this compiler
-        gets upset when the previous version(s) coped just fine
-        
     o   Vector::resize    
 
 Modules 

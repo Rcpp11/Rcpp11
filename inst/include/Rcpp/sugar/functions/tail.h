@@ -1,5 +1,5 @@
 //
-// tail.h: Rcpp R/C++ interface class library -- tail
+// tail.h:  tail
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

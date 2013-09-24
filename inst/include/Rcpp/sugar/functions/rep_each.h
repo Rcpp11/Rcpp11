@@ -1,5 +1,5 @@
 //
-// rep_each.h: Rcpp R/C++ interface class library -- rep_each
+// rep_each.h:  rep_each
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

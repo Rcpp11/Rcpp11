@@ -1,5 +1,5 @@
 //
-// backward.h: Rcpp R/C++ interface class library -- 
+// backward.h:  
 //
 // Copyright (C) 2012    Dirk Eddelbuettel and Romain Francois
 //

@@ -28,7 +28,7 @@ namespace Rcpp{
     }
     template <typename T>
     inline SEXP module_wrap_dispatch( const T& obj, Rcpp::traits::pointer_wrap_tag ) {
-    	return wrap( object< typename traits::un_pointer<T>::type >( obj ) ) ;
+    	return wrap( object< typename std::remove_pointer<T>::type >( obj ) ) ;
     }
 }
 

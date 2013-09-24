@@ -1,5 +1,5 @@
 //
-// logical_operators__Vector__primitive.h: Rcpp R/C++ interface class library -- 
+// logical_operators__Vector__primitive.h:  
 //    logical operators for Vector to primitive comparisons
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois

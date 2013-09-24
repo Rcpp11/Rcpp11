@@ -1,5 +1,5 @@
 //
-// Module_generated_class_factory.h: Rcpp R/C++ interface class library -- alternative way to declare constructors
+// Module_generated_class_factory.h:  alternative way to declare constructors
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

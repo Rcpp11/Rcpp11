@@ -1,5 +1,5 @@
 //
-// beta.h: Rcpp R/C++ interface class library -- beta distribution
+// beta.h:  beta distribution
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

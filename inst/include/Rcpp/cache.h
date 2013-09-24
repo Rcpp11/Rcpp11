@@ -1,5 +1,5 @@
 //
-// cache.h: Rcpp R/C++ interface class library -- 
+// cache.h:  
 //
 // Copyright (C) 2009 - 2012 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// rf.h: Rcpp R/C++ interface class library -- 
+// rf.h:  
 //
 // Copyright (C) 2010 - 2013 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

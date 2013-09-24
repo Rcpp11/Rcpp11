@@ -1,5 +1,5 @@
 //
-// init_type.h: Rcpp R/C++ interface class library -- support traits for vector
+// init_type.h:  support traits for vector
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// Language.h: Rcpp R/C++ interface class library -- language objects (calls)
+// Language.h:  language objects (calls)
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// can_have_na.h: Rcpp R/C++ interface class library -- 
+// can_have_na.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

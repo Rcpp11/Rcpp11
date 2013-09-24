@@ -1,5 +1,5 @@
 //
-// self_match.h: Rcpp R/C++ interface class library -- self match
+// self_match.h:  self match
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

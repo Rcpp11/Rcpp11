@@ -1,5 +1,5 @@
 //
-// rweibull.h: Rcpp R/C++ interface class library -- 
+// rweibull.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// cumsum.h: Rcpp R/C++ interface class library -- cumsum
+// cumsum.h:  cumsum
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

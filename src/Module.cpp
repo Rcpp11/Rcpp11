@@ -1,5 +1,5 @@
 //
-// Module.cpp: Rcpp R/C++ interface class library -- Rcpp modules
+// Module.cpp:  Rcpp modules
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

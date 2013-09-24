@@ -1,5 +1,5 @@
 //
-// seq_along.h: Rcpp R/C++ interface class library -- any
+// seq_along.h:  any
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

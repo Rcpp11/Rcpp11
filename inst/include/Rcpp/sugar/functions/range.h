@@ -1,5 +1,5 @@
 //
-// range.h: Rcpp R/C++ interface class library -- range
+// range.h:  range
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 //

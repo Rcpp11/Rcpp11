@@ -1,5 +1,5 @@
 //
-// traits.h: Rcpp R/C++ interface class library -- pre processor help
+// traits.h:  pre processor help
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

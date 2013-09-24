@@ -1,5 +1,5 @@
 //
-// Environment.h: Rcpp R/C++ interface class library -- access R environments
+// Environment.h:  access R environments
 //
 // Copyright (C) 2009 - 2012    Dirk Eddelbuettel and Romain Francois
 //

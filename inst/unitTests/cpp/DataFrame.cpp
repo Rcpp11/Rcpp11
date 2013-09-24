@@ -1,5 +1,5 @@
 //
-// DataFrame.cpp: Rcpp R/C++ interface class library -- DataFrame unit tests
+// DataFrame.cpp:  DataFrame unit tests
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

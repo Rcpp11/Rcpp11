@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// is_module_object.h: Rcpp R/C++ interface class library -- 
+// is_module_object.h:  
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -26,12 +24,12 @@ namespace Rcpp{
 namespace traits{
       
 	template <typename T> struct is_module_object : 
-		public integral_constant<bool,
-			same_type< typename r_type_traits<T>::r_category, r_type_module_object_tag >::value                ||
-			same_type< typename r_type_traits<T>::r_category, r_type_module_object_pointer_tag >::value        ||
-			same_type< typename r_type_traits<T>::r_category, r_type_module_object_const_pointer_tag >::value  ||
-			same_type< typename r_type_traits<T>::r_category, r_type_module_object_reference_tag >::value      ||
-			same_type< typename r_type_traits<T>::r_category, r_type_module_object_const_reference_tag >::value
+		public std::integral_constant<bool,
+			std::is_same< typename r_type_traits<T>::r_category, r_type_module_object_tag >::value                ||
+			std::is_same< typename r_type_traits<T>::r_category, r_type_module_object_pointer_tag >::value        ||
+			std::is_same< typename r_type_traits<T>::r_category, r_type_module_object_const_pointer_tag >::value  ||
+			std::is_same< typename r_type_traits<T>::r_category, r_type_module_object_reference_tag >::value      ||
+			std::is_same< typename r_type_traits<T>::r_category, r_type_module_object_const_reference_tag >::value
 		>{} ;
 
 } // traits

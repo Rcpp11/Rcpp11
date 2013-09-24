@@ -1,5 +1,5 @@
 //
-// unary_minus.h: Rcpp R/C++ interface class library -- unary operator-
+// unary_minus.h:  unary operator-
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// Module_Add_Property.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_Add_Property.h:  Rcpp modules
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

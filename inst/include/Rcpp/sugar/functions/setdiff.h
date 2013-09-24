@@ -1,5 +1,5 @@
 //
-// setdiff.h: Rcpp R/C++ interface class library -- setdiff
+// setdiff.h:  setdiff
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

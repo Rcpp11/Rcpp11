@@ -1,5 +1,5 @@
 //
-// Vector.h: Rcpp R/C++ interface class library -- vectors
+// Vector.h:  vectors
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //
@@ -320,41 +320,41 @@ public:
     template <typename T>
     void push_back( const T& object){
         push_back__impl( converter_type::get(object), 
-                         typename traits::same_type<stored_type,SEXP>()
+                         typename std::is_same<stored_type,SEXP>()
                          ) ;
     }
 	
     template <typename T>
     void push_back( const T& object, const std::string& name ){
         push_back_name__impl( converter_type::get(object), name, 
-                              typename traits::same_type<stored_type,SEXP>()
+                              typename std::is_same<stored_type,SEXP>()
                               ) ;
     }
 	
     template <typename T>
     void push_front( const T& object){
         push_front__impl( converter_type::get(object), 
-                          typename traits::same_type<stored_type,SEXP>() ) ;
+                          typename std::is_same<stored_type,SEXP>() ) ;
     }
 	
     template <typename T>
     void push_front( const T& object, const std::string& name){
         push_front_name__impl( converter_type::get(object), name, 
-                               typename traits::same_type<stored_type,SEXP>() ) ;
+                               typename std::is_same<stored_type,SEXP>() ) ;
     }
 	
 	
     template <typename T>
     iterator insert( iterator position, const T& object){
         return insert__impl( position, converter_type::get(object), 
-                             typename traits::same_type<stored_type,SEXP>()
+                             typename std::is_same<stored_type,SEXP>()
                              ) ;
     }
 	
     template <typename T>
     iterator insert( int position, const T& object){
         return insert__impl( cache.get() + position, converter_type::get(object), 
-                             typename traits::same_type<stored_type,SEXP>()
+                             typename std::is_same<stored_type,SEXP>()
                              ); 
     }
 	
@@ -387,17 +387,17 @@ public:
     }
 	
     template <typename U>
-    static void replace_element__dispatch( traits::false_type, iterator it, SEXP names, int index, const U& u){
+    static void replace_element__dispatch( std::false_type, iterator it, SEXP names, int index, const U& u){
         *it = converter_type::get(u);
     }
 	
     template <typename U>
-    static void replace_element__dispatch( traits::true_type, iterator it, SEXP names, int index, const U& u){
-        replace_element__dispatch__isArgument( typename traits::same_type<U,Argument>(), it, names, index, u ) ;
+    static void replace_element__dispatch( std::true_type, iterator it, SEXP names, int index, const U& u){
+        replace_element__dispatch__isArgument( typename std::is_same<U,Argument>(), it, names, index, u ) ;
     }
 
     template <typename U>
-    static void replace_element__dispatch__isArgument( traits::false_type, iterator it, SEXP names, int index, const U& u){
+    static void replace_element__dispatch__isArgument( std::false_type, iterator it, SEXP names, int index, const U& u){
         RCPP_DEBUG_2( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
 		
         *it = converter_type::get(u.object ) ;
@@ -405,7 +405,7 @@ public:
     }
 	
     template <typename U>
-    static void replace_element__dispatch__isArgument( traits::true_type, iterator it, SEXP names, int index, const U& u){
+    static void replace_element__dispatch__isArgument( std::true_type, iterator it, SEXP names, int index, const U& u){
         RCPP_DEBUG_2( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
 		
         *it = R_MissingArg ;
@@ -446,20 +446,20 @@ protected:
 
 private:
     
-    void push_back__impl(const stored_type& object, traits::true_type ) ; 
-    void push_back__impl(const stored_type& object, traits::false_type ) ; 
+    void push_back__impl(const stored_type& object, std::true_type ) ; 
+    void push_back__impl(const stored_type& object, std::false_type ) ; 
 	
-    void push_back_name__impl(const stored_type& object, const std::string& name, traits::true_type ) ;
-    void push_back_name__impl(const stored_type& object, const std::string& name, traits::false_type ) ;
+    void push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ) ;
+    void push_back_name__impl(const stored_type& object, const std::string& name, std::false_type ) ;
 	
-    void push_front__impl(const stored_type& object, traits::true_type ) ;
-    void push_front__impl(const stored_type& object, traits::false_type ) ;
+    void push_front__impl(const stored_type& object, std::true_type ) ;
+    void push_front__impl(const stored_type& object, std::false_type ) ;
 	
-    void push_front_name__impl(const stored_type& object, const std::string& name, traits::true_type ) ; 
-    void push_front_name__impl(const stored_type& object, const std::string& name, traits::false_type ) ; 
+    void push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ) ; 
+    void push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ) ; 
 	
-    iterator insert__impl( iterator position, const stored_type& object, traits::true_type ) ;
-    iterator insert__impl( iterator position, const stored_type& object, traits::false_type ) ;
+    iterator insert__impl( iterator position, const stored_type& object, std::true_type ) ;
+    iterator insert__impl( iterator position, const stored_type& object, std::false_type ) ;
 		
     iterator erase_single__impl( iterator position ) ;
 	
@@ -468,18 +468,18 @@ private:
     template <typename T> inline void assign_sugar_expression( const T& x ) ;
     
     // sugar
-    template <typename T> inline void assign_object( const T& x, traits::true_type )  ;
+    template <typename T> inline void assign_object( const T& x, std::true_type )  ;
     
     // anything else
-    template <typename T> inline void assign_object( const T& x, traits::false_type ) ;
+    template <typename T> inline void assign_object( const T& x, std::false_type ) ;
     	  
     // we are importing a real sugar expression, i.e. not a vector
     template <bool NA, typename VEC>
-    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, traits::false_type ) ;
+    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ) ;
     
     // we are importing a sugar expression that actually is a vector
     template <bool NA, typename VEC>
-    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, traits::true_type ) ;
+    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ) ;
     
     
     template <typename T>
@@ -489,13 +489,13 @@ private:
     inline void fill_or_generate( const T& t) ;
     
     template <typename T>
-    inline void fill_or_generate__impl( const T& gen, traits::true_type) ;
+    inline void fill_or_generate__impl( const T& gen, std::true_type) ;
     
     template <typename T>
-    inline void fill_or_generate__impl( const T& t, traits::false_type) ;
+    inline void fill_or_generate__impl( const T& t, std::false_type) ;
 
     template <typename U>
-    void fill__dispatch( traits::false_type, const U& u){
+    void fill__dispatch( std::false_type, const U& u){
         // when this is not trivial, this is SEXP
         SEXP elem = PROTECT( converter_type::get( u ) ); 
         iterator it(begin());
@@ -506,7 +506,7 @@ private:
     }
 	
     template <typename U>
-    void fill__dispatch( traits::true_type, const U& u){
+    void fill__dispatch( std::true_type, const U& u){
         std::fill( begin(), end(), converter_type::get( u ) ) ;
     }
 

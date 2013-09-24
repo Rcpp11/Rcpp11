@@ -1,5 +1,5 @@
 //
-// support.cpp: Rcpp R/C++ interface class library -- unit tests
+// support.cpp:  unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

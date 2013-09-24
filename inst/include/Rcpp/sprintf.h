@@ -1,5 +1,5 @@
 //
-// sprintf.h: Rcpp R/C++ interface class library -- string formatting
+// sprintf.h:  string formatting
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

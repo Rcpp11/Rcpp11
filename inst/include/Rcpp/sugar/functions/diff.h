@@ -1,5 +1,5 @@
 //
-// diff.h: Rcpp R/C++ interface class library -- diff
+// diff.h:  diff
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

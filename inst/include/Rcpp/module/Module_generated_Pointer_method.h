@@ -1,5 +1,5 @@
 //
-// Module_generated_Pointer_method.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_generated_Pointer_method.h:  Rcpp modules
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// Environment.cpp: Rcpp R/C++ interface class library -- Environment unit tests
+// Environment.cpp:  Environment unit tests
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

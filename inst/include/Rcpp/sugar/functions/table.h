@@ -1,5 +1,5 @@
 //
-// table.h: Rcpp R/C++ interface class library -- table match
+// table.h:  table match
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

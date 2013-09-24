@@ -1,5 +1,5 @@
 //
-// barrier.cpp: Rcpp R/C++ interface class library -- write barrier
+// barrier.cpp:  write barrier
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

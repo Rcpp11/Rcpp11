@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// export.h: Rcpp R/C++ interface class library -- 
+// export.h:  
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Rice University
@@ -28,13 +26,13 @@ namespace Rcpp{
 
     	
 		template <typename T>
-		std::wstring as_string_elt__impl( SEXP x, R_len_t i, Rcpp::traits::true_type ){
+		std::wstring as_string_elt__impl( SEXP x, R_len_t i, std::true_type ){
 			const char* y = char_get_string_elt( x, i ) ;
 			return std::wstring(y, y+strlen(y) ) ;
 		}
 		
 		template <typename T>
-		std::string as_string_elt__impl( SEXP x, R_len_t i, Rcpp::traits::false_type ){
+		std::string as_string_elt__impl( SEXP x, R_len_t i, std::false_type ){
 			return char_get_string_elt( x, i ) ;
 		}
     	
@@ -47,7 +45,7 @@ namespace Rcpp{
         /* iterating */
         
 		template <typename InputIterator, typename value_type>
-			void export_range__impl( SEXP x, InputIterator first, ::Rcpp::traits::false_type ) {
+			void export_range__impl( SEXP x, InputIterator first, std::false_type ) {
 			const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
 			typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 			SEXP y = PROTECT( ::Rcpp::r_cast<RTYPE>(x) ) ;
@@ -57,7 +55,7 @@ namespace Rcpp{
 		}
         
 		template <typename InputIterator, typename value_type>
-		void export_range__impl( SEXP x, InputIterator first, ::Rcpp::traits::true_type ) {
+		void export_range__impl( SEXP x, InputIterator first, std::true_type ) {
 			const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
 			typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 			SEXP y = PROTECT( ::Rcpp::r_cast<RTYPE>(x) ) ;
@@ -101,7 +99,7 @@ namespace Rcpp{
         /* indexing */
         
 		template <typename T, typename value_type>
-			void export_indexing__impl( SEXP x, T& res, ::Rcpp::traits::false_type ) {
+			void export_indexing__impl( SEXP x, T& res, std::false_type ) {
 			const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
 			typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 			SEXP y = PROTECT( ::Rcpp::r_cast<RTYPE>(x) ) ;
@@ -114,7 +112,7 @@ namespace Rcpp{
 		}
         
 		template <typename T, typename value_type>
-		void export_indexing__impl( SEXP x, T& res, ::Rcpp::traits::true_type ) {
+		void export_indexing__impl( SEXP x, T& res, std::true_type ) {
 			const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
 			typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 			SEXP y = PROTECT( ::Rcpp::r_cast<RTYPE>(x) ) ;

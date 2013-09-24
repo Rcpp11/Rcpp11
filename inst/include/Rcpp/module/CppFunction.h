@@ -1,5 +1,5 @@
 //
-// CppFunction.h: Rcpp R/C++ interface class library -- C++ exposed function
+// CppFunction.h:  C++ exposed function
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

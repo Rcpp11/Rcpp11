@@ -1,5 +1,5 @@
 //
-// if.h: Rcpp R/C++ interface class library -- dispatch
+// if.h:  dispatch
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// complex.h: Rcpp R/C++ interface class library -- complex
+// complex.h:  complex
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

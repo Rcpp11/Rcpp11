@@ -1,5 +1,5 @@
 //
-// Rmath.h: Rcpp R/C++ interface class library -- Wrappers for R's Rmath API
+// Rmath.h:  Wrappers for R's Rmath API
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

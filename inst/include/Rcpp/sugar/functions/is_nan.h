@@ -1,5 +1,5 @@
 //
-// is_nan.h: Rcpp R/C++ interface class library -- is_nan
+// is_nan.h:  is_nan
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

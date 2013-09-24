@@ -1,5 +1,5 @@
 //
-// 00_forward_Vector.h: Rcpp R/C++ interface class library -- 
+// 00_forward_Vector.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

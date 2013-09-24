@@ -1,5 +1,5 @@
 //
-// Rstreambuf.h: Rcpp R/C++ interface class library -- stream buffer
+// Rstreambuf.h:  stream buffer
 //
 // Copyright (C) 2011 - 2012    Dirk Eddelbuettel, Romain Francois and Jelmer Ypma
 //

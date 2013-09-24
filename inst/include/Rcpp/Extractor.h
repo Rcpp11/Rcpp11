@@ -1,5 +1,5 @@
 //
-// Extractor.h: Rcpp R/C++ interface class library -- faster vectors (less interface)
+// Extractor.h:  faster vectors (less interface)
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

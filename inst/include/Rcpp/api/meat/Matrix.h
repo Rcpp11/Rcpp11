@@ -1,5 +1,5 @@
 //
-// Matrix.h: Rcpp R/C++ interface class library -- Matrix meat 
+// Matrix.h:  Matrix meat 
 //
 // Copyright (C) 2012    Dirk Eddelbuettel and Romain Francois
 //
@@ -133,7 +133,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename U>
-    void Matrix<RTYPE>::fill_diag__dispatch( traits::false_type, const U& u){
+    void Matrix<RTYPE>::fill_diag__dispatch( std::false_type, const U& u){
         SEXP elem = PROTECT( converter_type::get( u ) ) ;
         int n = Matrix::ncol() ;
         int offset = n +1 ;
@@ -147,7 +147,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename U>
-    void Matrix<RTYPE>::fill_diag__dispatch( traits::true_type, const U& u){
+    void Matrix<RTYPE>::fill_diag__dispatch( std::true_type, const U& u){
         stored_type elem = converter_type::get( u ) ;
         int n = Matrix::ncol() ;
         int offset = n + 1 ;

@@ -1,5 +1,5 @@
 //
-// macros.h: Rcpp R/C++ interface class library -- Rcpp macros
+// macros.h:  Rcpp macros
 //    
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

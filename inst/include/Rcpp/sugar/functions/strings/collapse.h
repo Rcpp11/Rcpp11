@@ -1,5 +1,5 @@
 //
-// collapse.h: Rcpp R/C++ interface class library -- string sugar functions
+// collapse.h:  string sugar functions
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

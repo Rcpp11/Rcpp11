@@ -1,5 +1,5 @@
 //
-// S4.cpp: Rcpp R/C++ interface class library -- S4 unit tests
+// S4.cpp:  S4 unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// logical_operators__Vector__Vector.h: Rcpp R/C++ interface class library -- 
+// logical_operators__Vector__Vector.h:  
 //    logical operators for Vector to Vector comparisons
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois

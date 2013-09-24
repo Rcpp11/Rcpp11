@@ -1,5 +1,5 @@
 //
-// is_infinite.h: Rcpp R/C++ interface class library -- is_infinite
+// is_infinite.h:  is_infinite
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

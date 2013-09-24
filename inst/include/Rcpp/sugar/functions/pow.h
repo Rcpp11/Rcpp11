@@ -1,5 +1,5 @@
 //
-// pow.h: Rcpp R/C++ interface class library -- pow
+// pow.h:  pow
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

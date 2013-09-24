@@ -1,8 +1,7 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// is_reference.h: Rcpp R/C++ interface class library -- identifies if a type is a reference
+// remove_const_and_reference.h:  
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -26,7 +25,7 @@ namespace Rcpp{ namespace traits {
 	
 	template <typename T>
 	struct remove_const_and_reference {
-		typedef typename remove_const< typename remove_reference<T>::type >::type type ;
+		typedef typename std::remove_const< typename std::remove_reference<T>::type >::type type ;
 	} ;
 	
 }}

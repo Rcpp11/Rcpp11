@@ -1,5 +1,5 @@
 //
-// InputParameter.h: Rcpp R/C++ interface class library -- 
+// InputParameter.h:  
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //

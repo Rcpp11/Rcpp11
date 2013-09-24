@@ -1,5 +1,5 @@
 //
-// String.h: Rcpp R/C++ interface class library -- single string
+// String.h:  single string
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2012 - 2013 Rice University

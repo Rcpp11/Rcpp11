@@ -1,5 +1,5 @@
 //
-// stats.cpp: Rcpp R/C++ interface class library -- stats unit tests
+// stats.cpp:  stats unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

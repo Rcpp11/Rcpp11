@@ -1,5 +1,5 @@
 //
-// rhyper.h: Rcpp R/C++ interface class library -- 
+// rhyper.h:  
 //
 // Copyright (C) 2010 - 2012 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

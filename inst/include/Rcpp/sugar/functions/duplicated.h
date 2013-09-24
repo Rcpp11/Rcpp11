@@ -1,5 +1,5 @@
 //
-// duplicated.h: Rcpp R/C++ interface class library -- duplicated
+// duplicated.h:  duplicated
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

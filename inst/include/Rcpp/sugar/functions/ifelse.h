@@ -1,5 +1,5 @@
 //
-// ifelse.h: Rcpp R/C++ interface class library -- ifelse
+// ifelse.h:  ifelse
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

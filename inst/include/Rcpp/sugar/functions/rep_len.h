@@ -1,5 +1,5 @@
 //
-// rep_len.h: Rcpp R/C++ interface class library -- rep_len
+// rep_len.h:  rep_len
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

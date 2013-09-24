@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// traits.h: Rcpp R/C++ interface class library -- traits to help wrap
+// traits.h:  traits to help wrap
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -22,12 +20,9 @@
 #ifndef Rcpp__traits__traits__h
 #define Rcpp__traits__traits__h
 
-#include <Rcpp/traits/integral_constant.h>
-#include <Rcpp/traits/same_type.h>
 #include <Rcpp/traits/is_wide_string.h>
 #include <Rcpp/traits/char_type.h>
 #include <Rcpp/traits/named_object.h>
-#include <Rcpp/traits/is_convertible.h>
 #include <Rcpp/traits/has_iterator.h>
 #include <Rcpp/traits/expands_to_logical.h>
 #include <Rcpp/traits/matrix_interface.h>
@@ -39,8 +34,6 @@
 #include <Rcpp/traits/storage_type.h>
 #include <Rcpp/traits/comparator_type.h>
 #include <Rcpp/traits/r_type_traits.h>
-#include <Rcpp/traits/un_pointer.h>
-#include <Rcpp/traits/is_pointer.h>
 #include <Rcpp/traits/wrap_type_traits.h>
 #include <Rcpp/traits/module_wrap_traits.h>
 #include <Rcpp/traits/is_na.h>
@@ -51,13 +44,9 @@
 #include <Rcpp/traits/get_na.h>
 #include <Rcpp/traits/is_trivial.h>
 #include <Rcpp/traits/init_type.h>
+#include <Rcpp/traits/both.h>
 
-#include <Rcpp/traits/is_const.h>
-#include <Rcpp/traits/is_reference.h>
-#include <Rcpp/traits/remove_const.h>
-#include <Rcpp/traits/remove_reference.h>
 #include <Rcpp/traits/remove_const_and_reference.h>
-#include <Rcpp/traits/result_of.h>
 #include <Rcpp/traits/is_module_object.h>
 #include <Rcpp/traits/is_primitive.h>
 

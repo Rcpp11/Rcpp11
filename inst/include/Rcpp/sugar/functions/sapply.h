@@ -1,5 +1,5 @@
 //
-// sapply.h: Rcpp R/C++ interface class library -- sapply
+// sapply.h:  sapply
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
@@ -27,13 +27,13 @@ namespace sugar{
 template <int RTYPE, bool NA, typename T, typename Function, bool NO_CONVERSION>
 class Sapply : public VectorBase< 
 	Rcpp::traits::r_sexptype_traits<
-		typename ::Rcpp::traits::result_of<Function>::type
+		typename std::result_of<Function>::type
 	>::rtype , 
 	true ,
 	Sapply<RTYPE,NA,T,Function,NO_CONVERSION>
 > {
 public:
-	typedef typename ::Rcpp::traits::result_of<Function>::type result_type ;
+	typedef typename std::result_of<Function>::type result_type ;
 	const static int RESULT_R_TYPE = 
 		Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 	
@@ -64,13 +64,13 @@ private:
 template <int RTYPE, bool NA, typename T, typename Function>
 class Sapply<RTYPE,NA,T,Function,true> : public VectorBase< 
 	Rcpp::traits::r_sexptype_traits<
-		typename ::Rcpp::traits::result_of<Function>::type
+		typename std::result_of<Function>::type
 	>::rtype , 
 	true ,
 	Sapply<RTYPE,NA,T,Function,true>
 > {
 public:
-	typedef typename ::Rcpp::traits::result_of<Function>::type result_type ;
+	typedef typename std::result_of<Function>::type result_type ;
 	const static int RESULT_R_TYPE = 
 		Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 	
@@ -100,16 +100,16 @@ private:
 template <int RTYPE, bool NA, typename T, typename Function >
 inline sugar::Sapply<
     RTYPE,NA,T,Function, 
-    traits::same_type< 
-        typename ::Rcpp::traits::result_of<Function>::type ,  
-        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename ::Rcpp::traits::result_of<Function>::type >::rtype >::type
+    std::is_same< 
+        typename std::result_of<Function>::type ,  
+        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function>::type >::rtype >::type
     >::value
 > 
 sapply( const Rcpp::VectorBase<RTYPE,NA,T>& t, Function fun ){
 	return sugar::Sapply<RTYPE,NA,T,Function, 
-	traits::same_type< 
-        typename ::Rcpp::traits::result_of<Function>::type ,  
-        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename ::Rcpp::traits::result_of<Function>::type >::rtype >::type
+	std::is_same< 
+        typename std::result_of<Function>::type ,  
+        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function>::type >::rtype >::type
     >::value >( t, fun ) ;
 }
 

@@ -1,5 +1,5 @@
 //
-// Matrix.cpp: Rcpp R/C++ interface class library -- Matrix unit tests
+// Matrix.cpp:  Matrix unit tests
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //

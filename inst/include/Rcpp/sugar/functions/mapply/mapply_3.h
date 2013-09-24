@@ -1,5 +1,5 @@
 //
-// mapply_3.h: Rcpp R/C++ interface class library -- mapply_3
+// mapply_3.h:  mapply_3
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //
@@ -32,13 +32,13 @@ template <
 >
 class Mapply_3 : public VectorBase< 
 	Rcpp::traits::r_sexptype_traits<
-		typename ::Rcpp::traits::result_of<Function>::type
+		typename std::result_of<Function>::type
 	>::rtype , 
 	true ,
 	Mapply_3<RTYPE_1,NA_1,T_1,RTYPE_2,NA_2,T_2,RTYPE_3,NA_3,T_3,Function>
 > {
 public:         
-	typedef typename ::Rcpp::traits::result_of<Function>::type result_type ;
+	typedef typename std::result_of<Function>::type result_type ;
 	
     typedef Rcpp::VectorBase<RTYPE_1,NA_1,T_1> VEC_1 ;
 	typedef Rcpp::VectorBase<RTYPE_2,NA_2,T_2> VEC_2 ;

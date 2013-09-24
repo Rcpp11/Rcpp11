@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// expands_to_logical.h: Rcpp R/C++ interface class library -- 
+// expands_to_logical.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
@@ -51,7 +49,7 @@ namespace traits{
     };
   
   template<typename T> struct expands_to_logical : 
-  	integral_constant<bool, _has_rtype_helper<T>::value >{ };
+  	std::integral_constant<bool, _has_rtype_helper<T>::value >{ };
     
     
 } 

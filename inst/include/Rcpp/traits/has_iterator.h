@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// has_iterator.h: Rcpp R/C++ interface class library -- identify if a class has a nested iterator typedef
+// has_iterator.h:  identify if a class has a nested iterator typedef
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
@@ -100,7 +98,7 @@ namespace traits{
    * has_iterator< Rcpp::Symbol >::value is false
    */
   template<typename T> struct has_iterator : 
-  	integral_constant<bool,_has_iterator_helper<T>::value> { };
+  	std::integral_constant<bool,_has_iterator_helper<T>::value> { };
 
   /**
    * uses SFINAE to identify if a type is importable
@@ -109,13 +107,13 @@ namespace traits{
    * class
    */
   template<typename T> struct is_importer : 
-    integral_constant<bool,_is_importer_helper<T>::value> { };
+    std::integral_constant<bool,_is_importer_helper<T>::value> { };
 	
   template<typename T> struct is_exporter : 
-    integral_constant<bool,_is_exporter_helper<T>::value> { };
+    std::integral_constant<bool,_is_exporter_helper<T>::value> { };
 
   template<typename T> struct is_generator : 
-    integral_constant<bool,_is_generator_helper<T>::value> { };
+    std::integral_constant<bool,_is_generator_helper<T>::value> { };
 
 } // traits
 } // Rcpp

@@ -1,5 +1,5 @@
 //
-// class_Base.h: Rcpp R/C++ interface class library -- Rcpp modules
+// class_Base.h:  Rcpp modules
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

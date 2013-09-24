@@ -1,5 +1,5 @@
 //
-// binom.h: Rcpp R/C++ interface class library --
+// binom.h: 
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

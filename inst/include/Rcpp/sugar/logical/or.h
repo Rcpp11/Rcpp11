@@ -1,5 +1,5 @@
 //
-// or.h: Rcpp R/C++ interface class library -- 
+// or.h:  
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

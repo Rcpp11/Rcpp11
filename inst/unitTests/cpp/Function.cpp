@@ -1,5 +1,5 @@
 //
-// Function.cpp: Rcpp R/C++ interface class library -- Rcpp::Function unit tests
+// Function.cpp:  Rcpp::Function unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

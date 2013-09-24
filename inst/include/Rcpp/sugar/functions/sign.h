@@ -1,5 +1,5 @@
 //
-// sign.h: Rcpp R/C++ interface class library -- sign
+// sign.h:  sign
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

@@ -2,7 +2,7 @@
 //
 // auto generated file (from script/stats.R) 
 //
-// exp.h: Rcpp R/C++ interface class library -- 
+// exp.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

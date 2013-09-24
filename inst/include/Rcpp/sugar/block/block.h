@@ -1,5 +1,5 @@
 //
-// block.h: Rcpp R/C++ interface class library -- sugar blocks
+// block.h:  sugar blocks
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// misc.cpp: Rcpp R/C++ interface class library -- misc unit tests
+// misc.cpp:  misc unit tests
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //

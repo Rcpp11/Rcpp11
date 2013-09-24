@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// r_type_traits.h: Rcpp R/C++ interface class library -- traits to help wrap
+// r_type_traits.h:  traits to help wrap
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Rice University

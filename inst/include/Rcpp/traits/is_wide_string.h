@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// is_wide_string.h: Rcpp R/C++ interface class library -- traits to help wrap
+// is_wide_string.h:  traits to help wrap
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Rice University
@@ -27,13 +25,13 @@ namespace Rcpp{
 namespace traits{
 
     template <typename T>
-    struct is_wide_string : public same_type< typename T::value_type, wchar_t > {} ;
+    struct is_wide_string : public std::is_same< typename T::value_type, wchar_t > {} ;
 	
-    template <> struct is_wide_string< const wchar_t* > : public true_type{} ;
-    template <> struct is_wide_string< const char* > : public false_type{} ;
+    template <> struct is_wide_string< const wchar_t* > : public std::true_type{} ;
+    template <> struct is_wide_string< const char* > : public std::false_type{} ;
     
-    template <> struct is_wide_string< wchar_t > : public true_type{} ;
-    template <> struct is_wide_string< char > : public false_type{} ;
+    template <> struct is_wide_string< wchar_t > : public std::true_type{} ;
+    template <> struct is_wide_string< char > : public std::false_type{} ;
     
 } // traits
 } // Rcpp

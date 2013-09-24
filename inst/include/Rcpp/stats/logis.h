@@ -1,5 +1,5 @@
 //
-// logis.h: Rcpp R/C++ interface class library -- 
+// logis.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

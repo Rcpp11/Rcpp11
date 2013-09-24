@@ -1,5 +1,5 @@
 //
-// nchisq.h: Rcpp R/C++ interface class library -- 
+// nchisq.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

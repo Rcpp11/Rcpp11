@@ -1,5 +1,5 @@
 //
-// strings.h: Rcpp R/C++ interface class library -- string sugar functions
+// strings.h:  string sugar functions
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

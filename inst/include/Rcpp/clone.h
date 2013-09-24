@@ -1,5 +1,5 @@
 //
-// clone.h: Rcpp R/C++ interface class library -- clone RObject's
+// clone.h:  clone RObject's
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

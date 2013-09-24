@@ -1,5 +1,5 @@
 //
-// rcast.h: Rcpp R/C++ interface class library -- cast from one SEXP type to another
+// rcast.h:  cast from one SEXP type to another
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

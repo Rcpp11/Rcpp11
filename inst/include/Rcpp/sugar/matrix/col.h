@@ -1,5 +1,5 @@
 //
-// col.h: Rcpp R/C++ interface class library -- col
+// col.h:  col
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

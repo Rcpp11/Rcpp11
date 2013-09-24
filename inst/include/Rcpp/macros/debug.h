@@ -1,5 +1,5 @@
 //
-// debug.h: Rcpp R/C++ interface class library -- debug macros
+// debug.h:  debug macros
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// Reference.cpp: Rcpp R/C++ interface class library -- Reference unit tests
+// Reference.cpp:  Reference unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

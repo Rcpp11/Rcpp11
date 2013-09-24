@@ -1,5 +1,5 @@
 //
-// Rcpp_init.c : Rcpp R/C++ interface class library -- Initialize and register
+// Rcpp_init.c :  Initialize and register
 //
 // Copyright (C) 2010 - 2012 John Chambers, Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois

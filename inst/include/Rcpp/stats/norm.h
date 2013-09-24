@@ -1,5 +1,5 @@
 //
-// norm.h: Rcpp R/C++ interface class library -- normal distribution
+// norm.h:  normal distribution
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

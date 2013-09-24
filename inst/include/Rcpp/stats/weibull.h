@@ -2,7 +2,7 @@
 //
 // auto generated file (from script/stats.R) 
 //
-// weibull.h: Rcpp R/C++ interface class library -- 
+// weibull.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

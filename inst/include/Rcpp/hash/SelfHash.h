@@ -1,5 +1,5 @@
 //
-// hash.h: Rcpp R/C++ interface class library -- hashing utility, inspired 
+// hash.h:  hashing utility, inspired 
 // from Simon's fastmatch package
 //
 // Copyright (C) 2010, 2011  Simon Urbanek

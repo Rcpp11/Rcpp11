@@ -1,5 +1,5 @@
 //
-// LazyVector.h: Rcpp R/C++ interface class library -- lazy vectors
+// LazyVector.h:  lazy vectors
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

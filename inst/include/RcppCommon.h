@@ -1,5 +1,5 @@
 //
-// RcppCommon.h: Rcpp R/C++ interface class library -- common include and defines statements
+// RcppCommon.h:  common include and defines statements
 //
 // Copyright (C) 2008 - 2009 Dirk Eddelbuettel
 // Copyright (C) 2009 - 2013 Dirk Eddelbuettel and Romain Francois
@@ -43,24 +43,7 @@ extern "C"
 #endif 
 const char * sexp_to_name(int sexp_type);
 
-/**
- * \brief Rcpp API
- */
-namespace Rcpp{
-
-    /**
-     * \brief traits used to dispatch wrap
-     */
-    namespace traits{
-    } // traits
-
-    /**
-     * \brief internal implementation details
-     */
-    namespace internal{     
-    } // internal 
-} // Rcpp
-
+#include <type_traits>
 #include <iterator>
 #include <exception>
 #include <iostream>

@@ -1,5 +1,5 @@
 //
-// nona.h: Rcpp R/C++ interface class library -- noNA handling
+// nona.h:  noNA handling
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

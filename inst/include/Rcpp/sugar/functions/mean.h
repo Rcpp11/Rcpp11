@@ -1,5 +1,5 @@
 //
-// mean.h: Rcpp R/C++ interface class library -- mean
+// mean.h:  mean
 //
 // Copyright (C) 2011 Dirk Eddelbuettel and Romain Francois
 //

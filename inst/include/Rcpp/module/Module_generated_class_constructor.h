@@ -1,5 +1,5 @@
 //
-// Module_generated_class_constructor.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module_generated_class_constructor.h:  Rcpp modules
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

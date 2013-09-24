@@ -1,5 +1,5 @@
 //
-// rep.h: Rcpp R/C++ interface class library -- rep
+// rep.h:  rep
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

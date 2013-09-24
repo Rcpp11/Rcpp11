@@ -1,5 +1,5 @@
 //
-// is.h: Rcpp R/C++ interface class library -- test if an R Object can be seen 
+// is.h:  test if an R Object can be seen 
 //                                             as one type
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
@@ -34,12 +34,12 @@ namespace Rcpp{
         
         // not a module object
         template <typename T>
-        inline bool is__dispatch( SEXP x, Rcpp::traits::false_type ){
+        inline bool is__dispatch( SEXP x, std::false_type ){
             return is__simple<T>( x ) ;
         }
         
         template <typename T>
-        inline bool is__dispatch( SEXP x, Rcpp::traits::true_type ){
+        inline bool is__dispatch( SEXP x, std::true_type ){
             return is__module__object<T>( x ) ;
         }
     }

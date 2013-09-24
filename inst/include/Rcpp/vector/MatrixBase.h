@@ -1,5 +1,5 @@
 //
-// MatrixBase.h: Rcpp R/C++ interface class library -- 
+// MatrixBase.h:  
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -29,9 +29,9 @@ namespace Rcpp{
     template <int RTYPE, bool na, typename MATRIX>
     class MatrixBase : public traits::expands_to_logical__impl<RTYPE> {
     public:
-        struct r_type : traits::integral_constant<int,RTYPE>{} ;
+        struct r_type : std::integral_constant<int,RTYPE>{} ;
         struct r_matrix_interface {} ;
-        struct can_have_na : traits::integral_constant<bool,na>{} ;
+        struct can_have_na : std::integral_constant<bool,na>{} ;
         typedef typename traits::storage_type<RTYPE>::type stored_type ;
         
         MATRIX& get_ref(){

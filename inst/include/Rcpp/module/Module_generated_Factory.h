@@ -1,5 +1,5 @@
 //
-// Module_generated_Factory.h: Rcpp R/C++ interface class library -- Rcpp module class factories
+// Module_generated_Factory.h:  Rcpp module class factories
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

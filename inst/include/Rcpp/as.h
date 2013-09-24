@@ -1,5 +1,5 @@
 //
-// as.h: Rcpp R/C++ interface class library -- convert SEXP to C++ objects
+// as.h:  convert SEXP to C++ objects
 //
 // Copyright (C) 2009 - 2013    Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013    Rice University
@@ -52,12 +52,12 @@ namespace Rcpp{
         }
         
         
-        template <typename T> T as_string( SEXP x, Rcpp::traits::true_type){
+        template <typename T> T as_string( SEXP x, std::true_type){
             const char* y = check_single_string(x) ;
             return std::wstring( y, y+strlen(y)) ;
         }
         
-        template <typename T> T as_string( SEXP x, Rcpp::traits::false_type){
+        template <typename T> T as_string( SEXP x, std::false_type){
             return check_single_string(x) ;
         }
         
@@ -89,12 +89,12 @@ namespace Rcpp{
         
         /** handling object<T> */ 
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_const_pointer_tag ) {
-            typedef typename Rcpp::traits::remove_const<T>::type T_NON_CONST ;
+            typedef typename std::remove_const<T>::type T_NON_CONST ;
             return const_cast<T>( (T_NON_CONST)as_module_object_internal(x) ) ;
         }
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_pointer_tag ) {
-            return as_module_object<typename traits::un_pointer<T>::type>( x ) ;
+            return as_module_object<typename std::remove_pointer<T>::type>( x ) ;
         }
         
         /** handling T such that T is exposed by a module */
@@ -105,7 +105,7 @@ namespace Rcpp{
         
         /** handling T such that T is a reference of a class handled by a module */
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_reference_tag ){
-            typedef typename traits::remove_reference<T>::type KLASS ;
+            typedef typename std::remove_reference<T>::type KLASS ;
             KLASS* obj = as_module_object<KLASS>(x) ;
             return *obj ;
         }

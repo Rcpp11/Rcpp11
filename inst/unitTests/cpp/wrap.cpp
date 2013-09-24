@@ -1,5 +1,5 @@
 //
-// wrap.cpp: Rcpp R/C++ interface class library -- wrap unit tests
+// wrap.cpp:  wrap unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

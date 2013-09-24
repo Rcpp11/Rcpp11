@@ -1,5 +1,5 @@
 //
-// rmath.cpp: Rcpp R/C++ interface class library -- rmath unit tests
+// rmath.cpp:  rmath unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

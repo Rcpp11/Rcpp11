@@ -1,4 +1,4 @@
-// api.cpp: Rcpp R/C++ interface class library -- Rcpp api
+// api.cpp:  Rcpp api
 //
 // Copyright (C) 2012 - 2013  Dirk Eddelbuettel and Romain Francois
 //

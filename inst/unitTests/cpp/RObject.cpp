@@ -1,5 +1,5 @@
 //
-// RObject.cpp: Rcpp R/C++ interface class library -- RObject unit tests
+// RObject.cpp:  RObject unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// MatrixColumn.h: Rcpp R/C++ interface class library -- matrices column
+// MatrixColumn.h:  matrices column
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

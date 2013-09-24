@@ -1,5 +1,5 @@
 //
-// pmin.h: Rcpp R/C++ interface class library -- pmin
+// pmin.h:  pmin
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

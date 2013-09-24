@@ -1,7 +1,8 @@
 //
-// traits.h: Rcpp R/C++ interface class library -- support traits for vector
+// traits.h:  support traits for vector
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -24,9 +25,9 @@
 namespace Rcpp{
 namespace traits{
 
-	template <int RTYPE> struct is_trivial  : public true_type{} ;
-	template <> struct is_trivial<VECSXP>   : public false_type{} ;
-	template <> struct is_trivial<EXPRSXP>  : public false_type{} ;
+	template <int RTYPE> struct is_trivial  : public std::true_type{} ;
+	template <> struct is_trivial<VECSXP>   : public std::false_type{} ;
+	template <> struct is_trivial<EXPRSXP>  : public std::false_type{} ;
 
 } // traits
 } // Rcpp

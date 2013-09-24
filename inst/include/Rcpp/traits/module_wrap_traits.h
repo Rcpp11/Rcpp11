@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// module_wrap_traits.h: Rcpp R/C++ interface class library -- traits to help module wrap
+// module_wrap_traits.h:  traits to help module wrap
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// Num.cpp: Rcpp R/C++ interface class library -- Rcpp Module example
+// Num.cpp:  Rcpp Module example
 //
 // Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
 //

@@ -1,5 +1,5 @@
 //
-// var.h: Rcpp R/C++ interface class library -- var
+// var.h:  var
 //
 // Copyright (C) 2011 Dirk Eddelbuettel and Romain Francois
 //

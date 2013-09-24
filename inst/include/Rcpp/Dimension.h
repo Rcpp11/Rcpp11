@@ -1,5 +1,5 @@
 //
-// Dimension.h: Rcpp R/C++ interface class library -- dimensions
+// Dimension.h:  dimensions
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

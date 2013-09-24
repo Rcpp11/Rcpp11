@@ -1,5 +1,5 @@
 //
-// DottedPair.h: Rcpp R/C++ interface class library -- dotted pair list template
+// DottedPair.h:  dotted pair list template
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

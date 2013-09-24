@@ -1,5 +1,5 @@
 //
-// rpois.h: Rcpp R/C++ interface class library -- 
+// rpois.h:  
 //
 // Copyright (C) 2010 - 2012 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

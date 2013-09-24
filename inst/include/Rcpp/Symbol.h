@@ -1,5 +1,5 @@
 //
-// Symbol.h: Rcpp R/C++ interface class library -- access R environments
+// Symbol.h:  access R environments
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

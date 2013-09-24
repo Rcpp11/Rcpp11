@@ -1,5 +1,5 @@
 //
-// language.cpp: Rcpp R/C++ interface class library -- Language unit tests
+// language.cpp:  Language unit tests
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

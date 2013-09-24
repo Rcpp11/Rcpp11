@@ -1,5 +1,5 @@
 //
-// algo.h: Rcpp R/C++ interface class library -- STL-style algorithms
+// algo.h:  STL-style algorithms
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

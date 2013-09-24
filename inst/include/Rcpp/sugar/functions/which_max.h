@@ -1,5 +1,5 @@
 //
-// which_max.h: Rcpp R/C++ interface class library -- which.max
+// which_max.h:  which.max
 //
 // Copyright (C) 2012   Dirk Eddelbuettel and Romain Francois
 //

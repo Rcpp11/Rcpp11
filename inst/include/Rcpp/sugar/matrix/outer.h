@@ -1,5 +1,5 @@
 //
-// outer.h: Rcpp R/C++ interface class library -- outer
+// outer.h:  outer
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
@@ -30,13 +30,13 @@ template <int RTYPE,
           typename Function >
 class Outer : public MatrixBase< 
     Rcpp::traits::r_sexptype_traits<
-        typename ::Rcpp::traits::result_of<Function>::type
+        typename std::result_of<Function>::type
 	>::rtype , 
             true ,
     Outer<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T,Function>
 > {
 public:
-    typedef typename ::Rcpp::traits::result_of<Function>::type result_type ;
+    typedef typename std::result_of<Function>::type result_type ;
     const static int RESULT_R_TYPE = 
         Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
     

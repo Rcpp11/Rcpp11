@@ -1,5 +1,5 @@
 //
-// sugar.cpp: Rcpp R/C++ interface class library -- sugar unit tests
+// sugar.cpp:  sugar unit tests
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 //

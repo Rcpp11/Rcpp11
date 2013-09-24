@@ -1,5 +1,5 @@
 //
-// rt.h: Rcpp R/C++ interface class library -- 
+// rt.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

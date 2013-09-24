@@ -1,5 +1,5 @@
 //
-// Vector.h: Rcpp R/C++ interface class library -- Vector meat 
+// Vector.h:  Vector meat 
 //
 // Copyright (C) 2012 - 2013    Dirk Eddelbuettel and Romain Francois
 //
@@ -147,7 +147,7 @@ namespace Rcpp{
     template <bool NA, typename VEC>
     Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) : RObject() {
         RCPP_DEBUG_2( "Vector<%d>( const VectorBase<RTYPE,NA,VEC>& ) [VEC = %s]", RTYPE, DEMANGLE(VEC) )
-        import_sugar_expression( other, typename traits::same_type<Vector,VEC>::type() ) ;
+        import_sugar_expression( other, typename std::is_same<Vector,VEC>::type() ) ;
     }
     
     template <int RTYPE>
@@ -181,21 +181,21 @@ namespace Rcpp{
     // sugar
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::assign_object( const T& x, traits::true_type ){
+    inline void Vector<RTYPE>::assign_object( const T& x, std::true_type ){
         assign_sugar_expression( x.get_ref() ) ;
     }
     
     // anything else
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::assign_object( const T& x, traits::false_type ){
+    inline void Vector<RTYPE>::assign_object( const T& x, std::false_type ){
         // TODO: maybe we already have the memory to host the results
         set_sexp( r_cast<RTYPE>( wrap(x) ) ) ;
     }
     
     template <int RTYPE>
     template <bool NA, typename VEC>
-    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, traits::false_type ){
+    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
         RCPP_DEBUG_4( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, false_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
     	int n = other.size() ;
     	set_sexp( Rf_allocVector( RTYPE, n ) ) ;
@@ -204,7 +204,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <bool NA, typename VEC>
-    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, traits::true_type ){
+    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
         RCPP_DEBUG_4( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, true_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
     	set_sexp( other.get_ref() ) ;
     }   
@@ -224,7 +224,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::fill_or_generate__impl( const T& gen, traits::true_type){
+    inline void Vector<RTYPE>::fill_or_generate__impl( const T& gen, std::true_type){
     	iterator first = begin() ;
     	iterator last = end() ;
     	while( first != last ) *first++ = gen() ;
@@ -232,7 +232,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::fill_or_generate__impl( const T& t, traits::false_type){
+    inline void Vector<RTYPE>::fill_or_generate__impl( const T& t, std::false_type){
     	fill(t) ;
     }
     
@@ -321,7 +321,7 @@ namespace Rcpp{
     
  
     template <int RTYPE>
-    void Vector<RTYPE>::push_back__impl(const stored_type& object, traits::false_type){
+    void Vector<RTYPE>::push_back__impl(const stored_type& object, std::false_type){
         int n = size() ;
         Vector target( n + 1 ) ;
         SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
@@ -348,7 +348,7 @@ namespace Rcpp{
     }	
     
     template <int RTYPE>
-    void Vector<RTYPE>::push_back__impl(const stored_type& object, traits::true_type){
+    void Vector<RTYPE>::push_back__impl(const stored_type& object, std::true_type){
         SEXP object_sexp = PROTECT( object ) ;
         int n = size() ;
         Vector target( n + 1 ) ;
@@ -377,7 +377,7 @@ namespace Rcpp{
     }	
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, traits::false_type ){
+    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
         Vector target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
@@ -408,7 +408,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, traits::true_type ){
+    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         SEXP object_sexp = PROTECT( object ) ;
         int n = size() ;
         Vector target( n + 1 ) ;
@@ -440,7 +440,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_front__impl(const stored_type& object, traits::false_type ){
+    void Vector<RTYPE>::push_front__impl(const stored_type& object, std::false_type ){
         int n = size() ;
         Vector target( n+1);
         iterator target_it(target.begin());
@@ -468,7 +468,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_front__impl(const stored_type& object, traits::true_type ){
+    void Vector<RTYPE>::push_front__impl(const stored_type& object, std::true_type ){
         SEXP object_sexp = PROTECT( object ) ;
         int n = size() ;
         Vector target( n+1);
@@ -498,7 +498,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, traits::false_type ){
+    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
         Vector target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
@@ -531,7 +531,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, traits::true_type ){
+    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         SEXP object_sexp = PROTECT(object) ;
         int n = size() ;
         Vector target( n + 1 ) ;
@@ -565,7 +565,7 @@ namespace Rcpp{
     }
     	
     template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, traits::false_type){
+    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, std::false_type){
         int n = size() ;
         Vector target( n+1 ) ;
         iterator target_it = target.begin();
@@ -607,7 +607,7 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, traits::true_type){
+    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, std::true_type){
         PROTECT( object ) ;
         int n = size() ;
         Vector target( n+1 ) ;
@@ -723,7 +723,7 @@ namespace Rcpp{
     namespace internal {
     
         template <typename T>
-        inline SEXP wrap_range_sugar_expression( const T& object, Rcpp::traits::true_type) {
+        inline SEXP wrap_range_sugar_expression( const T& object, std::true_type) {
         	RCPP_DEBUG_1( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
         	const int RTYPE = T::r_type::value ;
         	return Rcpp::Vector<RTYPE>(object) ;

@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// named_object.h: Rcpp R/C++ interface class library -- named SEXP
+// named_object.h:  named SEXP
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -27,8 +25,8 @@ class Argument ;
 
 namespace traits{
 
-template <typename T> struct needs_protection : false_type{} ;
-template <> struct needs_protection<SEXP> : true_type{} ;	
+template <typename T> struct needs_protection : std::false_type{} ;
+template <> struct needs_protection<SEXP> : std::true_type{} ;	
 
 template <typename T> class named_object {
 	public:
@@ -58,9 +56,9 @@ public:
 } ;
 
 
-template <typename T> struct is_named : public false_type{} ;
-template <typename T> struct is_named< named_object<T> >   : public true_type {} ;
-template <> struct is_named< Rcpp::Argument >   : public true_type {} ;
+template <typename T> struct is_named : public std::false_type{} ;
+template <typename T> struct is_named< named_object<T> >   : public std::true_type {} ;
+template <> struct is_named< Rcpp::Argument >   : public std::true_type {} ;
 
 } // namespace traits
 } // namespace Rcpp

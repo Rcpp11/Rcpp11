@@ -1,5 +1,5 @@
 //
-// MatrixRow.h: Rcpp R/C++ interface class library -- matrices row
+// MatrixRow.h:  matrices row
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

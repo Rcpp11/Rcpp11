@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// r_sexptype_traits.h: Rcpp R/C++ interface class library -- traits to help wrap
+// r_sexptype_traits.h:  traits to help wrap
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -65,11 +63,11 @@ template<> struct r_sexptype_traits< std::complex<float> >{ enum{ rtype = CPLXSX
 /**
  * Indicates if a primitive type needs a static_cast
  */
-template <typename T> struct r_sexptype_needscast : public true_type{}; 
-template<> struct r_sexptype_needscast<int>          : public false_type{} ;
-template<> struct r_sexptype_needscast<double>       : public false_type{} ;
-template<> struct r_sexptype_needscast<Rcomplex>     : public false_type{} ;
-template<> struct r_sexptype_needscast<Rbyte>        : public false_type{} ;
+template <typename T> struct r_sexptype_needscast    : public std::true_type{}; 
+template<> struct r_sexptype_needscast<int>          : public std::false_type{} ;
+template<> struct r_sexptype_needscast<double>       : public std::false_type{} ;
+template<> struct r_sexptype_needscast<Rcomplex>     : public std::false_type{} ;
+template<> struct r_sexptype_needscast<Rbyte>        : public std::false_type{} ;
 
 
 } // traits

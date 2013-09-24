@@ -1,5 +1,5 @@
 //
-// not.h: Rcpp R/C++ interface class library -- unary operator!
+// not.h:  unary operator!
 //                                                                      
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

@@ -1,8 +1,7 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// matrix_interface.h: Rcpp R/C++ interface class library -- 
+// matrix_interface.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -43,7 +42,7 @@ namespace traits{
     };
   
   template<typename T> struct matrix_interface : 
-  	integral_constant<bool, _has_matrix_interface_helper<T>::value >{ };
+  	std::integral_constant<bool, _has_matrix_interface_helper<T>::value >{ };
     
     
 } 

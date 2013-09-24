@@ -1,5 +1,5 @@
 //
-// Min.h: Rcpp R/C++ interface class library -- min
+// Min.h:  min
 //
 // Copyright (C) 2012 - 2013 Dirk Eddelbuettel and Romain Francois
 //

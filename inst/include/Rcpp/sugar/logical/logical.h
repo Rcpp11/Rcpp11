@@ -1,5 +1,5 @@
 //
-// logical.h: Rcpp R/C++ interface class library -- 
+// logical.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

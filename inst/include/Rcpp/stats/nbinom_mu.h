@@ -1,5 +1,5 @@
 //
-// nbinom_mu.h: Rcpp R/C++ interface class library -- 
+// nbinom_mu.h:  
 //
 // Copyright (C) 2010 - 2011 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

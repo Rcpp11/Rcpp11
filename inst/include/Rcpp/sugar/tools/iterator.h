@@ -1,5 +1,5 @@
 //
-// iterator.h: Rcpp R/C++ interface class library -- 
+// iterator.h:  
 //
 // Copyright (C) 2012 - 2013    Dirk Eddelbuettel and Romain Francois
 //
@@ -117,16 +117,16 @@ namespace sugar {
     } ;
     
     
-    template <typename T> struct is_sugar_vector : public Rcpp::traits::false_type{} ;
-    template <int RTYPE> struct is_sugar_vector< Rcpp::Vector<RTYPE> > : public Rcpp::traits::true_type{} ;
+    template <typename T> struct is_sugar_vector : public std::false_type{} ;
+    template <int RTYPE> struct is_sugar_vector< Rcpp::Vector<RTYPE> > : public std::true_type{} ;
     
     
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_const_begin__impl(const T& obj, Rcpp::traits::true_type ){
+    inline typename sugar_const_iterator_type<T>::type get_const_begin__impl(const T& obj, std::true_type ){
         return obj.begin() ;
     }
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_const_begin__impl(const T& obj, Rcpp::traits::false_type ){
+    inline typename sugar_const_iterator_type<T>::type get_const_begin__impl(const T& obj, std::false_type ){
         typedef typename sugar_const_iterator_type<T>::type const_iterator ; 
         return const_iterator( obj ) ;
     }

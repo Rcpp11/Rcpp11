@@ -1,5 +1,5 @@
 //
-// upper_tri.h: Rcpp R/C++ interface class library -- lower.tri
+// upper_tri.h:  lower.tri
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

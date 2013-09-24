@@ -1,5 +1,5 @@
 //
-// rgeom.h: Rcpp R/C++ interface class library -- 
+// rgeom.h:  
 //
 // Copyright (C) 2010 - 2012 Douglas Bates, Dirk Eddelbuettel and Romain Francois
 //

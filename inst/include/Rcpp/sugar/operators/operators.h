@@ -1,5 +1,5 @@
 //
-// any.h: Rcpp R/C++ interface class library -- any
+// any.h:  any
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

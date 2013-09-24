@@ -1,5 +1,5 @@
 //
-// as_vector.h: Rcpp R/C++ interface class library -- as_vector( sugar matrix expression )
+// as_vector.h:  as_vector( sugar matrix expression )
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
@@ -26,7 +26,7 @@ namespace internal{
 
 template <int RTYPE, bool NA, typename T>
 inline Rcpp::Vector<RTYPE> 
-as_vector__impl( MatrixBase<RTYPE,NA,T>& t, Rcpp::traits::false_type ){
+as_vector__impl( MatrixBase<RTYPE,NA,T>& t, std::false_type ){
     T& ref = t.get_ref() ;
     int nc = ref.ncol(), nr = ref.nrow() ;
     Vector<RTYPE> out (nr*nc) ;
@@ -40,7 +40,7 @@ as_vector__impl( MatrixBase<RTYPE,NA,T>& t, Rcpp::traits::false_type ){
 
 template <int RTYPE, bool NA, typename T>
 inline Rcpp::Vector<RTYPE> 
-as_vector__impl( MatrixBase<RTYPE,NA,T>& t, Rcpp::traits::true_type ){
+as_vector__impl( MatrixBase<RTYPE,NA,T>& t, std::true_type ){
     Matrix<RTYPE>& ref = t.get_ref() ;
     int size = ref.ncol()*ref.nrow() ;
     typename Rcpp::Vector<RTYPE>::iterator first(static_cast<const Rcpp::Vector<RTYPE>&>(ref).begin())  ;
@@ -52,7 +52,7 @@ as_vector__impl( MatrixBase<RTYPE,NA,T>& t, Rcpp::traits::true_type ){
 template <int RTYPE, bool NA, typename T>
 inline Rcpp::Vector<RTYPE> 
 as_vector( const MatrixBase<RTYPE,NA,T>& t ){
-    return internal::as_vector__impl( const_cast< MatrixBase<RTYPE,NA,T>& >(t), typename Rcpp::traits::same_type< T , Matrix<RTYPE> >() ) ;
+    return internal::as_vector__impl( const_cast< MatrixBase<RTYPE,NA,T>& >(t), typename std::is_same< T , Matrix<RTYPE> >() ) ;
 }
 
 } // Rcpp

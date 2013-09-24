@@ -1,5 +1,5 @@
 //
-// is_na.h: Rcpp R/C++ interface class library -- vector operators
+// is_na.h:  vector operators
 //                                                                      
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

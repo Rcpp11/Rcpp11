@@ -1,8 +1,7 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// has_na.h: Rcpp R/C++ interface class library -- NA handling
+// has_na.h:  NA handling
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -31,32 +30,32 @@ namespace traits{
  * This is false by default and specialized for all types that do 
  * have the concept
  */
-template<int RTYPE> struct has_na : public false_type{} ;
+template<int RTYPE> struct has_na : public std::false_type{} ;
 
 /**
  * integer vectors support missing values
  */
-template<> struct has_na<INTSXP> : public true_type{};
+template<> struct has_na<INTSXP> : public std::true_type{};
 
 /**
  * numeric vectors support missing values
  */
-template<> struct has_na<REALSXP> : public true_type{};
+template<> struct has_na<REALSXP> : public std::true_type{};
 
 /**
  * complex vectors support missing values
  */
-template<> struct has_na<CPLXSXP> : public true_type{};
+template<> struct has_na<CPLXSXP> : public std::true_type{};
 
 /**
  * character vector support missing values
  */
-template<> struct has_na<STRSXP> : public true_type{};
+template<> struct has_na<STRSXP> : public std::true_type{};
 
 /**
  * logical vectors support missing values
  */
-template<> struct has_na<LGLSXP> : public true_type{};
+template<> struct has_na<LGLSXP> : public std::true_type{};
 
 }
 }

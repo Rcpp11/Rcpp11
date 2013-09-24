@@ -1,5 +1,5 @@
 //
-// compiler.h: Rcpp R/C++ interface class library -- check compiler
+// compiler.h:  check compiler
 //
 // Copyright (C) 2012 - 2013  Dirk Eddelbuettel and Romain Francois
 //

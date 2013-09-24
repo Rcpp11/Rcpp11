@@ -1,5 +1,5 @@
 //
-// export.h: Rcpp R/C++ interface class library -- export implementations 
+// export.h:  export implementations 
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //

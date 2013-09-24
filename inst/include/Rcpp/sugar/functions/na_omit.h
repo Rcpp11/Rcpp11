@@ -1,5 +1,5 @@
 //
-// na_omit.h: Rcpp R/C++ interface class library -- na_omit
+// na_omit.h:  na_omit
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -25,7 +25,7 @@ namespace Rcpp{
 namespace sugar{
      
     template <int RTYPE, bool NA, typename T>
-    Vector<RTYPE> na_omit_impl(const T& x, Rcpp::traits::false_type ) {
+    Vector<RTYPE> na_omit_impl(const T& x, std::false_type ) {
         int n = x.size() ;
         int n_out = n - sum( is_na(x) ) ;
     
@@ -38,7 +38,7 @@ namespace sugar{
     }  
 
     template <int RTYPE, bool NA, typename T>
-    Vector<RTYPE> na_omit_impl(const T& x, Rcpp::traits::true_type ) {
+    Vector<RTYPE> na_omit_impl(const T& x, std::true_type ) {
         int n = x.size() ;
         int n_out = n - sum( is_na(x) ) ;
     
@@ -69,7 +69,7 @@ template <int RTYPE, bool NA, typename T>
 inline Vector<RTYPE> na_omit( const VectorBase<RTYPE,NA,T>& t){
 	return sugar::na_omit_impl<RTYPE,NA,T>( 
 	    t.get_ref(), 
-	    typename Rcpp::traits::same_type<T,Vector<RTYPE> >::type()
+	    typename std::is_same<T,Vector<RTYPE> >::type()
 	) ;
 }
 

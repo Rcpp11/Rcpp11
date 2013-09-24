@@ -1,5 +1,5 @@
 //
-// Formula.h: Rcpp R/C++ interface class library -- formula
+// Formula.h:  formula
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

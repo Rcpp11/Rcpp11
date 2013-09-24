@@ -1,5 +1,5 @@
 //
-// unroll.h: Rcpp R/C++ interface class library -- loop unrolling macro 
+// unroll.h:  loop unrolling macro 
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

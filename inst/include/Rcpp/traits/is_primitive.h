@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// is_primitive.h: Rcpp R/C++ interface class library -- traits to help wrap
+// is_primitive.h:  traits to help wrap
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //
@@ -25,7 +23,7 @@
 namespace Rcpp{
 namespace traits{
 
-	template <typename T> struct is_primitive : public same_type<
+	template <typename T> struct is_primitive : public std::is_same<
 		typename r_type_traits<T>::r_category , 
 		r_type_primitive_tag
 	>{} ;

@@ -1,5 +1,5 @@
 //
-// rcpp_module.cpp: Rcpp R/C++ interface class library -- Rcpp Module examples
+// rcpp_module.cpp:  Rcpp Module examples
 //
 // Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
 //

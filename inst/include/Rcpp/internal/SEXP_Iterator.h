@@ -1,6 +1,4 @@
-/* :tabSize=4:indentSize=4:noTabs=false:folding=explicit:collapseFolds=1: */
-//
-// SEXP_Iterator.h: Rcpp R/C++ interface class library -- 
+// SEXP_Iterator.h:  
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

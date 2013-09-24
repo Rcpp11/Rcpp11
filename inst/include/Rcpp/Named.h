@@ -1,5 +1,5 @@
 //
-// Named.h: Rcpp R/C++ interface class library -- named object 
+// Named.h:  named object 
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //

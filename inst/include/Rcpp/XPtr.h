@@ -1,5 +1,5 @@
 //
-// XPtr.h: Rcpp R/C++ interface class library -- smart external pointers
+// XPtr.h:  smart external pointers
 //
 // Copyright (C) 2009 - 2013	Dirk Eddelbuettel and Romain Francois
 //

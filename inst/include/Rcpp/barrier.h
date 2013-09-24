@@ -1,5 +1,5 @@
 //
-// barrier.h: Rcpp R/C++ interface class library -- crossin the write barrier
+// barrier.h:  crossin the write barrier
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //

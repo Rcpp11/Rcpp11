@@ -1,5 +1,5 @@
 //
-// as.cpp: Rcpp R/C++ interface class library -- as<> unit tests
+// as.cpp:  as<> unit tests
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

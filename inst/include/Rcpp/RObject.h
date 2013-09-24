@@ -1,5 +1,5 @@
 //
-// RObject.h: Rcpp R/C++ interface class library -- general R object wrapper
+// RObject.h:  general R object wrapper
 //
 // Copyright (C) 2009 - 2012    Dirk Eddelbuettel and Romain Francois
 //

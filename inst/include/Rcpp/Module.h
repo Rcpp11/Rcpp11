@@ -1,5 +1,5 @@
 //
-// Module.h: Rcpp R/C++ interface class library -- Rcpp modules
+// Module.h:  Rcpp modules
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 //
@@ -31,13 +31,13 @@ namespace Rcpp{
         std::string get_converter_name(const char* from, const char* to){
             std::string method_name( ".___converter___" ) ;
             typedef typename Rcpp::traits::r_type_traits< typename Rcpp::traits::remove_const_and_reference<FROM>::type >::r_category FROM_CATEGORY ;
-            if( Rcpp::traits::same_type< FROM_CATEGORY, ::Rcpp::traits::r_type_module_object_tag >::value ){
+            if( std::is_same< FROM_CATEGORY, ::Rcpp::traits::r_type_module_object_tag >::value ){
                 method_name += "Rcpp_" ;    
             }
             method_name += from ;
             method_name += "___" ;
             typedef typename Rcpp::traits::r_type_traits< typename Rcpp::traits::remove_const_and_reference<TO>::type >::r_category TO_CATEGORY ;
-            if( Rcpp::traits::same_type< TO_CATEGORY, ::Rcpp::traits::r_type_module_object_tag >::value ){
+            if( std::is_same< TO_CATEGORY, ::Rcpp::traits::r_type_module_object_tag >::value ){
                 method_name += "Rcpp_" ;    
             }
             method_name += to ;

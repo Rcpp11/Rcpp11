@@ -1,5 +1,5 @@
 //
-// Lazy.h: Rcpp R/C++ interface class library -- Lazy
+// Lazy.h:  Lazy
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

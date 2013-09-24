@@ -1,5 +1,5 @@
 //
-// matrix_functions.h: Rcpp R/C++ interface class library -- matrix sugar functions
+// matrix_functions.h:  matrix sugar functions
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

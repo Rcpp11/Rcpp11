@@ -1,5 +1,5 @@
 //
-// row.h: Rcpp R/C++ interface class library -- row
+// row.h:  row
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

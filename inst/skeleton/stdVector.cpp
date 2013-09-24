@@ -1,5 +1,5 @@
 //
-// stdVector.cpp: Rcpp R/C++ interface class library -- Rcpp Module class example
+// stdVector.cpp:  Rcpp Module class example
 //
 // Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
 //

@@ -1,7 +1,8 @@
 //
-// is_eigen_base.h: Rcpp R/C++ interface class library -- 
+// is_eigen_base.h:  
 //
 // Copyright (C) 2011 Doug Bates, Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -39,7 +40,7 @@ namespace traits{
     };
   
   template<typename T> struct is_eigen_base : 
-  	integral_constant<bool, _is_eigen_helper<T>::value >{ };
+  	std::integral_constant<bool, _is_eigen_helper<T>::value >{ };
 
 }
 }

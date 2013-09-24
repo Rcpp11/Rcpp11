@@ -1,5 +1,5 @@
 //
-// wrap.h: Rcpp R/C++ interface class library -- wrap implementations 
+// wrap.h:  wrap implementations 
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //
@@ -25,7 +25,7 @@ namespace Rcpp{
 namespace internal{
         
 template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
-inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, Rcpp::traits::true_type ){
+inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::true_type ){
 	size_t size = std::distance( first, last ) ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	
@@ -44,7 +44,7 @@ inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator
 }
                 
 template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
-inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, Rcpp::traits::false_type ){
+inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::false_type ){
 	size_t size = std::distance( first, last ) ;
 	
 	SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;

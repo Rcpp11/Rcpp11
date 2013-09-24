@@ -1,5 +1,5 @@
 //
-// sugar_forward.h: Rcpp R/C++ interface class library -- forward declaration for Rcpp::sugar
+// sugar_forward.h:  forward declaration for Rcpp::sugar
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

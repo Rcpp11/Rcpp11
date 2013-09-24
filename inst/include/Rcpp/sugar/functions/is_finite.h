@@ -1,5 +1,5 @@
 //
-// is_finite.h: Rcpp R/C++ interface class library -- is_finite
+// is_finite.h:  is_finite
 //
 // Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //

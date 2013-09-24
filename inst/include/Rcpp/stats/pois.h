@@ -1,5 +1,5 @@
 //
-// pois.h: Rcpp R/C++ interface class library --
+// pois.h: 
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //

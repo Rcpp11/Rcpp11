@@ -1,5 +1,5 @@
 //
-// is.h: Rcpp R/C++ interface class library -- is implementations 
+// is.h:  is implementations 
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //
@@ -127,7 +127,7 @@ namespace internal{
     
     bool is_module_object_internal(SEXP, const char*) ;
     template <typename T> bool is__module__object( SEXP x){
-        typedef typename Rcpp::traits::un_pointer<T>::type CLASS ;
+        typedef typename std::remove_pointer<T>::type CLASS ;
         return is_module_object_internal(x, typeid(CLASS).name() ) ;     
     }
         

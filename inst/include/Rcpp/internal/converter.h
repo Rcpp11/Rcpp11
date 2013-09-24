@@ -1,5 +1,5 @@
 //
-// converter.h: Rcpp R/C++ interface class library -- 
+// converter.h:  
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //

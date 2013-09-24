@@ -1,5 +1,5 @@
 //
-// clamp.h: Rcpp R/C++ interface class library -- clamp
+// clamp.h:  clamp
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 //
