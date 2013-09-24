@@ -33,7 +33,7 @@ class Lapply : public VectorBase<
 > {
 public:         
 	typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
-	typedef Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	typedef typename std::result_of<Function(STORAGE)>::type result_type ;
 	
 	Lapply( const VEC& vec_, Function fun_ ) : 
