@@ -58,14 +58,10 @@ test.evaluator.ok <- function(){
 }
 
 test.exceptions <- function(){
-	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
-
 	e <- tryCatch(  exceptions_(), "C++Error" = function(e) e )
 	checkTrue( "C++Error" %in% class(e), msg = "exception class C++Error" )
 
-	if( can.demangle ){
-		checkTrue( "std::range_error" %in% class(e), msg = "exception class std::range_error" )
-	}
+	checkTrue( "std::range_error" %in% class(e), msg = "exception class std::range_error" )
 	checkEquals( e$message, "boom", msg = "exception message" )
 
 	if( can.demangle ){
