@@ -2,6 +2,7 @@
 // sapply.h:  sapply
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -27,13 +28,14 @@ namespace sugar{
 template <int RTYPE, bool NA, typename T, typename Function, bool NO_CONVERSION>
 class Sapply : public VectorBase< 
 	Rcpp::traits::r_sexptype_traits<
-		typename std::result_of<Function>::type
+		typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type
 	>::rtype , 
 	true ,
 	Sapply<RTYPE,NA,T,Function,NO_CONVERSION>
 > {
 public:
-	typedef typename std::result_of<Function>::type result_type ;
+	typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
+	
 	const static int RESULT_R_TYPE = 
 		Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 	
@@ -64,13 +66,13 @@ private:
 template <int RTYPE, bool NA, typename T, typename Function>
 class Sapply<RTYPE,NA,T,Function,true> : public VectorBase< 
 	Rcpp::traits::r_sexptype_traits<
-		typename std::result_of<Function>::type
+		typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type
 	>::rtype , 
 	true ,
 	Sapply<RTYPE,NA,T,Function,true>
 > {
 public:
-	typedef typename std::result_of<Function>::type result_type ;
+	typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
 	const static int RESULT_R_TYPE = 
 		Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 	
@@ -101,15 +103,16 @@ template <int RTYPE, bool NA, typename T, typename Function >
 inline sugar::Sapply<
     RTYPE,NA,T,Function, 
     std::is_same< 
-        typename std::result_of<Function>::type ,  
-        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function>::type >::rtype >::type
+        typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type )>::type ,  
+        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type >::rtype >::type
     >::value
 > 
 sapply( const Rcpp::VectorBase<RTYPE,NA,T>& t, Function fun ){
+    typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
 	return sugar::Sapply<RTYPE,NA,T,Function, 
 	std::is_same< 
-        typename std::result_of<Function>::type ,  
-        typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function>::type >::rtype >::type
+        result_type,  
+        typename Rcpp::traits::storage_type< traits::r_sexptype_traits<result_type>::rtype >::type
     >::value >( t, fun ) ;
 }
 

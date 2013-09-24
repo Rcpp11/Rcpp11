@@ -1,8 +1,5 @@
-// #define RCPP_STRING_DEBUG_LEVEL 0  
-// #define RCPP_DEBUG_LEVEL 0
 #include <Rcpp.h>
 using namespace Rcpp ;
-
 
 // [[Rcpp::export]]
 String String_replace_all( String z, String x, String y){
@@ -23,7 +20,7 @@ String String_replace_last( String z, String x, String y){
 
 class StringConv{
 public:
-    typedef String result_type ;
+    // typedef String result_type ;
     StringConv( CharacterVector old_, CharacterVector new__): 
         nr(old_.size()), old(old_), new_(new__){}
     
@@ -53,7 +50,6 @@ List test_compare_Strings( String aa, String bb ){
         _["a  > b" ] = aa > bb, 
         _["a == b"]  = aa == bb,
         _["a == a"]  = aa == aa
-        
         ) ;
 }
 
