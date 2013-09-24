@@ -174,7 +174,7 @@ namespace Rcpp{
         /**
          * Gets the environment associated with the given name
          *
-         * @param name name of the environment, e.g "package:Rcpp"
+         * @param name name of the environment, e.g "package:Rcpp11"
          */
         Environment( const std::string& name );
     

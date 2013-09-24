@@ -217,7 +217,7 @@ test.environment.constructor.SEXP <- function(){
 
 	checkEquals( runit_env_SEXP( ".GlobalEnv" ), globalenv(), msg = "Environment( character ) - 1" )
 	checkEquals( runit_env_SEXP( "package:base" ), baseenv(), msg = "Environment( character ) - 2" )
-	checkEquals( runit_env_SEXP( "package:Rcpp11" ), as.environment("package:Rcpp") , msg = 'Environment( "package:Rcpp11") ' )
+	checkEquals( runit_env_SEXP( "package:Rcpp11" ), as.environment("package:Rcpp11") , msg = 'Environment( "package:Rcpp11") ' )
 
 	checkEquals( runit_env_SEXP(1L), globalenv(), msg = "Environment( SEXP{integer} )" )
 }
