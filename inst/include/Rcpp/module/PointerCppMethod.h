@@ -25,7 +25,7 @@
 		typedef OUT (*Method)(Class*, Args...) ;
 		typedef CppMethod<Class> method_class ;
 		Pointer_CppMethod_Impl( Method m) : method_class(), met(m){} 
-		SEXP operator()( Class* object, SEXP* ){
+		SEXP operator()( Class* object, SEXP* args ){
 			return pointer_method_invoke<Class,OUT,Args...>(object,met,args); 
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
@@ -38,13 +38,13 @@
 	} ;
 	
 	template <typename Class, typename... Args> 
-	class Pointer_CppMethod0<Class,void,Args...> : public CppMethod<Class> {
+	class Pointer_CppMethod_Impl<Class,void,Args...> : public CppMethod<Class> {
 	public:
 		typedef void (*Method)(Class*,Args...) ;
 		typedef CppMethod<Class> method_class ;
-		Pointer_CppMethod0( Method m) : method_class(), met(m){} 
+		Pointer_CppMethod_Impl( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args ){
-			void_pointer_method_invoke<Class,OUT,Args...>(object,met,args);
+			void_pointer_method_invoke<Class,Args...>(object,met,args);
 			return R_NilValue ;
 		}
 		inline int nargs(){ return sizeof...(Args) ; }

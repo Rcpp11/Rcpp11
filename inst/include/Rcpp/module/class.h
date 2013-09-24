@@ -236,7 +236,6 @@
         }
 
         #include <Rcpp/module/method.h>
-        #include <Rcpp/module/Module_generated_Pointer_method.h>
         
         bool has_method( const std::string& m){
             return vec_methods.find(m) != vec_methods.end() ;
