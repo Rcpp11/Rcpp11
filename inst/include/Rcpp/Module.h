@@ -82,7 +82,7 @@ namespace Rcpp{
 
 #include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/Module_generated_get_return_type.h>
-#include <Rcpp/module/Module_generated_get_signature.h>
+#include <Rcpp/module/Module_get_signature.h>
 
     // templates CppFunction0, ..., CppFunction65
 #include <Rcpp/module/Module_generated_CppFunction.h>
