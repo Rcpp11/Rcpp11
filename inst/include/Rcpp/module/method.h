@@ -41,4 +41,10 @@
         return *this ;
     }
 	
+    	template <typename OUT, typename... Args>
+	self& method( const char* name_, OUT (*fun)(Class*, Args...), const char* docstring = 0, ValidMethod valid = &yes ){
+		AddMethod( name_, new Pointer_CppMethod_Impl<Class,OUT,Args...>( fun ), valid, docstring ) ;
+  		return *this ;
+	}
+
 #endif
