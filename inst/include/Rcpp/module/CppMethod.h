@@ -18,7 +18,7 @@
 #ifndef Rcpp_Module_CppMethod_h
 #define Rcpp_Module_CppMethod_h
 
-	template <typename Class, typename OUT, typename...Args> 
+	template <typename Class, bool method_is_const, typename OUT, typename...Args> 
 	class CppMethod_Impl : public CppMethod<Class> {
 	public:
 		typedef OUT (Class::*Method)(Args...) ;
@@ -31,15 +31,15 @@
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
 		inline bool is_void(){ return false ; }
-		inline bool is_const(){ return false ; }
+		inline bool is_const(){ return method_is_const ; }
 		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
 		
 	private:
 		Method met ;
 	} ;
 
-	template <typename Class, typename...Args> 
-	class CppMethod_Impl<Class,void,Args...> : public CppMethod<Class> {
+	template <typename Class, bool method_is_const, typename...Args> 
+	class CppMethod_Impl<Class,method_is_const,void,Args...> : public CppMethod<Class> {
 	public:
 		typedef void (Class::*Method)(Args...) ;
 		typedef CppMethod<Class> method_class ;
@@ -51,7 +51,7 @@
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
 		inline bool is_void(){ return true ; }
-		inline bool is_const(){ return false ; }
+		inline bool is_const(){ return method_is_const ; }
 		inline void signature(std::string& s, const char* name){ Rcpp::signature<void,Args...>(s, name) ; }
 		
 	private:

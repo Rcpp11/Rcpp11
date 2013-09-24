@@ -20,24 +20,24 @@
 
     template <typename OUT, typename... Args>
     self& method( const char* name_, OUT (Class::*fun)(Args...), const char* docstring = 0, ValidMethod valid = &yes ){
-        AddMethod( name_, new CppMethod_Impl<Class,OUT,Args...>( fun ), valid, docstring) ;
+        AddMethod( name_, new CppMethod_Impl<Class,false,OUT,Args...>( fun ), valid, docstring) ;
         return *this ;
     }
     
     template <typename OUT, typename... Args>
     self& method( const char* name_, OUT (Class::*fun)(Args...) const, const char* docstring = 0, ValidMethod valid = &yes ){
-        AddMethod( name_, new CppMethod_Impl<Class,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
+        AddMethod( name_, new CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
         return *this ;
     }
     
     template <typename OUT, typename... Args>
     self& nonconst_method( const char* name_, OUT (Class::*fun)(Args...), const char* docstring = 0, ValidMethod valid = &yes ){
-        AddMethod( name_, new CppMethod_Impl<Class,OUT,Args...>( fun ) , valid, docstring ) ;
+        AddMethod( name_, new CppMethod_Impl<Class,false,OUT,Args...>( fun ) , valid, docstring ) ;
         return *this ;
     }
     template <typename OUT, typename... Args>
     self& const_method( const char* name_, OUT (Class::*fun)(void) const, const char* docstring = 0, ValidMethod valid = &yes ){
-        AddMethod( name_, new CppMethod_Impl<Class,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
+        AddMethod( name_, new CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
         return *this ;
     }
 	
