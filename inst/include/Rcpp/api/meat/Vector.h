@@ -693,30 +693,30 @@ namespace Rcpp{
 
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::set_value_with_names( NumberToType<1>, int i, SEXP names, const T& obj ){
+    inline void Vector<RTYPE>::set_value_with_names( traits::number_to_type<1>, int i, SEXP names, const T& obj ){
         this->operator[](i) = converter_type::get(obj) ;
         SET_STRING_ELT( names, i, Rf_mkChar( internal::get_object_name(obj) ) ) ;
     }
     
     template <int RTYPE>
     template <typename T, typename... Args>
-    inline void Vector<RTYPE>::set_value_with_names( NumberToType<sizeof...(Args) + 1>, int i, SEXP names, const T& obj, const Args&... pack ){
+    inline void Vector<RTYPE>::set_value_with_names( traits::number_to_type<sizeof...(Args) + 1>, int i, SEXP names, const T& obj, const Args&... pack ){
         this->operator[](i) = converter_type::get(obj) ;
         SET_STRING_ELT( names, i, Rf_mkChar( internal::get_object_name(obj) ) ) ;
-        set_value_with_names( typename ::NumberToType< sizeof...(Args) >() , i+1, names, pack... ) ;
+        set_value_with_names( typename traits::number_to_type< sizeof...(Args) >() , i+1, names, pack... ) ;
     }
     
     template <int RTYPE>
     template <typename T>
-    inline void Vector<RTYPE>::set_value( NumberToType<1>, int i, const T& obj ){
+    inline void Vector<RTYPE>::set_value( traits::number_to_type<1>, int i, const T& obj ){
         this->operator[](i) = converter_type::get(obj) ;
     }
     
     template <int RTYPE>
     template <typename T, typename... Args>
-    inline void Vector<RTYPE>::set_value( NumberToType<sizeof...(Args) + 1>, int i, const T& obj, const Args&... pack ){
+    inline void Vector<RTYPE>::set_value( traits::number_to_type<sizeof...(Args) + 1>, int i, const T& obj, const Args&... pack ){
         this->operator[](i) = converter_type::get(obj) ;
-        set_value( typename ::NumberToType< sizeof...(Args) >() , i+1, pack... ) ;
+        set_value( typename traits::number_to_type< sizeof...(Args) >() , i+1, pack... ) ;
     }
     
     
@@ -727,7 +727,7 @@ namespace Rcpp{
         Vector<RTYPE> out = no_init(n) ;
         CharacterVector names = no_init(n) ;
         if( n ){
-            out.set_value_with_names( NumberToType<n>() , 0, names, args...) ;
+            out.set_value_with_names( traits::number_to_type<n>() , 0, names, args...) ;
         }
         out.attr( "names") = names ;
         return out ;
@@ -739,7 +739,7 @@ namespace Rcpp{
         const int n = sizeof...(Args) ;
         Vector<RTYPE> out = no_init(n) ;
         if( n ){
-            out.set_value( NumberToType<n>(), 0, args...) ;
+            out.set_value( traits::number_to_type<n>(), 0, args...) ;
         }
         return out ;
     }

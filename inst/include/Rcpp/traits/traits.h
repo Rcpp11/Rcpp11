@@ -20,6 +20,7 @@
 #ifndef Rcpp__traits__traits__h
 #define Rcpp__traits__traits__h
 
+#include <Rcpp/traits/number_to_type.h>
 #include <Rcpp/traits/is_wide_string.h>
 #include <Rcpp/traits/char_type.h>
 #include <Rcpp/traits/named_object.h>
@@ -48,8 +49,6 @@
 #include <Rcpp/traits/is_primitive.h>
 #include <Rcpp/traits/expands_to_logical_impl.h>
 #include <Rcpp/traits/sfinae.h>
-
-template <unsigned int N> struct NumberToType { };
 
 #endif
 
