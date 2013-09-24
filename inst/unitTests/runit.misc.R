@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "misc.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "misc.cpp" )
 
 test.Symbol <- function(){
 	res <- symbol_()

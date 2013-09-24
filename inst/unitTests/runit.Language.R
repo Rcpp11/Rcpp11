@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "language.cpp" ) 
+.setUp <- Rcpp11:::unit_test_setup( "language.cpp" ) 
 
 test.Language <- function(){
 	checkEquals( runit_language( call("rnorm") ), call("rnorm" ), msg = "Language( LANGSXP )" )

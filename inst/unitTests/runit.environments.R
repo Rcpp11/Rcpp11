@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "Environment.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "Environment.cpp" )
 
 test.environment.ls <- function(){
 	e <- new.env( )

@@ -22,7 +22,7 @@
 
 if ( .runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "wstring.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "wstring.cpp" )
 
 test.CharacterVector_wstring <- function(){
     res <- CharacterVector_wstring()

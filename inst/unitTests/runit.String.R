@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "String.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "String.cpp" )
 
 test.replace_all <- function(){
     checkEquals( String_replace_all("foobar", "o", "*"), "f**bar")

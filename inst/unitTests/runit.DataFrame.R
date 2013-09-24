@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "DataFrame.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "DataFrame.cpp" )
 
 test.DataFrame.FromSEXP <- function() {
     DF <- data.frame(a=1:3, b=c("a","b","c"))

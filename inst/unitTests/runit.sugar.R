@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "sugar.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "sugar.cpp" )
 
 test.sugar.abs <- function( ){
 	x <- rnorm(10)

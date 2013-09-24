@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "Reference.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "Reference.cpp" )
 
 test.Reference <- function(){
     Instrument <- setRefClass(

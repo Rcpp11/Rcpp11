@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "Function.cpp", "stats" )
+.setUp <- Rcpp11:::unit_test_setup( "Function.cpp", "stats" )
 
 test.Function <- function(){
     checkEquals( function_( rnorm ), rnorm, msg = "Function( CLOSXP )" )

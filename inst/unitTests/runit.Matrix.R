@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup("Matrix.cpp")
+.setUp <- Rcpp11:::unit_test_setup("Matrix.cpp")
 
 test.List.column <- function(){
 	x <- matrix( 1:16+.5, nc = 4 )

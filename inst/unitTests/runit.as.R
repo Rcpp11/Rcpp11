@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup("as.cpp")
+.setUp <- Rcpp11:::unit_test_setup("as.cpp")
 
 test.as.int <- function(){
     checkEquals( as_int(10), 10L, msg = "as<int>( REALSXP ) " )

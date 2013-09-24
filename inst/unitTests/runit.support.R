@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "support.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "support.cpp" )
 
 test.plus.REALSXP <- function(){
     checkEquals(

@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "modref.cpp" )     
+.setUp <- Rcpp11:::unit_test_setup( "modref.cpp" )     
     
 test.modRef <- function() {
     ww = new(World)

@@ -25,7 +25,7 @@ if( .runThisTest && Rcpp:::capabilities()[["Rcpp modules"]] ) {
 	gc()
 }
 
-.setUp <- Rcpp:::unit_test_setup( "Module.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "Module.cpp" )
     
 test.Module <- function(){
     checkEquals( bar( 2L ), 4L )

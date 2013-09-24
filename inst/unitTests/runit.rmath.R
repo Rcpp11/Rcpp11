@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "rmath.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "rmath.cpp" )
 
 test.rmath.norm <- function() {
     x <- 0.25

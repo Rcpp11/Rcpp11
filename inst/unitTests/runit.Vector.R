@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup("Vector.cpp")
+.setUp <- Rcpp11:::unit_test_setup("Vector.cpp")
 
 test.RawVector <- function(){
 	funx <- raw_

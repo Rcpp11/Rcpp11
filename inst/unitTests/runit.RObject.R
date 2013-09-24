@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "RObject.cpp" ) 
+.setUp <- Rcpp11:::unit_test_setup( "RObject.cpp" ) 
 
 test.RObject.asDouble <- function(){
 	checkEquals( asDouble(2.123), 4.246, msg = "as<double>( REALSXP ) " )

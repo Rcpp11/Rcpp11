@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "stats.cpp" ) 
+.setUp <- Rcpp11:::unit_test_setup( "stats.cpp" ) 
 
 test.stats.dbeta <- function() {
     vv <- seq(0, 1, by = 0.1)

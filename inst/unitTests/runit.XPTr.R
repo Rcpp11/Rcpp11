@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "XPtr.cpp" )
+.setUp <- Rcpp11:::unit_test_setup( "XPtr.cpp" )
     
 test.XPtr <- function(){
     xp <- xptr_1()

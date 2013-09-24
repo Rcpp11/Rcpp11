@@ -21,7 +21,7 @@
 
 if (.runThisTest) {
 
-.setUp <- Rcpp:::unit_test_setup( "wrap.cpp" ) 
+.setUp <- Rcpp11:::unit_test_setup( "wrap.cpp" ) 
 
 test.wrap.map.string.int <- function(){
     checkEquals(map_string_int(),
