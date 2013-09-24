@@ -72,7 +72,7 @@
         std::string docstring ;
     };
 
-    template <typename OUT, typename Args...>
+    template <typename OUT, typename... Args>
     class CppFunction_Impl : public CppFunction {
         public:
             CppFunction_Impl(OUT (*fun)(Args...), const char* docstring = 0 ) : 
@@ -90,10 +90,10 @@
             OUT (*ptr_fun)(Args...) ;
     } ;
 
-    template <typename Args...>
+    template <typename... Args>
     class CppFunction_Impl<void,Args...> : public CppFunction {
         public:
-            CppFunction_Impl(OUT (*fun)(Args...), const char* docstring = 0 ) : 
+            CppFunction_Impl(void (*fun)(Args...), const char* docstring = 0 ) : 
                 CppFunction(docstring), ptr_fun(fun){}
                 
             SEXP operator()(SEXP* args) {
@@ -102,12 +102,12 @@
             }
     
             inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ Rcpp::signature<void, Args...>(s, name) ; }
             inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             inline bool is_void(){ return true; }
         
         private:
-            OUT (*ptr_fun)(Args...) ;
+            void (*ptr_fun)(Args...) ;
     } ;
     
     template <typename OUT, typename... Args>
@@ -138,14 +138,14 @@
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ Rcpp::signature<void,Args...>(s, name) ; }
             inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             inline SEXP get_formals(){ return formals; }
             inline bool is_void(){ return true; }
         
         private:
             Rcpp::List formals ;
-            OUT (*ptr_fun)(void) ;
+            void (*ptr_fun)(Args...) ;
     } ;
 
 

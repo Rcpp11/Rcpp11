@@ -33,7 +33,7 @@ tmpl <- function(n) {
     }
     ', 
     paste( sprintf("typename U%d", 1:n), collapse = ", " ), 
-    paste( sprintf("Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
+    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
     paste( sprintf("x%d", 1:n), collapse = ", " )
     )
 }
