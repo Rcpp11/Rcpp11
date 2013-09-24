@@ -684,12 +684,23 @@ namespace Rcpp{
     
         template <typename T>
         inline SEXP wrap_range_sugar_expression( const T& object, std::true_type) {
-        	RCPP_DEBUG( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
-        	const int RTYPE = T::r_type::value ;
-        	return Rcpp::Vector<RTYPE>(object) ;
+            RCPP_DEBUG( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
+            const int RTYPE = T::r_type::value ;
+            return Rcpp::Vector<RTYPE>(object) ;
         }
 
     }
+    
+    
+    // template <int RTYPE>
+    // template <typename... Args> 
+    // static Vector<RTYPE> Vector<RTYPE>::create(Args... args){
+    //     const int depth = sizeof...(args);
+    //     Vector<RTYPE> out( depth ) ;
+    //     
+    // }
+    
+    
     
 } // namespace Rcpp
 

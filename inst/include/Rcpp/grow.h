@@ -31,7 +31,7 @@ namespace Rcpp {
     
     namespace internal{
      
-        template <typename T>
+    template <typename T>
     	inline SEXP grow__dispatch( std::false_type, const T& head, SEXP tail ){
     	    return grow( wrap(head), tail ) ;
     	}

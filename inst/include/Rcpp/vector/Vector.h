@@ -512,8 +512,11 @@ public:
         return Vector( 0 ) ;
     }
 
+    
     #include <Rcpp/generated/Vector__create.h>
 
+    // template <typename... Args> static Vector create(Args... args) ;
+    
 } ; /* Vector */
 
 #endif
