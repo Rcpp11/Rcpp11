@@ -228,7 +228,7 @@ test.environment.square <- function(){
 }
 
 test.environment.Rcpp <- function(){
-	checkEquals( runit_Rcpp(), asNamespace("Rcpp11") , msg = "cached Rcpp namespace" )
+	checkEquals( runit_Rcpp11(), asNamespace("Rcpp11") , msg = "cached Rcpp namespace" )
 }
 
 test.environment.child <- function(){
