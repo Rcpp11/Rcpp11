@@ -1,7 +1,6 @@
 
 rm -f confdefs.h config.log config.status \
 	src/*.o src/*.so src/*.a src/*.d src/*.dll src/*.rc \
-	RcppSrc/*.o RcppSrc/*.a inst/Rcpp-version.txt \
 	inst/lib/libRcpp.so inst/lib/Rcpp*.h inst/lib/libRcpp.a \
 	inst/unitTests/testRcppModule/src/*.o \
 	inst/unitTests/testRcppModule/src/*.so \

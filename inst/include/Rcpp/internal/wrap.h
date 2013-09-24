@@ -924,6 +924,9 @@ inline SEXP wrap(const T& object){
 	return internal::wrap_dispatch( object, typename ::Rcpp::traits::wrap_type_traits<T>::wrap_category() ) ;
 }
 
+template <typename T>
+inline SEXP wrap( std::initializer_list<T> init ){ return internal::range_wrap( init.begin(), init.end() ) ; } 
+
 template <> inline SEXP wrap<Rcpp::String>( const Rcpp::String& object) ;
 
 template <typename T>
