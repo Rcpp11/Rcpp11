@@ -2,6 +2,7 @@
 // converter.h:  converters
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -22,19 +23,46 @@
 #define Rcpp__vector__converters_h
  
 namespace internal {
+    
+    
+    template <typename T>
+    const char* get_object_name__impl( const T& object, std::true_type ){
+        return object.name.c_str() ;    
+    }
+    template <typename T>
+    const char* get_object_name__impl( const T& object, std::false_type){
+        return "" ;    
+    }
+    
+    template <typename T>
+    const char* get_object_name( const T& object ){
+        return get_object_name__impl( object, typename Rcpp::traits::is_named<T>::type() ) ;    
+    }
+    
 	template <int RTYPE>
 	class element_converter{
 	public:
 		typedef typename ::Rcpp::traits::storage_type<RTYPE>::type target ;
 		
 		template <typename T>
+		static target get__impl( const T& input, std::true_type){
+		    return caster<T,target>(input) ; 
+		}
+		
+		template <typename T>
+		static target get__impl( const T& input, std::false_type){
+		    return caster<T,target>(input) ;
+		}
+		
+		template <typename T>
 		static target get( const T& input ){
-			return caster<T,target>(input) ;
+			return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
 		}
 		
 		static target get( const target& input ){
 			return input ;
 		}
+		
 	} ;
 	
 	template <int RTYPE>
@@ -43,10 +71,22 @@ namespace internal {
 		typedef SEXP target ;
 		
 		template <typename T>
-		static SEXP get( const T& input){
-			std::string out(input) ;
-			RCPP_DEBUG( "string_element_converter::get< T = %s >()", DEMANGLE(T) )
+		static target get__impl( const T& input, std::true_type){
+		    std::string out(input.object) ;
+			RCPP_DEBUG( "string_element_converter::get__impl< T = %s >(., true)", DEMANGLE(T) )
 			return Rf_mkChar( out.c_str() ) ;
+		}
+		
+		template <typename T>
+		static target get__impl( const T& input, std::false_type){
+		    std::string out(input) ;
+			RCPP_DEBUG( "string_element_converter::get__impl< T = %s >(., false)", DEMANGLE(T) )
+			return Rf_mkChar( out.c_str() ) ;
+		}
+		
+		template <typename T>
+		static SEXP get( const T& input){
+			return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
 		}
 		
 		static SEXP get(const std::string& input){
@@ -74,8 +114,19 @@ namespace internal {
 		typedef SEXP target ;
 		
 		template <typename T>
+		static target get__impl( const T& input, std::true_type){
+		    return ::Rcpp::wrap( input.object ) ;
+		}
+		
+		template <typename T>
+		static target get__impl( const T& input, std::false_type){
+		    return ::Rcpp::wrap( input ) ;
+		}
+		
+		
+		template <typename T>
 		static SEXP get( const T& input){
-			return ::Rcpp::wrap( input ) ;
+			return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
 		}
 		
 		static SEXP get( const char* input){

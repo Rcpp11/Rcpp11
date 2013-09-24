@@ -564,51 +564,10 @@ namespace Rcpp{
         set_sexp( target.asSexp() ) ;
     }
     	
-    template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, std::false_type){
-        int n = size() ;
-        Vector target( n+1 ) ;
-        iterator target_it = target.begin();
-        iterator it = begin() ;
-        iterator this_end = end() ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
-        iterator result ;
-        if( names == R_NilValue ){
-            for( ; it < position; ++it, ++target_it){
-                *target_it = *it ;
-            }
-            result = target_it;
-            *target_it = object ; 
-            ++target_it ;
-            for( ; it < this_end; ++it, ++target_it ){
-                *target_it = *it ;
-            }
-        } else{
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1 ) ) ;
-            int i=0;
-            for( ; it < position; ++it, ++target_it, i++){
-                *target_it = *it ;
-                SET_STRING_ELT( newnames, i, STRING_ELT(names, i ) ) ;
-            }
-            result = target_it;
-            *target_it = object ;
-            SET_STRING_ELT( newnames, i, ::Rf_mkChar("") ) ;
-            i++ ;
-            ++target_it ;
-            for( ; it < this_end; ++it, ++target_it, i++ ){
-                *target_it = *it ;
-                SET_STRING_ELT( newnames, i, STRING_ELT(names, i - 1) ) ;
-            }
-            target.attr( "names" ) = newnames ;
-            UNPROTECT(1) ; /* newmanes */
-        }
-        set_sexp( target.asSexp() );
-        return result ;
-    }
     
     template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert__impl( iterator position, const stored_type& object, std::true_type){
-        PROTECT( object ) ;
+    template <typename T>
+    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert( iterator position, const T& object){
         int n = size() ;
         Vector target( n+1 ) ;
         iterator target_it = target.begin();
@@ -621,7 +580,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
             result = target_it;
-            *target_it = object ; 
+            *target_it = converter_type::get( object ) ; 
             ++target_it ;
             for( ; it < this_end; ++it, ++target_it ){
                 *target_it = *it ;
@@ -634,8 +593,8 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i, STRING_ELT(names, i ) ) ;
             }
             result = target_it;
-            *target_it = object ;
-            SET_STRING_ELT( newnames, i, ::Rf_mkChar("") ) ;
+            *target_it = converter_type::get(object) ;
+            SET_STRING_ELT( newnames, i, Rf_mkChar( internal::get_object_name(object) ) ) ;
             i++ ;
             ++target_it ;
             for( ; it < this_end; ++it, ++target_it, i++ ){
@@ -646,10 +605,11 @@ namespace Rcpp{
             UNPROTECT(1) ; /* newmanes */
         }
         set_sexp( target.asSexp() );
-        UNPROTECT(1); /* object */
         return result ;
+    
     }
-	
+    
+    
     template <int RTYPE>
     template <typename EXPR_VEC>
     Vector<RTYPE>& Vector<RTYPE>::operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ){

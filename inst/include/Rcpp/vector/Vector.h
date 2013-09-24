@@ -302,6 +302,7 @@ public:
         */
         SEXP x = PROTECT( r_cast<RTYPE>( wrap( first, last ) ) );
         RObject::setSEXP( x) ;
+        update_vector() ;
         UNPROTECT(1) ;
     }
 
@@ -343,19 +344,17 @@ public:
                                typename std::is_same<stored_type,SEXP>() ) ;
     }
 	
-	
+public:
+    
     template <typename T>
-    iterator insert( iterator position, const T& object){
-        return insert__impl( position, converter_type::get(object), 
-                             typename std::is_same<stored_type,SEXP>()
-                             ) ;
-    }
-	
+    iterator insert( iterator position, const T& object) ; 
+    
     template <typename T>
     iterator insert( int position, const T& object){
-        return insert__impl( cache.get() + position, converter_type::get(object), 
-                             typename std::is_same<stored_type,SEXP>()
-                             ); 
+        return insert( 
+            cache.get() + position, 
+            object
+        ); 
     }
 	
     iterator erase( int position){
@@ -457,9 +456,6 @@ private:
 	
     void push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ) ; 
     void push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ) ; 
-	
-    iterator insert__impl( iterator position, const stored_type& object, std::true_type ) ;
-    iterator insert__impl( iterator position, const stored_type& object, std::false_type ) ;
 		
     iterator erase_single__impl( iterator position ) ;
 	
