@@ -271,8 +271,11 @@ namespace Rcpp{
         }
     } ;
 
-#include <Rcpp/module/Module_generated_CppMethod.h>
-#include <Rcpp/module/Module_generated_Pointer_CppMethod.h>
+    #include <Rcpp/module/generated_method_invoke.h>
+    #include <Rcpp/module/generated_void_method_invoke.h>
+    
+    #include <Rcpp/module/CppMethod.h>
+    #include <Rcpp/module/Module_generated_Pointer_CppMethod.h>
 
     template <typename Class>
     class CppProperty {
