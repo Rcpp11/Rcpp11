@@ -56,4 +56,12 @@ inline void signature(std::string& s, const char* name ){
     s += ")" ;
 }
 
+template <typename... Args>
+inline void ctor_signature( std::string& s, const std::string& classname ){
+    s.assign(classname) ;
+    s += "(" ; 
+    SignatureBody<Args...>::process( s ) ;
+    s += ")" ;
+}
+
 #endif

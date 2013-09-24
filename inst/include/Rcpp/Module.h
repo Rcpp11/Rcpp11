@@ -130,7 +130,6 @@ namespace Rcpp{
         ParentMethod* parent_method_pointer ;
     } ;
 
-#include <Rcpp/module/Module_generated_ctor_signature.h>
 #include <Rcpp/module/Module_generated_Constructor.h>
 #include <Rcpp/module/Module_generated_Factory.h>
 
