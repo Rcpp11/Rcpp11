@@ -21,8 +21,6 @@
 #ifndef RCPP_LONG_LONG_H
 #define RCPP_LONG_LONG_H
 
-#if defined(RCPP_HAS_LONG_LONG_TYPES)
-
 namespace Rcpp{
     namespace traits{
 
@@ -38,6 +36,5 @@ namespace Rcpp{
         template <> struct wrap_type_traits<unsigned long long> { typedef wrap_type_primitive_tag wrap_category; } ;
     }
 }
-#endif
 
 #endif
