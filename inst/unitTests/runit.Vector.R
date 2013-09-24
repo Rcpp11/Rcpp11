@@ -600,7 +600,7 @@ test.List.rep.ctor <- function(){
     checkEquals( res, expected, msg = "List rep constructor" )
 }
 
-if( Rcpp:::capabilities()[["initializer lists"]] ){
+if( Rcpp11:::capabilities()[["initializer lists"]] ){
 
 	test.RawVector.initializer.list <- function(){
 		checkEquals( raw_initializer_list(), as.raw(2*0:3), msg = "RawVector( initializer list) " )

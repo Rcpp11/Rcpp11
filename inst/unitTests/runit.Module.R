@@ -19,7 +19,7 @@
 
 .runThisTest <- Sys.getenv("RunAllRcppTests") == "yes"
 
-if( .runThisTest && Rcpp:::capabilities()[["Rcpp modules"]] ) {
+if( .runThisTest && Rcpp11:::capabilities()[["Rcpp modules"]] ) {
 
 .tearDown <- function(){
 	gc()

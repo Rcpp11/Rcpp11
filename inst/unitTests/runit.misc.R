@@ -58,7 +58,7 @@ test.evaluator.ok <- function(){
 }
 
 test.exceptions <- function(){
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 
 	e <- tryCatch(  exceptions_(), "C++Error" = function(e) e )
 	checkTrue( "C++Error" %in% class(e), msg = "exception class C++Error" )
@@ -98,7 +98,7 @@ test.has.iterator <- function(){
 }
 
 test.AreMacrosDefined <- function(){
-    checkTrue( Rcpp:::areMacrosDefined( "__cplusplus" ) )    
+    checkTrue( Rcpp11:::areMacrosDefined( "__cplusplus" ) )    
 }
     
 test.rcout <- function(){

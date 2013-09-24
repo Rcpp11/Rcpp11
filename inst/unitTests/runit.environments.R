@@ -45,7 +45,7 @@ test.environment.get <- function(){
 
 	checkEquals( runit_get( e, "a" ), e$a, msg = "Environment::get()" )
 	checkEquals( runit_get( e, "foobar" ), NULL, msg = "Environment::get()" )
-	checkEquals( runit_get( asNamespace("Rcpp11"), "CxxFlags"), Rcpp:::CxxFlags,
+	checkEquals( runit_get( asNamespace("Rcpp11"), "CxxFlags"), Rcpp11:::CxxFlags,
 		msg = "Environment(namespace)::get() " )
 
 }
@@ -64,13 +64,13 @@ test.environment.exists <- function(){
 test.environment.assign <- function(){
 	e <- new.env( )
 	checkTrue( runit_assign(e, "a", 1:10 ), msg = "Environment::assign" )
-	checkTrue( runit_assign(e, "b", Rcpp:::CxxFlags ), msg = "Environment::assign" )
+	checkTrue( runit_assign(e, "b", Rcpp11:::CxxFlags ), msg = "Environment::assign" )
 	checkEquals( ls(e), c("a", "b"), msg = "Environment::assign, checking names" )
 	checkEquals( e$a, 1:10, msg = "Environment::assign, checking value 1" )
-	checkEquals( e$b, Rcpp:::CxxFlags, msg = "Environment::assign, checking value 2" )
+	checkEquals( e$b, Rcpp11:::CxxFlags, msg = "Environment::assign, checking value 2" )
 
 	lockBinding( "a", e )
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_assign(e, "a", letters ) ; FALSE}, "Rcpp::binding_is_locked" = function(e) TRUE ),
@@ -100,7 +100,7 @@ test.environment.bindingIsActive <- function(){
 	checkTrue( !runit_bindingIsActive(e, "a" ), msg = "Environment::bindingIsActive( non active ) -> false" )
 	checkTrue( runit_bindingIsActive(e, "b" ), msg = "Environment::bindingIsActive( active ) -> true" )
 
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_bindingIsActive(e, "xx" ) ; FALSE}, "Rcpp::no_such_binding" = function(e) TRUE ),
@@ -121,7 +121,7 @@ test.environment.bindingIsLocked <- function(){
 	checkTrue( !runit_bindingIsLocked(e, "a" ), msg = "Environment::bindingIsActive( non active ) -> false" )
 	checkTrue( runit_bindingIsLocked(e, "b" ), msg = "Environment::bindingIsActive( active ) -> true" )
 
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_bindingIsLocked(e, "xx" ) ; FALSE}, "Rcpp::no_such_binding" = function(e) TRUE ),
@@ -147,7 +147,7 @@ test.environment.lockBinding <- function(){
 	runit_lockbinding(e, "b")
 	checkTrue( bindingIsLocked("b", e ), msg = "Environment::lockBinding()" )
 
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_lockbinding(e, "xx" ) ; FALSE}, "Rcpp::no_such_binding" = function(e) TRUE ),
@@ -167,7 +167,7 @@ test.environment.unlockBinding <- function(){
 	runit_unlockbinding(e, "b")
 	checkTrue( !bindingIsLocked("b", e ), msg = "Environment::lockBinding()" )
 
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_unlockbinding(e, "xx" ) ; FALSE}, "Rcpp::no_such_binding" = function(e) TRUE ),
@@ -198,7 +198,7 @@ test.environment.empty.env <- function(){
 test.environment.namespace.env <- function(){
 	checkEquals( runit_namespace("Rcpp11"), asNamespace("Rcpp11"), msg = "REnvironment::base_namespace" )
 
-	can.demangle <- Rcpp:::capabilities()[["demangling"]]
+	can.demangle <- Rcpp11:::capabilities()[["demangling"]]
 	if( can.demangle ){
 		checkTrue(
 			tryCatch( { runit_namespace("----" ) ; FALSE}, "Rcpp::no_such_namespace" = function(e) TRUE ),
