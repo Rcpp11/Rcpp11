@@ -23,11 +23,6 @@
 #include <Rcpp/traits/is_wide_string.h>
 #include <Rcpp/traits/char_type.h>
 #include <Rcpp/traits/named_object.h>
-#include <Rcpp/traits/has_iterator.h>
-#include <Rcpp/traits/expands_to_logical.h>
-#include <Rcpp/traits/matrix_interface.h>
-#include <Rcpp/traits/is_sugar_expression.h>
-#include <Rcpp/traits/is_eigen_base.h>
 #include <Rcpp/traits/has_na.h>
 #include <Rcpp/traits/storage_type.h>
 #include <Rcpp/traits/r_sexptype_traits.h>
@@ -49,6 +44,8 @@
 #include <Rcpp/traits/remove_const_and_reference.h>
 #include <Rcpp/traits/is_module_object.h>
 #include <Rcpp/traits/is_primitive.h>
+#include <Rcpp/traits/expands_to_logical_impl.h>
+#include <Rcpp/traits/sfinae.h>
 
 #endif
 

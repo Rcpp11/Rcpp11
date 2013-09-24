@@ -1,7 +1,3 @@
-//
-// is_eigen_base.h:  
-//
-// Copyright (C) 2011 Doug Bates, Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
@@ -19,29 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__traits__is_eigen_base_h
-#define Rcpp__traits__is_eigen_base_h
+#ifndef Rcpp__traits__expands_to_logical_impl__h
+#define Rcpp__traits__expands_to_logical_impl__h
 
 namespace Rcpp{
 namespace traits{
 
-	template<typename T>
-	class _is_eigen_helper : __sfinae_types {
-      template<typename U> struct _Wrap_type { };
+	template <int RTYPE>
+	struct expands_to_logical__impl{} ;
 
-      template<typename U>
-        static __one __test(_Wrap_type<typename U::StorageKind>*);
-
-      template<typename U>
-        static __two __test(...);
-
-    public:
-      static const bool value = sizeof(__test<T>(0)) == 1;
-    };
-  
-  template<typename T> struct is_eigen_base : 
-  	std::integral_constant<bool, _is_eigen_helper<T>::value >{ };
+	template <>
+	struct expands_to_logical__impl<LGLSXP> {
+		struct r_expands_to_logical{}; 
+	} ;
 
 }
 }
+
 #endif
+
