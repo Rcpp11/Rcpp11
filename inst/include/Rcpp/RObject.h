@@ -50,6 +50,8 @@ namespace Rcpp{
          */
         RObject( const RObject& other ) ;
 
+        RObject( RObject&& other ) ;
+        
         /**
          * Assignment operator. set this SEXP to the SEXP of the copied object
          */

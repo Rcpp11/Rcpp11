@@ -25,6 +25,7 @@
 #define Rcpp_lang1 Rf_lang1
 
 inline SEXP Rcpp_lcons(SEXP car, SEXP cdr){
+    RCPP_DEBUG_2( "Rcpp_lcons( car = <%p>, cdr = <%p> )", car, cdr )
     PROTECT(car) ;
     car = Rf_lcons( car, cdr ) ; 
     UNPROTECT(1) ;

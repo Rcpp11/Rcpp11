@@ -1276,6 +1276,7 @@ namespace attributes {
         // get basename of source file for warning message
         Rcpp::Function basename = Rcpp::Environment::base_env()["basename"];
         std::string file = Rcpp::as<std::string>(basename(sourceFile_));
+        RCPP_DEBUG_1( "file = '%s'", file.c_str() )
         
         std::ostringstream ostr;
         ostr << message;
@@ -2365,7 +2366,7 @@ namespace {
                     
             // record the base name of the source file
             Rcpp::Function basename = Rcpp::Environment::base_env()["basename"];
-            Rf_PrintValue( basename ) ;
+            RCPP_DEBUG_0(" basename" )
             cppSourceFilename_ = Rcpp::as<std::string>(basename(cppSourcePath_));
             RCPP_DEBUG_1(" cppSourceFilename_ = %s", cppSourceFilename_.c_str() )
             
@@ -2688,9 +2689,7 @@ BEGIN_RCPP
     std::string file = Rcpp::as<std::string>(sFile);
     RCPP_DEBUG_1( "  file = %s", file.c_str() ) 
     std::string code = sCode != R_NilValue ? Rcpp::as<std::string>(sCode) : "";
-    RCPP_DEBUG_1( "  code = %s", code.c_str() ) 
     bool rebuild = Rcpp::as<bool>(sRebuild);
-    RCPP_DEBUG_1( "  code = %s", (rebuild ? "true" : "false" ) ) 
     Rcpp::List platform(sPlatform);
     
     // get dynlib (using cache if possible)

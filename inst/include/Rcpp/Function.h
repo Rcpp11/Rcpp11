@@ -2,6 +2,7 @@
 // Function.h:  functions (also primitives and builtins)
 //
 // Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013  Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -52,14 +53,6 @@ namespace Rcpp{
         Function(const Function& other) ;
         Function& operator=(const Function& other );
         
-        // /**
-        //  * Finds a function, searching from a specific environment
-        //  *
-        //  * @param name name of the function
-        //  * @param env environment where to find it
-        //  */
-        // Function(const std::string& name, SEXP env ) ;
-        
         /**
          * calls the function with the specified arguments
          *
@@ -70,7 +63,12 @@ namespace Rcpp{
          */
         template<typename... Args> 
         SEXP operator()( const Args&... args) const {
-            return internal::try_catch( Rf_lang2( m_sexp, pairlist(args...) ) ) ;
+            RCPP_DEBUG_1( "Function::operator(...) nargs = %d", sizeof...(args)  )
+            SEXP call = PROTECT( Rcpp_lcons( m_sexp, pairlist(args...) ) ) ;
+            SEXP res  = PROTECT( internal::try_catch( call ) ) ;
+            RCPP_DEBUG_1( "res = <%p>", res  )
+            UNPROTECT(2) ;
+            return res ;
         }
         
         /**

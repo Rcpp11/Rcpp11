@@ -38,7 +38,9 @@ namespace Rcpp{
     #define RCPP_DEBUG_2( fmt, M1, M2 ) Rprintf( "%50s:%4d   " fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2 ) ; 
     #define RCPP_DEBUG_3( fmt, M1, M2, M3 ) Rprintf( "%50s:%4d   " fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2, M3) ;  
     #define RCPP_DEBUG_4( fmt, M1, M2, M3, M4 ) Rprintf( "%50s:%4d   " fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2, M3, M4) ;  
-    #define RCPP_DEBUG_5( fmt, M1, M2, M3, M4, M5 ) Rprintf( "%50s:%4d   " fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2, M3, M4, M5) ;  
+    #define RCPP_DEBUG_5( fmt, M1, M2, M3, M4, M5 ) Rprintf( "%50s:%4d   " fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2, M3, M4, M5) ;
+    #define RCPP_DEBUG_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( "str"), OBJ ), R_GlobalEnv ) ) ;
+    #define RCPP_INSPECT_OBJECT(OBJ) Rf_PrintValue( Rf_eval( Rf_lang2( Rf_install( ".Internal"), Rf_lang2( Rf_install( "inspect" ), OBJ ) ), R_GlobalEnv ) ) ;
 #else
     #define RCPP_DEBUG( MSG )
     #define RCPP_DEBUG_1( fmt, MSG )
@@ -46,6 +48,8 @@ namespace Rcpp{
     #define RCPP_DEBUG_3( fmt, M1, M2, M3 )
     #define RCPP_DEBUG_4( fmt, M1, M2, M3, M4 )
     #define RCPP_DEBUG_5( fmt, M1, M2, M3, M4, M5 )
+    #define RCPP_DEBUG_OBJECT(OBJ)
+    #define RCPP_INSPECT_OBJECT(OBJ)
 #endif
     #define RCPP_DEBUG_0(MSG) RCPP_DEBUG(MSG)
 #endif

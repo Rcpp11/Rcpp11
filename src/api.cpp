@@ -257,6 +257,12 @@ namespace Rcpp {
     /* copy constructor */
     RObject::RObject( const RObject& other ) : m_sexp( Rcpp_PreserveObject(other.asSexp() ) ) {}
 
+    RObject::RObject( RObject&& other ) : m_sexp( other.asSexp() ) {
+        RCPP_DEBUG( "RObject::RObject( RObject&& )" ) ;
+        other.m_sexp = R_NilValue ;
+    }
+
+    
     RObject& RObject::operator=( const RObject& other){
         setSEXP( other.asSexp() ) ; 
         return *this ;
@@ -367,12 +373,12 @@ namespace Rcpp {
     // }}}
   
     // {{{ Function
-    Function::Function(SEXP x) : RObject( ){
+    Function::Function(SEXP x) : RObject(x){
+        RCPP_DEBUG_1( "Function::Function(SEXP = <%p>)", x)
         switch( TYPEOF(x) ){
         case CLOSXP:
         case SPECIALSXP:
         case BUILTINSXP:
-            setSEXP(x); 
             break; 
         default:
             throw not_compatible("cannot convert to function") ;
@@ -387,7 +393,7 @@ namespace Rcpp {
     }
 	
     Function::Function(const Function& other) : RObject( other.asSexp() ){}
-	
+    
     Function& Function::operator=(const Function& other){
         setSEXP( other.asSexp() );
         return *this ;
@@ -923,6 +929,7 @@ namespace Rcpp {
     Environment::Environment() : RObject(R_GlobalEnv){}
 
     Environment::Environment(SEXP x) : RObject(x){
+        RCPP_DEBUG_1( "Environment::Environment( SEXP = %p)", x ) ;
         if( ! Rf_isEnvironment(x) ) {
             /* not an environment, but maybe convertible to one using as.environment, try that */
             SEXP res ;
@@ -1435,6 +1442,7 @@ namespace internal{
     }
     
     SEXP try_catch( SEXP expr, SEXP env ) {
+        RCPP_DEBUG_2( "try_catch( expr = <%p>, env = <%p>", expr, env )
         return Evaluator::run(expr, env) ;
     }
     SEXP try_catch( SEXP expr ) {
