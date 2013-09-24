@@ -76,9 +76,9 @@ namespace Rcpp{
         }
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_generic_tag ) {
-            RCPP_DEBUG_1( "as(SEXP = <%p>, r_type_generic_tag )", x ) ;
+            RCPP_DEBUG( "as(SEXP = <%p>, r_type_generic_tag )", x ) ;
             ::Rcpp::traits::Exporter<T> exporter(x);
-            RCPP_DEBUG_1( "exporter type = %s", DEMANGLE(exporter) ) ;
+            RCPP_DEBUG( "exporter type = %s", DEMANGLE(exporter) ) ;
             return exporter.get() ;
         }
         

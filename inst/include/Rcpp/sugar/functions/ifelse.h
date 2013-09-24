@@ -47,8 +47,6 @@ public:
 	IfElse( const COND_TYPE& cond_, const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
 		cond(cond_), lhs(lhs_.get_ref()), rhs(rhs_.get_ref()) {
 			/* FIXME : cond, lhs and rhs must all have the same size */
-			
-		RCPP_DEBUG( DEMANGLE(IfElse) ) ;	
 	}
 	
 	inline STORAGE operator[]( int i ) const {

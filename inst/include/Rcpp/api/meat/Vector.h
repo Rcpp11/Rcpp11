@@ -32,12 +32,12 @@ namespace Rcpp{
     
     template <int RTYPE>
     Vector<RTYPE>::~Vector(){
-         RCPP_DEBUG_1( "~Vector(<%p>)", m_sexp )   
+         RCPP_DEBUG( "~Vector(<%p>)", m_sexp )   
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Vector& other) : RObject(other.asSexp()){
-        RCPP_DEBUG_2( "Vector<%d>( const Vector& other ), SEXP= <%p>", RTYPE, m_sexp )
+        RCPP_DEBUG( "Vector<%d>( const Vector& other ), SEXP= <%p>", RTYPE, m_sexp )
         update_vector() ;
     }
     
@@ -49,14 +49,14 @@ namespace Rcpp{
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const int& size ) : RObject( Rf_allocVector( RTYPE, size) )  {
-    	RCPP_DEBUG_3( "Vector<%d>( int = %d )   m_sexp = <%p> ", RTYPE, size, m_sexp )
+    	RCPP_DEBUG( "Vector<%d>( int = %d )   m_sexp = <%p> ", RTYPE, size, m_sexp )
     	update_vector(); 
     	init() ;
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Dimension& dims ) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ){
-        RCPP_DEBUG_3( "Vector<%s>( const Dimension& (%d) )   m_sexp = <%p>", sexp_to_name(RTYPE), dims.size(), m_sexp )
+        RCPP_DEBUG( "Vector<%s>( const Dimension& (%d) )   m_sexp = <%p>", sexp_to_name(RTYPE), dims.size(), m_sexp )
         update_vector();
         init() ;
         if( dims.size() > 1 ){
@@ -67,7 +67,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const Dimension& dims, const U& u) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ) {
-        RCPP_DEBUG_2( "Vector<%d>( const Dimension& (%d), const U& )", RTYPE, dims.size() )
+        RCPP_DEBUG( "Vector<%d>( const Dimension& (%d), const U& )", RTYPE, dims.size() )
         update_vector(); 
         fill(u) ;
         if( dims.size() > 1 ){
@@ -78,7 +78,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const int& size, const U& u): RObject( Rf_allocVector( RTYPE, size) ) {
-        RCPP_DEBUG_2( "Vector<%d>( const int& size, const U& u )", RTYPE, size )
+        RCPP_DEBUG( "Vector<%d>( const int& size, const U& u )", RTYPE, size )
         update_vector() ;
         fill_or_generate( u ) ;	
     }
@@ -87,7 +87,7 @@ namespace Rcpp{
     template <typename U1>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1), const U1& u1) : RObject( Rf_allocVector( RTYPE, siz) ) {
         update_vector();
-        RCPP_DEBUG_2( "const int& siz, stored_type (*gen)(U1), const U1& u1 )", RTYPE, siz )
+        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1), const U1& u1 )", RTYPE, siz )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1) ;
     }
@@ -96,7 +96,7 @@ namespace Rcpp{
     template <typename U1, typename U2>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2) : RObject(Rf_allocVector( RTYPE, siz)){
         update_vector();
-        RCPP_DEBUG_2( "const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2)", RTYPE, siz )
+        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2)", RTYPE, siz )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1,u2) ;
     }
@@ -105,7 +105,7 @@ namespace Rcpp{
     template <typename U1, typename U2, typename U3>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3): RObject(  Rf_allocVector( RTYPE, siz) ){
         update_vector() ;
-        RCPP_DEBUG_2( "const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3)", RTYPE, siz )
+        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3)", RTYPE, siz )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1,u2,u3) ;
     }
@@ -113,7 +113,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last) : RObject( Rf_allocVector(RTYPE, std::distance(first, last) ) ){
-        RCPP_DEBUG_1( "Vector<%d>( InputIterator first, InputIterator last", RTYPE )
+        RCPP_DEBUG( "Vector<%d>( InputIterator first, InputIterator last", RTYPE )
         update_vector();
         std::copy( first, last, begin() ) ; 
     }
@@ -122,7 +122,7 @@ namespace Rcpp{
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, int n) : RObject( Rf_allocVector(RTYPE, n) ){
         update_vector() ;
-        RCPP_DEBUG_2( "Vector<%d>( InputIterator first, InputIterator last, int n = %d)", RTYPE, n )
+        RCPP_DEBUG( "Vector<%d>( InputIterator first, InputIterator last, int n = %d)", RTYPE, n )
         std::copy( first, last, begin() ) ; 
     }
 
@@ -130,7 +130,7 @@ namespace Rcpp{
     template <typename InputIterator, typename Func>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func) : RObject( Rf_allocVector( RTYPE, std::distance(first,last) ) ){
         update_vector() ;
-        RCPP_DEBUG_1( "Vector<%d>( InputIterator, InputIterator, Func )", RTYPE )
+        RCPP_DEBUG( "Vector<%d>( InputIterator, InputIterator, Func )", RTYPE )
         std::transform( first, last, begin(), func) ;
     }
     
@@ -138,7 +138,7 @@ namespace Rcpp{
     template <typename InputIterator, typename Func>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func, int n) : RObject( Rf_allocVector( RTYPE, n ) ){
         update_vector();
-        RCPP_DEBUG_2( "Vector<%d>( InputIterator, InputIterator, Func, int n = %d )", RTYPE, n )
+        RCPP_DEBUG( "Vector<%d>( InputIterator, InputIterator, Func, int n = %d )", RTYPE, n )
         std::transform( first, last, begin(), func) ;
     }
           
@@ -146,7 +146,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <bool NA, typename VEC>
     Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) : RObject() {
-        RCPP_DEBUG_2( "Vector<%d>( const VectorBase<RTYPE,NA,VEC>& ) [VEC = %s]", RTYPE, DEMANGLE(VEC) )
+        RCPP_DEBUG( "Vector<%d>( const VectorBase<RTYPE,NA,VEC>& ) [VEC = %s]", RTYPE, DEMANGLE(VEC) )
         import_sugar_expression( other, typename std::is_same<Vector,VEC>::type() ) ;
     }
     
@@ -154,7 +154,7 @@ namespace Rcpp{
     template <bool NA, typename T>
     Vector<RTYPE>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) : RObject( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) ) {
         update_vector() ;
-        RCPP_DEBUG_2( "Vector<%d>( const sugar::SingleLogicalResult<NA,T>& ) [T = %s]", RTYPE, DEMANGLE(T) )
+        RCPP_DEBUG( "Vector<%d>( const sugar::SingleLogicalResult<NA,T>& ) [T = %s]", RTYPE, DEMANGLE(T) )
     }
     
     
@@ -196,7 +196,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <bool NA, typename VEC>
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
-        RCPP_DEBUG_4( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, false_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
+        RCPP_DEBUG( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, false_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
     	int n = other.size() ;
     	set_sexp( Rf_allocVector( RTYPE, n ) ) ;
     	import_expression<VEC>( other.get_ref() , n ) ;
@@ -205,7 +205,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <bool NA, typename VEC>
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
-        RCPP_DEBUG_4( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, true_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
+        RCPP_DEBUG( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, true_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
     	set_sexp( other.get_ref() ) ;
     }   
 
@@ -724,7 +724,7 @@ namespace Rcpp{
     
         template <typename T>
         inline SEXP wrap_range_sugar_expression( const T& object, std::true_type) {
-        	RCPP_DEBUG_1( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
+        	RCPP_DEBUG( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
         	const int RTYPE = T::r_type::value ;
         	return Rcpp::Vector<RTYPE>(object) ;
         }

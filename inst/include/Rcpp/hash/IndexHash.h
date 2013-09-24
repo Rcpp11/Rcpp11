@@ -160,7 +160,7 @@ namespace Rcpp{
         
         
         bool add_value(int i){
-            RCPP_DEBUG_2( "%s::add_value(%d)", DEMANGLE(IndexHash), i )
+            RCPP_DEBUG( "%s::add_value(%d)", DEMANGLE(IndexHash), i )
             STORAGE val = src[i++] ;
             int addr = get_addr(val) ;
             while (data[addr] && src[data[addr] - 1] != val) {

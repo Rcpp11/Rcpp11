@@ -45,7 +45,7 @@ namespace internal {
 		template <typename T>
 		static SEXP get( const T& input){
 			std::string out(input) ;
-			RCPP_DEBUG_1( "string_element_converter::get< T = %s >()", DEMANGLE(T) )
+			RCPP_DEBUG( "string_element_converter::get< T = %s >()", DEMANGLE(T) )
 			return Rf_mkChar( out.c_str() ) ;
 		}
 		

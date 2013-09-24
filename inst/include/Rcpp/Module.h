@@ -230,7 +230,7 @@ namespace Rcpp{
         
         // FIXME: is class_xp protected ?
         S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp, const char* name, std::string& buffer ) : Reference( "C++OverloadedMethods" ){
-            RCPP_DEBUG_2( "S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp = <%p>, const char* name = %s, std::string& buffer )", name, class_xp.asSexp() )
+            RCPP_DEBUG( "S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp = <%p>, const char* name = %s, std::string& buffer )", name, class_xp.asSexp() )
             #if RCPP_DEBUG_LEVEL > 0
                 Rf_PrintValue( class_xp ) ;
             #endif

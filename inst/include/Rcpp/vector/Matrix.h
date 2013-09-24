@@ -107,7 +107,7 @@ private:
     inline int offset( int i, int j) const { return i + nrows * j ; }
     
     void update_matrix(){
-        RCPP_DEBUG_1( "%s::update_matrix", DEMANGLE(Matrix) ) ;
+        RCPP_DEBUG( "%s::update_matrix", DEMANGLE(Matrix) ) ;
         VECTOR::update_vector() ;
     }
     

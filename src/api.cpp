@@ -49,7 +49,7 @@ namespace Rcpp {
         if( x != R_NilValue ){
             init_ProtectionStack();
             int top = GET_TOP() ;
-            RCPP_DEBUG_2( "Rcpp_PreserveObject( <%p>), top = %d", x, top )
+            RCPP_DEBUG( "Rcpp_PreserveObject( <%p>), top = %d", x, top )
             top++ ; 
             // RCPP_PROTECTION_STACK_PTR[top] = x ;
             set_vector_elt( RCPP_PROTECTION_STACK, top, x ) ;
@@ -71,7 +71,7 @@ namespace Rcpp {
             init_ProtectionStack();
             
             int top = GET_TOP();
-            RCPP_DEBUG_2( "Rcpp_ReleaseObject( <%p>),  top = %d )", x, top )
+            RCPP_DEBUG( "Rcpp_ReleaseObject( <%p>),  top = %d )", x, top )
         
             if( x == RCPP_PROTECTION_STACK_PTR[top] ) {
                 RCPP_PROTECTION_STACK_PTR[top] = R_NilValue ;
@@ -93,7 +93,7 @@ namespace Rcpp {
                     }
                 }
                 #if RCPP_DEBUG_LEVEL > 0
-                if( i < 0 ) RCPP_DEBUG_2( "!!!! STACK ERROR, did not find SEXP <%p> (i=%d)", x, i ) ;
+                if( i < 0 ) RCPP_DEBUG( "!!!! STACK ERROR, did not find SEXP <%p> (i=%d)", x, i ) ;
                 #endif  
             }
             #if RCPP_DEBUG_LEVEL > 1 
@@ -117,7 +117,7 @@ namespace Rcpp {
             init_ProtectionStack();
             
             int top = GET_TOP(); 
-            RCPP_DEBUG_3( "Rcpp_ReplaceObject( <%p> , <%p> ),  top = %d )", x, y, top )
+            RCPP_DEBUG( "Rcpp_ReplaceObject( <%p> , <%p> ),  top = %d )", x, y, top )
             int i = top ;
             for( ; i>= 0; i--){
                 if( x == RCPP_PROTECTION_STACK_PTR[i] ){
@@ -126,7 +126,7 @@ namespace Rcpp {
                 }
             }
             #if RCPP_DEBUG_LEVEL > 0
-            if( i < 0 ) RCPP_DEBUG_1( "STACK ERROR, did not find SEXP <%p>", x ) ;
+            if( i < 0 ) RCPP_DEBUG( "STACK ERROR, did not find SEXP <%p>", x ) ;
             #endif
             
             #if RCPP_DEBUG_LEVEL > 1 
@@ -200,6 +200,7 @@ namespace Rcpp {
     
     // {{{ Evaluator
     SEXP Evaluator::run(SEXP expr, SEXP env) {
+        RCPP_DEBUG( "Evaluator::run( expr = <%p>, env = <%p> )", expr, env ) 
         PROTECT(expr);
 
         reset_current_error() ; 
@@ -244,7 +245,7 @@ namespace Rcpp {
     
     // {{{ RObject
     void RObject::setSEXP(SEXP x){
-        RCPP_DEBUG_2( "RObject::setSEXP(SEXP = <%p>, TYPEOF=%s )", x, sexp_to_name(TYPEOF(x)) ) 
+        RCPP_DEBUG( "RObject::setSEXP(SEXP = <%p>, TYPEOF=%s )", x, sexp_to_name(TYPEOF(x)) ) 
     
         // replace the currently protected SEXP by the new one
         m_sexp = Rcpp_ReplaceObject(m_sexp, x) ;
@@ -274,7 +275,7 @@ namespace Rcpp {
     }
 
     RObject::~RObject() {
-        RCPP_DEBUG_1("~RObject(<%p>)", m_sexp)
+        RCPP_DEBUG("~RObject(<%p>)", m_sexp)
         Rcpp_ReleaseObject(m_sexp) ;
     }
 
@@ -339,9 +340,9 @@ namespace Rcpp {
     void RObject::AttributeProxy::set(SEXP x) const{
         SEXP attrnameSym = Rf_install( attr_name.c_str() ); // cannot be gc()'ed  once in symbol table
 #if RCPP_DEBUG_LEVEL > 0
-        RCPP_DEBUG_1( "RObject::AttributeProxy::set() before = <%p>", parent.asSexp() ) ;
+        RCPP_DEBUG( "RObject::AttributeProxy::set() before = <%p>", parent.asSexp() ) ;
         SEXP res = Rf_setAttrib( parent, attrnameSym, x ) ;
-        RCPP_DEBUG_1( "RObject::AttributeProxy::set() after  = <%p>", res ) ;
+        RCPP_DEBUG( "RObject::AttributeProxy::set() after  = <%p>", res ) ;
 #else
         Rf_setAttrib( parent, attrnameSym, x ) ;
 #endif
@@ -374,7 +375,7 @@ namespace Rcpp {
   
     // {{{ Function
     Function::Function(SEXP x) : RObject(x){
-        RCPP_DEBUG_1( "Function::Function(SEXP = <%p>)", x)
+        RCPP_DEBUG( "Function::Function(SEXP = <%p>)", x)
         switch( TYPEOF(x) ){
         case CLOSXP:
         case SPECIALSXP:
@@ -929,7 +930,7 @@ namespace Rcpp {
     Environment::Environment() : RObject(R_GlobalEnv){}
 
     Environment::Environment(SEXP x) : RObject(x){
-        RCPP_DEBUG_1( "Environment::Environment( SEXP = %p)", x ) ;
+        RCPP_DEBUG( "Environment::Environment( SEXP = %p)", x ) ;
         if( ! Rf_isEnvironment(x) ) {
             /* not an environment, but maybe convertible to one using as.environment, try that */
             SEXP res ;
@@ -1379,23 +1380,23 @@ namespace Rcpp{
 namespace internal{
 
 	template<> int* r_vector_start<INTSXP>(SEXP x){ 
-	    RCPP_DEBUG_1( "r_vector_start<INTSXP>( SEXP = %p )", x )
+	    RCPP_DEBUG( "r_vector_start<INTSXP>( SEXP = %p )", x )
 	    return INTEGER(x) ; 
 	}
 	template<> int* r_vector_start<LGLSXP>(SEXP x){ 
-	    RCPP_DEBUG_1( "r_vector_start<LGLSXP>( SEXP = %p )", x )
+	    RCPP_DEBUG( "r_vector_start<LGLSXP>( SEXP = %p )", x )
 	    return LOGICAL(x) ;
 	}
 	template<> double* r_vector_start<REALSXP>(SEXP x){ 
-	    RCPP_DEBUG_1( "r_vector_start<REALSXP>( SEXP = %p )", x )
+	    RCPP_DEBUG( "r_vector_start<REALSXP>( SEXP = %p )", x )
 	    return REAL(x) ;
 	}
 	template<> Rbyte* r_vector_start<RAWSXP>(SEXP x){ 
-	    RCPP_DEBUG_1( "r_vector_start<RAWSXP>( SEXP = %p )", x )
+	    RCPP_DEBUG( "r_vector_start<RAWSXP>( SEXP = %p )", x )
 	    return RAW(x) ;
 	}
 	template<> Rcomplex* r_vector_start<CPLXSXP>(SEXP x){ 
-	    RCPP_DEBUG_1( "r_vector_start<CPLXSXP>( SEXP = %p )", x )
+	    RCPP_DEBUG( "r_vector_start<CPLXSXP>( SEXP = %p )", x )
 	    return COMPLEX(x) ;
 	}
 	
@@ -1442,10 +1443,11 @@ namespace internal{
     }
     
     SEXP try_catch( SEXP expr, SEXP env ) {
-        RCPP_DEBUG_2( "try_catch( expr = <%p>, env = <%p>", expr, env )
+        RCPP_DEBUG( "try_catch( expr = <%p>, env = <%p> )", expr, env )
         return Evaluator::run(expr, env) ;
     }
     SEXP try_catch( SEXP expr ) {
+        RCPP_DEBUG( "try_catch( expr = <%p> )", expr )
         return Evaluator::run(expr) ;
     }
     

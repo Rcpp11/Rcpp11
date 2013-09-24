@@ -1276,7 +1276,7 @@ namespace attributes {
         // get basename of source file for warning message
         Rcpp::Function basename = Rcpp::Environment::base_env()["basename"];
         std::string file = Rcpp::as<std::string>(basename(sourceFile_));
-        RCPP_DEBUG_1( "file = '%s'", file.c_str() )
+        RCPP_DEBUG( "file = '%s'", file.c_str() )
         
         std::ostringstream ostr;
         ostr << message;
@@ -2357,7 +2357,7 @@ namespace {
             :  cppSourcePath_(cppSourcePath)
                
         {
-            RCPP_DEBUG_1(" SourceCppDynlib::SourceCppDynlib( %s )", cppSourcePath.c_str() )
+            RCPP_DEBUG(" SourceCppDynlib::SourceCppDynlib( %s )", cppSourcePath.c_str() )
             
             // get cpp source file info 
             FileInfo cppSourceFilenameInfo(cppSourcePath_);
@@ -2366,15 +2366,15 @@ namespace {
                     
             // record the base name of the source file
             Rcpp::Function basename = Rcpp::Environment::base_env()["basename"];
-            RCPP_DEBUG_0(" basename" )
+            RCPP_DEBUG(" basename" )
             cppSourceFilename_ = Rcpp::as<std::string>(basename(cppSourcePath_));
-            RCPP_DEBUG_1(" cppSourceFilename_ = %s", cppSourceFilename_.c_str() )
+            RCPP_DEBUG(" cppSourceFilename_ = %s", cppSourceFilename_.c_str() )
             
             // get platform info
             fileSep_ = Rcpp::as<std::string>(platform["file.sep"]);
-            RCPP_DEBUG_1(" cppSourceFilename_ = %s", fileSep_.c_str() )
+            RCPP_DEBUG(" cppSourceFilename_ = %s", fileSep_.c_str() )
             dynlibExt_ = Rcpp::as<std::string>(platform["dynlib.ext"]);
-            RCPP_DEBUG_1(" cppSourceFilename_ = %s", dynlibExt_.c_str() )
+            RCPP_DEBUG(" cppSourceFilename_ = %s", dynlibExt_.c_str() )
             
             // generate temp directory 
             Rcpp::Function tempfile = Rcpp::Environment::base_env()["tempfile"];
@@ -2659,7 +2659,7 @@ namespace {
         SourceCppDynlib* lookupByCode(const std::string& code) {
             RCPP_DEBUG( "lookupByCode" )
             for (std::size_t i = 0; i < entries_.size(); i++) {
-                RCPP_DEBUG_1( " --- lookupByCode, i = %d", i )
+                RCPP_DEBUG( " --- lookupByCode, i = %d", i )
                 if (entries_[i].code == code)
                     return &(entries_[i].dynlib);
             }
@@ -2687,7 +2687,7 @@ BEGIN_RCPP
     RCPP_DEBUG( "<sourceCppContext>" ) 
     // parameters
     std::string file = Rcpp::as<std::string>(sFile);
-    RCPP_DEBUG_1( "  file = %s", file.c_str() ) 
+    RCPP_DEBUG( "  file = %s", file.c_str() ) 
     std::string code = sCode != R_NilValue ? Rcpp::as<std::string>(sCode) : "";
     bool rebuild = Rcpp::as<bool>(sRebuild);
     Rcpp::List platform(sPlatform);
@@ -2696,7 +2696,7 @@ BEGIN_RCPP
     static SourceCppDynlibCache s_dynlibCache;
     SourceCppDynlib* pDynlib = !code.empty() ? s_dynlibCache.lookupByCode(code) : s_dynlibCache.lookupByFile(file);
    
-    RCPP_DEBUG_1( "pDynLib = <%p>", pDynlib )
+    RCPP_DEBUG( "pDynLib = <%p>", pDynlib )
     
     // check dynlib build state
     bool buildRequired = false;

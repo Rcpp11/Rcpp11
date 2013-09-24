@@ -214,7 +214,7 @@
         
         
         self& AddMethod( const char* name_, method_class* m, ValidMethod valid = &yes, const char* docstring = 0){
-            RCPP_DEBUG_1( "AddMethod( %s, method_class* m, ValidMethod valid = &yes, const char* docstring = 0", name_ )
+            RCPP_DEBUG( "AddMethod( %s, method_class* m, ValidMethod valid = &yes, const char* docstring = 0", name_ )
             typename map_vec_signed_method::iterator it = class_pointer->vec_methods.find( name_ ) ; 
             if( it == class_pointer->vec_methods.end() ){
                 it = class_pointer->vec_methods.insert( vec_signed_method_pair( name_, new vec_signed_method() ) ).first ;

@@ -65,34 +65,34 @@ public:
     // we can't define these 3 in meat for some reason
     // maybe because of the typedef in instantiation.h
     Vector( SEXP x ) : RObject( r_cast<RTYPE>( x ) ) {
-    	RCPP_DEBUG_2( "Vector<%d>( SEXP = <%p> )", RTYPE, x)
+    	RCPP_DEBUG( "Vector<%d>( SEXP = <%p> )", RTYPE, x)
     	update_vector() ;
     }
     Vector( const RObject::SlotProxy& proxy ) : RObject( r_cast<RTYPE>( (SEXP)proxy ) ) {
-       RCPP_DEBUG_2( "Vector<%d>( const RObject::SlotProxy& proxy = <%p> )", RTYPE, m_sexp)
+       RCPP_DEBUG( "Vector<%d>( const RObject::SlotProxy& proxy = <%p> )", RTYPE, m_sexp)
        update_vector() ;
     }
     
     Vector( const RObject::AttributeProxy& proxy ) : RObject( r_cast<RTYPE>( (SEXP)proxy ) ) {
-       RCPP_DEBUG_2( "Vector<%d>( const RObject::AttributeProxy& proxy = <%p> )", RTYPE, m_sexp)
+       RCPP_DEBUG( "Vector<%d>( const RObject::AttributeProxy& proxy = <%p> )", RTYPE, m_sexp)
        update_vector() ;
     }
     Vector( const int& size, const stored_type& u ) : RObject( Rf_allocVector( RTYPE, size) ) {
-        RCPP_DEBUG_2( "Vector<%d>( const int& size = %d, const stored_type& u )", RTYPE, size)
+        RCPP_DEBUG( "Vector<%d>( const int& size = %d, const stored_type& u )", RTYPE, size)
         update_vector() ;
         fill( u ) ;
     }
     Vector( const std::string& st ) : RObject( internal::vector_from_string<RTYPE>(st) ){
-        RCPP_DEBUG_2( "Vector<%d>( const std::string& = %s )", RTYPE, st.c_str() )
+        RCPP_DEBUG( "Vector<%d>( const std::string& = %s )", RTYPE, st.c_str() )
         update_vector();
     }
     Vector( const char* st ) : RObject( internal::vector_from_string<RTYPE>(st) ){
-        RCPP_DEBUG_2( "Vector<%d>( const char* = %s )", RTYPE, st )
+        RCPP_DEBUG( "Vector<%d>( const char* = %s )", RTYPE, st )
         update_vector();
     }
 	
     Vector( const int& siz, stored_type (*gen)(void) ) : RObject(Rf_allocVector( RTYPE, siz)) {
-        RCPP_DEBUG_2( "Vector<%d>( const int& siz = %s, stored_type (*gen)(void) )", RTYPE, siz )
+        RCPP_DEBUG( "Vector<%d>( const int& siz = %s, stored_type (*gen)(void) )", RTYPE, siz )
         update_vector() ;
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen() ;
@@ -376,13 +376,13 @@ public:
     }
 	
     void update_vector(){
-        RCPP_DEBUG_2(  "update_vector( VECTOR = %s, SEXP = < %p > )", DEMANGLE(Vector), reinterpret_cast<void*>( RObject::asSexp() ) )
+        RCPP_DEBUG(  "update_vector( VECTOR = %s, SEXP = < %p > )", DEMANGLE(Vector), reinterpret_cast<void*>( RObject::asSexp() ) )
         cache.update(*this) ;
     }
 		
     template <typename U>
     static void replace_element( iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_2( "Vector<%d>::replace_element<%s>", RTYPE, DEMANGLE(U) )
+        RCPP_DEBUG( "Vector<%d>::replace_element<%s>", RTYPE, DEMANGLE(U) )
         replace_element__dispatch( typename traits::is_named<U>::type(), it, names, index, u ) ;
     }
 	
@@ -398,7 +398,7 @@ public:
 
     template <typename U>
     static void replace_element__dispatch__isArgument( std::false_type, iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_2( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
+        RCPP_DEBUG( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
 		
         *it = converter_type::get(u.object ) ;
         SET_STRING_ELT( names, index, ::Rf_mkChar( u.name.c_str() ) ) ;
@@ -406,7 +406,7 @@ public:
 	
     template <typename U>
     static void replace_element__dispatch__isArgument( std::true_type, iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_2( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
+        RCPP_DEBUG( "  Vector::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
 		
         *it = R_MissingArg ;
         SET_STRING_ELT( names, index, ::Rf_mkChar( u.name.c_str() ) ) ;
@@ -440,7 +440,7 @@ protected:
         return INTEGER( ::Rf_getAttrib( RObject::m_sexp, R_DimSymbol ) ) ;
     }
     void init(){
-        RCPP_DEBUG_2( "VECTOR<%d>::init( SEXP = <%p> )", RTYPE, RObject::m_sexp )
+        RCPP_DEBUG( "VECTOR<%d>::init( SEXP = <%p> )", RTYPE, RObject::m_sexp )
         internal::r_init_vector<RTYPE>(RObject::m_sexp) ;
     }
 
