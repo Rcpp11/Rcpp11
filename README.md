@@ -32,3 +32,22 @@ I will have to find an alternative distribution repository.
 My goal is to setup this repository so that third party packages 
 depending on `Rcpp11` can be published.
 
+Installation
+============
+
+To install `Rcpp11` from github, you first need to get a compiler that supports `C++11`. This is trivial on 
+recent version of OSX. You can just use clang. I have this on my `~/.R/Makevars` file: 
+
+```
+CC=clang
+CXX=clang++
+PKG_CXXFLAGS= -stdlib=libc++ -std=c++11
+```
+
+Then, you can install it using `devtools::install_github`: 
+
+```r
+devtools::install_github( "Rcpp11", "romainfrancois" )
+require( Rcpp11 )
+```
+
