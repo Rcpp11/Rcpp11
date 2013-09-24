@@ -71,8 +71,8 @@ static R_ExternalMethodDef extEntries[]  = {
     {NULL, NULL, 0}
 } ;
 
-// this is called by R_init_Rcpp that is in Module.cpp
-void init_Rcpp_routines(DllInfo *info){
+// this is called by R_init_Rcpp11 that is in Module.cpp
+void init_Rcpp11_routines(DllInfo *info){
   /* Register routines, allocate resources. */
   R_registerRoutines(info, 
       NULL /* .C*/, 
@@ -82,6 +82,6 @@ void init_Rcpp_routines(DllInfo *info){
   );
 }
         
-void R_unload_Rcpp(DllInfo *info) {
+void R_unload_Rcpp11(DllInfo *info) {
   /* Release resources. */
 }

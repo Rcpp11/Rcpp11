@@ -24,6 +24,7 @@
 #include "internal.h"
 #include <Rcpp/cache.h>
 #include <algorithm>
+#include <Rcpp/macros/debug.h>
 
 SEXP get_string_elt(SEXP x, int i){
     return STRING_ELT(x, i ) ;
@@ -73,16 +74,18 @@ static SEXP Rcpp_protection_stack = R_NilValue ;
 
 // only used for debugging
 SEXP get_rcpp_cache() {
+    RCPP_DEBUG( "get_rcpp_cache (known = %s)", (Rcpp_cache_know ? "true" : "false" ) )
     if( ! Rcpp_cache_know ){
         
         SEXP getNamespaceSym = Rf_install("getNamespace"); // cannot be gc()'ed  once in symbol table
         SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
-        
         Rcpp_cache = Rf_findVarInFrame( RCPP, Rf_install(".rcpp_cache") ) ;
         Rcpp_cache_know = true ;
         Rcpp_protection_stack = VECTOR_ELT(Rcpp_cache, RCPP_PROTECTION_STACK_INDEX) ;
         UNPROTECT(1) ;
     }
+    RCPP_DEBUG( "  [get_rcpp_cache] Rcpp_cache = <%p>", Rcpp_cache )
+        
     return Rcpp_cache ;
 }
 
@@ -96,19 +99,20 @@ SEXP get_Rcpp_protection_stack(){
 namespace Rcpp {
     namespace internal {   
 		SEXP get_Rcpp11_namespace(){ 
+		    RCPP_DEBUG( "get_Rcpp11_namespace" )
 			return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
 		}
 	}
 }
 
-SEXP set_error_occured(SEXP cache, SEXP e){
-    SET_VECTOR_ELT( cache, 1, e ) ;
-    return R_NilValue ;
+static void set_error_occured(SEXP cache, bool occured){
+    RCPP_DEBUG( "set_error_occured( <%p>, %s )", cache, PRETTY_BOOL(occured) )
+    SET_VECTOR_ELT( cache, 1, Rf_ScalarLogical(occured) ) ;
 }
 
-SEXP set_current_error(SEXP cache, SEXP e){ 
+void set_current_error(SEXP cache, SEXP e){ 
+    RCPP_DEBUG( "set_current_error( <%p>, <%p> )", cache, e ) ;
     SET_VECTOR_ELT( cache, 2, e ) ;
-    return R_NilValue ;
 }
 
 SEXP rcpp_set_stack_trace(SEXP e){
@@ -120,15 +124,15 @@ SEXP rcpp_get_stack_trace(){
     return VECTOR_ELT( get_rcpp_cache(), 3 ) ;
 }
 
-SEXP init_Rcpp_cache(){   
+SEXP init_Rcpp11_cache(){   
     SEXP getNamespaceSym = Rf_install("getNamespace"); // cannot be gc()'ed  once in symbol table
     SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
     SEXP cache = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) );
     
     // the Rcpp namespace
 	SET_VECTOR_ELT( cache, 0, RCPP ) ;
-	set_error_occured( cache, Rf_ScalarLogical(FALSE) ) ; // error occured
-	set_current_error( cache, R_NilValue ) ; // current error
+	set_error_occured( cache, false ) ;
+	set_current_error( cache, R_NilValue ) ;
 	SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
 	SET_VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
 	SEXP stack = PROTECT(Rf_allocVector(VECSXP, RCPP_PROTECT_STACK_INITIAL_SIZE)) ;
@@ -142,11 +146,12 @@ SEXP init_Rcpp_cache(){
     return cache ;
 }
 
-SEXP reset_current_error(){ 
+SEXP reset_current_error(){
+    RCPP_DEBUG("reset_current_error")
     SEXP cache = get_rcpp_cache() ;
     
     // error occured
-    set_error_occured( cache, Rf_ScalarLogical(FALSE) ) ;
+    set_error_occured( cache, false ) ;
 	
     // current error
     set_current_error( cache, R_NilValue ) ;
@@ -166,7 +171,7 @@ SEXP rcpp_error_recorder(SEXP e){
     SEXP cache = get_rcpp_cache() ;
     
     // error occured
-    set_error_occured( cache, Rf_ScalarLogical(TRUE) ) ;
+    set_error_occured( cache, true ) ;
 	
     // current error
     set_current_error(cache, e ) ;

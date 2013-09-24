@@ -65,7 +65,7 @@ extern "C" {
     CALLFUN_2(CppObject__finalize);
     
     CALLFUN_0(get_rcpp_cache);
-    CALLFUN_0(init_Rcpp_cache);
+    CALLFUN_0(init_Rcpp11_cache);
     
     CALLFUN_0(reset_current_error);
     CALLFUN_1(rcpp_error_recorder);
@@ -88,7 +88,7 @@ extern "C" {
     EXTFUN(class__newInstance) ;
     EXTFUN(class__dummyInstance) ;
     
-    void init_Rcpp_routines(DllInfo*) ;
+    void init_Rcpp11_routines(DllInfo*) ;
     const char * sexp_to_name(int sexp_type); 
     
 #ifdef __cplusplus

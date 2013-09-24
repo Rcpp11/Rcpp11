@@ -214,7 +214,8 @@ namespace Rcpp {
             errorRecorderSym          = ::Rf_install(".rcpp_error_recorder");
             errorSym                  = ::Rf_install("error");
         }
-
+        RCPP_DEBUG( "  [Evaluator::run] RCPP = " ) 
+        
         SEXP call = PROTECT( Rf_lang3( 
             tryCatchSym, 
             Rf_lang3( evalqSym, expr, env ),
