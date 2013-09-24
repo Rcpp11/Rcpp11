@@ -80,12 +80,10 @@ namespace Rcpp{
         }
     } 
 
-#include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/get_return_type.h>
 #include <Rcpp/module/get_signature.h>
 
-    // templates CppFunction0, ..., CppFunction65
-#include <Rcpp/module/Module_generated_CppFunction.h>
+#include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/class_Base.h>
 #include <Rcpp/module/Module.h>
 }
@@ -381,7 +379,7 @@ namespace Rcpp{
     } ;
     
     // function factories
-#include <Rcpp/module/Module_generated_function.h>
+    #include <Rcpp/module/function.h>
 
     template <typename FROM, typename TO>
     void converter( const char* from, const char* to, TO (*fun)(FROM), const char* docstring = 0 ){
