@@ -132,7 +132,9 @@ namespace Rcpp{
 
 #include <Rcpp/module/generated_make_new.h>
 #include <Rcpp/module/Constructor.h>
-#include <Rcpp/module/Module_generated_Factory.h>
+
+#include <Rcpp/module/generated_factory_new.h>
+#include <Rcpp/module/Factory.h>
 
 #include <Rcpp/module/yes.h>
 

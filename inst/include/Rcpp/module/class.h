@@ -88,16 +88,16 @@
             return constructor( docstring, valid ) ;  
         }
                 
-        template<typename... Args>
+        template <typename... Args>
         self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
             AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
         }
     
-        
-
-#include <Rcpp/module/Module_generated_class_factory.h>
-        
-    public:
+        template <typename... Args>
+        self& factory( Class* (*fun)(Args...), const char* docstring = 0, ValidConstructor valid = &yes_arity<sizeof...(Args)> ){
+            AddFactory( new Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
+            return *this ;   
+        }
         
         std::string get_typeinfo_name(){
             return typeinfo_name ;    
