@@ -1,7 +1,4 @@
-//
-// Module_generated_Constructor.h:  Rcpp modules
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -18,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_Module_generated_class_signature_h
-#define Rcpp_Module_generated_class_signature_h
+#ifndef Rcpp_Module_yes_h
+#define Rcpp_Module_yes_h
 
 inline bool yes( SEXP* /*args*/, int /* nargs */ ){
     return true ;

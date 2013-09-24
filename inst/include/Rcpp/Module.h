@@ -134,7 +134,7 @@ namespace Rcpp{
 #include <Rcpp/module/Module_generated_Constructor.h>
 #include <Rcpp/module/Module_generated_Factory.h>
 
-#include <Rcpp/module/Module_generated_class_signature.h>
+#include <Rcpp/module/yes.h>
 
     typedef bool (*ValidConstructor)(SEXP*,int) ;
     typedef bool (*ValidMethod)(SEXP*,int) ;
