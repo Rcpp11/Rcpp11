@@ -88,7 +88,13 @@
             return constructor( docstring, valid ) ;  
         }
                 
-#include <Rcpp/module/Module_generated_class_constructor.h>
+        template<typename... Args>
+        self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
+            AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
+        }
+    
+        
+
 #include <Rcpp/module/Module_generated_class_factory.h>
         
     public:

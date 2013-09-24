@@ -130,7 +130,8 @@ namespace Rcpp{
         ParentMethod* parent_method_pointer ;
     } ;
 
-#include <Rcpp/module/Module_generated_Constructor.h>
+#include <Rcpp/module/generated_make_new.h>
+#include <Rcpp/module/Constructor.h>
 #include <Rcpp/module/Module_generated_Factory.h>
 
 #include <Rcpp/module/yes.h>
