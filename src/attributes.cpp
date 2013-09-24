@@ -2562,7 +2562,7 @@ namespace {
         
                 // export the function
                 ostr <<  attribute.exportedName()
-                     << " <- Rcpp:::sourceCppFunction("
+                     << " <- Rcpp11:::sourceCppFunction("
                      << "function(" << generateRArgList(function) << ") {}, " 
                      << (function.type().isVoid() ? "TRUE" : "FALSE") << ", "
                      << dllInfo << ", " 
@@ -2575,13 +2575,13 @@ namespace {
             if (modules.size() > 0)
             {
                 // modules require definition of C++Object to be loaded
-                ostr << "library(Rcpp)" << std::endl;
+                ostr << "library(Rcpp11)" << std::endl;
                 
                 // load each module
                 for (std::vector<std::string>::const_iterator 
                     it = modules.begin(); it != modules.end(); ++it)
                 {
-                    ostr << " populate( Rcpp::Module(\"" << *it << "\"," 
+                    ostr << " populate( Rcpp11::Module(\"" << *it << "\"," 
                          << dllInfo << "), environment() ) " << std::endl;
                 }
             }
