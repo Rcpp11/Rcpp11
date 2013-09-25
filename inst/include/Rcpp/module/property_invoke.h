@@ -40,9 +40,17 @@ inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Cl
     (object->*setter)(x) ;
 }
 template <typename Class, typename PROP, typename Property, typename SetterType>
-inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
+inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
     typename traits::input_parameter<PROP>::type x(value) ; 
     (*setter)(object, x) ;
+}
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& setter, Class* object, SEXP value, std::true_type){
+    throw std::range_error("property is read only") ;
+}
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
+    property_invoke_setter__impl__isnull( prop, setter, object, value, typename std::is_same<SetterType, decltype(nullptr)>::type() ) ;
 }
 template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value){

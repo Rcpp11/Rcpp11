@@ -22,25 +22,6 @@
 #ifndef Rcpp_Module_Property_h
 #define Rcpp_Module_Property_h
 
-template <typename Class, typename PROP, typename GetterType>
-class CppProperty_ReadOnly : public CppProperty<Class> {
-public:         
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_ReadOnly( GetterType getter_, const char* doc = 0 ) : 
-        prop_class(doc), getter(getter_) {}
-                
-    SEXP get(Class* object) { return property_invoke_getter<Class,CppProperty_ReadOnly,GetterType>(*this, getter, object) ; }
-    void set(Class*, SEXP) { throw std::range_error("property is read only") ; }                
-    bool is_readonly(){ return true ; }
-    std::string get_class(){ return DEMANGLE(PROP); }
-                        
-private:
-    GetterType getter ;
-    std::string class_name ;
-                                
-} ;
-
 template <typename Class, typename PROP, typename GetterType, typename SetterType>
 class CppProperty_Read_Write : public CppProperty<Class> {
 public:         

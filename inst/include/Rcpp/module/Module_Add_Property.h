@@ -24,17 +24,17 @@
 
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void), const char* docstring = 0){
-        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod),std::nullptr_t>(GetMethod, nullptr, docstring) ) ;
     }
 
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void) const, const char* docstring = 0){
-        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod),std::nullptr_t>(GetMethod, nullptr, docstring) ) ;
     }
     
     template <typename PROP>
     self& property( const char* name_, PROP (*GetMethod)(Class*), const char* docstring ){
-        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod),std::nullptr_t>(GetMethod, nullptr, docstring) ) ;
     }
     
     
