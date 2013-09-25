@@ -19,10 +19,13 @@
 #define Rcpp_Module_debug_method_h
   
     template <typename Class, typename MethodClass>
-    void debug_method( MethodClass& method, std::string& name){ 
-        std::string s ;
-        method.signature( s, DEMANGLE(Class) ) ;
-        Rprintf( "    %s\n", s.c_str()) ;
+    void debug_method( MethodClass& method, std::string& name, Class* object){ 
+        std::string s ; 
+        std::string method_name = DEMANGLE(Class) ;
+        method_name += "::"  ;
+        method_name += name ;
+        method.signature( s, method_name.c_str() ) ;
+        Rprintf( "    %50s   [object = <%p>]\n", s.c_str(), object) ;
     }
 
 #endif

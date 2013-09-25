@@ -64,7 +64,7 @@
 		typedef CppMethod<Class> method_class ;
 		Debug_Pointer_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
 		SEXP operator()( Class* object, SEXP* args ){
-            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name) ;  
+            debug_method<Class,Debug_Pointer_CppMethod_Impl, object>(*this, name) ;  
             return pointer_method_invoke<Class,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object,args); 
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
@@ -84,7 +84,7 @@
 		typedef CppMethod<Class> method_class ;
 		Debug_Pointer_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
 		SEXP operator()( Class* object, SEXP* args ){
-            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name) ;  
+            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name, object) ;  
             void_pointer_method_invoke<Class,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met,object,args);
             return R_NilValue ;
 		}
