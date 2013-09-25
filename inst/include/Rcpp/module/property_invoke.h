@@ -52,9 +52,24 @@ template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
     property_invoke_setter__impl__isnull( prop, setter, object, value, typename std::is_same<SetterType, decltype(nullptr)>::type() ) ;
 }
+
 template <typename Class, typename PROP, typename Property, typename SetterType>
-inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value){
+inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value, std::string& /* prop_name */, std::false_type /* debug = false */ ){
     property_invoke_setter__impl( prop, setter, object, value, typename std::is_member_function_pointer<SetterType>::type() );
 }
+
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value, std::string& prop_name, std::true_type /* debug = true */ ){
+    std::string log( "   " ) ;
+    log += DEMANGLE(PROP) ;
+    log += " ::" ;
+    log += DEMANGLE(Class) ;
+    log += " " ;
+    log += prop_name ;
+    Rprintf( "    %s ...", log.c_str() ) ;
+    property_invoke_setter<Class,PROP,Property,SetterType,std::false_type>() ;
+    Rprintf( "\n" ) ;
+}
+
 
 #endif
