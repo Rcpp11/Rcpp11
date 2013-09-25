@@ -55,7 +55,6 @@
 #include <Rcpp/Pairlist.h>
 #include <Rcpp/Function.h>
 #include <Rcpp/WeakReference.h>
-#include <Rcpp/StringTransformer.h>
 #include <Rcpp/Formula.h>
 #include <Rcpp/DataFrame.h>
 
