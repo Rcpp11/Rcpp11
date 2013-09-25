@@ -24,8 +24,17 @@ inline SEXP property_invoke_getter__impl( Property& prop, GetterType& getter, Cl
 }
 
 template <typename Class, typename Property, typename GetterType>
-inline SEXP property_invoke_getter__impl( Property& prop, GetterType& getter, Class* object, std::false_type){
+inline SEXP property_invoke_getter__is_member_object( Property& prop, GetterType& getter, Class* object, std::false_type){
     return wrap( (*getter)(object) ) ;
+}
+template <typename Class, typename Property, typename GetterType>
+inline SEXP property_invoke_getter__is_member_object( Property& prop, GetterType& getter, Class* object, std::true_type){
+    return wrap( object->*getter ) ;
+}
+
+template <typename Class, typename Property, typename GetterType>
+inline SEXP property_invoke_getter__impl( Property& prop, GetterType& getter, Class* object, std::false_type){
+    return property_invoke_getter__impl<Class,Property,GetterType>( prop, getter, object, typename std::is_member_object_pointer<GetterType>::type() );
 }
 
 template <typename Class, typename PROP, typename Property, typename GetterType>
@@ -54,9 +63,19 @@ inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Cl
     (object->*setter)(x) ;
 }
 template <typename Class, typename PROP, typename Property, typename SetterType>
-inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
+inline void property_invoke_setter__impl__is_member_object( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
     typename traits::input_parameter<PROP>::type x(value) ; 
     (*setter)(object, x) ;
+}
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl__is_member_object( Property& prop, SetterType& setter, Class* object, SEXP value, std::true_type){
+    typename traits::input_parameter<PROP>::type x(value) ; 
+    object->*setter = x ;
+}
+
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
+    
 }
 template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& setter, Class* object, SEXP value, std::true_type){
