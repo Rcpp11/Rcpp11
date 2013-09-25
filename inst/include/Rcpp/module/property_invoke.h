@@ -36,9 +36,9 @@ template <typename Class, typename PROP, typename Property, typename GetterType>
 inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* object, std::string& prop_name , std::true_type /* debug = false */ ){
     std::string log( "   " ) ;
     log += DEMANGLE(PROP) ;
-    log += " ::" ;
-    log += DEMANGLE(Class) ;
     log += " " ;
+    log += DEMANGLE(Class) ;
+    log += ":: "
     log += prop_name ;
     Rprintf( "    %70s  getter [object = <%p>]", log.c_str(), object ) ;
     SEXP res = property_invoke_getter__impl<Class,Property,GetterType>( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
@@ -76,8 +76,9 @@ template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value, std::string& prop_name, std::true_type /* debug = true */ ){
     std::string log( "   " ) ;
     log += DEMANGLE(PROP) ;
-    log += " ::" ;
+    log += " " ;
     log += DEMANGLE(Class) ;
+    log += ":: "
     log += " " ;
     log += prop_name ;
     Rprintf( "    %70s  setter [object = <%p>]", log.c_str(), object ) ;
