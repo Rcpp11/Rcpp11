@@ -1538,9 +1538,9 @@ SEXP stack_trace( const char *file, int line) {
     
     Rcpp::CharacterVector res( stack_depth - 1) ;
     std::transform( 
-    	stack_strings + 1, stack_strings + stack_depth, 
-    	res.begin(), 
-    	demangler_one 
+    	   stack_strings + 1, stack_strings + stack_depth, 
+    	   res.begin(), 
+    	   demangler_one 
     	) ;
     free(stack_strings); // malloc()ed by backtrace_symbols
     

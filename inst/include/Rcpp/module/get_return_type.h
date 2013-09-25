@@ -26,12 +26,12 @@ struct void_type{} ;
 
 template <typename OUT>
 inline std::string get_return_type_dispatch( std::false_type ){
-    return demangle( typeid(OUT).name() ).data() ;
+    return Demangler<OUT>::get() ;
 }
 template <typename OUT>
 inline std::string get_return_type_dispatch( std::true_type ){
     typedef typename std::remove_pointer<OUT>::type pointer ;
-    std::string res = demangle( typeid( pointer ).name() ).data() ;
+    std::string res = Demangler<pointer>::get().data() ;
     res += "*" ;
     return res ;
 }

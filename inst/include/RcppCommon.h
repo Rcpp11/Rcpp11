@@ -50,6 +50,10 @@ const char * sexp_to_name(int sexp_type);
 #include <sstream>
 #include <string>
 #include <list>
+#include <forward_list>
+#include <stack>
+#include <queue>
+
 #include <map>
 #include <set>
 #include <stdexcept>
@@ -71,6 +75,7 @@ const char * sexp_to_name(int sexp_type);
 #define RcppExport extern "C"
 
 #include <Rcpp/exceptions.h>
+#include <Rcpp/Demangler.h>
 
 namespace Rcpp{
     template <typename T> class object ;
