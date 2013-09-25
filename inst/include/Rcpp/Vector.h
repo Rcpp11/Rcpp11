@@ -63,6 +63,8 @@ template <int RTYPE> class SubMatrix ;
 }
 
 #include <Rcpp/String.h>
+#include <Rcpp/Na_Proxy.h>
+
 #include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/swap.h>
 #include <Rcpp/vector/Demangler.h>

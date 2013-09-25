@@ -62,14 +62,7 @@ namespace Rcpp{
          *
          */
         template<typename... Args> 
-        SEXP operator()( const Args&... args) const {
-            RCPP_DEBUG( "Function::operator(...) nargs = %d", sizeof...(args)  )
-            SEXP call = PROTECT( Rcpp_lcons( m_sexp, pairlist(args...) ) ) ;
-            SEXP res  = PROTECT( internal::try_catch( call ) ) ;
-            RCPP_DEBUG( "res = <%p>", res  )
-            UNPROTECT(2) ;
-            return res ;
-        }
+        SEXP operator()( const Args&... args) const ;
         
         /**
          * Returns the environment of this function

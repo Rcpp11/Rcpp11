@@ -508,13 +508,5 @@ namespace Rcpp{
 	    }
 	}
 	
-	FunctionProxy GetCppCallable( const std::string& pkg, const std::string& mod, const std::string& fun){
-        Rcpp::Function require = Rcpp::Environment::base_env()["require"];
-        require(pkg, Rcpp::Named("quietly") = true);
-        std::string pack( "Rcpp_module_" ) ;
-        pack += mod ;
-        return R_GetCCallable( pack.c_str(), fun.c_str() ) ;     
-    }
-	
 }
 

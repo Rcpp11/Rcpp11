@@ -24,7 +24,7 @@
 
 namespace Rcpp {
 
-    inline SEXP pairlist() { return R_NilValue ; }
+    // inline SEXP pairlist() { return R_NilValue ; }
     SEXP grow( SEXP head, SEXP tail ) ; 
     
     namespace internal{
@@ -54,16 +54,34 @@ namespace Rcpp {
     SEXP grow(const T& head, SEXP tail) {
         return internal::grow__dispatch( typename traits::is_named<T>::type(), head, tail );
     }
-    /* end of the recursion, wrap first to make the CAR and use R_NilValue as the CDR of the list */
-    template<typename T>
-    SEXP pairlist( const T& first){
-        return grow(first, R_NilValue ); 
+    
+    template <typename... Args>
+    struct PairlistHelper ;
+    
+    template <typename First, typename... Args>
+    struct PairlistHelper<First, Args...>{
+        static inline SEXP get(const First& first, const Args&... pack){
+            return grow( first, PairlistHelper<Args...>::get( pack... ) ) ; 
+        }
+    } ;
+    
+    template <>
+    struct PairlistHelper<>{
+        static inline SEXP get(){ return R_NilValue; }
+    } ;
+    
+    
+    template <typename... Args>
+    SEXP pairlist( const Args&... args ){
+        return PairlistHelper<Args...>::get( args... ) ;    
     }
-
-    template<typename T, typename... Args>
-    SEXP pairlist( const T& first, const Args&... args ){
-        return grow(first, pairlist(args...) );
-    }
+     
+    // /* end of the recursion, wrap first to make the CAR and use R_NilValue as the CDR of the list */
+    // 
+    // template<typename T, typename... Args>
+    // SEXP pairlist( const T& first, const Args&... args ){
+    //     return grow(first, pairlist(args...) );
+    // }
 
 } // namespace Rcpp
 

@@ -421,20 +421,7 @@ namespace Rcpp{
         
     } ;
 
-    class FunctionProxy{
-    public:
-        FunctionProxy( DL_FUNC p_fun_ ): p_fun(p_fun_){}
-        
-        template <typename T> operator T() const { return (T)p_fun ; }
-        
-    private:
-        DL_FUNC p_fun ;
-    } ;
-    
-    FunctionProxy GetCppCallable( const std::string& pkg, const std::string& mod, const std::string& fun) ;
 }
-
-#define RCPP_MODULE_BOOT(name) _rcpp_module_boot_##name
 
 #define RCPP_MODULE(name)                                               \
     void _rcpp_module_##name##_init() ;                                 \
