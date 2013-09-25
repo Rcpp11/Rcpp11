@@ -1,7 +1,5 @@
-//
-// Vector.h:  vectors
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -67,5 +65,6 @@ template <int RTYPE> class SubMatrix ;
 #include <Rcpp/String.h>
 #include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/swap.h>
+#include <Rcpp/vector/Demangler.h>
 
 #endif 

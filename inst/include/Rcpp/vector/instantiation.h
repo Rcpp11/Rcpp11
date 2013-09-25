@@ -38,6 +38,7 @@ typedef Matrix<CPLXSXP> ComplexMatrix ;
 typedef Matrix<INTSXP> IntegerMatrix ;
 typedef Matrix<LGLSXP> LogicalMatrix ;
 typedef Matrix<REALSXP> NumericMatrix ;
+typedef Matrix<REALSXP> DoubleMatrix ;
 typedef Matrix<RAWSXP> RawMatrix ;
 
 typedef Matrix<STRSXP> CharacterMatrix ;   

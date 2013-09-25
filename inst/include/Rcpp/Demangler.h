@@ -24,10 +24,12 @@ namespace Rcpp{
     struct Demangler {
         static std::string get(){ return demangle( typeid(T).name() ) ; }
     } ;
-    template <>
-    struct Demangler<std::string>{
-        static std::string get(){ return std::string("std::string") ; }
+    #define DEMANGLE_ECHO(__TYPE__)                                 \
+    template <>                                                     \
+    struct Demangler<__TYPE__>{                                     \
+        static std::string get(){ return std::string(#__TYPE__) ; } \
     } ;
+    
     #define DEMANGLE_CONTAINER_1(__CONTAINER__)    \
     template <typename T>                          \
     struct Demangler< __CONTAINER__<T> >{          \
@@ -68,6 +70,7 @@ namespace Rcpp{
         }                                                  \
     } ;                                            
     
+    DEMANGLE_ECHO(std::string)  
     
     DEMANGLE_CONTAINER_1(std::vector)
     DEMANGLE_CONTAINER_1(std::list)
