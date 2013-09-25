@@ -18,16 +18,15 @@
 #ifndef Rcpp_Module_CppMethod_h
 #define Rcpp_Module_CppMethod_h
 
-	template <typename Class, bool method_is_const, typename OUT, typename...Args> 
+	template <typename Class, bool method_is_const, typename OUT, typename... Args> 
 	class CppMethod_Impl : public CppMethod<Class> {
 	public:
 		typedef OUT (Class::*Method)(Args...) ;
 		typedef CppMethod<Class> method_class ;
-		typedef typename Rcpp::traits::remove_const_and_reference< OUT >::type CLEANED_OUT ;
 		
 		CppMethod_Impl( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-		    return method_invoke<Class,OUT,Args...>(object,met,args);  
+		    return method_invoke<Class,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object ,args);  
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
 		inline bool is_void(){ return false ; }
@@ -38,7 +37,7 @@
 		Method met ;
 	} ;
 
-	template <typename Class, bool method_is_const, typename...Args> 
+	template <typename Class, bool method_is_const, typename... Args> 
 	class CppMethod_Impl<Class,method_is_const,void,Args...> : public CppMethod<Class> {
 	public:
 		typedef void (Class::*Method)(Args...) ;
@@ -46,7 +45,7 @@
 		
 		CppMethod_Impl( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args){
-		    void_method_invoke<Class,Args...>(object,met,args);
+		    void_method_invoke<Class,Args...>(typename traits::number_to_type<sizeof...(Args)>(),met,object,args);
 		    return R_NilValue ;
 		}
 		inline int nargs(){ return sizeof...(Args) ; }

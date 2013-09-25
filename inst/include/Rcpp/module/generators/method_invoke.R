@@ -20,21 +20,23 @@ writeLines('
 #ifndef Rcpp_Module_generated_method_invoke_h
 #define Rcpp_Module_generated_method_invoke_h
      
-template <typename Class, typename OUT>
-SEXP method_invoke( OUT (Class::*Method)(void), Class* object, SEXP* args ){ 
-    return Rcpp::module_wrap< Rcpp::traits::remove_const_and_reference<OUT>::type>( (object->*Method)() ) ;
-}
+    template <typename Class, typename OUT>
+    SEXP method_invoke( traits::number_to_type<0>, OUT (Class::*Method)(void), Class* object, SEXP* args ){ 
+        return Rcpp::module_wrap< typename Rcpp::traits::remove_const_and_reference<OUT>::type >( (object->*Method)() ) ;
+    }
 ', file )
 
 tmpl <- function(n) {
     sprintf( '
     template <typename Class, typename OUT, %s>
-    SEXP method_invoke( OUT (Class::*Method)(), Class* object, SEXP* args ){ 
+    SEXP method_invoke( traits::number_to_type<%d>, OUT (Class::*Method)(%s), Class* object, SEXP* args ){ 
         %s
-        return Rcpp::module_wrap< Rcpp::traits::remove_const_and_reference<OUT>::type>( (object->*Method)( %s ) ) ;
+        return Rcpp::module_wrap< typename Rcpp::traits::remove_const_and_reference<OUT>::type >( (object->*Method)( %s ) ) ;
     }
     ', 
     paste( sprintf("typename U%d", 1:n), collapse = ", " ), 
+    n, 
+    paste( sprintf("U%d", 1:n), collapse = ", " ), 
     paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
     paste( sprintf("x%d", 1:n), collapse = ", " )
     )
