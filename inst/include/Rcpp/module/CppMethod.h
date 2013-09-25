@@ -18,6 +18,50 @@
 #ifndef Rcpp_Module_CppMethod_h
 #define Rcpp_Module_CppMethod_h
 
+    template <typename Class, bool method_is_const, typename OUT, typename... Args> 
+	class Debug_CppMethod_Impl : public CppMethod<Class> {
+	public:
+		typedef OUT (Class::*Method)(Args...) ;
+		typedef CppMethod<Class> method_class ;
+		
+		Debug_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
+		SEXP operator()( Class* object, SEXP* args){
+		    debug_method<Class,Debug_CppMethod_Impl>(*this, name) ;  
+		    return method_invoke<Class,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object ,args);  
+		}
+		inline int nargs(){ return sizeof...(Args) ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return method_is_const ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+		
+	private:
+		Method met ;
+		std::string name ;
+	} ;
+
+	template <typename Class, bool method_is_const, typename... Args> 
+	class Debug_CppMethod_Impl<Class,method_is_const,void,Args...> : public CppMethod<Class> {
+	public:
+		typedef void (Class::*Method)(Args...) ;
+		typedef CppMethod<Class> method_class ;
+		
+		Debug_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
+		SEXP operator()( Class* object, SEXP* args){
+		    debug_method<Class,Debug_CppMethod_Impl>(*this, name) ;  
+		    void_method_invoke<Class,Args...>(typename traits::number_to_type<sizeof...(Args)>(),met,object,args);
+		    return R_NilValue ;
+		}
+		inline int nargs(){ return sizeof...(Args) ; }
+		inline bool is_void(){ return true ; }
+		inline bool is_const(){ return method_is_const ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void,Args...>(s, name) ; }
+		
+	private:
+		Method met ;
+		std::string name ;
+	} ;
+
+
 	template <typename Class, bool method_is_const, typename OUT, typename... Args> 
 	class CppMethod_Impl : public CppMethod<Class> {
 	public:

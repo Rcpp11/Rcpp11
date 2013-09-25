@@ -31,7 +31,6 @@ test.modRef <- function() {
     wgg <- wg$greet()
     
     ww$set("Other")
-    
     ## test independence of ww, wg
     checkEquals(ww$greet(), "Other")
     checkEquals(wg$greet(), wgg)

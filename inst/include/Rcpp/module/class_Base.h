@@ -24,9 +24,9 @@ class class_Base {
 public:
     typedef Rcpp::XPtr<class_Base> XP_Class ;
     
-    class_Base() : name(), docstring(), enums(), parents() {} ;
+    class_Base() : name(), docstring(), enums(), parents(), is_debugging(false) {} ;
     class_Base(const char* name_, const char* doc) : 
-        name(name_), docstring( doc == 0 ? "" : doc ), enums(), parents() {} ;
+        name(name_), docstring( doc == 0 ? "" : doc ), enums(), parents(), is_debugging(false) {} ;
     
     virtual Rcpp::List fields(const XP_Class& ){ return Rcpp::List(0); }
     virtual Rcpp::List getMethods(const XP_Class&, std::string&){ return Rcpp::List(0); }
@@ -76,7 +76,6 @@ public:
         return get_typeinfo_name().compare(name_) == 0;   
     }
     void add_enum( const std::string& enum_name, const std::map<std::string, int>& value ) ;
-    
     std::string name ;
     std::string docstring ;
     
@@ -85,6 +84,7 @@ public:
     typedef ENUM_MAP::value_type ENUM_MAP_PAIR ;
     ENUM_MAP enums ;
     std::vector<std::string> parents ;
+    bool is_debugging ;
     
 } ;
 #endif

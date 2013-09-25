@@ -21,6 +21,8 @@
 #ifndef Rcpp_Module_Module_h
 #define Rcpp_Module_Module_h
        
+    #include <Rcpp/module/debug_method.h>
+
     /**
      * holds information about exposed functions and classes
      */

@@ -234,6 +234,11 @@
             class_pointer->properties.insert( PROP_PAIR( name_, p ) ) ;
             return *this ;
         }
+        
+        self& debug(bool debug_ = true){ 
+            class_pointer->is_debugging = debug_ ;
+            return *this ;
+        }
 
         #include <Rcpp/module/method.h>
         

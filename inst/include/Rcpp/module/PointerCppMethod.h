@@ -57,4 +57,47 @@
 		Method met ;
 	} ;
 
+	template <typename Class, typename OUT, typename... Args> 
+	class Debug_Pointer_CppMethod_Impl : public CppMethod<Class> {
+	public:
+		typedef OUT (*Method)(Class*, Args...) ;
+		typedef CppMethod<Class> method_class ;
+		Debug_Pointer_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
+		SEXP operator()( Class* object, SEXP* args ){
+            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name) ;  
+            return pointer_method_invoke<Class,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object,args); 
+		}
+		inline int nargs(){ return sizeof...(Args) ; }
+		inline bool is_void(){ return false ; }
+		inline bool is_const(){ return false ; }
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+		
+	private:
+		Method met ;
+		std::string name ;
+	} ;
+	
+	template <typename Class, typename... Args> 
+	class Debug_Pointer_CppMethod_Impl<Class,void,Args...> : public CppMethod<Class> {
+	public:
+		typedef void (*Method)(Class*,Args...) ;
+		typedef CppMethod<Class> method_class ;
+		Debug_Pointer_CppMethod_Impl( Method m, const char* name_) : method_class(), met(m), name(name_){} 
+		SEXP operator()( Class* object, SEXP* args ){
+            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name) ;  
+            void_pointer_method_invoke<Class,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met,object,args);
+            return R_NilValue ;
+		}
+		inline int nargs(){ return sizeof...(Args) ; }
+		inline bool is_void(){ return true ; }
+		inline bool is_const(){ return false ; }
+    
+		inline void signature(std::string& s, const char* name){ Rcpp::signature<void, Args...>(s, name) ; }
+		
+	private:
+		Method met ;
+		std::string name; 
+	} ;
+
+	
 #endif
