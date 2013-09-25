@@ -47,8 +47,6 @@
 #include <Rcpp/macros/unroll.h>
 #include <Rcpp/macros/dispatch.h>
 #include <Rcpp/macros/traits.h>
-#include <Rcpp/macros/config.hpp>
-#include <Rcpp/macros/cat.hpp>
 #include <Rcpp/macros/module.h>
 
 #endif

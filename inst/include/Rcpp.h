@@ -3,6 +3,7 @@
 //
 // Copyright (C) 2008 - 2009 Dirk Eddelbuettel
 // Copyright (C) 2009 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -19,8 +20,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_hpp
-#define Rcpp_hpp
+#ifndef Rcpp11_h
+#define Rcpp11_h
+
+#if defined(Rcpp_hpp)
+# error "Detecting Rcpp. It is probably a bad idea to compile against Rcpp11 and Rcpp together"
+#endif
 
 /* it is important that this comes first */
 #include <RcppCommon.h>
