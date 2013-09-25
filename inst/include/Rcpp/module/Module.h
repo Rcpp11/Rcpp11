@@ -2,6 +2,7 @@
 // Module.h:  Rcpp modules
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -22,6 +23,7 @@
 #define Rcpp_Module_Module_h
        
     #include <Rcpp/module/debug_method.h>
+    #include <Rcpp/module/debug_constructor.h>
 
     /**
      * holds information about exposed functions and classes

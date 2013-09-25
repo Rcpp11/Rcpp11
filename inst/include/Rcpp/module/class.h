@@ -84,15 +84,18 @@
             return *this ;
         }
         
-        self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
-            return AddConstructor( new Constructor_Impl<Class>, valid, docstring ) ;  
-        }
-                
         template <typename... Args>
         self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
-            return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
+            if( is_debugging )
+                return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
+            else
+                return AddConstructor( new Debug_Constructor_Impl<Class,Args...>, valid, docstring ) ;
         }
     
+        self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
+            return constructor<>( docstring, valid ) ; 
+        }
+        
         template <typename... Args>
         self& factory( Class* (*fun)(Args...), const char* docstring = 0, ValidConstructor valid = &yes_arity<sizeof...(Args)> ){
             AddFactory( new Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
@@ -237,6 +240,7 @@
         
         self& debug(bool debug_ = true){ 
             class_pointer->is_debugging = debug_ ;
+            is_debugging = debug_ ;
             return *this ;
         }
 
