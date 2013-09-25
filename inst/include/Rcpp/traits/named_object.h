@@ -28,15 +28,20 @@ namespace traits{
 template <typename T> struct needs_protection : std::false_type{} ;
 template <> struct needs_protection<SEXP> : std::true_type{} ;	
 
-template <typename T> class named_object {
+template <typename T> 
+class named_object {
 	public:
+	    typedef T object_type ;
 		named_object( const std::string& name_, const T& o_) : 
 			name(name_), object(o_){}
 		const std::string& name ;
 		const T& object ;
 } ;
-template <> class named_object<SEXP> {
+template <> 
+class named_object<SEXP> {
 public:
+    typedef SEXP object_type ;
+		
 	named_object( const std::string& name_, const SEXP& o_):
 		name(name_), object(o_)
 	{

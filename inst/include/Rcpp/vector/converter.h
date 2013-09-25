@@ -46,7 +46,7 @@ namespace internal {
 		
 		template <typename T>
 		static target get__impl( const T& input, std::true_type){
-		    return caster<T,target>(input) ; 
+		    return caster< typename T::object_type,target>(input.object) ; 
 		}
 		
 		template <typename T>
