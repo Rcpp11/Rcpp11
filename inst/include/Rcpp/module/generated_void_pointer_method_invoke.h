@@ -19,21 +19,21 @@
 #ifndef Rcpp_Module_generated_void_pointer_method_invoke_h
 #define Rcpp_Module_generated_void_pointer_method_invoke_h
      
-template <typename Class, typename OUT>
-void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* args ){ 
-    Method(object) ;
-}
+    template <typename Class, typename OUT>
+    void void_pointer_method_invoke( traits::number_to_type<0>, OUT (*Method)(Class*), Class* object, SEXP* args ){ 
+        Method(object) ;
+    }
 
 
     template <typename Class, typename OUT, typename U1>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<1>, OUT (*Method)(Class*, U1), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         Method( object, x1 ) ;
     }
     
 
     template <typename Class, typename OUT, typename U1, typename U2>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<2>, OUT (*Method)(Class*, U1, U2), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         Method( object, x1, x2 ) ;
@@ -41,7 +41,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<3>, OUT (*Method)(Class*, U1, U2, U3), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -50,7 +50,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<4>, OUT (*Method)(Class*, U1, U2, U3, U4), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -60,7 +60,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<5>, OUT (*Method)(Class*, U1, U2, U3, U4, U5), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -71,7 +71,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<6>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -83,7 +83,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<7>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -96,7 +96,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<8>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -110,7 +110,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<9>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -125,7 +125,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<10>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -141,7 +141,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<11>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -158,7 +158,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<12>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -176,7 +176,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<13>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -195,7 +195,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<14>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -215,7 +215,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<15>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -236,7 +236,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<16>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -258,7 +258,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<17>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -281,7 +281,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<18>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -305,7 +305,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<19>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -330,7 +330,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<20>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -356,7 +356,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<21>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -383,7 +383,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<22>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -411,7 +411,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<23>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -440,7 +440,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<24>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -470,7 +470,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<25>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -501,7 +501,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<26>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -533,7 +533,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<27>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -566,7 +566,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<28>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -600,7 +600,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<29>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -635,7 +635,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<30>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -671,7 +671,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<31>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -708,7 +708,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<32>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -746,7 +746,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<33>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -785,7 +785,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<34>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -825,7 +825,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<35>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -866,7 +866,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<36>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -908,7 +908,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<37>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -951,7 +951,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<38>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -995,7 +995,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<39>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1040,7 +1040,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<40>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1086,7 +1086,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<41>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1133,7 +1133,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<42>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1181,7 +1181,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<43>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1230,7 +1230,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<44>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1280,7 +1280,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<45>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1331,7 +1331,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<46>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1383,7 +1383,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<47>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1436,7 +1436,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<48>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1490,7 +1490,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<49>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1545,7 +1545,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<50>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1601,7 +1601,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<51>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1658,7 +1658,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<52>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1716,7 +1716,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<53>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1775,7 +1775,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<54>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1835,7 +1835,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<55>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1896,7 +1896,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<56>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -1958,7 +1958,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<57>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2021,7 +2021,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<58>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2085,7 +2085,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<59>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2150,7 +2150,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<60>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2216,7 +2216,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<61>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2283,7 +2283,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<62>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2351,7 +2351,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62, typename U63>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<63>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2420,7 +2420,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62, typename U63, typename U64>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63, U64), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<64>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63, U64), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;
@@ -2490,7 +2490,7 @@ void void_pointer_method_invoke( OUT (*Method)(Class*), Class* object, SEXP* arg
     
 
     template <typename Class, typename OUT, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62, typename U63, typename U64, typename U65>
-    void void_pointer_method_invoke( OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63, U64, U65), Class* object, SEXP* args ){ 
+    void void_pointer_method_invoke( traits::number_to_type<65>, OUT (*Method)(Class*, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63, U64, U65), Class* object, SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
         typename Rcpp::traits::input_parameter<U3>::type x3( args[3] ) ;

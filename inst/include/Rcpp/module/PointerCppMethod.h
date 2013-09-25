@@ -26,7 +26,7 @@
 		typedef CppMethod<Class> method_class ;
 		Pointer_CppMethod_Impl( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args ){
-			return pointer_method_invoke<Class,OUT,Args...>(object,met,args); 
+			return pointer_method_invoke<Class,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object,args); 
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
 		inline bool is_void(){ return false ; }
@@ -44,7 +44,7 @@
 		typedef CppMethod<Class> method_class ;
 		Pointer_CppMethod_Impl( Method m) : method_class(), met(m){} 
 		SEXP operator()( Class* object, SEXP* args ){
-			void_pointer_method_invoke<Class,Args...>(object,met,args);
+			void_pointer_method_invoke<Class,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met,object,args);
 			return R_NilValue ;
 		}
 		inline int nargs(){ return sizeof...(Args) ; }
