@@ -28,13 +28,31 @@ namespace Rcpp {
     template <typename T>
     class InputParameter {
     public:
+        typedef T type ;
         InputParameter(SEXP x_) : x(x_){}
+        InputParameter() : x(R_NilValue){}
         
+        void set(SEXP x_){ x = x_ ; }
         inline operator T() { return as<T>(x) ; }
+        inline T get() { return as<T>(x) ; }
         
-    private:
         SEXP x ;
     } ;
+    
+    // same for const
+    template <typename T>
+    class ConstInputParameter {
+    public:
+        typedef const T const_nonref ;
+        ConstInputParameter(SEXP x_) : x(x_) {}
+        
+        inline void set(SEXP x_){ x = x_; }
+        inline operator const_nonref() { return get() ; }
+        inline const_nonref get() { return as<T>(x) ; }
+        
+        SEXP x ;
+    } ;
+    
     
     // impl for references. It holds an object at the constructor and then 
     // returns a reference in the reference operator
@@ -42,37 +60,29 @@ namespace Rcpp {
     class ReferenceInputParameter {
     public:
         typedef T& reference ;
-        ReferenceInputParameter(SEXP x_) : obj( as<T>(x_) ){}
+        ReferenceInputParameter() : x(R_NilValue), obj(){}
+        ReferenceInputParameter(SEXP x_) : x(x_), obj( as<T>(x_) ) {}
         
-        inline operator reference() { return obj ; }
-        
-    private:
-        T obj ;
+        void set(SEXP x_){ x = x_ ; obj = as<T>(x); }
+        inline operator reference() { return get() ; }
+        inline reference get(){ return obj; } 
+    
+        SEXP x ;
+        T obj ; 
     } ;
 
-    // same for const
-    template <typename T>
-    class ConstInputParameter {
-    public:
-        typedef const T const_nonref ;
-        ConstInputParameter(SEXP x_) : obj( as<T>(x_) ){}
-        
-        inline operator const_nonref() { return obj ; }
-        
-    private:
-        T obj ;
-    } ;
-    
     // same for const references
     template <typename T>
     class ConstReferenceInputParameter {
     public:
         typedef const T& const_reference ;
-        ConstReferenceInputParameter(SEXP x_) : obj( as<T>(x_) ){}
-        
+        ConstReferenceInputParameter(SEXP x_) : x(x_), obj( as<T>(x_) ){}
+        ConstReferenceInputParameter(): x(R_NilValue),obj(){}
         inline operator const_reference() { return obj ; }
+        void set(SEXP x_){ x = x_ ; obj = as<T>(x); }
         
     private:
+        SEXP x ;
         T obj ;
     } ;
     

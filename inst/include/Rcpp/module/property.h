@@ -1,7 +1,3 @@
-//
-// Module_Add_Property.h:  Rcpp modules
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
@@ -19,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_Module_Add_Property_h
-#define Rcpp_Module_Add_Property_h
+#ifndef Rcpp_Module_property_h
+#define Rcpp_Module_property_h
 
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void), const char* docstring = 0){
