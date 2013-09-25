@@ -20,9 +20,9 @@
   
     template <typename Class, typename MethodClass>
     void debug_method( MethodClass& method, std::string& name){ 
-        std::string s( "   " ) ;
+        std::string s ;
         method.signature( s, DEMANGLE(Class) ) ;
-        Rprintf( "%s\n", s.c_str()) ;
+        Rprintf( "    %s\n", s.c_str()) ;
     }
 
 #endif
