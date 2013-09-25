@@ -21,69 +21,24 @@
 #ifndef Rcpp_Module_Property_h
 #define Rcpp_Module_Property_h
 
-// getter through a member function
-template <typename Class, typename PROP>
-class CppProperty_GetMethod : public CppProperty<Class> {
+template <typename Class, typename PROP, typename GetterType>
+class CppProperty_ReadOnly : public CppProperty<Class> {
 public:         
-    typedef PROP (Class::*GetMethod)(void) ;
     typedef CppProperty<Class> prop_class ;
 
-    CppProperty_GetMethod( GetMethod getter_, const char* doc = 0 ) : 
-        prop_class(doc), getter(getter_), class_name(DEMANGLE(PROP)){}
+    CppProperty_ReadOnly( GetterType getter_, const char* doc = 0 ) : 
+        prop_class(doc), getter(getter_) {}
                 
-    SEXP get(Class* object) { return Rcpp::wrap( (object->*getter)() ) ; }
+    SEXP get(Class* object) { return property_invoke_getter<Class,CppProperty_ReadOnly,GetterType>(*this, getter, object) ; }
     void set(Class*, SEXP) { throw std::range_error("property is read only") ; }                
     bool is_readonly(){ return true ; }
-    std::string get_class(){ return class_name; }
+    std::string get_class(){ return DEMANGLE(PROP); }
                         
 private:
-    GetMethod getter ;
+    GetterType getter ;
     std::string class_name ;
                                 
 } ;
-
-// getter through a const member function
-template <typename Class, typename PROP>
-class CppProperty_GetConstMethod : public CppProperty<Class> {
-public:         
-    typedef PROP (Class::*GetMethod)(void) const ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetConstMethod( GetMethod getter_ , const char* doc = 0) : 
-        prop_class(doc), getter(getter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { return Rcpp::wrap( (object->*getter)() ) ; }
-    void set(Class*, SEXP) { throw std::range_error("property is read only") ; }                
-    bool is_readonly(){ return true ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    std::string class_name ;
-                                
-} ;
-
-
-// getter through a free function taking a pointer to Class
-template <typename Class, typename PROP>
-class CppProperty_GetPointerMethod : public CppProperty<Class> {
-public:         
-    typedef PROP (*GetMethod)(Class*) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetPointerMethod( GetMethod getter_ , const char* doc = 0) : 
-        prop_class(doc), getter(getter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { return Rcpp::wrap( getter(object) ) ; }
-    void set(Class*, SEXP) { throw std::range_error("property is read only") ; }                
-    bool is_readonly(){ return true ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    std::string class_name ;                                
-} ;
-
 
 // getter and setter through member functions
 template <typename Class, typename PROP>

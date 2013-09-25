@@ -275,6 +275,7 @@ namespace Rcpp{
     #include <Rcpp/module/generated_void_method_invoke.h>
     #include <Rcpp/module/generated_pointer_method_invoke.h>
     #include <Rcpp/module/generated_void_pointer_method_invoke.h>
+    #include <Rcpp/module/property_invoke.h>
     
     #include <Rcpp/module/CppMethod.h>
     #include <Rcpp/module/PointerCppMethod.h>
