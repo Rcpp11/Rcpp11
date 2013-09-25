@@ -22,23 +22,24 @@ writeLines('
      
     template <typename Class, typename OUT>
     SEXP method_invoke( traits::number_to_type<0>, OUT (Class::*Method)(void), Class* object, SEXP* args ){ 
-        return Rcpp::module_wrap< typename Rcpp::traits::remove_const_and_reference<OUT>::type >( (object->*Method)() ) ;
+        return module_wrap( (object->*Method)() ) ;
     }
 ', file )
 
 tmpl <- function(n) {
+    indices <- seq(0,n-1)
     sprintf( '
     template <typename Class, typename OUT, %s>
     SEXP method_invoke( traits::number_to_type<%d>, OUT (Class::*Method)(%s), Class* object, SEXP* args ){ 
-        %s
-        return Rcpp::module_wrap< typename Rcpp::traits::remove_const_and_reference<OUT>::type >( (object->*Method)( %s ) ) ;
+        %s          
+        return module_wrap( (object->*Method)( %s ) ) ;
     }
     ', 
-    paste( sprintf("typename U%d", 1:n), collapse = ", " ), 
+    paste( sprintf("typename U%d", indices), collapse = ", " ), 
     n, 
-    paste( sprintf("U%d", 1:n), collapse = ", " ), 
-    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
-    paste( sprintf("x%d", 1:n), collapse = ", " )
+    paste( sprintf("U%d", indices), collapse = ", " ), 
+    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
+    paste( sprintf("x%d", indices), collapse = ", " )
     )
 }
 

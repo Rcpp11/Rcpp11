@@ -44,8 +44,11 @@ namespace Rcpp{
         
         inline const char* check_single_string( SEXP x){
             if( TYPEOF(x) == CHARSXP ) return CHAR( x ) ;
-            if( ! ::Rf_isString(x) )
-                throw ::Rcpp::not_compatible( "expecting a string" ) ;
+            if( ! ::Rf_isString(x) ){
+                std::string message( "expecting a string. got object of R type : " ) ;
+                message += sexp_to_name(TYPEOF(x)) ;
+                throw ::Rcpp::not_compatible( message ) ;
+            }
             if (Rf_length(x) != 1)
                 throw ::Rcpp::not_compatible( "expecting a single value");
             return CHAR( STRING_ELT( ::Rcpp::r_cast<STRSXP>(x) ,0 ) ) ;

@@ -25,7 +25,7 @@
         method_name += "::"  ;
         method_name += name ;
         method.signature( s, method_name.c_str() ) ;
-        Rprintf( "    %50s   [object = <%p>]\n", s.c_str(), object) ;
+        Rprintf( "    %70s   [object = <%p>] ...", s.c_str(), object) ;
     }
 
 #endif

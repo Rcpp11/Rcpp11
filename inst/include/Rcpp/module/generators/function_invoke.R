@@ -25,6 +25,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
 ', file )
 
 tmpl <- function(n) {
+    indices <- seq(0,n-1)
     sprintf( '
     template <typename OUT, %s>
     SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
@@ -32,9 +33,9 @@ tmpl <- function(n) {
         return wrap(ptr_fun(%s)) ;
     }
     ', 
-    paste( sprintf("typename U%d", 1:n), collapse = ", " ), 
-    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
-    paste( sprintf("x%d", 1:n), collapse = ", " )
+    paste( sprintf("typename U%d", indices), collapse = ", " ), 
+    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
+    paste( sprintf("x%d", indices), collapse = ", " )
     )
 }
 

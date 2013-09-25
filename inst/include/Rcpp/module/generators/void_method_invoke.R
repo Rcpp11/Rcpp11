@@ -27,6 +27,7 @@ void void_method_invoke( traits::number_to_type<0>, void (Class::*Method)(void),
 ', file )
 
 tmpl <- function(n) {
+    indices <- seq(0, n-1)
     sprintf( '
     template <typename Class, %s>
     void void_method_invoke( traits::number_to_type<%d>,void (Class::*Method)(%s), Class* object, SEXP* args ){ 
@@ -34,11 +35,11 @@ tmpl <- function(n) {
         (object->*Method)( %s ) ;
     }
     ', 
-    paste( sprintf("typename U%d", 1:n), collapse = ", " ),
+    paste( sprintf("typename U%d", indices), collapse = ", " ),
     n,
-    paste( sprintf("U%d", 1:n), collapse = ", " ), 
-    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", 1:n, 1:n, 1:n), collapse = "\n        " ), 
-    paste( sprintf("x%d", 1:n), collapse = ", " )
+    paste( sprintf("U%d", indices), collapse = ", " ), 
+    paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
+    paste( sprintf("x%d", indices), collapse = ", " )
     )
 }
 
