@@ -438,9 +438,7 @@
             return out ;
         }
 
-#include <Rcpp/module/Module_Field.h>
-
-#include <Rcpp/module/Module_Add_Property.h>
+        #include <Rcpp/module/Property.h>
 
         self& finalizer( void (*f)(Class*) ){
             SetFinalizer( new FunctionFinalizer<Class>( f ) ) ;

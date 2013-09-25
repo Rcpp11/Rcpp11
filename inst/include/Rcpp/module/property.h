@@ -94,5 +94,21 @@
             return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod), false>(GetMethod, SetMethod, name_, docstring) );
     }
 	
+    template <typename PROP>
+    self& field( const char* name_, PROP Class::*ptr, const char* docstring = 0){
+        if( is_debugging )
+            return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(ptr),decltype(ptr),true>(ptr, ptr, name_, docstring) ) ;
+        else
+            return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(ptr),decltype(ptr),false>(ptr, ptr, name_, docstring) ) ;
+    }
+            
+    template <typename PROP>
+    self& field_readonly( const char* name_, PROP Class::*ptr, const char* docstring = 0 ){
+        if( is_debugging )
+            return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(ptr),std::nullptr_t,true>(ptr, nullptr, name_, docstring) ) ;
+        else
+            return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(ptr),std::nullptr_t,false>(ptr, nullptr, name_, docstring) ) ;
+    }
+
 	
 #endif
