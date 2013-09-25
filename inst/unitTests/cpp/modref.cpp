@@ -40,8 +40,7 @@ void clearWorld( World* w ){
 
 RCPP_MODULE(yada){
 	class_<World>( "World" )
-	    .debug()
-        .default_constructor()
+	    .default_constructor()
         
         .method( "greet", &World::greet )
         .method( "set", &World::set )
