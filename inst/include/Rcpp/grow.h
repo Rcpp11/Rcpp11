@@ -24,25 +24,24 @@
 
 namespace Rcpp {
 
-    // inline SEXP pairlist() { return R_NilValue ; }
     SEXP grow( SEXP head, SEXP tail ) ; 
     
     namespace internal{
      
-    template <typename T>
-    	inline SEXP grow__dispatch( std::false_type, const T& head, SEXP tail ){
-    	    return grow( wrap(head), tail ) ;
-    	}
-    
-    	template <typename T>
-    	inline SEXP grow__dispatch( std::true_type, const T& head, SEXP tail ){
-    	    SEXP y = PROTECT( wrap( head.object) ) ;
-    	    SEXP x = PROTECT( Rf_cons( y , tail) ) ;
-    	    SEXP headNameSym = ::Rf_install( head.name.c_str() );
-    	    SET_TAG( x, headNameSym ); 
-    	    UNPROTECT(2); 
-    	    return x; 	
-    	}
+        template <typename T>
+        inline SEXP grow__dispatch( std::false_type, const T& head, SEXP tail ){
+            return grow( wrap(head), tail ) ;
+        }
+        
+        template <typename T>
+        inline SEXP grow__dispatch( std::true_type, const T& head, SEXP tail ){
+            SEXP y = PROTECT( wrap( head.object) ) ;
+            SEXP x = PROTECT( Rf_cons( y , tail) ) ;
+            SEXP headNameSym = ::Rf_install( head.name.c_str() );
+            SET_TAG( x, headNameSym ); 
+            UNPROTECT(2); 
+            return x; 	
+        }
     
     } // internal
 
@@ -72,16 +71,9 @@ namespace Rcpp {
     
     
     template <typename... Args>
-    SEXP pairlist( const Args&... args ){
+    inline SEXP pairlist( const Args&... args ){
         return PairlistHelper<Args...>::get( args... ) ;    
     }
-     
-    // /* end of the recursion, wrap first to make the CAR and use R_NilValue as the CDR of the list */
-    // 
-    // template<typename T, typename... Args>
-    // SEXP pairlist( const T& first, const Args&... args ){
-    //     return grow(first, pairlist(args...) );
-    // }
 
 } // namespace Rcpp
 
