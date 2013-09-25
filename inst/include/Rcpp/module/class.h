@@ -85,12 +85,12 @@
         }
         
         self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
-            return constructor<>( docstring, valid ) ;  
+            return AddConstructor( new Constructor_Impl<Class>, valid, docstring ) ;  
         }
                 
         template <typename... Args>
         self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
-            AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
+            return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
         }
     
         template <typename... Args>
