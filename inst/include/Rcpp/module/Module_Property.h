@@ -31,8 +31,8 @@ public:
     CppProperty_Read_Write( GetterType getter_, SetterType setter_, const char* prop_name_, const char* doc = 0 ) : 
         prop_class(doc), getter(getter_), setter( setter_), prop_name(prop_name_) {}
                 
-    SEXP get(Class* object     ) { return property_invoke_getter<Class,CppProperty_Read_Write,GetterType, debug_type>(*this, getter, object) ; }
-    void set(Class* object, SEXP value) { property_invoke_setter<Class,PROP,CppProperty_Read_Write,SetterType, debug_type>(*this, setter, object, value, prop_name, debug_type() ) ; }                
+    SEXP get(Class* object     ) { return property_invoke_getter<Class,PROP,CppProperty_Read_Write,GetterType>(*this, getter, object, prop_name, debug_type() ) ; }
+    void set(Class* object, SEXP value) { property_invoke_setter<Class,PROP,CppProperty_Read_Write,SetterType>(*this, setter, object, value, prop_name, debug_type() ) ; }                
     bool is_readonly(){ return false ; }
     std::string get_class(){ return DEMANGLE(PROP); }
                         

@@ -1,3 +1,4 @@
+
 #!/usr/bin/r -t
 #
 # Copyright (C) 2010 - 2013  John Chambers, Dirk Eddelbuettel and Romain Francois
@@ -39,6 +40,8 @@ test.modRef <- function() {
     
     checkEquals(ww$twice(), paste(ww$greet(), ww$greet()))
 
+    ww$bla 
+    
 }
 
 }

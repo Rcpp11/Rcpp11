@@ -39,7 +39,7 @@
     }
     
     template <typename PROP>
-    self& property( const char* name_, PROP (*GetMethod)(Class*), const char* docstring ){
+    self& property( const char* name_, PROP (*GetMethod)(Class*), const char* docstring = 0){
         if( is_debugging )
             return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod),std::nullptr_t,true>(GetMethod, nullptr, name_, docstring) ) ;
         else

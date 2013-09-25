@@ -28,9 +28,22 @@ inline SEXP property_invoke_getter__impl( Property& prop, GetterType& getter, Cl
     return wrap( (*getter)(object) ) ;
 }
 
-template <typename Class, typename Property, typename GetterType>
-inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* object){
-    return property_invoke_getter__impl( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
+template <typename Class, typename PROP, typename Property, typename GetterType>
+inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* object, std::string& /* prop_name */, std::false_type /* debug = false */ ){
+    return property_invoke_getter__impl<Class,Property,GetterType>( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
+}
+template <typename Class, typename PROP, typename Property, typename GetterType>
+inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* object, std::string& prop_name , std::true_type /* debug = false */ ){
+    std::string log( "   " ) ;
+    log += DEMANGLE(PROP) ;
+    log += " ::" ;
+    log += DEMANGLE(Class) ;
+    log += " " ;
+    log += prop_name ;
+    Rprintf( "    %s ...", log.c_str() ) ;
+    SEXP res = property_invoke_getter__impl<Class,Property,GetterType>( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
+    Rprintf( "\n" );
+    return res ;
 }
 
 
@@ -50,12 +63,13 @@ inline void property_invoke_setter__impl__isnull( Property& prop, SetterType& se
 }
 template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
-    property_invoke_setter__impl__isnull( prop, setter, object, value, typename std::is_same<SetterType, decltype(nullptr)>::type() ) ;
+    property_invoke_setter__impl__isnull<Class,PROP,Property,SetterType>( prop, setter, object, value, typename std::is_same<SetterType, decltype(nullptr)>::type() ) ;
 }
 
 template <typename Class, typename PROP, typename Property, typename SetterType>
 inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value, std::string& /* prop_name */, std::false_type /* debug = false */ ){
-    property_invoke_setter__impl( prop, setter, object, value, typename std::is_member_function_pointer<SetterType>::type() );
+    property_invoke_setter__impl<Class,PROP,Property,SetterType>( prop, setter, object, value, typename std::is_member_function_pointer<SetterType>::type() );
+    
 }
 
 template <typename Class, typename PROP, typename Property, typename SetterType>
@@ -67,7 +81,7 @@ inline void property_invoke_setter( Property& prop, SetterType& setter, Class* o
     log += " " ;
     log += prop_name ;
     Rprintf( "    %s ...", log.c_str() ) ;
-    property_invoke_setter<Class,PROP,Property,SetterType,std::false_type>() ;
+    property_invoke_setter__impl<Class,PROP,Property,SetterType>( prop, setter, object, value, typename std::is_member_function_pointer<SetterType>::type() );
     Rprintf( "\n" ) ;
 }
 

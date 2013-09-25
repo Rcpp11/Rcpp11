@@ -40,6 +40,7 @@ void clearWorld( World* w ){
 
 RCPP_MODULE(yada){
 	class_<World>( "World" )
+	    .debug()
 	    .default_constructor()
         
         .method( "greet", &World::greet )
@@ -48,6 +49,8 @@ RCPP_MODULE(yada){
         
         .field( "foo", &World::foo )
         .field_readonly( "bar", &World::bar )
+        
+        .property( "bla", &World::greet )
 	;
 
 }
