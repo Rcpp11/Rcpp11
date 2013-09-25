@@ -20,20 +20,23 @@ writeLines('
 #ifndef Rcpp_Module_generated_void_function_invoke_h
 #define Rcpp_Module_generated_void_function_invoke_h
      
-template <typename OUT>
-SEXP void_function_invoke( void (*ptr_fun)(), SEXP* args ){ ptr_fun() ; }
+    inline void void_function_invoke( traits::number_to_type<0>, void (*ptr_fun)(void), SEXP* args ){ 
+        ptr_fun() ;
+    }
 ', file )
 
 tmpl <- function(n) {
     indices <- seq(0,n-1)
     sprintf( '
     template <%s>
-    void void_function_invoke( void (*ptr_fun)(), SEXP* args ){ 
+    void void_function_invoke( traits::number_to_type<%d>, void (*ptr_fun)(%s), SEXP* args ){ 
         %s
         ptr_fun(%s) ;
     }
     ', 
     paste( sprintf("typename U%d", indices), collapse = ", " ), 
+    n,
+    paste( sprintf("U%d", indices), collapse = ", " ), 
     paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
     paste( sprintf("x%d", indices), collapse = ", " )
     )

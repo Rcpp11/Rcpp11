@@ -21,19 +21,21 @@ writeLines('
 #define Rcpp_Module_generated_function_invoke_h
      
 template <typename OUT>
-SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
+SEXP function_invoke( traits::number_to_type<0>, OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
 ', file )
 
 tmpl <- function(n) {
     indices <- seq(0,n-1)
     sprintf( '
     template <typename OUT, %s>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<%d>, OUT (*ptr_fun)(%s), SEXP* args ){ 
         %s
         return wrap(ptr_fun(%s)) ;
     }
     ', 
-    paste( sprintf("typename U%d", indices), collapse = ", " ), 
+    paste( sprintf("typename U%d", indices), collapse = ", " ),
+    n, 
+    paste( sprintf("U%d", indices), collapse = ", " ),
     paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
     paste( sprintf("x%d", indices), collapse = ", " )
     )

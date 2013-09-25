@@ -29,7 +29,7 @@ struct SignatureBody<First, Args...> {
     static void process( std::string& s ){
         s += get_return_type<First>() ;
         s += ", " ;
-        s += SignatureBody<Args...>::process(s) ;
+        SignatureBody<Args...>::process(s) ;
     }
 } ;
 

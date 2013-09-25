@@ -20,43 +20,48 @@
 
     template <typename OUT, typename... Args>
     self& method( const char* name_, OUT (Class::*fun)(Args...), const char* docstring = 0, ValidMethod valid = &yes ){
+        typedef OUT (Class::*MemberFunctionType)(Args...)  ;
         if( is_debugging )
-            AddMethod( name_, new CppMethod_Impl<Class,false,OUT,Args...>( fun ), valid, docstring) ;
+            AddMethod( name_, new CppMethod_Impl<Class,MemberFunctionType, false,OUT,Args...>( fun ), valid, docstring) ;
         else 
-            AddMethod( name_, new Debug_CppMethod_Impl<Class,false,OUT,Args...>( fun, name_ ), valid, docstring) ;
+            AddMethod( name_, new Debug_CppMethod_Impl<Class,MemberFunctionType, false,OUT,Args...>( fun, name_ ), valid, docstring) ;
         return *this ;
     }
     
     template <typename OUT, typename... Args>
     self& method( const char* name_, OUT (Class::*fun)(Args...) const, const char* docstring = 0, ValidMethod valid = &yes ){
+        typedef OUT (Class::*MemberFunctionType)(Args...) const  ;
         if( is_debugging )
-            AddMethod( name_, new CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
+            AddMethod( name_, new CppMethod_Impl<Class,MemberFunctionType,true,OUT,Args...>(fun), valid, docstring ) ;
         else
-            AddMethod( name_, new Debug_CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun), name_ ), valid, docstring ) ;
+            AddMethod( name_, new Debug_CppMethod_Impl<Class,MemberFunctionType,true,OUT,Args...>( fun, name_ ), valid, docstring ) ;
         return *this ;
     }
     
     template <typename OUT, typename... Args>
     self& nonconst_method( const char* name_, OUT (Class::*fun)(Args...), const char* docstring = 0, ValidMethod valid = &yes ){
+        typedef OUT (Class::*MemberFunctionType)(Args...)  ;
         if(is_debugging)
-            AddMethod( name_, new CppMethod_Impl<Class,false,OUT,Args...>( fun ) , valid, docstring ) ;
+            AddMethod( name_, new CppMethod_Impl<Class,MemberFunctionType,false,OUT,Args...>( fun ) , valid, docstring ) ;
         else 
-            AddMethod( name_, new Debug_CppMethod_Impl<Class,false,OUT,Args...>( fun, name_ ) , valid, docstring ) ;
+            AddMethod( name_, new Debug_CppMethod_Impl<Class,MemberFunctionType,false,OUT,Args...>( fun, name_ ) , valid, docstring ) ;
         return *this ;
     }
     template <typename OUT, typename... Args>
-    self& const_method( const char* name_, OUT (Class::*fun)(void) const, const char* docstring = 0, ValidMethod valid = &yes ){
+    self& const_method( const char* name_, OUT (Class::*fun)(Args...) const, const char* docstring = 0, ValidMethod valid = &yes ){
+        typedef OUT (Class::*MemberFunctionType)(Args...) const ;
         if( is_debugging )
-            AddMethod( name_, new CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun) ), valid, docstring ) ;
+            AddMethod( name_, new CppMethod_Impl<Class,MemberFunctionType,true,OUT,Args...>( fun ), valid, docstring ) ;
         else
-            AddMethod( name_, new Debug_CppMethod_Impl<Class,true,OUT,Args...>( const_cast<OUT (Class::*)(Args...)>(fun), name_), valid, docstring ) ;
+            AddMethod( name_, new Debug_CppMethod_Impl<Class,MemberFunctionType,true,OUT,Args...>( fun, name_), valid, docstring ) ;
         return *this ;
     }
 	
     	template <typename OUT, typename... Args>
 	self& method( const char* name_, OUT (*fun)(Class*, Args...), const char* docstring = 0, ValidMethod valid = &yes ){
-		AddMethod( name_, new Pointer_CppMethod_Impl<Class,OUT,Args...>( fun ), valid, docstring ) ;
-  		return *this ;
+        typedef OUT (*MemberFunctionType)(Class*, Args...) ;
+        AddMethod( name_, new Pointer_CppMethod_Impl<Class,MemberFunctionType,OUT,Args...>( fun ), valid, docstring ) ;
+        return *this ;
 	}
 
 #endif

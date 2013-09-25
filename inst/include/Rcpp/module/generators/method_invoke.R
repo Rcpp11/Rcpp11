@@ -20,8 +20,8 @@ writeLines('
 #ifndef Rcpp_Module_generated_method_invoke_h
 #define Rcpp_Module_generated_method_invoke_h
      
-    template <typename Class, typename OUT>
-    SEXP method_invoke( traits::number_to_type<0>, OUT (Class::*Method)(void), Class* object, SEXP* args ){ 
+    template <typename Class, typename OUT, typename MemberFunctionType>
+    SEXP method_invoke( traits::number_to_type<0>, MemberFunctionType Method, Class* object, SEXP* args ){ 
         return module_wrap( (object->*Method)() ) ;
     }
 ', file )
@@ -29,15 +29,14 @@ writeLines('
 tmpl <- function(n) {
     indices <- seq(0,n-1)
     sprintf( '
-    template <typename Class, typename OUT, %s>
-    SEXP method_invoke( traits::number_to_type<%d>, OUT (Class::*Method)(%s), Class* object, SEXP* args ){ 
+    template <typename Class, typename OUT, typename MemberFunctionType, %s>
+    SEXP method_invoke( traits::number_to_type<%d>, MemberFunctionType Method, Class* object, SEXP* args ){ 
         %s          
         return module_wrap( (object->*Method)( %s ) ) ;
     }
     ', 
     paste( sprintf("typename U%d", indices), collapse = ", " ), 
     n, 
-    paste( sprintf("U%d", indices), collapse = ", " ), 
     paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
     paste( sprintf("x%d", indices), collapse = ", " )
     )

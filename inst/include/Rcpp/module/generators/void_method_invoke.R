@@ -20,24 +20,23 @@ writeLines('
 #ifndef Rcpp_Module_generated_void_method_invoke_h
 #define Rcpp_Module_generated_void_method_invoke_h
      
-template <typename Class>
-void void_method_invoke( traits::number_to_type<0>, void (Class::*Method)(void), Class* object, SEXP* ){ 
-    (object->*Method)() ;
-}
+    template <typename Class, typename MemberFunctionType>
+    void void_method_invoke( traits::number_to_type<0>, MemberFunctionType Method, Class* object, SEXP* ){ 
+        (object->*Method)() ;
+    }
 ', file )
 
 tmpl <- function(n) {
     indices <- seq(0, n-1)
     sprintf( '
-    template <typename Class, %s>
-    void void_method_invoke( traits::number_to_type<%d>,void (Class::*Method)(%s), Class* object, SEXP* args ){ 
+    template <typename Class, typename MemberFunctionType, %s>
+    void void_method_invoke( traits::number_to_type<%d>, MemberFunctionType Method, Class* object, SEXP* args ){ 
         %s
         (object->*Method)( %s ) ;
     }
     ', 
     paste( sprintf("typename U%d", indices), collapse = ", " ),
     n,
-    paste( sprintf("U%d", indices), collapse = ", " ), 
     paste( sprintf("typename Rcpp::traits::input_parameter<U%d>::type x%d( args[%d] ) ;", indices, indices, indices), collapse = "\n        " ), 
     paste( sprintf("x%d", indices), collapse = ", " )
     )

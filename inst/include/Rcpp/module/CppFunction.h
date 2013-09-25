@@ -79,7 +79,7 @@
                 CppFunction(docstring), ptr_fun(fun){}
                 
             SEXP operator()(SEXP* args) {
-                return function_invoke<OUT,Args...>( ptr_fun, args ) ;
+                return function_invoke<OUT,Args...>( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args ) ;
             }
     
             inline int nargs(){ return sizeof...(Args); }
@@ -97,7 +97,7 @@
                 CppFunction(docstring), ptr_fun(fun){}
                 
             SEXP operator()(SEXP* args) {
-                void_function_invoke<Args...>( ptr_fun, args ) ;
+                void_function_invoke( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args ) ;
                 return R_NilValue ;
             }
     
@@ -115,7 +115,7 @@
         public:
             CppFunction_WithFormals_Impl(OUT (*fun)(Args...), Rcpp::List formals_,  const char* docstring = 0 ) : CppFunction(docstring), formals(formals_), ptr_fun(fun){}
             SEXP operator()(SEXP* args) {
-                return function_invoke<OUT, Args...>( ptr_fun, args) ;
+                return function_invoke<OUT, Args...>( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args) ;
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
@@ -133,7 +133,7 @@
         public:
             CppFunction_WithFormals_Impl(void (*fun)(Args...), Rcpp::List formals_,  const char* docstring = 0 ) : CppFunction(docstring), formals(formals_), ptr_fun(fun){}
             SEXP operator()(SEXP* args) {
-                void_function_invoke<Args...>( ptr_fun, args) ;
+                void_function_invoke( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args) ;
                 return R_NilValue ;
             }
     

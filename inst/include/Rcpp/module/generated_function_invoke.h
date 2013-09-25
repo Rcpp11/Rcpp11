@@ -20,18 +20,18 @@
 #define Rcpp_Module_generated_function_invoke_h
      
 template <typename OUT>
-SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
+SEXP function_invoke( traits::number_to_type<0>, OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
 
 
     template <typename OUT, typename U0>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<1>, OUT (*ptr_fun)(U0), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         return wrap(ptr_fun(x0)) ;
     }
     
 
     template <typename OUT, typename U0, typename U1>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<2>, OUT (*ptr_fun)(U0, U1), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         return wrap(ptr_fun(x0, x1)) ;
@@ -39,7 +39,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<3>, OUT (*ptr_fun)(U0, U1, U2), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -48,7 +48,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<4>, OUT (*ptr_fun)(U0, U1, U2, U3), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -58,7 +58,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<5>, OUT (*ptr_fun)(U0, U1, U2, U3, U4), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -69,7 +69,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<6>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -81,7 +81,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<7>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -94,7 +94,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<8>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -108,7 +108,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<9>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -123,7 +123,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<10>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -139,7 +139,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<11>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -156,7 +156,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<12>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -174,7 +174,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<13>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -193,7 +193,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<14>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -213,7 +213,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<15>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -234,7 +234,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<16>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -256,7 +256,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<17>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -279,7 +279,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<18>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -303,7 +303,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<19>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -328,7 +328,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<20>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -354,7 +354,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<21>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -381,7 +381,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<22>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -409,7 +409,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<23>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -438,7 +438,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<24>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -468,7 +468,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<25>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -499,7 +499,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<26>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -531,7 +531,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<27>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -564,7 +564,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<28>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -598,7 +598,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<29>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -633,7 +633,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<30>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -669,7 +669,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<31>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -706,7 +706,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<32>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -744,7 +744,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<33>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -783,7 +783,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<34>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -823,7 +823,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<35>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -864,7 +864,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<36>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -906,7 +906,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<37>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -949,7 +949,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<38>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -993,7 +993,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<39>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1038,7 +1038,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<40>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1084,7 +1084,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<41>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1131,7 +1131,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<42>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1179,7 +1179,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<43>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1228,7 +1228,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<44>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1278,7 +1278,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<45>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1329,7 +1329,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<46>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1381,7 +1381,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<47>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1434,7 +1434,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<48>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1488,7 +1488,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<49>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1543,7 +1543,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<50>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1599,7 +1599,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<51>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1656,7 +1656,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<52>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1714,7 +1714,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<53>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1773,7 +1773,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<54>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1833,7 +1833,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<55>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1894,7 +1894,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<56>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -1956,7 +1956,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<57>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2019,7 +2019,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<58>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2083,7 +2083,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<59>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2148,7 +2148,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<60>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2214,7 +2214,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<61>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2281,7 +2281,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<62>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2349,7 +2349,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<63>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2418,7 +2418,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62, typename U63>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<64>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
@@ -2488,7 +2488,7 @@ SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ return wrap(ptr_fun()) ; }
     
 
     template <typename OUT, typename U0, typename U1, typename U2, typename U3, typename U4, typename U5, typename U6, typename U7, typename U8, typename U9, typename U10, typename U11, typename U12, typename U13, typename U14, typename U15, typename U16, typename U17, typename U18, typename U19, typename U20, typename U21, typename U22, typename U23, typename U24, typename U25, typename U26, typename U27, typename U28, typename U29, typename U30, typename U31, typename U32, typename U33, typename U34, typename U35, typename U36, typename U37, typename U38, typename U39, typename U40, typename U41, typename U42, typename U43, typename U44, typename U45, typename U46, typename U47, typename U48, typename U49, typename U50, typename U51, typename U52, typename U53, typename U54, typename U55, typename U56, typename U57, typename U58, typename U59, typename U60, typename U61, typename U62, typename U63, typename U64>
-    SEXP function_invoke( OUT (*ptr_fun)(), SEXP* args ){ 
+    SEXP function_invoke( traits::number_to_type<65>, OUT (*ptr_fun)(U0, U1, U2, U3, U4, U5, U6, U7, U8, U9, U10, U11, U12, U13, U14, U15, U16, U17, U18, U19, U20, U21, U22, U23, U24, U25, U26, U27, U28, U29, U30, U31, U32, U33, U34, U35, U36, U37, U38, U39, U40, U41, U42, U43, U44, U45, U46, U47, U48, U49, U50, U51, U52, U53, U54, U55, U56, U57, U58, U59, U60, U61, U62, U63, U64), SEXP* args ){ 
         typename Rcpp::traits::input_parameter<U0>::type x0( args[0] ) ;
         typename Rcpp::traits::input_parameter<U1>::type x1( args[1] ) ;
         typename Rcpp::traits::input_parameter<U2>::type x2( args[2] ) ;
