@@ -85,7 +85,7 @@
         }
         
         self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
-            return constructor( docstring, valid ) ;  
+            return constructor<>( docstring, valid ) ;  
         }
                 
         template <typename... Args>
