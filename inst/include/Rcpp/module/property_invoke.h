@@ -38,7 +38,7 @@ inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* o
     log += DEMANGLE(PROP) ;
     log += " " ;
     log += DEMANGLE(Class) ;
-    log += ":: "
+    log += ":: " ;
     log += prop_name ;
     Rprintf( "    %70s  getter [object = <%p>]", log.c_str(), object ) ;
     SEXP res = property_invoke_getter__impl<Class,Property,GetterType>( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
@@ -78,7 +78,7 @@ inline void property_invoke_setter( Property& prop, SetterType& setter, Class* o
     log += DEMANGLE(PROP) ;
     log += " " ;
     log += DEMANGLE(Class) ;
-    log += ":: "
+    log += ":: " ;
     log += " " ;
     log += prop_name ;
     Rprintf( "    %70s  setter [object = <%p>]", log.c_str(), object ) ;
