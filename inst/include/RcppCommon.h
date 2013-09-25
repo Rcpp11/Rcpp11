@@ -68,7 +68,7 @@ const char * sexp_to_name(int sexp_type);
 #include <Rcpp/sprintf.h>
 
 
-#include <Rcpp/lang.h>
+#include <Rcpp/lcons.h>
 #include <Rcpp/complex.h>
 #include <Rcpp/barrier.h>
 
