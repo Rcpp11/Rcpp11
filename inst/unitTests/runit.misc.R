@@ -116,7 +116,7 @@ test.rcout <- function(){
 test.na_proxy <- function(){
     checkEquals( 
         na_proxy(), 
-        rep(c(TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE) , 2), 
+        rep(c(TRUE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE) , 2), 
         msg = "Na_Proxy NA == handling"
     )    
 }
