@@ -61,7 +61,7 @@
 		typedef CppMethod<Class> method_class ;
 		Debug_Pointer_CppMethod_Impl( MemberFunctionType m, const char* name_) : method_class(), met(m), name(name_){} 
 		SEXP operator()( Class* object, SEXP* args ){
-            debug_method<Class,Debug_Pointer_CppMethod_Impl, object>(*this, name) ;  
+            debug_method<Class,Debug_Pointer_CppMethod_Impl>(*this, name, object) ;  
             SEXP res = pointer_method_invoke<Class,MemberFunctionType,OUT,Args...>(typename traits::number_to_type<sizeof...(Args)>(), met, object,args);
             Rprintf("\n") ;
             return res; 
