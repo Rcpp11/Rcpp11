@@ -1,7 +1,4 @@
-//
-// Module_Property.h:  Rcpp modules
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -34,6 +31,22 @@ inline SEXP property_invoke_getter__impl( Property& prop, GetterType& getter, Cl
 template <typename Class, typename Property, typename GetterType>
 inline SEXP property_invoke_getter( Property& prop, GetterType& getter, Class* object){
     return property_invoke_getter__impl( prop, getter, object, typename std::is_member_function_pointer<GetterType>::type() );
+}
+
+
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::true_type){
+    typename traits::input_parameter<PROP>::type x(value) ; 
+    (object->*setter)(x) ;
+}
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter__impl( Property& prop, SetterType& setter, Class* object, SEXP value, std::false_type){
+    typename traits::input_parameter<PROP>::type x(value) ; 
+    (*setter)(object, x) ;
+}
+template <typename Class, typename PROP, typename Property, typename SetterType>
+inline void property_invoke_setter( Property& prop, SetterType& setter, Class* object, SEXP value){
+    property_invoke_setter__impl( prop, setter, object, value, typename std::is_member_function_pointer<SetterType>::type() );
 }
 
 #endif

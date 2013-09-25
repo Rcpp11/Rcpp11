@@ -2,6 +2,7 @@
 // Module_Property.h:  Rcpp modules
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -40,178 +41,24 @@ private:
                                 
 } ;
 
-// getter and setter through member functions
-template <typename Class, typename PROP>
-class CppProperty_GetMethod_SetMethod : public CppProperty<Class> {
+template <typename Class, typename PROP, typename GetterType, typename SetterType>
+class CppProperty_Read_Write : public CppProperty<Class> {
 public:         
-    typedef PROP (Class::*GetMethod)(void) ;
-    typedef void (Class::*SetMethod)(PROP) ;
     typedef CppProperty<Class> prop_class ;
 
-    CppProperty_GetMethod_SetMethod( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
+    CppProperty_Read_Write( GetterType getter_, SetterType setter_, const char* doc = 0 ) : 
+        prop_class(doc), getter(getter_), setter( setter_) {}
                 
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( (object->*getter)() ) ; 
-    }
-    void set(Class* object, SEXP value) throw(std::range_error,Rcpp::not_compatible){ 
-        (object->*setter)( 
-                          Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                           ) ;
-    }               
+    SEXP get(Class* object     ) { return property_invoke_getter<Class,CppProperty_Read_Write,GetterType>(*this, getter, object) ; }
+    void set(Class* object, SEXP value) { property_invoke_setter<Class,PROP,CppProperty_Read_Write,SetterType>(*this, setter, object, value) ; }                
     bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
+    std::string get_class(){ return DEMANGLE(PROP); }
                         
 private:
-    GetMethod getter ;
-    SetMethod setter ;
-    std::string class_name ;                                
-} ;
-template <typename Class, typename PROP>
-class CppProperty_GetConstMethod_SetMethod : public CppProperty<Class> {
-public:         
-    typedef PROP (Class::*GetMethod)(void) const ;
-    typedef void (Class::*SetMethod)(PROP) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetConstMethod_SetMethod( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( (object->*getter)() ) ; 
-    }
-    void set(Class* object, SEXP value) { 
-        (object->*setter)( 
-                          Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                           ) ;
-    }               
-    bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    SetMethod setter ;
+    GetterType getter ;
+    SetterType setter ;
     std::string class_name ;
                                 
 } ;
-
-
-
-
-// getter though a member function, setter through a pointer function
-template <typename Class, typename PROP>
-class CppProperty_GetMethod_SetPointer : public CppProperty<Class> {
-public:         
-    typedef PROP (Class::*GetMethod)(void) ;
-    typedef void (*SetMethod)(Class*,PROP) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetMethod_SetPointer( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( (object->*getter)() ) ;
-    }
-    void set(Class* object, SEXP value) throw(std::range_error,Rcpp::not_compatible){ 
-        setter( object, 
-                Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                ) ;
-    }               
-    bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    SetMethod setter ;
-    std::string class_name ;
-                                
-} ;
-template <typename Class, typename PROP>
-class CppProperty_GetConstMethod_SetPointer : public CppProperty<Class> {
-public:         
-    typedef PROP (Class::*GetMethod)(void) const ;
-    typedef void (*SetMethod)(Class*,PROP) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetConstMethod_SetPointer( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( (object->*getter)() ) ;
-    }
-    void set(Class* object, SEXP value) { 
-        setter( object, 
-                Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                ) ;
-    }               
-    bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    SetMethod setter ;
-    std::string class_name ;
-                                
-} ;
-
-// getter through pointer function, setter through member function
-template <typename Class, typename PROP>
-class CppProperty_GetPointer_SetMethod : public CppProperty<Class> {
-public:         
-    typedef PROP (*GetMethod)(Class*) ;
-    typedef void (Class::*SetMethod)(PROP) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetPointer_SetMethod( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( getter(object) ) ;
-    }
-    void set(Class* object, SEXP value) { 
-        (object->*setter)( 
-                          Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                           ) ;
-    }               
-    bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    SetMethod setter ;
-    std::string class_name ;
-                                
-} ;
-
-// getter and setter through pointer functions
-// getter through pointer function, setter through member function
-template <typename Class, typename PROP>
-class CppProperty_GetPointer_SetPointer : public CppProperty<Class> {
-public:         
-    typedef PROP (*GetMethod)(Class*) ;
-    typedef void (*SetMethod)(Class*,PROP) ;
-    typedef CppProperty<Class> prop_class ;
-
-    CppProperty_GetPointer_SetPointer( GetMethod getter_, SetMethod setter_, const char* doc = 0) : 
-        prop_class(doc), getter(getter_), setter(setter_), class_name(DEMANGLE(PROP)){}
-                
-    SEXP get(Class* object) { 
-        return Rcpp::wrap( getter(object) ) ;
-    }
-    void set(Class* object, SEXP value) { 
-        setter( object,
-                Rcpp::as< typename Rcpp::traits::remove_const_and_reference< PROP >::type >( value )
-                ) ;
-    }               
-    bool is_readonly(){ return false ; }
-    std::string get_class(){ return class_name; }
-                        
-private:
-    GetMethod getter ;
-    SetMethod setter ;
-    std::string class_name ;
-                
-} ;
-
 
 #endif

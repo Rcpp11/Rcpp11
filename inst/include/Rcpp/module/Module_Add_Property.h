@@ -24,74 +24,47 @@
 
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void), const char* docstring = 0){
-        AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
-        return *this ;
+        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
     }
 
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void) const, const char* docstring = 0){
-        AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
-        return *this ;
+        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
     }
     
     template <typename PROP>
     self& property( const char* name_, PROP (*GetMethod)(Class*), const char* docstring ){
-        AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
-        return *this ;
+        return AddProperty( name_, new CppProperty_ReadOnly<Class,PROP,decltype(GetMethod)>(GetMethod, docstring) ) ;
     }
     
     
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void), void (Class::*SetMethod)(PROP), const char* docstring = 0){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetMethod_SetMethod<Class,PROP>(GetMethod, SetMethod, docstring)
-    	) ;
-    	return *this ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void) const, void (Class::*SetMethod)(PROP), const char* docstring = 0){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetConstMethod_SetMethod<Class,PROP>(GetMethod, SetMethod, docstring)
-    	) ;
-    	return *this ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
-    
     
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void), void (*SetMethod)(Class*,PROP), const char* docstring = 0 ){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetMethod_SetPointer<Class,PROP>(GetMethod, SetMethod, docstring )
-    	) ;
-    	return *this ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
     template <typename PROP>
     self& property( const char* name_, PROP (Class::*GetMethod)(void) const , void (*SetMethod)(Class*,PROP), const char* docstring = 0 ){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetConstMethod_SetPointer<Class,PROP>(GetMethod, SetMethod, docstring)
-    	) ;
-    	return *this ;
+        return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
     
     
     template <typename PROP>
     self& property( const char* name_, PROP (*GetMethod)(Class*), void (Class::*SetMethod)(PROP), const char* docstring = 0 ){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetPointer_SetMethod<Class,PROP>(GetMethod, SetMethod, docstring)
-    	) ;
+    	   return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
     
     template <typename PROP>
     self& property( const char* name_, PROP (*GetMethod)(Class*), void (*SetMethod)(Class*,PROP), const char* docstring = 0 ){
-    	AddProperty( 
-    		name_, 
-    		new CppProperty_GetPointer_SetPointer<Class,PROP>(GetMethod, SetMethod, docstring)
-    	) ;
-    	return *this ;
+    	   return AddProperty( name_, new CppProperty_Read_Write<Class,PROP,decltype(GetMethod), decltype(SetMethod)>(GetMethod, SetMethod, docstring) );
     }
 	
 	
