@@ -98,7 +98,10 @@
         
         template <typename... Args>
         self& factory( Class* (*fun)(Args...), const char* docstring = 0, ValidConstructor valid = &yes_arity<sizeof...(Args)> ){
-            AddFactory( new Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
+            if( is_debugging )
+                AddFactory( new Debug_Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
+            else 
+                AddFactory( new Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
             return *this ;   
         }
         
