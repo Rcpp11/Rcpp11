@@ -141,8 +141,6 @@ namespace Rcpp {
                 
                 // the new SEXP is not NULL, so preserve it 
                 Rcpp_PreserveObject(y);
-                        
-                //update();
             }
 #endif
         }
@@ -257,13 +255,23 @@ namespace Rcpp {
     RObject::RObject(SEXP x)  : m_sexp(Rcpp_PreserveObject(x)){}
 
     /* copy constructor */
-    RObject::RObject( const RObject& other ) : m_sexp( Rcpp_PreserveObject(other.asSexp() ) ) {}
+    RObject::RObject( const RObject& other ) : m_sexp( Rcpp_PreserveObject(other.asSexp() ) ) {
+        RCPP_DEBUG( "RObject::RObject( const RObject& )" ) ;
+    }
 
     RObject::RObject( RObject&& other ) : m_sexp( other.asSexp() ) {
         RCPP_DEBUG( "RObject::RObject( RObject&& )" ) ;
         other.m_sexp = R_NilValue ;
     }
-
+    RObject& RObject::operator=( RObject&& other){
+        if( this != &other ){
+            Rcpp_ReleaseObject(m_sexp) ;
+            m_sexp = other.m_sexp ;
+            RCPP_DEBUG( "RObject::RObject( RObject&& )" ) ;
+            other.m_sexp = R_NilValue ;
+        }
+        return *this ;
+    }
     
     RObject& RObject::operator=( const RObject& other){
         setSEXP( other.asSexp() ) ; 

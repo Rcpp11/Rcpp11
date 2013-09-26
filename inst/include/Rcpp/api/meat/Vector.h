@@ -25,19 +25,19 @@ namespace Rcpp{
 
     template <int RTYPE>
     Vector<RTYPE>::Vector() : RObject( Rf_allocVector( RTYPE, 0 ) ) {
-        RCPP_DEBUG( "Vector()" )
+        RCPP_DEBUG( "%s()", DEMANGLE(Vector) )
         update_vector() ;
         init() ;
     }
     
     template <int RTYPE>
     Vector<RTYPE>::~Vector(){
-         RCPP_DEBUG( "~Vector(<%p>)", m_sexp )   
+         RCPP_DEBUG( "~%s (<%p>)", DEMANGLE(Vector), m_sexp )   
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Vector& other) : RObject(other.asSexp()){
-        RCPP_DEBUG( "Vector<%d>( const Vector& other ), SEXP= <%p>", RTYPE, m_sexp )
+        RCPP_DEBUG( "%s<%d>( const %s& other ), SEXP= <%p>", DEMANGLE(Vector), RTYPE, DEMANGLE(Vector), m_sexp )
         update_vector() ;
     }
     
@@ -49,14 +49,14 @@ namespace Rcpp{
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const int& size ) : RObject( Rf_allocVector( RTYPE, size) )  {
-    	RCPP_DEBUG( "Vector<%d>( int = %d )   m_sexp = <%p> ", RTYPE, size, m_sexp )
+    	RCPP_DEBUG( "%s<%d>( int = %d )   m_sexp = <%p> ", DEMANGLE(Vector), RTYPE, size, m_sexp )
     	update_vector(); 
     	init() ;
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Dimension& dims ) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ){
-        RCPP_DEBUG( "Vector<%s>( const Dimension& (%d) )   m_sexp = <%p>", sexp_to_name(RTYPE), dims.size(), m_sexp )
+        RCPP_DEBUG( "%s( const Dimension& (%d) )   m_sexp = <%p>", DEMANGLE(Vector), dims.size(), m_sexp )
         update_vector();
         init() ;
         if( dims.size() > 1 ){
@@ -67,7 +67,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const Dimension& dims, const U& u) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ) {
-        RCPP_DEBUG( "Vector<%d>( const Dimension& (%d), const U& )", RTYPE, dims.size() )
+        RCPP_DEBUG( "%s( const Dimension& (%d), const U& )", DEMANGLE(Vector), dims.size() )
         update_vector(); 
         fill(u) ;
         if( dims.size() > 1 ){
@@ -78,7 +78,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const int& size, const U& u): RObject( Rf_allocVector( RTYPE, size) ) {
-        RCPP_DEBUG( "Vector<%d>( const int& size, const U& u )", RTYPE, size )
+        RCPP_DEBUG( "%s( const int& size, const U& u )", DEMANGLE(Vector), size )
         update_vector() ;
         fill_or_generate( u ) ;	
     }
