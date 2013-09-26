@@ -53,6 +53,30 @@ namespace Rcpp{
     template <int RTYPE>
     Matrix<RTYPE>::Matrix( const Matrix& other) : VECTOR( other.asSexp() ), nrows(other.nrows) {}
     
+        
+    template <int RTYPE>
+    Matrix<RTYPE>::Matrix( Matrix<RTYPE>&& other) : VECTOR(){
+        RObject::m_sexp = other.m_sexp ;
+        RCPP_DEBUG_MOVE_CTOR( Matrix, "( %s&& other ), SEXP= <%p>", DEMANGLE(Matrix), m_sexp )
+        other.m_sexp = R_NilValue ;
+        VECTOR::update_vector() ;
+        nrows = other.nrows ;
+    }
+    
+    template <int RTYPE>
+    Matrix<RTYPE>& Matrix<RTYPE>::operator=( Matrix<RTYPE>&& other) {
+        RCPP_DEBUG_CLASS( Matrix, "::operator=( %s&& )", DEMANGLE(Matrix) )
+        if( this != &other ){
+            Rcpp_ReleaseObject(RObject::m_sexp) ;
+            RObject::m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+            VECTOR::update_vector() ;
+            nrows = other.nrows ;
+        }
+        return *this ;
+    }
+
+    
     template <int RTYPE>
     template <bool NA, typename MAT>
     Matrix<RTYPE>::Matrix( const MatrixBase<RTYPE,NA,MAT>& other ) : VECTOR( Rf_allocMatrix( RTYPE, other.nrow(), other.ncol() ) ), nrows(other.nrow()) {

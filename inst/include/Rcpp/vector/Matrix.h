@@ -1,7 +1,5 @@
-//
-// Matrix.h:  matrices
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -54,6 +52,8 @@ public:
     Matrix( const int& nrows_, const int& ncols, Iterator start ) ;
         
     Matrix( const Matrix& other)  ;
+    Matrix( Matrix&& other ) ;
+    Matrix& operator=( Matrix&& other) ;
         
     template <bool NA, typename MAT>
     Matrix( const MatrixBase<RTYPE,NA,MAT>& other )  ;
