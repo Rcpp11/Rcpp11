@@ -186,13 +186,6 @@ int integer_names_indexing( IntegerVector y ){
 }
 
 // [[Rcpp::export]]
-IntegerVector integer_comma(){
-    IntegerVector x(4) ;
-	x = 0, 1, 2, 3 ;
-	return x ;
-}
-
-// [[Rcpp::export]]
 IntegerVector integer_push_back( IntegerVector y ){
     y.push_back( 5 ) ;
     return y ;
@@ -596,13 +589,6 @@ CharacterVector character_reverse( CharacterVector y ){
 std::string character_names_indexing( CharacterVector y ){
     std::string foo( y["foo"] ) ;
     return foo ;
-}
-
-// [[Rcpp::export]]
-CharacterVector character_comma(){
-    CharacterVector x(3) ;
-    x = "foo", "bar", "bling" ;
-    return x ;
 }
 
 // [[Rcpp::export]]
