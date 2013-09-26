@@ -84,6 +84,7 @@ namespace Rcpp{
 #include <Rcpp/module/get_signature.h>
 
 #include <Rcpp/module/FunctionInvoker.h>
+#include <Rcpp/module/ConstructorInvoker.h>
 
 #include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/class_Base.h>
@@ -130,7 +131,6 @@ namespace Rcpp{
         ParentMethod* parent_method_pointer ;
     } ;
 
-#include <Rcpp/module/generated_make_new.h>
 #include <Rcpp/module/Constructor.h>
 
 #include <Rcpp/module/generated_factory_new.h>
