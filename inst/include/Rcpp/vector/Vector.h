@@ -93,13 +93,6 @@ public:
         update_vector();
     }
 	
-    Vector( const int& siz, stored_type (*gen)(void) ) : RObject(Rf_allocVector( RTYPE, siz)) {
-        RCPP_DEBUG_CTOR(Vector, "( const int& siz = %s, stored_type (*gen)(void) )", siz )
-        update_vector() ;
-        iterator first = begin(), last = end() ;
-        while( first != last ) *first++ = gen() ;
-    }
-    
     Vector( const int& size )  ;
     Vector( const Dimension& dims)  ;
     template <typename U> Vector( const Dimension& dims, const U& u) ;
@@ -107,15 +100,6 @@ public:
     template <typename U> Vector( const int& size, const U& u) ;
     template <bool NA, typename T> Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
     
-    template <typename U1>
-    Vector( const int& siz, stored_type (*gen)(U1), const U1& u1) ;
-    
-    template <typename U1, typename U2>
-    Vector( const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2) ;
-
-    template <typename U1, typename U2, typename U3>
-    Vector( const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3) ;
-
     template <typename InputIterator>
     Vector( InputIterator first, InputIterator last) ;
 

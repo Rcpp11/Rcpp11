@@ -751,4 +751,8 @@ test.vector.vector.logical <- function( ){
     checkEquals(vector_vector_logical(x,y), list(x < y, x > y, x <= y, x >= y, x == y, x != y), "sugar vector vector operations")
 }
 
+test.replicate <- function(){
+    checkEquals( replicate_(), rep(6, 10) ) ;    
+}
+
 }

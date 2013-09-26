@@ -106,33 +106,6 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    template <typename U1>
-    Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1), const U1& u1) : RObject( Rf_allocVector( RTYPE, siz) ) {
-        update_vector();
-        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
-        iterator first = begin(), last = end() ;
-        while( first != last ) *first++ = gen(u1) ;
-    }
-    
-    template <int RTYPE>
-    template <typename U1, typename U2>
-    Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2) : RObject(Rf_allocVector( RTYPE, siz)){
-        update_vector();
-        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
-        iterator first = begin(), last = end() ;
-        while( first != last ) *first++ = gen(u1,u2) ;
-    }
-
-    template <int RTYPE>
-    template <typename U1, typename U2, typename U3>
-    Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3): RObject(  Rf_allocVector( RTYPE, siz) ){
-        update_vector() ;
-        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
-        iterator first = begin(), last = end() ;
-        while( first != last ) *first++ = gen(u1,u2,u3) ;
-    }
-
-    template <int RTYPE>
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last) : RObject( Rf_allocVector(RTYPE, std::distance(first, last) ) ){
         RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last) [InputIterator = %s] ", DEMANGLE(InputIterator) )

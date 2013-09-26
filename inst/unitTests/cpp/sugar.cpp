@@ -641,4 +641,15 @@ List vector_vector_logical( NumericVector xx, NumericVector yy){
 			LogicalVector y5 = xx == yy;
 			LogicalVector y6 = xx != yy;
 			return List::create(y1, y2, y3, y4, y5, y6);
-}     
+}  
+
+double foo( double x, double y, double z ){
+    return x + y + z ;    
+}
+
+// [[Rcpp::export]]
+NumericVector replicate_(){
+    NumericVector res = replicate( 10, foo, 1.0, 2.0, 3.0 ) ;
+    return res ;
+}
+
