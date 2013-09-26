@@ -65,8 +65,8 @@ const char * sexp_to_name(int sexp_type);
 #include <complex>
 #include <limits>
 #include <typeinfo>
+#include <tuple>
 #include <Rcpp/sprintf.h>
-
 
 #include <Rcpp/lcons.h>
 #include <Rcpp/complex.h>
