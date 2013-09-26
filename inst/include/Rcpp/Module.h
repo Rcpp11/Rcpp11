@@ -281,40 +281,6 @@ namespace Rcpp{
     #include <Rcpp/module/PointerCppMethod.h>
 
     template <typename Class>
-    class CppProperty {
-    public:
-        typedef Rcpp::XPtr<Class> XP ;
-                
-        CppProperty(const char* doc = 0) : docstring( doc == 0 ? "" : doc ) {} ;
-        virtual ~CppProperty(){} ;
-        virtual SEXP get(Class* ) { throw std::range_error("cannot retrieve property"); }
-        virtual void set(Class*, SEXP) { throw std::range_error("cannot set property"); }
-        virtual bool is_readonly(){ return false; }
-        virtual std::string get_class(){ return ""; }
-                
-        std::string docstring ;
-    } ;
-    
-    template <typename Class, typename Parent>
-    class CppInheritedProperty : public CppProperty<Class> {
-    public:
-        typedef CppProperty<Class> Base ;
-        
-        CppInheritedProperty( CppProperty<Parent>* parent_property_ ) : 
-            Base( parent_property_->docstring.c_str() ), 
-            parent_property(parent_property_) 
-        {}
-        
-        SEXP get( Class* obj ){ return parent_property->get( (Parent*)obj ) ; }
-        void set( Class* obj, SEXP s) { parent_property->set( (Parent*)obj, s ) ; }
-        bool is_readonly(){ return parent_property->is_readonly() ; }
-        std::string get_class(){ return parent_property->get_class() ; }
-        
-    private:
-        CppProperty<Parent>* parent_property ;    
-    } ;
-
-    template <typename Class>
     class CppFinalizer{ 
     public:
         CppFinalizer(){} ;
@@ -335,6 +301,8 @@ namespace Rcpp{
         Pointer finalizer ;    
     } ;
 
+    #include <Rcpp/module/CppProperty.h>
+
     template <typename Class>
     class S4_field : public Rcpp::Reference {
     public:   
@@ -353,8 +321,6 @@ namespace Rcpp{
             return *this ;
         }
     } ;
-
-#include <Rcpp/module/Module_Property.h>
 
 #include <Rcpp/module/class.h>
 
