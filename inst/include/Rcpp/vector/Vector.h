@@ -94,11 +94,20 @@ public:
     }
 	
     Vector( const int& size )  ;
+    
     Vector( const Dimension& dims)  ;
-    template <typename U> Vector( const Dimension& dims, const U& u) ;
-    template <bool NA, typename VEC> Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
-    template <typename U> Vector( const int& size, const U& u) ;
-    template <bool NA, typename T> Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
+    
+    template <typename U> 
+    Vector( const Dimension& dims, const U& u) ;
+    
+    template <bool NA, typename VEC> 
+    Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
+    
+    template <typename U> 
+    Vector( const int& size, const U& u) ;
+    
+    template <bool NA, typename T> 
+    Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
     
     template <typename InputIterator>
     Vector( InputIterator first, InputIterator last) ;
@@ -120,9 +129,10 @@ public:
      * Assignment operator. Grab the SEXP of the other vector
      */
     Vector& operator=( const Vector& other ) ;
-	template <typename T> Vector& operator=( const T& x) ;
 	
-    
+    template <typename T> Vector& 
+    operator=( const T& x) ;
+	
     static inline stored_type get_na() { return traits::get_na<RTYPE>(); }
     static inline bool is_na( stored_type x){ return traits::is_na<RTYPE>(x); }
     
@@ -140,7 +150,7 @@ public:
      * offset based on the dimensions of this vector
      */
     size_t offset(const size_t& i, const size_t& j) const {
-    	if( !::Rf_isMatrix(RObject::m_sexp) ) throw not_a_matrix() ;
+        if( !::Rf_isMatrix(RObject::m_sexp) ) throw not_a_matrix() ;
         /* we need to extract the dimensions */
         int *dim = dims() ;
         size_t nrow = static_cast<size_t>(dim[0]) ;
@@ -159,16 +169,16 @@ public:
     }
     
     R_len_t offset(const std::string& name) const {
-    	SEXP names = RCPP_GET_NAMES( RObject::m_sexp ) ;
-    	if( names == R_NilValue ) throw index_out_of_bounds(); 
-    	R_len_t n=size() ;
-    	for( R_len_t i=0; i<n; ++i){
+        SEXP names = RCPP_GET_NAMES( RObject::m_sexp ) ;
+        if( names == R_NilValue ) throw index_out_of_bounds(); 
+        R_len_t n=size() ;
+        for( R_len_t i=0; i<n; ++i){
             if( ! name.compare( CHAR(STRING_ELT(names, i)) ) ){
                 return i ;
             }
-    	}
-    	throw index_out_of_bounds() ;
-    	return -1 ; /* -Wall */
+        }
+        throw index_out_of_bounds() ;
+        return -1 ; /* -Wall */
     }
 
     template <typename U>
