@@ -1,7 +1,3 @@
-//
-// Module_generated_get_return_type.h: 
-//
-// Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
@@ -43,34 +39,6 @@ inline std::string get_return_type(){
 template <>
 inline std::string get_return_type<void_type>(){
     return "void" ;
-}
-template <>
-inline std::string get_return_type<SEXP>(){
-    return "SEXP" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::IntegerVector>(){
-    return "Rcpp::IntegerVector" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::NumericVector>(){
-    return "Rcpp::NumericVector" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::RawVector>(){
-    return "Rcpp::RawVector" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::ExpressionVector>(){
-    return "Rcpp::ExpressionVector" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::List>(){
-    return "Rcpp::List" ;
-}
-template <>
-inline std::string get_return_type<Rcpp::CharacterVector>(){
-    return "Rcpp::CharacterVector" ;
 }
 
 #endif
