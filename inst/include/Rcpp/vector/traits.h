@@ -34,6 +34,7 @@ namespace traits{
 		typedef typename storage_type<RTYPE>::type storage_type ;
 		
 		r_vector_cache() : start(0){} ;
+		
 		inline void update( const VECTOR& v ) {
 		    start = ::Rcpp::internal::r_vector_start<RTYPE>(v.asSexp()) ;
 			RCPP_DEBUG( " cache<%d>::update( <%p> ), start = <%p>", RTYPE, reinterpret_cast<void*>(v.asSexp()),  reinterpret_cast<void*>(start) )

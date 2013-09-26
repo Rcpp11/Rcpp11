@@ -51,7 +51,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     Vector<RTYPE>& Vector<RTYPE>::operator=( Vector&& other) {
-        RCPP_DEBUG_CTOR( Vector, " = %s&& ", DEMANGLE(Vector) )
+        RCPP_DEBUG_CLASS( Vector, "::operator=( %s&& )", DEMANGLE(Vector) )
         if( this != &other ){
             Rcpp_ReleaseObject(m_sexp) ;
             m_sexp = other.m_sexp ;
