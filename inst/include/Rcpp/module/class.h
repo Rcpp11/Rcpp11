@@ -87,9 +87,9 @@
         template <typename... Args>
         self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
             if( is_debugging )
-                return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
-            else
                 return AddConstructor( new Debug_Constructor_Impl<Class,Args...>, valid, docstring ) ;
+            else
+                return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
         }
     
         self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
