@@ -61,9 +61,9 @@
 	self& method( const char* name_, OUT (*fun)(Class*, Args...), const char* docstring = 0, ValidMethod valid = &yes ){
         typedef OUT (*MemberFunctionType)(Class*, Args...) ;
         if( is_debugging )
-            AddMethod( name_, new Debug_Pointer_CppMethod_Impl<Class,MemberFunctionType,OUT,Args...>( fun, name_ ), valid, docstring ) ;    
+            AddMethod( name_, new Debug_CppMethod_Impl<Class,MemberFunctionType,false,OUT,Args...>( fun, name_ ), valid, docstring ) ;    
         else 
-            AddMethod( name_, new Pointer_CppMethod_Impl<Class,MemberFunctionType,OUT,Args...>( fun ), valid, docstring ) ;
+            AddMethod( name_, new CppMethod_Impl<Class,MemberFunctionType,false,OUT,Args...>( fun ), valid, docstring ) ;
         return *this ;
 	}
 

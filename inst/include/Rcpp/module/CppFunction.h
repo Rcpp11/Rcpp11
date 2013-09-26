@@ -2,6 +2,7 @@
 // CppFunction.h:  C++ exposed function
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -24,8 +25,7 @@
     /** 
      * base class of all exported C++ functions. Template deduction in the
      * Module_generated_function.h file creates an instance of a class that 
-     * derives CppFunction (see Module_generated_CppFunction.h fr all the 
-     * definitions
+     * derives CppFunction
      */
     class CppFunction {
     public:

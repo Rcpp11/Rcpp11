@@ -86,6 +86,7 @@ namespace Rcpp{
 #include <Rcpp/module/FunctionInvoker.h>
 #include <Rcpp/module/ConstructorInvoker.h>
 #include <Rcpp/module/FactoryInvoker.h>
+#include <Rcpp/module/MethodInvoker.h>
 
 #include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/class_Base.h>
@@ -270,15 +271,10 @@ namespace Rcpp{
         }
     } ;
 
-    #include <Rcpp/module/generated_method_invoke.h>
-    #include <Rcpp/module/generated_void_method_invoke.h>
-    #include <Rcpp/module/generated_pointer_method_invoke.h>
-    #include <Rcpp/module/generated_void_pointer_method_invoke.h>
     #include <Rcpp/module/property_invoke.h>
     
     #include <Rcpp/module/CppMethod.h>
-    #include <Rcpp/module/PointerCppMethod.h>
-
+    
     template <typename Class>
     class CppFinalizer{ 
     public:
