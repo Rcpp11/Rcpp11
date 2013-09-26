@@ -84,6 +84,11 @@ namespace Rcpp{
 		template <typename Class> SEXP make_new_object( Class* ptr ) ;	
 	}
 }	
+namespace Rcpp{
+    SEXP Rcpp_PreserveObject(SEXP x) ;
+    void Rcpp_ReleaseObject(SEXP x) ;
+    SEXP Rcpp_ReplaceObject(SEXP x, SEXP y) ;
+}
 
 #include <Rcpp/traits/traits.h>
 #include <Rcpp/Named.h>

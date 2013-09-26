@@ -25,38 +25,60 @@ namespace Rcpp{
 
     template <int RTYPE>
     Vector<RTYPE>::Vector() : RObject( Rf_allocVector( RTYPE, 0 ) ) {
-        RCPP_DEBUG( "%s()", DEMANGLE(Vector) )
+        RCPP_DEBUG_CTOR( Vector, "()" )
         update_vector() ;
         init() ;
     }
     
     template <int RTYPE>
     Vector<RTYPE>::~Vector(){
-         RCPP_DEBUG( "~%s (<%p>)", DEMANGLE(Vector), m_sexp )   
+         RCPP_DEBUG_DTOR(Vector, "(<%p>)", m_sexp )   
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Vector& other) : RObject(other.asSexp()){
-        RCPP_DEBUG( "%s<%d>( const %s& other ), SEXP= <%p>", DEMANGLE(Vector), RTYPE, DEMANGLE(Vector), m_sexp )
+        RCPP_DEBUG_CTOR( Vector, "( const %s& other ), SEXP= <%p>", DEMANGLE(Vector), m_sexp )
         update_vector() ;
     }
     
     template <int RTYPE>
+    Vector<RTYPE>::Vector( Vector&& other) : RObject(){
+        m_sexp = other.m_sexp ;
+        RCPP_DEBUG_MOVE_CTOR( Vector, "( %s&& other ), SEXP= <%p>", DEMANGLE(Vector), m_sexp )
+        other.m_sexp = R_NilValue ;
+        update_vector() ;
+    }
+    
+    template <int RTYPE>
+    Vector<RTYPE>& Vector<RTYPE>::operator=( Vector&& other) {
+        RCPP_DEBUG_CTOR( Vector, " = %s&& ", DEMANGLE(Vector) )
+        if( this != &other ){
+            Rcpp_ReleaseObject(m_sexp) ;
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+            update_vector() ;
+        }
+        return *this ;
+    }
+    
+    
+    template <int RTYPE>
     Vector<RTYPE>& Vector<RTYPE>::operator=(const Vector& other){
+        RCPP_DEBUG_CLASS( Vector, "= %s()", DEMANGLE(Vector) )
         set_sexp( other.asSexp() ) ;
         return *this ;    
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const int& size ) : RObject( Rf_allocVector( RTYPE, size) )  {
-    	RCPP_DEBUG( "%s<%d>( int = %d )   m_sexp = <%p> ", DEMANGLE(Vector), RTYPE, size, m_sexp )
-    	update_vector(); 
-    	init() ;
+        RCPP_DEBUG_CTOR( Vector, "( int = %d )   m_sexp = <%p> ", size, m_sexp )
+        update_vector(); 
+        init() ;
     }
     
     template <int RTYPE>
     Vector<RTYPE>::Vector( const Dimension& dims ) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ){
-        RCPP_DEBUG( "%s( const Dimension& (%d) )   m_sexp = <%p>", DEMANGLE(Vector), dims.size(), m_sexp )
+        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d) )   m_sexp = <%p>", dims.size(), m_sexp )
         update_vector();
         init() ;
         if( dims.size() > 1 ){
@@ -67,7 +89,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const Dimension& dims, const U& u) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ) {
-        RCPP_DEBUG( "%s( const Dimension& (%d), const U& )", DEMANGLE(Vector), dims.size() )
+        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d), const %s& )", dims.size(), DEMANGLE(U) )
         update_vector(); 
         fill(u) ;
         if( dims.size() > 1 ){
@@ -78,7 +100,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename U>
     Vector<RTYPE>::Vector( const int& size, const U& u): RObject( Rf_allocVector( RTYPE, size) ) {
-        RCPP_DEBUG( "%s( const int& size, const U& u )", DEMANGLE(Vector), size )
+        RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )
         update_vector() ;
         fill_or_generate( u ) ;	
     }
@@ -87,7 +109,7 @@ namespace Rcpp{
     template <typename U1>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1), const U1& u1) : RObject( Rf_allocVector( RTYPE, siz) ) {
         update_vector();
-        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1), const U1& u1 )", RTYPE, siz )
+        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1) ;
     }
@@ -96,7 +118,7 @@ namespace Rcpp{
     template <typename U1, typename U2>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2) : RObject(Rf_allocVector( RTYPE, siz)){
         update_vector();
-        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1,U2), const U1& u1, const U2& u2)", RTYPE, siz )
+        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1,u2) ;
     }
@@ -105,7 +127,7 @@ namespace Rcpp{
     template <typename U1, typename U2, typename U3>
     Vector<RTYPE>::Vector( const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3): RObject(  Rf_allocVector( RTYPE, siz) ){
         update_vector() ;
-        RCPP_DEBUG( "const int& siz, stored_type (*gen)(U1,U2,U3), const U1& u1, const U2& u2, const U3& u3)", RTYPE, siz )
+        RCPP_DEBUG_CTOR( Vector, "( const int& siz = %d, %s )", siz, DEMANGLE(decltype(gen)) )
         iterator first = begin(), last = end() ;
         while( first != last ) *first++ = gen(u1,u2,u3) ;
     }
@@ -113,7 +135,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last) : RObject( Rf_allocVector(RTYPE, std::distance(first, last) ) ){
-        RCPP_DEBUG( "Vector<%d>( InputIterator first, InputIterator last", RTYPE )
+        RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last) [InputIterator = %s] ", DEMANGLE(InputIterator) )
         update_vector();
         std::copy( first, last, begin() ) ; 
     }
@@ -122,7 +144,7 @@ namespace Rcpp{
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, int n) : RObject( Rf_allocVector(RTYPE, n) ){
         update_vector() ;
-        RCPP_DEBUG( "Vector<%d>( InputIterator first, InputIterator last, int n = %d)", RTYPE, n )
+        RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last, int n = %d) [InputIterator = %s] ", n, DEMANGLE(InputIterator) )
         std::copy( first, last, begin() ) ; 
     }
 
@@ -130,7 +152,7 @@ namespace Rcpp{
     template <typename InputIterator, typename Func>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func) : RObject( Rf_allocVector( RTYPE, std::distance(first,last) ) ){
         update_vector() ;
-        RCPP_DEBUG( "Vector<%d>( InputIterator, InputIterator, Func )", RTYPE )
+        RCPP_DEBUG_CTOR( Vector, "( InputIterator, InputIterator, Func ) [InputIterator = %s, Func = %s] ", DEMANGLE(InputIterator), DEMANGLE(Func) )
         std::transform( first, last, begin(), func) ;
     }
     
@@ -138,7 +160,7 @@ namespace Rcpp{
     template <typename InputIterator, typename Func>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func, int n) : RObject( Rf_allocVector( RTYPE, n ) ){
         update_vector();
-        RCPP_DEBUG( "Vector<%d>( InputIterator, InputIterator, Func, int n = %d )", RTYPE, n )
+        RCPP_DEBUG_CTOR( Vector, "( InputIterator, InputIterator, Func, int n = %d) [InputIterator = %s, Func = %s] ", n, DEMANGLE(InputIterator), DEMANGLE(Func) )
         std::transform( first, last, begin(), func) ;
     }
           
@@ -146,7 +168,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <bool NA, typename VEC>
     Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) : RObject() {
-        RCPP_DEBUG( "Vector<%d>( const VectorBase<RTYPE,NA,VEC>& ) [VEC = %s]", RTYPE, DEMANGLE(VEC) )
+        RCPP_DEBUG_CTOR( Vector, "( const VectorBase<%d,%s,VEC>& ) [VEC = %s]", RTYPE, (NA?"true":"false"), DEMANGLE(VEC) )
         import_sugar_expression( other, typename std::is_same<Vector,VEC>::type() ) ;
     }
     
@@ -154,7 +176,7 @@ namespace Rcpp{
     template <bool NA, typename T>
     Vector<RTYPE>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) : RObject( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) ) {
         update_vector() ;
-        RCPP_DEBUG( "Vector<%d>( const sugar::SingleLogicalResult<NA,T>& ) [T = %s]", RTYPE, DEMANGLE(T) )
+        RCPP_DEBUG_CTOR( Vector, "( const sugar::SingleLogicalResult<%s,T>& ) [T = %s]", (NA?"true":"false"), DEMANGLE(T) )
     }
     
     
@@ -196,17 +218,17 @@ namespace Rcpp{
     template <int RTYPE>
     template <bool NA, typename VEC>
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
-        RCPP_DEBUG( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, false_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
-    	int n = other.size() ;
-    	set_sexp( Rf_allocVector( RTYPE, n ) ) ;
-    	import_expression<VEC>( other.get_ref() , n ) ;
+        RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, false_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
+        int n = other.size() ;
+        set_sexp( Rf_allocVector( RTYPE, n ) ) ;
+        import_expression<VEC>( other.get_ref() , n ) ;
     }   
     
     template <int RTYPE>
     template <bool NA, typename VEC>
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
-        RCPP_DEBUG( "Vector<%d>::import_sugar_expression( VectorBase<%d,%d,%s>, true_type )", RTYPE, NA, RTYPE, DEMANGLE(VEC) ) ;
-    	set_sexp( other.get_ref() ) ;
+        RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, true_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
+        set_sexp( other.get_ref() ) ;
     }   
 
     template <int RTYPE>
@@ -219,21 +241,21 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename T>
     inline void Vector<RTYPE>::fill_or_generate( const T& t){
-    	fill_or_generate__impl( t, typename traits::is_generator<T>::type() ) ;
+        fill_or_generate__impl( t, typename traits::is_generator<T>::type() ) ;
     }
     
     template <int RTYPE>
     template <typename T>
     inline void Vector<RTYPE>::fill_or_generate__impl( const T& gen, std::true_type){
-    	iterator first = begin() ;
-    	iterator last = end() ;
-    	while( first != last ) *first++ = gen() ;
+        iterator first = begin() ;
+        iterator last = end() ;
+        while( first != last ) *first++ = gen() ;
     }
     
     template <int RTYPE>
     template <typename T>
     inline void Vector<RTYPE>::fill_or_generate__impl( const T& t, std::false_type){
-    	fill(t) ;
+        	fill(t) ;
     }
     
     template <int RTYPE>

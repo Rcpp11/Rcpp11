@@ -1499,11 +1499,8 @@ SEXP string_to_try_error( const std::string& str){
 }
 
 const char* short_file_name(const char* file){
-    // std::string f(file) ;
-    // size_t index = f.find("/include/") ;
-    // if( index != std::string::npos ){ f = f.substr( index + 9 ) ;}
-    // return f.c_str() ;
-    return file ;
+    std::string f(file) ;
+    return f.substr( f.find_last_of("/") + 1 ).c_str() ;
 }
 
 #if defined(__GNUC__)

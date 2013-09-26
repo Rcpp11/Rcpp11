@@ -37,11 +37,6 @@
 
 #ifdef __cplusplus
 SEXP get_Rcpp_protection_stack() ;
-namespace Rcpp{
-    SEXP Rcpp_PreserveObject(SEXP x) ;
-    void Rcpp_ReleaseObject(SEXP x) ;
-    SEXP Rcpp_ReplaceObject(SEXP x, SEXP y) ;
-}
 extern "C" {
 #endif
 
