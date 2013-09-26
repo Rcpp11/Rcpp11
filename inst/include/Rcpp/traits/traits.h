@@ -49,6 +49,7 @@
 #include <Rcpp/traits/is_primitive.h>
 #include <Rcpp/traits/expands_to_logical_impl.h>
 #include <Rcpp/traits/sfinae.h>
+#include <Rcpp/traits/sequence.h>
 
 #endif
 

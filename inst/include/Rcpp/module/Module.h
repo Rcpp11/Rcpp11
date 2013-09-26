@@ -24,7 +24,7 @@
        
     #include <Rcpp/module/debug_method.h>
     #include <Rcpp/module/debug_constructor.h>
-
+    
     /**
      * holds information about exposed functions and classes
      */

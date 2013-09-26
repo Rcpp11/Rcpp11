@@ -75,11 +75,13 @@
     template <typename OUT, typename... Args>
     class CppFunction_Impl : public CppFunction {
         public:
-            CppFunction_Impl(OUT (*fun)(Args...), const char* docstring = 0 ) : 
+            typedef OUT (*Fun)(Args...) ;
+        
+            CppFunction_Impl(Fun fun, const char* docstring = 0 ) : 
                 CppFunction(docstring), ptr_fun(fun){}
                 
-            SEXP operator()(SEXP* args) {
-                return function_invoke<OUT,Args...>( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args ) ;
+            inline SEXP operator()(SEXP* args) {
+                return FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
             }
     
             inline int nargs(){ return sizeof...(Args); }
@@ -87,35 +89,19 @@
             inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             
         private:
-            OUT (*ptr_fun)(Args...) ;
+            Fun ptr_fun ;
     } ;
 
-    template <typename... Args>
-    class CppFunction_Impl<void,Args...> : public CppFunction {
-        public:
-            CppFunction_Impl(void (*fun)(Args...), const char* docstring = 0 ) : 
-                CppFunction(docstring), ptr_fun(fun){}
-                
-            SEXP operator()(SEXP* args) {
-                void_function_invoke( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args ) ;
-                return R_NilValue ;
-            }
-    
-            inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<void, Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
-            inline bool is_void(){ return true; }
-        
-        private:
-            void (*ptr_fun)(Args...) ;
-    } ;
-    
     template <typename OUT, typename... Args>
     class CppFunction_WithFormals_Impl : public CppFunction {
         public:
-            CppFunction_WithFormals_Impl(OUT (*fun)(Args...), Rcpp::List formals_,  const char* docstring = 0 ) : CppFunction(docstring), formals(formals_), ptr_fun(fun){}
-            SEXP operator()(SEXP* args) {
-                return function_invoke<OUT, Args...>( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args) ;
+            typedef OUT (*Fun)(Args...) ;
+        
+            CppFunction_WithFormals_Impl(Fun fun, Rcpp::List formals_,  const char* docstring = 0 ) : 
+                CppFunction(docstring), formals(formals_), ptr_fun(fun){}
+            
+            inline SEXP operator()(SEXP* args) {
+                return FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
@@ -125,29 +111,7 @@
         
         private:
             Rcpp::List formals ;
-            OUT (*ptr_fun)(void) ;
+            Fun ptr_fun ;
     } ;
-
-    template <typename... Args>
-    class CppFunction_WithFormals_Impl<void,Args...> : public CppFunction {
-        public:
-            CppFunction_WithFormals_Impl(void (*fun)(Args...), Rcpp::List formals_,  const char* docstring = 0 ) : CppFunction(docstring), formals(formals_), ptr_fun(fun){}
-            SEXP operator()(SEXP* args) {
-                void_function_invoke( typename traits::number_to_type<sizeof...(Args)>(), ptr_fun, args) ;
-                return R_NilValue ;
-            }
-    
-            inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<void,Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
-            inline SEXP get_formals(){ return formals; }
-            inline bool is_void(){ return true; }
-        
-        private:
-            Rcpp::List formals ;
-            void (*ptr_fun)(Args...) ;
-    } ;
-
-
     
 #endif
