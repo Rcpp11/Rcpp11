@@ -1473,7 +1473,7 @@ namespace internal{
 
 SEXP as_character_externalptr(SEXP xp){
 	char buffer[20] ;
-	sprintf( buffer, "%p", (void*)EXTPTR_PTR(xp) ) ;
+	snprintf( buffer, 20, "%p", (void*)EXTPTR_PTR(xp) ) ;
 	return Rcpp::wrap( (const char*)buffer ) ;
 }
 
@@ -1696,7 +1696,7 @@ template <> const char* coerce_to_string<LGLSXP>(int from){
 }
 template <> const char* coerce_to_string<RAWSXP>(Rbyte from){
     static char buff[3];
-    ::sprintf(buff, "%02x", from);
+    snprintf(buff, 3, "%02x", from);
     return buff ;    
 }
 
