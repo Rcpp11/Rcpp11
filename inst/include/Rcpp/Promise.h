@@ -35,6 +35,20 @@ namespace Rcpp{
         Promise( const Promise& other) ;
         Promise& operator=(const Promise& other ) ;
         
+        Promise( Promise&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        Promise& operator=( Promise&& other ){
+            RCPP_DEBUG_CLASS( Promise, "::operator=( %s&& )", DEMANGLE(Promise) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }
+
         /** 
          * Return the result of the PRSEEN macro
          */

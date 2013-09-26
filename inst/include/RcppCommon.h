@@ -22,7 +22,7 @@
 #ifndef RcppCommon_h
 #define RcppCommon_h
 
-#define RCPP_DEBUG_LEVEL 1
+// #define RCPP_DEBUG_LEVEL 1
 
 #include <Rcpp/platform/compiler.h>
 #include <Rcpp/config.h>
@@ -66,6 +66,7 @@ const char * sexp_to_name(int sexp_type);
 #include <limits>
 #include <typeinfo>
 #include <tuple>
+#include <utility>
 #include <Rcpp/sprintf.h>
 
 #include <Rcpp/lcons.h>

@@ -171,6 +171,22 @@ namespace Rcpp{
          */
         Environment& operator=(const Environment& other); 
     
+        
+        Environment( Environment&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        Environment& operator=( Environment&& other ){
+            RCPP_DEBUG_CLASS( Environment, "::operator=( %s&& )", DEMANGLE(Environment) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }    
+	
+        
         /**
          * Gets the environment associated with the given name
          *

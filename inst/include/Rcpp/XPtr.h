@@ -86,7 +86,21 @@ public:
     	    return *this ;
     }
     
-    /**
+    XPtr( XPtr&& other) { 
+        m_sexp = other.m_sexp ;
+        other.m_sexp = R_NilValue ;
+    }
+    XPtr& operator=( XPtr&& other ){
+        RCPP_DEBUG_CLASS( XPtr, "::operator=( %s&& )", DEMANGLE(XPtr) )
+        if( this != &other ){
+            Rcpp_ReleaseObject(m_sexp) ;
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        return *this ;
+    }
+
+        /**
      * Returns a reference to the object wrapped. This allows this
      * object to look and feel like a dumb pointer to T
      */

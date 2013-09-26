@@ -36,6 +36,20 @@ public:
 	
 	DottedPair( const DottedPair& other) : RObject(other.asSexp()){}
 	
+	DottedPair( DottedPair&& other) { 
+	    m_sexp = other.m_sexp ;
+	    other.m_sexp = R_NilValue ;
+	}
+	DottedPair& operator=( DottedPair&& other ){
+	    RCPP_DEBUG_CLASS( DottedPair, "::operator=( %s&& )", DEMANGLE(DottedPair) )
+        if( this != &other ){
+            Rcpp_ReleaseObject(m_sexp) ;
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        return *this ;
+    }
+	
 	DottedPair& operator=( const DottedPair& other) ; 
 	
 	template<typename... Args> 

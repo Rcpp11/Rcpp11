@@ -42,6 +42,20 @@ namespace Rcpp{
         WeakReference( const WeakReference& other) ;
         WeakReference& operator=(const WeakReference& other) ;
         
+        WeakReference( WeakReference&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        WeakReference& operator=( WeakReference&& other ){
+            RCPP_DEBUG_CLASS( WeakReference, "::operator=( %s&& )", DEMANGLE(WeakReference) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }
+
         /* TODO: constructor that makes a new weak reference based
            on key, value, finalizer (C and R) */
         

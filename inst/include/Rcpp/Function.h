@@ -53,6 +53,20 @@ namespace Rcpp{
         Function(const Function& other) ;
         Function& operator=(const Function& other );
         
+        Function( Function&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        Function& operator=( Function&& other ){
+            RCPP_DEBUG_CLASS( Function, "::operator=( %s&& )", DEMANGLE(Function) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }
+	
         /**
          * calls the function with the specified arguments
          *

@@ -47,6 +47,20 @@ namespace Rcpp{
          */
         S4(const S4& other) ;
         
+        S4( S4&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        S4& operator=( S4&& other ){
+            RCPP_DEBUG_CLASS( S4, "::operator=( %s&& )", DEMANGLE(S4) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }
+
         S4(const RObject::SlotProxy& proxy ) ;
         S4(const RObject::AttributeProxy& proxy ) ;
         

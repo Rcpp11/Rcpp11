@@ -46,6 +46,20 @@ namespace Rcpp{
         Symbol( const Symbol& other) ;
         Symbol& operator=(const Symbol& other) ;
     
+        Symbol( Symbol&& other) { 
+            m_sexp = other.m_sexp ;
+            other.m_sexp = R_NilValue ;
+        }
+        Symbol& operator=( Symbol&& other ){
+            RCPP_DEBUG_CLASS( Symbol, "::operator=( %s&& )", DEMANGLE(Symbol) )
+            if( this != &other ){
+                Rcpp_ReleaseObject(m_sexp) ;
+                m_sexp = other.m_sexp ;
+                other.m_sexp = R_NilValue ;
+            }
+            return *this ;
+        }
+
         /**
          * Nothing specific
          */ 
