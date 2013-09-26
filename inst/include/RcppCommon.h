@@ -67,7 +67,6 @@ const char * sexp_to_name(int sexp_type);
 #include <typeinfo>
 #include <tuple>
 #include <utility>
-#include <Rcpp/sprintf.h>
 
 #include <Rcpp/lcons.h>
 #include <Rcpp/complex.h>
@@ -81,6 +80,10 @@ const char * sexp_to_name(int sexp_type);
 namespace Rcpp{
     template <typename T> class object ;
     class String ;
+    
+    template <int RTYPE> class Vector ;
+    using CharacterVector = Vector<STRSXP> ;
+    
 	namespace internal{
 		template <typename Class> SEXP make_new_object( Class* ptr ) ;	
 	}

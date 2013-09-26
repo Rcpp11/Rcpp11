@@ -30,7 +30,6 @@
 /* it is important that this comes first */
 #include <RcppCommon.h>
 
-/* new api */
 #include <Rcpp/exceptions.h>
 
 #include <Rcpp/RObject.h>

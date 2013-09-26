@@ -288,13 +288,14 @@ namespace Rcpp {
         Rcpp_ReleaseObject(m_sexp) ;
     }
 
-    std::vector<std::string> RObject::attributeNames() const {
+    CharacterVector RObject::attributeNames() const {
         /* inspired from do_attributes@attrib.c */
         
-        std::vector<std::string> v ;
         SEXP attrs = ATTRIB(m_sexp);
+        CharacterVector v( Rf_length( attrs ) ) ; ;
+        int i=0; 
         while( attrs != R_NilValue ){
-            v.push_back( std::string(CHAR(PRINTNAME(TAG(attrs)))) ) ;
+            v[i++] = PRINTNAME(TAG(attrs)) ;
             attrs = CDR( attrs ) ;
         }
         return v ;

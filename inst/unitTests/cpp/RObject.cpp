@@ -129,7 +129,7 @@ std::set<std::string> stdsetstring(){
 }
 
 // [[Rcpp::export]]
-std::vector<std::string> attributeNames(DataFrame x){
+CharacterVector attributeNames(DataFrame x){
     return x.attributeNames() ;
 }
 

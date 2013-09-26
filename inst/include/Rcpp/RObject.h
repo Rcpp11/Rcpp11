@@ -84,7 +84,7 @@ namespace Rcpp{
         /**
          * extracts the names of the attributes of the wrapped SEXP
          */
-        std::vector<std::string> attributeNames() const ;
+        CharacterVector attributeNames() const ;
 
         /**
          * Identifies if the SEXP has the given attribute
