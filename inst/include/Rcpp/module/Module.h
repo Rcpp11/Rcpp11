@@ -23,6 +23,7 @@
 #define Rcpp_Module_Module_h
        
     #include <Rcpp/module/debug_method.h>
+    #include <Rcpp/module/debug_function.h>
     #include <Rcpp/module/debug_constructor.h>
     
     /**

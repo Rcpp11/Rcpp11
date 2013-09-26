@@ -114,4 +114,54 @@
             Fun ptr_fun ;
     } ;
     
+    template <typename OUT, typename... Args>
+    class Debug_CppFunction_Impl : public CppFunction {
+        public:
+            typedef OUT (*Fun)(Args...) ;
+        
+            Debug_CppFunction_Impl(Fun fun, const char* name_, const char* docstring = 0 ) : 
+                CppFunction(docstring), ptr_fun(fun), name(name_) {}
+                
+            inline SEXP operator()(SEXP* args) {
+                debug_function<Debug_CppFunction_Impl>( *this, name ) ;
+                SEXP res = FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
+                Rprintf( "\n" ) ;
+                return res ;
+            }
+    
+            inline int nargs(){ return sizeof...(Args); }
+            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
+            
+        private:
+            Fun ptr_fun ;
+            std::string name ;
+    } ;
+
+    template <typename OUT, typename... Args>
+    class Debug_CppFunction_WithFormals_Impl : public CppFunction {
+        public:
+            typedef OUT (*Fun)(Args...) ;
+        
+            Debug_CppFunction_WithFormals_Impl(Fun fun, Rcpp::List formals_, const char* name_, const char* docstring = 0 ) : 
+                CppFunction(docstring), formals(formals_), ptr_fun(fun), name(name_) {}
+            
+            inline SEXP operator()(SEXP* args) {
+                debug_function<Debug_CppFunction_WithFormals_Impl>( *this, name ) ;
+                SEXP res = FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
+                Rprintf( "\n" ) ;
+                return res ;
+            }
+    
+            inline int nargs(){ return sizeof...(Args) ; }
+            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
+            inline SEXP get_formals(){ return formals; }
+        
+        private:
+            Rcpp::List formals ;
+            Fun ptr_fun ;
+            std::string name ;
+    } ;
+    
 #endif

@@ -82,6 +82,7 @@ namespace Rcpp{
 
 #include <Rcpp/module/get_return_type.h>
 #include <Rcpp/module/get_signature.h>
+#include <Rcpp/module/debug_function.h>
 
 #include <Rcpp/module/FunctionInvoker.h>
 #include <Rcpp/module/ConstructorInvoker.h>
