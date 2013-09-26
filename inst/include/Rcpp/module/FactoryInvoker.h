@@ -15,15 +15,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_Module_ConstructorInvoker_h
-#define Rcpp_Module_ConstructorInvoker_h
+#ifndef Rcpp_Module_FactoryInvoker_h
+#define Rcpp_Module_FactoryInvoker_h
         
     template <typename Class, typename... Args>
-    class ConstructorInvoker {
+    class FactoryInvoker {
     public:
+        typedef Class* (*Fun)(Args...) ;
         typedef typename std::tuple< typename traits::input_parameter<Args>::type ...> Tuple ;
         
-        ConstructorInvoker( SEXP* args_ ) : args(args_){}
+        FactoryInvoker( Fun factory_, SEXP* args_ ) : factory(factory_), args(args_){}
         
         inline Class* invoke( ){
             return invoke_dispatch( typename traits::index_sequence<Args...>::type() ) ;
@@ -31,7 +32,7 @@
         
         template <int... S>
         inline Class* invoke_dispatch( traits::sequence<S...> ){
-            return new Class( get<S>() ... ) ;
+            return factory( get<S>() ... ) ;
         }
         
         template <int i>
@@ -39,6 +40,7 @@
             return typename std::tuple_element<i, Tuple>::type( args[i] ) ;   
         }
         
+        Fun factory ;
         SEXP* args ;
     } ;
     

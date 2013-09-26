@@ -28,17 +28,19 @@ public:
 
 template <typename Class, typename... Args>
 class Factory_Impl : public Factory_Base<Class>{
-  public: 
-    Factory_Impl( Class* (*fun)(Args...) ) : ptr_fun(fun){}
-    virtual Class* get_new( SEXP* args, int nargs ){
-        return factory_new(ptr_fun, args, nargs) ;
-    }
-    virtual int nargs(){ return sizeof...(Args) ; }
-    virtual void signature(std::string& s, const std::string& class_name ){
-        ctor_signature<Args...>(s, class_name) ;
-    }
-  private:
-    Class* (*ptr_fun)(Args...) ;
+    public: 
+        typedef Class* (*Fun)(Args...) ;  
+        
+        Factory_Impl( Fun fun_ ) : fun(fun_){}
+        virtual Class* get_new( SEXP* args, int /* nargs */ ){
+            return FactoryInvoker<Class,Args...>( fun, args).invoke() ;
+        }
+        virtual int nargs(){ return sizeof...(Args) ; }
+        virtual void signature(std::string& s, const std::string& class_name ){
+            ctor_signature<Args...>(s, class_name) ;
+        }
+    private:
+        Fun fun ; ;
 } ;        
 
 #endif

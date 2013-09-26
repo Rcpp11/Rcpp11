@@ -85,6 +85,7 @@ namespace Rcpp{
 
 #include <Rcpp/module/FunctionInvoker.h>
 #include <Rcpp/module/ConstructorInvoker.h>
+#include <Rcpp/module/FactoryInvoker.h>
 
 #include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/class_Base.h>
@@ -132,8 +133,6 @@ namespace Rcpp{
     } ;
 
 #include <Rcpp/module/Constructor.h>
-
-#include <Rcpp/module/generated_factory_new.h>
 #include <Rcpp/module/Factory.h>
 
 #include <Rcpp/module/yes.h>
