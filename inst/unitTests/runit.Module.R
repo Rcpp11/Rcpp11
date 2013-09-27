@@ -83,4 +83,11 @@ test.Module.Constructor <- function() {
     checkEquals(r$get(10), x10)
 }
 
+test.Module.flexible.semantics <- function( ){
+    checkEquals( test_reference( seq(0,10) ), 11L )
+    checkEquals( test_const_reference( seq(0,10) ), 11L )
+    checkEquals( test_const( seq(0,10) ), 11L )
+}
+
+
 }
