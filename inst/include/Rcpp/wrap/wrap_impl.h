@@ -21,8 +21,6 @@
 #ifndef Rcpp_wrap_wrap_impl_h
 #define Rcpp_wrap_wrap_impl_h
  
-#include <iterator>
-
 namespace Rcpp{
 
 template <typename T> SEXP wrap( const T& object ) ;
@@ -907,28 +905,6 @@ template <typename T>
 inline SEXP wrap( std::initializer_list<T> init ){ return internal::range_wrap( init.begin(), init.end() ) ; } 
 
 template <> inline SEXP wrap<Rcpp::String>( const Rcpp::String& object) ;
-
-template <typename T>
-inline SEXP module_wrap_dispatch( const T& obj, Rcpp::traits::void_wrap_tag ){
-	return R_NilValue ;
-}
-
-// these are defined in wrap_end.h
-template <typename T>
-inline SEXP module_wrap_dispatch( const T& obj, Rcpp::traits::pointer_wrap_tag ) ; 
-
-template <typename T>
-inline SEXP module_wrap_dispatch( const T& obj, Rcpp::traits::normal_wrap_tag ) ;
-
-template <typename T>
-inline SEXP module_wrap( const T& obj ){
-	return module_wrap_dispatch<T>( obj, typename Rcpp::traits::module_wrap_traits<T>::category() ) ;	
-}
-template <>
-inline SEXP module_wrap<SEXP>( const SEXP& obj ){
-	return obj ;	
-}
-
 
 // special case - FIXME : this is not template specializations of wrap<>
 inline SEXP wrap(const char* const v ){ 

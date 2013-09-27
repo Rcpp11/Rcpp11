@@ -1,6 +1,4 @@
-// module_wrap_traits.h:  traits to help module wrap
-//
-// Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013  Rice University
 //
 // This file is part of Rcpp11.
 //
@@ -13,24 +11,16 @@
 // WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//                                   
+//
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__traits__module_wrap_traits__h
-#define Rcpp__traits__module_wrap_traits__h
-
+#ifndef Rcpp_wrap_forward_h
+#define Rcpp_wrap_forward_h
+ 
 namespace Rcpp{
-namespace traits{
 
-struct normal_wrap_tag{} ;	
-struct void_wrap_tag{} ;
-struct pointer_wrap_tag{} ;
-	
-template <typename T> struct module_wrap_traits     { typedef normal_wrap_tag category; } ;
-template <> struct module_wrap_traits<void>         { typedef void_wrap_tag category; } ;
-template <typename T> struct module_wrap_traits<T*> { typedef pointer_wrap_tag category; } ;
-     
-} // namespace traits
-} // namespace Rcpp
+template <typename T> SEXP wrap( const T& object ) ;
+
+}
 #endif

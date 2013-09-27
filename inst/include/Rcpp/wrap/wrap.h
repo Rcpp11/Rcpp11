@@ -18,6 +18,7 @@
 #ifndef Rcpp_wrap_wrap_h
 #define Rcpp_wrap_wrap_h
  
+#include <Rcpp/wrap/forward.h>
 #include <Rcpp/wrap/wrap_impl.h>
 
 #endif
