@@ -74,7 +74,7 @@
 #include <Rcpp/sugar/functions/setdiff.h>
 
 #include <Rcpp/sugar/functions/strings/strings.h>
-
+#include <Rcpp/sugar/functions/DelayedCall.h>
 #include <Rcpp/sugar/functions/replicate.h>
 
 #endif

@@ -218,7 +218,7 @@ public:
 		
         void set(SEXP x) const {
 			
-            /* check if we can use a fast version */
+            /* check if we can use a fast version */         
             if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
                 SEXP y = const_cast<Vector&>(parent).asSexp() ; 
                 Rf_setAttrib( y, R_NamesSymbol, x ) ;

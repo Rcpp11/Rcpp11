@@ -21,37 +21,30 @@
 namespace Rcpp{
 namespace sugar{
 
-    template <typename OUT, typename FunctionType, typename... Args >
-    class Replicate : public Rcpp::VectorBase< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,FunctionType,Args...> > {
+    template <typename OUT, typename CallType >
+    class Replicate : public Rcpp::VectorBase< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> > {
     public:
-        typedef typename std::tuple<Args...> Tuple ;
-        
-        Replicate( size_t n_, FunctionType fun_, const Args&... args ): 
-            n(n_), fun(fun_), data( args... ){}
+        Replicate( size_t n_, const CallType& call_ ): n(n_), call(call_) {}
         
         inline OUT operator[]( int i ) const {
-            return invoke_dispatch( typename Rcpp::traits::index_sequence<Args...>::type() ) ;
+            return call ;
         }
         inline int size() const { return n ; }
         
-        template <int... S>
-        inline OUT invoke_dispatch( Rcpp::traits::sequence<S...> ) const {
-            return fun( std::get<S>(data) ... ) ;
-        }
-        
     private:
         size_t n ;
-        FunctionType fun ;
-        Tuple data ; 
+        const CallType& call ; 
     } ;
 
 
 } // sugar
 
 template <typename OUT, typename... Args>
-inline auto replicate( size_t n, OUT (*fun)(Args...), Args... args ) -> sugar::Replicate<OUT,decltype(fun), Args...>{
-    return sugar::Replicate<OUT,decltype(fun), Args...>( n, fun, args...) ;    
+inline sugar::Replicate<OUT, typename sugar::DelayedCall<OUT,OUT (*)(Args...), Args... > > 
+replicate( size_t n, const sugar::DelayedCall<OUT,OUT (*)(Args...), Args... >& call){
+    return sugar::Replicate<OUT, typename sugar::DelayedCall<OUT,OUT (*)(Args...), Args... > >( n, call ) ;    
 }
+
 
 
 } // Rcpp
