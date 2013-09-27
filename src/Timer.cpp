@@ -112,8 +112,8 @@ namespace Rcpp{
     }
     
     Timer::operator SEXP() const {
-        NumericVector out = import( data.begin(), data.end(), get_second ) ; 
-        CharacterVector names = import( data.begin(), data.end(), get_first ) ;
+        NumericVector out = transform( data.begin(), data.end(), get_second ) ; 
+        CharacterVector names = transform( data.begin(), data.end(), get_first ) ;
         out.attr( "names" ) = names ;
         return out ;
     }

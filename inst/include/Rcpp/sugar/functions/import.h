@@ -117,7 +117,7 @@ import( InputIterator begin, InputIterator end ){
 
 template <typename InputIterator, typename Func>
 inline typename sugar::import_transform_type<InputIterator,Func>::type 
-import( InputIterator begin, InputIterator end, Func func ){
+transform( InputIterator begin, InputIterator end, Func func ){
     return typename sugar::import_transform_type<InputIterator,Func>::type( begin, func, std::distance(begin, end) ) ;    
 }
 

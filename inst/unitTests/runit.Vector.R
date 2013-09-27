@@ -125,14 +125,6 @@ test.IntegerVector.Dimension.constructor <- function(){
 		msg = "IntegerVector( Dimension(2,3,4))" )
 }
 
-test.IntegerVector.range.constructors <- function(){
-    fun <- integer_range_ctor_1
-    checkEquals( fun(), 0:3, msg = "assign(int*, int*)" )
-
-    fun <- integer_range_ctor_2
-    checkEquals( fun(), 0:3, msg = "assign(int*, int*)" )
-}
-
 test.IntegerVector.names.set <- function(){
     fun <- integer_names_set
     checkEquals(names(fun()), c("foo", "bar"), msg = "Vector::names" )
@@ -460,14 +452,6 @@ test.CharacterVector.assign <- function(){
     fun <- character_assign2
     checkEquals( fun(), c("foo", "bar", "bling", "boom"), msg = "assign(char**, char**)" )
 
-}
-
-test.CharacterVector.range.constructors <- function(){
-    fun <- character_range_ctor1
-    checkEquals( fun(), c("foo", "bar", "bling", "boom"), msg = "assign(char**, char**)" )
-
-    fun <- character_range_ctor2
-    checkEquals( fun(), c("foo", "bar", "bling", "boom"), msg = "assign(char**, char**)" )
 }
 
 test.CharacterVector.Dimension.constructor <- function(){

@@ -104,40 +104,7 @@ namespace Rcpp{
         update_vector() ;
         fill_or_generate( u ) ;	
     }
-    
-    template <int RTYPE>
-    template <typename InputIterator>
-    Vector<RTYPE>::Vector( InputIterator first, InputIterator last) : RObject( Rf_allocVector(RTYPE, std::distance(first, last) ) ){
-        RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last) [InputIterator = %s] ", DEMANGLE(InputIterator) )
-        update_vector();
-        std::copy( first, last, begin() ) ; 
-    }
-    
-    template <int RTYPE>
-    template <typename InputIterator>
-    Vector<RTYPE>::Vector( InputIterator first, InputIterator last, int n) : RObject( Rf_allocVector(RTYPE, n) ){
-        update_vector() ;
-        RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last, int n = %d) [InputIterator = %s] ", n, DEMANGLE(InputIterator) )
-        std::copy( first, last, begin() ) ; 
-    }
-    
-    template <int RTYPE>
-    template <typename InputIterator, typename Func>
-    Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func) : RObject( Rf_allocVector( RTYPE, std::distance(first,last) ) ){
-        update_vector() ;
-        RCPP_DEBUG_CTOR( Vector, "( InputIterator, InputIterator, Func ) [InputIterator = %s, Func = %s] ", DEMANGLE(InputIterator), DEMANGLE(Func) )
-        std::transform( first, last, begin(), func) ;
-    }
-    
-    template <int RTYPE>
-    template <typename InputIterator, typename Func>
-    Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func, int n) : RObject( Rf_allocVector( RTYPE, n ) ){
-        update_vector();
-        RCPP_DEBUG_CTOR( Vector, "( InputIterator, InputIterator, Func, int n = %d) [InputIterator = %s, Func = %s] ", n, DEMANGLE(InputIterator), DEMANGLE(Func) )
-        std::transform( first, last, begin(), func) ;
-    }
-          
-    
+        
     template <int RTYPE>
     template <bool NA, typename VEC>
     Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) : RObject() {

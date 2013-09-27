@@ -108,20 +108,7 @@ public:
     
     template <bool NA, typename T> 
     Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
-    
-    
-    template <typename InputIterator>
-    Vector( InputIterator first, InputIterator last) ;
-    
-    template <typename InputIterator>
-    Vector( InputIterator first, InputIterator last, int n)  ;
-    
-    template <typename InputIterator, typename Func>
-    Vector( InputIterator first, InputIterator last, Func func)  ;
-    
-    template <typename InputIterator, typename Func>
-    Vector( InputIterator first, InputIterator last, Func func, int n) ;
-     
+         
     Vector( std::initializer_list<init_type> list ) : RObject(){
         assign( list.begin() , list.end() ) ;
     }
