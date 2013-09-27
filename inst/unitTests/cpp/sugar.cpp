@@ -649,7 +649,13 @@ double foo( double x, double y, double z ){
 
 // [[Rcpp::export]]
 NumericVector replicate_(){
-    NumericVector res = replicate( 10, call( foo, 1.0, 2.0, 3.0 )    ) ;
+    NumericVector res = replicate( 10, call( foo, 1.0, 2.0, 3.0 ) ) ;
+    return res ;
+}
+
+// [[Rcpp::export]]
+double call_(){
+    double res = call( foo, 1.0, 2.0, 3.0 )  ;
     return res ;
 }
 

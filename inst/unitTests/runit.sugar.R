@@ -755,4 +755,9 @@ test.replicate <- function(){
     checkEquals( replicate_(), rep(6, 10) ) ;    
 }
 
+test.call <- function(){
+    checkEquals( call_(), 6 ) ;    
+}
+
+
 }
