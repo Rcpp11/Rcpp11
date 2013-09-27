@@ -1,6 +1,7 @@
 // caster.h:  
 //
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -32,6 +33,7 @@ template<> Rcomplex caster<std::complex<float>, Rcomplex>( std::complex<float> f
 template<> std::complex<double> caster<Rcomplex,std::complex<double> >( Rcomplex from) ;
 template<> std::complex<float>  caster<Rcomplex,std::complex<float>  >( Rcomplex from) ;
 
+template<> SEXP caster<String,SEXP>( String from ) ;
 
 }
 }

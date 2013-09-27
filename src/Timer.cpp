@@ -2,6 +2,7 @@
 // Timer.cpp:  Rcpp benchmark utility
 //
 // Copyright (C) 2012 JJ Allaire, Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -84,7 +85,7 @@ namespace Rcpp{
 
 #elif defined(sun) || defined(__sun) || defined(_AIX)
 
-    /* short an sweet! */
+    /* short and sweet! */
     nanotime_t get_nanotime(void) {
         return gethrtime();
     }    
@@ -102,7 +103,7 @@ namespace Rcpp{
     }
       
     namespace{
-        std::string get_first( const std::pair<std::string,nanotime_t>& pair ){
+        String get_first( const std::pair<std::string,nanotime_t>& pair ){
             return pair.first ;    
         }
         double get_second( const std::pair<std::string,nanotime_t>& pair ){
@@ -111,8 +112,8 @@ namespace Rcpp{
     }
     
     Timer::operator SEXP() const {
-        NumericVector out( data.begin(), data.end(), get_second ) ; 
-        CharacterVector names( data.begin(), data.end(), get_first ) ;
+        NumericVector out = import( data.begin(), data.end(), get_second ) ; 
+        CharacterVector names = import( data.begin(), data.end(), get_first ) ;
         out.attr( "names" ) = names ;
         return out ;
     }

@@ -76,5 +76,6 @@
 #include <Rcpp/sugar/functions/strings/strings.h>
 #include <Rcpp/sugar/functions/DelayedCall.h>
 #include <Rcpp/sugar/functions/replicate.h>
+#include <Rcpp/sugar/functions/import.h>
 
 #endif

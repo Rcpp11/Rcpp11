@@ -1436,6 +1436,10 @@ namespace internal{
 	template<> std::complex<float> caster<Rcomplex,std::complex<float> >( Rcomplex from){
 		return std::complex<float>(static_cast<float>(from.r), static_cast<float>(from.i) ) ;
 	}
+	template<> SEXP caster<String,SEXP>( String from){
+		return from.get_sexp() ;
+	}
+	
 
 	SEXP convert_using_rfunction(SEXP x, const char* const fun) {
         SEXP res = R_NilValue ;

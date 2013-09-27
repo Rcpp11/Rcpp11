@@ -112,7 +112,7 @@ namespace Rcpp{
         update_vector();
         std::copy( first, last, begin() ) ; 
     }
-
+    
     template <int RTYPE>
     template <typename InputIterator>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, int n) : RObject( Rf_allocVector(RTYPE, n) ){
@@ -120,7 +120,7 @@ namespace Rcpp{
         RCPP_DEBUG_CTOR( Vector, "( InputIterator first, InputIterator last, int n = %d) [InputIterator = %s] ", n, DEMANGLE(InputIterator) )
         std::copy( first, last, begin() ) ; 
     }
-
+    
     template <int RTYPE>
     template <typename InputIterator, typename Func>
     Vector<RTYPE>::Vector( InputIterator first, InputIterator last, Func func) : RObject( Rf_allocVector( RTYPE, std::distance(first,last) ) ){

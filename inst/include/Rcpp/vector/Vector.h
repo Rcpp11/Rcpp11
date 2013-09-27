@@ -95,6 +95,9 @@ public:
 	
     Vector( const int& size )  ;
     
+    template <typename U> 
+    Vector( const int& size, const U& u) ;
+    
     Vector( const Dimension& dims)  ;
     
     template <typename U> 
@@ -103,24 +106,22 @@ public:
     template <bool NA, typename VEC> 
     Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
     
-    template <typename U> 
-    Vector( const int& size, const U& u) ;
-    
     template <bool NA, typename T> 
     Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
     
+    
     template <typename InputIterator>
     Vector( InputIterator first, InputIterator last) ;
-
+    
     template <typename InputIterator>
     Vector( InputIterator first, InputIterator last, int n)  ;
-
+    
     template <typename InputIterator, typename Func>
     Vector( InputIterator first, InputIterator last, Func func)  ;
     
     template <typename InputIterator, typename Func>
     Vector( InputIterator first, InputIterator last, Func func, int n) ;
-
+     
     Vector( std::initializer_list<init_type> list ) : RObject(){
         assign( list.begin() , list.end() ) ;
     }
