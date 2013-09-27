@@ -1,4 +1,4 @@
-// wrap.h:  wrap implementations
+// wrap_impl.h:  wrap implementations
 //
 // Copyright (C) 2010 - 2013  Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013  Rice University
@@ -18,19 +18,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_internal_wrap_h
-#define Rcpp_internal_wrap_h
-
+#ifndef Rcpp_wrap_wrap_impl_h
+#define Rcpp_wrap_wrap_impl_h
+ 
 #include <iterator>
 
 // this is a private header, included in RcppCommon.h
 // don't include it directly
 
 namespace Rcpp{
-	namespace RcppEigen{
-		template <typename T> SEXP eigen_wrap( const T& object ) ;
-	}
-	
+
 template <typename T> SEXP wrap( const T& object ) ;
 
 template <typename T> class CustomImporter ;
@@ -778,19 +775,6 @@ inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_enum_tag )
 	return wrap( (int)object ) ;	
 }
 
-template <typename T>
-inline SEXP wrap_dispatch_eigen( const T& object, std::false_type){
-	RCPP_DEBUG( "wrap_dispatch_eigen<%s>(., false  )", DEMANGLE(T) )
-	return wrap_dispatch_unknown( object, typename std::is_convertible<T,SEXP>::type() ) ;
-}
-
-template <typename T>
-inline SEXP wrap_dispatch_eigen( const T& object, std::true_type){
-	RCPP_DEBUG( "wrap_dispatch_eigen<%s>(., true  )", DEMANGLE(T) )
-	return ::Rcpp::RcppEigen::eigen_wrap( object ) ;
-}
-
-
 /**
  * called when T is wrap_type_unknown_tag and is not an Importer class
  * The next step is to try implicit conversion to SEXP
@@ -798,7 +782,7 @@ inline SEXP wrap_dispatch_eigen( const T& object, std::true_type){
 template <typename T> 
 inline SEXP wrap_dispatch_unknown_importable( const T& object, std::false_type){
 	RCPP_DEBUG( "wrap_dispatch_unknown_importable<%s>(., false  )", DEMANGLE(T) )
-	return wrap_dispatch_eigen( object, typename traits::is_eigen_base<T>::type() ) ;
+	return wrap_dispatch_unknown( object, typename std::is_convertible<T,SEXP>::type() ) ;
 }
 
 /**
