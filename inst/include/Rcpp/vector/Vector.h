@@ -284,18 +284,6 @@ public:
         UNPROTECT(1) ;
     }
 
-    template <typename InputIterator>
-    static Vector import( InputIterator first, InputIterator last){
-        Vector v ;
-        v.assign( first , last ) ;
-        return v ;
-    }
-
-    template <typename InputIterator, typename F>
-    static Vector import_transform( InputIterator first, InputIterator last, F f){
-        return Vector( first, last, f) ;
-    }
-	
     template <typename T>
     void push_back( const T& object){
         push_back__impl( converter_type::get(object), 

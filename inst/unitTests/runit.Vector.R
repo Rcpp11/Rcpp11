@@ -263,10 +263,6 @@ test.IntegerVector.clone <- function(){
 	checkEquals( y, 10:1, msg = "clone" )
 }
 
-
-
-
-
 test.NumericVector <- function(){
 	funx <- numeric_
 	checkEquals( funx(), as.numeric(0:9), msg = "NumericVector(int)" )
@@ -276,21 +272,6 @@ test.NumericVector.REALSXP <- function(){
 	funx <- numeric_REALSXP
 	checkEquals( funx(as.numeric(0:9)), 2*0:9, msg = "NumericVector( REALSXP) " )
 }
-
-
-test.NumericVector.import <- function(){
-	funx <- numeric_import
-	checkEquals( funx(), 0:9, msg = "IntegerVector::import" )
-}
-
-test.NumericVector.import.transform <- function(){
-	funx <- numeric_importtransform
-	checkEquals( funx(), (0:9)^2, msg = "NumericVector::import_transform" )
-}
-
-
-
-
 
 test.List <- function(){
     fun <- list_ctor

@@ -287,21 +287,6 @@ NumericVector numeric_REALSXP( SEXP vec){
 }
 
 // [[Rcpp::export]]
-IntegerVector numeric_import(){
-    std::vector<int> v(10) ;
-    for( int i=0; i<10; i++) v[i] = i ;
-    return IntegerVector::import( v.begin(), v.end() ) ;
-}
-
-// [[Rcpp::export]]
-NumericVector numeric_importtransform(){
-    std::vector<double> v(10) ;
-    for( int i=0; i<10; i++) v[i] = i ;
-    
-    return transform( v.begin(), v.end(), square ) ;
-}
-
-// [[Rcpp::export]]
 List list_ctor(){
     List x(10) ;
 	for( int i=0; i<10; i++) x[i] = Rf_ScalarInteger( i * 2)  ;
