@@ -27,7 +27,6 @@
 # error "Detecting Rcpp. It is probably a bad idea to compile against Rcpp11 and Rcpp together"
 #endif
 
-/* it is important that this comes first */
 #include <RcppCommon.h>
 
 #include <Rcpp/exceptions.h>
@@ -67,7 +66,6 @@
 #include <Rcpp/stats/stats.h>
 #endif
 
-// wrappers for R API 'scalar' functions
 #include <Rcpp/Rmath.h>
 
 #include <Rcpp/api/meat/meat.h>

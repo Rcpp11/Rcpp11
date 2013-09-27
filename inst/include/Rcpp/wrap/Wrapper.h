@@ -1,4 +1,4 @@
-// Copyright (C) 2013  Rice University
+// Copyright (C) 2013  Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -15,17 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_wrap_forward_h
-#define Rcpp_wrap_forward_h
+#ifndef Rcpp_wrap_Wrapper_h
+#define Rcpp_wrap_Wrapper_h
  
 namespace Rcpp{
 
-template <typename T> SEXP wrap( const T& object ) ;
-
-namespace internal{
-    template <typename InputIterator> SEXP range_wrap(InputIterator first, InputIterator last) ;
-	template <typename InputIterator> SEXP rowmajor_wrap(InputIterator first, int nrow, int ncol) ;
+    template <typename T> class Wrapper{
+    public:
+        Wrapper( const T& object_ ): object(object_){}
+        
+        inline SEXP process() const { 
+            RCPP_DEBUG( "Wrapper<%s>::process(const T& object) ", DEMANGLE(T) ) 
+            return internal::wrap_dispatch( object, typename ::Rcpp::traits::wrap_type_traits<T>::wrap_category() ) ;    
+        }
+        
+    private:
+        const T& object ;
+    } ;
+    
 }
 
-}
 #endif
