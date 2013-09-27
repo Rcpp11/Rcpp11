@@ -103,6 +103,8 @@ public:
     Vector( std::initializer_list<init_type> list ) : RObject(){
         assign( list.begin() , list.end() ) ;
     }
+    Vector( std::initializer_list<typename traits::named_object<init_type>> list ) : 
+        Vector(wrap(list.begin(), list.end())){}
 
 	/**
      * Assignment operator. Grab the SEXP of the other vector

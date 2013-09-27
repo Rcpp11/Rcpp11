@@ -61,7 +61,6 @@ namespace Rcpp{
         return *this ;
     }
     
-    
     template <int RTYPE>
     Vector<RTYPE>& Vector<RTYPE>::operator=(const Vector& other){
         RCPP_DEBUG_CLASS( Vector, "= %s()", DEMANGLE(Vector) )

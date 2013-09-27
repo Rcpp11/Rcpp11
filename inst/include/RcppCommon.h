@@ -112,10 +112,9 @@ namespace Rcpp{
 #include <Rcpp/vector/VectorBase.h>
 #include <Rcpp/vector/MatrixBase.h>
 
-#include <Rcpp/internal/wrap.h>
+#include <Rcpp/wrap/wrap.h>
 
 #include <Rcpp/internal/Proxy_Iterator.h>
-#include <Rcpp/internal/SEXP_Iterator.h>
 #include <Rcpp/internal/converter.h>
 
 #include <Rcpp/algo.h>
