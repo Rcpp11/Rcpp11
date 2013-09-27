@@ -70,20 +70,21 @@ public:
         RCPP_DEBUG_CTOR(Vector, "(SEXP = <%p>)", x )
         update_vector() ;
     }
-    Vector( const RObject::SlotProxy& proxy ) : RObject( r_cast<RTYPE>( (SEXP)proxy ) ) {
-        RCPP_DEBUG_CTOR(Vector, "( const RObject::SlotProxy& proxy = <%p> )", m_sexp)
-        update_vector() ;
-    }
-    
-    Vector( const RObject::AttributeProxy& proxy ) : RObject( r_cast<RTYPE>( (SEXP)proxy ) ) {
-       RCPP_DEBUG_CTOR( Vector, "( const RObject::AttributeProxy& proxy = <%p> )", m_sexp)
-       update_vector() ;
-    }
     Vector( const int& size, const stored_type& u ) : RObject( Rf_allocVector( RTYPE, size) ) {
         RCPP_DEBUG_CTOR(Vector, "( const int& size = %d, const stored_type& u )", size)
         update_vector() ;
         fill( u ) ;
     }
+    Vector( const int& size )  ;
+    
+    Vector( const Dimension& dims)  ;
+    
+    template <typename U> 
+    Vector( const Dimension& dims, const U& u) ;
+    
+    template <typename U> 
+    Vector( const int& size, const U& u) ;
+    
     Vector( const std::string& st ) : RObject( internal::vector_from_string<RTYPE>(st) ){
         RCPP_DEBUG_CTOR(Vector, "( const std::string& = %s )", st.c_str() )
         update_vector();
@@ -93,16 +94,6 @@ public:
         update_vector();
     }
 	
-    Vector( const int& size )  ;
-    
-    template <typename U> 
-    Vector( const int& size, const U& u) ;
-    
-    Vector( const Dimension& dims)  ;
-    
-    template <typename U> 
-    Vector( const Dimension& dims, const U& u) ;
-    
     template <bool NA, typename VEC> 
     Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
     
