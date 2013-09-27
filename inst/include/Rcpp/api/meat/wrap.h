@@ -21,47 +21,56 @@
 #ifndef Rcpp_api_meat_wrap_h
 #define Rcpp_api_meat_wrap_h
 
-namespace Rcpp{ 
-namespace internal{
+namespace Rcpp{
+    
+    template <typename T> 
+    inline SEXP wrap(const T& object){
+        return typename traits::wrap_type<T>::type(object).process() ; 
+    }
+
+
+    namespace internal{
         
-template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
-inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::true_type ){
-	size_t size = std::distance( first, last ) ;
-	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	
-	SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
-	SEXP x = PROTECT( Rf_allocVector(RTYPE, size) ) ;
-	STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( x ) ;
-	Rcpp::String buffer ;
-	for( size_t i = 0; i < size ; i++, ++first){
-        buffer = first->first ;
-        ptr[i] = first->second ;
-        SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names) ;
-	UNPROTECT(2) ;
-	return x ;
-}
-                
-template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
-inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::false_type ){
-	size_t size = std::distance( first, last ) ;
-	
-	SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
-	SEXP x = PROTECT( Rf_allocVector(VECSXP, size) ) ;
-	Rcpp::String buffer ;
-	for( size_t i = 0; i < size ; i++, ++first){
-        buffer = first->first ;
-        SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
-        SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names) ;
-	UNPROTECT(2) ;
-	return x ;
-}
+        template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
+        inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::true_type ){
+            size_t size = std::distance( first, last ) ;
+            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+            
+            SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
+            SEXP x = PROTECT( Rf_allocVector(RTYPE, size) ) ;
+            STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( x ) ;
+            Rcpp::String buffer ;
+            for( size_t i = 0; i < size ; i++, ++first){
+                buffer = first->first ;
+                ptr[i] = first->second ;
+                SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
+            }
+            ::Rf_setAttrib( x, R_NamesSymbol, names) ;
+            UNPROTECT(2) ;
+            return x ;
+        }
+                        
+        template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
+        inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::false_type ){
+            size_t size = std::distance( first, last ) ;
+            
+            SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
+            SEXP x = PROTECT( Rf_allocVector(VECSXP, size) ) ;
+            Rcpp::String buffer ;
+            for( size_t i = 0; i < size ; i++, ++first){
+                buffer = first->first ;
+                SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
+                SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
+            }
+            ::Rf_setAttrib( x, R_NamesSymbol, names) ;
+            UNPROTECT(2) ;
+            return x ;
+        }
   
 
 } // namespace internal
+
+    
 } // namespace Rcpp
 
 #endif

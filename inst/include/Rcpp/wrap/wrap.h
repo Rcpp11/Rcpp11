@@ -30,13 +30,4 @@
 #include <Rcpp/wrap/Wrapper.h>     
 #include <Rcpp/wrap/wrap_type.h>     
 
-namespace Rcpp{
-
-    template <typename T> 
-    inline SEXP wrap(const T& object){
-        return typename traits::wrap_type<T>::type(object).process() ; 
-    }
-    
-}
-
 #endif
