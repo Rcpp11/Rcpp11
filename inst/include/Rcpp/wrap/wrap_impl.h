@@ -23,14 +23,9 @@
  
 #include <iterator>
 
-// this is a private header, included in RcppCommon.h
-// don't include it directly
-
 namespace Rcpp{
 
 template <typename T> SEXP wrap( const T& object ) ;
-
-template <typename T> class CustomImporter ;
 
 namespace internal{
 	
