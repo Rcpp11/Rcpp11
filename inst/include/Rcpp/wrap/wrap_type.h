@@ -30,8 +30,9 @@ namespace traits{
         const static bool is_enum      = std::is_enum<T>::value  ;
         const static bool is_sexp_convertible = std::is_convertible<T,SEXP>::value ;
         const static bool is_module_object = std::is_same< wrap_category , Rcpp::traits::wrap_type_module_object_tag>::value ;
+        const static bool is_sugar = Rcpp::traits::is_sugar_expression<T>::value ;
          
-        typedef typename std::conditional<
+        typedef typename std::conditional< 
             is_sexp_convertible, 
             typename Rcpp::SexpConvertibleWrapper<T>,
             typename std::conditional<
@@ -41,12 +42,16 @@ namespace traits{
                     is_primitive || is_enum, 
                     typename Rcpp::PrimitiveWrapper<T>, 
                     typename std::conditional<
-                        has_matrix_interface,
-                        typename Rcpp::MatrixWrapper<T>,
+                        is_sugar,
+                        typename Rcpp::SugarExpressionWrapper<T>,
                         typename std::conditional<
-                            has_iterator, 
-                            typename Rcpp::ContainerWrapper<T>, 
-                            typename Rcpp::Wrapper<T>
+                            has_matrix_interface,
+                            typename Rcpp::MatrixWrapper<T>,
+                            typename std::conditional<
+                                has_iterator, 
+                                typename Rcpp::ContainerWrapper<T>, 
+                                typename Rcpp::Wrapper<T>
+                                >::type
                             >::type
                         >::type
                     >::type

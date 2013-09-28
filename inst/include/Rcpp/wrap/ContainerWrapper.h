@@ -20,11 +20,10 @@
  
 namespace Rcpp{
 
-    template <typename T> struct ContainerWrapper{
+    template <typename T> struct ContainerWrapper {
         static inline SEXP wrap(const T& object) { 
             RCPP_DEBUG( "ContainerWrapper<%s>::wrap() ", DEMANGLE(T) ) 
-            return internal::wrap_dispatch_unknown_iterable__logical( object, 
-                typename ::Rcpp::traits::expands_to_logical<T>::type() );    
+            return internal::range_wrap( object.begin(), object.end() ) ;    
         }
     } ;
     

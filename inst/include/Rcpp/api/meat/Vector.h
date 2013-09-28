@@ -644,8 +644,7 @@ namespace Rcpp{
     namespace internal {
     
         template <typename T>
-        inline SEXP wrap_range_sugar_expression( const T& object, std::true_type) {
-            RCPP_DEBUG( "wrap_range_sugar_expression<%s>(., true  )", DEMANGLE(T) )
+        inline SEXP wrap_range_sugar_expression( const T& object) {
             const int RTYPE = T::r_type::value ;
             return Rcpp::Vector<RTYPE>(object) ;
         }
