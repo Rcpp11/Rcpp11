@@ -50,14 +50,6 @@ inline SEXP wrap_dispatch_unknown_iterable__logical( const T& object, std::false
 	return wrap_range_sugar_expression( object, typename Rcpp::traits::is_sugar_expression<T>::type() ) ;
 }
 
-
-template <typename T>
-inline SEXP wrap_dispatch_unknown_iterable__matrix_interface( const T& object, std::false_type ){
-	RCPP_DEBUG( "wrap_dispatch_unknown_iterable__matrix_interface<%s>(., false  )", DEMANGLE(T) )
-	return wrap_dispatch_unknown_iterable__logical( object, 
-			typename ::Rcpp::traits::expands_to_logical<T>::type() );
-}
-
 template <typename T>
 inline SEXP wrap_dispatch_matrix_logical( const T& object, std::true_type ){
 	int nr = object.nrow(), nc = object.ncol() ;
@@ -138,76 +130,6 @@ inline SEXP wrap_dispatch_matrix_logical( const T& object, std::false_type ){
 	return wrap_dispatch_matrix_not_logical<T>( object, typename ::Rcpp::traits::r_type_traits<typename T::stored_type>::r_category() ) ;
 }
 
-template <typename T>
-inline SEXP wrap_dispatch_unknown_iterable__matrix_interface( const T& object, std::true_type ){
-	RCPP_DEBUG( "wrap_dispatch_unknown_iterable__matrix_interface<%s>(., true  )", DEMANGLE(T) )
-	return wrap_dispatch_matrix_logical( object, typename ::Rcpp::traits::expands_to_logical<T>::type() ) ;
-}
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer__impl__prim( const T& object, std::false_type ){
-	int size = object.size() ;
-	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<elem_type>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
-	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
-	CTYPE* start = r_vector_start<RTYPE>(x) ;
-	for( int i=0; i<size; i++){
-		start[i] = object.get(i) ;
-	}
-	UNPROTECT(1) ;
-	return x ;
-
-}
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer__impl__prim( const T& object, std::true_type ){
-	int size = object.size() ;
-	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<elem_type>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
-	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
-	CTYPE* start = r_vector_start<RTYPE>(x) ;
-	for( int i=0; i<size; i++){
-		start[i] = caster<elem_type,CTYPE>( object.get(i) );
-	}
-	UNPROTECT(1) ;
-	return x ;
-}
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer__impl( const T& object, ::Rcpp::traits::r_type_primitive_tag ){
-	return wrap_dispatch_importer__impl__prim<T,elem_type>( object, 
-		typename ::Rcpp::traits::r_sexptype_needscast<elem_type>() ) ;
-}
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer__impl( const T& object, ::Rcpp::traits::r_type_string_tag ){
-	int size = object.size() ;
-	SEXP x = PROTECT( Rf_allocVector( STRSXP, size ) );
-	for( int i=0; i<size; i++){
-		SET_STRING_ELT( x, i, make_charsexp(object.get(i)) ) ;
-	}
-	UNPROTECT(1) ;
-	return x ;
-}
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer__impl( const T& object, ::Rcpp::traits::r_type_generic_tag ){
-	int size = object.size() ;
-	SEXP x = PROTECT( Rf_allocVector( VECSXP, size ) );
-	for( int i=0; i<size; i++){
-		SET_VECTOR_ELT( x, i, object.wrap(i) ) ;
-	}
-	UNPROTECT(1) ;
-	return x ;
-}
-
-
-template <typename T, typename elem_type>
-inline SEXP wrap_dispatch_importer( const T& object ){
-	return wrap_dispatch_importer__impl<T,elem_type>( object, 
-		typename ::Rcpp::traits::r_type_traits<elem_type>::r_category() 
-		 ) ;
-}
 // }}}
 
 } // internal
