@@ -20,12 +20,7 @@
  
 namespace Rcpp{
 
-    template <typename T> struct Wrapper{
-        static inline SEXP wrap(const T& object) { 
-            RCPP_DEBUG( "Wrapper<%s>::wrap() ", DEMANGLE(T) ) 
-            return internal::wrap_dispatch( object, typename ::Rcpp::traits::wrap_type_traits<T>::wrap_category() ) ;    
-        }
-    } ;
+    template <typename T> struct Wrapper ;
     
 }
 

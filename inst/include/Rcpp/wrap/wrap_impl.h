@@ -25,36 +25,6 @@ namespace Rcpp{
 namespace internal{
 	
 // {{{ unknown
-/**
- * Called when the type T is known to be implicitely convertible to 
- * SEXP. It uses the implicit conversion to SEXP to wrap the object
- * into a SEXP
- */
-template <typename T>
-inline SEXP wrap_dispatch_unknown( const T& object, std::true_type ){
-	RCPP_DEBUG( "wrap_dispatch_unknown<%s>(., false  )", DEMANGLE(T) )
-	// here we know (or assume) that T is convertible to SEXP
-	SEXP x = object ;
-	return x ;
-}
-
-/**
- * This is the worst case : 
- * - not a primitive
- * - not implicitely convertible tp SEXP
- * - not iterable
- *
- * so we just give up and attempt to use static_assert to generate 
- * a compile time message if it is available, otherwise we use 
- * implicit conversion to SEXP to bomb the compiler, which will give
- * quite a cryptic message
- */
-template <typename T>
-inline SEXP wrap_dispatch_unknown_iterable(const T& object, std::false_type){
-	RCPP_DEBUG( "wrap_dispatch_unknown_iterable<%s>(., false  )", DEMANGLE(T) )
-	static_assert( !sizeof(T), "cannot convert type to SEXP" ) ;
-	return R_NilValue ; // -Wall
-}
 
 template <typename T>
 inline SEXP wrap_dispatch_unknown_iterable__logical( const T& object, std::true_type){
@@ -174,26 +144,6 @@ inline SEXP wrap_dispatch_unknown_iterable__matrix_interface( const T& object, s
 	return wrap_dispatch_matrix_logical( object, typename ::Rcpp::traits::expands_to_logical<T>::type() ) ;
 }
 
-
-/**
- * Here we know for sure that type T has a T::iterator typedef
- * so we hope for the best and call the range based wrap with begin
- * and end
- *
- * This works fine for all stl containers and classes T that have : 
- * - T::iterator
- * - T::iterator begin()
- * - T::iterator end()
- *
- * If someone knows a better way, please advise
- */
-template <typename T>
-inline SEXP wrap_dispatch_unknown_iterable(const T& object, std::true_type){
-	RCPP_DEBUG( "wrap_dispatch_unknown_iterable<%s>(., true  )", DEMANGLE(T) )
-	return wrap_dispatch_unknown_iterable__matrix_interface( object, 
-		typename ::Rcpp::traits::matrix_interface<T>::type() ) ;
-}
-
 template <typename T, typename elem_type>
 inline SEXP wrap_dispatch_importer__impl__prim( const T& object, std::false_type ){
 	int size = object.size() ;
@@ -258,32 +208,7 @@ inline SEXP wrap_dispatch_importer( const T& object ){
 		typename ::Rcpp::traits::r_type_traits<elem_type>::r_category() 
 		 ) ;
 }
-
-/** 
- * Called when no implicit conversion to SEXP is possible and this is 
- * not tagged as a primitive type, checks whether the type is 
- * iterable
- */
-template <typename T>
-inline SEXP wrap_dispatch_unknown( const T& object, std::false_type){
-	RCPP_DEBUG( "wrap_dispatch_unknown<%s>(., false  )", DEMANGLE(T) )
-	return wrap_dispatch_unknown_iterable( object, typename ::Rcpp::traits::has_iterator<T>::type() ) ;
-}
 // }}}
-
-// {{{ wrap dispatch
-
-/** 
- * This is called by wrap when the wrap_type_traits is wrap_type_unknown_tag
- * 
- * This tries to identify if the object conforms to the Importer class
- */
-template <typename T> 
-inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_unknown_tag ){
-	RCPP_DEBUG( "wrap_dispatch<%s>(., wrap_type_unknown_tag )", DEMANGLE(T) )
-	return wrap_dispatch_unknown( object, typename std::is_convertible<T,SEXP>::type() ) ;
-}
-	// }}}
 
 } // internal
 
