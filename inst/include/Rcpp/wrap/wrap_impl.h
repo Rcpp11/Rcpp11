@@ -272,6 +272,15 @@ inline SEXP wrap_dispatch_unknown( const T& object, std::false_type){
 // }}}
 
 // {{{ wrap dispatch
+template <typename T>
+inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_module_object_pointer_tag ){
+	return Rcpp::internal::make_new_object< typename T::object_type >( object.ptr ) ;	
+}
+
+template <typename T>
+inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_module_object_tag ){
+	return Rcpp::internal::make_new_object<T>( new T(object) ) ;	
+}
 
 /** 
  * This is called by wrap when the wrap_type_traits is wrap_type_unknown_tag
