@@ -15,21 +15,24 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_wrap_wrap_h
-#define Rcpp_wrap_wrap_h
+#ifndef Rcpp_wrap_MatrixWrapper_h
+#define Rcpp_wrap_MatrixWrapper_h
  
-#include <Rcpp/wrap/forward.h>
-#include <Rcpp/wrap/make_charsexp.h>
-#include <Rcpp/wrap/primitive_range_wrap.h>
-#include <Rcpp/wrap/range_wrap.h>
-#include <Rcpp/wrap/primitive_wrap.h>
+namespace Rcpp{
 
-#include <Rcpp/wrap/wrap_impl.h>
-#include <Rcpp/wrap/rowmajor.h>
-
-#include <Rcpp/wrap/Wrapper.h>     
-#include <Rcpp/wrap/MatrixWrapper.h>     
-#include <Rcpp/wrap/ContainerWrapper.h>     
-#include <Rcpp/wrap/wrap_type.h>     
+    template <typename T> class MatrixWrapper{
+    public:
+        MatrixWrapper( const T& object_ ): object(object_){}
+        
+        inline SEXP process() const { 
+            RCPP_DEBUG( "MatrixWrapper<%s>::process(const T& object) ", DEMANGLE(T) ) 
+            return internal::wrap_dispatch_matrix_logical( object, typename ::Rcpp::traits::expands_to_logical<T>::type() ) ;    
+        }
+        
+    private:
+        const T& object ;
+    } ;
+    
+}
 
 #endif

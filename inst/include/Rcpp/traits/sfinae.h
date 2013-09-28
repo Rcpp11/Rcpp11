@@ -28,7 +28,7 @@ namespace traits {
     };
 
 #define RCPP_HAS_TYPE_SFINAE(__NAME__,__TYPE__)                   \
-template<typename T>           \
+template<typename T>                                              \
 class __NAME__##__helper : __sfinae_types {                       \
     template<typename U> struct _Wrap_type { };                   \
     template<typename U>                                          \

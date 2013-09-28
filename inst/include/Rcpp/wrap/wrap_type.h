@@ -23,7 +23,18 @@ namespace traits{
     
     template <typename T>
     struct wrap_type {
-        typedef typename Rcpp::Wrapper<T> type ;    
+        const static bool has_matrix_interface = Rcpp::traits::matrix_interface<T>::value ;
+        const static bool has_iterator = Rcpp::traits::has_iterator<T>::value ;
+        
+        typedef typename std::conditional<
+            has_matrix_interface,
+            typename Rcpp::MatrixWrapper<T>,
+            typename std::conditional<
+                has_iterator, 
+                typename Rcpp::ContainerWrapper<T>, 
+                typename Rcpp::Wrapper<T>
+            >::type
+        >::type type ;    
     } ;
     
 }
