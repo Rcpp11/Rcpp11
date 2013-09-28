@@ -31,7 +31,7 @@ namespace traits{
         const static bool is_sexp_convertible = std::is_convertible<T,SEXP>::value ;
          
         typedef typename std::conditional<
-            is_sexp_convertible,
+            is_sexp_convertible, 
             typename Rcpp::SexpConvertibleWrapper<T>,
             typename std::conditional<
                 is_primitive || is_enum, 
@@ -43,10 +43,10 @@ namespace traits{
                         has_iterator, 
                         typename Rcpp::ContainerWrapper<T>, 
                         typename Rcpp::Wrapper<T>
+                        >::type
                     >::type
                 >::type
-            >::type
-        >::type type ;    
+            >::type type ;    
     } ;
     
 }

@@ -22,7 +22,7 @@ namespace Rcpp{
 
     template <typename T> struct SexpConvertibleWrapper{
         static inline SEXP wrap(const T& object) { 
-            RCPP_DEBUG( "SexpConvertibleWrapper<%s>::wrap(const T& object) ", DEMANGLE(T) ) 
+            
             return (SEXP)object ;    
         }
     } ;

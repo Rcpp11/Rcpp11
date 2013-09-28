@@ -57,7 +57,7 @@ namespace Rcpp{
     template <int RTYPE>
     Matrix<RTYPE>::Matrix( Matrix<RTYPE>&& other) : VECTOR(){
         RObject::m_sexp = other.m_sexp ;
-        RCPP_DEBUG_MOVE_CTOR( Matrix, "( %s&& other ), SEXP= <%p>", DEMANGLE(Matrix), m_sexp )
+        RCPP_DEBUG_MOVE_CTOR( Matrix, "( %s&& other ), SEXP= <%p>", DEMANGLE(Matrix), RObject::m_sexp )
         other.m_sexp = R_NilValue ;
         VECTOR::update_vector() ;
         nrows = other.nrows ;

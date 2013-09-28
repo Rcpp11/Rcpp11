@@ -272,49 +272,6 @@ inline SEXP wrap_dispatch_unknown( const T& object, std::false_type){
 // }}}
 
 // {{{ wrap dispatch
-/**
- * wrapping a __single__ primitive type : int, double, std::string, size_t, 
- * Rbyte, Rcomplex
- */
-template <typename T> 
-inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_primitive_tag ){
-	RCPP_DEBUG( "wrap_dispatch<%s>(., wrap_type_primitive_tag  )", DEMANGLE(T) )
-	return primitive_wrap( object ) ;
-}
-
-template <typename T>
-inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_module_object_pointer_tag ){
-	return Rcpp::internal::make_new_object< typename T::object_type >( object.ptr ) ;	
-}
-
-template <typename T>
-inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_module_object_tag ){
-	return Rcpp::internal::make_new_object<T>( new T(object) ) ;	
-}
-
-template <typename T>
-inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_enum_tag ){
-	return wrap( (int)object ) ;	
-}
-
-/**
- * called when T is wrap_type_unknown_tag and is not an Importer class
- * The next step is to try implicit conversion to SEXP
- */
-template <typename T> 
-inline SEXP wrap_dispatch_unknown_importable( const T& object, std::false_type){
-	RCPP_DEBUG( "wrap_dispatch_unknown_importable<%s>(., false  )", DEMANGLE(T) )
-	return wrap_dispatch_unknown( object, typename std::is_convertible<T,SEXP>::type() ) ;
-}
-
-/**
- * called when T is an Importer
- */
-template <typename T> 
-inline SEXP wrap_dispatch_unknown_importable( const T& object, std::true_type){
-	RCPP_DEBUG( "wrap_dispatch_unknown_importable<%s>(., true  )", DEMANGLE(T) )
-	return wrap_dispatch_importer<T,typename T::r_import_type>( object ) ;
-}
 
 /** 
  * This is called by wrap when the wrap_type_traits is wrap_type_unknown_tag
@@ -324,7 +281,7 @@ inline SEXP wrap_dispatch_unknown_importable( const T& object, std::true_type){
 template <typename T> 
 inline SEXP wrap_dispatch( const T& object, ::Rcpp::traits::wrap_type_unknown_tag ){
 	RCPP_DEBUG( "wrap_dispatch<%s>(., wrap_type_unknown_tag )", DEMANGLE(T) )
-	return wrap_dispatch_unknown_importable( object, typename ::Rcpp::traits::is_importer<T>::type() ) ;
+	return wrap_dispatch_unknown( object, typename std::is_convertible<T,SEXP>::type() ) ;
 }
 	// }}}
 
