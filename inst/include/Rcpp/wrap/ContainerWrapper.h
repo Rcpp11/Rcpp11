@@ -20,18 +20,12 @@
  
 namespace Rcpp{
 
-    template <typename T> class ContainerWrapper{
-    public:
-        ContainerWrapper( const T& object_ ): object(object_){}
-        
-        inline SEXP process() const { 
-            RCPP_DEBUG( "ContainerWrapper<%s>::process(const T& object) ", DEMANGLE(T) ) 
+    template <typename T> struct ContainerWrapper{
+        static inline SEXP wrap(const T& object) { 
+            RCPP_DEBUG( "ContainerWrapper<%s>::wrap() ", DEMANGLE(T) ) 
             return internal::wrap_dispatch_unknown_iterable__logical( object, 
                 typename ::Rcpp::traits::expands_to_logical<T>::type() );    
         }
-        
-    private:
-        const T& object ;
     } ;
     
 }

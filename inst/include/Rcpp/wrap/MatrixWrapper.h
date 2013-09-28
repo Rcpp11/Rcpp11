@@ -20,17 +20,11 @@
  
 namespace Rcpp{
 
-    template <typename T> class MatrixWrapper{
-    public:
-        MatrixWrapper( const T& object_ ): object(object_){}
-        
-        inline SEXP process() const { 
+    template <typename T> struct MatrixWrapper{
+        static inline SEXP wrap(const T& object) { 
             RCPP_DEBUG( "MatrixWrapper<%s>::process(const T& object) ", DEMANGLE(T) ) 
             return internal::wrap_dispatch_matrix_logical( object, typename ::Rcpp::traits::expands_to_logical<T>::type() ) ;    
         }
-        
-    private:
-        const T& object ;
     } ;
     
 }

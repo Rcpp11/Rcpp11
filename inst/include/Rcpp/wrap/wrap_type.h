@@ -28,16 +28,22 @@ namespace traits{
         const static bool has_iterator = Rcpp::traits::has_iterator<T>::value ;
         const static bool is_primitive = std::is_same< wrap_category , Rcpp::traits::wrap_type_primitive_tag>::value ;
         const static bool is_enum      = std::is_enum<T>::value  ;
+        const static bool is_sexp_convertible = std::is_convertible<T,SEXP>::value ;
          
-        typedef typename std::conditional<is_primitive || is_enum, 
-            typename Rcpp::PrimitiveWrapper<T>, 
+        typedef typename std::conditional<
+            is_sexp_convertible,
+            typename Rcpp::SexpConvertibleWrapper<T>,
             typename std::conditional<
-                has_matrix_interface,
-                typename Rcpp::MatrixWrapper<T>,
+                is_primitive || is_enum, 
+                typename Rcpp::PrimitiveWrapper<T>, 
                 typename std::conditional<
-                    has_iterator, 
-                    typename Rcpp::ContainerWrapper<T>, 
-                    typename Rcpp::Wrapper<T>
+                    has_matrix_interface,
+                    typename Rcpp::MatrixWrapper<T>,
+                    typename std::conditional<
+                        has_iterator, 
+                        typename Rcpp::ContainerWrapper<T>, 
+                        typename Rcpp::Wrapper<T>
+                    >::type
                 >::type
             >::type
         >::type type ;    

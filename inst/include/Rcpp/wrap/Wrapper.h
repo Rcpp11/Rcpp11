@@ -20,17 +20,11 @@
  
 namespace Rcpp{
 
-    template <typename T> class Wrapper{
-    public:
-        Wrapper( const T& object_ ): object(object_){}
-        
-        inline SEXP process() const { 
-            RCPP_DEBUG( "Wrapper<%s>::process(const T& object) ", DEMANGLE(T) ) 
+    template <typename T> struct Wrapper{
+        static inline SEXP wrap(const T& object) { 
+            RCPP_DEBUG( "Wrapper<%s>::wrap() ", DEMANGLE(T) ) 
             return internal::wrap_dispatch( object, typename ::Rcpp::traits::wrap_type_traits<T>::wrap_category() ) ;    
         }
-        
-    private:
-        const T& object ;
     } ;
     
 }

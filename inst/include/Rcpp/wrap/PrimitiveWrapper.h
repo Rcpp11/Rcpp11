@@ -15,23 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_wrap_wrap_h
-#define Rcpp_wrap_wrap_h
+#ifndef Rcpp_wrap_PrimitiveWrapper_h
+#define Rcpp_wrap_PrimitiveWrapper_h
  
-#include <Rcpp/wrap/forward.h>
-#include <Rcpp/wrap/make_charsexp.h>
-#include <Rcpp/wrap/primitive_range_wrap.h>
-#include <Rcpp/wrap/range_wrap.h>
-#include <Rcpp/wrap/primitive_wrap.h>
+namespace Rcpp{
 
-#include <Rcpp/wrap/wrap_impl.h>
-#include <Rcpp/wrap/rowmajor.h>
-
-#include <Rcpp/wrap/Wrapper.h>     
-#include <Rcpp/wrap/PrimitiveWrapper.h>     
-#include <Rcpp/wrap/MatrixWrapper.h>     
-#include <Rcpp/wrap/ContainerWrapper.h>
-#include <Rcpp/wrap/SexpConvertibleWrapper.h>
-#include <Rcpp/wrap/wrap_type.h>     
+    template <typename T> struct PrimitiveWrapper {
+        static inline SEXP wrap(const T& object) { 
+            RCPP_DEBUG( "PrimitiveWrapper<%s>::wrap() ", DEMANGLE(T) ) 
+            return internal::primitive_wrap( object ) ;    
+        }
+    } ;
+    
+}
 
 #endif
