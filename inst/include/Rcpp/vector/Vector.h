@@ -461,15 +461,6 @@ private:
     template <typename T>
     inline void import_expression( const T& other, int n ) ;
     
-    template <typename T>
-    inline void fill_or_generate( const T& t) ;
-    
-    template <typename T>
-    inline void fill_or_generate__impl( const T& gen, std::true_type) ;
-    
-    template <typename T>
-    inline void fill_or_generate__impl( const T& t, std::false_type) ;
-
     template <typename U>
     void fill__dispatch( std::false_type, const U& u){
         // when this is not trivial, this is SEXP

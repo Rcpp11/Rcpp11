@@ -101,7 +101,7 @@ namespace Rcpp{
     Vector<RTYPE>::Vector( const int& size, const U& u): RObject( Rf_allocVector( RTYPE, size) ) {
         RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )
         update_vector() ;
-        fill_or_generate( u ) ;	
+        fill( u ) ;	
     }
         
     template <int RTYPE>
@@ -175,26 +175,6 @@ namespace Rcpp{
     inline void Vector<RTYPE>::import_expression( const T& other, int n ){
         iterator start = begin() ; 
         RCPP_LOOP_UNROLL(start,other)
-    }
-    
-    template <int RTYPE>
-    template <typename T>
-    inline void Vector<RTYPE>::fill_or_generate( const T& t){
-        fill_or_generate__impl( t, typename traits::is_generator<T>::type() ) ;
-    }
-    
-    template <int RTYPE>
-    template <typename T>
-    inline void Vector<RTYPE>::fill_or_generate__impl( const T& gen, std::true_type){
-        iterator first = begin() ;
-        iterator last = end() ;
-        while( first != last ) *first++ = gen() ;
-    }
-    
-    template <int RTYPE>
-    template <typename T>
-    inline void Vector<RTYPE>::fill_or_generate__impl( const T& t, std::false_type){
-        	fill(t) ;
     }
     
     template <int RTYPE>

@@ -71,10 +71,7 @@ public:
 } ;
 
 template <typename T>
-class Generator : public RNGScope {
-public:
-	typedef T r_generator ;
-} ;
+class Generator : public RNGScope {} ;
 
 }
 #endif
