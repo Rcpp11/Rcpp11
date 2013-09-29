@@ -84,7 +84,6 @@ namespace internal{
 		
 		
 		string_proxy& operator=(SEXP rhs){
-			// TODO: check this is a CHARSXP
 			set( rhs ) ;
 			return *this ;
 		}
@@ -152,25 +151,6 @@ namespace internal{
 		}
 		
 		inline int size() const { return strlen( begin() ) ; }
-		// inline reference operator[]( int n ){ return *( begin() + n ) ; }
-		// 
-		// template <typename UnaryOperator>
-		// void transform( UnaryOperator op ){
-		// 	buffer = begin() ;
-		// 	std::transform( buffer.begin(), buffer.end(), buffer.begin(), op ) ;
-		// 	set( buffer ) ;
-		// }
-		// 
-		// template <typename OutputIterator, typename UnaryOperator>
-		// void apply( OutputIterator target, UnaryOperator op){
-		// 	std::transform( begin(), end(), target, op ) ;
-		// }
-		// 
-		// template <typename UnaryOperator>
-		// void apply( UnaryOperator op){
-		// 	std::for_each( begin(), end(), op );
-		// }
-		
 		bool operator==( const char* other){
 			return strcmp( begin(), other ) == 0 ;
 		}

@@ -1,6 +1,7 @@
 #!/usr/bin/r -t
 #
 # Copyright (C) 2012  Dirk Eddelbuettel and Romain Francois
+# Copyright (C) 2013 Romain Francois
 #
 # This file is part of Rcpp11.
 #
@@ -33,10 +34,10 @@ test.replace_last <- function(){
     checkEquals( String_replace_last("foobar", "o", "*"), "fo*bar")
 }
 
-test.String.sapply <- function(){
-    res <- test_sapply_string( "foobar", c("o", "a" ), c("*", "!" ) )
-    checkEquals( res, "f**b!r" )    
-}
+# test.String.sapply <- function(){
+#     res <- test_sapply_string( "foobar", c("o", "a" ), c("*", "!" ) )
+#     checkEquals( res, "f**b!r" )    
+# }
 
 test.compare.Strings <- function(){
     res <- test_compare_Strings( "aaa", "aab" )
@@ -48,5 +49,14 @@ test.compare.Strings <- function(){
     )
     checkEquals( res, target )
 }
-  
+
+test.string_proxy_char_conversion <- function(){
+    res <- string_proxy_char_conversion( "foo" )
+    checkEquals(res, "foo")
+
+    res <- const_string_proxy_char_conversion( "foo" )
+    checkEquals(res, "foo")
+    
+}
+
 }

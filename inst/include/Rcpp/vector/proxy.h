@@ -228,9 +228,9 @@ namespace traits {
 	struct r_vector_const_proxy{
 		typedef const typename storage_type<RTYPE>::type& type ;
 	} ;                                            
-	// template<> struct r_vector_const_proxy<STRSXP> {
-	// 	typedef ::Rcpp::internal::const_string_proxy<STRSXP> type ;
-	// } ;
+	template<> struct r_vector_const_proxy<STRSXP> {
+	    typedef ::Rcpp::internal::const_string_proxy<STRSXP> type ;
+	} ;
 	// template<> struct r_vector_const_proxy<EXPRSXP> {
 	// 	typedef ::Rcpp::internal::const_generic_proxy<EXPRSXP> type ;
 	// } ;

@@ -50,6 +50,7 @@ namespace Rcpp {
     class String {
     public:
         typedef internal::string_proxy<STRSXP> StringProxy;
+        typedef internal::const_string_proxy<STRSXP> const_StringProxy;
         
         /** default constructor */
         String( ): data( Rf_mkChar("") ), buffer(), valid(true), buffer_ready(true) {
@@ -70,6 +71,11 @@ namespace Rcpp {
         String( const StringProxy& proxy ): data( proxy.get() ), valid(true), buffer_ready(false){
             RCPP_STRING_DEBUG( "String( const StringProxy&)" ) ; 
         }
+        /** from string proxy */
+        String( const const_StringProxy& proxy ): data( proxy.get() ), valid(true), buffer_ready(false){
+            RCPP_STRING_DEBUG( "String( const const_StringProxy&)" ) ; 
+        }
+        
         
         /** from a std::string */
         String( const std::string& s) : buffer(s), valid(false), buffer_ready(true) {
