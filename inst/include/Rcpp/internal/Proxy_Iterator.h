@@ -1,5 +1,3 @@
-// Proxy_Iterator.h:  
-//
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.

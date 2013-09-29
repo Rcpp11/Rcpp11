@@ -1,5 +1,3 @@
-// wrap_impl.h:  wrap implementations
-//
 // Copyright (C) 2010 - 2013  Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013  Rice University
 //
@@ -28,10 +26,7 @@ inline SEXP wrap( std::initializer_list<T> init ){ return internal::range_wrap( 
 
 // this also handles char[] 
 inline SEXP wrap(const char* const v ){ 
-    if (v == NULL)
-	return R_NilValue;
-    else
-	return Rf_mkString(v) ;
+    return (v == nullptr) ? R_NilValue : Rf_mkString(v) ;
 }
 
 /**

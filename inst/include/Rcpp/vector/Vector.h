@@ -167,12 +167,9 @@ public:
         fill__dispatch( typename traits::is_trivial<RTYPE>::type(), u ) ;
     }
 
-                                                      
-    /* TODO: 3 dimensions, ... n dimensions through variadic templates */
-    
     class NamesProxy {
     public:
-        NamesProxy( const Vector& v) : parent(v){} ;
+        NamesProxy( Vector& v) : parent(v){} ;
 	
         /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) {
@@ -191,7 +188,7 @@ public:
         }
 		
     private:
-        const Vector& parent; 
+        Vector& parent; 
 		
         SEXP get() const {
             return RCPP_GET_NAMES(parent) ;
@@ -201,7 +198,7 @@ public:
 			
             /* check if we can use a fast version */         
             if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
-                SEXP y = const_cast<Vector&>(parent).asSexp() ; 
+                SEXP y = parent.asSexp() ; 
                 Rf_setAttrib( y, R_NamesSymbol, x ) ;
             } else {
                 /* use the slower and more flexible version (callback to R) */
@@ -209,7 +206,7 @@ public:
                 SEXP new_vec = PROTECT( internal::try_catch(Rf_lang3( namesSym, parent, x ))) ;
                 /* names<- makes a new vector, so we have to change 
                    the SEXP of the parent of this proxy */
-                const_cast<Vector&>(parent).set_sexp( new_vec ) ;
+                parent.set_sexp( new_vec ) ;
                 UNPROTECT(1) ; /* new_vec */
             }
     		
@@ -217,7 +214,31 @@ public:
     		
     } ;
     	
-    NamesProxy names() const {
+    class const_NamesProxy {
+    public:
+        const_NamesProxy( const Vector& v) : parent(v){} ;
+	
+        /* lvalue uses */              
+        NamesProxy& operator=(const NamesProxy& rhs) = delete ;
+	
+        template <typename T> operator T() const {
+            return Rcpp::as<T>(get()) ;
+        }
+		
+    private:
+        const Vector& parent; 
+		
+        SEXP get() const {
+            return RCPP_GET_NAMES(parent) ;
+        }
+		
+    } ;
+    	
+    
+    NamesProxy names() {
+        return NamesProxy(*this) ;
+    }
+    const_NamesProxy names() const {
         return NamesProxy(*this) ;
     }
     

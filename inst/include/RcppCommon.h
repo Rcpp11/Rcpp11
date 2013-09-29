@@ -115,6 +115,7 @@ namespace Rcpp{
 #include <Rcpp/wrap/wrap.h>
 
 #include <Rcpp/internal/Proxy_Iterator.h>
+#include <Rcpp/internal/const_Proxy_Iterator.h>
 #include <Rcpp/internal/converter.h>
 
 #include <Rcpp/algo.h>
