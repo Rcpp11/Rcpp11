@@ -39,10 +39,10 @@ namespace sugar{
 
 } // sugar
 
-template <typename OUT, typename... Args>
-inline sugar::Replicate<OUT, typename sugar::DelayedCall<OUT,OUT (*)(Args...), Args... > > 
-replicate( size_t n, const sugar::DelayedCall<OUT,OUT (*)(Args...), Args... >& call){
-    return sugar::Replicate<OUT, typename sugar::DelayedCall<OUT,OUT (*)(Args...), Args... > >( n, call ) ;    
+template <typename OUT, typename CallType>
+inline sugar::Replicate<OUT, CallType> 
+replicate( size_t n, const CallType& call){
+    return sugar::Replicate<OUT, CallType>( n, call ) ;    
 }
 
 
