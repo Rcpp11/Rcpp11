@@ -26,7 +26,7 @@ namespace Rcpp{
 template <typename T>
 inline SEXP wrap( std::initializer_list<T> init ){ return internal::range_wrap( init.begin(), init.end() ) ; } 
 
-// special case - FIXME : this is not template specializations of wrap<>
+// this also handles char[] 
 inline SEXP wrap(const char* const v ){ 
     if (v == NULL)
 	return R_NilValue;
