@@ -45,8 +45,8 @@ namespace traits{
 		inline proxy ref() { return *start ;}
 		inline proxy ref(int i) { return start[i] ; }
 		
-		inline proxy ref() const { return *start ;}
-		inline proxy ref(int i) const { return start[i] ; }
+		inline const_proxy ref() const { return *start ;}
+		inline const_proxy ref(int i) const { return start[i] ; }   
 		
 		private:
 			iterator start ;
@@ -66,8 +66,7 @@ namespace traits{
 			RCPP_DEBUG( " cache<%d>::update( <%p> ), p = <%p>", RTYPE, reinterpret_cast<void*>(v.asSexp()),  reinterpret_cast<void*>(p) ) ;
 		}
 		inline iterator get() const { return iterator( proxy(*p, 0 ) ) ;}
-		// inline const_iterator get_const() const { return const_iterator( *p ) ;}
-		inline const_iterator get_const() const { return get_vector_ptr(*p) ; }
+		inline const_iterator get_const() const { return const_iterator( *p ) ;}
 		
 		inline proxy ref() { return proxy(*p,0) ; }
 		inline proxy ref(int i) { return proxy(*p,i);}

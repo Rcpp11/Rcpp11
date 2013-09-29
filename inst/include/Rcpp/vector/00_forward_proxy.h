@@ -25,6 +25,7 @@ namespace internal{
 	template <int RTYPE> class string_proxy ;
 	template <int RTYPE> class const_string_proxy ;
 	template <int RTYPE> class generic_proxy ;
+	template <int RTYPE> class const_generic_proxy ;
 	template <int RTYPE> class simple_name_proxy ; 
 	template <int RTYPE> class string_name_proxy ;
 	template <int RTYPE> class generic_name_proxy ;

@@ -231,12 +231,12 @@ namespace traits {
 	template<> struct r_vector_const_proxy<STRSXP> {
 	    typedef ::Rcpp::internal::const_string_proxy<STRSXP> type ;
 	} ;
-	// template<> struct r_vector_const_proxy<EXPRSXP> {
-	// 	typedef ::Rcpp::internal::const_generic_proxy<EXPRSXP> type ;
-	// } ;
-	// template<> struct r_vector_const_proxy<VECSXP> {
-	// 	typedef ::Rcpp::internal::const_generic_proxy<VECSXP> type ;
-	// } ;
+	template<> struct r_vector_const_proxy<EXPRSXP> {
+		typedef ::Rcpp::internal::const_generic_proxy<EXPRSXP> type ;
+	} ;
+	template<> struct r_vector_const_proxy<VECSXP> {
+		typedef ::Rcpp::internal::const_generic_proxy<VECSXP> type ;
+	} ;
 
 	template <int RTYPE>
 	struct r_vector_iterator {
@@ -244,7 +244,7 @@ namespace traits {
 	};
 	template <int RTYPE>
 	struct r_vector_const_iterator {
-		typedef typename storage_type<RTYPE>::type* type ;
+		typedef typename storage_type<RTYPE>::type* const type ;
 	};
 	
 	template <int RTYPE> struct proxy_based_iterator{
