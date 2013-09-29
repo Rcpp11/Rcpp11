@@ -67,16 +67,7 @@ namespace Rcpp{
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_string_tag ) {
             return as_string<T>( x, typename Rcpp::traits::is_wide_string<T>::type() );
         }
-        
-        template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_RcppString_tag ) {
-            if( ! ::Rf_isString(x) ){
-                throw ::Rcpp::not_compatible( "expecting a string" ) ;
-            }
-            if (Rf_length(x) != 1) {
-                throw ::Rcpp::not_compatible( "expecting a single value");
-            }
-            return STRING_ELT( ::Rcpp::r_cast<STRSXP>(x) ,0 ) ;
-        }
+        template <> Rcpp::String as<Rcpp::String>(SEXP x, ::Rcpp::traits::r_type_string_tag ) ;
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_generic_tag ) {
             RCPP_DEBUG( "as(SEXP = <%p>, r_type_generic_tag )", x ) ;

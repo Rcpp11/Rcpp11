@@ -67,10 +67,7 @@ inline SEXP primitive_wrap__impl( const T& object, ::Rcpp::traits::r_type_primit
 template <typename T>
 inline SEXP primitive_wrap__impl( const T& object, ::Rcpp::traits::r_type_string_tag){
 	RCPP_DEBUG( "primitive_wrap__impl<%s>(., r_type_string_tag )", DEMANGLE(T) )
-	SEXP x = PROTECT( ::Rf_allocVector( STRSXP, 1) ) ;
-	SET_STRING_ELT( x, 0, make_charsexp(object) ) ;
-	UNPROTECT(1) ;
-	return x; 
+	return Rf_ScalarString( make_charsexp(object) ) ;
 }
 
 

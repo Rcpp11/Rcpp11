@@ -26,7 +26,7 @@ namespace Rcpp{
             return internal::primitive_wrap( object ) ;    
         }
     } ;
-    
+    // template<> struct PrimitiveWrapper<String> ;
 }
 
 #endif
