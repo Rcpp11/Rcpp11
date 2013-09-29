@@ -21,8 +21,6 @@
 #ifndef Rcpp_Module_h
 #define Rcpp_Module_h
    
-#include <Rcpp/config.h>
-
 namespace Rcpp{
     
     namespace internal{

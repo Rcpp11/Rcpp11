@@ -25,7 +25,6 @@
 // #define RCPP_DEBUG_LEVEL 1
 
 #include <Rcpp/platform/compiler.h>
-#include <Rcpp/config.h>
 #include <Rcpp/macros/macros.h>
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes

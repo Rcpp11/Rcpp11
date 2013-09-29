@@ -25,6 +25,8 @@
 #include <R_ext/Callbacks.h>
 #include <R_ext/PrtUtil.h>
 
+#define RCPP_USE_NEW_PRESERVE_RELEASE 0
+
 // {{{ Rcpp api classes
 namespace Rcpp {
          
