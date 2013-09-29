@@ -653,9 +653,3 @@ NumericVector replicate_(){
     return res ;
 }
 
-// [[Rcpp::export]]
-double call_(){
-    double res = call( foo, 1.0, 2.0, 3.0 )  ;
-    return res ;
-}
-

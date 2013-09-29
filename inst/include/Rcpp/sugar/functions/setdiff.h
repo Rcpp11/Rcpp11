@@ -44,8 +44,8 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         SetDiff( const LHS_T& lhs, const RHS_T& rhs) : 
-            lhs_set( get_const_begin(lhs), get_const_end(lhs) ), 
-            rhs_set( get_const_begin(rhs), get_const_end(rhs) )
+            lhs_set( get_begin(lhs), get_end(lhs) ), 
+            rhs_set( get_begin(rhs), get_end(rhs) )
         {
             
             std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
@@ -54,7 +54,7 @@ namespace sugar{
         Vector<RTYPE> get() const {
             int n = lhs_set.size() ;
             Vector<RTYPE> out = no_init(n) ;
-            std::copy( lhs_set.begin(), lhs_set.end(), get_const_begin(out) ) ;
+            std::copy( lhs_set.begin(), lhs_set.end(), get_begin(out) ) ;
             return out ;
         }
         
@@ -72,8 +72,8 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         SetEqual( const LHS_T& lhs, const RHS_T& rhs) : 
-            lhs_set( get_const_begin(lhs), get_const_end(lhs) ), 
-            rhs_set( get_const_begin(rhs), get_const_end(rhs) )
+            lhs_set( get_begin(lhs), get_end(lhs) ), 
+            rhs_set( get_begin(rhs), get_end(rhs) )
         {
             
             std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
@@ -106,8 +106,8 @@ namespace sugar{
             intersect()
         {
             
-            SET lhs_set( get_const_begin(lhs), get_const_end(lhs) ) ; 
-            SET rhs_set( get_const_begin(rhs), get_const_end(rhs) ) ; 
+            SET lhs_set( get_begin(lhs), get_end(lhs) ) ; 
+            SET rhs_set( get_begin(rhs), get_end(rhs) ) ; 
             
             ITERATOR end = lhs_set.end() ;
             ITERATOR rhs_end = rhs_set.end() ;
@@ -119,7 +119,7 @@ namespace sugar{
         Vector<RTYPE> get() const {
             int n = intersect.size() ;
             Vector<RTYPE> out = no_init(n) ;
-            std::copy( intersect.begin(), intersect.end(), get_const_begin(out) ) ;
+            std::copy( intersect.begin(), intersect.end(), get_begin(out) ) ;
             return out ;
         }
         
@@ -136,15 +136,15 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Union( const LHS_T& lhs, const RHS_T& rhs) : 
-            result( get_const_begin(lhs), get_const_end(lhs) )
+            result( get_begin(lhs), get_end(lhs) )
         {
-            result.insert( get_const_begin(rhs), get_const_end(rhs) ) ;
+            result.insert( get_begin(rhs), get_end(rhs) ) ;
         }
         
         Vector<RTYPE> get() const {
             int n = result.size() ;
             Vector<RTYPE> out = no_init(n) ;
-            std::copy( result.begin(), result.end(), get_const_begin(out) ) ;
+            std::copy( result.begin(), result.end(), get_begin(out) ) ;
             return out ;
         }
         

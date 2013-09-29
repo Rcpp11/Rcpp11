@@ -28,7 +28,7 @@ namespace sugar{
         
         DelayedCall( FunctionType fun_, const Args&... args ): fun(fun_), data( args... ){}
         
-        inline operator OUT() const {
+        inline OUT operator()() const {
             return eval() ;
         }
         
