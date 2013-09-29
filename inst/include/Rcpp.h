@@ -61,6 +61,8 @@
 #include <Rmath.h>
 #include <Rcpp/sugar/undoRmath.h>
 
+#include <Rcpp/hash/hash.h>
+
 #ifndef RCPP_NO_SUGAR
 #include <Rcpp/sugar/sugar.h>
 #include <Rcpp/stats/stats.h>

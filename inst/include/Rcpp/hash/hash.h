@@ -1,7 +1,5 @@
-//
-// hash.h:  hashing
-//
 // Copyright (C) 2012  Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -20,8 +18,6 @@
 
 #ifndef RCPP__HASH__HASH_H
 #define RCPP__HASH__HASH_H
-
-#include <inttypes.h>			// needed with g++-4.7 to declare intptr_t
 
 #include <Rcpp/hash/IndexHash.h>
 #include <Rcpp/hash/SelfHash.h>
