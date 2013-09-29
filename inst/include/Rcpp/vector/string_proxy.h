@@ -22,14 +22,13 @@
 #ifndef Rcpp__vector__string_proxy_h
 #define Rcpp__vector__string_proxy_h
  
+namespace Rcpp{
 namespace internal{
 	
 	template<int RTYPE> class string_proxy {
 	public:
 		
 		typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
-		typedef const char* iterator ;
-		typedef const char& reference ;
 		
 		string_proxy() : parent(0), index(-1){};
 		
@@ -115,15 +114,11 @@ namespace internal{
 		 * element this proxy refers to and convert it to a 
 		 * C string
 		 */
-		 operator /* const */ char*() const {
-		 	 return const_cast<char*>( CHAR(get()) );
-		 }
+		operator /* const */ char*() const {
+		    return const_cast<char*>( CHAR(get()) );
+		}
 		 
-		 // operator std::wstring() const {
-		 //     const char* st = CHAR(get()) ;
-		 //     return std::wstring( st, st+strlen(st) ) ;
-		 // }
-		
+		 
 		/**
 		 * Prints the element this proxy refers to to an 
 		 * output stream
@@ -156,27 +151,25 @@ namespace internal{
 			SET_STRING_ELT( *parent, index, x ) ;
 		}
 		
-		inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
-		inline iterator end() const { return begin() + size() ; }
 		inline int size() const { return strlen( begin() ) ; }
-		inline reference operator[]( int n ){ return *( begin() + n ) ; }
-		
-		template <typename UnaryOperator>
-		void transform( UnaryOperator op ){
-			buffer = begin() ;
-			std::transform( buffer.begin(), buffer.end(), buffer.begin(), op ) ;
-			set( buffer ) ;
-		}
-		
-		template <typename OutputIterator, typename UnaryOperator>
-		void apply( OutputIterator target, UnaryOperator op){
-			std::transform( begin(), end(), target, op ) ;
-		}
-		
-		template <typename UnaryOperator>
-		void apply( UnaryOperator op){
-			std::for_each( begin(), end(), op );
-		}
+		// inline reference operator[]( int n ){ return *( begin() + n ) ; }
+		// 
+		// template <typename UnaryOperator>
+		// void transform( UnaryOperator op ){
+		// 	buffer = begin() ;
+		// 	std::transform( buffer.begin(), buffer.end(), buffer.begin(), op ) ;
+		// 	set( buffer ) ;
+		// }
+		// 
+		// template <typename OutputIterator, typename UnaryOperator>
+		// void apply( OutputIterator target, UnaryOperator op){
+		// 	std::transform( begin(), end(), target, op ) ;
+		// }
+		// 
+		// template <typename UnaryOperator>
+		// void apply( UnaryOperator op){
+		// 	std::for_each( begin(), end(), op );
+		// }
 		
 		bool operator==( const char* other){
 			return strcmp( begin(), other ) == 0 ;
@@ -194,6 +187,12 @@ namespace internal{
 		
 		
 		private:
+		    typedef const char* iterator ;
+		    typedef const char& reference ;
+		
+		    inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
+		    inline iterator end() const { return begin() + size() ; }
+		
 			static std::string buffer ;
 		
 	} ;
@@ -240,69 +239,8 @@ namespace internal{
 	inline std::string operator+( const std::string& x, const string_proxy<STRSXP>& y ){
 		return x + static_cast<const char*>(y) ;
 	}
-	
-	template <int RTYPE> 
-	class generic_proxy{
-		public:
-			typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
-			
-			generic_proxy(): parent(0), index(-1){}
-			
-			generic_proxy( const generic_proxy& other ) : 
-				parent(other.parent), index(other.index){} ;
-			
-			generic_proxy( VECTOR& v, int i ) : parent(&v), index(i){} ;
 		
-			generic_proxy& operator=(SEXP rhs) { 
-				set(rhs) ;
-				return *this ;
-			}
-			
-			generic_proxy& operator=(const generic_proxy& rhs) {
-				set(rhs.get());
-				return *this ;	
-			}
-	               
-			template <typename T>
-			generic_proxy& operator=( const T& rhs){
-				set(wrap(rhs)) ;
-				return *this; 
-			}
-			
-			operator SEXP() const { 
-			    return get() ;
-			}
-			
-			template <typename U> operator U() const {
-				return ::Rcpp::as<U>(get()) ;
-			}
-			
-			// helping the compiler (not sure why it can't help itself)
-			operator bool() const { return ::Rcpp::as<bool>(get()) ; }
-			operator int() const { return ::Rcpp::as<int>(get()) ; }
-			
-			void swap(generic_proxy& other){
-				SEXP tmp = PROTECT(get()) ;
-				set( other.get() ) ;
-				other.set(tmp) ;
-				UNPROTECT(1) ;
-			}
-			
-			VECTOR* parent; 
-			int index ;
-			inline void move(int n) { index += n ; }
-			
-			void import( const generic_proxy& other){
-				parent = other.parent ;
-				index  = other.index ;
-			}
-			
-		private:
-			inline void set(SEXP x) { SET_VECTOR_ELT( *parent, index, x ) ;} 
-			inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
-		
-	}  ;
-	
+}
 }
 
 #endif
