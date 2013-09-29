@@ -255,18 +255,24 @@ namespace Rcpp {
             valid = false ;
             return *this ;
         }
-        inline String& replace_all( const Rcpp::String& s, const char* news ){
+        template <typename T, typename=std::enable_if< std::is_convertible<T,String>::value > > 
+        inline String& replace_all( const T& s_, const char* news ){
+            String s(s_); 
             // replace NA -> do nothing
             if( s.is_na() ) return *this ;
             return replace_all( s.get_cstring(), news ) ;
         }
-        inline String& replace_all( const char* s, const Rcpp::String& news ){
+        template <typename T, typename=std::enable_if< std::is_convertible<T,String>::value > > 
+        inline String& replace_all( const char* s, const T& news_ ){
             // replace NA -> do nothing
+            String news(news_) ;
             if( news.is_na() ) return *this ;
             return replace_all( s, news.get_cstring() ) ;
         }
-        inline String& replace_all( const Rcpp::String& s, const Rcpp::String& news ){
+        template <typename T, typename=std::enable_if< std::is_convertible<T,String>::value > > 
+        inline String& replace_all( const T& s_, const T& news_ ){
             // replace NA -> do nothing
+            String s(s_), news(news_) ;
             if( s.is_na() || news.is_na() ) return *this ;
             return replace_all( s.get_cstring(), news.get_cstring() ) ;
         }

@@ -18,29 +18,29 @@ String String_replace_last( String z, String x, String y){
     return z ;
 }
 
-// class StringConv{
-// public:
-//     // typedef String result_type ;
-//     StringConv( const CharacterVector& old_, const CharacterVector& new__): nr(old_.size()), old(old_), new_(new__){}
-//     
-//     String operator()(String text) const {
-//         for( int i=0; i<nr; i++){
-//             text.replace_all( old[i], new_[i] ) ;
-//         }     
-//         return text ;
-//     }
-//     
-// private:
-//     int nr ;
-//     const CharacterVector& old ;
-//     const CharacterVector& new_ ;
-// } ;
-// 
-// // [[Rcpp::export]]
-// CharacterVector test_sapply_string( CharacterVector text, CharacterVector old , CharacterVector new_){
-//    CharacterVector res = sapply( text, StringConv( old, new_ ) ) ;
-//    return res ;
-// }  
+class StringConv{
+public:
+    // typedef String result_type ;
+    StringConv( const CharacterVector& old_, const CharacterVector& new__): nr(old_.size()), old(old_), new_(new__){}
+    
+    String operator()(String text) const {
+        for( int i=0; i<nr; i++){
+            text.replace_all( old[i], new_[i] ) ;
+        }     
+        return text ;
+    }
+    
+private:
+    int nr ;
+    const CharacterVector& old ;
+    const CharacterVector& new_ ;
+} ;
+
+// [[Rcpp::export]]
+CharacterVector test_sapply_string( CharacterVector text, CharacterVector old , CharacterVector new_){
+   CharacterVector res = sapply( text, StringConv( old, new_ ) ) ;
+   return res ;
+}  
 
 // [[Rcpp::export]]
 List test_compare_Strings( String aa, String bb ){
