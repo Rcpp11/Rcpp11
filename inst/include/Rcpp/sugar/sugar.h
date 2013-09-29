@@ -2,6 +2,7 @@
 // sugar.h:  main file for Rcpp::sugar
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,7 +22,6 @@
 #ifndef RCPP_SUGAR_H
 #define RCPP_SUGAR_H
 
-#include <Rcpp/sugar/tools/iterator.h>
 #include <Rcpp/sugar/block/block.h>
 
 #include <Rcpp/hash/hash.h>
