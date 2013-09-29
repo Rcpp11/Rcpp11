@@ -71,13 +71,6 @@ SEXP runit_lang_fun( Function fun, IntegerVector x ){
 }
 
 // [[Rcpp::export]]
-Language runit_lang_inputop(){
-	Language call( "rnorm" );
-	call << 10 << Named( "sd", 10 ) ;
-	return call ;
-}
-
-// [[Rcpp::export]]
 List runit_lang_unarycall(IntegerVector x){
     Language call( "seq", Named("from", 10 ), Named("to", 0 ) ) ;
     List output( x.size() ) ;

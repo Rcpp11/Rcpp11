@@ -57,10 +57,6 @@ test.Language.function <- function(){
 	checkEquals( runit_lang_fun(sort, sample(1:10)), 1:10, msg = "Language( Function ) " )
 }
 
-test.Language.inputoperator <- function(){
-	checkEquals( runit_lang_inputop(), call("rnorm", 10L, sd = 10L ) , msg = "Language<<" )
-}
-
 test.Language.unary.call <- function(){
 	checkEquals(
 		runit_lang_unarycall( 1:10 ),
