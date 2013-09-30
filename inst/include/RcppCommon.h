@@ -43,6 +43,7 @@ extern "C"
 const char * sexp_to_name(int sexp_type);
 
 #include <cstdint>
+#include <array>
 #include <type_traits>
 #include <iterator>
 #include <exception>
