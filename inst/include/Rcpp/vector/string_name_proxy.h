@@ -33,12 +33,15 @@ namespace internal{
 		~string_name_proxy(){} ;
 		
 		string_name_proxy& operator=( const std::string& rhs ){
-			set( rhs ) ;
+			set( Rf_mkChar(rhs.c_str()) ) ;
 			return *this ;
 		}
 		string_name_proxy& operator=( const string_name_proxy& other){
-			set( other.get() ) ;
+			set( Rf_mkChar( other.get() ) ) ;
 			return *this ;
+		}
+		string_name_proxy& operator=( const Na_Proxy& other){
+		    set( Rcpp::traits::get_na<RTYPE>() );
 		}
 		
 		operator char* (){
@@ -54,7 +57,8 @@ namespace internal{
 	private:
 		VECTOR& parent ;
 		std::string name;
-		void set( const std::string& rhs ){
+		
+		void set( SEXP rhs ){
 			int index = 0 ;
 			try{
 				index = parent.offset(name) ;
@@ -63,6 +67,7 @@ namespace internal{
 				parent.push_back( rhs, name ); 
 			}
 		}
+		
 		char* get(){
 			return parent[ parent.offset(name) ];
 		}

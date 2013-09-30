@@ -705,3 +705,17 @@ List List_create_na(){
     return List::create( NA ) ;    
 }
 
+// [[Rcpp::export]]
+List setnames_NA(){
+    IntegerVector x_i = IntegerVector::create( _["a"] = 1 ) ;
+    x_i["a"] = NA ;
+    
+    DoubleVector x_d = DoubleVector::create( _["a"] = 1.0 ) ;
+    x_d["a"] = NA ;
+    
+    StringVector x_s = StringVector::create( _["a"] = "foo" ) ;
+    x_s["a"] = NA ;
+    
+    return List::create( x_i, x_d, x_s ) ;    
+}
+

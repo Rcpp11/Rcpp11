@@ -39,6 +39,10 @@ namespace internal{
 			set( other.get() ) ;
 			return *this ;
 		}
+		simple_name_proxy& operator=( const Na_Proxy& other){
+		    set( Rcpp::traits::get_na<RTYPE>() );
+		    return *this ;
+		}
 		
 		template <typename T>
 		simple_name_proxy& operator=( const T& rhs ){

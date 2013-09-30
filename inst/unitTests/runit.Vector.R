@@ -630,5 +630,13 @@ test.create_NA <- function(){
     checkTrue( is.na( List_create_na()[[1]] ) )
 }
 
+test.setnames_NA <- function(){
+    res <- setnames_NA()
+    checkTrue( is.na( res[[1L]] ) )
+    checkTrue( is.na( res[[2L]] ) )
+    checkTrue( is.na( res[[3L]] ) )
+}
+
+
 
 }
