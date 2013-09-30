@@ -262,6 +262,19 @@ SEXP wrap_Rboolean(){
 }
 
 // [[Rcpp::export]]
-SEXP wrap_Rcontainer_boolean(){
+SEXP wrap_container_Rboolean(){
     return wrap({TRUE,FALSE}) ;    
 }
+
+typedef enum { FOO = 0, BAR /*, MAYBE */ } EnumTest_;
+
+// [[Rcpp::export]]
+SEXP wrap_container_enum(){
+    return wrap({FOO, BAR}) ;    
+}
+
+// [[Rcpp::export]]
+SEXP wrap_enum(){
+    return wrap(FOO) ;    
+}
+

@@ -198,10 +198,25 @@ test.wrap.Rboolean <- function(){
 
 test.wrap.container.Rboolean <- function(){
     checkEquals( 
-        wrap_Rcontainer_boolean(), c(TRUE,FALSE),
+        wrap_container_Rboolean(), c(TRUE,FALSE),
         msg = "wrap( Rboolean )"
     )    
 }
+
+test.wrap.enum <- function(){
+    checkEquals( 
+        wrap_enum(), 0L,
+        msg = "wrap( enum )"
+    )    
+}
+
+test.wrap.container.Rboolean <- function(){
+    checkEquals( 
+        wrap_container_enum(), c(0L,1L),
+        msg = "wrap( enum )"
+    )    
+}
+
 
 }
 
