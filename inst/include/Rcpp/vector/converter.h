@@ -94,6 +94,13 @@ namespace internal {
 			return Rf_mkChar( input.c_str() ) ;
 		}
 		
+		static SEXP get(const char* input){
+			SEXP res = PROTECT( Rf_mkChar( input ) );
+			RCPP_DEBUG( "string_element_converter::get< const char* >()" )
+			UNPROTECT(1) ;
+			return res ;
+		}
+		
 		static SEXP get( const Rcpp::String& input) ;
 		
 		static SEXP get(const char& input){
@@ -115,7 +122,7 @@ namespace internal {
 		
 		template <typename T>
 		static target get__impl( const T& input, std::true_type){
-		    return ::Rcpp::wrap( input.object ) ;
+			return ::Rcpp::wrap( input.object ) ;
 		}
 		
 		template <typename T>
@@ -126,7 +133,7 @@ namespace internal {
 		
 		template <typename T>
 		static SEXP get( const T& input){
-			return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
+		    return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
 		}
 		
 		static SEXP get( const char* input){

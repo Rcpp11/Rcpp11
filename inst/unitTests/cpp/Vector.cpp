@@ -476,27 +476,6 @@ CharacterVector character_matrix_row_iteration_decr( CharacterMatrix m ){
     return wrap( pasted_row ) ;
 }
 
-
-// [[Rcpp::export]]
-CharacterVector character_assign1(){
-    const char* x[] = { "foo", "bar", "bling", "boom" } ;
-    CharacterVector y ;
-    y.assign( x, x+4 ) ;
-    return y;
-}
-
-// [[Rcpp::export]]
-CharacterVector character_assign2(){
-    std::vector<std::string> vec(4) ;
-	vec[0] = "foo";
-	vec[1] = "bar";
-	vec[2] = "bling";
-	vec[3] = "boom" ;
-	CharacterVector y ;
-	y.assign( vec.begin(), vec.end() ) ;
-	return y;
-}
-
 // [[Rcpp::export]]
 CharacterVector character_dimension_ctor1(){
     return CharacterVector( Dimension( 5 ) ) ;

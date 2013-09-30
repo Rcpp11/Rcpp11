@@ -426,15 +426,6 @@ test.CharacterVector.matrix.row.iteration <- function() {
     checkEquals( fun(x), "njf", msg = "matrix row iteration post-decr" )
 }
 
-test.CharacterVector.assign <- function(){
-    fun <- character_assign1
-    checkEquals( fun(), c("foo", "bar", "bling", "boom"), msg = "assign(char**, char**)" )
-
-    fun <- character_assign2
-    checkEquals( fun(), c("foo", "bar", "bling", "boom"), msg = "assign(char**, char**)" )
-
-}
-
 test.CharacterVector.Dimension.constructor <- function(){
     fun <- character_dimension_ctor1
     checkEquals(fun(),

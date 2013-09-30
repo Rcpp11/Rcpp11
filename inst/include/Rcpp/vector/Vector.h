@@ -1,7 +1,5 @@
-//
-// Vector.h:  vectors
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -101,10 +99,11 @@ public:
     Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
          
     Vector( std::initializer_list<init_type> list ) : RObject(){
-        assign( list.begin() , list.end() ) ;
+        SEXP x = PROTECT( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
+        RObject::setSEXP( x) ;
+        update_vector() ;
+        UNPROTECT(1) ;
     }
-    Vector( std::initializer_list<typename traits::named_object<init_type>> list ) : 
-        Vector(wrap(list.begin(), list.end())){}
 
 	/**
      * Assignment operator. Grab the SEXP of the other vector
@@ -287,17 +286,6 @@ public:
         return *this ;
     }
 
-    template <typename InputIterator>
-    void assign( InputIterator first, InputIterator last){
-        /* FIXME: we can do better than this r_cast to avoid 
-           allocating an unnecessary temporary object
-        */
-        SEXP x = PROTECT( r_cast<RTYPE>( wrap( first, last ) ) );
-        RObject::setSEXP( x) ;
-        update_vector() ;
-        UNPROTECT(1) ;
-    }
-
     template <typename T>
     void push_back( const T& object){
         push_back__impl( converter_type::get(object), 
@@ -425,7 +413,6 @@ private:
     template <bool NA, typename VEC>
     inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ) ;
     
-    
     template <typename T>
     inline void import_expression( const T& other, int n ) ;
     
@@ -446,29 +433,7 @@ private:
     }
 
 public:
-    
-    static Vector create(){
-        return Vector( 0 ) ;
-    }
     template <typename... Args> static Vector create(Args... args) ;
-    
-private:
-    
-    template <typename T, typename... Args>
-    void set_value( traits::number_to_type<sizeof...(Args) + 1>, int i, const T& obj, const Args&... pack ) ;
-    
-    template <typename T>
-    void set_value( traits::number_to_type<1>, int i, const T& obj ) ;
-    
-    template <typename T, typename... Args>
-    void set_value_with_names( traits::number_to_type<sizeof...(Args) + 1>, int i, SEXP names, const T& obj, const Args&... pack ) ;
-    
-    template <typename T>
-    void set_value_with_names( traits::number_to_type<1>, int i, SEXP names, const T& obj ) ;
-    
-    template <typename... Args> static Vector create__impl(std::true_type  , Args... );
-    template <typename... Args> static Vector create__impl(std::false_type , Args... );
-    
     
 } ; /* Vector */
 
