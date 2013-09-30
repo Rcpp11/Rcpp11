@@ -42,6 +42,7 @@ namespace internal{
 		}
 		string_name_proxy& operator=( const Na_Proxy& other){
 		    set( Rcpp::traits::get_na<RTYPE>() );
+		    return *this ;
 		}
 		
 		operator char* (){

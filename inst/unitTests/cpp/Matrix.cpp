@@ -49,16 +49,6 @@ List matrix_generic( GenericMatrix m){
 }
 
 // [[Rcpp::export]]
-IntegerMatrix matrix_integer_diag(){ 
-    return IntegerMatrix::diag( 5, 1 ) ;
-}
-
-// [[Rcpp::export]]
-CharacterMatrix matrix_character_diag(){ 
-    return CharacterMatrix::diag( 5, "foo" ) ;
-}
-
-// [[Rcpp::export]]
 NumericMatrix matrix_numeric_ctor1(){
     return NumericMatrix(3);
 }

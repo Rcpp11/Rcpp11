@@ -84,10 +84,6 @@ public:
     inline iterator begin() { return VECTOR::begin() ; }
     inline iterator end() { return VECTOR::end() ; }
 
-    template <typename U> void fill_diag( const U& u) ;
-        
-    template <typename U> static Matrix diag( int size, const U& diag_value ) ;
-    
     inline Proxy operator[]( int i ) ;
     inline const_Proxy operator[]( int i ) const  ;
     
@@ -116,12 +112,6 @@ private:
         VECTOR::update_vector() ;
     }
     
-    template <typename U>
-    void fill_diag__dispatch( std::false_type, const U& u) ;
-        
-    template <typename U>
-    void fill_diag__dispatch( std::true_type, const U& u) ;
-
     template <bool NA, typename MAT>
     void import_matrix_expression( const MatrixBase<RTYPE,NA,MAT>& other, int nr, int nc ) ;
         

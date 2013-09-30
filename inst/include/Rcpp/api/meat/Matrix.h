@@ -93,20 +93,6 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    template <typename U>
-    void Matrix<RTYPE>::fill_diag( const U& u){
-        fill_diag__dispatch( typename traits::is_trivial<RTYPE>::type(), u ) ;  
-    }
-    
-    template <int RTYPE>
-    template <typename U>
-    Matrix<RTYPE> Matrix<RTYPE>::diag( int size, const U& diag_value ){
-        Matrix res(size,size) ;
-        res.fill_diag( diag_value ) ;
-        return res ;
-    }
-    
-    template <int RTYPE>
     inline typename Matrix<RTYPE>::Proxy Matrix<RTYPE>::operator[]( int i ){
         return static_cast< Vector<RTYPE>* >( this )->operator[]( i ) ;
     }
@@ -145,33 +131,6 @@ namespace Rcpp{
         return Sub( const_cast<Matrix&>(*this), row_range, Range(0,ncol()-1) ) ;
     }
     
-    template <int RTYPE>
-    template <typename U>
-    void Matrix<RTYPE>::fill_diag__dispatch( std::false_type, const U& u){
-        SEXP elem = PROTECT( converter_type::get( u ) ) ;
-        int n = Matrix::ncol() ;
-        int offset = n +1 ;
-        iterator it( VECTOR::begin()) ;
-        for( int i=0; i<n; i++){
-            *it = ::Rf_duplicate( elem );
-            it += offset; 
-        }
-        UNPROTECT(1); // elem
-    }
-    
-    template <int RTYPE>
-    template <typename U>
-    void Matrix<RTYPE>::fill_diag__dispatch( std::true_type, const U& u){
-        stored_type elem = converter_type::get( u ) ;
-        int n = Matrix::ncol() ;
-        int offset = n + 1 ;
-        iterator it( VECTOR::begin()) ;
-        for( int i=0; i<n; i++){
-            *it = elem ;
-            it += offset; 
-        }
-    }
-
     template <int RTYPE>
     template <bool NA, typename MAT>
     void Matrix<RTYPE>::import_matrix_expression( const MatrixBase<RTYPE,NA,MAT>& other, int nr, int nc ){

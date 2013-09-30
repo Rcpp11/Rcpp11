@@ -59,18 +59,6 @@ test.GenericMatrix <- function( ){
 	checkEquals( matrix_generic(x), g(diag(matrix(1:16,ncol=4))), msg = "GenericMatrix" )
 }
 
-test.IntegerMatrix.diag <- function(){
-	expected <- matrix( 0L, nrow = 5, ncol = 5 )
-	diag( expected ) <- 1L
-	checkEquals( matrix_integer_diag(), expected, msg = "IntegerMatrix::diag" )
-}
-
-test.CharacterMatrix.diag <- function(){
-	expected <- matrix( "", nrow = 5, ncol = 5 )
-	diag( expected ) <- "foo"
-	checkEquals( matrix_character_diag(), expected, msg = "CharacterMatrix::diag" )
-}
-
 test.NumericMatrix.Ctors <- function(){
 	x <- matrix(0, 3, 3)
 	checkEquals( matrix_numeric_ctor1(), x, msg = "matrix from single int" )
