@@ -46,6 +46,9 @@ namespace Rcpp{
         inline size_t prod(){
             return std::accumulate( begin(dimensions), end(dimensions), 1, std::multiplies<double>() ) ;     
         }
+        inline size_t size(){ 
+            return N ;
+        }
         
         inline operator SEXP() const { return wrap( dimensions ); }
         inline operator SEXP() { return wrap( dimensions ); }

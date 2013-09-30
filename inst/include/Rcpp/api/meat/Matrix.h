@@ -117,16 +117,6 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    inline typename Matrix<RTYPE>::Proxy Matrix<RTYPE>::operator()( const size_t& i, const size_t& j) {
-        return static_cast< Vector<RTYPE>* >( this )->operator[]( offset( i, j ) ) ;
-    }
-    
-    template <int RTYPE>
-    inline typename Matrix<RTYPE>::const_Proxy Matrix<RTYPE>::operator()( const size_t& i, const size_t& j) const {
-        return static_cast< const Vector<RTYPE>* >( this )->operator[]( offset( i, j ) ) ;
-    }
-    
-    template <int RTYPE>
     inline typename Matrix<RTYPE>::Row Matrix<RTYPE>::operator()( int i, internal::NamedPlaceHolder ){
         return Row( *this, i ) ;
     }

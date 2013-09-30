@@ -3,6 +3,6 @@
 
 #include <Rcpp.h>
 
-RcppExport SEXP rcpp_hello_world() ;
+extern "C" SEXP rcpp_hello_world() ;
 
 #endif

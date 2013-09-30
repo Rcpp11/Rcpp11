@@ -1,7 +1,5 @@
-//
-// traits.h:  support traits for vector
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,6 +19,7 @@
 #ifndef Rcpp__vector__traits_h
 #define Rcpp__vector__traits_h
  
+namespace Rcpp{
 namespace traits{
 
 	template <int RTYPE>
@@ -87,5 +86,6 @@ namespace traits{
 	template <> struct r_vector_cache_type<STRSXP>  { typedef proxy_cache<STRSXP> type ;  } ;
 		
 } // traits 
+}
 
 #endif

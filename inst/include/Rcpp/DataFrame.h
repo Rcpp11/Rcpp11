@@ -1,6 +1,3 @@
-//
-// DataFrame.h:  data frames
-//
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
@@ -20,9 +17,6 @@
 
 #ifndef Rcpp__DataFrame_h
 #define Rcpp__DataFrame_h
-
-#include <Rcpp/RObject.h>
-#include <Rcpp/vector/00_forward_Vector.h>
 
 namespace Rcpp{
         

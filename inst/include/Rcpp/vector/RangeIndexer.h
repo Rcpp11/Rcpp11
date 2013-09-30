@@ -44,8 +44,7 @@
           return *this ;                             \
     }
 
-
-
+namespace Rcpp{
 namespace internal{
 
 template <int RTYPE, bool NA, typename VECTOR>
@@ -97,6 +96,7 @@ private:
 	int size_ ;
 } ;
 	
+}
 }
 
 #undef UNROLL_LOOP

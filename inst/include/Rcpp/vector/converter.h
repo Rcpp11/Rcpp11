@@ -22,6 +22,7 @@
 #ifndef Rcpp__vector__converters_h
 #define Rcpp__vector__converters_h
  
+namespace Rcpp{
 namespace internal {
     
     
@@ -173,6 +174,7 @@ namespace traits{
 	template<> struct r_vector_element_converter<EXPRSXP>{
 		typedef ::Rcpp::internal::generic_element_converter<EXPRSXP> type ;
 	} ;
+}
 }
 
 #endif

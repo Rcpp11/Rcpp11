@@ -1,7 +1,4 @@
-//
-// eval_methods.h:  
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -18,10 +15,12 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__vector__forward_eval_methods_h
-#define Rcpp__vector__forward_eval_methods_h
+#ifndef Rcpp__vector__vector_from_string_h
+#define Rcpp__vector__vector_from_string_h
 
+namespace Rcpp{   
 namespace internal{
+    
     template <int RTYPE>
     SEXP vector_from_string( const std::string& st ) {
         return r_cast<RTYPE>( Rf_mkString( st.c_str() ) ) ;
@@ -48,13 +47,7 @@ namespace internal{
     inline SEXP vector_from_string<EXPRSXP>( const std::string& st ) {
         return vector_from_string_expr<EXPRSXP>( st ) ;
     }
-        
-    template <int RTYPE> class eval_methods {} ;
-    template <> class eval_methods<EXPRSXP> {
-    public:
-        SEXP eval() ;
-        SEXP eval(SEXP) ;
-    } ;
-      
 }
+}
+
 #endif

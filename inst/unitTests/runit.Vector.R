@@ -137,12 +137,6 @@ test.IntegerVector.names.get <- function(){
 		msg = "Vector::names get" )
 }
 
-test.IntegerVector.names.indexing <- function(){
-    fun <- integer_names_indexing
-    x <- c( "foo" = 1L, "bar" = 2L )
-    checkEquals( fun( x ), 1L, msg = "IntegerVector names based indexing" )
-}
-
 test.IntegerVector.push.back <- function(){
     fun <- integer_push_back
     checkEquals( fun(1:4), 1:5, msg = "IntegerVector push back" )

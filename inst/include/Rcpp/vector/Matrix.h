@@ -19,7 +19,7 @@
 #ifndef Rcpp__vector__Matrix_h
 #define Rcpp__vector__Matrix_h
 
-class Dimension ;
+namespace Rcpp{
 
 template <int RTYPE> 
 class Matrix : public Vector<RTYPE>, public MatrixBase<RTYPE,true, Matrix<RTYPE> > {
@@ -42,7 +42,7 @@ public:
     
     Matrix() : VECTOR() {}
         
-    Matrix(SEXP x) ;
+    Matrix( SEXP x) ;
         
     Matrix( const int& n) ; 
     Matrix( const Dimension& dims)  ;
@@ -91,8 +91,12 @@ public:
     inline Proxy operator[]( int i ) ;
     inline const_Proxy operator[]( int i ) const  ;
     
-    inline Proxy operator()( const size_t& i, const size_t& j) ; 
-    inline const_Proxy operator()( const size_t& i, const size_t& j) const  ;
+    inline Proxy operator()( const size_t& i, const size_t& j) {
+        return VECTOR::at( offset( i, j ) );    
+    }
+    inline const_Proxy operator()( const size_t& i, const size_t& j) const {
+        return VECTOR::at( offset( i, j ) ) ;    
+    }
     
     inline Row operator()( int i, internal::NamedPlaceHolder ) ;
     inline Column operator()( internal::NamedPlaceHolder, int i ) ;
@@ -101,10 +105,11 @@ public:
     inline Sub operator()( internal::NamedPlaceHolder, const Range& col_range) ;
     inline Sub operator()( const Range& row_range, internal::NamedPlaceHolder ) ;
         
+    inline int offset( int i, int j) const { 
+        return i + nrows * j ;
+    }
         
 private:
-    
-    inline int offset( int i, int j) const { return i + nrows * j ; }
     
     void update_matrix(){
         RCPP_DEBUG( "%s::update_matrix", DEMANGLE(Matrix) ) ;
@@ -121,6 +126,6 @@ private:
     void import_matrix_expression( const MatrixBase<RTYPE,NA,MAT>& other, int nr, int nc ) ;
         
 } ;
-
+}
 
 #endif

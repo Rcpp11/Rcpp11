@@ -78,7 +78,7 @@ int integer_matrix_indexing( IntegerMatrix m){
 }
 
 // [[Rcpp::export]]
-IntegerVector integer_matrix_indexing_lhs( IntegerVector m ){
+IntegerVector integer_matrix_indexing_lhs( IntegerMatrix m ){
     for( size_t i=0 ; i<4; i++){
         m(i,i) = 2 * i ;
     }

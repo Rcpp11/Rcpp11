@@ -1,7 +1,4 @@
-//
-// 00_forward_Vector.h:  
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -18,9 +15,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__vector__forward_Vector_h
-#define Rcpp__vector__forward_Vector_h
+#ifndef Rcpp__vector__eval_methods_h
+#define Rcpp__vector__eval_methods_h
 
-template <int RTYPE> class Vector ;
+namespace Rcpp{
+namespace internal{
 
+    template <int RTYPE> class eval_methods {} ;
+    template <> class eval_methods<EXPRSXP> {
+    public:
+        SEXP eval() ;
+        SEXP eval(SEXP) ;
+    } ;
+      
+}
+}
 #endif

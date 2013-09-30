@@ -24,14 +24,6 @@ using namespace std;
 #include <iostream>
 #include <fstream>
 
-class simple {
-    Rcpp::Dimension dd;
-public:
-    simple(SEXP xp) : dd(xp) {}
-    int nrow() const { return dd[0]; }
-    int ncol() const { return dd[1]; }
-};
-
 // [[Rcpp::export]]
 SEXP symbol_(){
     return LogicalVector::create( 
@@ -49,12 +41,6 @@ Symbol symbol_ctor(SEXP x){ return Symbol(x); }
 List Argument_(){
     Argument x("x"), y("y");
     return List::create( x = 2, y = 3 );
-}
-
-// [[Rcpp::export]]
-int Dimension_const( SEXP ia ){
-    simple ss(ia);
-	return ss.nrow();
 }
 
 // [[Rcpp::export]] 

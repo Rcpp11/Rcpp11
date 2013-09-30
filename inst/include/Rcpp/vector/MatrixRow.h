@@ -1,6 +1,3 @@
-//
-// MatrixRow.h:  matrices row
-//
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
@@ -20,7 +17,9 @@
 
 #ifndef Rcpp__vector__MatrixRow_h
 #define Rcpp__vector__MatrixRow_h
-   
+ 
+namespace Rcpp{
+    
 template <int RTYPE>
 class MatrixRow : public VectorBase< RTYPE, true, MatrixRow<RTYPE> > {
 public:
@@ -167,5 +166,7 @@ private:
         return i * parent_nrow ;
     } 
 } ;
+
+}
 
 #endif

@@ -45,10 +45,6 @@ test.Argument <- function(){
    checkEquals( Argument_(), list( x = 2L, y = 3L ) , msg = "Argument")
 }
 
-test.Dimension.const <- function(){
-   checkEquals( Dimension_const( c(2L, 2L)) , 2L, msg = "testing const operator[]" )
-}
-
 test.evaluator.error <- function(){
    checkException( evaluator_error(), msg = "Evaluator::run( stop() )" )
 }

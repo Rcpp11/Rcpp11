@@ -73,8 +73,6 @@ const char * sexp_to_name(int sexp_type);
 #include <Rcpp/complex.h>
 #include <Rcpp/barrier.h>
 
-#define RcppExport extern "C"
-
 #include <Rcpp/exceptions.h>
 #include <Rcpp/Demangler.h>
 

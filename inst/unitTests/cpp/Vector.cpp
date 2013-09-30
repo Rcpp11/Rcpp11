@@ -166,11 +166,6 @@ CharacterVector integer_names_get( IntegerVector y ){
 }
 
 // [[Rcpp::export]]
-int integer_names_indexing( IntegerVector y ){
-    return y["foo"] ;
-}
-
-// [[Rcpp::export]]
 IntegerVector integer_push_back( IntegerVector y ){
     y.push_back( 5 ) ;
     return y ;
@@ -310,7 +305,7 @@ List list_VECSXP_( SEXP vec){
 }
 
 // [[Rcpp::export]]
-List list_matrix_indexing_1( List m ){
+List list_matrix_indexing_1( GenericMatrix m ){
     List out(4) ;
     for( size_t i=0 ; i<4; i++){
         out[i] = m(i,i) ;
@@ -319,7 +314,7 @@ List list_matrix_indexing_1( List m ){
 }
 
 // [[Rcpp::export]]
-List list_matrix_indexing_2( GenericVector m ){
+List list_matrix_indexing_2( GenericMatrix m ){
     for(size_t i=0 ; i<4; i++){
         m(i,i) = "foo" ;
     }
@@ -435,7 +430,7 @@ CharacterVector character_plusequals(){
 }
 
 // [[Rcpp::export]]
-CharacterVector character_matrix_indexing( CharacterVector m ){
+CharacterVector character_matrix_indexing( CharacterMatrix m ){
     std::string trace;
     for( size_t i=0 ; i<4; i++){
         trace += m(i,i) ;
@@ -444,7 +439,7 @@ CharacterVector character_matrix_indexing( CharacterVector m ){
 }
 
 // [[Rcpp::export]]
-CharacterVector character_matrix_indexing_lhs( CharacterVector m ){
+CharacterVector character_matrix_indexing_lhs( CharacterMatrix m ){
     for( size_t i=0 ; i<4; i++){
         m(i,i) = "foo" ;
     }

@@ -28,8 +28,10 @@ public:
     no_init(int size_): size(size_){}
     inline int get() const { return size; }
     
-    template <int RTYPE>
-    operator Vector<RTYPE>(){ return Rf_allocVector(RTYPE, size) ; }
+    template <int RTYPE> 
+    operator Vector<RTYPE>() { 
+        return Rf_allocVector(RTYPE, size) ; 
+    }
     
 private:
     int size ;

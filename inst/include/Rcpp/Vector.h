@@ -19,36 +19,24 @@
 #ifndef Rcpp__Vector_h
 #define Rcpp__Vector_h
 
-#include <RcppCommon.h>
-#include <Rcpp/Evaluator.h>
-#include <Rcpp/exceptions.h>
-#include <Rcpp/RObject.h>
-#include <Rcpp/r_cast.h>
+#include <Rcpp/vector/00_forward.h>
 
-namespace Rcpp{
-    namespace traits{
-         template <int RTYPE, bool NA, typename VECTOR> struct Extractor ;  
-    }
-}
-
-namespace Rcpp{
-class Na_Proxy ;
-#include <Rcpp/vector/00_forward_Vector.h>
-}
 #include <Rcpp/vector/no_init.h>
-namespace Rcpp{
-#include <Rcpp/vector/00_forward_proxy.h>
-#include <Rcpp/vector/00_forward_eval_methods.h>
+#include <Rcpp/vector/vector_from_string.h>
+#include <Rcpp/vector/eval_methods.h>
 
 #include <Rcpp/vector/converter.h>
-
-template <int RTYPE> class MatrixRow ;
-template <int RTYPE> class MatrixColumn ;
-template <int RTYPE> class SubMatrix ;
-
 #include <Rcpp/vector/RangeIndexer.h>
 
 #include <Rcpp/vector/Vector.h>
+
+#include <Rcpp/vector/simple_name_proxy.h>
+#include <Rcpp/vector/string_name_proxy.h>
+#include <Rcpp/vector/generic_name_proxy.h>
+
+#include <Rcpp/vector/simple_const_name_proxy.h>
+#include <Rcpp/vector/string_const_name_proxy.h>
+#include <Rcpp/vector/generic_const_name_proxy.h>
 
 #include <Rcpp/vector/proxy.h>
 #include <Rcpp/vector/traits.h>
@@ -59,8 +47,6 @@ template <int RTYPE> class SubMatrix ;
 #include <Rcpp/vector/MatrixColumn.h>
 
 #include <Rcpp/vector/instantiation.h>
-}
-
 #include <Rcpp/vector/create.h>
 
 #include <Rcpp/vector/string_proxy.h>

@@ -1,7 +1,5 @@
-//
-// MatrixColumn.h:  matrices column
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -20,7 +18,9 @@
 
 #ifndef Rcpp__vector__MatrixColumn_h
 #define Rcpp__vector__MatrixColumn_h
-   
+ 
+namespace Rcpp{
+    
 template <int RTYPE>
 class MatrixColumn : public VectorBase<RTYPE,true,MatrixColumn<RTYPE> > {
 public:
@@ -99,5 +99,6 @@ private:
     const_iterator const_start ;
     
 } ;
+}
 
 #endif

@@ -19,9 +19,8 @@
 #ifndef Rcpp__vector__Vector_h
 #define Rcpp__vector__Vector_h
 
-// forward declarations
-class Dimension ;
-
+namespace Rcpp{
+    
 template <bool NA,typename T> class SingleLogicalResult ;
 
 template <int RTYPE>
@@ -36,6 +35,7 @@ public:
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
     typedef typename traits::r_vector_const_proxy<RTYPE>::type const_Proxy ;
     typedef typename traits::r_vector_name_proxy<RTYPE>::type NameProxy ;
+    typedef typename traits::r_vector_const_name_proxy<RTYPE>::type const_NameProxy ;
     typedef typename traits::r_vector_proxy<RTYPE>::type value_type ;
     typedef typename traits::r_vector_iterator<RTYPE>::type iterator ;
     typedef typename traits::r_vector_const_iterator<RTYPE>::type const_iterator ;
@@ -125,19 +125,6 @@ public:
      * alias of length
      */
     inline R_len_t size() const { return ::Rf_length( RObject::m_sexp ) ; }
-    
-    /**
-     * offset based on the dimensions of this vector
-     */
-    size_t offset(const size_t& i, const size_t& j) const {
-        if( !::Rf_isMatrix(RObject::m_sexp) ) throw not_a_matrix() ;
-        /* we need to extract the dimensions */
-        int *dim = dims() ;
-        size_t nrow = static_cast<size_t>(dim[0]) ;
-        size_t ncol = static_cast<size_t>(dim[1]) ;
-        if( i >= nrow || j >= ncol ) throw index_out_of_bounds() ;
-        return i + nrow*j ;
-    }
     
     /**
      * one dimensional offset doing bounds checking to ensure
@@ -249,34 +236,22 @@ public:
     inline Proxy operator[]( int i ){ return cache.ref(i) ; }
     inline const_Proxy operator[]( int i ) const { return cache.ref(i) ; }
     
-    inline Proxy operator()( const size_t& i) {
-        return cache.ref( offset(i) ) ;
-    }
-    inline const_Proxy operator()( const size_t& i) const {
-        return cache.ref( offset(i) ) ;
-    }
+    inline Proxy at( int i ){ return cache.ref(i) ; }
+    inline const_Proxy at( int i ) const { return cache.ref(i) ; }
     
-    inline Proxy operator()( const size_t& i, const size_t& j) {
-        return cache.ref( offset(i,j) ) ;
-    }
-    inline const_Proxy operator()( const size_t& i, const size_t& j) const {
-        return cache.ref( offset(i,j) ) ;
-    }
-	
     inline NameProxy operator[]( const std::string& name ){
         return NameProxy( *this, name ) ;
     }
-    inline NameProxy operator()( const std::string& name ){
+    inline NameProxy at( const std::string& name ){
         return NameProxy( *this, name ) ;
     }
-	
-    inline NameProxy operator[]( const std::string& name ) const {
+    inline NameProxy at( const std::string& name ) const {
+        return NameProxy( *this, name ) ;
+    }
+	inline NameProxy operator[]( const std::string& name ) const {
         return NameProxy( const_cast<Vector&>(*this), name ) ;
     }
-    inline NameProxy operator()( const std::string& name ) const {
-        return NameProxy( const_cast<Vector&>(*this), name ) ;
-    }
-	
+    
     Vector& sort(){
         std::sort( 
             internal::r_vector_start<RTYPE>(m_sexp), 
@@ -437,4 +412,5 @@ public:
     
 } ; /* Vector */
 
+}
 #endif
