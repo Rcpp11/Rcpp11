@@ -35,7 +35,6 @@
 #include <Rcpp/traits/is_finite.h>
 #include <Rcpp/traits/is_infinite.h>
 #include <Rcpp/traits/is_nan.h>
-#include <Rcpp/traits/if_.h>
 #include <Rcpp/traits/or_.h>
 #include <Rcpp/traits/get_na.h>
 #include <Rcpp/traits/is_trivial.h>

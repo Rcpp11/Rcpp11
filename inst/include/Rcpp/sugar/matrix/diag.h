@@ -68,7 +68,7 @@ private:
 } ;
 
 template <typename T> struct diag_result_type_trait{
-	typedef typename Rcpp::traits::if_<
+	typedef typename std::conditional<
 		Rcpp::traits::matrix_interface<T>::value, 
 		Diag_Extractor< T::r_type::value , T::can_have_na::value , T >, 
 		Diag_Maker< T::r_type::value , T::can_have_na::value , T > 
