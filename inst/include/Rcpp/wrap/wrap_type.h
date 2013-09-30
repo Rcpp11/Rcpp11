@@ -39,18 +39,22 @@ namespace traits{
                 is_module_object,
                 typename Rcpp::ModuleObjectWrapper<T>,
                 typename std::conditional<
-                    is_primitive || is_enum, 
-                    typename Rcpp::PrimitiveWrapper<T>, 
+                    is_primitive, 
+                    typename Rcpp::PrimitiveWrapper<T>,
                     typename std::conditional<
-                        is_sugar,
-                        typename Rcpp::SugarExpressionWrapper<T>,
+                        is_enum,
+                        Rcpp::EnumWrapper<T>,
                         typename std::conditional<
-                            has_matrix_interface,
-                            typename Rcpp::MatrixWrapper<T>,
+                            is_sugar,
+                            typename Rcpp::SugarExpressionWrapper<T>,
                             typename std::conditional<
-                                has_iterator, 
-                                typename Rcpp::ContainerWrapper<T>, 
-                                typename Rcpp::Wrapper<T>
+                                has_matrix_interface,
+                                typename Rcpp::MatrixWrapper<T>,
+                                typename std::conditional<
+                                    has_iterator, 
+                                    typename Rcpp::ContainerWrapper<T>, 
+                                    typename Rcpp::Wrapper<T>
+                                    >::type
                                 >::type
                             >::type
                         >::type

@@ -29,6 +29,7 @@
 
 #include <Rcpp/wrap/Wrapper.h>     
 #include <Rcpp/wrap/PrimitiveWrapper.h>     
+#include <Rcpp/wrap/EnumWrapper.h>     
 #include <Rcpp/wrap/MatrixWrapper.h>     
 #include <Rcpp/wrap/ContainerWrapper.h>
 #include <Rcpp/wrap/SexpConvertibleWrapper.h>

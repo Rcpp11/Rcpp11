@@ -189,5 +189,12 @@ test.wrap.vector.Foo <- function(){
     )    
 }
 
+test.wrap.Rboolean <- function(){
+    checkEquals( 
+        wrap_Rboolean(), TRUE,
+        msg = "wrap( Rboolean )"
+    )    
+}
+
 }
 
