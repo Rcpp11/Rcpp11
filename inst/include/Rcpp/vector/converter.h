@@ -63,6 +63,11 @@ namespace internal {
 			return input ;
 		}
 		
+		static target get( const Na_Proxy& input ){
+			return traits::get_na<RTYPE>() ;
+		}
+		
+		
 	} ;
 	
 	template <int RTYPE>
@@ -113,6 +118,11 @@ namespace internal {
 		    RCPP_DEBUG( "string_element_converter::get< SEXP >()" )
 		    return x;
 		}
+		
+		static target get( const Na_Proxy& input ){
+			return NA_STRING ;
+		}
+		
 	} ;
 	
 	template <int RTYPE>
@@ -142,6 +152,10 @@ namespace internal {
 		
 		static SEXP get(SEXP input){
 			return input ;
+		}
+		
+		static target get( const Na_Proxy& input ){
+			return Rf_ScalarLogical( NA_LOGICAL ) ;
 		}
 	} ;
 }

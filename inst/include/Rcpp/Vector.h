@@ -32,7 +32,7 @@ namespace Rcpp{
 }
 
 namespace Rcpp{
-
+class Na_Proxy ;
 #include <Rcpp/vector/00_forward_Vector.h>
 }
 #include <Rcpp/vector/no_init.h>

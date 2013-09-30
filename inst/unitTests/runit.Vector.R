@@ -628,4 +628,13 @@ test.std.vector.int.const.ref <- function() {
     checkEquals(fun(x), 5, msg = "automatic conversion of stdVectorIntConstRef")
 }
 
+test.create_NA <- function(){
+    checkTrue( is.na( IntegerVector_create_na() ) )
+    checkTrue( is.na( LogicalVector_create_na() ) )
+    checkTrue( is.na( StringVector_create_na() ) )
+    checkTrue( is.na( DoubleVector_create_na() ) )
+    checkTrue( is.na( List_create_na()[[1]] ) )
+}
+
+
 }

@@ -688,3 +688,25 @@ int stdVectorIntRef(std::vector<int> & x) {
 int stdVectorIntConstRef(const std::vector<int> & x) { 
     return x.size();
 }
+
+// [[Rcpp::export]]
+IntegerVector IntegerVector_create_na(){
+    return IntegerVector::create( NA ) ;    
+}
+// [[Rcpp::export]]
+LogicalVector LogicalVector_create_na(){
+    return LogicalVector::create( NA ) ;    
+}
+// [[Rcpp::export]]
+StringVector StringVector_create_na(){
+    return StringVector::create( NA ) ;    
+}
+// [[Rcpp::export]]
+DoubleVector DoubleVector_create_na(){
+    return DoubleVector::create( NA ) ;    
+}
+// [[Rcpp::export]]
+List List_create_na(){
+    return List::create( NA ) ;    
+}
+
