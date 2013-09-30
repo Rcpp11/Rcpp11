@@ -46,6 +46,7 @@
 #include <Rcpp/traits/expands_to_logical_impl.h>
 #include <Rcpp/traits/sfinae.h>
 #include <Rcpp/traits/sequence.h>
+#include <Rcpp/traits/and_.h>
 
 #endif
 
