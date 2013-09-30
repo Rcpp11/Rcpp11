@@ -358,39 +358,7 @@ public:
         RCPP_DEBUG_CLASS(Vector, "::update_vector( SEXP = < %p > )", reinterpret_cast<void*>( RObject::asSexp() ) )
         cache.update(*this) ;
     }
-		
-    template <typename U>
-    static void replace_element( iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_CLASS(Vector, "::replace_element<%s>", DEMANGLE(U) )
-        replace_element__dispatch( typename traits::is_named<U>::type(), it, names, index, u ) ;
-    }
 	
-    template <typename U>
-    static void replace_element__dispatch( std::false_type, iterator it, SEXP names, int index, const U& u){
-        *it = converter_type::get(u);
-    }
-	
-    template <typename U>
-    static void replace_element__dispatch( std::true_type, iterator it, SEXP names, int index, const U& u){
-        replace_element__dispatch__isArgument( typename std::is_same<U,Argument>(), it, names, index, u ) ;
-    }
-
-    template <typename U>
-    static void replace_element__dispatch__isArgument( std::false_type, iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_CLASS(Vector, "::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
-		
-        *it = converter_type::get(u.object ) ;
-        SET_STRING_ELT( names, index, ::Rf_mkChar( u.name.c_str() ) ) ;
-    }
-	
-    template <typename U>
-    static void replace_element__dispatch__isArgument( std::true_type, iterator it, SEXP names, int index, const U& u){
-        RCPP_DEBUG_CLASS(Vector, "::replace_element__dispatch<%s>(true, index= %d) ", DEMANGLE(U), index ) ; 
-		
-        *it = R_MissingArg ;
-        SET_STRING_ELT( names, index, ::Rf_mkChar( u.name.c_str() ) ) ;
-    }
-    
     void set_sexp(SEXP x){
         RObject::setSEXP( x) ;
         update_vector() ;
@@ -441,7 +409,7 @@ private:
 	
     iterator erase_range__impl( iterator first, iterator last ) ;
 
-    template <typename T> inline void assign_sugar_expression( const T& x ) ;
+    template <bool NA, typename T> inline void assign_sugar_expression( const VectorBase<RTYPE,NA,T>& x ) ;
     
     // sugar
     template <typename T> inline void assign_object( const T& x, std::true_type )  ;

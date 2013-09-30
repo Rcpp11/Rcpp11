@@ -127,15 +127,16 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    template <typename T>
-    inline void Vector<RTYPE>::assign_sugar_expression( const T& x ){
+    template <bool NA, typename T>
+    inline void Vector<RTYPE>::assign_sugar_expression( const VectorBase<RTYPE,NA,T>& x ){
         int n = size() ;
         if( n == x.size() ){
             // just copy the data 
-            import_expression<T>(x, n ) ;
+            import_expression<T>(x.get_ref(), n ) ;
         } else{
             // different size, so we change the memory
-            set_sexp( r_cast<RTYPE>( wrap(x) ) ); 
+            Vector<RTYPE> tmp(x) ;
+            set_sexp( tmp ); 
         }
     }
     
@@ -143,7 +144,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename T>
     inline void Vector<RTYPE>::assign_object( const T& x, std::true_type ){
-        assign_sugar_expression( x.get_ref() ) ;
+        assign_sugar_expression( x ) ;
     }
     
     // anything else
