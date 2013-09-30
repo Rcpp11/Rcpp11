@@ -196,5 +196,12 @@ test.wrap.Rboolean <- function(){
     )    
 }
 
+test.wrap.container.Rboolean <- function(){
+    checkEquals( 
+        wrap_Rcontainer_boolean(), c(TRUE,FALSE),
+        msg = "wrap( Rboolean )"
+    )    
+}
+
 }
 

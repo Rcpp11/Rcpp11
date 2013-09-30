@@ -29,7 +29,7 @@ namespace Rcpp{
     
     template <> struct EnumWrapper<Rboolean> {
         static inline SEXP wrap(const Rboolean& object) { 
-            RCPP_DEBUG( "EnumWrapper<Rboolean>::wrap() ", DEMANGLE(T) ) 
+            RCPP_DEBUG( "EnumWrapper<Rboolean>::wrap() " ) 
             return Rf_ScalarLogical(object) ; ;    
         }
     } ;

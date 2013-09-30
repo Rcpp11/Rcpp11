@@ -25,6 +25,9 @@ namespace internal{
 // {{{ range wrap 
 // {{{ unnamed range wrap
 
+template<typename InputIterator, typename T>
+inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ) ;
+
 /**
  * Range based wrap implementation that deals with iterator over
  * primitive types (int, double, etc ...)
@@ -34,6 +37,51 @@ namespace internal{
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag){ 
 	return primitive_range_wrap__impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_sexptype_needscast<T>() ) ;
+}
+
+template<typename InputIterator, typename T>
+inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::true_type ){
+	size_t size = std::distance( first, last ) ;
+	SEXP x = PROTECT( Rf_allocVector( LGLSXP, size ) );
+	                                          
+	int __trip_count = size >> 2 ;
+	int* start = r_vector_start<LGLSXP>(x) ;
+	int i = 0 ;
+	for ( ; __trip_count > 0 ; --__trip_count) { 
+    	start[i] = first[i] ; i++ ;            
+    	start[i] = first[i] ; i++ ;            
+    	start[i] = first[i] ; i++ ;            
+    	start[i] = first[i] ; i++ ;            
+	}                                            
+	switch (size - i){                          
+	  case 3:                                    
+	      start[i] = first[i] ; i++ ;             
+      case 2:                                    
+	      start[i] = first[i] ; i++ ;             
+	  case 1:                                    
+	      start[i] = first[i] ; i++ ;             
+	  case 0:                                    
+	  default:                                   
+	      {}                         
+	}                                            
+	
+	UNPROTECT(1) ;
+	return wrap_extra_steps<T>( x ) ;
+    
+}
+template<typename InputIterator, typename T>
+inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::false_type ){
+    return range_wrap<InputIterator, typename std::underlying_type<T>::type >( first, last ) ;
+}
+
+template<typename InputIterator, typename T>
+inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_enum_tag ){
+    return range_wrap_enum__dispatch<InputIterator,T>( first, last, 
+        typename std::is_same< 
+            typename std::integral_constant<int, ::Rcpp::traits::r_sexptype_traits<T>::rtype >::type, 
+            typename std::integral_constant<int,LGLSXP>::type
+        >::type() 
+    ); 
 }
 
 /** 

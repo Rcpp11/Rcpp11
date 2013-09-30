@@ -35,6 +35,7 @@ namespace internal{
  */
 template <typename InputIterator, typename T>
 inline SEXP primitive_range_wrap__impl( InputIterator first, InputIterator last, std::true_type ){
+	RCPP_DEBUG( "primitive_range_wrap__impl< InputIterator = %s , T = %s>(.,., true_type )\n", DEMANGLE(InputIterator), DEMANGLE(T) ) ;
 	size_t size = std::distance( first, last ) ;
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
 	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
@@ -97,6 +98,7 @@ inline SEXP primitive_range_wrap__impl__nocast( InputIterator first, InputIterat
  */
 template <typename InputIterator, typename T>
 inline SEXP primitive_range_wrap__impl( InputIterator first, InputIterator last, std::false_type ){
+	RCPP_DEBUG( "primitive_range_wrap__impl< InputIterator = %s , T = %s>(.,., false_type )\n", DEMANGLE(InputIterator), DEMANGLE(T) ) ;
 	return primitive_range_wrap__impl__nocast<InputIterator,T>( first, last, typename std::iterator_traits<InputIterator>::iterator_category() ) ;
 }
 

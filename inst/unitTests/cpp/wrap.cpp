@@ -260,3 +260,8 @@ SEXP vector_Foo(){
 SEXP wrap_Rboolean(){
     return wrap(TRUE) ;    
 }
+
+// [[Rcpp::export]]
+SEXP wrap_Rcontainer_boolean(){
+    return wrap({TRUE,FALSE}) ;    
+}

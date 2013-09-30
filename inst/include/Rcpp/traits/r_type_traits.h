@@ -97,7 +97,13 @@ struct r_type_enum_tag{} ;
 /**
  * R type trait. Helps wrap.
  */
-template <typename T> struct r_type_traits { typedef r_type_generic_tag r_category ; } ;
+template <typename T> struct r_type_traits { 
+    typedef typename std::conditional<
+        std::is_enum<T>::value,
+        r_type_enum_tag,
+        r_type_generic_tag
+    >::type r_category ; 
+} ;
 
 /**
  * module object type
