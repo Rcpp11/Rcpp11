@@ -66,6 +66,18 @@ template <typename T> struct is_named< named_object<T> >   : public std::true_ty
 template <> struct is_named< Rcpp::Argument >   : public std::true_type {} ;
 
 } // namespace traits
+
+    template <typename T>
+    struct Demangler< Rcpp::traits::named_object<T> > {
+        static std::string get(){
+            std::string res = "Rcpp::traits::named_object<" ;
+            res += Demangler<T>::get() ;
+            res += ">" ;
+            return res ;
+        }
+    } ;
+    
+
 } // namespace Rcpp
 
 #endif 

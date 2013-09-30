@@ -86,7 +86,6 @@ namespace Rcpp{
     DEMANGLE_CONTAINER_ADAPTOR_1(std::priority_queue)
     DEMANGLE_CONTAINER_ADAPTOR_1(std::stack)
     
-    
 } // Rcpp 
 
 #endif
