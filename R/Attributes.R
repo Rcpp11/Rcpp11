@@ -404,20 +404,36 @@ registerPlugin <- function(name, plugin) {
 sourceCppFunction <- function(func, isVoid, dll, symbol) {
 
     args <- names(formals(func))
-
-    body <- quote( .Call( EXTERNALNAME, ARG ) )[ c(1:2, rep(3, length(args))) ]
-
-    for (i in seq(along = args))
-        body[[i+2]] <- as.symbol(args[i])
-
-    body[[1L]] <- .Call
-    body[[2L]] <- getNativeSymbolInfo(symbol, dll)$address
-
+    if( identical( args, "..." ) ){
+        body <- substitute({
+            dots <- as.list( sys.call()[-1L] )
+            parent_frame <- parent.frame()
+            if( "data" %in% names(dots) ){
+                data <- eval( dots[["data"]], parent_frame )
+                dots <- dots[ names(dots) != "data" ]
+                env <- as.environment(data)
+                parent.env(env) <- parent_frame
+            } else {
+                env <- parent_frame 
+            }
+            DOT_CALL( FUN, dots, env )
+        }, list( FUN = getNativeSymbolInfo(symbol, dll)$address, DOT_CALL = .Call) )
+    } else {
+    
+        body <- quote( .Call( EXTERNALNAME, ARG ) )[ c(1:2, rep(3, length(args))) ]
+        
+        for (i in seq(along = args))
+            body[[i+2]] <- as.symbol(args[i])
+        
+        body[[1L]] <- .Call
+        body[[2L]] <- getNativeSymbolInfo(symbol, dll)$address
+        
+    }
+    
     if (isVoid)
-        body <- call("invisible", body)
+    body <- call("invisible", body)
 
     body(func) <- body
-
     func
 }
 
