@@ -1864,7 +1864,11 @@ namespace attributes {
                 std::string name = attribute.exportedName();
                     
                 if( function.is_Dots() ){
-                    ostr() << name << "<- function(...){ list(...) }" << std::endl ;
+                    ostr() << name << " <- function(...){ " << std::endl 
+                           << "    calls  <- sys.calls()" << std::endl 
+                           << "    frames <- sys.frames()" << std::endl
+                           << "    .Call( '" << package() << "_" << function.name() << "', calls, frames, PACKAGE='" << package() << "' ) " << std::endl 
+                           << "}" << std::endl ;
                 } else {
                     // build the parameter list 
                     std::string args = generateRArgList(function);
