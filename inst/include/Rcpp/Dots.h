@@ -22,29 +22,64 @@ namespace Rcpp{
 
     class Dots {
     public:
-        Dots( List data_, Environment env_): data(data_), env(env_){}
         
-        SEXP eval( int i ){ return eval_(i); }
-        
-        template <typename T>
-        T eval( int i ){
-            return as<T>( eval_(i) ) ;
+        Dots( List calls_, List frames_ ) : 
+            calls(calls_), frames(frames_), env(0), exprs(0), tags(0)
+        {
+            init() ;
         }
-        
-        SEXP operator[]( int i ){ 
-            return data[i] ;
-        }
-        
-        inline size_t size() const{ return data.size(); } 
             
+        SEXP eval(int i){
+            return Rf_eval( exprs[i], env[i] );   
+        }
+        
+        SEXP envir(int i){
+            return env[i] ;    
+        }
+        
+        SEXP expr( int i ){ 
+            return exprs[i] ;
+        }
+        
+        inline size_t size() const{ return exprs.size(); } 
+        
+        
     private:
         
-        inline SEXP eval_( int i){
-            return Rf_eval( data[i], env ) ;
+        void init(){
+            process( frames.size() - 1 ) ;
         }
         
-        List data ;
-        Environment env ;
+        void process(int i){
+            if( i < 0 ) return ;
+            SEXP p = calls[i] ;
+            if( TYPEOF(p) != LANGSXP ) return ;
+            
+            p = CDR(p) ;
+            SEXP head ;
+            while( p != R_NilValue ){
+                head = CAR(p) ;
+                if( is_ellipsis(head) ) {
+                    process(i-1) ;
+                } else {
+                    exprs.push_back( head ) ;
+                    env.push_back( frames[i-1] ) ;
+                    tags.push_back( TAG(p) );
+                }
+                p = CDR(p) ;
+            }
+        }
+        
+        bool is_ellipsis( SEXP x){
+             return x == R_DotsSymbol ;   
+        }
+        
+        List calls, frames ;
+        // all of what we put in there is already protected by R. 
+        std::vector<SEXP> env ;
+        std::vector<SEXP> exprs ;
+        std::vector<SEXP> tags ;
+        
     } ;
 
 } // Rcpp 

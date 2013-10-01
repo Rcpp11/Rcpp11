@@ -2161,7 +2161,7 @@ namespace attributes {
             const std::vector<Argument>& arguments = function.arguments();
             // deal with functions with a single argument of class "Dots"
             if( function.is_Dots() ){
-                ostrArgs << "SEXP args, SEXP env" ;
+                ostrArgs << "SEXP calls, SEXP frames" ;
             } else {
                 for (size_t i = 0; i<arguments.size(); i++) {
                     const Argument& argument = arguments[i];
@@ -2179,7 +2179,7 @@ namespace attributes {
             if (!cppInterface)
                 ostr << "        Rcpp::RNGScope __rngScope;" << std::endl;
             if( function.is_Dots() ){
-                ostr << "        Rcpp::Dots dots( args, env ) ;" << std::endl;
+                ostr << "        Rcpp::Dots dots( calls, frames ) ;" << std::endl;
             } else {
                 for (size_t i = 0; i<arguments.size(); i++) {
                     const Argument& argument = arguments[i];
