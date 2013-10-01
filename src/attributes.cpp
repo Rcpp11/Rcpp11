@@ -1882,7 +1882,7 @@ namespace attributes {
                         ostr() << "invisible(";
                     ostr() << ".Call(";
                     ostr() << "'" << package() << "_" << function.name() << "', "
-                           << "PACKAGE = '" << package() << "'";
+                           << "PACKAGE = '" << package() << "'" ;
                     
                     // add arguments
                     const std::vector<Argument>& arguments = function.arguments();
