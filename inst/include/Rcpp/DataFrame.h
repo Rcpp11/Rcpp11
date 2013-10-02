@@ -20,13 +20,13 @@
 
 namespace Rcpp{
         
-    class DataFrame : public Vector<VECSXP> {
+    class DataFrame : public List {
     public:     
         DataFrame() ;
         DataFrame(SEXP x) ;
         DataFrame( const DataFrame& other) ;
-        DataFrame( const RObject::SlotProxy& proxy ) ;
-        DataFrame( const RObject::AttributeProxy& proxy ) ;
+                
+        template <typename T> DataFrame( const T& obj) ; 
                 
         DataFrame& operator=( DataFrame& other) ;
         DataFrame& operator=( SEXP x)  ;

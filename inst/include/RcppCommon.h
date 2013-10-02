@@ -83,6 +83,7 @@ namespace Rcpp{
     template <int RTYPE> class Vector ;
     template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
+    using List = Vector<VECSXP> ; 
     class RObject ;
     class Function ;
     class Language ;

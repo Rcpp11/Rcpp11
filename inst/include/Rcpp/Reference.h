@@ -1,6 +1,3 @@
-//
-// Reference.h:  S4 objects
-//
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
@@ -46,8 +43,9 @@ namespace Rcpp{
          * @param other other S4 object
          */
         Reference(const Reference& other) ;
-        Reference(const RObject::SlotProxy& proxy ) ;
-        Reference(const RObject::AttributeProxy& proxy ) ;
+        
+        template <typename T>
+        Reference(const T& object ) ;
         
         Reference& operator=( const Reference& other);
         Reference& operator=( SEXP other ) ; 

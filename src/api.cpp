@@ -773,18 +773,11 @@ namespace Rcpp {
     // {{{ S4
     S4::S4() : RObject(){}
         
-    S4::S4(SEXP x) : RObject(x){
-        if( ! ::Rf_isS4(x) ) throw not_s4() ;
+    S4::S4(SEXP x) : RObject(){
+        set_sexp(x);
     }
         
-    S4::S4( const S4& other) : RObject(other.asSexp()){}
-        
-    S4::S4( const RObject::SlotProxy& proxy ) : RObject() {
-        set_sexp( proxy ) ;
-    }
-    S4::S4( const RObject::AttributeProxy& proxy ) : RObject() {
-        set_sexp( proxy ) ;
-    }
+    S4::S4( const S4& other) : S4(other.asSexp()){}
         
     S4& S4::operator=( const S4& other){
         set_sexp( other.asSexp() ) ;
@@ -845,18 +838,11 @@ namespace Rcpp {
     // {{{ Reference 
     Reference::Reference() : S4(){}
     
-    Reference::Reference(SEXP x) : S4(x){
-        check() ;
+    Reference::Reference(SEXP x) : S4(){
+        set_sexp(x) ;
     }
     
     Reference::Reference( const Reference& other) : S4( other.asSexp() ){}
-    
-    Reference::Reference( const RObject::SlotProxy& proxy ) : S4() {
-        set_sexp( proxy ) ;
-    }
-    Reference::Reference( const RObject::AttributeProxy& proxy ) : S4() {
-        set_sexp( proxy ) ;
-    }
     
     Reference& Reference::operator=( const Reference& other){
         set_sexp( other.asSexp() ) ;
@@ -1199,15 +1185,13 @@ namespace Rcpp {
             return ::Rf_eval( ::Rf_lang1( dataFrameSym ), R_GlobalEnv ) ;       
         }
     }
-    
+             
     DataFrame::DataFrame(): List( internal::empty_data_frame() ){}
-    DataFrame::DataFrame(SEXP x) : List(x){
+    DataFrame::DataFrame(SEXP x) {
         set_sexp(x) ;
     }  
     DataFrame::DataFrame( const DataFrame& other): List(other.asSexp()) {}
-    DataFrame::DataFrame( const RObject::SlotProxy& proxy ) { set_sexp(proxy); }
-    DataFrame::DataFrame( const RObject::AttributeProxy& proxy ) { set_sexp(proxy); }
-              
+    
     DataFrame& DataFrame::operator=( DataFrame& other) {
         set_sexp( other.asSexp() ) ;
         return *this ;

@@ -15,30 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_api_meat_Reference_h
-#define Rcpp_api_meat_Reference_h
+#ifndef Rcpp_api_meat_S4_h
+#define Rcpp_api_meat_S4_h
 
 namespace Rcpp{
 
     template <typename T>
-    Reference::FieldProxy& Reference::FieldProxy::operator=( const T& rhs){
-         set( wrap(rhs) ) ;
-         return *this ;
-    }
-    
-    template <typename T>
-    Reference::FieldProxy::operator T() const {
-        return as<T>(get());    
-    }
-    
-    template <typename T>
-    Reference::ConstFieldProxy::operator T() const {
-        return as<T>(get());    
-    }
-    
-    template <typename T>
-    Reference::Reference(const T& object ) : Reference(wrap(object)) {}
-        
+    S4::S4( const T& object ) : S4(wrap(object)){}
     
 }
 #endif

@@ -60,9 +60,8 @@ namespace Rcpp{
             }
             return *this ;
         }
-
-        S4(const RObject::SlotProxy& proxy ) ;
-        S4(const RObject::AttributeProxy& proxy ) ;
+        
+        template <typename T> S4( const T&) ;
         
         /**
          * assignment operator. 

@@ -22,12 +22,14 @@
 #define Rcpp_api_meat_meat_h
 
 #include <Rcpp/api/meat/RObject.h>
+#include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>
 #include <Rcpp/api/meat/DottedPair.h>
 #include <Rcpp/api/meat/Vector.h>
 #include <Rcpp/api/meat/Function.h>
 #include <Rcpp/api/meat/Matrix.h>
 #include <Rcpp/api/meat/Reference.h>
+#include <Rcpp/api/meat/S4.h>
 #include <Rcpp/api/meat/is.h>
 #include <Rcpp/api/meat/as.h>
 #include <Rcpp/api/meat/export.h>
