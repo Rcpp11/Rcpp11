@@ -21,6 +21,7 @@
 #ifndef Rcpp_api_meat_meat_h
 #define Rcpp_api_meat_meat_h
 
+#include <Rcpp/api/meat/SlotProxy.h>
 #include <Rcpp/api/meat/RObject.h>
 #include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>

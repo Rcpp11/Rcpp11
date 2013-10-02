@@ -21,16 +21,9 @@
 #ifndef Rcpp_RObject_h
 #define Rcpp_RObject_h
 
-#define R_NO_REMAP
-#include <R.h>
-#include <Rcpp/macros/macros.h>
-#include <Rinternals.h>
-#include <vector>
-#include <string>
-
 namespace Rcpp{ 
 
-    class RObject {
+    class RObject : public SlotProxyPolicy<RObject> {
     public:
         
         /**
@@ -144,54 +137,6 @@ namespace Rcpp{
         } ;
         
         /**
-         * Proxy for objects slots. 
-         */
-        class SlotProxy {
-        public:
-            /**
-             * Creates a slot proxy. This throws an exception 
-             * if the parent object is not an S4 object or if the 
-             * class of parent object does not have the requested 
-             * slot
-             *
-             * @param v parent object of which we get/set a slot
-             * @param name slot name
-             */
-            SlotProxy( const RObject& v, const std::string& name) ;
-
-            /**
-             * lhs use. Assigns the target slot using the current 
-             * value of another slot proxy.
-             *
-             * @param rhs another slot proxy
-             */
-            SlotProxy& operator=(const SlotProxy& rhs) ;
-                  
-            /**
-             * lhs use. Assigns the slot by wrapping the rhs object
-             *
-             * @param rhs wrappable object
-             */
-            template <typename T> SlotProxy& operator=(const T& rhs) ;
-                
-            /**
-             * rhs use. Retrieves the current value of the slot
-             * and structures it as a T object. This only works 
-             * when as<T> makes sense
-             */ 
-            template <typename T> operator T() const ;
-            inline operator SEXP() const { return get() ; }
-            
-        private:
-            const RObject& parent; 
-            std::string slot_name ;
-                
-            SEXP get() const ;
-            void set(SEXP x ) const;
-        } ;
-        friend class SlotProxy ;    
-        
-        /**
          * extract or set the given attribute
          *
          * @param name name of the attribute to get/set
@@ -243,13 +188,6 @@ namespace Rcpp{
          */
         bool hasSlot(const std::string& name) const ;
 
-        /**
-         * Retrieves the given slot
-         *
-         * @throw not_s4 if this is not an S4 object
-         */
-        SlotProxy slot(const std::string& name) const ;
-    
     protected:                                  
 
         /**

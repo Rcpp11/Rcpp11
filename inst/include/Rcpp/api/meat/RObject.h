@@ -33,16 +33,16 @@ namespace Rcpp{
     RObject::AttributeProxy::operator T() const {
         return as<T>(get()) ;    
     }
-    
-    template <typename T> 
-    RObject::SlotProxy& RObject::SlotProxy::operator=( const T& rhs ){
-        set( wrap( rhs ) ) ;
-        return *this ;
-    }
-    template <typename T>
-    RObject::SlotProxy::operator T() const {
-        return as<T>(get()) ;    
-    }
+    // 
+    // template <typename T> 
+    // RObject::SlotProxy& RObject::SlotProxy::operator=( const T& rhs ){
+    //     set( wrap( rhs ) ) ;
+    //     return *this ;
+    // }
+    // template <typename T>
+    // RObject::SlotProxy::operator T() const {
+    //     return as<T>(get()) ;    
+    // }
    
     
 } // namespace Rcpp

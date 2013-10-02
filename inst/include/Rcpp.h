@@ -31,6 +31,7 @@
 
 #include <Rcpp/exceptions.h>
 
+#include <Rcpp/proxy/SlotProxy.h>
 #include <Rcpp/RObject.h>
 
 #include <Rcpp/Promise.h>

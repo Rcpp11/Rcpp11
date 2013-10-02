@@ -314,35 +314,6 @@ namespace Rcpp {
         return false; /* give up */
     }
 
-    RObject::SlotProxy::SlotProxy( const RObject& v, const std::string& name) : 
-        parent(v), slot_name(name)
-    {
-        SEXP nameSym = Rf_install(name.c_str());            
-        if( !R_has_slot( v, nameSym) ){
-            throw no_such_slot() ; 
-        }
-    }
-
-    RObject::SlotProxy& RObject::SlotProxy::operator=(const SlotProxy& rhs){
-        set( rhs.get() ) ;
-        return *this ;
-    }
-
-
-    SEXP RObject::SlotProxy::get() const {
-        SEXP slotSym = Rf_install( slot_name.c_str() );     
-        return R_do_slot( parent, slotSym ) ;       
-    }
-
-    // TODO: this should not be const
-    void RObject::SlotProxy::set( SEXP x) const {
-        SEXP slotnameSym = Rf_install( slot_name.c_str() ); 
-        // the SEXP might change (.Data)
-        SEXP new_obj = PROTECT( R_do_slot_assign(parent, slotnameSym, x) ) ;
-        const_cast<RObject&>(parent).setSEXP( new_obj ) ;
-        UNPROTECT(1) ;
-    }
-
     SEXP RObject::AttributeProxy::get() const {
         SEXP attrnameSym = Rf_install( attr_name.c_str() ); 
         return Rf_getAttrib( parent, attrnameSym ) ;
@@ -374,11 +345,7 @@ namespace Rcpp {
         if( !Rf_isS4(m_sexp) ) throw not_s4() ;
         return R_has_slot( m_sexp, Rf_mkString(name.c_str()) ) ;
     }
-
-    RObject::SlotProxy RObject::slot(const std::string& name) const {
-        if( !Rf_isS4(m_sexp) ) throw not_s4() ;
-        return SlotProxy( *this, name ) ;
-    }
+    
     // }}}
   
     // {{{ Function
