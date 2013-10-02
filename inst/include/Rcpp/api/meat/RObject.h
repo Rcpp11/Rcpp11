@@ -22,28 +22,6 @@
 #define Rcpp_api_meat_RObject_h
 
 namespace Rcpp{ 
-
-    template <typename T> 
-    RObject::AttributeProxy& RObject::AttributeProxy::operator=( const T& rhs ){
-        set( wrap( rhs ) ) ;
-        return *this ;
-    }
-    
-    template <typename T>
-    RObject::AttributeProxy::operator T() const {
-        return as<T>(get()) ;    
-    }
-    // 
-    // template <typename T> 
-    // RObject::SlotProxy& RObject::SlotProxy::operator=( const T& rhs ){
-    //     set( wrap( rhs ) ) ;
-    //     return *this ;
-    // }
-    // template <typename T>
-    // RObject::SlotProxy::operator T() const {
-    //     return as<T>(get()) ;    
-    // }
-   
     
 } // namespace Rcpp
 

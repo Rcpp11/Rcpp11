@@ -313,32 +313,7 @@ namespace Rcpp {
         }
         return false; /* give up */
     }
-
-    SEXP RObject::AttributeProxy::get() const {
-        SEXP attrnameSym = Rf_install( attr_name.c_str() ); 
-        return Rf_getAttrib( parent, attrnameSym ) ;
-    }
-
-    // TODO: this should not be const
-    void RObject::AttributeProxy::set(SEXP x) const{
-        SEXP attrnameSym = Rf_install( attr_name.c_str() ); 
-#if RCPP_DEBUG_LEVEL > 0
-        RCPP_DEBUG( "RObject::AttributeProxy::set() before = <%p>", parent.asSexp() ) ;
-        SEXP res = Rf_setAttrib( parent, attrnameSym, x ) ;
-        RCPP_DEBUG( "RObject::AttributeProxy::set() after  = <%p>", res ) ;
-#else
-        Rf_setAttrib( parent, attrnameSym, x ) ;
-#endif
-    }
-
-    RObject::AttributeProxy::AttributeProxy( const RObject& v, const std::string& name) :
-        parent(v), attr_name(name) {}
-
-    RObject::AttributeProxy& RObject::AttributeProxy::operator=(const AttributeProxy& rhs){
-        set( rhs.get() ) ;
-        return *this ;
-    }
-
+    
     /* S4 */
 
     bool RObject::hasSlot(const std::string& name) const {

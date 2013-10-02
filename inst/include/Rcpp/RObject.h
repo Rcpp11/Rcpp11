@@ -23,7 +23,7 @@
 
 namespace Rcpp{ 
 
-    class RObject : public SlotProxyPolicy<RObject> {
+    class RObject : public SlotProxyPolicy<RObject>, public AttributeProxyPolicy<RObject> {
     public:
         
         /**
@@ -83,88 +83,11 @@ namespace Rcpp{
          * Identifies if the SEXP has the given attribute
          */
         bool hasAttribute( const std::string& attr) const ; 
-
-        /**
-         * Proxy for an object's attribute. Instances of this class
-         * are created by the attr member function of RObject.
-         *
-         * When the proxy is used on the lhs of an assignment it 
-         * forwards the object it is assigned to to the attribute, 
-         * outsourcing to wrap the job of creating the SEXP from the 
-         * input type
-         *
-         * When the proxy is used on the rhs of the assignment, it retrieves
-         * the current value of the attribute and outsources to as the job
-         * of making an object of the appropriate type
-         */
-        class AttributeProxy {
-        public:
-                
-            /** 
-             * @param v object of which we manipulate the attributes
-             * @param attr_name name of the attribute the proxy manipulates
-             */
-            AttributeProxy( const RObject& v, const std::string& attr_name) ;
-
-            /**
-             * lhs use. This assigns the target attribute by using the 
-             * current attribute referred by another proxy
-             */
-            AttributeProxy& operator=(const AttributeProxy& rhs) ;
-                
-            /**
-             * lhs use. assigns the target attribute by wrapping 
-             * the rhs object
-             *
-             * @param rhs wrappable object
-             */
-            template <typename T> AttributeProxy& operator=(const T& rhs) ; 
-                
-            /**
-             * rhs use. Retrieves the current value for the target
-             * attribute and structure it as a T object using as
-             */
-            template <typename T> operator T() const ;
-            
-            inline operator SEXP() const { return get() ; }
-            
-        private:
-            const RObject& parent; 
-            std::string attr_name ;
-                
-            SEXP get() const ;
-            void set(SEXP x) const ;
-        } ;
-        
-        /**
-         * extract or set the given attribute
-         *
-         * @param name name of the attribute to get/set
-         *
-         * @return this returns a proxy to the given attribute. Depending
-         * on whether the proxy is used as a lhs or a rhs the attribute is
-         * either set (if the proxy is used on the lhs) or extracted 
-         * (if the proxy is used on the rhs). 
-         *
-         * RObject y = x.attr("foo") ; // rhs : get the attribute
-         * x.attr( "bar" ) = 10 ;      // lhs : set the attribute. 
-         *
-         * wrap is called on the right side of the assignment it can be anything
-         * wrap can handle. 
-         */
-        inline AttributeProxy attr( const std::string& name) const {
-            return AttributeProxy( *this, name)  ;    
-        }
-    
+   
         /**
          * is this object NULL
          */
         inline bool isNULL() const{ return Rf_isNull(m_sexp) ; }
-
-        /**
-         * The SEXP typeof, calls TYPEOF on the underlying SEXP
-         */
-        inline int sexp_type() const { return TYPEOF(m_sexp) ; }
 
         /** 
          * explicit conversion to SEXP

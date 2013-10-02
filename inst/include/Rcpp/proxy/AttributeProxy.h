@@ -15,55 +15,53 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_SlotProxy_h
-#define Rcpp_SlotProxy_h
+#ifndef Rcpp_AttributeProxy_h
+#define Rcpp_AttributeProxy_h
 
 namespace Rcpp{
     
 template <typename CLASS>
-class SlotProxyPolicy {
+class AttributeProxyPolicy {
 public:
     
-    class SlotProxy {
+    class AttributeProxy {
     public:
-        SlotProxy( CLASS& v, const std::string& name) : parent(v), slot_name(Rf_install(name.c_str())) {
-            if( !R_has_slot( v, slot_name) ){
-                throw no_such_slot() ; 
-            }  
-        }
+        AttributeProxy( CLASS& v, const std::string& name) 
+            : parent(v), attr_name(Rf_install(name.c_str()))
+        {}
         
-        SlotProxy& operator=(const SlotProxy& rhs) ;
+        AttributeProxy& operator=(const AttributeProxy& rhs) ;
               
-        template <typename T> SlotProxy& operator=(const T& rhs) ;
+        template <typename T> AttributeProxy& operator=(const T& rhs) ;
             
         template <typename T> operator T() const ;
         inline operator SEXP() const { return get() ; }
         
     private:
         CLASS& parent; 
-        SEXP slot_name ;
+        SEXP attr_name ;
             
         SEXP get() const ;
         void set(SEXP x ) ;
     } ;
     
-    class const_SlotProxy {
+    class const_AttributeProxy {
     public:
-        const_SlotProxy( const CLASS& v, const std::string& name) ;
-        const_SlotProxy& operator=(const const_SlotProxy& rhs) ;
+        const_AttributeProxy( const CLASS& v, const std::string& name) ;
+        const_AttributeProxy& operator=(const const_AttributeProxy& rhs) ;
               
         template <typename T> operator T() const ;
         inline operator SEXP() const { return get() ; }
         
     private:
         const CLASS& parent; 
-        SEXP slot_name ;
+        SEXP attr_name ;
             
         SEXP get() const ;
     } ;
     
-    SlotProxy slot(const std::string& name) ;
-    const_SlotProxy slot(const std::string& name) const ;
+    AttributeProxy attr( const std::string& name) ;
+    const_AttributeProxy attr( const std::string& name) const ;
     
 } ;
 
