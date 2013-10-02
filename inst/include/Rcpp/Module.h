@@ -58,17 +58,6 @@ namespace Rcpp{
         T* ptr;
     } ;
     
-    template <typename T>
-    class object {
-    public:
-        typedef T object_type ;
-        object( T* ptr_ ) : ptr(ptr_){}
-        operator T*(){ return ptr ; }
-        T* operator->(){ return ptr ; }
-        T& operator&(){ return *ptr ; }  
-        T* ptr ;
-    } ;
-
     namespace internal {
         template <typename Class>
         SEXP make_new_object( Class* ptr ){

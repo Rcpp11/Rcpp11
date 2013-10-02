@@ -32,11 +32,6 @@ struct wrap_type_primitive_tag{};
  * unknown. Implicit conversion to SEXP will be tried.
  */
 struct wrap_type_unknown_tag{};
-
-/**
- * module objects pointers (object<T>). conversion done using make_new_object<>() 
- */
-struct wrap_type_module_object_pointer_tag{} ;
  
 /**
  * declared module object type (by the RCPP_EXPOSED_CLASS macro)
@@ -87,9 +82,6 @@ template <> struct wrap_type_traits<long double> { typedef wrap_type_primitive_t
 
 template <> struct wrap_type_traits<short> { typedef wrap_type_primitive_tag wrap_category; } ;
 template <> struct wrap_type_traits<unsigned short> { typedef wrap_type_primitive_tag wrap_category; } ;
-
-template <typename T> struct wrap_type_traits< Rcpp::object<T> > { typedef wrap_type_module_object_pointer_tag wrap_category; } ;
-
 
 } // namespace traits
 } // namespace Rcpp

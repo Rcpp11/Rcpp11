@@ -76,15 +76,10 @@ namespace Rcpp{
             return exporter.get() ;
         }
         
-        void* as_module_object_internal(SEXP) ;
-        template <typename T> object<T> as_module_object(SEXP x){
-            return (T*) as_module_object_internal(x) ;
-        }
+        template <typename T> T* as_module_object(SEXP x) ;
         
-        /** handling object<T> */ 
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_const_pointer_tag ) {
-            typedef typename std::remove_const<T>::type T_NON_CONST ;
-            return const_cast<T>( (T_NON_CONST)as_module_object_internal(x) ) ;
+            return const_cast<T>( as_module_object< typename std::remove_const<T>::type >( x ) ) ; 
         }
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_pointer_tag ) {
