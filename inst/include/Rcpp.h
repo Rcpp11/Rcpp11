@@ -32,6 +32,9 @@
 #include <Rcpp/exceptions.h>
 
 #include <Rcpp/proxy/proxy.h>
+#include <Rcpp/RObjectStorage.h>
+#include <Rcpp/DottedPairImpl.h>
+
 #include <Rcpp/RObject.h>
 
 #include <Rcpp/Promise.h>

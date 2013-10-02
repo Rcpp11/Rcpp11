@@ -1,7 +1,5 @@
-//
-// S4.h:  S4 objects
-//
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,52 +19,28 @@
 #ifndef Rcpp_S4_h
 #define Rcpp_S4_h                     
 
-#include <RcppCommon.h>
-#include <Rcpp/RObject.h>
-
 namespace Rcpp{ 
 
     /**
      * S4 object
      */
-    class S4 : public RObject{
+    class S4 : RCPP_POLICIES(S4) {     
     public:
-        S4() ;
+         
+        S4(){}
         
+        RCPP_GENERATE_CTOR_ASSIGN(S4) 
+	    
         /**
          * checks that x is an S4 object and wrap it.
          *
          * @param x must be an S4 object
          */
-        S4(SEXP x) ; 
-        
-        /**
-         * copy constructor
-         *
-         * @param other other S4 object
-         */
-        S4(const S4& other) ;
-        
-        S4( S4&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        S4& operator=( S4&& other ){
-            RCPP_DEBUG_CLASS( S4, "::operator=( %s&& )", DEMANGLE(S4) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
+        S4(SEXP x){
+            set__(x) ;    
         }
         
         template <typename T> S4( const T& ) ;
-        
-        /**
-         * assignment operator. 
-         */
-        S4& operator=( const S4& other);
         
         S4& operator=( SEXP other ) ; 
         
@@ -84,8 +58,12 @@ namespace Rcpp{
          */
         bool is( const std::string& clazz) ;
         
-    private:
-        void set_sexp( SEXP x) ;
+        inline void update(SEXP x){
+            if( ! ::Rf_isS4(x) ){
+                throw not_s4() ;
+            }
+        }
+        
     } ;
 
 } // namespace Rcpp

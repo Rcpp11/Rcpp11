@@ -1,6 +1,3 @@
-//
-// Function.h:  functions (also primitives and builtins)
-//
 // Copyright (C) 2010 - 2012  Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013  Romain Francois
 //
@@ -22,19 +19,16 @@
 #ifndef Rcpp_Function_h
 #define Rcpp_Function_h
 
-#include <RcppCommon.h>
-
-#include <Rcpp/grow.h>
-#include <Rcpp/RObject.h>
-
 namespace Rcpp{ 
 
     /** 
      * functions
      */
-    class Function : public RObject{
+    class Function : RCPP_POLICIES(Function) {
     public:
 
+        RCPP_GENERATE_CTOR_ASSIGN(Function) 
+	
         /**
          * Attempts to convert the SEXP to a pair list
          *
@@ -49,24 +43,7 @@ namespace Rcpp{
          * @param name name of the function
          */
         Function(const std::string& name) ;
-        
-        Function(const Function& other) ;
-        Function& operator=(const Function& other );
-        
-        Function( Function&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        Function& operator=( Function&& other ){
-            RCPP_DEBUG_CLASS( Function, "::operator=( %s&& )", DEMANGLE(Function) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
-        }
-	
+       
         /**
          * calls the function with the specified arguments
          *
@@ -87,8 +64,7 @@ namespace Rcpp{
          * Returns the body of the function
          */
         SEXP body() const ;
-         
-        ~Function() ;
+        void update(SEXP){}
     };
 
 } // namespace Rcpp

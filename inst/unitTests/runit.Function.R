@@ -47,21 +47,6 @@ test.Function.env <- function(){
 		msg = "Function::environment( special) : exception" )
 }
 
-test.Function.unary.call <- function(){
-	checkEquals(
-		function_unarycall( lapply( 1:10, function(n) seq(from=n, to = 0 ) ) ),
-		2:11 ,
-		msg = "unary_call(Function)" )
-}
-
-test.Function.binary.call <- function(){
-	data <- lapply( 1:10, function(n) seq(from=n, to = 0 ) )
-	res <- function_binarycall( data , rep(5L,10) )
-	expected <- lapply( data, pmin, 5 )
-	checkEquals( res, expected,
-		msg = "binary_call(Function)" )
-}
-
 test.Function.namespace.env <- function() {
     exportedfunc <- function_namespace_env()
     checkEquals( stats:::.asSparse, exportedfunc, msg = "namespace_env(Function)" )

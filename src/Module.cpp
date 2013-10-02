@@ -439,9 +439,9 @@ namespace Rcpp{
     
 	CppClass::CppClass( SEXP x) : S4(x){}
 	
-	CppClass::CppClass( const CppClass& other) : S4(other.asSexp()){}
+	CppClass::CppClass( const CppClass& other) : S4(other.get__()){}
 	CppClass& CppClass::operator=( const CppClass& other){
-	    setSEXP( other.asSexp() ) ;
+	    set__( other.get__() ) ;
 	    return *this ;
 	}
 	
@@ -473,9 +473,9 @@ namespace Rcpp{
 		slot( "cppclass" ) = Rcpp::XPtr<class_Base>( clazz, false ) ;
 		slot( "pointer" )  = xp ;
 	}
-	CppObject::CppObject( const CppObject& other) : S4(other.asSexp()){}
+	CppObject::CppObject( const CppObject& other) : S4(other.get__()){}
 	CppObject& CppObject::operator=( const CppObject& other){
-	    setSEXP( other.asSexp() ) ;
+	    set__( other.get__() ) ;
 	    return *this ;
 	}
 	

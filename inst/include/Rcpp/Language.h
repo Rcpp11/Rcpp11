@@ -1,7 +1,5 @@
-//
-// Language.h:  language objects (calls)
-//
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,13 +19,6 @@
 #ifndef Rcpp_Language_h
 #define Rcpp_Language_h
 
-#include <RcppCommon.h>
-#include <Rcpp/DottedPair.h>
-#include <Rcpp/Symbol.h>
-#include <Rcpp/Function.h>
-#include <Rcpp/grow.h>
-#include <Rcpp/r_cast.h>
-
 namespace Rcpp{ 
 
     /** 
@@ -35,21 +26,28 @@ namespace Rcpp{
      *
      * This represents calls that can be evaluated
      */
-    class Language : public DottedPair {
+    class Language : 
+        RCPP_POLICIES(Language), 
+        public DottedPairProxyPolicy<Language>, 
+        public DottedPairImpl<Language>
+    {
     public:
-
-        Language() ;
+        using Proxy = DottedPairProxy ;
+        using const_Proxy = const_DottedPairProxy ;
         
+        Language(){}
+        
+        RCPP_GENERATE_CTOR_ASSIGN(Language) 
+	
         /**
          * Attempts to convert the SEXP to a call
          *
          * @throw not_compatible if the SEXP could not be converted
          * to a call using as.call
          */
-        Language(SEXP lang) ;
-
-        Language(const Language& other) ;
-        Language& operator=(const Language& other) ;
+        Language(SEXP lang){
+            set__( r_cast<LANGSXP>(lang) ) ;
+        }
         
         /**
          * Creates a call using the given symbol as the function name
@@ -60,7 +58,9 @@ namespace Rcpp{
          * > as.call( as.list( as.name( "rnorm") ) )
          * > call( "rnorm" )
          */
-        explicit Language( const std::string& symbol ); 
+        explicit Language( const std::string& symbol ){
+            set__( Rf_lang1( Rf_install(symbol.c_str()) ) ) ;
+        }
 
         /**
          * Creates a call using the given symbol as the function name
@@ -70,7 +70,9 @@ namespace Rcpp{
          * Language( Symbol("rnorm") ) makes a SEXP similar to this: 
          * > call( "rnorm" )
          */
-        explicit Language( const Symbol& symbol ); 
+        explicit Language( const Symbol& symbol ){
+            set__( Rf_lang1( symbol ) );    
+        }
 
         /**
          * Creates a call to the function
@@ -97,12 +99,12 @@ namespace Rcpp{
          * ...
          */
         template<typename... Args> 
-        Language( const std::string& symbol, const Args&... args) : DottedPair(Rf_install(symbol.c_str()), args...) {
-            update_language_object() ;
+        Language( const std::string& symbol, const Args&... args) {
+            set__( pairlist(args...) ) ;
         }
         template<typename... Args> 
-        Language( const Function& function, const Args&... args) : DottedPair(function, args...) {
-            update_language_object() ;
+        Language( const Function& function, const Args&... args) {
+            set__( pairlist( function, args...) ) ;
         }
         
         /**
@@ -133,68 +135,12 @@ namespace Rcpp{
         SEXP fast_eval() ;
         SEXP fast_eval(SEXP env ) ;
         
-        ~Language() ;
-
-    protected:
-        void update_language_object() ; 
-
-    private:
-        void set_sexp(SEXP x) ;
-        
+        inline void update(SEXP x){
+            SET_TYPEOF( x, LANGSXP ) ;
+            SET_TAG( x, R_NilValue ) ;
+        }
     };
-
-    template <typename OUT=SEXP>
-    class fixed_call {
-    public:
-        typedef OUT result_type ;
-        
-        fixed_call( Language call_ ) : call(call_){}
-        fixed_call( Function fun ) : call(fun){}
-        
-        OUT operator()(){
-            return as<OUT>( call.eval() ) ;
-        }
-        
-    private:
-        Language call ;
-    } ;
-
-    template <typename T, typename OUT = SEXP>
-    class unary_call : public std::unary_function<T,OUT> {
-    public:
-        unary_call( Language call_ ) : call(call_), proxy(call_,1) {}
-        unary_call( Language call_, int index ) : call(call_), proxy(call_,index){}
-        unary_call( Function fun ) : call( fun, R_NilValue), proxy(call,1) {}
-        
-        OUT operator()( const T& object ){
-            proxy = object ;
-            return as<OUT>( call.eval() ) ;
-        }
-        
-    private:
-        Language call ;
-        Language::Proxy proxy ;
-    } ;
-
-    template <typename T1, typename T2, typename OUT = SEXP>
-    class binary_call : public std::binary_function<T1,T2,OUT> {
-    public:
-        binary_call( Language call_ ) : call(call_), proxy1(call_,1), proxy2(call_,2) {}
-        binary_call( Language call_, int index1, int index2 ) : call(call_), proxy1(call_,index1), proxy2(call_,index2){}
-        binary_call( Function fun) : call(fun, R_NilValue, R_NilValue), proxy1(call,1), proxy2(call,2){}
-        
-        OUT operator()( const T1& o1, const T2& o2 ){
-            proxy1 = o1 ;
-            proxy2 = o2 ;
-            return as<OUT>( call.eval() ) ;
-        }
-        
-    private:
-        Language call ;
-        Language::Proxy proxy1 ;
-        Language::Proxy proxy2 ;
-    } ;
-
+    
 } // namespace Rcpp
 
 #endif

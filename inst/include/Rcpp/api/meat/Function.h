@@ -23,7 +23,7 @@ namespace Rcpp{
     template<typename... Args> 
     SEXP Function::operator()( const Args&... args) const {
         RCPP_DEBUG( "Function::operator(...) nargs = %d", sizeof...(args)  )
-        SEXP call = PROTECT( Rcpp_lcons( m_sexp, pairlist(args...) ) ) ;
+        SEXP call = PROTECT( Rcpp_lcons( get__() , pairlist(args...) ) ) ;
         SEXP res  = PROTECT( internal::try_catch( call ) ) ;
         RCPP_DEBUG( "res = <%p>", res  )
         UNPROTECT(2) ;

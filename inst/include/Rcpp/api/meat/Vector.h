@@ -24,61 +24,23 @@
 namespace Rcpp{ 
 
     template <int RTYPE>
-    Vector<RTYPE>::Vector() : RObject( Rf_allocVector( RTYPE, 0 ) ) {
+    Vector<RTYPE>::Vector() {
         RCPP_DEBUG_CTOR( Vector, "()" )
-        update_vector() ;
+        Storage::set__( Rf_allocVector( RTYPE, 0 ) ) ;
         init() ;
     }
     
     template <int RTYPE>
-    Vector<RTYPE>::~Vector(){
-         RCPP_DEBUG_DTOR(Vector, "(<%p>)", m_sexp )   
-    }
-    
-    template <int RTYPE>
-    Vector<RTYPE>::Vector( const Vector& other) : RObject(other.asSexp()){
-        RCPP_DEBUG_CTOR( Vector, "( const %s& other ), SEXP= <%p>", DEMANGLE(Vector), m_sexp )
-        update_vector() ;
-    }
-    
-    template <int RTYPE>
-    Vector<RTYPE>::Vector( Vector&& other) : RObject(){
-        m_sexp = other.m_sexp ;
-        RCPP_DEBUG_MOVE_CTOR( Vector, "( %s&& other ), SEXP= <%p>", DEMANGLE(Vector), m_sexp )
-        other.m_sexp = R_NilValue ;
-        update_vector() ;
-    }
-    
-    template <int RTYPE>
-    Vector<RTYPE>& Vector<RTYPE>::operator=( Vector&& other) {
-        RCPP_DEBUG_CLASS( Vector, "::operator=( %s&& )", DEMANGLE(Vector) )
-        if( this != &other ){
-            Rcpp_ReleaseObject(m_sexp) ;
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-            update_vector() ;
-        }
-        return *this ;
-    }
-    
-    template <int RTYPE>
-    Vector<RTYPE>& Vector<RTYPE>::operator=(const Vector& other){
-        RCPP_DEBUG_CLASS( Vector, "= %s()", DEMANGLE(Vector) )
-        set_sexp( other.asSexp() ) ;
-        return *this ;    
-    }
-    
-    template <int RTYPE>
-    Vector<RTYPE>::Vector( const int& size ) : RObject( Rf_allocVector( RTYPE, size) )  {
-        RCPP_DEBUG_CTOR( Vector, "( int = %d )   m_sexp = <%p> ", size, m_sexp )
-        update_vector(); 
+    Vector<RTYPE>::Vector( const int& size ) {
+        RCPP_DEBUG_CTOR( Vector, "( int = %d ) ", size )
+        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         init() ;
     }
     
     template <int RTYPE>
-    Vector<RTYPE>::Vector( const Dimension& dims ) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ){
-        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d) )   m_sexp = <%p>", dims.size(), m_sexp )
-        update_vector();
+    Vector<RTYPE>::Vector( const Dimension& dims ) {
+        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d) )", dims.size()  )
+        Storage::set__(Rf_allocVector( RTYPE, dims.prod() )) ; 
         init() ;
         if( dims.size() > 1 ){
             RObject::attr( "dim" ) = dims;
@@ -87,9 +49,9 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename U>
-    Vector<RTYPE>::Vector( const Dimension& dims, const U& u) : RObject( Rf_allocVector( RTYPE, dims.prod() ) ) {
+    Vector<RTYPE>::Vector( const Dimension& dims, const U& u) {
         RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d), const %s& )", dims.size(), DEMANGLE(U) )
-        update_vector(); 
+        Storage::set__( Rf_allocVector( RTYPE, dims.prod() ) ) ;
         fill(u) ;
         if( dims.size() > 1 ){
             RObject::attr( "dim" ) = dims;
@@ -98,23 +60,23 @@ namespace Rcpp{
     
     template <int RTYPE>
     template <typename U>
-    Vector<RTYPE>::Vector( const int& size, const U& u): RObject( Rf_allocVector( RTYPE, size) ) {
+    Vector<RTYPE>::Vector( const int& size, const U& u) {
         RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )
-        update_vector() ;
+        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         fill( u ) ;	
     }
         
     template <int RTYPE>
     template <bool NA, typename VEC>
-    Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) : RObject() {
+    Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) {
         RCPP_DEBUG_CTOR( Vector, "( const VectorBase<%d,%s,VEC>& ) [VEC = %s]", RTYPE, (NA?"true":"false"), DEMANGLE(VEC) )
         import_sugar_expression( other, typename std::is_same<Vector,VEC>::type() ) ;
     }
     
     template <int RTYPE>
     template <bool NA, typename T>
-    Vector<RTYPE>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) : RObject( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) ) {
-        update_vector() ;
+    Vector<RTYPE>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) {
+        Storage::set__( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) );
         RCPP_DEBUG_CTOR( Vector, "( const sugar::SingleLogicalResult<%s,T>& ) [T = %s]", (NA?"true":"false"), DEMANGLE(T) )
     }
     
@@ -136,7 +98,7 @@ namespace Rcpp{
         } else{
             // different size, so we change the memory
             Vector<RTYPE> tmp(x) ;
-            set_sexp( tmp ); 
+            Storage::set__( tmp ); 
         }
     }
     
@@ -151,8 +113,7 @@ namespace Rcpp{
     template <int RTYPE>
     template <typename T>
     inline void Vector<RTYPE>::assign_object( const T& x, std::false_type ){
-        // TODO: maybe we already have the memory to host the results
-        set_sexp( r_cast<RTYPE>( wrap(x) ) ) ;
+        Storage::set__( r_cast<RTYPE>( wrap(x) ) ) ;
     }
     
     template <int RTYPE>
@@ -160,7 +121,7 @@ namespace Rcpp{
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
         RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, false_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
         int n = other.size() ;
-        set_sexp( Rf_allocVector( RTYPE, n ) ) ;
+        Storage::set__( Rf_allocVector( RTYPE, n ) ) ;
         import_expression<VEC>( other.get_ref() , n ) ;
     }   
     
@@ -168,7 +129,7 @@ namespace Rcpp{
     template <bool NA, typename VEC>
     inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
         RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, true_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
-        set_sexp( other.get_ref() ) ;
+        Storage::set__( other.get_ref() ) ;
     }   
 
     template <int RTYPE>
@@ -186,7 +147,7 @@ namespace Rcpp{
         iterator target_it(target.begin()) ;
         iterator it(begin()) ;
         iterator this_end(end()) ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         if( names == R_NilValue ){
             int i=0; 
             for( ; it < position; ++it, ++target_it, i++){
@@ -196,7 +157,7 @@ namespace Rcpp{
             for( ; it < this_end ; ++it, ++target_it){
                 *target_it = *it;
             }
-            set_sexp( target.asSexp() ) ;
+            Storage::set__( target.get__() ) ;
             return begin()+i ;
         } else {
             SEXP newnames = PROTECT(::Rf_allocVector( STRSXP, n-1 ));
@@ -214,7 +175,7 @@ namespace Rcpp{
             }
             target.attr( "names" ) = newnames ;
             UNPROTECT(1) ; /* newnames */
-            set_sexp( target.asSexp() ) ;
+            Storage::set__( target.get__() ) ;
             return begin()+result ;
         }
     }
@@ -231,7 +192,7 @@ namespace Rcpp{
         Vector target( target_size ) ;
         iterator target_it = target.begin() ;
 		
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator result ;
         if( names == R_NilValue ){
             int i=0; 
@@ -257,7 +218,7 @@ namespace Rcpp{
             target.attr("names" ) = newnames ;
             UNPROTECT(1) ; /* newnames */
         }
-        set_sexp(target.asSexp() );
+        Storage::set__( target.get__() );
         return result ;
     }
     
@@ -266,7 +227,7 @@ namespace Rcpp{
     void Vector<RTYPE>::push_back__impl(const stored_type& object, std::false_type){
         int n = size() ;
         Vector target( n + 1 ) ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -286,7 +247,7 @@ namespace Rcpp{
             UNPROTECT(1) ; /* newnames */
         }
         *target_it = object;
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }	
     
     template <int RTYPE>
@@ -294,7 +255,7 @@ namespace Rcpp{
         SEXP object_sexp = PROTECT( object ) ;
         int n = size() ;
         Vector target( n + 1 ) ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -314,7 +275,7 @@ namespace Rcpp{
             UNPROTECT(1) ; /* newnames */
         }
         *target_it = object_sexp;
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
         UNPROTECT(1) ;
     }	
     	
@@ -325,7 +286,7 @@ namespace Rcpp{
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
         int i=0;
         if( names == R_NilValue ){
@@ -346,7 +307,7 @@ namespace Rcpp{
     		
         *target_it = object;
         UNPROTECT(1) ; /* newnames, */
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
@@ -357,7 +318,7 @@ namespace Rcpp{
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
         int i=0;
         if( names == R_NilValue ){
@@ -378,7 +339,7 @@ namespace Rcpp{
     		
         *target_it = object_sexp;
         UNPROTECT(2) ; /* newnames, object_sexp */
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
@@ -390,7 +351,7 @@ namespace Rcpp{
         iterator this_end(end());
         *target_it = object ;
         ++target_it ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         if( names == R_NilValue ){
             for( ; it<this_end; ++it, ++target_it){
                 *target_it = *it ;
@@ -406,7 +367,7 @@ namespace Rcpp{
             target.attr("names") = newnames ;
             UNPROTECT(1) ; /* newnames */
         }
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
@@ -420,7 +381,7 @@ namespace Rcpp{
         *target_it = object_sexp ;
         UNPROTECT(1); /* object_sexp */
         ++target_it ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         if( names == R_NilValue ){
             for( ; it<this_end; ++it, ++target_it){
                 *target_it = *it ;
@@ -436,7 +397,7 @@ namespace Rcpp{
             target.attr("names") = newnames ;
             UNPROTECT(1) ; /* newnames */
         }
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
@@ -446,7 +407,7 @@ namespace Rcpp{
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
         int i=1;
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
@@ -469,7 +430,7 @@ namespace Rcpp{
         target.attr("names") = newnames ;
     		
         UNPROTECT(1) ; /* newnames, */
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
@@ -480,7 +441,7 @@ namespace Rcpp{
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
         int i=1;
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
@@ -503,7 +464,7 @@ namespace Rcpp{
         target.attr("names") = newnames ;
     		
         UNPROTECT(2) ; /* newnames, object_sexp */
-        set_sexp( target.asSexp() ) ;
+        Storage::set__( target.get__() ) ;
     }
     	
     
@@ -515,7 +476,7 @@ namespace Rcpp{
         iterator target_it = target.begin();
         iterator it = begin() ;
         iterator this_end = end() ;
-        SEXP names = RCPP_GET_NAMES(RObject::m_sexp) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator result ;
         if( names == R_NilValue ){
             for( ; it < position; ++it, ++target_it){
@@ -546,7 +507,7 @@ namespace Rcpp{
             target.attr( "names" ) = newnames ;
             UNPROTECT(1) ; /* newmanes */
         }
-        set_sexp( target.asSexp() );
+        Storage::set__( target.get__() );
         return result ;
     
     }
@@ -612,7 +573,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     bool Vector<RTYPE>::containsElementNamed( const char* target ) const {
-        SEXP names = RCPP_GET_NAMES(m_sexp) ; 
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ; 
         if( Rf_isNull(names) ) return false ;
         int n = Rf_length(names) ;
         for( int i=0; i<n; i++){

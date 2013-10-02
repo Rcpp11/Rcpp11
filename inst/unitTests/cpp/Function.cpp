@@ -35,18 +35,6 @@ Environment function_env(Function fun){
 }
 
 // [[Rcpp::export]]
-IntegerVector function_unarycall(List x){
-    Function len( "length" ) ;
-    IntegerVector output( x.size() ) ;
-    std::transform(
-        	x.begin(), x.end(),
-        	output.begin(),
-        	unary_call<IntegerVector,int>(len)
-    	) ;
-    return output ;
-}
-
-// [[Rcpp::export]]
 List function_binarycall(List list,IntegerVector vec){
     Function pmin( "pmin" ) ;
     List output( list.size() ) ;

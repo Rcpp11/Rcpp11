@@ -1,7 +1,5 @@
-//
-// Promise.h:  promises (PROMSXP)
-//
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,34 +19,14 @@
 #ifndef Rcpp_Promise_h
 #define Rcpp_Promise_h
 
-#include <RcppCommon.h>
-#include <Rcpp/Vector.h>
-#include <Rcpp/Environment.h>
-#include <Rcpp/RObject.h>
-
 namespace Rcpp{ 
-    class Promise : public RObject {     
+    
+    class Promise : RCPP_POLICIES(Promise) {     
     public:
-
+        RCPP_GENERATE_CTOR_ASSIGN(Promise) 
+	
         Promise( SEXP x);
         
-        Promise( const Promise& other) ;
-        Promise& operator=(const Promise& other ) ;
-        
-        Promise( Promise&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        Promise& operator=( Promise&& other ){
-            RCPP_DEBUG_CLASS( Promise, "::operator=( %s&& )", DEMANGLE(Promise) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
-        }
-
         /** 
          * Return the result of the PRSEEN macro
          */
@@ -70,6 +48,8 @@ namespace Rcpp{
          * The promise environment : PRENV
          */
         Environment environment() const ;
+        
+        void update(SEXP){}
         
     } ;
 

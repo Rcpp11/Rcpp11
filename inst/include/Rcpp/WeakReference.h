@@ -1,7 +1,5 @@
-//
-// WeakReference.h:  weak references
-//
 // Copyright (C) 2009 - 2011    Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,15 +19,15 @@
 #ifndef Rcpp_WeakReference_h
 #define Rcpp_WeakReference_h
 
-#include <RcppCommon.h>
-#include <Rcpp/RObject.h>
-
 namespace Rcpp{
 
-    class WeakReference : public RObject {
+    class WeakReference : 
+        RCPP_POLICIES(WeakReference)
+    {
     public:
-        WeakReference() : RObject(){} ;
-
+    
+        RCPP_GENERATE_CTOR_ASSIGN(WeakReference) 
+	
         /**
          * wraps a weak reference
          *
@@ -39,26 +37,6 @@ namespace Rcpp{
          */
         WeakReference( SEXP x) ; 
 
-        WeakReference( const WeakReference& other) ;
-        WeakReference& operator=(const WeakReference& other) ;
-        
-        WeakReference( WeakReference&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        WeakReference& operator=( WeakReference&& other ){
-            RCPP_DEBUG_CLASS( WeakReference, "::operator=( %s&& )", DEMANGLE(WeakReference) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
-        }
-
-        /* TODO: constructor that makes a new weak reference based
-           on key, value, finalizer (C and R) */
-        
         /** 
          * Retrieve the key
          */
@@ -69,6 +47,7 @@ namespace Rcpp{
          */
         SEXP value() ;
 
+        void update(SEXP){}
     } ;
 
 

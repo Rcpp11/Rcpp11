@@ -1,4 +1,4 @@
-// Copyright (C) 2003 Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //

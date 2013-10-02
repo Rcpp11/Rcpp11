@@ -51,45 +51,9 @@ namespace Rcpp{
     Matrix<RTYPE>::Matrix( const int& n) : VECTOR( Dimension( n, n ) ), nrows(n) {}
     
     template <int RTYPE>
-    Matrix<RTYPE>::Matrix( const Matrix& other) : VECTOR( other.asSexp() ), nrows(other.nrows) {}
-    
-        
-    template <int RTYPE>
-    Matrix<RTYPE>::Matrix( Matrix<RTYPE>&& other) : VECTOR(){
-        RObject::m_sexp = other.m_sexp ;
-        RCPP_DEBUG_MOVE_CTOR( Matrix, "( %s&& other ), SEXP= <%p>", DEMANGLE(Matrix), RObject::m_sexp )
-        other.m_sexp = R_NilValue ;
-        VECTOR::update_vector() ;
-        nrows = other.nrows ;
-    }
-    
-    template <int RTYPE>
-    Matrix<RTYPE>& Matrix<RTYPE>::operator=( Matrix<RTYPE>&& other) {
-        RCPP_DEBUG_CLASS( Matrix, "::operator=( %s&& )", DEMANGLE(Matrix) )
-        if( this != &other ){
-            Rcpp_ReleaseObject(RObject::m_sexp) ;
-            RObject::m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-            VECTOR::update_vector() ;
-            nrows = other.nrows ;
-        }
-        return *this ;
-    }
-
-    
-    template <int RTYPE>
     template <bool NA, typename MAT>
     Matrix<RTYPE>::Matrix( const MatrixBase<RTYPE,NA,MAT>& other ) : VECTOR( Rf_allocMatrix( RTYPE, other.nrow(), other.ncol() ) ), nrows(other.nrow()) {
         import_matrix_expression<NA,MAT>( other, nrows, ncol() ) ;
-    }
-    
-    template <int RTYPE>
-    Matrix<RTYPE>& Matrix<RTYPE>::operator=(const Matrix& other) {
-        SEXP x = other.asSexp() ;
-        if( ! ::Rf_isMatrix(x) ) not_compatible("not a matrix") ;
-        VECTOR::set_sexp( x ) ;
-        nrows = other.nrows ;
-        return *this ;
     }
     
     template <int RTYPE>

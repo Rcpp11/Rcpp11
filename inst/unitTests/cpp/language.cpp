@@ -71,54 +71,6 @@ SEXP runit_lang_fun( Function fun, IntegerVector x ){
 }
 
 // [[Rcpp::export]]
-List runit_lang_unarycall(IntegerVector x){
-    Language call( "seq", Named("from", 10 ), Named("to", 0 ) ) ;
-    List output( x.size() ) ;
-    std::transform(
-    	x.begin(), x.end(),
-    	output.begin(),
-    	unary_call<int>(call)
-    	) ;
-    return output ;
-}
-
-// [[Rcpp::export]]
-List runit_lang_unarycallindex(IntegerVector x){
-    Language call( "seq", 10, 0 ) ;
-    List output( x.size() ) ;
-    std::transform(
-    	x.begin(), x.end(),
-    	output.begin(),
-    	unary_call<int>(call,2)
-    	) ;
-    return output ;
-}
-
-// [[Rcpp::export]]
-List runit_lang_binarycall(IntegerVector x1, IntegerVector x2 ){
-    Language call( "seq", Named("from", 10 ), Named("to", 0 ) ) ;
-    List output( x1.size() ) ;
-    std::transform(
-    	x1.begin(), x1.end(), x2.begin(),
-    	output.begin(),
-    	binary_call<int,int>(call)
-    	) ;
-    return output ;
-}
-
-
-// [[Rcpp::export]]
-SEXP runit_lang_fixedcall(){
-    Language call( Function("rnorm"), 10 ) ;
-    std::vector< std::vector<double> > result(10) ;
-    std::generate(
-    	result.begin(), result.end(),
-    	fixed_call< std::vector<double> >(call)
-    	) ;
-    return wrap( result );
-}
-
-// [[Rcpp::export]]
 SEXP runit_lang_inenv( Environment env){
     Language call( "sum", Symbol("y") ) ;
     return call.eval( env ) ;

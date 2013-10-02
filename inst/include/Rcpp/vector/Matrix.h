@@ -51,16 +51,10 @@ public:
     template <typename Iterator>
     Matrix( const int& nrows_, const int& ncols, Iterator start ) ;
         
-    Matrix( const Matrix& other)  ;
-    Matrix( Matrix&& other ) ;
-    Matrix& operator=( Matrix&& other) ;
-        
     template <bool NA, typename MAT>
     Matrix( const MatrixBase<RTYPE,NA,MAT>& other )  ;
     
     Matrix( const SubMatrix<RTYPE>& ) ;
-    
-    Matrix& operator=(const Matrix& other)  ;
     Matrix& operator=( const SubMatrix<RTYPE>& ) ;
    
     inline int ncol() const {

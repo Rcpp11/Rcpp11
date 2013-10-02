@@ -33,14 +33,8 @@ namespace Rcpp{
         
         Formula(SEXP lang);
 
-        Formula(const Formula& other) ;
         explicit Formula( const std::string& code ); 
 
-        Formula& operator=(const Formula& other) ;
-        
-    private:
-        void set_sexp(SEXP x) ;
-        
     } ; 
 
 } // namespace Rcpp

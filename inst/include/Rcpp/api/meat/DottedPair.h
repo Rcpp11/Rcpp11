@@ -17,59 +17,47 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
-
+                    
 #ifndef Rcpp_api_meat_DottedPair_h
 #define Rcpp_api_meat_DottedPair_h
 
 namespace Rcpp{ 
 
+    template <typename CLASS>
     template <typename T>
-    DottedPair::Proxy& DottedPair::Proxy::operator=( const T& rhs ){
-        return set( wrap( rhs) );
+    void DottedPairImpl<CLASS>::push_front( const T& object){
+       set__( grow(object, CLASS::get__() ) ) ;
     }
-    
-    template <typename T> 
-    DottedPair::Proxy::operator T() const{ return as<T>(get()); } 
 
+    template <typename CLASS>
     template <typename T>
-	void DottedPair::push_front( const T& object){
-		setSEXP( grow(object, m_sexp) ) ;
+    void DottedPairImpl<CLASS>::push_back( const T& object){
+        if( CLASS::isNULL() ){
+            CLASS::set__( grow( object, CLASS::get__() ) ) ;
+        } else {
+            SEXP x = CLASS::get__() ;
+            /* traverse the pairlist */
+            while( !Rf_isNull(CDR(x)) ){
+                x = CDR(x) ;
+            }
+            SEXP tail = PROTECT( pairlist( object ) ); 
+            SETCDR( x, tail ) ;
+            UNPROTECT(1) ;
+        }
 	}
 
-	template <typename T>
-	DottedPair::Proxy& DottedPair::Proxy::operator=(const traits::named_object<T>& rhs){
-    	return set( rhs.object, rhs.name.c_str() ) ;
-    }
-	
-	template <typename T>
-	void DottedPair::push_back( const T& object){
-		if( isNULL() ){
-			setSEXP( grow( object, m_sexp ) ) ;
-		} else {
-			SEXP x = m_sexp ;
-			/* traverse the pairlist */
-			while( !Rf_isNull(CDR(x)) ){
-				x = CDR(x) ;
-			}
-			SEXP tail = PROTECT( pairlist( object ) ); 
-			SETCDR( x, tail ) ;
-			UNPROTECT(1) ;
-		}
-	}
-
+    template <typename CLASS>
     template <typename T>
-	void DottedPair::insert( const size_t& index, const T& object) {
+	void DottedPairImpl<CLASS>::insert( const size_t& index, const T& object) {
 		if( index == 0 ) {
 			push_front( object ) ;
-		} else{
-		    // tautological comparison flagged by clang++
-//			if( index <  0 ) throw index_out_of_bounds() ;
-			if( isNULL( ) ) throw index_out_of_bounds() ;
+		} else {
+			if( CLASS::isNULL( ) ) throw index_out_of_bounds() ;
 			
-			if( static_cast<R_len_t>(index) > ::Rf_length(m_sexp) ) throw index_out_of_bounds() ;
+			if( static_cast<R_len_t>(index) > ::Rf_length(CLASS::get__()) ) throw index_out_of_bounds() ;
 			
 			size_t i=1;
-			SEXP x = m_sexp ;
+			SEXP x = CLASS::get__() ;
 			while( i < index ){
 				x = CDR(x) ;
 				i++; 
@@ -80,19 +68,20 @@ namespace Rcpp{
 		}
 	}
 	
-	template <typename T>
-	void DottedPair::replace( const int& index, const T& object ) {
- 	        if( static_cast<R_len_t>(index) >= ::Rf_length(m_sexp) ) throw index_out_of_bounds() ;
+	template <typename CLASS>
+    template <typename T>
+	void DottedPairImpl<CLASS>::replace( const int& index, const T& object ) {
+	    if( static_cast<R_len_t>(index) >= ::Rf_length(CLASS::get__()) ) throw index_out_of_bounds() ;
 		
-		/* pretend we do a pairlist so that we get Named to work for us */
-		SEXP x = PROTECT(pairlist( object ));
-		SEXP y = m_sexp ;
-		int i=0;
-		while( i<index ){ y = CDR(y) ; i++; }
-		
-		SETCAR( y, CAR(x) );
-		SET_TAG( y, TAG(x) );
-		UNPROTECT(1) ;
+        /* pretend we do a pairlist so that we get Named to work for us */
+        SEXP x = PROTECT(pairlist( object ));
+        SEXP y = CLASS::get__() ;
+        int i=0;
+        while( i<index ){ y = CDR(y) ; i++; }
+        
+        SETCAR( y, CAR(x) );
+        SET_TAG( y, TAG(x) );
+        UNPROTECT(1) ;
 	}
 
 	

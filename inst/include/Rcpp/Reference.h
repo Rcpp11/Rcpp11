@@ -38,17 +38,10 @@ namespace Rcpp{
          */
         Reference(SEXP x) ; 
         
-        /**
-         * copy constructor
-         *
-         * @param other other S4 object
-         */
-        Reference(const Reference& other) ;
         
         template <typename T>
         Reference(const T& object ) ;
         
-        Reference& operator=( const Reference& other);
         Reference& operator=( SEXP other ) ; 
         
         /**
@@ -59,10 +52,7 @@ namespace Rcpp{
          */
         Reference( const std::string& klass ) ;
         Reference( const char* klass ) ;
-
-    private:
-        void set_sexp( SEXP x) ;
-        void check() ;        
+       
     } ;
 
 } // namespace Rcpp

@@ -1,7 +1,5 @@
-//
-// Pairlist.h:  pair lists objects (LISTSXP)
-//
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,24 +19,26 @@
 #ifndef Rcpp_Pairlist_h
 #define Rcpp_Pairlist_h
 
-#include <RcppCommon.h>
-#include <Rcpp/DottedPair.h>
-#include <Rcpp/r_cast.h>
-
 namespace Rcpp{
 
-    class Pairlist : public DottedPair {
+    class Pairlist : 
+        RCPP_POLICIES(Pairlist), 
+        public DottedPairProxyPolicy<Pairlist>, 
+        public DottedPairImpl<Pairlist>
+    {
     public:         
-        Pairlist();
-        Pairlist(SEXP x) ;
-        Pairlist(const Pairlist& other) ;
-        Pairlist& operator=(const Pairlist& other) ;
-                
+        RCPP_GENERATE_CTOR_ASSIGN(Pairlist) 
+	
+        Pairlist(SEXP x){
+            set__( r_cast<LISTSXP>(x) ) ;    
+        }
+        
         template<typename... Args> 
-        Pairlist( const Args&... args) : DottedPair(args...) {}
-
-        ~Pairlist() ;
-                
+        Pairlist( const Args&... args) {
+            set__(pairlist(args...)) ;    
+        }
+       
+        void update(SEXP){}
     } ;
         
 }

@@ -1,7 +1,5 @@
-//
-// Environment.h:  access R environments
-//
 // Copyright (C) 2009 - 2012    Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,13 +19,15 @@
 #ifndef Rcpp_Environment_h
 #define Rcpp_Environment_h
 
-#include <Rcpp/RObject.h>
-
 namespace Rcpp{ 
 
-    class Environment: public RObject{
+    class Environment :
+        RCPP_POLICIES(Environment)
+    {
     public:
     
+        RCPP_GENERATE_CTOR_ASSIGN(Environment) 
+	
         /**
          * proxy class to allow read and write access to a binding in
          * an environment
@@ -152,41 +152,17 @@ namespace Rcpp{
     
         friend class Binding ;
     
-        Environment() ;
+        Environment(){
+            set__(R_GlobalEnv) ;
+        } ;
 
         /**
          * wraps the given environment
          *
          * if the SEXP is not an environment, and exception is thrown
          */
-        Environment(SEXP x);
+        Environment(SEXP x) ;
     
-        /**
-         * copy constructor
-         */
-        Environment(const Environment& other);
-    
-        /**
-         * assignment
-         */
-        Environment& operator=(const Environment& other); 
-    
-        
-        Environment( Environment&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        Environment& operator=( Environment&& other ){
-            RCPP_DEBUG_CLASS( Environment, "::operator=( %s&& )", DEMANGLE(Environment) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
-        }    
-	
-        
         /**
          * Gets the environment associated with the given name
          *
@@ -202,11 +178,6 @@ namespace Rcpp{
          */
         Environment( int pos );
     
-        /**
-         * Nothing specific
-         */ 
-        ~Environment() ;
-        
         /**
          * The list of objects in the environment
          * 
@@ -373,6 +344,7 @@ namespace Rcpp{
          */
         Environment new_child(bool hashed) ; 
         
+        void update(SEXP){}
     };
 
 } // namespace Rcpp

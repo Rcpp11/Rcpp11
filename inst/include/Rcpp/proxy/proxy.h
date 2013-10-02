@@ -1,4 +1,4 @@
-// Copyright (C) 2003 Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -21,5 +21,6 @@
 #include <Rcpp/proxy/SlotProxy.h>
 #include <Rcpp/proxy/AttributeProxy.h>
 #include <Rcpp/proxy/FieldProxy.h>
+#include <Rcpp/proxy/DottedPairProxy.h>
 
 #endif

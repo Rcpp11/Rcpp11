@@ -25,11 +25,12 @@ template <bool NA,typename T> class SingleLogicalResult ;
 
 template <int RTYPE>
 class Vector :
-    public RObject,       
+    RCPP_POLICIES(Vector<RTYPE>) ,       
     public VectorBase< RTYPE, true, Vector<RTYPE> >, 
     public internal::eval_methods<RTYPE> 
 {
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
+    typedef RObjectStorage<Vector> Storage ;
     
 public:
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
@@ -49,28 +50,27 @@ public:
      */
     Vector() ;
     
-    /**
-     * Destructor. Prints some information id debugging is enabled
-     */
-    ~Vector() ;
-    
-    /**
-     * copy constructor. shallow copy of the SEXP
-     */
-    Vector( const Vector& other) ;
-	
-    Vector( Vector&& other) ;
-    Vector& operator=( Vector&& other );
+    Vector( const Vector& other ){        
+        Storage::copy__(other) ;                         
+    }                                           
+    Vector( Vector&& other ){             
+        Storage::steal__(other) ;                        
+    }                                           
+    Vector& operator=( Vector&& other ){  
+        return Storage::steal__( other );                
+    }                                           
+    Vector& operator=(const Vector& rhs) {
+        return Storage::copy__(rhs) ;                    
+    }                                           
     
     // we can't define these 3 in meat for some reason
     // maybe because of the typedef in instantiation.h
-    Vector( SEXP x ) : RObject( r_cast<RTYPE>( x ) ) {
-        RCPP_DEBUG_CTOR(Vector, "(SEXP = <%p>)", x )
-        update_vector() ;
+    Vector( SEXP x ) {
+        Storage::set__( r_cast<RTYPE>( x ) ) ;
     }
-    Vector( const int& size, const stored_type& u ) : RObject( Rf_allocVector( RTYPE, size) ) {
+    Vector( const int& size, const stored_type& u ) {
         RCPP_DEBUG_CTOR(Vector, "( const int& size = %d, const stored_type& u )", size)
-        update_vector() ;
+        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         fill( u ) ;
     }
     Vector( const int& size )  ;
@@ -83,13 +83,13 @@ public:
     template <typename U> 
     Vector( const int& size, const U& u) ;
     
-    Vector( const std::string& st ) : RObject( internal::vector_from_string<RTYPE>(st) ){
+    Vector( const std::string& st ) {
         RCPP_DEBUG_CTOR(Vector, "( const std::string& = %s )", st.c_str() )
-        update_vector();
+        set__( internal::vector_from_string<RTYPE>(st) ) ;
     }
-    Vector( const char* st ) : RObject( internal::vector_from_string<RTYPE>(st) ){
+    Vector( const char* st ) {
         RCPP_DEBUG_CTOR(Vector, "( const char* = %s )", st )
-        update_vector();
+        set__(internal::vector_from_string<RTYPE>(st));
     }
 	
     template <bool NA, typename VEC> 
@@ -98,19 +98,11 @@ public:
     template <bool NA, typename T> 
     Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
          
-    Vector( std::initializer_list<init_type> list ) : RObject(){
-        SEXP x = PROTECT( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
-        RObject::setSEXP( x) ;
-        update_vector() ;
-        UNPROTECT(1) ;
+    Vector( std::initializer_list<init_type> list ) {
+        set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
     }
 
-	/**
-     * Assignment operator. Grab the SEXP of the other vector
-     */
-    Vector& operator=( const Vector& other ) ;
-	
-    template <typename T> Vector& 
+	template <typename T> Vector& 
     operator=( const T& x) ;
 	
     static inline stored_type get_na() { return traits::get_na<RTYPE>(); }
@@ -119,24 +111,24 @@ public:
     /**
      * the length of the vector, uses Rf_length
      */
-    inline R_len_t length() const { return ::Rf_length( RObject::m_sexp ) ; }
+    inline R_len_t length() const { return ::Rf_length( Storage::get__() ) ; }
     
     /**
      * alias of length
      */
-    inline R_len_t size() const { return ::Rf_length( RObject::m_sexp ) ; }
+    inline R_len_t size() const { return ::Rf_length( Storage::get__() ) ; }
     
     /**
      * one dimensional offset doing bounds checking to ensure
      * it is valid
      */
     size_t offset(const size_t& i) const {
-        if( static_cast<R_len_t>(i) >= ::Rf_length(RObject::m_sexp) ) throw index_out_of_bounds() ;
+        if( static_cast<R_len_t>(i) >= size() ) throw index_out_of_bounds() ;
         return i ;
     }
     
     R_len_t offset(const std::string& name) const {
-        SEXP names = RCPP_GET_NAMES( RObject::m_sexp ) ;
+        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         if( names == R_NilValue ) throw index_out_of_bounds(); 
         R_len_t n=size() ;
         for( R_len_t i=0; i<n; ++i){
@@ -184,7 +176,7 @@ public:
 			
             /* check if we can use a fast version */         
             if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
-                SEXP y = parent.asSexp() ; 
+                SEXP y = parent.get__() ; 
                 Rf_setAttrib( y, R_NamesSymbol, x ) ;
             } else {
                 /* use the slower and more flexible version (callback to R) */
@@ -192,7 +184,7 @@ public:
                 SEXP new_vec = PROTECT( internal::try_catch(Rf_lang3( namesSym, parent, x ))) ;
                 /* names<- makes a new vector, so we have to change 
                    the SEXP of the parent of this proxy */
-                parent.set_sexp( new_vec ) ;
+                parent.set__( new_vec ) ;
                 UNPROTECT(1) ; /* new_vec */
             }
     		
@@ -254,8 +246,8 @@ public:
     
     Vector& sort(){
         std::sort( 
-            internal::r_vector_start<RTYPE>(m_sexp), 
-            internal::r_vector_start<RTYPE>(m_sexp) + size(), 
+            internal::r_vector_start<RTYPE>(Storage::get__()), 
+            internal::r_vector_start<RTYPE>(Storage::get__()) + size(), 
             typename traits::comparator_type<RTYPE>::type()
             ) ;
         return *this ;
@@ -317,15 +309,10 @@ public:
         return erase_range__impl( first, last ) ;
     }
 	
-    void update_vector(){
-        RCPP_DEBUG_CLASS(Vector, "::update_vector( SEXP = < %p > )", reinterpret_cast<void*>( RObject::asSexp() ) )
+    void update(SEXP x){
         cache.update(*this) ;
     }
 	
-    void set_sexp(SEXP x){
-        RObject::setSEXP( x) ;
-        update_vector() ;
-    }
     typedef internal::RangeIndexer<RTYPE,true,Vector> Indexer ;
 	
     inline Indexer operator[]( const Range& range ){
@@ -345,13 +332,15 @@ public:
      
 
 protected:
+    
+    // TODO: REMOVE
     inline int* dims() const {
-        if( !::Rf_isMatrix(RObject::m_sexp) ) throw not_a_matrix() ;
-        return INTEGER( ::Rf_getAttrib( RObject::m_sexp, R_DimSymbol ) ) ;
+        if( !::Rf_isMatrix(Storage::get__()) ) throw not_a_matrix() ;
+        return INTEGER( ::Rf_getAttrib( Storage::get__(), R_DimSymbol ) ) ;
     }
     void init(){
-        RCPP_DEBUG_CLASS(Vector, "::init( SEXP = <%p> )", RObject::m_sexp )
-        internal::r_init_vector<RTYPE>(RObject::m_sexp) ;
+        RCPP_DEBUG_CLASS(Vector, "::init( SEXP = <%p> )", Storage::get__() )
+        internal::r_init_vector<RTYPE>(Storage::get__()) ;
     }
 
 private:

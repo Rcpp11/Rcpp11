@@ -40,19 +40,38 @@ void finalizer_wrapper(SEXP p){
 }
 
 template <typename T, void Finalizer(T*) = standard_delete_finalizer<T> >
-class XPtr : public RObject {
+class XPtr :  
+    public RObjectStorage<XPtr<T,Finalizer>>,     
+    public SlotProxyPolicy<XPtr<T,Finalizer>>,    
+    public AttributeProxyPolicy<XPtr<T,Finalizer>>
+{
 public:
-		
+	typedef RObjectStorage<XPtr> Storage ;
+    	
+    XPtr( const XPtr& other ){        
+        Storage::copy__(other) ;                         
+    }                                           
+    XPtr( XPtr&& other ){             
+        Storage::steal__(other) ;                        
+    }                                           
+    XPtr& operator=( XPtr&& other ){  
+        return Storage::steal__( other );                
+    }                                           
+    XPtr& operator=(const XPtr& rhs) {
+        return Storage::copy__(rhs) ;                    
+    }                                           
+    
     /** 
      * constructs a XPtr wrapping the external pointer (EXTPTRSXP SEXP)
      *
      * @param xp external pointer to wrap
      */
-    explicit XPtr(SEXP m_sexp, SEXP tag = R_NilValue, SEXP prot = R_NilValue) : RObject(m_sexp){
-        if( TYPEOF(m_sexp) != EXTPTRSXP )
+    explicit XPtr(SEXP x, SEXP tag = R_NilValue, SEXP prot = R_NilValue) {
+        if( TYPEOF(x) != EXTPTRSXP )
             throw ::Rcpp::not_compatible( "expecting an external pointer" ) ;
-        R_SetExternalPtrTag( m_sexp, tag ) ;
-        R_SetExternalPtrProtected( m_sexp, prot ) ;
+        Storage::set__(x) ;
+        R_SetExternalPtrTag( x, tag ) ;
+        R_SetExternalPtrProtected( x, prot ) ;
     } ;
 		
     /**
@@ -68,87 +87,64 @@ public:
      */
     explicit XPtr(T* p, bool set_delete_finalizer = true, SEXP tag = R_NilValue, SEXP prot = R_NilValue){
         RCPP_DEBUG( "XPtr(T* p = <%p>, bool set_delete_finalizer = %s, SEXP tag = R_NilValue, SEXP prot = R_NilValue)", p, ( set_delete_finalizer ? "true" : "false" ) )
-        SEXP x = PROTECT( R_MakeExternalPtr( (void*)p , tag, prot) ) ; 
-        #if RCPP_DEBUG_LEVEL > 0
-        Rf_PrintValue( x ) ;
-        #endif
-        setSEXP( x ) ;
+        Storage::set__( R_MakeExternalPtr( (void*)p , tag, prot) ) ;
         UNPROTECT(1); 
         if( set_delete_finalizer ){
             setDeleteFinalizer() ;
         }
     }
 
-    XPtr( const XPtr& other ) : RObject( other.asSexp() ) {}
-    
-    XPtr& operator=(const XPtr& other){
-    	    setSEXP( other.asSexp() ) ;
-    	    return *this ;
-    }
-    
-    XPtr( XPtr&& other) { 
-        m_sexp = other.m_sexp ;
-        other.m_sexp = R_NilValue ;
-    }
-    XPtr& operator=( XPtr&& other ){
-        RCPP_DEBUG_CLASS( XPtr, "::operator=( %s&& )", DEMANGLE(XPtr) )
-        if( this != &other ){
-            Rcpp_ReleaseObject(m_sexp) ;
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
-        }
-        return *this ;
-    }
-
-        /**
+    /**
      * Returns a reference to the object wrapped. This allows this
      * object to look and feel like a dumb pointer to T
      */
-     T& operator*() const {
-         return *((T*)R_ExternalPtrAddr( m_sexp )) ;    
-     }
+    T& operator*() const {
+        return *((T*)R_ExternalPtrAddr( Storage::get__() )) ;    
+    }
   		
     /**
      * Returns the dumb pointer. This allows to call the -> operator 
      * on this as if it was the dumb pointer
      */
-     T* operator->() const {
-          return (T*)(R_ExternalPtrAddr(m_sexp));
-     }
+    T* operator->() const {
+         return (T*)(R_ExternalPtrAddr(Storage::get__()));
+    }
   		  		        
     void setDeleteFinalizer() {
-        R_RegisterCFinalizerEx( m_sexp, finalizer_wrapper<T,Finalizer> , FALSE) ;     
+        R_RegisterCFinalizerEx( Storage::get__(), finalizer_wrapper<T,Finalizer> , FALSE) ;     
     }
   	
-    inline operator T*(){ return (T*)( R_ExternalPtrAddr(m_sexp)) ; }
+    inline operator T*(){ 
+        return (T*)( R_ExternalPtrAddr(Storage::get__())) ;
+    }
 
     class TagProxy{
     public:
-    	TagProxy( XPtr& xp_ ): xp(xp_){}
-    	
-    	template <typename U>
-    	TagProxy& operator=( const U& u){
-    		set( Rcpp::wrap(u) );
-    		return *this ;
-    	}
-    	
-    	template <typename U>
-    	operator U(){
-    		return Rcpp::as<U>( get() ) ;
-    	}
-    	
-    	operator SEXP(){ return get(); }
-    	
-    	inline SEXP get(){
-    		return R_ExternalPtrTag(xp.asSexp()) ;
-    	}
-    	
-    	inline void set( SEXP x){
-    		R_SetExternalPtrTag( xp.asSexp(), x ) ;
-    	}
+        TagProxy( XPtr& xp_ ): xp(xp_){}
+        
+        template <typename U>
+        TagProxy& operator=( const U& u){
+            set( Rcpp::wrap(u) );
+            return *this ;
+        }
+        
+        template <typename U>
+        operator U(){
+           return Rcpp::as<U>( get() ) ;
+        }
+        
+        operator SEXP(){ return get(); }
+        
+        inline SEXP get(){
+            return R_ExternalPtrTag(xp.asSexp()) ;
+        }
+        
+        inline void set( SEXP x){
+            R_SetExternalPtrTag( xp.asSexp(), x ) ;
+        }
     	
     private:
-    	XPtr& xp ;
+       XPtr& xp ;
     } ;
 
 	TagProxy tag(){
@@ -157,28 +153,28 @@ public:
     
     class ProtectedProxy{
     public:
-    	ProtectedProxy( XPtr& xp_ ): xp(xp_){}
-    	
-    	template <typename U>
-    	ProtectedProxy& operator=( const U& u){
-    		set( Rcpp::wrap(u) );
-    		return *this ;
-    	}
-    	
-    	template <typename U>
-    	operator U(){
-    		return Rcpp::as<U>( get() ) ;
-    	}
-
-    	operator SEXP(){ return get() ; }
-    	
-    	inline SEXP get(){
-    		return R_ExternalPtrProtected(xp.asSexp()) ;
-    	}
-    	
-    	inline void set( SEXP x){
-    		R_SetExternalPtrProtected( xp.asSexp(), x ) ;
-    	}
+        ProtectedProxy( XPtr& xp_ ): xp(xp_){}
+        
+        template <typename U>
+        ProtectedProxy& operator=( const U& u){
+            set( Rcpp::wrap(u) );
+            return *this ;
+        }
+        
+        template <typename U>
+        operator U(){
+            return Rcpp::as<U>( get() ) ;
+        }
+        
+        operator SEXP(){ return get() ; }
+        
+        inline SEXP get(){
+            return R_ExternalPtrProtected(xp.asSexp()) ;
+        }
+        
+        inline void set( SEXP x){
+            R_SetExternalPtrProtected( xp.asSexp(), x ) ;
+        }
     	
     private:
     	XPtr& xp ;
@@ -188,6 +184,7 @@ public:
 		return ProtectedProxy( *this ) ;
 	}
 	
+	void update(SEXP){}
     
 };
 

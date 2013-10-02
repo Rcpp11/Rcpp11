@@ -70,7 +70,7 @@ Matrix<RTYPE>& Matrix<RTYPE>::operator=( const SubMatrix<RTYPE>& sub ){
     int nc = sub.ncol(), nr = sub.nrow() ;
     if( nc != nrow() || nr != ncol() ){
         nrows = nr ;
-        VECTOR::set_sexp( Rf_allocMatrix( RTYPE, nr, nc ) ) ;
+        VECTOR::set__( Rf_allocMatrix( RTYPE, nr, nc ) ) ;
 	}
 	iterator start = VECTOR::begin() ;
 	iterator rhs_it ;

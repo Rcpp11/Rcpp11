@@ -26,9 +26,13 @@
 
 namespace Rcpp{ 
 
-    class Symbol: public RObject{
+    class Symbol: 
+        RCPP_POLICIES(Symbol)
+    {
     public:
-
+    
+        RCPP_GENERATE_CTOR_ASSIGN(Symbol) 
+        
         /**
          * wraps the SEXP into a Symbol object. 
          * 
@@ -43,31 +47,15 @@ namespace Rcpp{
          */
         Symbol(const std::string& symbol) ;
     
-        Symbol( const Symbol& other) ;
-        Symbol& operator=(const Symbol& other) ;
-    
-        Symbol( Symbol&& other) { 
-            m_sexp = other.m_sexp ;
-            other.m_sexp = R_NilValue ;
+        inline const char* c_str() const { 
+            return CHAR(PRINTNAME(get__())) ;
         }
-        Symbol& operator=( Symbol&& other ){
-            RCPP_DEBUG_CLASS( Symbol, "::operator=( %s&& )", DEMANGLE(Symbol) )
-            if( this != &other ){
-                Rcpp_ReleaseObject(m_sexp) ;
-                m_sexp = other.m_sexp ;
-                other.m_sexp = R_NilValue ;
-            }
-            return *this ;
-        }
-
-        /**
-         * Nothing specific
-         */ 
-        ~Symbol() ;
-
-        inline const char* c_str() const { return CHAR(PRINTNAME(m_sexp)) ; }
         
-        inline bool operator==(const char* other) const { return ! strcmp(other, c_str() ); }
+        inline bool operator==(const char* other) const { 
+            return ! strcmp(other, c_str() );
+        }
+        
+        void update(SEXP){}
     };
 
 } // namespace Rcpp

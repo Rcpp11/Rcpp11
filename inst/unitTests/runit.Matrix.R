@@ -87,12 +87,6 @@ test.CharacterMatrix.row <- function(){
 	checkEquals( runit_CharacterMatrix_row(m), paste( m[1,], collapse = "" ), msg = "CharacterVector::Row" )
 }
 
-test.List.row <- function(){
-	m <- lapply( 1:16, function(i) seq(from=1, to = i ) )
-	dim( m ) <- c( 4, 4 )
-	checkEquals( runit_GenericMatrix_row( m ), 1 + 0:3*4, msg = "List::Row" )
-}
-
 test.NumericMatrix.column <- function(){
 	x <- matrix( 1:16 + .5, ncol = 4 )
 	checkEquals( runit_NumericMatrix_column( x ), sum( x[,1] ) , msg = "iterating over a column" )
@@ -106,12 +100,6 @@ test.NumericMatrix.cumsum <- function(){
 test.CharacterMatrix.column <- function(){
 	m <- matrix( letters, ncol = 2 )
 	checkEquals( runit_CharacterMatrix_column(m), paste( m[,1], collapse = "" ), msg = "CharacterVector::Column" )
-}
-
-test.List.column <- function(){
-	m <- lapply( 1:16, function(i) seq(from=1, to = i ) )
-	dim( m ) <- c( 4, 4 )
-	checkEquals( runit_GenericMatrix_column( m ), 1:4, msg = "List::Column" )
 }
 
 test.NumericMatrix.colsum <- function( ){
