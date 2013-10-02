@@ -317,7 +317,7 @@ namespace Rcpp {
     RObject::SlotProxy::SlotProxy( const RObject& v, const std::string& name) : 
         parent(v), slot_name(name)
     {
-        SEXP nameSym = Rf_install(name.c_str());            // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());            
         if( !R_has_slot( v, nameSym) ){
             throw no_such_slot() ; 
         }
@@ -330,13 +330,13 @@ namespace Rcpp {
 
 
     SEXP RObject::SlotProxy::get() const {
-        SEXP slotSym = Rf_install( slot_name.c_str() );     // cannot be gc()'ed  once in symbol table
+        SEXP slotSym = Rf_install( slot_name.c_str() );     
         return R_do_slot( parent, slotSym ) ;       
     }
 
     // TODO: this should not be const
     void RObject::SlotProxy::set( SEXP x) const {
-        SEXP slotnameSym = Rf_install( slot_name.c_str() ); // cannot be gc()'ed  once in symbol table
+        SEXP slotnameSym = Rf_install( slot_name.c_str() ); 
         // the SEXP might change (.Data)
         SEXP new_obj = PROTECT( R_do_slot_assign(parent, slotnameSym, x) ) ;
         const_cast<RObject&>(parent).setSEXP( new_obj ) ;
@@ -344,13 +344,13 @@ namespace Rcpp {
     }
 
     SEXP RObject::AttributeProxy::get() const {
-        SEXP attrnameSym = Rf_install( attr_name.c_str() ); // cannot be gc()'ed  once in symbol table
+        SEXP attrnameSym = Rf_install( attr_name.c_str() ); 
         return Rf_getAttrib( parent, attrnameSym ) ;
     }
 
     // TODO: this should not be const
     void RObject::AttributeProxy::set(SEXP x) const{
-        SEXP attrnameSym = Rf_install( attr_name.c_str() ); // cannot be gc()'ed  once in symbol table
+        SEXP attrnameSym = Rf_install( attr_name.c_str() ); 
 #if RCPP_DEBUG_LEVEL > 0
         RCPP_DEBUG( "RObject::AttributeProxy::set() before = <%p>", parent.asSexp() ) ;
         SEXP res = Rf_setAttrib( parent, attrnameSym, x ) ;
@@ -395,7 +395,7 @@ namespace Rcpp {
     }
 	
     Function::Function(const std::string& name) : RObject() {
-        SEXP nameSym = Rf_install( name.c_str() );	// cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install( name.c_str() );	
         SEXP x = PROTECT( Rf_findFun( nameSym, R_GlobalEnv ) ) ;
         setSEXP(x) ;
         UNPROTECT(1) ;
@@ -569,13 +569,13 @@ namespace Rcpp {
                 setSEXP( x ) ;
                 break; /* nothing to do */
             case CHARSXP: {
-                SEXP charSym = Rf_install(CHAR(x));     // cannot be gc()'ed  once in symbol table
+                SEXP charSym = Rf_install(CHAR(x));     
                 setSEXP( charSym ) ;
                 break ;
             }
             case STRSXP: {
                 /* FIXME: check that there is at least one element */
-                SEXP charSym = Rf_install( CHAR(STRING_ELT(x, 0 )) ); // cannot be gc()'ed  once in symbol table
+                SEXP charSym = Rf_install( CHAR(STRING_ELT(x, 0 )) ); 
                 setSEXP( charSym );
                 break ;
             }
@@ -937,7 +937,7 @@ namespace Rcpp {
             /* not an environment, but maybe convertible to one using as.environment, try that */
             SEXP res ;
             try {
-                SEXP asEnvironmentSym = Rf_install("as.environment"); // cannot be gc()'ed  once in symbol table
+                SEXP asEnvironmentSym = Rf_install("as.environment"); 
                 res = Evaluator::run( Rf_lang2(asEnvironmentSym, x ) ) ;
             } catch( const eval_error& ex){
                 throw not_compatible( "cannot convert to environment"  ) ; 
@@ -955,7 +955,7 @@ namespace Rcpp {
         } else{
             SEXP res = R_NilValue ;
             try{
-                SEXP asEnvironmentSym = Rf_install("as.environment"); // cannot be gc()'ed  once in symbol table
+                SEXP asEnvironmentSym = Rf_install("as.environment"); 
                 res = Evaluator::run(Rf_lang2( asEnvironmentSym, Rf_mkString(name.c_str()) ) ) ;
             } catch( const eval_error& ex){
                 throw no_such_env(name) ;
@@ -967,7 +967,7 @@ namespace Rcpp {
     Environment::Environment(int pos) : RObject(R_GlobalEnv){
         SEXP res ;
         try{
-            SEXP asEnvironmentSym = Rf_install("as.environment"); // cannot be gc()'ed  once in symbol table
+            SEXP asEnvironmentSym = Rf_install("as.environment"); 
             res =  Evaluator::run( Rf_lang2( asEnvironmentSym, Rf_ScalarInteger(pos) ) ) ;
         } catch( const eval_error& ex){
             throw no_such_env(pos) ;
@@ -999,7 +999,7 @@ namespace Rcpp {
     }
     
     SEXP Environment::get( const std::string& name) const {
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         SEXP res = Rf_findVarInFrame( m_sexp, nameSym ) ;
         
         if( res == R_UnboundValue ) return R_NilValue ;
@@ -1012,7 +1012,7 @@ namespace Rcpp {
     }
     
     SEXP Environment::find( const std::string& name) const {
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         SEXP res = Rf_findVar( nameSym, m_sexp ) ;
         
         if( res == R_UnboundValue ) throw binding_not_found(name) ;
@@ -1025,14 +1025,14 @@ namespace Rcpp {
     }
     
     bool Environment::exists( const std::string& name) const{
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         SEXP res = Rf_findVarInFrame( m_sexp, nameSym  ) ;
         return res != R_UnboundValue ;
     }
     
     bool Environment::assign( const std::string& name, SEXP x = R_NilValue) const {
         if( exists( name) && bindingIsLocked(name) ) throw binding_is_locked(name) ;
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         Rf_defineVar( nameSym, x, m_sexp );
         return true ;
     }
@@ -1063,13 +1063,13 @@ namespace Rcpp {
     
     bool Environment::bindingIsActive(const std::string& name) const {
         if( !exists( name) ) throw no_such_binding(name) ;
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         return R_BindingIsActive(nameSym, m_sexp) ;
     }
     
     bool Environment::bindingIsLocked(const std::string& name) const {
         if( !exists( name) ) throw no_such_binding(name) ;
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         return R_BindingIsLocked(nameSym, m_sexp) ;
     }
     
@@ -1079,13 +1079,13 @@ namespace Rcpp {
     
     void Environment::lockBinding(const std::string& name) {
         if( !exists( name) ) throw no_such_binding(name) ;
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         R_LockBinding( nameSym, m_sexp ); 
     }
     
     void Environment::unlockBinding(const std::string& name) {
         if( !exists( name) ) throw no_such_binding(name) ;
-        SEXP nameSym = Rf_install(name.c_str());        // cannot be gc()'ed  once in symbol table
+        SEXP nameSym = Rf_install(name.c_str());        
         R_unLockBinding( nameSym, m_sexp );
     }
     

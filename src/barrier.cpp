@@ -77,7 +77,7 @@ SEXP get_rcpp_cache() {
     RCPP_DEBUG( "get_rcpp_cache (known = %s)", (Rcpp_cache_know ? "true" : "false" ) )
     if( ! Rcpp_cache_know ){
         
-        SEXP getNamespaceSym = Rf_install("getNamespace"); // cannot be gc()'ed  once in symbol table
+        SEXP getNamespaceSym = Rf_install("getNamespace"); 
         SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
         Rcpp_cache = Rf_findVarInFrame( RCPP, Rf_install(".rcpp_cache") ) ;
         Rcpp_cache_know = true ;
@@ -125,7 +125,7 @@ SEXP rcpp_get_stack_trace(){
 }
 
 SEXP init_Rcpp11_cache(){   
-    SEXP getNamespaceSym = Rf_install("getNamespace"); // cannot be gc()'ed  once in symbol table
+    SEXP getNamespaceSym = Rf_install("getNamespace"); 
     SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
     SEXP cache = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) );
     
