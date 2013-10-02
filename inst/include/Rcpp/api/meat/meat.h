@@ -1,6 +1,3 @@
-//
-// meat.h:  
-//
 // Copyright (C) 2012 - 2013    Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
@@ -23,6 +20,7 @@
 
 #include <Rcpp/api/meat/SlotProxy.h>
 #include <Rcpp/api/meat/AttributeProxy.h>
+#include <Rcpp/api/meat/FieldProxy.h>
 #include <Rcpp/api/meat/RObject.h>
 #include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>

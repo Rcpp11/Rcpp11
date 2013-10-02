@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Romain Francois
+// Copyright (C) 2003 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -15,13 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_api_meat_Reference_h
-#define Rcpp_api_meat_Reference_h
+#ifndef Rcpp_proxy_proxy_h
+#define Rcpp_proxy_proxy_h
 
-namespace Rcpp{
+#include <Rcpp/proxy/SlotProxy.h>
+#include <Rcpp/proxy/AttributeProxy.h>
+#include <Rcpp/proxy/FieldProxy.h>
 
-    template <typename T>
-    Reference::Reference(const T& object ) : Reference(wrap(object)) {}
-    
-}
 #endif

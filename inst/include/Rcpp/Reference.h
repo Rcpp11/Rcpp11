@@ -1,4 +1,5 @@
 // Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -26,7 +27,7 @@ namespace Rcpp{
     /**
      * S4 object (of a reference class)
      */
-    class Reference : public S4 {
+    class Reference : public S4, public FieldProxyPolicy<Reference> {
     public:
         Reference() ;
         
@@ -59,82 +60,6 @@ namespace Rcpp{
         Reference( const std::string& klass ) ;
         Reference( const char* klass ) ;
 
-        /**
-         * Proxy for objects slots. 
-         */
-        class FieldProxy {
-        public:
-            /**
-             * Creates a field proxy. 
-             *
-             * @param v parent object of which we get/set a field
-             * @param name field name
-             */
-            FieldProxy( Reference& v, const std::string& name) ;
-
-            /**
-             * lhs use. Assigns the target slot using the current 
-             * value of another slot proxy.
-             *
-             * @param rhs another slot proxy
-             */
-            FieldProxy& operator=(const FieldProxy& rhs) ;
-                
-            /**
-             * lhs use. Assigns the slot by wrapping the rhs object
-             *
-             * @param rhs wrappable object
-             */
-            template <typename T> FieldProxy& operator=(const T& rhs) ;
-                
-            /**
-             * rhs use. Retrieves the current value of the slot
-             * and structures it as a T object. This only works 
-             * when as<T> makes sense
-             */ 
-            template <typename T> operator T() const  ;
-                
-        private:
-            Reference& parent; 
-            std::string field_name ;
-                
-            SEXP get() const ;
-            void set(SEXP x ) ;
-        } ;
-        friend class FieldProxy ;   
-        
-        /**
-         * Proxy for objects slots. 
-         */
-        class ConstFieldProxy {
-        public:
-            /**
-             * Creates a field proxy. 
-             *
-             * @param v parent object of which we get/set a field
-             * @param name field name
-             */
-            ConstFieldProxy( const Reference& v, const std::string& name) ;
-
-            /**
-             * rhs use. Retrieves the current value of the slot
-             * and structures it as a T object. This only works 
-             * when as<T> makes sense
-             */ 
-            template <typename T> operator T() const  ;
-                
-        private:
-            const Reference& parent; 
-            std::string field_name ;
-                
-            SEXP get() const ;
-        } ;
-        friend class ConstFieldProxy ;   
-        
-        FieldProxy field( const std::string& name)  ;
-        ConstFieldProxy field( const std::string& name) const ;
-    
-    
     private:
         void set_sexp( SEXP x) ;
         void check() ;        
