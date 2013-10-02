@@ -79,7 +79,7 @@ namespace Rcpp{
         template <typename T> T* as_module_object(SEXP x) ;
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_const_pointer_tag ) {
-            return const_cast<T>( as_module_object< typename std::remove_const<T>::type >( x ) ) ; 
+            return const_cast<T>( as_module_object< typename std::remove_pointer< typename std::remove_const<T>::type >::type >( x ) ) ; 
         }
         
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_module_object_pointer_tag ) {
