@@ -31,15 +31,29 @@ namespace Rcpp{
         template <typename T>
         struct Is {
             inline bool test(SEXP x){
-                return is__simple<T>( x ) ;    
+                return false ;    
             }
         } ;
+        template <> struct Is<RObject> ;
+        template <> struct Is<DataFrame> ;
+        template <> struct Is<S4> ;
+        template <> struct Is<Reference> ;
+        template <> struct Is<Formula> ;
+        template <> struct Is<Function> ;
         
         template <int RTYPE> struct TypeofIs{
             inline bool test(SEXP x){
                 return TYPEOF(x) == RTYPE ;    
             }
         } ;
+        
+        template <typename T>
+        struct PrimitiveIs{
+            inline bool test(SEXP x){
+                return Rf_length(x) == 1 && 
+                    TYPEOF(x) == Rcpp::traits::r_sexptype_traits<T>::rtype ;    
+            }
+        };
            
         template <int RTYPE> struct Is< Vector<RTYPE> > : TypeofIs<RTYPE>{} ;
         template <int RTYPE> struct Is< Matrix<RTYPE> >  ;
@@ -49,6 +63,7 @@ namespace Rcpp{
         template <> struct Is<Promise>       : TypeofIs<PROMSXP> {} ;
         template <> struct Is<Symbol>        : TypeofIs<SYMSXP> {} ;
         template <> struct Is<WeakReference> : TypeofIs<WEAKREFSXP> {} ;
+        template <> struct Is<Language>      : TypeofIs<LANGSXP> {} ;
         
         template <typename T> struct ModuleIs ;
         
@@ -57,7 +72,11 @@ namespace Rcpp{
             typedef typename std::conditional<
                 Rcpp::traits::is_module_object<T>::value, 
                 typename ModuleIs<T>::type, 
-                typename Is<T>::type
+                typename std::conditional<
+                    Rcpp::traits::is_primitive<T>::value, 
+                    typename PrimitiveIs<T>::type,
+                    typename Is<T>::type
+                >
             >::type type ;
         } ;
         

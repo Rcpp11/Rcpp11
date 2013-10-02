@@ -24,53 +24,43 @@
 namespace Rcpp{ 
 namespace internal{
         
-    inline bool is_atomic( SEXP x){ return Rf_length(x) == 1 ; } 
-    inline bool is_matrix(SEXP x){
-        SEXP dim = Rf_getAttrib( x, R_DimSymbol) ;
-        return dim != R_NilValue && Rf_length(dim) == 2 ;
-    }
-    
-    template <> inline bool is__simple<int>( SEXP x ){
-        return is_atomic(x) && TYPEOF(x) == INTSXP ;
-    }
-
-    template <> inline bool is__simple<double>( SEXP x ){
-        return is_atomic(x) && TYPEOF(x) == REALSXP ;
-    }
-    
-    template <> inline bool is__simple<bool>( SEXP x ){
-        return is_atomic(x) && TYPEOF(x) == LGLSXP ;
-    }
-    
-    template <> inline bool is__simple<std::string>( SEXP x ){
-        return is_atomic(x) && TYPEOF(x) == STRSXP ;
-    }
-    
-    template <> inline bool is__simple<String>( SEXP x ){
-        return is_atomic(x) && TYPEOF(x) == STRSXP ;
-    }
-    
-    template <> inline bool is__simple<RObject>( SEXP x ){
-        return true ;
-    }    
-    template <> inline bool is__simple<DataFrame>( SEXP x ){
-        if( TYPEOF(x) != VECSXP ) return false ;
-        return Rf_inherits( x, "data.frame" ) ;
-    }
-    template <> inline bool is__simple<S4>( SEXP x ){
-        return ::Rf_isS4(x);
-    }
-    template <> inline bool is__simple<Reference>( SEXP x ){
-        if( ! ::Rf_isS4(x) ) return false ;
-        return ::Rf_inherits(x, "envRefClass" ) ;
-    }
-    template <> inline bool is__simple<Formula>( SEXP x ){
-        if( TYPEOF(x) != LANGSXP ) return false ; 
-        return Rf_inherits( x, "formula" ) ;
-    }
-    template <> inline bool is__simple<Function>( SEXP x ){
-        return TYPEOF(x) == CLOSXP || TYPEOF(x) == SPECIALSXP || TYPEOF(x) == BUILTINSXP ;
-    }
+    template <>
+    struct Is<RObject> {
+        inline bool test(SEXP /* x */){ return true; }    
+    } ;
+    template <>
+    struct Is<DataFrame> {
+        inline bool test(SEXP x ){ 
+            if( TYPEOF(x) != VECSXP ) return false ;
+            return Rf_inherits( x, "data.frame" ) ; 
+        }    
+    } ;
+    template <>
+    struct Is<S4> {
+        inline bool test(SEXP x ){ 
+            return  ::Rf_isS4(x); 
+        }    
+    } ;
+    template <>
+    struct Is<Reference> {
+        inline bool test(SEXP x ){ 
+            if( ! ::Rf_isS4(x) ) return false ;
+            return ::Rf_inherits(x, "envRefClass" ) ; 
+        }    
+    } ;
+    template <>
+    struct Is<Formula> {
+        inline bool test(SEXP x ){ 
+            if( TYPEOF(x) != LANGSXP ) return false ; 
+            return Rf_inherits( x, "formula" ) ; 
+        }    
+    } ;
+    template <>
+    struct Is<Function> {
+        inline bool test(SEXP x ){ 
+            return TYPEOF(x) == CLOSXP || TYPEOF(x) == SPECIALSXP || TYPEOF(x) == BUILTINSXP ; 
+        }    
+    } ;
     
     template <typename T>
     struct ModuleIs {
@@ -85,7 +75,7 @@ namespace internal{
     template <int RTYPE> 
     struct Is< Matrix<RTYPE> > {
         inline bool test( SEXP x){
-            return TYPEOF(x) == RTYPE && is_matrix(x) ;  
+            return TYPEOF(x) == RTYPE && Rf_isMatrix(x) ;  
         }
     } ;
         

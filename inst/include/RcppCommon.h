@@ -83,11 +83,18 @@ namespace Rcpp{
     template <int RTYPE> class Vector ;
     template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
+    class RObject ;
+    class Function ;
+    class Language ;
+    class DataFrame ;
     class Environment ;
     class Pairlist ;
     class Promise ;
     class Symbol ;
     class WeakReference ;
+    class Reference ;
+    class S4 ;
+    class Formula ;
     namespace internal{
 		template <typename Class> SEXP make_new_object( Class* ptr ) ;	
 	}
