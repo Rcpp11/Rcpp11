@@ -57,6 +57,7 @@ namespace Rcpp{
          * @throw reference_creation_error if klass does not map to a known S4 class
          */
         Reference( const std::string& klass ) ;
+        Reference( const char* klass ) ;
 
         /**
          * Proxy for objects slots. 

@@ -61,7 +61,7 @@ namespace Rcpp{
             return *this ;
         }
         
-        template <typename T> S4( const T&) ;
+        template <typename T> S4( const T& ) ;
         
         /**
          * assignment operator. 
@@ -77,6 +77,7 @@ namespace Rcpp{
          * @throw not_s4 if klass does not map to a known S4 class
          */
         S4( const std::string& klass ) ;
+        S4( const char* klass ) ; 
         
         /**
          * Indicates if this object is an instance of the given S4 class

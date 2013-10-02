@@ -22,6 +22,6 @@ namespace Rcpp{
 
     template <typename T>
     S4::S4( const T& object ) : S4(wrap(object)){}
-    
+        
 }
 #endif

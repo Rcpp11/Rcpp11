@@ -342,6 +342,8 @@ namespace Rcpp {
     /* S4 */
 
     bool RObject::hasSlot(const std::string& name) const {
+        Rprintf( "hasSlot = <%p>, TYPEOF = %s\n", name.c_str(), m_sexp, sexp_to_name(TYPEOF(m_sexp)) ) ;
+        
         if( !Rf_isS4(m_sexp) ) throw not_s4() ;
         return R_has_slot( m_sexp, Rf_mkString(name.c_str()) ) ;
     }
@@ -745,7 +747,7 @@ namespace Rcpp {
     }
         
     S4::S4( const S4& other) : S4(other.asSexp()){}
-        
+      
     S4& S4::operator=( const S4& other){
         set_sexp( other.asSexp() ) ;
         return *this ;
@@ -760,6 +762,7 @@ namespace Rcpp {
         if (!Rf_inherits(m_sexp, klass.c_str()))
             throw S4_creation_error( klass ) ;
     }
+    S4::S4( const char* klass ) : S4( std::string(klass) ) {} ;
         
     bool S4::is( const std::string& clazz ) {
         CharacterVector cl = attr("class");
@@ -828,6 +831,7 @@ namespace Rcpp {
         set_sexp( Rcpp::internal::try_catch( call ) ) ;
         UNPROTECT(1) ; // call
     }
+    Reference::Reference( const char* klass ) : Reference(std::string(klass)){}
     
     void Reference::set_sexp( SEXP x) {
         setSEXP( x) ;

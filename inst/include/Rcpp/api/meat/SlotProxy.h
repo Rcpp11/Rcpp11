@@ -38,7 +38,8 @@ namespace Rcpp{
 
     template <typename CLASS>
     typename SlotProxyPolicy<CLASS>::SlotProxy SlotProxyPolicy<CLASS>::slot(const std::string& name) {
-        if( !Rf_isS4(static_cast<CLASS&>(*this) ) ) throw not_s4() ;
+        SEXP x = static_cast<CLASS&>(*this) ;
+        if( !Rf_isS4(x) ) throw not_s4() ;
         return SlotProxy( static_cast<CLASS&>(*this) , name ) ;
     }
  
@@ -73,7 +74,8 @@ namespace Rcpp{
     
     template <typename CLASS>
     typename SlotProxyPolicy<CLASS>::const_SlotProxy SlotProxyPolicy<CLASS>::slot(const std::string& name) const {
-        if( !Rf_isS4(static_cast<const CLASS&>(*this) ) ) throw not_s4() ;
+        SEXP x = static_cast<const CLASS&>(*this) ;
+        if( !Rf_isS4(x) ) throw not_s4() ;
         return const_SlotProxy( static_cast<const CLASS&>(*this) , name ) ;
     }
 
