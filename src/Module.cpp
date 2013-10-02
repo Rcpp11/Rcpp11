@@ -501,11 +501,6 @@ namespace Rcpp{
 	        SEXP xp = env.get(".pointer") ;
 	        return R_ExternalPtrAddr(xp );
 	    }
-	    bool is_module_object_internal(SEXP obj, const char* clazz){
-	        Environment env(obj) ;
-	        XPtr<class_Base> xp( env.get(".cppclass") );
-	        return xp->has_typeinfo_name( clazz ) ;
-	    }
 	}
 	
 }

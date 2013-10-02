@@ -1,6 +1,5 @@
 //
-// is.h:  test if an R Object can be seen 
-//                                             as one type
+// is.h:  test if an R Object can be seen as one type
 //
 // Copyright (C) 2013    Dirk Eddelbuettel and Romain Francois
 //
@@ -29,19 +28,39 @@ namespace Rcpp{
         // simple implementation, for most default types
         template <typename T> bool is__simple( SEXP x) ;
         
-        // implementation for module objects
-        template <typename T> bool is__module__object( SEXP x) ;
-        
-        // not a module object
         template <typename T>
-        inline bool is__dispatch( SEXP x, std::false_type ){
-            return is__simple<T>( x ) ;
-        }
+        struct Is {
+            inline bool test(SEXP x){
+                return is__simple<T>( x ) ;    
+            }
+        } ;
+        
+        template <int RTYPE> struct TypeofIs{
+            inline bool test(SEXP x){
+                return TYPEOF(x) == RTYPE ;    
+            }
+        } ;
+           
+        template <int RTYPE> struct Is< Vector<RTYPE> > : TypeofIs<RTYPE>{} ;
+        template <int RTYPE> struct Is< Matrix<RTYPE> >  ;
+        
+        template <> struct Is<Environment>   : TypeofIs<ENVSXP> {} ;
+        template <> struct Is<Pairlist>      : TypeofIs<LISTSXP> {} ;
+        template <> struct Is<Promise>       : TypeofIs<PROMSXP> {} ;
+        template <> struct Is<Symbol>        : TypeofIs<SYMSXP> {} ;
+        template <> struct Is<WeakReference> : TypeofIs<WEAKREFSXP> {} ;
+        
+        template <typename T> struct ModuleIs ;
         
         template <typename T>
-        inline bool is__dispatch( SEXP x, std::true_type ){
-            return is__module__object<T>( x ) ;
-        }
+        struct is_type{
+            typedef typename std::conditional<
+                Rcpp::traits::is_module_object<T>::value, 
+                typename ModuleIs<T>::type, 
+                typename Is<T>::type
+            >::type type ;
+        } ;
+        
     }
     
     /** identify if an x can be seen as the T type
@@ -50,7 +69,7 @@ namespace Rcpp{
      *     bool is_list = is<List>( x ) ;
      */
     template <typename T> bool is( SEXP x ){
-        return internal::is__dispatch<T>( x, typename traits::is_module_object<T>::type() ) ;    
+        return typename internal::is_type<T>::type().test(x) ;
     }
     
 } // Rcpp 

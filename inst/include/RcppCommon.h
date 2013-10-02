@@ -81,9 +81,14 @@ namespace Rcpp{
     class String ;
     
     template <int RTYPE> class Vector ;
+    template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
-    
-	namespace internal{
+    class Environment ;
+    class Pairlist ;
+    class Promise ;
+    class Symbol ;
+    class WeakReference ;
+    namespace internal{
 		template <typename Class> SEXP make_new_object( Class* ptr ) ;	
 	}
 }	
