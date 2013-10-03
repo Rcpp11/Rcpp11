@@ -247,7 +247,7 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 		element = ::Rcpp::wrap( first->second ) ;
 		buf = first->first ;
 		RCPP_SET_VECTOR_ELT( x, i, element ) ;
-		RCPP_SET_VECTOR_ELT( names, i, Rf_mkChar(buf.c_str()) ) ; 
+		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ; 
 		i++ ;
 		++first ;
 	}
