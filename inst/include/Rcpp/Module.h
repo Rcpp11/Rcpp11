@@ -58,15 +58,6 @@ namespace Rcpp{
         T* ptr;
     } ;
     
-    namespace internal {
-        template <typename Class>
-        SEXP make_new_object( Class* ptr ){
-            Rcpp::XPtr<Class> xp( ptr, true ) ;
-            Function maker = Environment::Rcpp11_namespace()[ "cpp_object_maker"] ;
-            return maker( typeid(Class).name() , xp ) ;
-        }
-    } 
-
 #include <Rcpp/module/get_return_type.h>
 #include <Rcpp/module/get_signature.h>
 #include <Rcpp/module/debug_function.h>

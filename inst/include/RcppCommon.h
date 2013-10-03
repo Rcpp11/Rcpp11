@@ -95,7 +95,6 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Function) 
     RCPP_API_CLASS_DECL(Language) 
     
-    class DataFrame ;
     class Environment ;
     class Pairlist ;
     class Promise ;
@@ -104,9 +103,9 @@ namespace Rcpp{
     class Reference ;
     class S4 ;
     class Formula ;
-    namespace internal{
-		template <typename Class> SEXP make_new_object( Class* ptr ) ;	
-	}
+    
+    class DataFrame ;
+    
 }	
 namespace Rcpp{
     SEXP Rcpp_PreserveObject(SEXP x) ;

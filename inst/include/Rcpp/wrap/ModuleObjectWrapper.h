@@ -22,8 +22,9 @@ namespace Rcpp{
 
     template <typename T> struct ModuleObjectWrapper{
         static inline SEXP wrap(const T& object) { 
-            RCPP_DEBUG( "ModuleObjectWrapper<%s>::wrap() ", DEMANGLE(T) ) 
-            return Rcpp::internal::make_new_object<T>( new T(object) ) ;    
+            Rcpp::XPtr<T> xp( new T(ptr), true ) ;
+            Function maker = Environment::Rcpp11_namespace()[ "cpp_object_maker"] ;
+            return maker( typeid(T).name() , xp ) ;
         }
     } ;
     
