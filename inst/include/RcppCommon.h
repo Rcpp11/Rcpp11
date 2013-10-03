@@ -80,7 +80,6 @@ const char * sexp_to_name(int sexp_type);
 #include <Rcpp/Demangler.h>
 
 namespace Rcpp{
-    template <typename T> class object ;
     class String ;
     
     template <int RTYPE> class Vector ;

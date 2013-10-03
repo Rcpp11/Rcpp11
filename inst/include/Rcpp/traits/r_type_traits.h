@@ -105,12 +105,6 @@ template <typename T> struct r_type_traits {
     >::type r_category ; 
 } ;
 
-/**
- * module object type
- */
-template <typename T> struct r_type_traits< Rcpp::object<T> >{ typedef r_type_module_object_pointer_tag r_category ; } ;
-
-
 template <typename KEY, typename VALUE> 
 struct r_type_traits< std::pair<const KEY,VALUE> > { 
 	typedef r_type_pair_tag r_category ; 
