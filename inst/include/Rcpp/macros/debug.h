@@ -1,6 +1,3 @@
-//
-// debug.h:  debug macros
-//
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois
 //
@@ -26,12 +23,6 @@
 #ifndef RCPP_DEBUG_LEVEL
     #define RCPP_DEBUG_LEVEL 0
 #endif
-
-const char* short_file_name(const char* file) ;
-
-namespace Rcpp{
-    void Rcpp_Stack_Debug() ;
-}
 
 #define PRETTY_BOOL(x) ( x ? "true" : "false" )
 #if RCPP_DEBUG_LEVEL > 0

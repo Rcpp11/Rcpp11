@@ -24,7 +24,11 @@
 
 namespace Rcpp {
 
-    SEXP grow( SEXP head, SEXP tail ) ; 
+    inline SEXP grow( SEXP head, SEXP tail ){
+        Scoped<SEXP> x = head ;
+        Scoped<SEXP> res = Rf_cons( x, tail ) ;
+        return res ;    
+    }
     
     namespace internal{
      
