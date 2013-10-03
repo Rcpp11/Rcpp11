@@ -28,7 +28,6 @@
 #include <Rcpp/macros/macros.h>
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes
-#define MAXELTSIZE 8192
 #define R_NO_REMAP
 #include <R.h>
 #include <Rinternals.h>
@@ -90,6 +89,7 @@ namespace Rcpp{
     using ExpressionVector = Vector<EXPRSXP> ; 
     
     template <typename CLASS> class RObjectStorage ;
+    template <typename CLASS> class NoProtectStorage ;
     
     RCPP_API_CLASS_DECL(RObject) 
     RCPP_API_CLASS_DECL(Function) 
@@ -102,7 +102,9 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Formula) ;
     RCPP_API_CLASS_DECL(Reference) ;
     
-    class Symbol ;
+    template < template <class> class StoragePolicy > class Symbol_Impl ;
+    using Symbol = Symbol_Impl<NoProtectStorage> ;
+    
     class DataFrame ;
     
 }	

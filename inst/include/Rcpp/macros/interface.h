@@ -35,21 +35,6 @@ __CLASS__& operator=(const __CLASS__& rhs) {      \
     return Storage::copy__(rhs) ;                          \
 }                                                 \
 
-#define RCPP_GENERATE_CTOR_ASSIGN(__CLASS__)      \
-__CLASS__( const __CLASS__& other ){              \
-    copy__(other) ;                               \
-}                                                 \
-__CLASS__( __CLASS__&& other ){                   \
-    steal__(other) ;                              \
-}                                                 \
-__CLASS__& operator=( __CLASS__&& other ){        \
-    return steal__( other );                      \
-}                                                 \
-__CLASS__& operator=(const __CLASS__& rhs) {      \
-    return copy__(rhs) ;                          \
-}                                                 \
-   
-
 #define RCPP_POLICIES(__CLASS__)                 \
     public RObjectStorage<__CLASS__>,            \
     public SlotProxyPolicy<__CLASS__>,           \

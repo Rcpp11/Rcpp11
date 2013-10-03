@@ -33,6 +33,7 @@
 
 #include <Rcpp/proxy/proxy.h>
 #include <Rcpp/RObjectStorage.h>
+#include <Rcpp/NoProtectStorage.h>
 #include <Rcpp/DottedPairImpl.h>
 
 #include <Rcpp/RObject.h>

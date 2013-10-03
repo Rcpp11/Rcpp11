@@ -24,7 +24,7 @@
 
 namespace Rcpp{ 
 
-    template < template <class> class StoragePolicy >
+    template < template <class> class StoragePolicy > 
     class Reference_Impl : 
         public S4_Impl<StoragePolicy>, 
         public FieldProxyPolicy<Reference_Impl<StoragePolicy>>
