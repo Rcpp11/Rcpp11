@@ -18,6 +18,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
+#define COMPILING_RCPP11
+
 #include <typeinfo>
 #include <Rcpp/platform/compiler.h>
 #define R_NO_REMAP

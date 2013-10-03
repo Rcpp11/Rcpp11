@@ -17,15 +17,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
   
+#define COMPILING_RCPP11
+
 #include <Rcpp.h>
 #include "internal.h" 
-#include <R_ext/PrtUtil.h>
 
 // Rcpp api classes
 namespace Rcpp {
 
     // Evaluator
-    SEXP Rcpp_eval(SEXP expr_, SEXP env) {
+    SEXP Rcpp_evaluate(SEXP expr_, SEXP env) {
         RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 
         Scoped<SEXP> expr = expr_ ;
 

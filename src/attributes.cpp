@@ -19,6 +19,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
+#define COMPILING_RCPP11
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>

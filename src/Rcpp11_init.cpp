@@ -18,6 +18,9 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
+
+#define COMPILING_RCPP11
+
 #include <Rcpp.h>
 #include "internal.h"
 
@@ -85,6 +88,9 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
         NULL /* .Fortran */,
         extEntries /*.External*/
     );
+    
+    ::R_RegisterCCallable( "Rcpp11", "Rcpp_evaluate", (DL_FUNC)Rcpp_evaluate );
+    
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

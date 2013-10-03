@@ -1,3 +1,5 @@
+#define COMPILING_RCPP11
+
 #include <Rcpp.h>
 
 // these files are no longer part of Rcpp.h since they are only needed here
