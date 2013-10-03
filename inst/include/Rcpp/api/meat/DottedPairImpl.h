@@ -18,8 +18,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
                     
-#ifndef Rcpp_api_meat_DottedPair_h
-#define Rcpp_api_meat_DottedPair_h
+#ifndef Rcpp_api_meat_DottedPairImpl_h
+#define Rcpp_api_meat_DottedPairImpl_h
 
 namespace Rcpp{ 
 

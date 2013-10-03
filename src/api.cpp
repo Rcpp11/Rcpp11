@@ -245,7 +245,6 @@ namespace Rcpp {
 
     // }}}
   
-    // {{{ DottedPair
     SEXP grow( SEXP head, SEXP tail ){
         Scoped<SEXP> x = head ;
         Scoped<SEXP> res = Rf_cons( x, tail ) ;
@@ -263,8 +262,6 @@ namespace Rcpp {
             return STRING_ELT( x, 0 ) ;
         }
     }
-    
-    // }}}
     
     // {{{ Promise
     Promise::Promise(SEXP x) {

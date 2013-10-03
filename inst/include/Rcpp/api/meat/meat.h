@@ -27,7 +27,7 @@
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>
-#include <Rcpp/api/meat/DottedPair.h>
+#include <Rcpp/api/meat/DottedPairImpl.h>
 #include <Rcpp/api/meat/Vector.h>
 #include <Rcpp/api/meat/Function.h>
 #include <Rcpp/api/meat/Matrix.h>
