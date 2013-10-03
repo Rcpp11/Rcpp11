@@ -100,8 +100,7 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(WeakReference) ;
     RCPP_API_CLASS_DECL(S4) ;
     RCPP_API_CLASS_DECL(Formula) ;
-    
-    class Reference ;
+    RCPP_API_CLASS_DECL(Reference) ;
     
     class Symbol ;
     class DataFrame ;

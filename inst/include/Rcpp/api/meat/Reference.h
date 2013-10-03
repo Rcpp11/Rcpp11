@@ -20,8 +20,9 @@
 
 namespace Rcpp{
 
+    template <template <class> class StoragePolicy>
     template <typename T>
-    Reference::Reference(const T& object ) : Reference(wrap(object)) {}
+    Reference_Impl<StoragePolicy>::Reference_Impl(const T& object ) : Reference_Impl(wrap(object)) {}
     
 }
 #endif

@@ -344,28 +344,6 @@ namespace Rcpp {
         return dims.at(i) ;
     }    
     
-    // Reference 
-    Reference::Reference() : S4(){}
-    
-    Reference::Reference(SEXP x) : S4(){
-        set__(x) ;
-    }
-    
-    Reference& Reference::operator=( SEXP other ) {
-        set__( other ) ;
-        return *this ;
-    }
-    
-    Reference::Reference( const std::string& klass ) : S4(){
-        // using callback to R as apparently R_do_new_object always makes the same environment
-        SEXP newSym = Rf_install("new");
-        Scoped<SEXP> call = Rf_lang2( newSym, Rf_mkString( klass.c_str() ) ) ;
-        set__( Rcpp::internal::try_catch( call ) ) ;
-    }
-    Reference::Reference( const char* klass ) : Reference(std::string(klass)){}
-    
-    
- 
     // DataFrame
     namespace internal{
         inline SEXP empty_data_frame(){
