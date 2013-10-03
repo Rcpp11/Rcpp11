@@ -55,10 +55,13 @@ __CLASS__& operator=(const __CLASS__& rhs) {      \
     public AttributeProxyPolicy<__CLASS__>       \
 
 #define RCPP_API_CLASS(__CLASS__)   \
-template < template <class> class StoragePolicy > class __CLASS__##_Impl : \
-    public StoragePolicy<__CLASS__##_Impl>,            \
-    public SlotProxyPolicy<__CLASS__##_Impl>,           \
-    public AttributeProxyPolicy<__CLASS__##_Impl>       \
+template < template <class> class StoragePolicy > class __CLASS__ : \
+    public StoragePolicy<__CLASS__<StoragePolicy>>,            \
+    public SlotProxyPolicy<__CLASS__<StoragePolicy>>,           \
+    public AttributeProxyPolicy<__CLASS__<StoragePolicy>>       \
    
-
+#define RCPP_API_CLASS_DECL(__CLASS__)  \
+    template < template <class> class StoragePolicy > class __CLASS__##_Impl ; \
+    using __CLASS__ = __CLASS__##_Impl<RObjectStorage> ;
+    
 #endif

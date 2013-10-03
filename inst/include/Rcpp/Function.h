@@ -24,10 +24,10 @@ namespace Rcpp{
     /** 
      * functions
      */
-    class Function : RCPP_POLICIES(Function) {
+    RCPP_API_CLASS(Function_Impl) {
     public:
 
-        RCPP_GENERATE_CTOR_ASSIGN(Function) 
+        RCPP_GENERATE_CTOR_ASSIGN__(Function_Impl) 
 	
         /**
          * Attempts to convert the SEXP to a pair list
@@ -35,14 +35,14 @@ namespace Rcpp{
          * @throw not_compatible if the SEXP could not be converted
          * to a pair list using as.pairlist
          */
-        Function(SEXP lang = R_NilValue) ;
+        Function_Impl(SEXP lang = R_NilValue) ;
         
         /**
          * Finds a function, searching from the global environment
          *
          * @param name name of the function
          */
-        Function(const std::string& name) ;
+        Function_Impl(const std::string& name) ;
        
         /**
          * calls the function with the specified arguments

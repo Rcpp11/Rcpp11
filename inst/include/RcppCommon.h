@@ -90,11 +90,11 @@ namespace Rcpp{
     using ExpressionVector = Vector<EXPRSXP> ; 
     
     template <typename CLASS> class RObjectStorage ;
-    template < template <class> class StoragePolicy > class RObject_Impl ;
-    using RObject = RObject_Impl<RObjectStorage> ;
-   
-    class Function ;
-    class Language ;
+    
+    RCPP_API_CLASS_DECL(RObject) 
+    RCPP_API_CLASS_DECL(Function) 
+    RCPP_API_CLASS_DECL(Language) 
+    
     class DataFrame ;
     class Environment ;
     class Pairlist ;

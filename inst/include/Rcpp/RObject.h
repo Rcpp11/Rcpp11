@@ -24,11 +24,7 @@
 
 namespace Rcpp{ 
 
-    template < template <class> class StoragePolicy > class RObject_Impl : 
-        public StoragePolicy<RObject_Impl<StoragePolicy>>,            
-        public SlotProxyPolicy<RObject_Impl<StoragePolicy>>,           
-        public AttributeProxyPolicy<RObject_Impl<StoragePolicy>>       
-    {
+    RCPP_API_CLASS(RObject_Impl) {
     public:
         
         /**
@@ -44,13 +40,15 @@ namespace Rcpp{
          * object is destroyed
          */
         RObject_Impl(SEXP x) {
-            StoragePolicy<RObject_Impl>::set__(x) ;    
+            Storage::set__(x) ;    
         }
 
-        // /** 
-        //  * Assignement operator. Set this SEXP to the given SEXP
-        //  */ 
-        // RObject_Impl& operator=( SEXP other ) ;
+        /** 
+         * Assignement operator. Set this SEXP to the given SEXP
+         */ 
+        RObject_Impl& operator=( SEXP other ){
+            Storage::set__(other) ;
+        }
         
         void update(SEXP){}
    };

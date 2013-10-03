@@ -26,27 +26,27 @@ namespace Rcpp{
      *
      * This represents calls that can be evaluated
      */
-    class Language : 
-        RCPP_POLICIES(Language), 
-        public DottedPairProxyPolicy<Language>, 
-        public DottedPairImpl<Language>
+    RCPP_API_CLASS(Language_Impl)
+        , public DottedPairProxyPolicy<Language_Impl<StoragePolicy>>, 
+        public DottedPairImpl<Language_Impl<StoragePolicy>>
     {
     public:
-        using Proxy = DottedPairProxy ;
-        using const_Proxy = const_DottedPairProxy ;
+        using Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::DottedPairProxy ;
+        using const_Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::const_DottedPairProxy ;
         
-        Language(){}
-        
-        RCPP_GENERATE_CTOR_ASSIGN(Language) 
+        RCPP_GENERATE_CTOR_ASSIGN__(Language_Impl) 
 	
+        Language_Impl(){}
+        
+        
         /**
          * Attempts to convert the SEXP to a call
          *
          * @throw not_compatible if the SEXP could not be converted
          * to a call using as.call
          */
-        Language(SEXP lang){
-            set__( r_cast<LANGSXP>(lang) ) ;
+        Language_Impl(SEXP lang){
+            Storage::set__( r_cast<LANGSXP>(lang) ) ;
         }
         
         /**
@@ -58,8 +58,8 @@ namespace Rcpp{
          * > as.call( as.list( as.name( "rnorm") ) )
          * > call( "rnorm" )
          */
-        explicit Language( const std::string& symbol ){
-            set__( Rf_lang1( Rf_install(symbol.c_str()) ) ) ;
+        explicit Language_Impl( const std::string& symbol ){
+            Storage::set__( Rf_lang1( Rf_install(symbol.c_str()) ) ) ;
         }
 
         /**
@@ -70,8 +70,8 @@ namespace Rcpp{
          * Language( Symbol("rnorm") ) makes a SEXP similar to this: 
          * > call( "rnorm" )
          */
-        explicit Language( const Symbol& symbol ){
-            set__( Rf_lang1( symbol ) );    
+        explicit Language_Impl( const Symbol& symbol ){
+            Storage::set__( Rf_lang1( symbol ) );    
         }
 
         /**
@@ -79,7 +79,7 @@ namespace Rcpp{
          * 
          * @param function function to call
          */
-        explicit Language( const Function& function) ;
+        explicit Language_Impl( const Function& function) ;
         
         /**
          * Creates a call to the given symbol using variable number of 
@@ -99,23 +99,29 @@ namespace Rcpp{
          * ...
          */
         template<typename... Args> 
-        Language( const std::string& symbol, const Args&... args) {
-            set__( pairlist( Rf_install( symbol.c_str() ), args...) ) ;
+        Language_Impl( const std::string& symbol, const Args&... args) {
+            Storage::set__( pairlist( Rf_install( symbol.c_str() ), args...) ) ;
         }
         template<typename... Args> 
-        Language( const Function& function, const Args&... args) {
-            set__( pairlist( function, args...) ) ;
+        Language_Impl( const Function& function, const Args&... args) {
+            Storage::set__( pairlist( function, args...) ) ;
         }
         
         /**
          * sets the symbol of the call
          */
-        void setSymbol( const std::string& symbol);
+        void setSymbol( const std::string& symbol){
+            setSymbol( Symbol( symbol ) ) ;    
+        }
 
         /**
          * sets the symbol of the call
          */
-        void setSymbol( const Symbol& symbol ) ;
+        void setSymbol( const Symbol& symbol ){
+            SEXP data = Storage::get__() ;
+            SETCAR( data, symbol ) ;
+            SET_TAG(data, R_NilValue);  
+        }
 
         /**
          * sets the function
@@ -125,15 +131,23 @@ namespace Rcpp{
         /**
          * eval this call in the global environment
          */
-        SEXP eval() ;
+        SEXP eval(){
+            return eval( R_GlobalEnv ) ;    
+        }
 
         /**
          * eval this call in the requested environment
          */
-        SEXP eval(SEXP env) ;
+        SEXP eval(SEXP env){
+            return internal::try_catch( Storage::get__(), env ) ;
+        }
 
-        SEXP fast_eval() ;
-        SEXP fast_eval(SEXP env ) ;
+        SEXP fast_eval(){
+            return Rf_eval( Storage::get__(), R_GlobalEnv ) ;    
+        }
+        SEXP fast_eval(SEXP env ){
+            return Rf_eval( Storage::get__(), env ) ;    
+        }
         
         inline void update(SEXP x){
             SET_TYPEOF( x, LANGSXP ) ;

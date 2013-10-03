@@ -245,39 +245,6 @@ namespace Rcpp {
 
     // }}}
   
-    // {{{ Function
-    Function::Function(SEXP x) {
-        RCPP_DEBUG( "Function::Function(SEXP = <%p>)", x)
-        switch( TYPEOF(x) ){
-        case CLOSXP:
-        case SPECIALSXP:
-        case BUILTINSXP:
-            set__(x) ;
-            break; 
-        default:
-            throw not_compatible("cannot convert to function") ;
-        }
-    }
-	
-    Function::Function(const std::string& name) {
-        SEXP nameSym = Rf_install( name.c_str() );	
-        set__( Rf_findFun( nameSym, R_GlobalEnv ) ) ;
-    }
-	
-   
-    SEXP Function::environment() const {
-        if( TYPEOF(get__()) != CLOSXP ) {
-            throw not_a_closure() ;
-        }
-        return CLOENV(get__()) ;
-    }
-	
-    SEXP Function::body() const {
-        return BODY( get__() ) ;
-    }
-
-    // }}}
-    
     // {{{ DottedPair
     SEXP grow( SEXP head, SEXP tail ){
         Scoped<SEXP> x = head ;
@@ -376,43 +343,6 @@ namespace Rcpp {
     }
         
     // }}}    
-    
-    // {{{ Language
-    Language::Language( const Function& function){
-        set__( Rf_lang1( function ) ) ;    
-    }    
-    
-    void Language::setSymbol( const std::string& symbol){
-        setSymbol( Symbol( symbol ) ) ;
-    }
-        
-    void Language::setSymbol( const Symbol& symbol){
-        SEXP data = get__() ;
-        SETCAR( data, symbol ) ;
-        SET_TAG(data, R_NilValue);
-    }
-        
-    void Language::setFunction( const Function& function){
-        SEXP data = get__() ;
-        SETCAR( data, function );
-        SET_TAG(data, R_NilValue);
-    }
-        
-    SEXP Language::eval() {
-        return eval( R_GlobalEnv ) ;
-    }
-        
-    SEXP Language::eval( SEXP env ) {
-        return internal::try_catch( get__(), env );
-    }
-    
-    SEXP Language::fast_eval(){
-        return Rf_eval( get__(), R_GlobalEnv ) ;    
-    }
-    SEXP Language::fast_eval(SEXP env ){
-        return Rf_eval( get__(), env ) ;
-    }
-    // }}}
     
     // {{{ Dimension
     Dimension::Dimension() : dims(){}
