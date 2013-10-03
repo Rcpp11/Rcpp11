@@ -41,18 +41,12 @@ public:
 		}
 		
 		template <typename T>
-		DottedPairProxy& operator=(const T& rhs){
-		    return set(wrap(rhs)) ;    
-		}
+		DottedPairProxy& operator=(const T& rhs) ;
 		
 		template <typename T>
-		DottedPairProxy& operator=(const traits::named_object<T>& rhs){
-		    return set(wrap(rhs.object), rhs.name) ;
-		}
+		DottedPairProxy& operator=(const traits::named_object<T>& rhs) ;
 		
-		template <typename T> operator T() const {
-		    return as<T>(get());    
-		}
+		template <typename T> operator T() const ;
 		
 		inline SEXP get() const { 
 		    return CAR(node); 
@@ -82,9 +76,7 @@ public:
             node = x ;
         } 
 		
-		template <typename T> operator T() const {
-		    return as<T>(get());    
-		}
+		template <typename T> operator T() const  ;
 		
 		inline SEXP get() const { 
 		    return CAR(node); 
