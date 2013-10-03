@@ -21,21 +21,20 @@
 
 namespace Rcpp{
 
-    class Pairlist : 
-        RCPP_POLICIES(Pairlist), 
-        public DottedPairProxyPolicy<Pairlist>, 
-        public DottedPairImpl<Pairlist>
+    RCPP_API_CLASS(Pairlist_Impl)
+        , public DottedPairProxyPolicy<Pairlist_Impl<StoragePolicy>>, 
+        public DottedPairImpl<Pairlist_Impl<StoragePolicy>>
     {
     public:         
-        RCPP_GENERATE_CTOR_ASSIGN(Pairlist) 
+        RCPP_GENERATE_CTOR_ASSIGN__(Pairlist_Impl) 
 	
-        Pairlist(SEXP x){
-            set__( r_cast<LISTSXP>(x) ) ;    
+        Pairlist_Impl(SEXP x){
+            Storage::set__( r_cast<LISTSXP>(x) ) ;    
         }
         
         template<typename... Args> 
-        Pairlist( const Args&... args) {
-            set__(pairlist(args...)) ;    
+        Pairlist_Impl( const Args&... args) {
+            Storage::set__(pairlist(args...)) ;    
         }
        
         void update(SEXP){}

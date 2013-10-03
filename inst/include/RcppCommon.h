@@ -93,9 +93,9 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(RObject) 
     RCPP_API_CLASS_DECL(Function) 
     RCPP_API_CLASS_DECL(Language) 
+    RCPP_API_CLASS_DECL(Pairlist) ;
     
     class Environment ;
-    class Pairlist ;
     class Promise ;
     class Symbol ;
     class WeakReference ;
