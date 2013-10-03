@@ -23,6 +23,8 @@ namespace Rcpp{
     template<typename... Args> 
     SEXP Function::operator()( const Args&... args) const {
         RCPP_DEBUG( "Function::operator(...) nargs = %d", sizeof...(args)  )
+        typedef typename std::tuple<Args...> Tuple ;
+        RCPP_DEBUG( "tuple = %s", DEMANGLE(Tuple) )
         Language call( get__() , args... );
         return call.eval() ;
     }

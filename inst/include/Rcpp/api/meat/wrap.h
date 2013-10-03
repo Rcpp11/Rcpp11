@@ -57,9 +57,9 @@ namespace Rcpp{
             Scoped<SEXP> x = Rf_allocVector(VECSXP, size) ;
             Rcpp::String buffer ;
             for( size_t i = 0; i < size ; i++, ++first){
-                buffer = first->first ;
+                buffer = first->first ;    
                 RCPP_SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
-                RCPP_SET_VECTOR_ELT( names, i, buffer.get_sexp() ) ;
+                SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
             }
             ::Rf_setAttrib( x, R_NamesSymbol, names) ;
             return x ;
