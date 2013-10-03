@@ -43,7 +43,7 @@ namespace Rcpp{
         Storage::set__(Rf_allocVector( RTYPE, dims.prod() )) ; 
         init() ;
         if( dims.size() > 1 ){
-            RObject::attr( "dim" ) = dims;
+            AttributeProxy_::attr( "dim" ) = dims;
         }
     }
     
@@ -54,7 +54,7 @@ namespace Rcpp{
         Storage::set__( Rf_allocVector( RTYPE, dims.prod() ) ) ;
         fill(u) ;
         if( dims.size() > 1 ){
-            RObject::attr( "dim" ) = dims;
+            AttributeProxy_::attr( "dim" ) = dims;
         }
     }
     

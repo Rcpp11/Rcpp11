@@ -30,7 +30,9 @@ class Vector :
     public internal::eval_methods<RTYPE> 
 {
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
-    typedef RObjectStorage<Vector> Storage ;
+    
+    using Storage = RObjectStorage<Vector> ;
+    using AttributeProxy_ = AttributeProxyPolicy<Vector> ;
     
 public:
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
@@ -85,11 +87,11 @@ public:
     
     Vector( const std::string& st ) {
         RCPP_DEBUG_CTOR(Vector, "( const std::string& = %s )", st.c_str() )
-        set__( internal::vector_from_string<RTYPE>(st) ) ;
+        Storage::set__( internal::vector_from_string<RTYPE>(st) ) ;
     }
     Vector( const char* st ) {
         RCPP_DEBUG_CTOR(Vector, "( const char* = %s )", st )
-        set__(internal::vector_from_string<RTYPE>(st));
+        Storage::set__(internal::vector_from_string<RTYPE>(st));
     }
 	
     template <bool NA, typename VEC> 
@@ -99,7 +101,7 @@ public:
     Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
          
     Vector( std::initializer_list<init_type> list ) {
-        set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
+        Storage::set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
     }
 
 	template <typename T> Vector& 

@@ -48,7 +48,9 @@ namespace Rcpp{
     }
     
     template <int RTYPE>
-    Matrix<RTYPE>::Matrix( const int& n) : VECTOR( Dimension( n, n ) ), nrows(n) {}
+    Matrix<RTYPE>::Matrix( const int& n) : VECTOR( n * n ), nrows(n) {
+        VECTOR::attr( "dim" ) = Dimension( n, n ) ;
+    }
     
     template <int RTYPE>
     template <bool NA, typename MAT>
