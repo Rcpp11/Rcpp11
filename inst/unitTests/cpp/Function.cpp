@@ -35,19 +35,6 @@ Environment function_env(Function fun){
 }
 
 // [[Rcpp::export]]
-List function_binarycall(List list,IntegerVector vec){
-    Function pmin( "pmin" ) ;
-    List output( list.size() ) ;
-    std::transform(
-        	list.begin(), list.end(),
-        	vec.begin(),
-        	output.begin(),
-        	binary_call<IntegerVector,int,IntegerVector>(pmin)
-    	) ;
-    return output ;
-}
-
-// [[Rcpp::export]]
 Function function_namespace_env(){
     Environment ns = Environment::namespace_env( "stats" ) ;
     Function fun = ns[".asSparse"] ;  // accesses a non-exported function
