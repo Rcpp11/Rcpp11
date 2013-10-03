@@ -40,7 +40,7 @@ namespace internal{
 		 */
 		string_proxy( VECTOR& v, int index_ ) : 
 			parent(&v), index(index_){
-				RCPP_DEBUG( "string_proxy( VECTOR& = <%p>, index_ = %d) ", v.asSexp(), index_ ) ;
+				RCPP_DEBUG( "string_proxy( VECTOR& = <%p>, index_ = %d) ", v.get__(), index_ ) ;
 		}
 			
 		string_proxy( const string_proxy& other ) : 
@@ -129,10 +129,9 @@ namespace internal{
 		friend std::string operator+( const std::string& x, const string_proxy<RT>& proxy);
 		
 		void swap( string_proxy& other ){
-			SEXP tmp = PROTECT( STRING_ELT(*parent, index)) ;
+			SEXP tmp = STRING_ELT(*parent, index) ;
 			SET_STRING_ELT( *parent, index, STRING_ELT( *(other.parent), other.index) ) ;
 			SET_STRING_ELT( *(other.parent), other.index, tmp ) ;
-			UNPROTECT(1) ; /* tmp */
 		}
 		
 		VECTOR* parent; 

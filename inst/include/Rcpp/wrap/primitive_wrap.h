@@ -30,9 +30,8 @@ namespace internal{
 template <typename T>
 inline SEXP primitive_wrap__impl__cast( const T& object, std::false_type ){
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, 1 ) );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, 1 );
 	r_vector_start<RTYPE>(x)[0] = object ;
-	UNPROTECT(1);
 	return x;
 }
 
@@ -43,9 +42,8 @@ template <typename T>
 inline SEXP primitive_wrap__impl__cast( const T& object, std::true_type ){
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
 	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE_TYPE ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, 1 ) );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, 1 );
 	r_vector_start<RTYPE>(x)[0] = caster<T,STORAGE_TYPE>(object) ;
-	UNPROTECT(1);
 	return x;
 }
 

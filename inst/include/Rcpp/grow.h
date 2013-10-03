@@ -35,11 +35,10 @@ namespace Rcpp {
         
         template <typename T>
         inline SEXP grow__dispatch( std::true_type, const T& head, SEXP tail ){
-            SEXP y = PROTECT( wrap( head.object) ) ;
-            SEXP x = PROTECT( Rf_cons( y , tail) ) ;
+            Scoped<SEXP> y = wrap( head.object) ;
+            Scoped<SEXP> x = Rf_cons( y , tail) ;
             SEXP headNameSym = ::Rf_install( head.name.c_str() );
             SET_TAG( x, headNameSym ); 
-            UNPROTECT(2); 
             return x; 	
         }
     

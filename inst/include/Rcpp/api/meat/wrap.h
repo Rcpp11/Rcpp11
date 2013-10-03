@@ -36,8 +36,8 @@ namespace Rcpp{
             size_t size = std::distance( first, last ) ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             
-            SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
-            SEXP x = PROTECT( Rf_allocVector(RTYPE, size) ) ;
+            Scoped<SEXP> names = Rf_allocVector(STRSXP, size) ;
+            Scoped<SEXP> x = Rf_allocVector(RTYPE, size) ;
             STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>( x ) ;
             Rcpp::String buffer ;
             for( size_t i = 0; i < size ; i++, ++first){
@@ -46,7 +46,6 @@ namespace Rcpp{
                 SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
             }
             ::Rf_setAttrib( x, R_NamesSymbol, names) ;
-            UNPROTECT(2) ;
             return x ;
         }
                         
@@ -54,16 +53,15 @@ namespace Rcpp{
         inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator last, std::false_type ){
             size_t size = std::distance( first, last ) ;
             
-            SEXP names = PROTECT( Rf_allocVector(STRSXP, size) ) ;
-            SEXP x = PROTECT( Rf_allocVector(VECSXP, size) ) ;
+            Scoped<SEXP> names = Rf_allocVector(STRSXP, size) ;
+            Scoped<SEXP> x = Rf_allocVector(VECSXP, size) ;
             Rcpp::String buffer ;
             for( size_t i = 0; i < size ; i++, ++first){
                 buffer = first->first ;
-                SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
-                SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
+                RCPP_SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
+                RCPP_SET_VECTOR_ELT( names, i, buffer.get_sexp() ) ;
             }
             ::Rf_setAttrib( x, R_NamesSymbol, names) ;
-            UNPROTECT(2) ;
             return x ;
         }
   

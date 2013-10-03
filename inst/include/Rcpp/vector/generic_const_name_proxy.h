@@ -26,7 +26,7 @@ namespace internal{
 		typedef ::Rcpp::Vector<RTYPE> VECTOR ;
 		generic_const_name_proxy( const VECTOR& v, const std::string& name_) :
 			parent(v), name(name_){
-				RCPP_DEBUG( "generic_const_name_proxy( VECTOR& = %p, const string& = %s)", v.asSexp(), name_.c_str() );
+				RCPP_DEBUG( "generic_const_name_proxy( VECTOR& = %p, const string& = %s)", v.get__(), name_.c_str() );
 		} ;
 		generic_const_name_proxy( const generic_const_name_proxy& other ) : 
 			parent(other.parent), name(other.name){} ;

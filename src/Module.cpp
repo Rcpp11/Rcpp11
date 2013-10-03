@@ -447,7 +447,7 @@ namespace Rcpp{
 	
 	CppClass::CppClass( Module* p, class_Base* cl, std::string& buffer ) : S4("C++Class") {
 		XP_Class clxp( cl, false, R_NilValue, R_NilValue ) ;
-		RCPP_DEBUG( "CppClass::CppClass( cl->name = %s ), clxp = <%p>", cl->name.c_str(), clxp.asSexp() ) ;
+		RCPP_DEBUG( "CppClass::CppClass( cl->name = %s ), clxp = <%p>", cl->name.c_str(), clxp.get__() ) ;
 		#if RCPP_DEBUG_LEVEL > 0
 		Rf_PrintValue( clxp ) ;
 		#endif

@@ -204,9 +204,9 @@ namespace Rcpp{
             field( "docstring" )     = m->docstring ;
         }
         
-        S4_CppConstructor( const S4_CppConstructor& other) : Reference( other.asSexp() ) {}
+        S4_CppConstructor( const S4_CppConstructor& other) : Reference( other.get__() ) {}
         S4_CppConstructor& operator=( const S4_CppConstructor& other){
-            setSEXP( other.asSexp() ); 
+            set__( other.get__() ); 
             return *this ;
         }
     } ;
@@ -220,7 +220,7 @@ namespace Rcpp{
         
         // FIXME: is class_xp protected ?
         S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp, const char* name, std::string& buffer ) : Reference( "C++OverloadedMethods" ){
-            RCPP_DEBUG( "S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp = <%p>, const char* name = %s, std::string& buffer )", name, class_xp.asSexp() )
+            RCPP_DEBUG( "S4_CppOverloadedMethods( vec_signed_method* m, const XP_Class& class_xp = <%p>, const char* name = %s, std::string& buffer )", name, class_xp.get__() )
             #if RCPP_DEBUG_LEVEL > 0
                 Rf_PrintValue( class_xp ) ;
             #endif
@@ -251,10 +251,10 @@ namespace Rcpp{
             
         }
         S4_CppOverloadedMethods( const S4_CppOverloadedMethods& other){ 
-            setSEXP( other.asSexp() ) ;
+            set__( other.get__() ) ;
         }
         S4_CppOverloadedMethods& operator=( const S4_CppOverloadedMethods& other){ 
-            setSEXP( other.asSexp() ) ;
+            set__( other.get__() ) ;
             return *this ;
         }
     } ;
@@ -298,9 +298,9 @@ namespace Rcpp{
             field( "class_pointer" ) = class_xp ;
             field( "docstring" )     = p->docstring ;
         }
-        S4_field( const S4_field& other) : Reference(other.asSexp()) {}
+        S4_field( const S4_field& other) : Reference(other.get__()) {}
         S4_field& operator=(const S4_field& other){
-            setSEXP(other.asSexp());
+            set__(other.get__());
             return *this ;
         }
     } ;

@@ -88,7 +88,6 @@ public:
     explicit XPtr(T* p, bool set_delete_finalizer = true, SEXP tag = R_NilValue, SEXP prot = R_NilValue){
         RCPP_DEBUG( "XPtr(T* p = <%p>, bool set_delete_finalizer = %s, SEXP tag = R_NilValue, SEXP prot = R_NilValue)", p, ( set_delete_finalizer ? "true" : "false" ) )
         Storage::set__( R_MakeExternalPtr( (void*)p , tag, prot) ) ;
-        UNPROTECT(1); 
         if( set_delete_finalizer ){
             setDeleteFinalizer() ;
         }
@@ -136,11 +135,11 @@ public:
         operator SEXP(){ return get(); }
         
         inline SEXP get(){
-            return R_ExternalPtrTag(xp.asSexp()) ;
+            return R_ExternalPtrTag(xp.get__()) ;
         }
         
         inline void set( SEXP x){
-            R_SetExternalPtrTag( xp.asSexp(), x ) ;
+            R_SetExternalPtrTag( xp.get__(), x ) ;
         }
     	
     private:
@@ -169,11 +168,11 @@ public:
         operator SEXP(){ return get() ; }
         
         inline SEXP get(){
-            return R_ExternalPtrProtected(xp.asSexp()) ;
+            return R_ExternalPtrProtected(xp.get__()) ;
         }
         
         inline void set( SEXP x){
-            R_SetExternalPtrProtected( xp.asSexp(), x ) ;
+            R_SetExternalPtrProtected( xp.get__(), x ) ;
         }
     	
     private:

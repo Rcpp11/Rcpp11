@@ -101,10 +101,7 @@ namespace internal {
 		}
 		
 		static SEXP get(const char* input){
-			SEXP res = PROTECT( Rf_mkChar( input ) );
-			RCPP_DEBUG( "string_element_converter::get< const char* >()" )
-			UNPROTECT(1) ;
-			return res ;
+			return Rf_mkChar( input );
 		}
 		
 		static SEXP get( const Rcpp::String& input) ;

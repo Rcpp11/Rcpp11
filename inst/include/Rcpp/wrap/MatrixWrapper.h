@@ -24,17 +24,16 @@ namespace internal{
     template <typename T>
     inline SEXP wrap_dispatch_matrix_logical( const T& object, std::true_type ){
         int nr = object.nrow(), nc = object.ncol() ;
-        SEXP res = PROTECT( Rf_allocVector( LGLSXP, nr * nc ) ) ;
+        Scoped<SEXP> res = Rf_allocVector( LGLSXP, nr * nc ) ;
         int k=0 ;
         int* p = LOGICAL(res) ;
         for( int j=0; j<nc; j++)
             for( int i=0; i<nr; i++, k++)
                 p[k] = object(i,j) ;
-        SEXP dim = PROTECT( Rf_allocVector( INTSXP, 2) ) ;
+        Scoped<SEXP> dim = Rf_allocVector( INTSXP, 2) ;
         INTEGER(dim)[0] = nr ;
         INTEGER(dim)[1] = nc ;
         Rf_setAttrib( res, R_DimSymbol , dim ) ;
-        UNPROTECT(2) ;
         return res ;
     }
     
@@ -42,18 +41,17 @@ namespace internal{
     inline SEXP wrap_dispatch_matrix_primitive( const T& object ){
         const int RTYPE = ::Rcpp::traits::r_sexptype_traits<STORAGE>::rtype ;
         int nr = object.nrow(), nc = object.ncol() ;
-        SEXP res = PROTECT( Rf_allocVector( RTYPE, nr*nc ) );
+        Scoped<SEXP> res = Rf_allocVector( RTYPE, nr*nc );
         
         int k=0 ;
         STORAGE* p = r_vector_start< RTYPE>(res) ;
         for( int j=0; j<nc; j++)
             for( int i=0; i<nr; i++, k++)
                 p[k] = object(i,j) ;
-        SEXP dim = PROTECT( Rf_allocVector( INTSXP, 2) ) ;
+        Scoped<SEXP> dim = Rf_allocVector( INTSXP, 2) ;
         INTEGER(dim)[0] = nr ;
         INTEGER(dim)[1] = nc ;
         Rf_setAttrib( res, R_DimSymbol , dim ) ;
-        UNPROTECT(2) ;
         return res ;
     }
     
@@ -65,34 +63,32 @@ namespace internal{
     template <typename T>
     inline SEXP wrap_dispatch_matrix_not_logical( const T& object, ::Rcpp::traits::r_type_string_tag ){
         int nr = object.nrow(), nc = object.ncol() ;
-        SEXP res = PROTECT( Rf_allocVector( STRSXP, nr*nc ) ) ;
+        Scoped<SEXP> res = Rf_allocVector( STRSXP, nr*nc ) ;
         
         int k=0 ;
         for( int j=0; j<nc; j++)
             for( int i=0; i<nr; i++, k++)
                 SET_STRING_ELT( res, k, make_charsexp(object(i,j)) ) ;
-        SEXP dim = PROTECT( Rf_allocVector( INTSXP, 2) ) ;
+        Scoped<SEXP> dim = Rf_allocVector( INTSXP, 2) ;
         INTEGER(dim)[0] = nr ;
         INTEGER(dim)[1] = nc ;
         Rf_setAttrib( res, R_DimSymbol , dim ) ;
-        UNPROTECT(2) ;
         return res ;
     }
     
     template <typename T>
     inline SEXP wrap_dispatch_matrix_not_logical( const T& object, ::Rcpp::traits::r_type_generic_tag ){
         int nr = object.nrow(), nc = object.ncol() ;
-        SEXP res = PROTECT( Rf_allocVector( VECSXP, nr*nc ) );
+        Scoped<SEXP> res = Rf_allocVector( VECSXP, nr*nc );
         
         int k=0 ;
         for( int j=0; j<nc; j++)
             for( int i=0; i<nr; i++, k++)
-        	       SET_VECTOR_ELT( res, k, ::Rcpp::wrap( object(i,j) ) ) ;
-        SEXP dim = PROTECT( Rf_allocVector( INTSXP, 2) ) ;
+        	       RCPP_SET_VECTOR_ELT( res, k, ::Rcpp::wrap( object(i,j) ) ) ;
+        Scoped<SEXP> dim = Rf_allocVector( INTSXP, 2) ;
         INTEGER(dim)[0] = nr ;
         INTEGER(dim)[1] = nc ;
         Rf_setAttrib( res, R_DimSymbol , dim ) ;
-        UNPROTECT(2) ;
         return res ;
     }
     

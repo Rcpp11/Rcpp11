@@ -29,15 +29,13 @@ namespace internal{
     template <int RTYPE>
     SEXP vector_from_string_expr( const std::string& code) {
         ParseStatus status;
-        SEXP expr = PROTECT( ::Rf_mkString( code.c_str() ) );
-        SEXP res  = PROTECT( ::R_ParseVector(expr, -1, &status, R_NilValue));
+        Scoped<SEXP> expr = ::Rf_mkString( code.c_str() );
+        Scoped<SEXP> res  = ::R_ParseVector(expr, -1, &status, R_NilValue);
         switch( status ){
         case PARSE_OK:
-            UNPROTECT( 2) ;
             return(res) ;
             break;
         default:
-            UNPROTECT(2) ;
             throw parse_error() ;
         }
         return R_NilValue ; /* -Wall */

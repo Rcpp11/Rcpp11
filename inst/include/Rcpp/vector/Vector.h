@@ -25,7 +25,9 @@ template <bool NA,typename T> class SingleLogicalResult ;
 
 template <int RTYPE>
 class Vector :
-    RCPP_POLICIES(Vector<RTYPE>) ,       
+    public RObjectStorage<Vector<RTYPE>>,     
+    public SlotProxyPolicy<Vector<RTYPE>>,    
+    public AttributeProxyPolicy<Vector<RTYPE>>,       
     public VectorBase< RTYPE, true, Vector<RTYPE> >, 
     public internal::eval_methods<RTYPE> 
 {
@@ -183,11 +185,10 @@ public:
             } else {
                 /* use the slower and more flexible version (callback to R) */
                 SEXP namesSym = Rf_install( "names<-" );
-                SEXP new_vec = PROTECT( internal::try_catch(Rf_lang3( namesSym, parent, x ))) ;
+                Scoped<SEXP> new_vec = internal::try_catch(Rf_lang3( namesSym, parent, x )) ;
                 /* names<- makes a new vector, so we have to change 
                    the SEXP of the parent of this proxy */
                 parent.set__( new_vec ) ;
-                UNPROTECT(1) ; /* new_vec */
             }
     		
         }
@@ -385,12 +386,11 @@ private:
     template <typename U>
     void fill__dispatch( std::false_type, const U& u){
         // when this is not trivial, this is SEXP
-        SEXP elem = PROTECT( converter_type::get( u ) ); 
+        Scoped<SEXP> elem = converter_type::get( u ); 
         iterator it(begin());
         for( int i=0; i<size() ; i++, ++it){
             *it = ::Rf_duplicate( elem ) ;
         }
-        UNPROTECT(1) ; /* elem */
     }
 	
     template <typename U>

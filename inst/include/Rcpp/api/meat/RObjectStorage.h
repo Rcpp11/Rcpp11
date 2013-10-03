@@ -30,25 +30,6 @@ namespace Rcpp{
         return v ;
     }    
     
-    template <typename CLASS>
-    bool RObjectStorage<CLASS>::hasAttribute( const std::string& attr) const {
-        SEXP attrs = ATTRIB(data);
-        while( attrs != R_NilValue ){
-            if( attr == CHAR(PRINTNAME(TAG(attrs))) ){
-                return true ;
-            }
-            attrs = CDR( attrs ) ;
-        }
-        return false;
-    }
-    
-    template <typename CLASS>
-    bool RObjectStorage<CLASS>::hasSlot(const std::string& name) const {
-        if( !Rf_isS4(data) ) throw not_s4() ;
-        return R_has_slot( data, Rf_mkString(name.c_str()) ) ;
-    }
-    
-    
 }
 
 #endif

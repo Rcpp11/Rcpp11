@@ -38,11 +38,10 @@ inline SEXP primitive_range_wrap__impl( InputIterator first, InputIterator last,
 	RCPP_DEBUG( "primitive_range_wrap__impl< InputIterator = %s , T = %s>(.,., true_type )\n", DEMANGLE(InputIterator), DEMANGLE(T) ) ;
 	size_t size = std::distance( first, last ) ;
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, size ) ;
 	std::transform( first, last, r_vector_start<RTYPE>(x), 
 		caster< T, typename ::Rcpp::traits::storage_type<RTYPE>::type >
 		) ; 
-	UNPROTECT(1) ;
 	return wrap_extra_steps<T>( x ) ;
 }
 
@@ -50,7 +49,7 @@ template <typename InputIterator, typename T>
 inline SEXP primitive_range_wrap__impl__nocast( InputIterator first, InputIterator last, std::random_access_iterator_tag ){
 	size_t size = std::distance( first, last ) ;
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, size ) ;
 	                                          
 	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	int __trip_count = size >> 2 ;
@@ -74,7 +73,6 @@ inline SEXP primitive_range_wrap__impl__nocast( InputIterator first, InputIterat
 	      {}                         
 	}                                            
 	
-	UNPROTECT(1) ;
 	return wrap_extra_steps<T>( x ) ;
 }
 
@@ -82,9 +80,8 @@ template <typename InputIterator, typename T>
 inline SEXP primitive_range_wrap__impl__nocast( InputIterator first, InputIterator last, std::input_iterator_tag ){
 	size_t size = std::distance( first, last ) ;
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
-	SEXP x = PROTECT( Rf_allocVector( RTYPE, size ) );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, size );
 	std::copy( first, last, r_vector_start<RTYPE>(x) ) ; 
-	UNPROTECT(1) ;
 	return wrap_extra_steps<T>( x ) ;
 }
 

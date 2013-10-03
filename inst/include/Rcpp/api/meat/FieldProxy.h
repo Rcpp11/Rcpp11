@@ -28,28 +28,25 @@ namespace Rcpp{
     
     template <typename CLASS>
     SEXP FieldProxyPolicy<CLASS>::FieldProxy::get() const {
-        SEXP call = PROTECT( Rf_lang3( 
+        Scoped<SEXP> call = Rf_lang3( 
             R_DollarSymbol, 
             parent, 
             Rf_ScalarString(field_name)
-        ) ) ;
-        UNPROTECT(1) ;
+        ) ;
         return Rcpp::internal::try_catch( call ) ;    
     }
     
     template <typename CLASS>
     void FieldProxyPolicy<CLASS>::FieldProxy::set( SEXP x) {
-        PROTECT(x);
         SEXP dollarGetsSym = Rf_install( "$<-");
-        SEXP name = PROTECT( Rf_ScalarString( field_name ) ) ;
-        SEXP call = PROTECT( Rf_lang4( 
+        Scoped<SEXP> name = Rf_ScalarString( field_name ) ;
+        Scoped<SEXP> call = Rf_lang4( 
             dollarGetsSym,
             parent, 
             name , 
             x
-            ) ) ;
+            );
         parent = Rf_eval( call, R_GlobalEnv ) ; 
-        UNPROTECT(3) ;
     }
 
     template <typename CLASS>
@@ -78,12 +75,11 @@ namespace Rcpp{
 
     template <typename CLASS>
     SEXP FieldProxyPolicy<CLASS>::const_FieldProxy::get() const {
-        SEXP call = PROTECT( Rf_lang3( 
+        Scoped<SEXP> call = Rf_lang3( 
             R_DollarSymbol, 
             parent, 
             Rf_ScalarString(field_name) 
-        ) ) ;
-        UNPROTECT(1) ;
+        );
         return Rcpp::internal::try_catch( call ) ;    
     }
     

@@ -63,10 +63,9 @@ namespace internal{
 			operator int() const { return ::Rcpp::as<int>(get()) ; }
 			
 			void swap(generic_proxy& other){
-				SEXP tmp = PROTECT(get()) ;
+				Scoped<SEXP> tmp = get() ;
 				set( other.get() ) ;
 				other.set(tmp) ;
-				UNPROTECT(1) ;
 			}
 			
 			VECTOR* parent; 
@@ -79,7 +78,7 @@ namespace internal{
 			}
 			
 		private:
-			inline void set(SEXP x) { SET_VECTOR_ELT( *parent, index, x ) ;} 
+			inline void set(SEXP x) { RCPP_SET_VECTOR_ELT( *parent, index, x ) ;} 
 			inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
 		
 	}  ;

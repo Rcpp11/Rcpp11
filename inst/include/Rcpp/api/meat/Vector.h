@@ -160,7 +160,7 @@ namespace Rcpp{
             Storage::set__( target.get__() ) ;
             return begin()+i ;
         } else {
-            SEXP newnames = PROTECT(::Rf_allocVector( STRSXP, n-1 ));
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n-1 );
             int i= 0 ;
             for( ; it < position; ++it, ++target_it,i++){
                 *target_it = *it;
@@ -174,7 +174,6 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i-1, STRING_ELT(names,i) ) ;
             }
             target.attr( "names" ) = newnames ;
-            UNPROTECT(1) ; /* newnames */
             Storage::set__( target.get__() ) ;
             return begin()+result ;
         }
@@ -204,7 +203,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else{
-            SEXP newnames = PROTECT( ::Rf_allocVector(STRSXP, target_size) ) ;
+            Scoped<SEXP> newnames = ::Rf_allocVector(STRSXP, target_size);
             int i= 0 ;
             for( ; it < first; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -216,7 +215,6 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i, STRING_ELT(names, i + nremoved ) );
             }
             target.attr("names" ) = newnames ;
-            UNPROTECT(1) ; /* newnames */
         }
         Storage::set__( target.get__() );
         return result ;
@@ -236,7 +234,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else {
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1) ) ;
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n + 1) ;
             int i = 0 ;
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -244,7 +242,6 @@ namespace Rcpp{
             }
             SET_STRING_ELT( newnames, i, Rf_mkChar("") ) ;
             target.attr("names") = newnames ;
-            UNPROTECT(1) ; /* newnames */
         }
         *target_it = object;
         Storage::set__( target.get__() ) ;
@@ -252,7 +249,7 @@ namespace Rcpp{
     
     template <int RTYPE>
     void Vector<RTYPE>::push_back__impl(const stored_type& object, std::true_type){
-        SEXP object_sexp = PROTECT( object ) ;
+        Scoped<SEXP> object_sexp = object ;
         int n = size() ;
         Vector target( n + 1 ) ;
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
@@ -264,7 +261,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else {
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1) ) ;
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n + 1) ;
             int i = 0 ;
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -272,11 +269,9 @@ namespace Rcpp{
             }
             SET_STRING_ELT( newnames, i, Rf_mkChar("") ) ;
             target.attr("names") = newnames ;
-            UNPROTECT(1) ; /* newnames */
         }
         *target_it = object_sexp;
         Storage::set__( target.get__() ) ;
-        UNPROTECT(1) ;
     }	
     	
     template <int RTYPE>
@@ -287,15 +282,14 @@ namespace Rcpp{
         iterator it(begin()) ;
         iterator this_end(end());
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
-        SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
+        Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n+1 ) ;
         int i=0;
         if( names == R_NilValue ){
-            SEXP dummy = PROTECT( Rf_mkChar("") );
+            SEXP dummy = Rf_mkChar("") ;
             for( ; it < this_end; ++it, ++target_it,i++ ){
                 *target_it = *it ;
                 SET_STRING_ELT( newnames, i , dummy );
             }
-            UNPROTECT(1) ; /* dummy */
         } else {
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -306,20 +300,19 @@ namespace Rcpp{
         target.attr("names") = newnames ;
     		
         *target_it = object;
-        UNPROTECT(1) ; /* newnames, */
         Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
     void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ){
-        SEXP object_sexp = PROTECT( object ) ;
+        Scoped<SEXP> object_sexp = object ;
         int n = size() ;
         Vector target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
-        SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
+        Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n+1 ) ;
         int i=0;
         if( names == R_NilValue ){
             SEXP dummy = Rf_mkChar("") ;
@@ -337,7 +330,6 @@ namespace Rcpp{
         target.attr("names") = newnames ;
     		
         *target_it = object_sexp;
-        UNPROTECT(2) ; /* newnames, object_sexp */
         Storage::set__( target.get__() ) ;
     }
     	
@@ -356,7 +348,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else{
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1) );
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n + 1);
             int i=1 ;
             SET_STRING_ELT( newnames, 0, Rf_mkChar("") ) ;
             for( ; it<this_end; ++it, ++target_it, i++){
@@ -364,21 +356,19 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i, STRING_ELT(names, i-1 ) ) ;
             }
             target.attr("names") = newnames ;
-            UNPROTECT(1) ; /* newnames */
         }
         Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
     void Vector<RTYPE>::push_front__impl(const stored_type& object, std::true_type ){
-        SEXP object_sexp = PROTECT( object ) ;
+        Scoped<SEXP> object_sexp = object ;
         int n = size() ;
         Vector target( n+1);
         iterator target_it(target.begin());
         iterator it(begin());
         iterator this_end(end());
         *target_it = object_sexp ;
-        UNPROTECT(1); /* object_sexp */
         ++target_it ;
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         if( names == R_NilValue ){
@@ -386,7 +376,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else{
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1) );
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n + 1);
             int i=1 ;
             SET_STRING_ELT( newnames, 0, Rf_mkChar("") ) ;
             for( ; it<this_end; ++it, ++target_it, i++){
@@ -394,7 +384,6 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i, STRING_ELT(names, i-1 ) ) ;
             }
             target.attr("names") = newnames ;
-            UNPROTECT(1) ; /* newnames */
         }
         Storage::set__( target.get__() ) ;
     }
@@ -407,19 +396,18 @@ namespace Rcpp{
         iterator it(begin()) ;
         iterator this_end(end());
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
-        SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
+        Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n+1 ) ;
         int i=1;
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
         *target_it = object;
         ++target_it ;
     		
         if( names == R_NilValue ){
-            SEXP dummy = PROTECT( Rf_mkChar("") );
+            Scoped<SEXP> dummy = Rf_mkChar("");
             for( ; it < this_end; ++it, ++target_it,i++ ){
                 *target_it = *it ;
                 SET_STRING_ELT( newnames, i , dummy );
             }
-            UNPROTECT(1) ; /* dummy */
         } else {
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -428,32 +416,30 @@ namespace Rcpp{
         }
         target.attr("names") = newnames ;
     		
-        UNPROTECT(1) ; /* newnames, */
         Storage::set__( target.get__() ) ;
     }
     	
     template <int RTYPE>
     void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ){
-        SEXP object_sexp = PROTECT(object) ;
+        Scoped<SEXP> object_sexp = object ;
         int n = size() ;
         Vector target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
-        SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
+        Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n+1 ) ;
         int i=1;
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
         *target_it = object_sexp;
         ++target_it ;
     		
         if( names == R_NilValue ){
-            SEXP dummy = PROTECT( Rf_mkChar("") );
+            Scoped<SEXP> dummy = Rf_mkChar("");
             for( ; it < this_end; ++it, ++target_it,i++ ){
                 *target_it = *it ;
                 SET_STRING_ELT( newnames, i , dummy );
             }
-            UNPROTECT(1) ; /* dummy */
         } else {
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;
@@ -462,7 +448,6 @@ namespace Rcpp{
         }
         target.attr("names") = newnames ;
     		
-        UNPROTECT(2) ; /* newnames, object_sexp */
         Storage::set__( target.get__() ) ;
     }
     	
@@ -488,7 +473,7 @@ namespace Rcpp{
                 *target_it = *it ;
             }
         } else{
-            SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n + 1 ) ) ;
+            Scoped<SEXP> newnames = ::Rf_allocVector( STRSXP, n + 1 ) ;
             int i=0;
             for( ; it < position; ++it, ++target_it, i++){
                 *target_it = *it ;
@@ -504,7 +489,6 @@ namespace Rcpp{
                 SET_STRING_ELT( newnames, i, STRING_ELT(names, i - 1) ) ;
             }
             target.attr( "names" ) = newnames ;
-            UNPROTECT(1) ; /* newmanes */
         }
         Storage::set__( target.get__() );
         return result ;

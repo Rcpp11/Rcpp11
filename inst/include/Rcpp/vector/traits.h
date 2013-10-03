@@ -62,7 +62,7 @@ namespace traits{
 		~proxy_cache(){}
 		void update( const VECTOR& v ){
 			p = const_cast<VECTOR*>(&v) ;
-			RCPP_DEBUG( " cache<%d>::update( <%p> ), p = <%p>", RTYPE, reinterpret_cast<void*>(v.asSexp()),  reinterpret_cast<void*>(p) ) ;
+			RCPP_DEBUG( " cache<%d>::update( <%p> ), p = <%p>", RTYPE, reinterpret_cast<void*>(v.get__()),  reinterpret_cast<void*>(p) ) ;
 		}
 		inline iterator get() const { return iterator( proxy(*p, 0 ) ) ;}
 		inline const_iterator get_const() const { return const_iterator( const_proxy( *p, 0 ) ) ;}

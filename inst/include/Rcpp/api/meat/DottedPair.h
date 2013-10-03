@@ -42,9 +42,8 @@ namespace Rcpp{
             while( !Rf_isNull(CDR(x)) ){
                 x = CDR(x) ;
             }
-            SEXP tail = Scoped<SEXP>( pairlist( object ) ); 
+            Scoped<SEXP> tail = pairlist( object ) ; 
             SETCDR( x, tail ) ;
-            UNPROTECT(1) ;
         }
 	}
 
@@ -65,9 +64,8 @@ namespace Rcpp{
 				x = CDR(x) ;
 				i++; 
 			}
-			SEXP tail = PROTECT( grow( object, CDR(x) ) ) ; 
+			Scoped<SEXP> tail = grow( object, CDR(x) ) ; 
 			SETCDR( x, tail ) ;
-			UNPROTECT(1) ;
 		}
 	}
 	
@@ -77,15 +75,13 @@ namespace Rcpp{
 	    CLASS& ref = static_cast<CLASS&>(*this) ;
         if( static_cast<R_len_t>(index) >= ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
 		
-        /* pretend we do a pairlist so that we get Named to work for us */
-        SEXP x = PROTECT(pairlist( object ));
+        Scoped<SEXP> x = pairlist( object );
         SEXP y = ref.get__() ;
         int i=0;
         while( i<index ){ y = CDR(y) ; i++; }
         
         SETCAR( y, CAR(x) );
         SET_TAG( y, TAG(x) );
-        UNPROTECT(1) ;
 	}
 	
 	template <typename CLASS>

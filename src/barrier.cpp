@@ -26,6 +26,8 @@
 #include <algorithm>
 #include <Rcpp/macros/debug.h>
 
+#define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
+
 SEXP get_string_elt(SEXP x, int i){
     return STRING_ELT(x, i ) ;
 }    
@@ -44,7 +46,7 @@ SEXP get_vector_elt(SEXP x, int i){
     return VECTOR_ELT(x, i ) ;
 }
 void set_vector_elt(SEXP x, int i, SEXP value){
-    SET_VECTOR_ELT(x, i, value ) ;
+    RCPP_SET_VECTOR_ELT(x, i, value ) ;
 }
 SEXP* get_vector_ptr(SEXP x){ return VECTOR_PTR(x) ; }
 void* dataptr(SEXP x){ return DATAPTR(x); }
@@ -76,10 +78,9 @@ static SEXP Rcpp_protection_stack = R_NilValue ;
 SEXP get_rcpp_cache() {
     RCPP_DEBUG( "get_rcpp_cache (known = %s)", (Rcpp_cache_know ? "true" : "false" ) )
     if( ! Rcpp_cache_know ){
-        
         SEXP getNamespaceSym = Rf_install("getNamespace"); 
-        SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
-        Rcpp_cache = Rf_findVarInFrame( RCPP, Rf_install(".rcpp_cache") ) ;
+        SEXP RCPP       = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
+        Rcpp_cache      = Rf_findVarInFrame( RCPP, Rf_install(".rcpp_cache") ) ;
         Rcpp_cache_know = true ;
         Rcpp_protection_stack = VECTOR_ELT(Rcpp_cache, RCPP_PROTECTION_STACK_INDEX) ;
         UNPROTECT(1) ;
@@ -106,17 +107,18 @@ namespace Rcpp {
 }
 
 static void set_error_occured(SEXP cache, bool occured){
-    RCPP_DEBUG( "set_error_occured( <%p>, %s )", cache, PRETTY_BOOL(occured) )
-    SET_VECTOR_ELT( cache, 1, Rf_ScalarLogical(occured) ) ;
+    RCPP_DEBUG( "set_error_occured( <%p>, %s, %s )", cache, PRETTY_BOOL(occured), PRETTY_BOOL(cache==R_NilValue) )
+    RCPP_DEBUG( "R_NilValue = <%p>", R_NilValue )
+    RCPP_SET_VECTOR_ELT( cache, 1, Rf_ScalarLogical(occured) ) ;
 }
 
 void set_current_error(SEXP cache, SEXP e){ 
     RCPP_DEBUG( "set_current_error( <%p>, <%p> )", cache, e ) ;
-    SET_VECTOR_ELT( cache, 2, e ) ;
+    RCPP_SET_VECTOR_ELT( cache, 2, e ) ;
 }
 
 SEXP rcpp_set_stack_trace(SEXP e){
-    SET_VECTOR_ELT( get_rcpp_cache(), 3, e ) ;
+    RCPP_SET_VECTOR_ELT( get_rcpp_cache(), 3, e ) ;
     return R_NilValue ;
 }
 
@@ -124,26 +126,27 @@ SEXP rcpp_get_stack_trace(){
     return VECTOR_ELT( get_rcpp_cache(), 3 ) ;
 }
 
-SEXP init_Rcpp11_cache(){   
+SEXP init_Rcpp11_cache(){ 
+    RCPP_DEBUG( "init_Rcpp11_cache()\n" )
+	
     SEXP getNamespaceSym = Rf_install("getNamespace"); 
-    SEXP RCPP = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) ) ;
-    SEXP cache = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) );
+    SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
+    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) ) ;
     
     // the Rcpp namespace
-	SET_VECTOR_ELT( cache, 0, RCPP ) ;
+	RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
 	set_error_occured( cache, false ) ;
 	set_current_error( cache, R_NilValue ) ;
-	SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
-	SET_VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
-	SEXP stack = PROTECT(Rf_allocVector(VECSXP, RCPP_PROTECT_STACK_INITIAL_SIZE)) ;
+	RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
+	RCPP_SET_VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
+	SEXP stack = PROTECT( Rf_allocVector(VECSXP, RCPP_PROTECT_STACK_INITIAL_SIZE) ) ;
 	// we use true length to store "top"
 	SET_TRUELENGTH(stack, -1 ) ;
-	SET_VECTOR_ELT( cache, RCPP_PROTECTION_STACK_INDEX, stack ) ;
+	RCPP_SET_VECTOR_ELT( cache, RCPP_PROTECTION_STACK_INDEX, stack ) ;
 	Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
     
-    UNPROTECT(3) ; 
-    
-    return cache ;
+	UNPROTECT(3) ;
+	return cache ;
 }
 
 SEXP reset_current_error(){
@@ -157,7 +160,7 @@ SEXP reset_current_error(){
     set_current_error( cache, R_NilValue ) ;
 	
     // stack trace
-    SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
+    RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
 	
     return R_NilValue ;
 }
@@ -171,7 +174,9 @@ SEXP rcpp_error_recorder(SEXP e){
     SEXP cache = get_rcpp_cache() ;
     
     // error occured
-    set_error_occured( cache, true ) ;
+    
+    RCPP_DEBUG( "rcpp_error_recorder()\n" )
+	set_error_occured( cache, true ) ;
 	
     // current error
     set_current_error(cache, e ) ;
@@ -188,9 +193,9 @@ int* get_cache( int m){
     SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
     int n = Rf_length(hash_cache) ;
     if( m > n ){
-        hash_cache = PROTECT( Rf_allocVector( INTSXP, m) ) ;
-        SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache); 
-        UNPROTECT(1) ;
+        SEXP hash_cache_ = PROTECT(Rf_allocVector( INTSXP, m)) ;
+        RCPP_SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache_); 
+        hash_cache = hash_cache_ ;
     }
     int *res = INTEGER(hash_cache) ;
     std::fill(res, res+m, 0 ) ;

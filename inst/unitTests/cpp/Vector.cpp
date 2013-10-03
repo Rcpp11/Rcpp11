@@ -623,11 +623,10 @@ NumericVector numeric_initlist(){
 
 // [[Rcpp::export]] 
 List list_initializer_list(){
-    SEXP x0 = PROTECT( Rf_ScalarInteger( 0 ) ) ;
-    SEXP x1 = PROTECT( Rf_ScalarInteger( 1 ) ) ;
-    SEXP x2 = PROTECT( Rf_ScalarInteger( 2 ) ) ;
+    Scoped<SEXP> x0 = Rf_ScalarInteger( 0 ) ;
+    Scoped<SEXP> x1 = Rf_ScalarInteger( 1 ) ;
+    Scoped<SEXP> x2 = Rf_ScalarInteger( 2 ) ;
     List x = { x0, x1, x2} ;
-    UNPROTECT(3) ;
     return x ;
 }
 

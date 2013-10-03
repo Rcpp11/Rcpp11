@@ -199,9 +199,9 @@ namespace Rcpp {
     // }}}
     
     // {{{ Evaluator
-    SEXP Evaluator::run(SEXP expr, SEXP env) {
-        RCPP_DEBUG( "Evaluator::run( expr = <%p>, env = <%p> )", expr, env ) 
-        PROTECT(expr);
+    SEXP Evaluator::run(SEXP expr_, SEXP env) {
+        RCPP_DEBUG( "Evaluator::run( expr = <%p>, env = <%p> )", expr_, env ) 
+        Scoped<SEXP> expr = expr_ ;
 
         reset_current_error() ; 
 
@@ -216,23 +216,20 @@ namespace Rcpp {
         }
         RCPP_DEBUG( "  [Evaluator::run] RCPP = " ) 
         
-        SEXP call = PROTECT( Rf_lang3( 
+        Scoped<SEXP> call = Rf_lang3( 
             tryCatchSym, 
             Rf_lang3( evalqSym, expr, env ),
             errorRecorderSym
-        ) ) ;
+        ) ;
         SET_TAG( CDDR(call), errorSym ) ;
         /* call the tryCatch call */
-        SEXP res  = PROTECT(::Rf_eval( call, RCPP ) );
-        
-        UNPROTECT(3) ;
+        Scoped<SEXP> res  = ::Rf_eval( call, RCPP );
         
         if( error_occured() ) {
-            SEXP current_error        = PROTECT( rcpp_get_current_error() ) ;
-            SEXP conditionMessageCall = PROTECT(::Rf_lang2(conditionMessageSym, current_error)) ;
-            SEXP condition_message    = PROTECT(::Rf_eval(conditionMessageCall, R_GlobalEnv)) ;
+            Scoped<SEXP> current_error        =  rcpp_get_current_error() ;
+            Scoped<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, current_error) ;
+            Scoped<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
             std::string message(CHAR(::Rf_asChar(condition_message)));
-            UNPROTECT( 3 ) ;
             throw eval_error(message) ;
         }
 
@@ -283,10 +280,9 @@ namespace Rcpp {
     
     // {{{ DottedPair
     SEXP grow( SEXP head, SEXP tail ){
-        SEXP x = PROTECT( head ) ;
-	    SEXP res = PROTECT( Rf_cons( x, tail ) ) ;
-	    UNPROTECT(2) ;
-	    return res ;    
+        Scoped<SEXP> x = head ;
+        Scoped<SEXP> res = Rf_cons( x, tail ) ;
+        return res ;    
     }
     
     namespace internal{
@@ -572,9 +568,8 @@ namespace Rcpp {
     Reference::Reference( const std::string& klass ) : S4(){
         // using callback to R as apparently R_do_new_object always makes the same environment
         SEXP newSym = Rf_install("new");
-        SEXP call = PROTECT( Rf_lang2( newSym, Rf_mkString( klass.c_str() ) ) ) ;
+        Scoped<SEXP> call = Rf_lang2( newSym, Rf_mkString( klass.c_str() ) ) ;
         set__( Rcpp::internal::try_catch( call ) ) ;
-        UNPROTECT(1) ; // call
     }
     Reference::Reference( const char* klass ) : Reference(std::string(klass)){}
     
@@ -688,15 +683,16 @@ namespace Rcpp {
                    we have to go back to R to do this operation */
                 SEXP internalSym = Rf_install( ".Internal" );
                 SEXP removeSym = Rf_install( "remove" );
-                SEXP call = PROTECT( Rf_lang2(internalSym, Rf_lang4(removeSym, Rf_mkString(name.c_str()), 
-                                                                    get__(), Rf_ScalarLogical( FALSE ))) );
+                Scoped<SEXP> call = Rf_lang2(
+                    internalSym, 
+                    Rf_lang4(removeSym, Rf_mkString(name.c_str()), get__(), Rf_ScalarLogical( FALSE )) 
+                 );
                 Rf_eval( call, R_GlobalEnv ) ;
-                UNPROTECT(1) ;
             }
         } else{
             throw no_such_binding(name) ;
         }
-        return true; // to make g++ -Wall happy
+        return true;
     }
     
     bool Environment::isLocked() const{
@@ -879,11 +875,10 @@ namespace Rcpp {
         obj.erase(strings_as_factors_index) ;
         names.erase(strings_as_factors_index) ;
         obj.attr( "names") = names ;
-        SEXP call  = PROTECT( Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ) ;
+        Scoped<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
         SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-        SEXP res = PROTECT( Evaluator::run( call ) ) ; 
+        Scoped<SEXP> res = Evaluator::run( call ) ; 
         DataFrame out( res ) ;
-        UNPROTECT(2) ;
         return out ;
     }
     
@@ -960,10 +955,10 @@ std::string demangle( const std::string& name ){
 }
 // }}}
 
-// {{{ utilities (from RcppCommon.cpp)
+// {{{ utilities
 SEXP rcpp_capabilities(){
-	SEXP cap = PROTECT( Rf_allocVector( LGLSXP, 8) ) ;
-	SEXP names = PROTECT( Rf_allocVector( STRSXP, 8 ) ) ;
+	Rcpp::Scoped<SEXP> cap   = Rf_allocVector( LGLSXP, 8) ;
+	Rcpp::Scoped<SEXP> names = Rf_allocVector( STRSXP, 8 ) ;
 
     LOGICAL(cap)[0] = TRUE ;
     LOGICAL(cap)[1] = TRUE ;
@@ -983,7 +978,6 @@ SEXP rcpp_capabilities(){
 	SET_STRING_ELT(names, 6, Rf_mkChar("demangling") ) ;
 	SET_STRING_ELT(names, 7, Rf_mkChar("long long") ) ;
 	Rf_setAttrib( cap, R_NamesSymbol, names ) ;
-	UNPROTECT(2) ;
 	return cap ;
 }
 
@@ -1127,15 +1121,12 @@ SEXP string_to_try_error( const std::string& str){
     using namespace Rcpp;
 	
     // form simple error condition based on a string
-    SEXP simpleErrorExpr = PROTECT(::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str())));
-    SEXP simpleError = PROTECT(Rf_eval(simpleErrorExpr, R_GlobalEnv));
+    Scoped<SEXP> simpleErrorExpr = ::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str()));
+    Scoped<SEXP> simpleError = Rf_eval(simpleErrorExpr, R_GlobalEnv);
 	
-    SEXP tryError = PROTECT( Rf_mkString( str.c_str() ) ) ;
+    Scoped<SEXP> tryError = Rf_mkString( str.c_str() ) ;
     Rf_setAttrib( tryError, R_ClassSymbol, Rf_mkString("try-error") ) ; 
     Rf_setAttrib( tryError, Rf_install( "condition") , simpleError ) ; 
-    
-    // unprotect and return
-    UNPROTECT(3);
     return tryError;
 }
 
@@ -1483,9 +1474,8 @@ namespace Rcpp{
                 {
                     // return Rf_coerceVector( x, STRSXP );
                     // coerceVector does not work for some reason
-                    SEXP call = PROTECT( Rf_lang2( Rf_install( "as.character" ), x ) ) ;
-                    SEXP res  = PROTECT( Rf_eval( call, R_GlobalEnv ) ) ;
-                    UNPROTECT(2); 
+                    Scoped<SEXP> call = Rf_lang2( Rf_install( "as.character" ), x ) ;
+                    Scoped<SEXP> res  = Rf_eval( call, R_GlobalEnv ) ;
                     return res ;
                 }
             case CHARSXP:
@@ -1510,10 +1500,8 @@ namespace Rcpp{
             switch( TYPEOF(x) ){
             case LANGSXP:
                 {
-                    SEXP y = R_NilValue ;
-                    PROTECT(y = Rf_duplicate( x )); 
+                    Scoped<SEXP> y = Rf_duplicate( x ); 
                     SET_TYPEOF(y,LISTSXP) ;
-                    UNPROTECT(1);
                     return y ;
                 }
             default:

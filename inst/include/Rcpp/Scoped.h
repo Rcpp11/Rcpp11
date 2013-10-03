@@ -20,15 +20,32 @@
 
 namespace Rcpp{
     
+    inline SEXP Rcpp_protect(SEXP x){
+        if( x != R_NilValue ) PROTECT(x) ; 
+        return x ; 
+    }
+    
     template <typename T>
     class Scoped{
     public:
-        Scoped( T t_) : t(PROTECT(t_)){}
+        Scoped( SEXP t_) : t(Rcpp_protect(t_)){}
         ~Scoped(){
-            UNPROTECT(1) ;    
+            if( t != R_NilValue ) UNPROTECT(1) ;    
         }
-        operator T(){ return t; }
-        T t ;
+        Scoped( const Scoped& ) = delete ;
+        Scoped& operator=( const Scoped& ) = delete ;
+        
+        Scoped( Scoped&& other ) : t(other.t) {
+            other.t = R_NilValue ;
+        }
+        Scoped& operator=( Scoped&& other ){
+            t = other.t ;
+            other.t = R_NilValue ;
+            return *this ;
+        }
+        
+        operator SEXP() const { return t; }
+        SEXP t ;
     } ;
     
 }

@@ -23,42 +23,40 @@ namespace internal{
 
     template <typename value_type, typename InputIterator> 
     inline SEXP rowmajor_wrap__dispatch( InputIterator first, int nrow, int ncol, ::Rcpp::traits::r_type_generic_tag ){
-        SEXP out = PROTECT( ::Rf_allocVector( VECSXP, nrow * ncol) );
+        Scoped<SEXP> out = ::Rf_allocVector( VECSXP, nrow * ncol);
         int i=0, j=0 ;
         for( j=0; j<ncol; j++){
             for( i=0; i<nrow; i++, ++first ){
-                SET_VECTOR_ELT( out, j + ncol*i, ::Rcpp::wrap( *first) ) ;
+                RCPP_SET_VECTOR_ELT( out, j + ncol*i, ::Rcpp::wrap( *first) ) ;
             }
         }
-        SEXP dims = PROTECT( ::Rf_allocVector( INTSXP, 2) ); 
+        Scoped<SEXP> dims = ::Rf_allocVector( INTSXP, 2); 
         INTEGER(dims)[0] = nrow; 
         INTEGER(dims)[1] = ncol; 
         ::Rf_setAttrib( out, R_DimSymbol, dims) ;
-        UNPROTECT(2); /* out, dims */
         return out ;
     }
     
     template <typename value_type, typename InputIterator> 
     inline SEXP rowmajor_wrap__dispatch( InputIterator first, int nrow, int ncol, ::Rcpp::traits::r_type_string_tag ){
-        SEXP out = PROTECT( ::Rf_allocVector( STRSXP, nrow * ncol) );
+        Scoped<SEXP> out = ::Rf_allocVector( STRSXP, nrow * ncol);
         int i=0, j=0 ;
         for( j=0; j<ncol; j++){
             for( i=0; i<nrow; i++, ++first ){
                SET_STRING_ELT( out, j + ncol*i, make_charsexp(*first) ) ;
             }
         }
-        SEXP dims = PROTECT( ::Rf_allocVector( INTSXP, 2) ); 
+        Scoped<SEXP> dims = ::Rf_allocVector( INTSXP, 2); 
         INTEGER(dims)[0] = nrow; 
         INTEGER(dims)[1] = ncol; 
         ::Rf_setAttrib( out, R_DimSymbol, dims) ;
-        UNPROTECT(2); /* out, dims */
         return out ;
     }
     
     template <typename value_type, typename InputIterator> 
     inline SEXP primitive_rowmajor_wrap__dispatch( InputIterator first, int nrow, int ncol, std::false_type ){
         const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
-        SEXP out = PROTECT( ::Rf_allocVector( RTYPE, nrow * ncol ) );
+        Scoped<SEXP> out = ::Rf_allocVector( RTYPE, nrow * ncol ) ;
         value_type* ptr = r_vector_start<RTYPE>( out );
         int i=0, j=0 ;
         for( j=0; j<ncol; j++){
@@ -66,18 +64,17 @@ namespace internal{
                ptr[ j + ncol*i ] = *first ;
            }
         }
-        SEXP dims = PROTECT( ::Rf_allocVector( INTSXP, 2) ); 
+        Scoped<SEXP> dims = ::Rf_allocVector( INTSXP, 2); 
         INTEGER(dims)[0] = nrow; 
         INTEGER(dims)[1] = ncol; 
         ::Rf_setAttrib( out, R_DimSymbol, dims) ;
-        UNPROTECT(2); /* out, dims */
         return out ;
     }
     template <typename value_type, typename InputIterator> 
     inline SEXP primitive_rowmajor_wrap__dispatch( InputIterator first, int nrow, int ncol, std::true_type ){
         const int RTYPE = ::Rcpp::traits::r_sexptype_traits<value_type>::rtype ;
         typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        SEXP out = PROTECT( ::Rf_allocVector( RTYPE, nrow * ncol ) );
+        Scoped<SEXP> out = ::Rf_allocVector( RTYPE, nrow * ncol );
         STORAGE* ptr = r_vector_start<RTYPE>( out );
         int i=0, j=0 ;
         for( j=0; j<ncol; j++){
@@ -85,11 +82,10 @@ namespace internal{
                 ptr[ j + ncol*i ] = caster<value_type,STORAGE>( *first );
             }
         }
-        SEXP dims = PROTECT( ::Rf_allocVector( INTSXP, 2) ); 
+        Scoped<SEXP> dims = ::Rf_allocVector( INTSXP, 2); 
         INTEGER(dims)[0] = nrow; 
         INTEGER(dims)[1] = ncol; 
         ::Rf_setAttrib( out, R_DimSymbol, dims) ;
-        UNPROTECT(2); /* out, dims */
         return out ;
     	
     }
