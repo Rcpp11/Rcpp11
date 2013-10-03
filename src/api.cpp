@@ -262,20 +262,6 @@ namespace Rcpp {
         }
     }
     
-    // {{{ WeakReference
-    WeakReference::WeakReference( SEXP x) {
-        if( TYPEOF(x) != WEAKREFSXP )
-            throw not_compatible( "not a weak reference" ) ;
-        set__(x) ;
-    }
-        
-    SEXP WeakReference::key() {
-        return R_WeakRefKey(get__()) ;
-    }
-        
-    SEXP WeakReference::value() {
-        return R_WeakRefValue(get__());
-    }
     // }}}
     
     // {{{ Symbol
