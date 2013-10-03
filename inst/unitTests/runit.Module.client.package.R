@@ -32,7 +32,7 @@
 
 .runThisTest <- Sys.getenv("RunAllRcppTests") == "yes"
 
-if (.runThisTest && Rcpp11:::capabilities()[["Rcpp modules"]] && ! .badOSX && ! .onWindows) {
+if (.runThisTest && ! .badOSX && ! .onWindows) {
 
     ## ## added test for 'testRcppClass' example of extending C++ classes via R
     test.Class.package <- function( ){

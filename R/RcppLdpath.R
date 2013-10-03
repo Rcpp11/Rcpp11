@@ -81,6 +81,3 @@ LdFlags <- function(static=staticLinking()) {
     cat(RcppLdFlags(static=static))
 }
 
-# capabilities
-RcppCapabilities <- capabilities <- function() .Call( rcpp_capabilities )
-

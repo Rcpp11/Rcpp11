@@ -72,8 +72,6 @@ extern "C" {
     CALLFUN_3(CppField__get);
     CALLFUN_4(CppField__set);
 
-    CALLFUN_0(rcpp_capabilities) ;
-    
     /* .External functions */
     EXTFUN(CppMethod__invoke) ;
     EXTFUN(CppMethod__invoke_void) ;

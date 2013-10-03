@@ -451,30 +451,6 @@ std::string demangle( const std::string& name ){
 
 
 // utilities
-SEXP rcpp_capabilities(){
-	Rcpp::Scoped<SEXP> cap   = Rf_allocVector( LGLSXP, 8) ;
-	Rcpp::Scoped<SEXP> names = Rf_allocVector( STRSXP, 8 ) ;
-
-    LOGICAL(cap)[0] = TRUE ;
-    LOGICAL(cap)[1] = TRUE ;
-    LOGICAL(cap)[2] = TRUE ;
-    LOGICAL(cap)[3] = TRUE ;
-    LOGICAL(cap)[4] = TRUE ;
-    LOGICAL(cap)[5] = TRUE ;
-    LOGICAL(cap)[6] = TRUE ;
-    LOGICAL(cap)[7] = TRUE ;
-
-	SET_STRING_ELT(names, 0, Rf_mkChar("variadic templates") ) ;
-	SET_STRING_ELT(names, 1, Rf_mkChar("initializer lists") ) ;
-	SET_STRING_ELT(names, 2, Rf_mkChar("exception handling") ) ;
-	SET_STRING_ELT(names, 3, Rf_mkChar("tr1 unordered maps") ) ;
-	SET_STRING_ELT(names, 4, Rf_mkChar("tr1 unordered sets") ) ;
-	SET_STRING_ELT(names, 5, Rf_mkChar("Rcpp modules") ) ;
-	SET_STRING_ELT(names, 6, Rf_mkChar("demangling") ) ;
-	SET_STRING_ELT(names, 7, Rf_mkChar("long long") ) ;
-	Rf_setAttrib( cap, R_NamesSymbol, names ) ;
-	return cap ;
-}
 
 const char * sexp_to_name(int sexp_type) {
     switch (sexp_type) {
