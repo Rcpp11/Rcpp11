@@ -99,9 +99,9 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Promise) ;
     RCPP_API_CLASS_DECL(WeakReference) ;
     RCPP_API_CLASS_DECL(S4) ;
+    RCPP_API_CLASS_DECL(Formula) ;
     
     class Reference ;
-    class Formula ;
     
     class Symbol ;
     class DataFrame ;

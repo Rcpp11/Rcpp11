@@ -344,47 +344,6 @@ namespace Rcpp {
         return dims.at(i) ;
     }    
     
-    
-    // Formula
-    Formula::Formula() : Language(){}
-        
-    Formula::Formula(SEXP x) : Language(){
-        switch( TYPEOF( x ) ){
-        case LANGSXP:
-            if( ::Rf_inherits( x, "formula") ){
-                set__( x );
-            } else{
-                set__( internal::convert_using_rfunction( x, "as.formula") ) ;
-            }
-            break;
-        case EXPRSXP:
-        case VECSXP:
-            /* lists or expression, try the first one */
-            if( ::Rf_length(x) > 0 ){
-                SEXP y = VECTOR_ELT( x, 0 ) ;
-                if( ::Rf_inherits( y, "formula" ) ){
-                    set__( y ) ;  
-                } else{
-                    SEXP z = internal::convert_using_rfunction( y, "as.formula") ;
-                    set__( z ) ;
-                }
-            } else{
-                throw not_compatible( "cannot create formula from empty list or expression" ) ; 
-            }
-            break;
-        default:
-            set__( internal::convert_using_rfunction( x, "as.formula") ) ;
-        }
-    }
-        
-    Formula::Formula( const std::string& code) : 
-        Language( internal::convert_using_rfunction( ::Rf_mkString(code.c_str()), "as.formula") ) 
-    {}
-        
-    
-    
-    // S4
-    
     // Reference 
     Reference::Reference() : S4(){}
     
