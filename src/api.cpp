@@ -830,7 +830,7 @@ namespace Rcpp {
              
     DataFrame::DataFrame(): List( internal::empty_data_frame() ){}
     DataFrame::DataFrame(SEXP x) {
-        set__(x) ;
+        set_sexp(x) ;
     }  
     DataFrame::DataFrame( const DataFrame& other): List(other.get__()) {}
     
@@ -852,7 +852,6 @@ namespace Rcpp {
             set__( y ) ;
             x = y ;
         }
-        List::update(x) ;
     } 
     int DataFrame::nrows() const { return Rf_length( VECTOR_ELT(get__(), 0) ); }
         
