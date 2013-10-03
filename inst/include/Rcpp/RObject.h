@@ -24,33 +24,37 @@
 
 namespace Rcpp{ 
 
-    class RObject : RCPP_POLICIES(RObject) {
+    template < template <class> class StoragePolicy > class RObject_Impl : 
+        public StoragePolicy<RObject_Impl<StoragePolicy>>,            
+        public SlotProxyPolicy<RObject_Impl<StoragePolicy>>,           
+        public AttributeProxyPolicy<RObject_Impl<StoragePolicy>>       
+    {
     public:
         
         /**
          * default constructor. uses R_NilValue
-         */ 
-        RObject() {}
+         */     
+        RObject_Impl() {}
 
-        RCPP_GENERATE_CTOR_ASSIGN(RObject) 
+        RCPP_GENERATE_CTOR_ASSIGN__(RObject_Impl) 
         
         /**
          * wraps a SEXP. The SEXP is automatically protected from garbage 
          * collection by this object and the protection vanishes when this 
          * object is destroyed
          */
-        RObject(SEXP x) {
-            set__(x) ;    
+        RObject_Impl(SEXP x) {
+            StoragePolicy<RObject_Impl>::set__(x) ;    
         }
 
-        /** 
-         * Assignement operator. Set this SEXP to the given SEXP
-         */ 
-        RObject& operator=( SEXP other ) ;
+        // /** 
+        //  * Assignement operator. Set this SEXP to the given SEXP
+        //  */ 
+        // RObject_Impl& operator=( SEXP other ) ;
         
         void update(SEXP){}
    };
-
+    
 } // namespace Rcpp
 
 #endif

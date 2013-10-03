@@ -88,7 +88,11 @@ namespace Rcpp{
     using CharacterVector = Vector<STRSXP> ;
     using List = Vector<VECSXP> ; 
     using ExpressionVector = Vector<EXPRSXP> ; 
-    class RObject ;
+    
+    template <typename CLASS> class RObjectStorage ;
+    template < template <class> class StoragePolicy > class RObject_Impl ;
+    using RObject = RObject_Impl<RObjectStorage> ;
+   
     class Function ;
     class Language ;
     class DataFrame ;

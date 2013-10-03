@@ -19,24 +19,46 @@
 #ifndef Rcpp_macros_interface_h
 #define Rcpp_macros_interface_h
 
-#define RCPP_GENERATE_CTOR_ASSIGN(__CLASS__)     \
-__CLASS__( const __CLASS__& other ){             \
-    copy__(other) ;                              \
-}                                                \
-__CLASS__( __CLASS__&& other ){                  \
-    steal__(other) ;                             \
-}                                                \
-__CLASS__& operator=( __CLASS__&& other ){       \
-    return steal__( other );                     \
-}                                                \
-__CLASS__& operator=(const __CLASS__& rhs) {     \
-    return copy__(rhs) ;                         \
-}                                                \
-    
+#define RCPP_GENERATE_CTOR_ASSIGN__(__CLASS__)      \
+typedef StoragePolicy<__CLASS__> Storage ; \
+__CLASS__( const __CLASS__& other ){              \
+    Storage::copy__(other) ;                               \
+}                                                 \
+__CLASS__( __CLASS__&& other ){                   \
+    Storage::steal__(other) ;                              \
+}                                                 \
+__CLASS__& operator=( __CLASS__&& other ){        \
+    return Storage::steal__( other );                      \
+}                                                 \
+__CLASS__& operator=(const __CLASS__& rhs) {      \
+    return Storage::copy__(rhs) ;                          \
+}                                                 \
+
+#define RCPP_GENERATE_CTOR_ASSIGN(__CLASS__)      \
+__CLASS__( const __CLASS__& other ){              \
+    copy__(other) ;                               \
+}                                                 \
+__CLASS__( __CLASS__&& other ){                   \
+    steal__(other) ;                              \
+}                                                 \
+__CLASS__& operator=( __CLASS__&& other ){        \
+    return steal__( other );                      \
+}                                                 \
+__CLASS__& operator=(const __CLASS__& rhs) {      \
+    return copy__(rhs) ;                          \
+}                                                 \
+   
+
 #define RCPP_POLICIES(__CLASS__)                 \
     public RObjectStorage<__CLASS__>,            \
     public SlotProxyPolicy<__CLASS__>,           \
     public AttributeProxyPolicy<__CLASS__>       \
+
+#define RCPP_API_CLASS(__CLASS__)   \
+template < template <class> class StoragePolicy > class __CLASS__##_Impl : \
+    public StoragePolicy<__CLASS__##_Impl>,            \
+    public SlotProxyPolicy<__CLASS__##_Impl>,           \
+    public AttributeProxyPolicy<__CLASS__##_Impl>       \
    
 
 #endif
