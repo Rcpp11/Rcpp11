@@ -24,25 +24,28 @@ namespace Rcpp{
     /**
      * S4 object
      */
-    class S4 : RCPP_POLICIES(S4) {     
+    RCPP_API_CLASS(S4_Impl) {     
     public:
          
-        S4(){}
+        S4_Impl(){}
         
-        RCPP_GENERATE_CTOR_ASSIGN(S4) 
+        RCPP_GENERATE_CTOR_ASSIGN__(S4_Impl) 
 	    
         /**
          * checks that x is an S4 object and wrap it.
          *
          * @param x must be an S4 object
          */
-        S4(SEXP x){
-            set__(x) ;    
+        S4_Impl(SEXP x){
+            Storage::set__(x) ;    
         }
         
-        template <typename T> S4( const T& ) ;
+        template <typename T> S4_Impl( const T& ) ;
         
-        S4& operator=( SEXP other ) ; 
+        S4_Impl& operator=( SEXP other ){
+            Storage::set__( other ) ;
+            return *this ;        
+        }
         
         /**
          * Creates an S4 object of the requested class. 
@@ -50,8 +53,13 @@ namespace Rcpp{
          * @param klass name of the target S4 class
          * @throw not_s4 if klass does not map to a known S4 class
          */
-        S4( const std::string& klass ) ;
-        S4( const char* klass ) ; 
+        S4_Impl( const std::string& klass ){
+            Storage::set__( R_do_new_object(R_do_MAKE_CLASS(klass.c_str())) ) ;
+            if (!Rf_inherits(Storage::get__(), klass.c_str()))
+                throw S4_creation_error( klass ) ;
+        }
+        
+        S4_Impl( const char* klass ) : S4( std::string(klass) ){}; 
         
         /**
          * Indicates if this object is an instance of the given S4 class

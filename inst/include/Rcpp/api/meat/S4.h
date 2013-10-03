@@ -20,8 +20,31 @@
 
 namespace Rcpp{
 
+    template < template <class> class StoragePolicy>
     template <typename T>
-    S4::S4( const T& object ) : S4(wrap(object)){}
-        
+    S4_Impl<StoragePolicy>::S4_Impl( const T& object ) : S4(wrap(object)){}
+       
+    template < template <class> class StoragePolicy>
+    bool S4_Impl<StoragePolicy>::is( const std::string& clazz ) {
+        CharacterVector cl = static_cast<AttributePolicy&>(*this).attr("class");
+                
+        // simple test for exact match
+        if( ! clazz.compare( cl[0] ) ) return true ;
+                
+        try{
+            SEXP containsSym = Rf_install("contains");
+            CharacterVector res( Rf_getAttrib(
+                R_do_slot(R_getClassDef(CHAR(Rf_asChar(as<SEXP>(cl)))),containsSym),
+                R_NamesSymbol
+            ));
+            return any( res.begin(), res.end(), clazz.c_str() ) ;
+        } catch( ... ){
+            // we catch eval_error and also not_compatible when 
+            // contains is NULL
+        }
+        return false ;
+    }
+    
+    
 }
 #endif

@@ -26,10 +26,10 @@
 
 #define RCPP_USE_NEW_PRESERVE_RELEASE 0
 
-// {{{ Rcpp api classes
+// Rcpp api classes
 namespace Rcpp {
          
-    // {{{ SexpStack
+    // SexpStack
     static SEXP RCPP_PROTECTION_STACK = R_NilValue ;
     static SEXP* RCPP_PROTECTION_STACK_PTR = 0 ;
     static bool RCPP_PROTECTION_STACK_READY = false ;
@@ -162,11 +162,11 @@ namespace Rcpp {
             }
         }
     }
-    // }}}
+    
     
                           
 
-    // {{{ Rostream
+    // Rostream
     template <> inline std::streamsize Rstreambuf<true>::xsputn(const char *s, std::streamsize num ) {
         Rprintf( "%.*s", num, s ) ;
         return num ;
@@ -195,9 +195,9 @@ namespace Rcpp {
     }
     Rostream<true>  Rcout;
     Rostream<false> Rcerr;
-    // }}}
     
-    // {{{ Evaluator
+    
+    // Evaluator
     SEXP Evaluator::run(SEXP expr_, SEXP env) {
         RCPP_DEBUG( "Evaluator::run( expr = <%p>, env = <%p> )", expr_, env ) 
         Scoped<SEXP> expr = expr_ ;
@@ -238,12 +238,8 @@ namespace Rcpp {
     SEXP Evaluator::run( SEXP expr) {
         return run(expr, R_GlobalEnv );
     }
-    // }}}
     
-    /* S4 */
-
-    // }}}
-  
+    
     SEXP grow( SEXP head, SEXP tail ){
         Scoped<SEXP> x = head ;
         Scoped<SEXP> res = Rf_cons( x, tail ) ;
@@ -262,9 +258,9 @@ namespace Rcpp {
         }
     }
     
-    // }}}
     
-    // {{{ Symbol
+    
+    // Symbol
     Symbol::Symbol( SEXP x ) {
         if( x != R_NilValue ){
             int type = TYPEOF(x) ;
@@ -293,9 +289,9 @@ namespace Rcpp {
         set__(Rf_install(symbol.c_str()));
     }
         
-    // }}}    
+        
     
-    // {{{ Dimension
+    // Dimension
     Dimension::Dimension() : dims(){}
         
     Dimension::Dimension(SEXP x): dims(){
@@ -347,9 +343,9 @@ namespace Rcpp {
         if( i < 0 || i>=static_cast<int>(dims.size()) ) throw std::range_error("index out of bounds") ;
         return dims.at(i) ;
     }    
-    // }}}
     
-    // {{{ Formula
+    
+    // Formula
     Formula::Formula() : Language(){}
         
     Formula::Formula(SEXP x) : Language(){
@@ -385,56 +381,11 @@ namespace Rcpp {
         Language( internal::convert_using_rfunction( ::Rf_mkString(code.c_str()), "as.formula") ) 
     {}
         
-    // }}}
     
-    // {{{ S4
-    S4& S4::operator=( SEXP other ) {
-        set__( other ) ;
-        return *this ;
-    }
-        
-    S4::S4( const std::string& klass ) {
-        set__( R_do_new_object(R_do_MAKE_CLASS(klass.c_str())) ) ;
-        if (!Rf_inherits(get__(), klass.c_str()))
-            throw S4_creation_error( klass ) ;
-    }
-    S4::S4( const char* klass ) : S4( std::string(klass) ) {} ;
-        
-    bool S4::is( const std::string& clazz ) {
-        CharacterVector cl = attr("class");
-                
-        // simple test for exact match
-        if( ! clazz.compare( cl[0] ) ) return true ;
-                
-        try{
-            SEXP containsSym = ::Rf_install("contains");
-            CharacterVector res(::Rf_getAttrib(
-                                    ::R_do_slot(::R_getClassDef(CHAR(::Rf_asChar(as<SEXP>(cl)))),
-                                                containsSym),
-                                    R_NamesSymbol));
-
-            // 
-            // mimic the R call: 
-            // names( slot( getClassDef( cl ), "contains" ) )
-            // 
-            // SEXP slotSym = Rf_install( "slot" ), // cannot cause gc() once in symbol table
-            //     getClassDefSym = Rf_install( "getClassDef" );
-            // CharacterVector res = internal::try_catch(Rf_lang2(R_NamesSymbol,
-            //                                                    Rf_lang3(slotSym,
-            //                                                             Rf_lang2( getClassDefSym, cl ), 
-            //                                                             Rf_mkString( "contains" )))) ;
-            return any( res.begin(), res.end(), clazz.c_str() ) ;
-        } catch( ... ){
-            // we catch eval_error and also not_compatible when 
-            // contains is NULL
-        }
-        return false ;
-                
-    }
-        
-    // }}}
     
-    // {{{ Reference 
+    // S4
+    
+    // Reference 
     Reference::Reference() : S4(){}
     
     Reference::Reference(SEXP x) : S4(){
@@ -454,9 +405,9 @@ namespace Rcpp {
     }
     Reference::Reference( const char* klass ) : Reference(std::string(klass)){}
     
-    // }}}
+    
  
-    // {{{ DataFrame
+    // DataFrame
     namespace internal{
         inline SEXP empty_data_frame(){
             SEXP dataFrameSym = ::Rf_install( "data.frame"); // cannot be gc()ed once in symbol table
@@ -522,12 +473,12 @@ namespace Rcpp {
         return out ;
     }
     
-    // }}}
+    
     
 } // namespace Rcpp
-// }}}
 
-// {{{ Rcomplex support
+
+// Rcomplex support
 Rcomplex operator*( const Rcomplex& lhs, const Rcomplex& rhs){          
     Rcomplex y ;
     y.r = lhs.r * rhs.r - lhs.i * rhs.i ;
@@ -575,9 +526,9 @@ Rcomplex operator/( const Rcomplex& a, const Rcomplex& b){
 bool operator==( const Rcomplex& a, const Rcomplex& b){
     return a.r == b.r && a.i == b.i ;    
 }
-// }}}
 
-// {{{ demangling
+
+// demangling
 #include <cxxabi.h>
 
 std::string demangle( const std::string& name ){
@@ -593,9 +544,9 @@ std::string demangle( const std::string& name ){
     }
     return real_class ;
 }
-// }}}
 
-// {{{ utilities
+
+// utilities
 SEXP rcpp_capabilities(){
 	Rcpp::Scoped<SEXP> cap   = Rf_allocVector( LGLSXP, 8) ;
 	Rcpp::Scoped<SEXP> names = Rf_allocVector( STRSXP, 8 ) ;
@@ -834,9 +785,9 @@ SEXP stack_trace( const char *file, int line) {
 	return R_NilValue ;
 }
 #endif   
-// }}}
 
-// {{{ coercion
+
+// coercion
 
 namespace Rcpp{ 
 namespace internal{
@@ -1032,9 +983,9 @@ template <> const char* coerce_to_string<CPLXSXP>(Rcomplex x){
 } // internal
 } // Rcpp
 
-// }}}
 
-// {{{ r_cast support
+
+// r_cast support
 namespace Rcpp{
     namespace internal{
         
@@ -1155,5 +1106,5 @@ namespace Rcpp{
         }
     }
 }
-// }}}
+
 

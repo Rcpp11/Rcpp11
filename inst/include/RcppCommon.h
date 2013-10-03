@@ -98,8 +98,9 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Environment) ;
     RCPP_API_CLASS_DECL(Promise) ;
     RCPP_API_CLASS_DECL(WeakReference) ;
+    RCPP_API_CLASS_DECL(S4) ;
+    
     class Reference ;
-    class S4 ;
     class Formula ;
     
     class Symbol ;
