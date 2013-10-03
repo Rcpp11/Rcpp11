@@ -21,51 +21,47 @@
 #include <R.h>
 #include <Rinternals.h>
 #include "internal.h"
+#include <Rcpp/registration/registration.h>
 
-// borrowed from Matrix
-#define CALLDEF(name, n)  {#name, (DL_FUNC) &name, n}
-#define EXTDEF(name)  {#name, (DL_FUNC) &name, -1}
-#define DOTCALL(name) DotCall(#name, &name )
+using namespace Rcpp ;
+
+#define DOT_EXT(name)  DotExternal(#name, &name)
+#define DOT_CALL(name) DotCall(#name, &name)
 
 // TODO: check that having this static does not mess up with 
 //       RInside, and move it within init_Rcpp_routines otherwise
 static R_CallMethodDef callEntries[]  = {
-    CALLDEF(Class__name,1),
-    CALLDEF(Class__has_default_constructor,1),
-    
-    CALLDEF(CppClass__complete,1),
-    CALLDEF(CppClass__methods,1),
-    
-    CALLDEF(CppObject__finalize,2),
-    
-    CALLDEF(Module__classes_info,1),
-    CALLDEF(Module__complete,1),
-    CALLDEF(Module__get_class,2),
-    CALLDEF(Module__has_class,2),
-    CALLDEF(Module__has_function,2),
-    CALLDEF(Module__functions_arity,1),
-    CALLDEF(Module__functions_names,1),
-    CALLDEF(Module__name,1),
-    CALLDEF(Module__get_function, 2),
-    
-    CALLDEF(get_rcpp_cache,0),
-    CALLDEF(rcpp_error_recorder,1),
-    CALLDEF(as_character_externalptr,1),
-    
-    CALLDEF(CppField__get,3),
-    CALLDEF(CppField__set,4),
+    DOT_CALL(Class__name),
+    DOT_CALL(Class__has_default_constructor),
+    DOT_CALL(CppClass__complete),
+    DOT_CALL(CppClass__methods),
+    DOT_CALL(CppObject__finalize),
+    DOT_CALL(Module__classes_info),
+    DOT_CALL(Module__complete),
+    DOT_CALL(Module__get_class),
+    DOT_CALL(Module__has_class),
+    DOT_CALL(Module__has_function),
+    DOT_CALL(Module__functions_arity),
+    DOT_CALL(Module__functions_names),
+    DOT_CALL(Module__name),
+    DOT_CALL(Module__get_function),
+    DOT_CALL(get_rcpp_cache),
+    DOT_CALL(rcpp_error_recorder),
+    DOT_CALL(as_character_externalptr),
+    DOT_CALL(CppField__get),
+    DOT_CALL(CppField__set),
     
     {NULL, NULL, 0}
 }; 
 
 static R_ExternalMethodDef extEntries[]  = {
-    EXTDEF(CppMethod__invoke),
-    EXTDEF(CppMethod__invoke_void),
-    EXTDEF(CppMethod__invoke_notvoid),
-    EXTDEF(InternalFunction_invoke),
-    EXTDEF(Module__invoke), 
-    EXTDEF(class__newInstance), 
-    EXTDEF(class__dummyInstance), 
+    DOT_EXT(CppMethod__invoke),
+    DOT_EXT(CppMethod__invoke_void),
+    DOT_EXT(CppMethod__invoke_notvoid),
+    DOT_EXT(InternalFunction_invoke),
+    DOT_EXT(Module__invoke), 
+    DOT_EXT(class__newInstance), 
+    DOT_EXT(class__dummyInstance), 
     
     {NULL, NULL, 0}
 } ;
