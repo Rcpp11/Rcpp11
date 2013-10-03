@@ -100,7 +100,7 @@ namespace Rcpp{
          */
         template<typename... Args> 
         Language( const std::string& symbol, const Args&... args) {
-            set__( pairlist( symbol, args...) ) ;
+            set__( pairlist( Rf_install( symbol.c_str() ), args...) ) ;
         }
         template<typename... Args> 
         Language( const Function& function, const Args&... args) {
