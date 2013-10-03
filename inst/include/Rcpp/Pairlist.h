@@ -26,16 +26,17 @@ namespace Rcpp{
         public DottedPairImpl<Pairlist_Impl<StoragePolicy>>
     {
     public:         
+        using Proxy = typename DottedPairProxyPolicy<Pairlist_Impl<StoragePolicy>>::DottedPairProxy ;
+        using const_Proxy = typename DottedPairProxyPolicy<Pairlist_Impl<StoragePolicy>>::const_DottedPairProxy ;
+        
         RCPP_GENERATE_CTOR_ASSIGN__(Pairlist_Impl) 
-	
+        
         Pairlist_Impl(SEXP x){
             Storage::set__( r_cast<LISTSXP>(x) ) ;    
         }
         
         template<typename... Args> 
-        Pairlist_Impl( const Args&... args) {
-            Storage::set__(pairlist(args...)) ;    
-        }
+        Pairlist_Impl( const Args&... args) : Pairlist_Impl(pairlist(args...)) {}
        
         void update(SEXP){}
     } ;

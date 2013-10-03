@@ -35,6 +35,7 @@
 #include <R_ext/Complex.h>
 #include <R_ext/Parse.h>
 #include <R_ext/Rdynload.h>
+#include <R_ext/Callbacks.h>
 #include <Rversion.h>
 #include <Rcpp/Scoped.h>
 
@@ -94,8 +95,8 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Function) 
     RCPP_API_CLASS_DECL(Language) 
     RCPP_API_CLASS_DECL(Pairlist) ;
+    RCPP_API_CLASS_DECL(Environment) ;
     
-    class Environment ;
     class Promise ;
     class Symbol ;
     class WeakReference ;
