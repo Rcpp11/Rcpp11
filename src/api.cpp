@@ -262,37 +262,6 @@ namespace Rcpp {
         }
     }
     
-    // {{{ Promise
-    Promise::Promise(SEXP x) {
-        if( TYPEOF(x) != PROMSXP )
-            throw not_compatible("not a promise") ;
-        set__(x) ;
-    }
-
-    int Promise::seen() const {
-        return PRSEEN(get__());
-    }
-
-    SEXP Promise::value() const {
-        SEXP val = PRVALUE(get__()) ; 
-        if( val == R_UnboundValue ) throw unevaluated_promise() ;
-        return val ;
-    }
-	
-    bool Promise::was_evaluated() const {
-        return PRVALUE(get__()) != R_UnboundValue ;
-    }
-
-    Environment Promise::environment() const {
-        return Environment(PRENV(get__())) ;
-    }
-
-    ExpressionVector Promise::expression() const {
-        return ExpressionVector(PRCODE(get__())) ;
-    }
-
-    // }}}
-       
     // {{{ WeakReference
     WeakReference::WeakReference( SEXP x) {
         if( TYPEOF(x) != WEAKREFSXP )

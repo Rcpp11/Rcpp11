@@ -21,34 +21,45 @@
 
 namespace Rcpp{ 
     
-    class Promise : RCPP_POLICIES(Promise) {     
+    RCPP_API_CLASS(Promise_Impl) {     
     public:
-        RCPP_GENERATE_CTOR_ASSIGN(Promise) 
+        RCPP_GENERATE_CTOR_ASSIGN__(Promise_Impl) 
 	
-        Promise( SEXP x);
+        Promise_Impl( SEXP x){
+            if( TYPEOF(x) != PROMSXP )
+                throw not_compatible("not a promise") ;
+            Storage::set__(x) ;    
+        }
         
         /** 
          * Return the result of the PRSEEN macro
          */
-        int seen() const ;
+        int seen() const {
+            return PRSEEN(Storage::get__());
+        }
         
         /**
          * Return the result of the PRVALUE macro on the promise
          */
-        SEXP value() const;
+        SEXP value() const{
+            SEXP val = PRVALUE(Storage::get__()) ; 
+            if( val == R_UnboundValue ) throw unevaluated_promise() ;
+            return val ;    
+        }
 
-        bool was_evaluated() const ;
+        bool was_evaluated() const{
+            return PRVALUE(Storage::get__()) != R_UnboundValue ;    
+        }
         
         /**
          * The promise expression: PRCODE
          */
-        ExpressionVector expression() const ;
+        ExpressionVector expression() const  ;
 
         /**
          * The promise environment : PRENV
          */
-        Environment environment() const ;
-        
+        Environment_Impl<StoragePolicy> environment() const ;
         void update(SEXP){}
         
     } ;

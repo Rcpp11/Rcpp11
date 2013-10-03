@@ -96,14 +96,13 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Language) 
     RCPP_API_CLASS_DECL(Pairlist) ;
     RCPP_API_CLASS_DECL(Environment) ;
-    
-    class Promise ;
-    class Symbol ;
+    RCPP_API_CLASS_DECL(Promise) ;
     class WeakReference ;
     class Reference ;
     class S4 ;
     class Formula ;
     
+    class Symbol ;
     class DataFrame ;
     
 }	
