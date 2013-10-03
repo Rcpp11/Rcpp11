@@ -28,14 +28,22 @@ public:
 	public:
 		DottedPairProxy( CLASS& v, int index_ ); 
 		
-		DottedPairProxy& operator=(const DottedPairProxy& rhs) ; 
-		DottedPairProxy& operator=(SEXP rhs) ;
+		DottedPairProxy& operator=(const DottedPairProxy& rhs){
+		    return set(rhs.get());    
+		}
+		DottedPairProxy& operator=(SEXP rhs){
+		    return set(rhs) ;    
+		}
 		
 		template <typename T>
-		DottedPairProxy& operator=(const T& rhs) ;
+		DottedPairProxy& operator=(const T& rhs){
+		    return set(wrap(rhs)) ;    
+		}
 		
 		template <typename T>
-		DottedPairProxy& operator=(const traits::named_object<T>& rhs) ;
+		DottedPairProxy& operator=(const traits::named_object<T>& rhs){
+		    return set(wrap(rhs.object), rhs.name) ;
+		}
 		
 		template <typename T> operator T() const ;
 		
@@ -74,8 +82,12 @@ public:
 	} ;
 
     
-    DottedPairProxy operator[]( int i) ;
-    const_DottedPairProxy operator[](int i) const ;
+    DottedPairProxy operator[]( int i){
+        return DottedPairProxy( static_cast<CLASS&>(*this), i ) ;    
+    }
+    const_DottedPairProxy operator[](int i) const{
+        return const_DottedPairProxy( static_cast<const CLASS&>(*this), i ) ;    
+    }
     
 } ;
 

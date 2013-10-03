@@ -29,27 +29,18 @@ namespace Rcpp{
         }
         node = x ;
     }
-     
-    template <typename CLASS>
-    DottedPairProxyPolicy<CLASS>::DottedPairProxy& DottedPairProxyPolicy<CLASS>::DottedPairProxy::operator=(const DottedPairProxy& rhs){
-        return set(rhs) ;
-    }
-        
-    template <typename CLASS>
-    DottedPairProxyPolicy<CLASS>::DottedPairProxy& DottedPairProxyPolicy<CLASS>::operator=(SEXP rhs){
-        return set(rhs) ;
-    }
-        
-    template <typename CLASS>
-    DottedPairProxyPolicy<CLASS>::DottedPairProxy DottedPairProxyPolicy<CLASS>::operator[]( int i) {
-        return DottedPairProxy( static_cast<CLASS&>(*this), i ) ;
-    }
     
     template <typename CLASS>
-    const_DottedPairProxy operator[](int i) const {
-        return const_DottedPairProxy( static_cast<const CLASS&>(*this), i ) ;
-    }
-    
+    template <typename T>
+	DottedPairProxyPolicy<CLASS>::DottedPairProxy::operator T() const{
+	    return as<T>(get());    
+	}
+        
+    template <typename CLASS>
+    template <typename T>
+	DottedPairProxyPolicy<CLASS>::const_DottedPairProxy::operator T() const{
+	    return as<T>(get());    
+	}
     
 }
 

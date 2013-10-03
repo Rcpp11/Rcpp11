@@ -57,36 +57,6 @@ test.Language.function <- function(){
 	checkEquals( runit_lang_fun(sort, sample(1:10)), 1:10, msg = "Language( Function ) " )
 }
 
-test.Language.unary.call <- function(){
-	checkEquals(
-		runit_lang_unarycall( 1:10 ),
-		lapply( 1:10, function(n) seq(from=n, to = 0 ) ),
-		msg = "c++ lapply using calls" )
-
-}
-
-test.Language.unary.call.index <- function(){
-	checkEquals(
-		runit_lang_unarycallindex( 1:10 ),
-		lapply( 1:10, function(n) seq(from=10, to = n ) ),
-		msg = "c++ lapply using calls" )
-}
-
-test.Language.binary.call <- function(){
-	checkEquals(
-		runit_lang_binarycall( 1:10, 11:20 ),
-		lapply( 1:10, function(n) seq(n, n+10) ),
-		msg = "c++ lapply using calls" )
-}
-
-test.Language.fixed.call <- function(){
-	set.seed(123)
-	res <- runit_lang_fixedcall()
-	set.seed(123)
-	exp <- lapply( 1:10, function(n) rnorm(10) )
-	checkEquals( res, exp, msg = "std::generate" )
-}
-
 test.Language.in.env <- function(){
 	e <- new.env()
 	e[["y"]] <- 1:10
