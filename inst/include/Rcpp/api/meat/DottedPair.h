@@ -26,16 +26,18 @@ namespace Rcpp{
     template <typename CLASS>
     template <typename T>
     void DottedPairImpl<CLASS>::push_front( const T& object){
-       set__( grow(object, CLASS::get__() ) ) ;
+       CLASS& ref = static_cast<CLASS&>(*this) ;
+       ref.set__( grow(object, ref.get__() ) ) ;
     }
 
     template <typename CLASS>
     template <typename T>
     void DottedPairImpl<CLASS>::push_back( const T& object){
-        if( CLASS::isNULL() ){
-            CLASS::set__( grow( object, CLASS::get__() ) ) ;
+        CLASS& ref = static_cast<CLASS&>(*this) ;
+        if( ref.isNULL() ){
+            ref.set__( grow( object, ref.get__() ) ) ;
         } else {
-            SEXP x = CLASS::get__() ;
+            SEXP x = ref.get__() ;
             /* traverse the pairlist */
             while( !Rf_isNull(CDR(x)) ){
                 x = CDR(x) ;
@@ -49,15 +51,16 @@ namespace Rcpp{
     template <typename CLASS>
     template <typename T>
 	void DottedPairImpl<CLASS>::insert( const size_t& index, const T& object) {
-		if( index == 0 ) {
+		CLASS& ref = static_cast<CLASS&>(*this) ;
+        if( index == 0 ) {
 			push_front( object ) ;
 		} else {
-			if( CLASS::isNULL( ) ) throw index_out_of_bounds() ;
+			if( ref.isNULL( ) ) throw index_out_of_bounds() ;
 			
-			if( static_cast<R_len_t>(index) > ::Rf_length(CLASS::get__()) ) throw index_out_of_bounds() ;
+			if( static_cast<R_len_t>(index) > ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
 			
 			size_t i=1;
-			SEXP x = CLASS::get__() ;
+			SEXP x = ref.get__() ;
 			while( i < index ){
 				x = CDR(x) ;
 				i++; 
@@ -71,11 +74,12 @@ namespace Rcpp{
 	template <typename CLASS>
     template <typename T>
 	void DottedPairImpl<CLASS>::replace( const int& index, const T& object ) {
-	    if( static_cast<R_len_t>(index) >= ::Rf_length(CLASS::get__()) ) throw index_out_of_bounds() ;
+	    CLASS& ref = static_cast<CLASS&>(*this) ;
+        if( static_cast<R_len_t>(index) >= ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
 		
         /* pretend we do a pairlist so that we get Named to work for us */
         SEXP x = PROTECT(pairlist( object ));
-        SEXP y = CLASS::get__() ;
+        SEXP y = ref.get__() ;
         int i=0;
         while( i<index ){ y = CDR(y) ; i++; }
         
@@ -83,6 +87,21 @@ namespace Rcpp{
         SET_TAG( y, TAG(x) );
         UNPROTECT(1) ;
 	}
+	
+	template <typename CLASS>
+    void DottedPairImpl<CLASS>::remove( const size_t& index ) {
+        CLASS& ref = static_cast<CLASS&>(*this) ;
+        if( static_cast<R_len_t>(index) >= Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
+        if( index == 0 ){
+            ref.set__( CDR( ref.get__() ) ) ;
+        } else{
+            SEXP x = ref.get__() ;
+            size_t i=1;
+            while( i<index ){ x = CDR(x) ; i++; }
+            SETCDR( x, CDDR(x) ) ;
+        }
+    }
+    
 
 	
 } // namespace Rcpp

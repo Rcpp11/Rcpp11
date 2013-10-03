@@ -63,8 +63,8 @@ namespace Rcpp{
         template <typename T>
         void replace( const int& index, const T& object ) ;
         
-        inline R_len_t length() const { return ::Rf_length(CLASS::get__()) ; }
-        inline R_len_t size() const { return ::Rf_length(CLASS::get__()) ; }
+        inline R_len_t length() const { return ::Rf_length(static_cast<const CLASS&>(*this).get__()) ; }
+        inline R_len_t size() const { return ::Rf_length(static_cast<const CLASS&>(*this).get__()) ; }
         
         /**
          * Remove the element at the given position
