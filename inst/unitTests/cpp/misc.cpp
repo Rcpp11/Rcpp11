@@ -61,35 +61,14 @@ void exceptions_(){
 // [[Rcpp::export]]
 LogicalVector has_iterator_( ){
     return LogicalVector::create( 
-        (bool)Rcpp::traits::has_iterator< std::vector<int> >::value, 
-        (bool)Rcpp::traits::has_iterator< std::list<int> >::value, 
-        (bool)Rcpp::traits::has_iterator< std::deque<int> >::value, 
-        (bool)Rcpp::traits::has_iterator< std::set<int> >::value, 
-        (bool)Rcpp::traits::has_iterator< std::map<std::string,int> >::value, 
-        (bool)Rcpp::traits::has_iterator< std::pair<std::string,int> >::value, 
-        (bool)Rcpp::traits::has_iterator< Rcpp::Symbol >::value 
-        );
-}
-
-// [[Rcpp::export]]
-void test_rcout(std::string tfile, std::string teststring){
-    // define and open testfile
-    std::ofstream testfile(tfile.c_str());
-    
-    // save output buffer of the Rcout stream
-    std::streambuf* Rcout_buffer = Rcout.rdbuf();
-    
-    // redirect ouput into testfile
-    Rcout.rdbuf( testfile.rdbuf() );
-    
-    // write a test string to the file
-    Rcout << teststring << std::endl;
-    
-    // restore old output buffer
-    Rcout.rdbuf(Rcout_buffer);
-    
-    // close testfile
-    testfile.close();
+        Rcpp::traits::has_iterator< std::vector<int> >::value, 
+        Rcpp::traits::has_iterator< std::list<int> >::value, 
+        Rcpp::traits::has_iterator< std::deque<int> >::value, 
+        Rcpp::traits::has_iterator< std::set<int> >::value, 
+        Rcpp::traits::has_iterator< std::map<std::string,int> >::value, 
+        Rcpp::traits::has_iterator< std::pair<std::string,int> >::value, 
+        Rcpp::traits::has_iterator< Rcpp::Symbol >::value 
+   );
 }
 
 // [[Rcpp::export]]

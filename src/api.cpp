@@ -24,9 +24,6 @@
 // Rcpp api classes
 namespace Rcpp {
 
-    Rostream<true>  Rcout ;
-    Rostream<false> Rcerr ;
-    
     // Evaluator
     SEXP Rcpp_eval(SEXP expr_, SEXP env) {
         RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 

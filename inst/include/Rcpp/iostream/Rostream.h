@@ -43,11 +43,6 @@ namespace Rcpp {
         }
     };
     
-    // declare global variable
-    extern Rostream<true> Rcout;
-
-    // declare global variable
-    extern Rostream<false> Rcerr;
 }
 
 #endif

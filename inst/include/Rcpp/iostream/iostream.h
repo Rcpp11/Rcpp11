@@ -50,9 +50,6 @@ namespace Rcpp{
         ::R_FlushConsole() ;
         return 0 ;
     }
-    extern Rostream<true>  Rcout;
-    extern Rostream<false> Rcerr;
-
     
 }
 #endif

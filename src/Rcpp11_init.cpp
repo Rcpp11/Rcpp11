@@ -18,18 +18,14 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
-#include <R.h>
-#include <Rinternals.h>
+#include <Rcpp.h>
 #include "internal.h"
-#include <Rcpp/registration/registration.h>
 
 using namespace Rcpp ;
 
 #define DOT_EXT(name)  DotExternal(#name, &name)
 #define DOT_CALL(name) DotCall(#name, &name)
 
-// TODO: check that having this static does not mess up with 
-//       RInside, and move it within init_Rcpp_routines otherwise
 static R_CallMethodDef callEntries[]  = {
     DOT_CALL(Class__name),
     DOT_CALL(Class__has_default_constructor),
@@ -66,17 +62,34 @@ static R_ExternalMethodDef extEntries[]  = {
     {NULL, NULL, 0}
 } ;
 
+static Rstreambuf<true>*  Rcout_buf = nullptr ;
+static Rstreambuf<false>* Rcerr_buf = nullptr ;
+static std::streambuf* cout_buf = nullptr ;
+static std::streambuf* cerr_buf = nullptr ;
+
 // this is called by R_init_Rcpp11 that is in Module.cpp
 extern "C" void init_Rcpp11_routines(DllInfo *info){
-  /* Register routines, allocate resources. */
-  R_registerRoutines(info, 
-      NULL /* .C*/, 
-      callEntries /*.Call*/,
-      NULL /* .Fortran */,
-      extEntries /*.External*/
-  );
+    Rostream<true>  Rcout;
+    Rostream<false> Rcerr;
+    Rcout_buf = new Rstreambuf<true> ;
+    Rcerr_buf = new Rstreambuf<false> ;     
+    cout_buf  = std::cout.rdbuf() ;           
+    cerr_buf  = std::cerr.rdbuf() ;           
+    
+    std::cout.rdbuf( Rcout_buf );
+    std::cerr.rdbuf( Rcerr_buf );
+
+    R_registerRoutines(info, 
+        NULL /* .C*/, 
+        callEntries /*.Call*/,
+        NULL /* .Fortran */,
+        extEntries /*.External*/
+    );
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {
-  /* Release resources. */
+    std::cout.rdbuf( Rcout_buf );
+    std::cerr.rdbuf( Rcerr_buf );
+    delete Rcout_buf ; Rcout_buf = nullptr ;
+    delete Rcerr_buf ; Rcerr_buf = nullptr ;
 }

@@ -1481,14 +1481,14 @@ namespace attributes {
      
         // verbose if requested
         if (verbose) {
-            Rcpp::Rcout << "Exports from " << attributes.sourceFile() << ":" 
+            std::cout << "Exports from " << attributes.sourceFile() << ":" 
                         << std::endl;
             for (std::vector<Attribute>::const_iterator 
                     it = attributes.begin(); it != attributes.end(); ++it) {
                 if (it->isExportedFunction())
-                    Rcpp::Rcout << "   " << it->function() << std::endl; 
+                    std::cout << "   " << it->function() << std::endl; 
             }
-            Rcpp::Rcout << std::endl;   
+            std::cout << std::endl;   
         }
     }
     
@@ -2904,7 +2904,7 @@ BEGIN_RCPP
     // verbose output
     if (verbose) {
         for (size_t i=0; i<updated.size(); i++)
-            Rcpp::Rcout << updated[i] << " updated." << std::endl;
+            std::cout << updated[i] << " updated." << std::endl;
     }
     
     RCPP_DEBUG( "</compileAttributes>" )
