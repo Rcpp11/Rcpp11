@@ -49,15 +49,6 @@ namespace Rcpp{
     class CppClass ;
     class CppObject ;
 
-    template <typename T>
-    class result {
-    public:
-        result( T* ptr_ ) : ptr(ptr_){}
-        operator T*(){ return ptr ; }
-    private:
-        T* ptr;
-    } ;
-    
 #include <Rcpp/module/get_return_type.h>
 #include <Rcpp/module/get_signature.h>
 #include <Rcpp/module/debug_function.h>
