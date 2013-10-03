@@ -86,5 +86,6 @@ template <> inline SEXP r_coerce<LGLSXP ,STRSXP>(int from){ return Rcpp::traits:
 
 #include <Rcpp/internal/coerce/coerce_to_string.h>
 #include <Rcpp/internal/coerce/true_cast.h>
+#include <Rcpp/internal/coerce/r_coerce.h>
 
 #endif
