@@ -34,7 +34,7 @@ test.Language <- function(){
 }
 
 test.Language.variadic <- function(){
-	checkEquals( runit_lang_variadic_1(), call("rnorm", 10L, 0.0, 2.0 ), 
+    checkEquals( runit_lang_variadic_1(), call("rnorm", 10L, 0.0, 2.0 ), 
 	    msg = "variadic templates" )
 
 	checkEquals( runit_lang_variadic_2(), call("rnorm", 10L, mean = 0.0, 2.0 ),
