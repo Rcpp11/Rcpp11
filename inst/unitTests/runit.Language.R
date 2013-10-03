@@ -34,7 +34,6 @@ test.Language <- function(){
 }
 
 test.Language.variadic <- function(){
-    print( runit_lang_variadic_1() )
     checkEquals( runit_lang_variadic_1(), call("rnorm", 10L, 0.0, 2.0 ), 
 	    msg = "variadic templates" )
 
@@ -58,11 +57,11 @@ test.Language.function <- function(){
 	checkEquals( runit_lang_fun(sort, sample(1:10)), 1:10, msg = "Language( Function ) " )
 }
 
-# test.Language.in.env <- function(){
-# 	e <- new.env()
-# 	e[["y"]] <- 1:10
-# 	checkEquals( runit_lang_inenv(e), sum(1:10), msg = "Language::eval( SEXP )" )
-# }
+test.Language.in.env <- function(){
+	e <- new.env()
+	e[["y"]] <- 1:10
+	checkEquals( runit_lang_inenv(e), sum(1:10), msg = "Language::eval( SEXP )" )
+}
 
 test.Pairlist <- function(){
 	checkEquals( runit_pairlist( pairlist("rnorm") ), pairlist("rnorm" ), msg = "Pairlist( LISTSXP )" )
