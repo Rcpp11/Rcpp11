@@ -19,29 +19,7 @@
 #define Rcpp_api_meat_DottedPairProxy_h
 
 namespace Rcpp{
-         
-    template <typename CLASS>
-    DottedPairProxyPolicy<CLASS>::DottedPairProxy::DottedPairProxy( CLASS& v, int index_ ) : node(R_NilValue){
-        if( index_ >= v.length() ) throw index_out_of_bounds() ;
-        SEXP x = v ; /* implicit conversion */
-        for( int i = 0; i<index_; i++, x = CDR(x) ) {
-            x = CDR(x) ;
-        }
-        node = x ;
-    }
-    
-    template <typename CLASS>
-    template <typename T>
-	DottedPairProxyPolicy<CLASS>::DottedPairProxy::operator T() const{
-	    return as<T>(get());    
-	}
-        
-    template <typename CLASS>
-    template <typename T>
-	DottedPairProxyPolicy<CLASS>::const_DottedPairProxy::operator T() const{
-	    return as<T>(get());    
-	}
-    
+
 }
 
 #endif                                         

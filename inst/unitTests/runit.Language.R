@@ -57,11 +57,11 @@ test.Language.function <- function(){
 	checkEquals( runit_lang_fun(sort, sample(1:10)), 1:10, msg = "Language( Function ) " )
 }
 
-test.Language.in.env <- function(){
-	e <- new.env()
-	e[["y"]] <- 1:10
-	checkEquals( runit_lang_inenv(e), sum(1:10), msg = "Language::eval( SEXP )" )
-}
+# test.Language.in.env <- function(){
+# 	e <- new.env()
+# 	e[["y"]] <- 1:10
+# 	checkEquals( runit_lang_inenv(e), sum(1:10), msg = "Language::eval( SEXP )" )
+# }
 
 test.Pairlist <- function(){
 	checkEquals( runit_pairlist( pairlist("rnorm") ), pairlist("rnorm" ), msg = "Pairlist( LISTSXP )" )
@@ -117,7 +117,7 @@ test.Pairlist.remove <- function(){
 }
 
 test.Pairlist.square <- function(){
-	checkEquals( runit_pl_square_1(), 10.0, msg = "Pairlist::operator[] used as rvalue" )
+    checkEquals( runit_pl_square_1(), 10.0, msg = "Pairlist::operator[] used as rvalue" )
 	checkEquals( runit_pl_square_2(), pairlist(1L, "foobar", 1L) , msg = "Pairlist::operator[] used as lvalue" )
 }
 

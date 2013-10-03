@@ -26,7 +26,12 @@ public:
     
     	class DottedPairProxy {
 	public:
-		DottedPairProxy( CLASS& v, int index_ ); 
+		DottedPairProxy( CLASS& v, int index_ ): node(R_NilValue){
+            if( index_ >= v.length() ) throw index_out_of_bounds() ;
+            SEXP x = v ; /* implicit conversion */
+            for( int i = 0; i<index_; i++, x = CDR(x) ) ;
+            node = x ;
+        }
 		
 		DottedPairProxy& operator=(const DottedPairProxy& rhs){
 		    return set(rhs.get());    
@@ -45,7 +50,9 @@ public:
 		    return set(wrap(rhs.object), rhs.name) ;
 		}
 		
-		template <typename T> operator T() const ;
+		template <typename T> operator T() const {
+		    return as<T>(get());    
+		}
 		
 		inline SEXP get() const { 
 		    return CAR(node); 
@@ -57,7 +64,7 @@ public:
 		} 
 		inline DottedPairProxy& set(SEXP x, const char* name){
             SETCAR( node, x ) ;
-            SEXP rhsNameSym = ::Rf_install( name ); // cannot be gc()ed once in symbol table
+            SEXP rhsNameSym = ::Rf_install( name );
             SET_TAG( node, rhsNameSym ) ;
             return *this ;
 		}
@@ -68,9 +75,16 @@ public:
 
 	class const_DottedPairProxy {
 	public:
-		const_DottedPairProxy( const CLASS& v, int index_ ); 
+		const_DottedPairProxy( const CLASS& v, int index_ ): node(R_NilValue){
+            if( index_ >= v.length() ) throw index_out_of_bounds() ;
+            SEXP x = v ; /* implicit conversion */
+            for( int i = 0; i<index_; i++, x = CDR(x) ) ;
+            node = x ;
+        } 
 		
-		template <typename T> operator T() const ;
+		template <typename T> operator T() const {
+		    return as<T>(get());    
+		}
 		
 		inline SEXP get() const { 
 		    return CAR(node); 
