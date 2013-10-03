@@ -30,7 +30,7 @@ namespace Rcpp{
     SEXP FieldProxyPolicy<CLASS>::FieldProxy::get() const {
         SEXP call = PROTECT( Rf_lang3( 
             R_DollarSymbol, 
-            parent.asSexp(), 
+            parent, 
             Rf_ScalarString(field_name)
         ) ) ;
         UNPROTECT(1) ;
@@ -44,7 +44,7 @@ namespace Rcpp{
         SEXP name = PROTECT( Rf_ScalarString( field_name ) ) ;
         SEXP call = PROTECT( Rf_lang4( 
             dollarGetsSym,
-            parent.asSexp(), 
+            parent, 
             name , 
             x
             ) ) ;
@@ -80,7 +80,7 @@ namespace Rcpp{
     SEXP FieldProxyPolicy<CLASS>::const_FieldProxy::get() const {
         SEXP call = PROTECT( Rf_lang3( 
             R_DollarSymbol, 
-            parent.asSexp(), 
+            parent, 
             Rf_ScalarString(field_name) 
         ) ) ;
         UNPROTECT(1) ;
