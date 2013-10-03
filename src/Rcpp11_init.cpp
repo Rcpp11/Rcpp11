@@ -21,47 +21,51 @@
 #include <R.h>
 #include <Rinternals.h>
 #include "internal.h"
-#include <Rcpp/registration/registration.h>
 
-using namespace Rcpp ;
-
-#define DOTEXTERNAL(name) DotExternal(#name, &name) 
+// borrowed from Matrix
+#define CALLDEF(name, n)  {#name, (DL_FUNC) &name, n}
+#define EXTDEF(name)  {#name, (DL_FUNC) &name, -1}
 #define DOTCALL(name) DotCall(#name, &name )
 
 // TODO: check that having this static does not mess up with 
 //       RInside, and move it within init_Rcpp_routines otherwise
 static R_CallMethodDef callEntries[]  = {
-    DOTCALL(Class__name),
-    DOTCALL(Class__has_default_constructor),
-    DOTCALL(CppClass__complete),
-    DOTCALL(CppClass__methods),
-    DOTCALL(CppObject__finalize),
-    DOTCALL(Module__classes_info),                             
-    DOTCALL(Module__complete),
-    DOTCALL(Module__get_class),
-    DOTCALL(Module__has_class),
-    DOTCALL(Module__has_function),
-    DOTCALL(Module__functions_arity),
-    DOTCALL(Module__functions_names),
-    DOTCALL(Module__name),
-    DOTCALL(Module__get_function),
-    DOTCALL(get_rcpp_cache),
-    DOTCALL(rcpp_error_recorder),
-    DOTCALL(as_character_externalptr),
-    DOTCALL(CppField__get),
-    DOTCALL(CppField__set),
+    CALLDEF(Class__name,1),
+    CALLDEF(Class__has_default_constructor,1),
+    
+    CALLDEF(CppClass__complete,1),
+    CALLDEF(CppClass__methods,1),
+    
+    CALLDEF(CppObject__finalize,2),
+    
+    CALLDEF(Module__classes_info,1),
+    CALLDEF(Module__complete,1),
+    CALLDEF(Module__get_class,2),
+    CALLDEF(Module__has_class,2),
+    CALLDEF(Module__has_function,2),
+    CALLDEF(Module__functions_arity,1),
+    CALLDEF(Module__functions_names,1),
+    CALLDEF(Module__name,1),
+    CALLDEF(Module__get_function, 2),
+    
+    CALLDEF(get_rcpp_cache,0),
+    CALLDEF(rcpp_error_recorder,1),
+    CALLDEF(as_character_externalptr,1),
+    
+    CALLDEF(CppField__get,3),
+    CALLDEF(CppField__set,4),
     
     {NULL, NULL, 0}
 }; 
 
 static R_ExternalMethodDef extEntries[]  = {
-    DOTEXTERNAL(CppMethod__invoke),
-    DOTEXTERNAL(CppMethod__invoke_void),
-    DOTEXTERNAL(CppMethod__invoke_notvoid),
-    DOTEXTERNAL(InternalFunction_invoke),
-    DOTEXTERNAL(Module__invoke), 
-    DOTEXTERNAL(class__newInstance), 
-    DOTEXTERNAL(class__dummyInstance), 
+    EXTDEF(CppMethod__invoke),
+    EXTDEF(CppMethod__invoke_void),
+    EXTDEF(CppMethod__invoke_notvoid),
+    EXTDEF(InternalFunction_invoke),
+    EXTDEF(Module__invoke), 
+    EXTDEF(class__newInstance), 
+    EXTDEF(class__dummyInstance), 
     
     {NULL, NULL, 0}
 } ;

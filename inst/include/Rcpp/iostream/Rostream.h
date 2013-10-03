@@ -24,9 +24,6 @@
 // modified from 
 // http://stackoverflow.com/questions/243696/correctly-over-loading-a-stringbuf-to-replace-cout-in-a-matlab-mex-file
 
-#include <Rcpp/iostream/Rstreambuf.h>
-#include <iostream>
-
 namespace Rcpp {   
 
     template <bool OUTPUT>

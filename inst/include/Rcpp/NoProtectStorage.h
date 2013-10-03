@@ -36,7 +36,7 @@ namespace Rcpp{
             return data ;    
         }
         
-        inline SEXP invalidate__(){}
+        inline SEXP invalidate__(){ return data ;}
         
         inline CLASS& copy__(const CLASS& other){
             if( this != &other){
