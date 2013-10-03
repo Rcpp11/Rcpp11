@@ -28,8 +28,8 @@ namespace Rcpp {
     Rostream<false> Rcerr ;
     
     // Evaluator
-    SEXP Evaluator::run(SEXP expr_, SEXP env) {
-        RCPP_DEBUG( "Evaluator::run( expr = <%p>, env = <%p> )", expr_, env ) 
+    SEXP Rcpp_eval(SEXP expr_, SEXP env) {
+        RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 
         Scoped<SEXP> expr = expr_ ;
 
         reset_current_error() ; 
@@ -43,7 +43,7 @@ namespace Rcpp {
             errorRecorderSym          = ::Rf_install(".rcpp_error_recorder");
             errorSym                  = ::Rf_install("error");
         }
-        RCPP_DEBUG( "  [Evaluator::run] RCPP = " ) 
+        RCPP_DEBUG( "  [Rcpp_eval] RCPP = " ) 
         
         Scoped<SEXP> call = Rf_lang3( 
             tryCatchSym, 
@@ -65,10 +65,6 @@ namespace Rcpp {
         return res ;
     }
 
-    SEXP Evaluator::run( SEXP expr) {
-        return run(expr, R_GlobalEnv );
-    }
-    
     namespace internal{
         template <> Rcpp::String as<Rcpp::String>(SEXP x, ::Rcpp::traits::r_type_string_tag ) {
             if( ! ::Rf_isString(x) ){
@@ -195,7 +191,7 @@ namespace Rcpp {
         obj.attr( "names") = names ;
         Scoped<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
         SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-        Scoped<SEXP> res = Evaluator::run( call ) ; 
+        Scoped<SEXP> res = Rcpp_eval( call ) ; 
         DataFrame out( res ) ;
         return out ;
     }
@@ -369,7 +365,7 @@ namespace internal{
         SEXP res = R_NilValue ;
         try{
             SEXP funSym = Rf_install(fun);
-            res = Evaluator::run( Rf_lang2( funSym, x ) ) ;
+            res = Rcpp_eval( Rf_lang2( funSym, x ) ) ;
         } catch( eval_error& e){
             throw ::Rcpp::not_compatible( std::string("could not convert using R function : ") + fun  ) ;
         }
@@ -378,11 +374,11 @@ namespace internal{
     
     SEXP try_catch( SEXP expr, SEXP env ) {
         RCPP_DEBUG( "try_catch( expr = <%p>, env = <%p> )", expr, env )
-        return Evaluator::run(expr, env) ;
+        return Rcpp_eval(expr, env) ;
     }
     SEXP try_catch( SEXP expr ) {
         RCPP_DEBUG( "try_catch( expr = <%p> )", expr )
-        return Evaluator::run(expr) ;
+        return Rcpp_eval(expr) ;
     }
     
     SEXP eval_methods<EXPRSXP>::eval(){

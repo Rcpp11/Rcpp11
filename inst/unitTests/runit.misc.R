@@ -46,7 +46,7 @@ test.Argument <- function(){
 }
 
 test.evaluator.error <- function(){
-   checkException( evaluator_error(), msg = "Evaluator::run( stop() )" )
+   checkException( evaluator_error(), msg = "Rcpp_eval( stop() )" )
 }
 
 test.evaluator.ok <- function(){

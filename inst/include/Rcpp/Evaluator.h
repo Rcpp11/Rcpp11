@@ -26,13 +26,9 @@
 
 namespace Rcpp{ 
 
-    class Evaluator{
-    public:
-                
-        static SEXP run(SEXP expr); 
-        static SEXP run(SEXP expr, SEXP env);
-    };
-
+    SEXP Rcpp_eval(SEXP expr, SEXP env) ;
+    inline SEXP Rcpp_eval(SEXP expr){ return Rcpp_eval( expr, R_GlobalEnv) ; }
+    
 } // namespace Rcpp
 
 #endif

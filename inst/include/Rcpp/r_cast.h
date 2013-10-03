@@ -26,7 +26,6 @@
 namespace Rcpp{
     namespace internal {
         
-        /* defined in Evaluator.cpp */
         SEXP convert_using_rfunction(SEXP x, const char* const fun);
         
         // r_true_cast is only meant to be used when the target SEXP type

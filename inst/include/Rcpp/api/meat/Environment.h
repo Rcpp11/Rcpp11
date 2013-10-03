@@ -32,7 +32,7 @@ namespace Rcpp{
             SEXP res ;
             try {
                 SEXP asEnvironmentSym = Rf_install("as.environment"); 
-                res = Evaluator::run( Rf_lang2(asEnvironmentSym, x ) ) ;
+                res = Rcpp_eval( Rf_lang2(asEnvironmentSym, x ) ) ;
             } catch( const eval_error& ex){
                 throw not_compatible( "cannot convert to environment"  ) ; 
             }
@@ -52,7 +52,7 @@ namespace Rcpp{
             SEXP res = R_NilValue ;
             try{
                 SEXP asEnvironmentSym = Rf_install("as.environment"); 
-                res = Evaluator::run(Rf_lang2( asEnvironmentSym, Rf_mkString(name.c_str()) ) ) ;
+                res = Rcpp_eval(Rf_lang2( asEnvironmentSym, Rf_mkString(name.c_str()) ) ) ;
             } catch( const eval_error& ex){
                 throw no_such_env(name) ;
             }
@@ -66,7 +66,7 @@ namespace Rcpp{
         SEXP res ;
         try{
             SEXP asEnvironmentSym = Rf_install("as.environment"); 
-            res =  Evaluator::run( Rf_lang2( asEnvironmentSym, Rf_ScalarInteger(pos) ) ) ;
+            res =  Rcpp_eval( Rf_lang2( asEnvironmentSym, Rf_ScalarInteger(pos) ) ) ;
         } catch( const eval_error& ex){
             throw no_such_env(pos) ;
         }
@@ -79,7 +79,7 @@ namespace Rcpp{
         SEXP env = R_NilValue ;
         try{
             SEXP getNamespaceSym = Rf_install("getNamespace");
-            env = Evaluator::run( Rf_lang2(getNamespaceSym, Rf_mkString(package.c_str()) ) ) ;
+            env = Rcpp_eval( Rf_lang2(getNamespaceSym, Rf_mkString(package.c_str()) ) ) ;
         } catch( const eval_error& ex){
             throw no_such_namespace( package  ) ; 
         }
@@ -89,7 +89,7 @@ namespace Rcpp{
     template < template <class> class StoragePolicy>
     Environment_Impl<StoragePolicy> Environment_Impl<StoragePolicy>::new_child(bool hashed){
         SEXP newEnvSym = Rf_install("new.env");
-        return Environment( Evaluator::run(Rf_lang3( newEnvSym, Rf_ScalarLogical(hashed), Storage::get__() )) );
+        return Environment( Rcpp_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(hashed), Storage::get__() )) );
     }
         
     
