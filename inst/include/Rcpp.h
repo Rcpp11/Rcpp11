@@ -28,6 +28,7 @@
 #endif
 
 #include <RcppCommon.h>
+#include <Rcpp/registration/registration.h>
 
 #include <Rcpp/exceptions.h>
 
