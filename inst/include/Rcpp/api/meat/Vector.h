@@ -322,12 +322,11 @@ namespace Rcpp{
         SEXP newnames = PROTECT( ::Rf_allocVector( STRSXP, n+1 ) ) ;
         int i=0;
         if( names == R_NilValue ){
-            SEXP dummy = PROTECT( Rf_mkChar("") );
+            SEXP dummy = Rf_mkChar("") ;
             for( ; it < this_end; ++it, ++target_it,i++ ){
                 *target_it = *it ;
                 SET_STRING_ELT( newnames, i , dummy );
             }
-            UNPROTECT(1) ; /* dummy */
         } else {
             for( ; it < this_end; ++it, ++target_it, i++ ){
                 *target_it = *it ;

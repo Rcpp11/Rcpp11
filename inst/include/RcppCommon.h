@@ -36,6 +36,7 @@
 #include <R_ext/Parse.h>
 #include <R_ext/Rdynload.h>
 #include <Rversion.h>
+#include <Rcpp/Scoped.h>
 
 #ifdef __cplusplus
 extern "C" 

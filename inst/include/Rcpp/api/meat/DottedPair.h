@@ -42,7 +42,7 @@ namespace Rcpp{
             while( !Rf_isNull(CDR(x)) ){
                 x = CDR(x) ;
             }
-            SEXP tail = PROTECT( pairlist( object ) ); 
+            SEXP tail = Scoped<SEXP>( pairlist( object ) ); 
             SETCDR( x, tail ) ;
             UNPROTECT(1) ;
         }
