@@ -80,7 +80,6 @@ const char * sexp_to_name(int sexp_type);
 #include <Rcpp/Demangler.h>
 
 namespace Rcpp{
-    SEXP Rcpp_evaluate(SEXP, SEXP) ;
     
     inline const char* short_file_name(const char* file) {
         std::string f(file) ;

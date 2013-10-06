@@ -26,15 +26,18 @@
 
 namespace Rcpp{ 
 
+    SEXP Rcpp_evaluate(SEXP, SEXP) ;
+    
     inline SEXP Rcpp_eval(SEXP expr, SEXP env){
         #if defined(COMPILING_RCPP11)
             return Rcpp_evaluate(expr, env) ;
         #else
-            typedef SEXP(*Fun)(SEXP,SEXP) ;
+            typedef decltype(Rcpp_eval) Fun ;
             static Fun eval = (Fun)R_GetCCallable("Rcpp11", "Rcpp_evaluate");
             return eval(expr, env) ;
         #endif
     }
+    
     
     inline SEXP Rcpp_eval(SEXP expr){
         return Rcpp_eval( expr, R_GlobalEnv) ; 

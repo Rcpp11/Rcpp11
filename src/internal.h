@@ -95,4 +95,61 @@ extern "C" {
 #undef CALLFUN_4
 #undef CALLFUN_5
 
+#define MAX_ARGS 65
+
+#define UNPACK_EXTERNAL_ARGS(__CARGS__,__P__)    \
+SEXP __CARGS__[MAX_ARGS] ;                       \
+int nargs = 0 ;                                  \
+for(; nargs<MAX_ARGS; nargs++){                  \
+	if( __P__ == R_NilValue ) break ;            \
+	__CARGS__[nargs] = CAR(__P__) ;              \
+	__P__ = CDR(__P__) ;                         \
+}
+
+#define RCPP_FUN_1(__OUT__,__NAME__, ___0)        \
+__OUT__ RCPP_DECORATE(__NAME__)(___0) ;               \
+extern "C" SEXP __NAME__(SEXP x0){                       \
+SEXP res = R_NilValue ;                             \
+BEGIN_RCPP                                          \
+res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 )) ) ; \
+return res ;                                        \
+END_RCPP                                            \
+}                                                   \
+__OUT__ RCPP_DECORATE(__NAME__)(___0)
+
+
+#define RCPP_FUN_2(__OUT__,__NAME__, ___0, ___1)        \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1) ;               \
+extern "C" SEXP __NAME__(SEXP x0, SEXP x1){                       \
+SEXP res = R_NilValue ;                             \
+BEGIN_RCPP                                          \
+res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 )) ) ; \
+return res ;                                        \
+END_RCPP                                            \
+}                                                   \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1)
+
+#define RCPP_FUN_3(__OUT__,__NAME__, ___0, ___1, ___2)        \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2) ;               \
+extern "C" SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2){                       \
+SEXP res = R_NilValue ;                             \
+BEGIN_RCPP                                          \
+res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 ), ::Rcpp::internal::converter( x2 )) ) ; \
+return res ;                                        \
+END_RCPP                                            \
+}                                                   \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2)
+
+#define RCPP_FUN_4(__OUT__,__NAME__, ___0, ___1, ___2, ___3)        \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2, ___3) ;               \
+extern "C" SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2, SEXP x3){                       \
+SEXP res = R_NilValue ;                             \
+BEGIN_RCPP                                          \
+res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 ), ::Rcpp::internal::converter( x2 ), ::Rcpp::internal::converter( x3 )) ) ; \
+return res ;                                        \
+END_RCPP                                            \
+}                                                   \
+__OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2, ___3)
+
+
 #endif

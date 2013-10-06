@@ -89,7 +89,7 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
         extEntries /*.External*/
     );
     
-    ::R_RegisterCCallable( "Rcpp11", "Rcpp_evaluate", (DL_FUNC)Rcpp_evaluate );
+    R_RegisterCCallable( "Rcpp11", "Rcpp_evaluate", (DL_FUNC)Rcpp_evaluate );
     
 }
         

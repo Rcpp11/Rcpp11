@@ -165,14 +165,14 @@ test.environment.empty.env <- function(){
 	checkEquals( runit_emptyenv(), .BaseNamespaceEnv, msg = "REnvironment::base_namespace" )
 }
 
-test.environment.namespace.env <- function(){
-	checkEquals( runit_namespace("Rcpp11"), asNamespace("Rcpp11"), msg = "REnvironment::base_namespace" )
-
-	checkTrue(
-		tryCatch( { runit_namespace("----" ) ; FALSE}, "Rcpp::no_such_namespace" = function(e) TRUE ),
-		msg = "Environment::namespace_env(no namespace) -> exception)" )
-	
-}
+# test.environment.namespace.env <- function(){
+# 	checkEquals( runit_namespace("Rcpp11"), asNamespace("Rcpp11"), msg = "REnvironment::base_namespace" )
+# 
+# 	checkTrue(
+# 		tryCatch( { runit_namespace("----" ) ; FALSE}, "Rcpp::no_such_namespace" = function(e) TRUE ),
+# 		msg = "Environment::namespace_env(no namespace) -> exception)" )
+# 	
+# }
 
 test.environment.constructor.SEXP <- function(){
 	checkEquals( runit_env_SEXP( globalenv() ), globalenv(), msg = "Environment( environment ) - 1" )

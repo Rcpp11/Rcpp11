@@ -326,14 +326,6 @@ namespace Rcpp{
         function( fun_name.c_str(), fun, docstring ) ;
     }  
        
-    // commented out as there is no convert_to in class_
-    // 
-    // template <typename FROM, typename TO>
-    // void converter( const char* /* from */ , const char* to, TO (FROM::*fun)(), const char* docstring = 0 ){
-    //     class_<FROM>().convert_to( to, fun, docstring ) ;
-    // }
-    
-    
     class CppClass : public S4{
     public:
         typedef Rcpp::XPtr<Rcpp::Module> XP ;
