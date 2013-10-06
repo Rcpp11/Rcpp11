@@ -24,6 +24,7 @@
 #include <Rcpp/api/meat/DottedPairProxy.h>
 #include <Rcpp/api/meat/RObjectStorage.h>
 #include <Rcpp/api/meat/NoProtectStorage.h>
+#include <Rcpp/api/meat/Dimension.h>
 #include <Rcpp/api/meat/RObject.h>
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>

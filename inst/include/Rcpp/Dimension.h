@@ -32,23 +32,37 @@ namespace Rcpp{
 	    typedef std::vector<int>::reference reference ;
 	    typedef std::vector<int>::const_reference const_reference ;
 	    
-	    Dimension() ;
-	    Dimension(SEXP dims);
-	    Dimension( const Dimension& other ) ;
-	    Dimension& operator=( const Dimension& other ) ;
-	    Dimension(const size_t& n1) ;
-	    Dimension(const size_t& n1, const size_t& n2) ;
-	    Dimension(const size_t& n1, const size_t& n2, const size_t& n3) ;
+	    Dimension(SEXP dims) ;
+	    inline Dimension(const size_t& n1) : dims(1){
+            dims[0] = n1 ;
+        }
+	    inline Dimension(const size_t& n1, const size_t& n2) : dims(2){
+            dims[0] = n1 ;
+            dims[1] = n2 ;
+        }
+	    inline Dimension(const size_t& n1, const size_t& n2, const size_t& n3) : dims(3){
+            dims[0] = n1 ;
+            dims[1] = n2 ;
+            dims[2] = n3 ;
+        }
 	    operator SEXP() const ;
 	    
-	    int size() const ;
-	    int prod() const ;
+	    inline int size() const {
+	        return static_cast<int>( dims.size() ) ;
+	    }
+	    inline int prod() const {
+	        return std::accumulate( dims.begin(), dims.end(), 1, std::multiplies<int>() ) ;    
+	    }
 	    
-	    reference operator[](int i);
-	    const_reference operator[](int i) const;
+	    inline reference operator[](int i){
+	        return dims.at(i) ;
+	    }
+	    inline const_reference operator[](int i) const{
+	        return dims.at(i) ;    
+	    }
 	    
-        private:
-	    std::vector<int> dims;
+    private:
+        std::vector<int> dims;
     };
 
 }
