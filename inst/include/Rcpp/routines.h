@@ -53,7 +53,10 @@ namespace Rcpp {
         GET_CALLABLE(string_to_try_error__impl, str)
     }
     
-
+    SEXP stack_trace__impl( const char *file, int line) ;
+    inline SEXP stack_trace( const char *file, int line){
+        GET_CALLABLE(stack_trace__impl, file, line)
+    }
 }
     
 #endif

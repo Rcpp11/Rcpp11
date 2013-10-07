@@ -25,7 +25,6 @@
 #include <Rinternals.h>
 #include <sstream>
 
-SEXP stack_trace( const char *file, int line) ;
 #define GET_STACKTRACE() stack_trace( __FILE__, __LINE__ )
 
 namespace Rcpp{

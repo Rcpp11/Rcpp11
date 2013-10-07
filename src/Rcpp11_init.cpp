@@ -97,6 +97,7 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
     REGISTER(forward_exception_to_r)
     REGISTER(exception_to_try_error)
     REGISTER(string_to_try_error)
+    REGISTER(stack_trace)
     
 }
         
