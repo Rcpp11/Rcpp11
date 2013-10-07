@@ -412,7 +412,12 @@ namespace Rcpp {
             set( tmp ) ;
             return *this ;
         }
-		
+	               
+        template<> inline SEXP caster<String,SEXP>( String from ) {
+            return from.get_sexp() ;    
+        }
+
+        
 	}
     
 } // Rcpp 

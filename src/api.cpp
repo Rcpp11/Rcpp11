@@ -182,30 +182,6 @@ namespace Rcpp {
 namespace Rcpp{
 namespace internal{
 	
-	template<> Rcomplex caster<std::complex<double>, Rcomplex>( std::complex<double> from){
-		Rcomplex cx ;
-		cx.r = from.real() ; 
-		cx.i = from.imag() ;
-		return cx ;
-	}
-	template<> Rcomplex caster<std::complex<float>, Rcomplex>( std::complex<float> from){
-		Rcomplex cx ;
-		cx.r = static_cast<double>( from.real() ); 
-		cx.i = static_cast<double>( from.imag() );
-		return cx ;
-	}
-
-	template<> std::complex<double> caster<Rcomplex,std::complex<double> >( Rcomplex from){
-		return std::complex<double>(from.r, from.i ) ;
-	}
-	template<> std::complex<float> caster<Rcomplex,std::complex<float> >( Rcomplex from){
-		return std::complex<float>(static_cast<float>(from.r), static_cast<float>(from.i) ) ;
-	}
-	template<> SEXP caster<String,SEXP>( String from){
-		return from.get_sexp() ;
-	}
-	
-
 	SEXP convert_using_rfunction(SEXP x, const char* const fun) {
         SEXP res = R_NilValue ;
         try{
