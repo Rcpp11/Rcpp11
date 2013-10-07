@@ -23,23 +23,23 @@
 
 namespace Rcpp{ 
 
-    template <int RTYPE>
-    Vector<RTYPE>::Vector() {
-        RCPP_DEBUG_CTOR( Vector, "()" )
+    template <int RTYPE, template <class> class StoragePolicy>
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl() {
+        RCPP_DEBUG_CTOR( Vector_Impl, "()" )
         Storage::set__( Rf_allocVector( RTYPE, 0 ) ) ;
         init() ;
     }
     
-    template <int RTYPE>
-    Vector<RTYPE>::Vector( const int& size ) {
-        RCPP_DEBUG_CTOR( Vector, "( int = %d ) ", size )
+    template <int RTYPE, template <class> class StoragePolicy>
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const int& size ) {
+        RCPP_DEBUG_CTOR( Vector_Impl, "( int = %d ) ", size )
         Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         init() ;
     }
     
-    template <int RTYPE>
-    Vector<RTYPE>::Vector( const Dimension& dims ) {
-        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d) )", dims.size()  )
+    template <int RTYPE, template <class> class StoragePolicy>
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const Dimension& dims ) {
+        RCPP_DEBUG_CTOR( Vector_Impl, "( const Dimension& (%d) )", dims.size()  )
         Storage::set__(Rf_allocVector( RTYPE, dims.prod() )) ; 
         init() ;
         if( dims.size() > 1 ){
@@ -47,10 +47,10 @@ namespace Rcpp{
         }
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename U>
-    Vector<RTYPE>::Vector( const Dimension& dims, const U& u) {
-        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d), const %s& )", dims.size(), DEMANGLE(U) )
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const Dimension& dims, const U& u) {
+        RCPP_DEBUG_CTOR( Vector_Impl, "( const Dimension& (%d), const %s& )", dims.size(), DEMANGLE(U) )
         Storage::set__( Rf_allocVector( RTYPE, dims.prod() ) ) ;
         fill(u) ;
         if( dims.size() > 1 ){
@@ -58,92 +58,92 @@ namespace Rcpp{
         }
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename U>
-    Vector<RTYPE>::Vector( const int& size, const U& u) {
-        RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const int& size, const U& u) {
+        RCPP_DEBUG_CTOR( Vector_Impl, "( const int& size, const %s& u )", size, DEMANGLE(U) )
         Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         fill( u ) ;	
     }
         
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename VEC>
-    Vector<RTYPE>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) {
-        RCPP_DEBUG_CTOR( Vector, "( const VectorBase<%d,%s,VEC>& ) [VEC = %s]", RTYPE, (NA?"true":"false"), DEMANGLE(VEC) )
-        import_sugar_expression( other, typename std::is_same<Vector,VEC>::type() ) ;
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const VectorBase<RTYPE,NA,VEC>& other ) {
+        RCPP_DEBUG_CTOR( Vector_Impl, "( const VectorBase<%d,%s,VEC>& ) [VEC = %s]", RTYPE, (NA?"true":"false"), DEMANGLE(VEC) )
+        import_sugar_expression( other, typename std::is_same<Vector_Impl,VEC>::type() ) ;
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename T>
-    Vector<RTYPE>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) {
+    Vector_Impl<RTYPE,StoragePolicy>::Vector_Impl( const sugar::SingleLogicalResult<NA,T>& obj ) {
         Storage::set__( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) );
-        RCPP_DEBUG_CTOR( Vector, "( const sugar::SingleLogicalResult<%s,T>& ) [T = %s]", (NA?"true":"false"), DEMANGLE(T) )
+        RCPP_DEBUG_CTOR( Vector_Impl, "( const sugar::SingleLogicalResult<%s,T>& ) [T = %s]", (NA?"true":"false"), DEMANGLE(T) )
     }
     
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T> 
-    Vector<RTYPE>& Vector<RTYPE>::operator=( const T &x ){
+    Vector_Impl<RTYPE,StoragePolicy>& Vector_Impl<RTYPE,StoragePolicy>::operator=( const T &x ){
         assign_object( x, typename traits::is_sugar_expression<T>::type() ) ;
         return *this ;
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename T>
-    inline void Vector<RTYPE>::assign_sugar_expression( const VectorBase<RTYPE,NA,T>& x ){
+    inline void Vector_Impl<RTYPE,StoragePolicy>::assign_sugar_expression( const VectorBase<RTYPE,NA,T>& x ){
         int n = size() ;
         if( n == x.size() ){
             // just copy the data 
             import_expression<T>(x.get_ref(), n ) ;
         } else{
             // different size, so we change the memory
-            Vector<RTYPE> tmp(x) ;
+            Vector_Impl<RTYPE,StoragePolicy> tmp(x) ;
             Storage::set__( tmp ); 
         }
     }
     
     // sugar
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T>
-    inline void Vector<RTYPE>::assign_object( const T& x, std::true_type ){
+    inline void Vector_Impl<RTYPE,StoragePolicy>::assign_object( const T& x, std::true_type ){
         assign_sugar_expression( x ) ;
     }
     
     // anything else
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T>
-    inline void Vector<RTYPE>::assign_object( const T& x, std::false_type ){
+    inline void Vector_Impl<RTYPE,StoragePolicy>::assign_object( const T& x, std::false_type ){
         Storage::set__( r_cast<RTYPE>( wrap(x) ) ) ;
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename VEC>
-    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
-        RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, false_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
+    inline void Vector_Impl<RTYPE,StoragePolicy>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ){
+        RCPP_DEBUG_CLASS( Vector_Impl, "::import_sugar_expression( VectorBase<%d,%s,%s>, false_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
         int n = other.size() ;
         Storage::set__( Rf_allocVector( RTYPE, n ) ) ;
         import_expression<VEC>( other.get_ref() , n ) ;
     }   
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename VEC>
-    inline void Vector<RTYPE>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
-        RCPP_DEBUG_CLASS( Vector, "::import_sugar_expression( VectorBase<%d,%s,%s>, true_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
+    inline void Vector_Impl<RTYPE,StoragePolicy>::import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ){
+        RCPP_DEBUG_CLASS( Vector_Impl, "::import_sugar_expression( VectorBase<%d,%s,%s>, true_type )", RTYPE, (NA?"true":"false"), RTYPE, DEMANGLE(VEC) ) ;
         Storage::set__( other.get_ref() ) ;
     }   
 
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T>
-    inline void Vector<RTYPE>::import_expression( const T& other, int n ){
+    inline void Vector_Impl<RTYPE,StoragePolicy>::import_expression( const T& other, int n ){
         iterator start = begin() ; 
         RCPP_LOOP_UNROLL(start,other)
     }
     
-    template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::erase_single__impl( iterator position ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    typename Vector_Impl<RTYPE,StoragePolicy>::iterator Vector_Impl<RTYPE,StoragePolicy>::erase_single__impl( iterator position ){
         if( position < begin() || position > end() ) throw index_out_of_bounds( ) ;
         int n = size() ;
-        Vector target( n - 1 ) ;
+        Vector_Impl target( n - 1 ) ;
         iterator target_it(target.begin()) ;
         iterator it(begin()) ;
         iterator this_end(end()) ;
@@ -179,8 +179,8 @@ namespace Rcpp{
         }
     }
     
-    template <int RTYPE>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::erase_range__impl( iterator first, iterator last ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    typename Vector_Impl<RTYPE,StoragePolicy>::iterator Vector_Impl<RTYPE,StoragePolicy>::erase_range__impl( iterator first, iterator last ){
         if( first > last ) throw std::range_error("invalid range") ;
         if( last > end() || first < begin() ) throw index_out_of_bounds() ;
 		
@@ -188,7 +188,7 @@ namespace Rcpp{
         iterator this_end = end() ;
         int nremoved = std::distance(first,last) ;
         int target_size = size() - nremoved  ;
-        Vector target( target_size ) ;
+        Vector_Impl target( target_size ) ;
         iterator target_it = target.begin() ;
 		
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
@@ -221,10 +221,10 @@ namespace Rcpp{
     }
     
  
-    template <int RTYPE>
-    void Vector<RTYPE>::push_back__impl(const stored_type& object, std::false_type){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_back__impl(const stored_type& object, std::false_type){
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
@@ -247,11 +247,11 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }	
     
-    template <int RTYPE>
-    void Vector<RTYPE>::push_back__impl(const stored_type& object, std::true_type){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_back__impl(const stored_type& object, std::true_type){
         Scoped<SEXP> object_sexp = object ;
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
@@ -274,10 +274,10 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }	
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, std::false_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_back_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -303,11 +303,11 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         Scoped<SEXP> object_sexp = object ;
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -333,10 +333,10 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_front__impl(const stored_type& object, std::false_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_front__impl(const stored_type& object, std::false_type ){
         int n = size() ;
-        Vector target( n+1);
+        Vector_Impl target( n+1);
         iterator target_it(target.begin());
         iterator it(begin());
         iterator this_end(end());
@@ -360,11 +360,11 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_front__impl(const stored_type& object, std::true_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_front__impl(const stored_type& object, std::true_type ){
         Scoped<SEXP> object_sexp = object ;
         int n = size() ;
-        Vector target( n+1);
+        Vector_Impl target( n+1);
         iterator target_it(target.begin());
         iterator it(begin());
         iterator this_end(end());
@@ -388,10 +388,10 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -419,11 +419,11 @@ namespace Rcpp{
         Storage::set__( target.get__() ) ;
     }
     	
-    template <int RTYPE>
-    void Vector<RTYPE>::push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ){
+    template <int RTYPE, template <class> class StoragePolicy>
+    void Vector_Impl<RTYPE,StoragePolicy>::push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         Scoped<SEXP> object_sexp = object ;
         int n = size() ;
-        Vector target( n + 1 ) ;
+        Vector_Impl target( n + 1 ) ;
         iterator target_it( target.begin() ) ;
         iterator it(begin()) ;
         iterator this_end(end());
@@ -452,11 +452,11 @@ namespace Rcpp{
     }
     	
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T>
-    typename Vector<RTYPE>::iterator Vector<RTYPE>::insert( iterator position, const T& object){
+    typename Vector_Impl<RTYPE,StoragePolicy>::iterator Vector_Impl<RTYPE,StoragePolicy>::insert( iterator position, const T& object){
         int n = size() ;
-        Vector target( n+1 ) ;
+        Vector_Impl target( n+1 ) ;
         iterator target_it = target.begin();
         iterator it = begin() ;
         iterator this_end = end() ;
@@ -496,9 +496,9 @@ namespace Rcpp{
     }
     
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename EXPR_VEC>
-    Vector<RTYPE>& Vector<RTYPE>::operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ){
+    Vector_Impl<RTYPE, StoragePolicy>& Vector_Impl<RTYPE,StoragePolicy>::operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ){
         const EXPR_VEC& ref = rhs.get_ref() ;
         iterator start = begin() ;
         int n = size() ;
@@ -514,9 +514,9 @@ namespace Rcpp{
         return *this ;  
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename EXPR_VEC>
-    Vector<RTYPE>& Vector<RTYPE>::operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ){
+    Vector_Impl<RTYPE, StoragePolicy>& Vector_Impl<RTYPE,StoragePolicy>::operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ){
         const EXPR_VEC& ref = rhs.get_ref() ;
         iterator start = begin() ;
         int n = size() ;
@@ -528,34 +528,9 @@ namespace Rcpp{
         }
         return *this ;  
     }
-    
-    template <>
-    template <typename EXPR_VEC>
-    Vector<REALSXP>& Vector<REALSXP>::operator+=( const VectorBase<REALSXP,false,EXPR_VEC>& rhs ){
-        const EXPR_VEC& vec = rhs.get_ref() ;
-        int n = size() ;
-        iterator start = begin() ;
-        for( int i=0; i<n; i++){
-            start[i] += vec[i] ;        
-        }
-        return *this ;
-    }
-    
-    template <>
-    template <typename EXPR_VEC>
-    Vector<REALSXP>& Vector<REALSXP>::operator+=( const VectorBase<REALSXP,true,EXPR_VEC>& rhs ){
-        const EXPR_VEC& vec = rhs.get_ref() ;
-        int n = size() ;
-        iterator start = begin() ;
-        for( int i=0; i<n; i++){
-            start[i] += vec[i] ;        
-        }
-        return *this ;
-    }
-    
-    
-    template <int RTYPE>
-    bool Vector<RTYPE>::containsElementNamed( const char* target ) const {
+   
+    template <int RTYPE, template <class> class StoragePolicy>
+    bool Vector_Impl<RTYPE,StoragePolicy>::containsElementNamed( const char* target ) const {
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ; 
         if( Rf_isNull(names) ) return false ;
         int n = Rf_length(names) ;
@@ -571,14 +546,14 @@ namespace Rcpp{
         template <typename T>
         inline SEXP wrap_range_sugar_expression( const T& object) {
             const int RTYPE = T::r_type::value ;
-            return Rcpp::Vector<RTYPE>(object) ;
+            return Rcpp::Vector_Impl<RTYPE, RObjectStorage>(object) ;
         }
 
     }
     
-    template <int RTYPE>
+    template <int RTYPE, template <class> class StoragePolicy>
     template <typename... Args> 
-    Vector<RTYPE> Vector<RTYPE>::create(Args... args){
+    Vector_Impl<RTYPE, StoragePolicy> Vector_Impl<RTYPE,StoragePolicy>::create(Args... args){
         return typename create_type<RTYPE, Args...>::type( args... ) ;
     }
     

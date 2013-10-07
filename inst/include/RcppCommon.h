@@ -87,15 +87,19 @@ namespace Rcpp{
     }
 
     class String ;
+    template <typename CLASS> class RObjectStorage ;
+    template <typename CLASS> class NoProtectStorage ;
     
-    template <int RTYPE> class Vector ;
+    template <int RTYPE, template <class> class StoragePolicy > 
+    class Vector_Impl ;
+    
+    template <int RTYPE>
+    using Vector = Vector_Impl<RTYPE, RObjectStorage> ;
+    
     template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
     using List = Vector<VECSXP> ; 
     using ExpressionVector = Vector<EXPRSXP> ; 
-    
-    template <typename CLASS> class RObjectStorage ;
-    template <typename CLASS> class NoProtectStorage ;
     
     RCPP_API_CLASS_DECL(RObject) 
     RCPP_API_CLASS_DECL(Function) 
