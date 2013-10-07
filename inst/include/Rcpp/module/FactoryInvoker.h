@@ -17,7 +17,9 @@
 
 #ifndef Rcpp_Module_FactoryInvoker_h
 #define Rcpp_Module_FactoryInvoker_h
-        
+ 
+namespace Rcpp{
+    
     template <typename Class, typename... Args>
     class FactoryInvoker {
     public:
@@ -43,5 +45,6 @@
         Fun factory ;
         SEXP* args ;
     } ;
-    
+
+}    
 #endif

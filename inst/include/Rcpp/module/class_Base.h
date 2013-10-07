@@ -20,17 +20,19 @@
 
 #ifndef Rcpp_Module_Class_Base_h
 
+namespace Rcpp{
+    
 class class_Base {
 public:
-    typedef Rcpp::XPtr<class_Base> XP_Class ;
+    typedef XPtr<class_Base> XP_Class ;
     
     class_Base() : name(), docstring(), enums(), parents(), is_debugging(false) {} ;
     class_Base(const char* name_, const char* doc) : 
         name(name_), docstring( doc == 0 ? "" : doc ), enums(), parents(), is_debugging(false) {} ;
     
-    virtual Rcpp::List fields(const XP_Class& ){ return Rcpp::List(0); }
-    virtual Rcpp::List getMethods(const XP_Class&, std::string&){ return Rcpp::List(0); }
-    virtual Rcpp::List getConstructors(const XP_Class&, std::string&){ return Rcpp::List(0); }
+    virtual List fields(const XP_Class& ){ return List(0); }
+    virtual List getMethods(const XP_Class&, std::string&){ return List(0); }
+    virtual List getConstructors(const XP_Class&, std::string&){ return List(0); }
     
     virtual void run_finalizer(SEXP){ }
     
@@ -54,15 +56,15 @@ public:
         return R_NilValue ;
     }
     
-    virtual Rcpp::CharacterVector method_names(){ return Rcpp::CharacterVector(0) ; }
-    virtual Rcpp::CharacterVector property_names(){ return Rcpp::CharacterVector(0) ; }
+    virtual CharacterVector method_names(){ return CharacterVector(0) ; }
+    virtual CharacterVector property_names(){ return CharacterVector(0) ; }
     virtual bool property_is_readonly(const std::string& ) { return false ; }
     virtual std::string property_class(const std::string& ) { return "" ; }
-    virtual Rcpp::IntegerVector methods_arity(){ return Rcpp::IntegerVector(0) ; }
-    virtual Rcpp::LogicalVector methods_voidness(){ return Rcpp::LogicalVector(0); }
-    virtual Rcpp::List property_classes(){ return Rcpp::List(0); }
+    virtual IntegerVector methods_arity(){ return IntegerVector(0) ; }
+    virtual LogicalVector methods_voidness(){ return LogicalVector(0); }
+    virtual List property_classes(){ return List(0); }
     
-    virtual Rcpp::CharacterVector complete(){ return Rcpp::CharacterVector(0) ; }
+    virtual CharacterVector complete(){ return CharacterVector(0) ; }
     virtual ~class_Base(){}
     
     virtual SEXP getProperty( SEXP, SEXP ) {
@@ -75,7 +77,9 @@ public:
     bool has_typeinfo_name( const std::string& name_ ){
         return get_typeinfo_name().compare(name_) == 0;   
     }
-    void add_enum( const std::string& enum_name, const std::map<std::string, int>& value ) ;
+    inline void add_enum( const std::string& enum_name, const std::map<std::string, int>& value ) {
+        enums.insert( ENUM_MAP_PAIR( enum_name, value ) ) ;    
+    }
     std::string name ;
     std::string docstring ;
     
@@ -87,4 +91,6 @@ public:
     bool is_debugging ;
     
 } ;
+
+}
 #endif

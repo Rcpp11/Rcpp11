@@ -22,6 +22,8 @@
 #ifndef Rcpp_Module_CppFunction_h
 #define Rcpp_Module_CppFunction_h
 
+namespace Rcpp{
+    
     /** 
      * base class of all exported C++ functions. Template deduction in the
      * Module_generated_function.h file creates an instance of a class that 
@@ -79,7 +81,7 @@
             }
     
             inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT, Args...>(s, name) ; }
             
         private:
             Fun ptr_fun ;
@@ -90,7 +92,7 @@
         public:
             typedef OUT (*Fun)(Args...) ;
         
-            CppFunction_WithFormals_Impl(Fun fun, Rcpp::List formals_,  const char* docstring = 0 ) : 
+            CppFunction_WithFormals_Impl(Fun fun, List formals_,  const char* docstring = 0 ) : 
                 CppFunction(docstring), formals(formals_), ptr_fun(fun){}
             
             inline SEXP operator()(SEXP* args) {
@@ -98,11 +100,11 @@
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT,Args...>(s, name) ; }
             inline SEXP get_formals(){ return formals; }
         
         private:
-            Rcpp::List formals ;
+            List formals ;
             Fun ptr_fun ;
     } ;
     
@@ -122,7 +124,7 @@
             }
     
             inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT, Args...>(s, name) ; }
             
         private:
             Fun ptr_fun ;
@@ -134,7 +136,7 @@
         public:
             typedef OUT (*Fun)(Args...) ;
         
-            Debug_CppFunction_WithFormals_Impl(Fun fun, Rcpp::List formals_, const char* name_, const char* docstring = 0 ) : 
+            Debug_CppFunction_WithFormals_Impl(Fun fun, List formals_, const char* name_, const char* docstring = 0 ) : 
                 CppFunction(docstring), formals(formals_), ptr_fun(fun), name(name_) {}
             
             inline SEXP operator()(SEXP* args) {
@@ -145,13 +147,14 @@
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT,Args...>(s, name) ; }
             inline SEXP get_formals(){ return formals; }
         
         private:
-            Rcpp::List formals ;
+            List formals ;
             Fun ptr_fun ;
             std::string name ;
     } ;
-    
+
+}    
 #endif

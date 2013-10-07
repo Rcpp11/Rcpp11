@@ -22,7 +22,6 @@
 #define Rcpp_Module_h
    
 namespace Rcpp{
-    
     namespace internal{
         
         template <typename FROM, typename TO>
@@ -44,24 +43,44 @@ namespace Rcpp{
         }
         
         
-   }
+    }
+       
+    class class_Base ;
+    
+    template <bool unused>
+    class CppClass_Impl ;
+    using CppClass = CppClass_Impl<true> ;
+    
+    template <bool unused>
+    class CppObject_Impl ;
+    using CppObject = CppObject_Impl<true> ;
+    
+    template <bool unused>
+    class Module_Impl ; 
+    using Module = Module_Impl<true> ;
+    
+    class CppFunction ;
+    
+    typedef XPtr<Module> XP_Module ; 
+    typedef XPtr<class_Base> XP_Class ; 
+    typedef XPtr<CppFunction> XP_Function ; 
 
-    class CppClass ;
-    class CppObject ;
+}
 
 #include <Rcpp/module/get_return_type.h>
 #include <Rcpp/module/get_signature.h>
-#include <Rcpp/module/debug_function.h>
-
 #include <Rcpp/module/FunctionInvoker.h>
 #include <Rcpp/module/ConstructorInvoker.h>
 #include <Rcpp/module/FactoryInvoker.h>
 #include <Rcpp/module/MethodInvoker.h>
 
-#include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/class_Base.h>
+#include <Rcpp/module/debug_method.h>
+#include <Rcpp/module/debug_function.h>
+#include <Rcpp/module/CppFunction.h>
+#include <Rcpp/module/debug_constructor.h>
 #include <Rcpp/module/Module.h>
-}
+
 extern "C" Rcpp::Module* getCurrentScope() ;
 extern "C" void setCurrentScope( Rcpp::Module* ) ;
 
@@ -190,7 +209,7 @@ namespace Rcpp{
         S4_CppConstructor& operator=( const S4_CppConstructor& other){
             set__( other.get__() ); 
             return *this ;
-        }
+        }              
     } ;
 
     template <typename Class>
@@ -326,25 +345,52 @@ namespace Rcpp{
         function( fun_name.c_str(), fun, docstring ) ;
     }  
        
-    class CppClass : public S4{
+    template <bool unused>
+    class CppClass_Impl : public S4{
     public:
         typedef Rcpp::XPtr<Rcpp::Module> XP ;
-        CppClass( Module* p, class_Base* clazz, std::string& ) ;
-        CppClass( SEXP x) ;
-        CppClass( const CppClass& ) ;
-        CppClass& operator=( const CppClass& ) ;
-        
+        CppClass_Impl( SEXP x) : S4(x){};
+        CppClass_Impl( Module_Impl<unused>* p, class_Base* cl, std::string& buffer ) : S4("C++Class") {
+            XP_Class clxp( cl, false, R_NilValue, R_NilValue ) ;
+            slot( "module"  ) = XP( p, false ) ;
+            slot( "pointer" ) = clxp ;
+            
+            buffer = "Rcpp_" ;
+            buffer += cl->name ;
+            slot( ".Data" ) = buffer ;
+            
+            slot( "fields" )      = cl->fields( clxp ) ;
+            
+            slot( "methods" )     = cl->getMethods( clxp, buffer ) ;
+            slot( "constructors") = cl->getConstructors( clxp, buffer ) ;
+            slot( "docstring"   ) = cl->docstring ;
+            slot( "typeid" )      = cl->get_typeinfo_name() ;
+            slot( "enums"  )      = cl->enums ;
+            slot( "parents" )     = cl->parents ;
+        }
     } ;
 
-    class CppObject : public S4{
+    template <bool unused>
+    class CppObject_Impl : public S4{
     public:
-        typedef Rcpp::XPtr<Rcpp::Module> XP ;
-        CppObject( Module* p, class_Base*, SEXP xp ) ;
-        CppObject( const CppObject& ) ;
-        CppObject& operator=( const CppObject& ) ;
-        
+        typedef XPtr<Rcpp::Module> XP ;
+        CppObject_Impl( Module_Impl<unused>* p, class_Base* clazz, SEXP xp ) : S4("C++Object") {
+            slot( "module" )   = XP( p, false ) ;
+            slot( "cppclass" ) = XPtr<class_Base>( clazz, false ) ;
+            slot( "pointer" )  = xp ;
+	    }
     } ;
 
+    template <bool unused>
+    CppClass_Impl<unused> Module_Impl<unused>::get_class( const std::string& cl ){
+		BEGIN_RCPP
+			CLASS_MAP::iterator it = classes.find(cl) ;
+			if( it == classes.end() ) throw std::range_error( "no such class" ) ;
+			std::string buffer ;
+			return CppClass_Impl<unused>( this, it->second, buffer ) ;
+		END_RCPP
+	}
+	
 }
 
 #define RCPP_MODULE(name)                                               \

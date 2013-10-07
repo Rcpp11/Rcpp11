@@ -17,7 +17,9 @@
 
 #ifndef Rcpp_Module_MethodInvoker_h
 #define Rcpp_Module_MethodInvoker_h
-        
+
+namespace Rcpp{
+    
     template <typename Class, typename OUT, typename Method, typename... Args>
     class MethodInvoker {
     public: 
@@ -88,6 +90,6 @@
         SEXP* args ;
     } ; 
 
-    
+}   
 
 #endif

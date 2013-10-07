@@ -17,7 +17,9 @@
 
 #ifndef Rcpp_Module_ConstructorInvoker_h
 #define Rcpp_Module_ConstructorInvoker_h
-        
+ 
+namespace Rcpp{
+    
     template <typename Class, typename... Args>
     class ConstructorInvoker {
     public:
@@ -41,5 +43,6 @@
         
         SEXP* args ;
     } ;
-    
+ 
+}
 #endif

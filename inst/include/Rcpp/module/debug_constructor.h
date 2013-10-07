@@ -17,7 +17,9 @@
 
 #ifndef Rcpp_Module_debug_constructor_h
 #define Rcpp_Module_debug_constructor_h
-                                           
+
+namespace Rcpp{
+    
     template <typename Class, typename ConstructorImpl, typename... Args>
     void debug_constructor(ConstructorImpl& ctor){ 
         std::string s ; 
@@ -28,4 +30,5 @@
         Rprintf( "    %70s   ...", s.c_str() ) ;
     }
 
+}
 #endif
