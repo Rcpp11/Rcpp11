@@ -193,18 +193,6 @@ namespace internal{
         return res;
     }
     
-    SEXP eval_methods<EXPRSXP>::eval(){
-        SEXP xp = ( static_cast<ExpressionVector&>(*this) ).get__() ;
-        SEXP evalSym = Rf_install( "eval" );
-        return Rcpp_eval( Rf_lang2( evalSym, xp ) ) ;
-    }
-    
-    SEXP eval_methods<EXPRSXP>::eval( SEXP env ){
-        SEXP xp = ( static_cast<ExpressionVector&>(*this) ).get__() ;
-        SEXP evalSym = Rf_install( "eval" );
-        return Rcpp_eval( Rf_lang3( evalSym, xp, env ) ) ;
-    }
-	
 } // internal
 } // Rcpp
 

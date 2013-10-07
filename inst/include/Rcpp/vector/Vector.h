@@ -29,7 +29,7 @@ class Vector_Impl :
     public SlotProxyPolicy<Vector_Impl<RTYPE,StoragePolicy>>,    
     public AttributeProxyPolicy<Vector_Impl<RTYPE,StoragePolicy>>,       
     public VectorBase< RTYPE, true, Vector_Impl<RTYPE,StoragePolicy> >, 
-    public internal::eval_methods<RTYPE> 
+    public internal::eval_methods<RTYPE, StoragePolicy > 
 {
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;

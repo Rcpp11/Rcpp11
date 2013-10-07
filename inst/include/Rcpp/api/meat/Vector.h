@@ -549,6 +549,20 @@ namespace Rcpp{
             return Rcpp::Vector_Impl<RTYPE, RObjectStorage>(object) ;
         }
 
+        template <template <class> class StoragePolicy> 
+        inline SEXP eval_methods<EXPRSXP, StoragePolicy>::eval(){
+            SEXP xp = ( static_cast<Vector_Impl<EXPRSXP,StoragePolicy>&>(*this) ).get__() ;
+            SEXP evalSym = Rf_install( "eval" );
+            return Rcpp_eval( Rf_lang2( evalSym, xp ) ) ;
+        }
+        
+        template <template <class> class StoragePolicy> 
+        inline SEXP eval_methods<EXPRSXP,StoragePolicy>::eval( SEXP env ){
+            SEXP xp = ( static_cast<Vector_Impl<EXPRSXP,StoragePolicy>&>(*this) ).get__() ;
+            SEXP evalSym = Rf_install( "eval" );
+            return Rcpp_eval( Rf_lang3( evalSym, xp, env ) ) ;
+        }
+	
     }
     
     template <int RTYPE, template <class> class StoragePolicy>

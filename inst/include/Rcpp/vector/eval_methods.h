@@ -21,8 +21,11 @@
 namespace Rcpp{
 namespace internal{
 
-    template <int RTYPE> class eval_methods {} ;
-    template <> class eval_methods<EXPRSXP> {
+    template <int RTYPE, template <class> class StoragePolicy> 
+    class eval_methods {} ;
+    
+    template <template <class> class StoragePolicy> 
+    class eval_methods<EXPRSXP, StoragePolicy> {
     public:
         SEXP eval() ;
         SEXP eval(SEXP) ;
