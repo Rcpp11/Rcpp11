@@ -19,7 +19,7 @@
 #define RCPP_ROUTINE_H
 
 namespace Rcpp {
-
+             
     SEXP Rcpp_eval__impl(SEXP, SEXP) ;
     inline SEXP Rcpp_eval(SEXP expr, SEXP env){
         GET_CALLABLE(Rcpp_eval__impl,expr,env)

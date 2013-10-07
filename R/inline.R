@@ -21,8 +21,8 @@ Rcpp.plugin.maker <- function(
 	LinkingTo     = unique( c( package, "Rcpp11" ) ),
 	Depends       = unique( c( package, "Rcpp11" ) ),
 	libs          = "",
-	Makevars      = readLines( system.file("skeleton", "Makevars"    , package = package ) ) ,
-	Makevars.win  = readLines( system.file("skeleton", "Makevars.win", package = package ) ),
+	Makevars      = NULL, # readLines( system.file("skeleton", "Makevars"    , package = package ) ) ,
+	Makevars.win  = NULL, # readLines( system.file("skeleton", "Makevars.win", package = package ) ),
 	package       = "Rcpp11"
 ){
 	function( ... ){

@@ -137,18 +137,6 @@ Rcpp.package.skeleton <- function(
 		dir.create( src )
 	}
 	skeleton <- system.file( "skeleton", package = "Rcpp11" )
-	Makevars <- file.path( src, "Makevars" )
-	if( !file.exists( Makevars ) ){
-		file.copy( file.path( skeleton, "Makevars" ), Makevars )
-		message( " >> added Makevars file with Rcpp settings" )
-	}
-
-	Makevars.win <- file.path( src, "Makevars.win" )
-	if( !file.exists( Makevars.win ) ){
-		file.copy( file.path( skeleton, "Makevars.win" ), Makevars.win )
-		message( " >> added Makevars.win file with Rcpp settings" )
-	}
-	
 	if ( length(cpp_files) > 0L ) {
 		for (file in cpp_files) {
 			file.copy(file, src)

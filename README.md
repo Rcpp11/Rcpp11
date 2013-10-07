@@ -47,7 +47,7 @@ PKG_CXXFLAGS= -stdlib=libc++ -std=c++11
 Then, you can install it using `devtools::install_github`: 
 
 ```
-devtools::install_github( "Rcpp11", "romainfrancois" )
+devtools::install_github( "romainfrancois/Rcpp11" )
 require( Rcpp11 )
 evalCpp( "2LL" )
 # [1] 2
