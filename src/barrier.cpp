@@ -91,13 +91,6 @@ SEXP get_rcpp_cache() {
     return Rcpp_cache ;
 }
 
-SEXP get_Rcpp_protection_stack(){
-    if( ! Rcpp_cache_know ){
-        get_rcpp_cache() ;
-    }
-    return Rcpp_protection_stack ;
-}
-
 namespace Rcpp {
     namespace internal {   
 		SEXP get_Rcpp11_namespace(){ 

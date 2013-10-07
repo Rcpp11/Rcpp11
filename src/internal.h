@@ -32,11 +32,6 @@
 #define CALLFUN_5(name) SEXP name(SEXP,SEXP,SEXP,SEXP,SEXP)
 #define EXTFUN(name) SEXP name(SEXP)
 
-// this file contains declarations of functions that are not 
-// exported via Rcpp.h but are needed to make Rcpp work internally
-
-SEXP get_Rcpp_protection_stack() ;
-
 CALLFUN_1(as_character_externalptr) ;
 
 CALLFUN_1(Class__name);

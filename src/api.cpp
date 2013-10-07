@@ -235,9 +235,3 @@ namespace Rcpp {
 
 }
 
-SEXP as_character_externalptr(SEXP xp){
-    char buffer[20] ;
-    snprintf( buffer, 20, "%p", (void*)EXTPTR_PTR(xp) ) ;
-    return Rcpp::wrap( (const char*)buffer ) ;
-}
-
