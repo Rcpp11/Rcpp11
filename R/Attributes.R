@@ -587,14 +587,7 @@ sourceCppFunction <- function(func, isVoid, dll, symbol) {
     # if there is no buildEnv from a plugin then use the Rcpp11 plugin
     if (length(buildEnv) == 0) {
         buildEnv <- inlineCxxPlugin()$env
-    } else {
-        # we are using a plugin -- confirm that the plugin includes the Rcpp11
-        # PKG_LIBS and if it doesn't then add them
-        pkgLibs <- buildEnv$PKG_LIBS
-        rcppLibs <- Rcpp11::RcppLdFlags()
-        if (is.null(pkgLibs) || !grepl(rcppLibs, pkgLibs, fixed = TRUE))
-            buildEnv$PKG_LIBS <- paste(pkgLibs, rcppLibs)
-    }
+    } 
 
     # set CLINK_CPPFLAGS based on the LinkingTo dependencies
     buildEnv$CLINK_CPPFLAGS <- .buildClinkCppFlags(linkingToPackages)

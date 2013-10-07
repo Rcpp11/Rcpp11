@@ -42,7 +42,7 @@ using namespace Rcpp;
 ", include.before, include.after )
 
 	list(
-		env = list( PKG_LIBS = paste( libs, Rcpp11::RcppLdFlags() ) ),
+		env = list( PKG_LIBS = libs ),
 		includes = includes,
 		LinkingTo = LinkingTo ,
 		body = function( x ){
