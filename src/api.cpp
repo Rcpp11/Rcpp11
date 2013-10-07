@@ -182,17 +182,6 @@ namespace Rcpp {
 namespace Rcpp{
 namespace internal{
 	
-	template<> void r_init_vector<VECSXP>(SEXP x){}
-	template<> void r_init_vector<EXPRSXP>(SEXP x){}
-	template<> void r_init_vector<STRSXP>(SEXP x){}
-
-	template<> Rcomplex get_zero<CPLXSXP,Rcomplex>(){
-		Rcomplex x ;
-		x.r = 0.0 ;
-		x.i = 0.0 ;
-		return x ;
-	}
-
 	template<> Rcomplex caster<std::complex<double>, Rcomplex>( std::complex<double> from){
 		Rcomplex cx ;
 		cx.r = from.real() ; 

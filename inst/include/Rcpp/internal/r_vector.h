@@ -49,12 +49,19 @@ template<> inline Rcomplex* r_vector_start<CPLXSXP>(SEXP x){
  * The value 0 statically casted to the appropriate type for 
  * the given SEXP type
  */
-template <int RTYPE,typename CTYPE> CTYPE get_zero(){ return static_cast<CTYPE>(0) ; }
+template <int RTYPE,typename CTYPE> inline CTYPE get_zero(){ 
+    return static_cast<CTYPE>(0) ;
+}
 
 /**
  * Specialization for Rcomplex
  */
-template<> Rcomplex get_zero<CPLXSXP,Rcomplex>() ;
+template<> inline Rcomplex get_zero<CPLXSXP,Rcomplex>(){
+    	Rcomplex x ;
+	x.r = 0.0 ;
+	x.i = 0.0 ;
+	return x ;
+}
 
 /**
  * Initializes a vector of the given SEXP type. The template fills the 
@@ -70,19 +77,19 @@ template<int RTYPE> void r_init_vector(SEXP x){
  * Initializes a generic vector (VECSXP). Does nothing since 
  * R already initializes all elements to NULL
  */
-template<> void r_init_vector<VECSXP>(SEXP x) ;
+template<> inline void r_init_vector<VECSXP>(SEXP x){}
 
 /**
  * Initializes an expression vector (EXPRSXP). Does nothing since 
  * R already initializes all elements to NULL
  */
-template<> void r_init_vector<EXPRSXP>(SEXP x) ;
+template<> inline void r_init_vector<EXPRSXP>(SEXP x){}
 
 /**
  * Initializes a character vector (STRSXP). Does nothing since 
  * R already initializes all elements to ""
  */ 
-template<> void r_init_vector<STRSXP>(SEXP x) ;
+template<> inline void r_init_vector<STRSXP>(SEXP x){}
 
 } // internal
 } // Rcpp
