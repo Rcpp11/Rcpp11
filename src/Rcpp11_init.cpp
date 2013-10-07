@@ -98,6 +98,8 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
     REGISTER(exception_to_try_error)
     REGISTER(string_to_try_error)
     REGISTER(stack_trace)
+    REGISTER(enterRNGScope)
+    REGISTER(exitRNGScope)
     
 }
         

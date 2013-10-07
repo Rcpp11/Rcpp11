@@ -59,15 +59,10 @@ NumericVector rweibull( int n, double shape, double scale ) ;
 NumericVector rweibull( int n, double shape /* scale = 1 */ ) ;
 NumericVector rwilcox( int n, double mm, double nn ) ;
 
-namespace internal {
-    void enterRNGScope();
-    void exitRNGScope();
-}
-
 class RNGScope{
 public:
-	RNGScope(){ internal::enterRNGScope(); }
-	~RNGScope(){ internal::exitRNGScope(); }	
+	RNGScope(){ enterRNGScope(); }
+	~RNGScope(){ exitRNGScope(); }	
 } ;
 
 template <typename T>

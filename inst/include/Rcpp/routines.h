@@ -57,6 +57,17 @@ namespace Rcpp {
     inline SEXP stack_trace( const char *file, int line){
         GET_CALLABLE(stack_trace__impl, file, line)
     }
+    
+    unsigned long enterRNGScope__impl() ;
+    inline unsigned long enterRNGScope(){
+         GET_CALLABLE(enterRNGScope__impl)   
+    }
+    
+    unsigned long exitRNGScope__impl() ;
+    inline unsigned long exitRNGScope(){
+         GET_CALLABLE(exitRNGScope__impl)   
+    }
+    
 }
     
 #endif

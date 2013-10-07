@@ -26,25 +26,23 @@
 #include <Rcpp/stats/random/rhyper.h>
 
 namespace Rcpp{
-    namespace internal{
-        namespace {
-            unsigned long RNGScopeCounter = 0;
-        }
-        
-        void enterRNGScope() {       
-            if (RNGScopeCounter == 0)
-                GetRNGstate();       
-            RNGScopeCounter++;
-        }
-        
-        void exitRNGScope() {
-            RNGScopeCounter--;
-            if (RNGScopeCounter == 0)
-                PutRNGstate();
-        }
-    } // internal
-	 
-	
+    namespace {
+        unsigned long RNGScopeCounter = 0;
+    }
+    
+    unsigned long enterRNGScope__impl() {       
+        if (RNGScopeCounter == 0)
+            GetRNGstate();       
+        return ++RNGScopeCounter;
+    }
+    
+    unsigned long exitRNGScope__impl() {
+        RNGScopeCounter--;
+        if (RNGScopeCounter == 0)
+            PutRNGstate();
+        return RNGScopeCounter ;
+    }
+    
 	NumericVector rnorm( int n, double mean, double sd){
 		if (ISNAN(mean) || !R_FINITE(sd) || sd < 0.){
 			// TODO: R also throws a warning in that case, should we ?
