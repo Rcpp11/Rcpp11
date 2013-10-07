@@ -61,12 +61,6 @@
         virtual SEXP get_formals(){ return R_NilValue; }
         
         /**
-         * The actual function pointer, as a catch all function pointer
-         * (see Rdynload.h for definition of DL_FUNC)
-         */
-        virtual DL_FUNC get_function_ptr() = 0  ;        
-        
-        /**
          * description of the function
          */
         std::string docstring ;
@@ -86,7 +80,6 @@
     
             inline int nargs(){ return sizeof...(Args); }
             inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             
         private:
             Fun ptr_fun ;
@@ -106,7 +99,6 @@
     
             inline int nargs(){ return sizeof...(Args) ; }
             inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             inline SEXP get_formals(){ return formals; }
         
         private:
@@ -131,7 +123,6 @@
     
             inline int nargs(){ return sizeof...(Args); }
             inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT, Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             
         private:
             Fun ptr_fun ;
@@ -155,7 +146,6 @@
     
             inline int nargs(){ return sizeof...(Args) ; }
             inline void signature(std::string& s, const char* name){ Rcpp::signature<OUT,Args...>(s, name) ; }
-            inline DL_FUNC get_function_ptr(){ return (DL_FUNC)ptr_fun ; }
             inline SEXP get_formals(){ return formals; }
         
         private:

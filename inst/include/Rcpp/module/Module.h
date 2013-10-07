@@ -88,13 +88,7 @@
          */
         SEXP get_function( const std::string& ) ;
            
-        /**
-         * get the underlying C++ function pointer as a DL_FUNC
-         */
-        DL_FUNC get_function_ptr( const std::string& ) ;
-        
         inline void Add( const char* name_ , CppFunction* ptr){
-            R_RegisterCCallable( prefix.c_str(), name_, ptr->get_function_ptr() ) ;
             functions.insert( FUNCTION_PAIR( name_ , ptr ) ) ;
         }
                 

@@ -27,6 +27,11 @@ typedef Rcpp::XPtr<Rcpp::Module> XP_Module ;
 typedef Rcpp::XPtr<Rcpp::class_Base> XP_Class ; 
 typedef Rcpp::XPtr<Rcpp::CppFunction> XP_Function ; 
 
+RCPP_FUN_1(SEXP, as_character_externalptr, SEXP xp){
+    char buffer[20] ;
+    snprintf( buffer, 20, "%p", (void*)EXTPTR_PTR(xp) ) ;
+    return Rcpp::wrap( (const char*)buffer ) ;
+}
 RCPP_FUN_1( bool, Class__has_default_constructor, XP_Class cl ){
     return cl->has_default_constructor() ;
 }
@@ -96,9 +101,6 @@ RCPP_FUN_1( Rcpp::CharacterVector, Module__complete, XP_Module module ){
 RCPP_FUN_1( Rcpp::CharacterVector, CppClass__complete, XP_Class cl){
 	return cl->complete(); 
 }
-
-// these operate directly on the external pointers, rather than 
-// looking up the property in the map
 RCPP_FUN_3(SEXP, CppField__get, XP_Class cl, SEXP field_xp, SEXP obj){
 	return cl->getProperty( field_xp, obj ) ;
 }
@@ -214,13 +216,13 @@ extern "C" SEXP CppMethod__invoke_notvoid(SEXP args){
    	return clazz->invoke_notvoid( met, obj, cargs, nargs ) ;
 }
 
-
 namespace Rcpp{
 	static Module* current_scope  ;
 }
 
 Rcpp::Module* getCurrentScope(){ return Rcpp::current_scope ; }
 void setCurrentScope( Rcpp::Module* scope ){ Rcpp::current_scope = scope ; }
+
 extern "C" void R_init_Rcpp11( DllInfo* info){
 	Rcpp::current_scope = 0 ;
 	
@@ -274,19 +276,6 @@ namespace Rcpp{
 	        fun->get_formals(), 
 	        fun->nargs()
 	        ) ;
-	}
-	
-	DL_FUNC Module::get_function_ptr( const std::string& name ){
-	    MAP::iterator it = functions.begin() ;
-	    int n = functions.size() ;
-	    CppFunction* fun = 0 ;
-	    for( int i=0; i<n; i++, ++it){
-	        if( name.compare( it->first ) == 0){
-	            fun = it->second ;
-	            break ;
-	        }
-	    }
-	    return fun->get_function_ptr() ;
 	}
 	
 	Rcpp::List Module::classes_info(){

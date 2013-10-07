@@ -139,5 +139,4 @@ END_RCPP                                            \
 }                                                   \
 __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2, ___3)
 
-
 #endif
