@@ -20,14 +20,8 @@
 
 #define COMPILING_RCPP11
 
-#include <typeinfo>
-#include <Rcpp/platform/compiler.h>
-#define R_NO_REMAP
-#include <Rinternals.h>
-#include <Rcpp/exceptions.h>
-#include <cstdlib>
+#include <Rcpp.h>
 #include "internal.h"
-#include <Rcpp/Scoped.h>
 
 using Rcpp::Scoped ;
 
@@ -73,56 +67,5 @@ const char* __CLASS__::what() const throw(){ return __MESSAGE__ ; }
     RCPP_SIMPLE_EXCEPTION_WHAT(unevaluated_promise, "promise not yet evaluated" )
 
 #undef RCPP_SIMPLE_EXCEPTION_WHAT
-}
-        
-SEXP get_last_call(){
-    SEXP sys_calls_symbol = Rf_install( "sys.calls" ) ;
-    Scoped<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   
-    Scoped<SEXP> calls = Rf_eval( sys_calls_expr, R_GlobalEnv ) ;
-    SEXP res = calls ;
-    while( !Rf_isNull(CDR(res)) ) res = CDR(res); 
-    return CAR(res) ;
-}
-
-SEXP get_exception_classes( const std::string& ex_class) {
-    Scoped<SEXP> res = Rf_allocVector( STRSXP, 4 );
-    SET_STRING_ELT( res, 0, Rf_mkChar( ex_class.c_str() ) ) ;
-    SET_STRING_ELT( res, 1, Rf_mkChar( "C++Error" ) ) ;
-    SET_STRING_ELT( res, 2, Rf_mkChar( "error" ) ) ;
-    SET_STRING_ELT( res, 3, Rf_mkChar( "condition" ) ) ;
-    return res;
-}
-
-SEXP make_condition(const std::string& ex_msg, SEXP call, SEXP cppstack, SEXP classes){
-    Scoped<SEXP> res     = Rf_allocVector( VECSXP, 3 ) ;
-    Scoped<SEXP> message = Rf_mkString( ex_msg.c_str() ) ;
-    RCPP_SET_VECTOR_ELT( res, 0, message ) ;
-    RCPP_SET_VECTOR_ELT( res, 1, call ) ;
-    RCPP_SET_VECTOR_ELT( res, 2, cppstack ) ;
-    Scoped<SEXP> names = Rf_allocVector( STRSXP, 3 ) ;
-    SET_STRING_ELT( names, 0, Rf_mkChar( "message" ) ) ;
-    SET_STRING_ELT( names, 1, Rf_mkChar( "call" ) ) ;
-    SET_STRING_ELT( names, 2, Rf_mkChar( "cppstack" ) ) ;
-    Rf_setAttrib( res, R_NamesSymbol, names ) ;
-    Rf_setAttrib( res, R_ClassSymbol, classes ) ;
-    return res ;
-}
-
-SEXP exception_to_r_condition( const std::exception& ex){
-    std::string ex_class = demangle( typeid(ex).name() ) ;
-    std::string ex_msg   = ex.what() ; 
-    
-    Scoped<SEXP> cppstack  = rcpp_get_stack_trace() ;
-    Scoped<SEXP> call      = get_last_call() ;
-    Scoped<SEXP> classes   = get_exception_classes(ex_class) ;
-    Scoped<SEXP> condition = make_condition( ex_msg, call, cppstack, classes ) ; 
-    rcpp_set_stack_trace( R_NilValue ) ;
-    return condition ;
-}
-void forward_exception_to_r( const std::exception& ex){
-    SEXP stop_sym  = Rf_install( "stop" ) ;
-    Scoped<SEXP> condition = exception_to_r_condition(ex) ;
-    Scoped<SEXP> expr = Rf_lang2( stop_sym , condition );
-    Rf_eval( expr, R_GlobalEnv ) ;
 }
 

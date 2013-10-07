@@ -89,7 +89,14 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
         extEntries /*.External*/
     );
     
-    R_RegisterCCallable( "Rcpp11", "Rcpp_eval__impl", (DL_FUNC)Rcpp_eval__impl );
+    #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ "__impl", (DL_FUNC)__FUN__ ## __impl );
+    
+    REGISTER(Rcpp_eval)
+    REGISTER(type2name)
+    REGISTER(demangle)
+    REGISTER(forward_exception_to_r)
+    REGISTER(exception_to_try_error)
+    REGISTER(string_to_try_error)
     
 }
         

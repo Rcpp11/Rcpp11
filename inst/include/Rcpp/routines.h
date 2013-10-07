@@ -32,6 +32,28 @@ namespace Rcpp {
     inline const char* type2name(int sexp_type){
         GET_CALLABLE(type2name__impl, sexp_type)    
     }
+    
+    std::string demangle__impl( const std::string& ) ;
+    inline std::string demangle( const std::string& name){
+        GET_CALLABLE(demangle__impl, name)
+    }
+    
+    void forward_exception_to_r__impl( const std::exception& ex) ;
+    inline void forward_exception_to_r( const std::exception& ex ){
+        GET_CALLABLE(forward_exception_to_r__impl, ex)
+    }
+    
+    SEXP exception_to_try_error__impl( const std::exception& ex ) ;
+    inline SEXP exception_to_try_error( const std::exception& ex ){
+        GET_CALLABLE(exception_to_try_error__impl, ex)
+    }
+    
+    SEXP string_to_try_error__impl( const std::string& str) ;
+    inline SEXP string_to_try_error( const std::string& str){
+        GET_CALLABLE(string_to_try_error__impl, str)
+    }
+    
+
 }
     
 #endif

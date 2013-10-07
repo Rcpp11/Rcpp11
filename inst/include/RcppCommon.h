@@ -41,11 +41,6 @@
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 // #define RCPP_SET_VECTOR_ELT(v,i,x) { Rprintf("SET_VECTOR_ELT(%p, %d, %p). file = %s, line = %d\n", (SEXP)v, i, (SEXP)x, __FILE__, __LINE__) ; SET_VECTOR_ELT( (SEXP)v,i,(SEXP)x) ; } 
 
-#ifdef __cplusplus
-extern "C" 
-#endif 
-const char * sexp_to_name(int sexp_type);
-
 #include <cstdint>
 #include <array>
 #include <type_traits>

@@ -35,58 +35,51 @@
 // this file contains declarations of functions that are not 
 // exported via Rcpp.h but are needed to make Rcpp work internally
 
-#ifdef __cplusplus
 SEXP get_Rcpp_protection_stack() ;
-extern "C" {
-#endif
 
-    CALLFUN_1(as_character_externalptr) ;
+CALLFUN_1(as_character_externalptr) ;
 
-    CALLFUN_1(Class__name);
-    CALLFUN_1(Class__has_default_constructor) ;
+CALLFUN_1(Class__name);
+CALLFUN_1(Class__has_default_constructor) ;
 
-    CALLFUN_1(CppClass__complete);
-    CALLFUN_1(CppClass__methods);
-    
-    CALLFUN_1(Module__classes_info) ;
-    CALLFUN_1(Module__complete) ;
-    CALLFUN_1(Module__functions_arity);
-    CALLFUN_1(Module__functions_names);
-    CALLFUN_2(Module__get_class);
-    CALLFUN_2(Module__has_class);
-    CALLFUN_2(Module__has_function);
-    CALLFUN_2(Module__get_function);
-    CALLFUN_1(Module__name);
-    CALLFUN_2(CppObject__finalize);
-    
-    CALLFUN_0(get_rcpp_cache);
-    CALLFUN_0(init_Rcpp11_cache);
-    
-    CALLFUN_0(reset_current_error);
-    CALLFUN_1(rcpp_error_recorder);
-    CALLFUN_0(rcpp_get_current_error);
-    int error_occured() ;
-    CALLFUN_1(rcpp_set_stack_trace);
-    CALLFUN_0(rcpp_get_stack_trace);
-    
-    CALLFUN_3(CppField__get);
-    CALLFUN_4(CppField__set);
+CALLFUN_1(CppClass__complete);
+CALLFUN_1(CppClass__methods);
 
-    /* .External functions */
-    EXTFUN(CppMethod__invoke) ;
-    EXTFUN(CppMethod__invoke_void) ;
-    EXTFUN(CppMethod__invoke_notvoid) ;
-    EXTFUN(InternalFunction_invoke) ;
-    EXTFUN(Module__invoke) ;
-    EXTFUN(class__newInstance) ;
-    EXTFUN(class__dummyInstance) ;
+CALLFUN_1(Module__classes_info) ;
+CALLFUN_1(Module__complete) ;
+CALLFUN_1(Module__functions_arity);
+CALLFUN_1(Module__functions_names);
+CALLFUN_2(Module__get_class);
+CALLFUN_2(Module__has_class);
+CALLFUN_2(Module__has_function);
+CALLFUN_2(Module__get_function);
+CALLFUN_1(Module__name);
+CALLFUN_2(CppObject__finalize);
+
+CALLFUN_0(get_rcpp_cache);
+CALLFUN_0(init_Rcpp11_cache);
+
+CALLFUN_0(reset_current_error);
+CALLFUN_1(rcpp_error_recorder);
+CALLFUN_0(rcpp_get_current_error);
+int error_occured() ;
+CALLFUN_1(rcpp_set_stack_trace);
+CALLFUN_0(rcpp_get_stack_trace);
+
+CALLFUN_3(CppField__get);
+CALLFUN_4(CppField__set);
+
+/* .External functions */
+EXTFUN(CppMethod__invoke) ;
+EXTFUN(CppMethod__invoke_void) ;
+EXTFUN(CppMethod__invoke_notvoid) ;
+EXTFUN(InternalFunction_invoke) ;
+EXTFUN(Module__invoke) ;
+EXTFUN(class__newInstance) ;
+EXTFUN(class__dummyInstance) ;
+
+void init_Rcpp11_routines(DllInfo*) ;
     
-    void init_Rcpp11_routines(DllInfo*) ;
-    const char * sexp_to_name(int sexp_type); 
-    
-#ifdef __cplusplus
-}
-#endif
 
 #undef CALLFUN_0
 #undef CALLFUN_1
