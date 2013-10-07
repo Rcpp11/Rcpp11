@@ -31,10 +31,12 @@ namespace Rcpp{
 
 class exception : public std::exception {
 public:
-    explicit exception(const char* message_) ;
-    exception(const char* message_, const char* file, int line ) ;
-    virtual ~exception() throw() ;
-    virtual const char* what() const throw() ;
+    explicit exception(const char* message_) : message(message_){}
+    exception(const char* message_, const char* file, int line ): message(message_){
+        rcpp_set_stack_trace( stack_trace(file,line) ) ;
+    }
+    virtual ~exception() noexcept {}
+    virtual const char* what() const noexcept { return message.c_str() ; }
 private:
     std::string message ;
 } ;
@@ -84,7 +86,7 @@ class __CLASS__ : public std::exception{                                       \
 public:                                                                        \
 	__CLASS__( const std::string& message ) throw() : message( __WHAT__ ){} ;  \
 	virtual ~__CLASS__() throw(){} ;                                           \
-	virtual const char* what() const throw() ;                                 \
+	virtual const char* what() const throw() { return message.c_str() ; }      \
 private:                                                                       \
 	std::string message ;                                                      \
 } ;
@@ -94,7 +96,7 @@ class __CLASS__ : public std::exception{                                       \
 public:                                                                        \
 	__CLASS__() throw() {} ;                                                   \
 	virtual ~__CLASS__() throw(){} ;                                           \
-	virtual const char* what() const throw() ;                                 \
+	virtual const char* what() const throw(){ return __MESSAGE__ ; }           \
 } ;
 
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")

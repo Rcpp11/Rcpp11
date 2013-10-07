@@ -19,7 +19,9 @@
 #define RCPP_ROUTINE_H
 
 namespace Rcpp {
-             
+        
+    SEXP rcpp_set_stack_trace(SEXP) ;
+
     SEXP Rcpp_eval__impl(SEXP, SEXP) ;
     inline SEXP Rcpp_eval(SEXP expr, SEXP env){
         GET_CALLABLE(Rcpp_eval__impl,expr,env)
