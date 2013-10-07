@@ -20,29 +20,31 @@
 
 namespace Rcpp{
         
-    class DataFrame : public List {
-    public:     
-        DataFrame() ;
-        DataFrame(SEXP x) ;
-        DataFrame( const DataFrame& other) ;
+    template < template <class> class StoragePolicy>
+    class DataFrame_Impl : public Vector_Impl<VECSXP, StoragePolicy> {
+    public:    
+        using Storage = typename Vector_Impl<VECSXP, StoragePolicy>::Storage ;
+        DataFrame_Impl() ;
+        DataFrame_Impl(SEXP x) ;
+        DataFrame_Impl( const DataFrame_Impl& other) ;
                 
-        template <typename T> DataFrame( const T& obj) ; 
+        template <typename T> DataFrame_Impl( const T& obj) ; 
                 
-        DataFrame& operator=( DataFrame& other) ;
-        DataFrame& operator=( SEXP x)  ;
+        DataFrame_Impl& operator=( DataFrame_Impl& other) ;
+        DataFrame_Impl& operator=( SEXP x)  ;
                 
-        ~DataFrame() ;
+        ~DataFrame_Impl() ;
 
         int nrows() const ;
         
         template <typename... Args>
-        static DataFrame create(const Args&... args){
+        static DataFrame_Impl create(const Args&... args){
             return from_list( List::create( args...) ) ;
         }
 
     private:
         void set_sexp(SEXP x) ;
-        static DataFrame from_list( Rcpp::List ) ;
+        static DataFrame_Impl from_list( Rcpp::List ) ;
         
     } ;
         

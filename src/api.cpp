@@ -22,7 +22,6 @@
 #include <Rcpp.h>
 #include "internal.h" 
 
-// Rcpp api classes
 namespace Rcpp {
 
     // Evaluator
@@ -62,74 +61,6 @@ namespace Rcpp {
 
         return res ;
     }
-    
-    // DataFrame
-    namespace internal{
-        inline SEXP empty_data_frame(){
-            SEXP dataFrameSym = ::Rf_install( "data.frame"); // cannot be gc()ed once in symbol table
-            return ::Rf_eval( ::Rf_lang1( dataFrameSym ), R_GlobalEnv ) ;       
-        }
-    }
-             
-    DataFrame::DataFrame(): List( internal::empty_data_frame() ){}
-    DataFrame::DataFrame(SEXP x) {
-        set_sexp(x) ;
-    }  
-    DataFrame::DataFrame( const DataFrame& other): List(other.get__()) {}
-    
-    DataFrame& DataFrame::operator=( DataFrame& other) {
-        set__( other.get__() ) ;
-        return *this ;
-    }
-            
-    DataFrame& DataFrame::operator=( SEXP x) {
-        set__(x) ;
-        return *this ;
-    }
-    DataFrame::~DataFrame(){}     
-    void DataFrame::set_sexp(SEXP x) {
-        if( ::Rf_inherits( x, "data.frame" )){
-            set__( x ) ;
-        } else{
-            SEXP y = internal::convert_using_rfunction( x, "as.data.frame" ) ;
-            set__( y ) ;
-            x = y ;
-        }
-    } 
-    int DataFrame::nrows() const { return Rf_length( VECTOR_ELT(get__(), 0) ); }
-        
-    DataFrame DataFrame::from_list( Rcpp::List obj ){
-        bool use_default_strings_as_factors = true ;
-        bool strings_as_factors = true ;
-        int strings_as_factors_index = -1 ;
-        int n = obj.size() ;
-        CharacterVector names = obj.attr( "names" ) ;
-        if( !names.isNULL() ){
-            for( int i=0; i<n; i++){
-                if( names[i] == "stringsAsFactors" ){
-                    strings_as_factors_index = i ;
-                    use_default_strings_as_factors = false ;        
-                    if( !as<bool>(obj[i]) ) strings_as_factors = false ;
-                    break ;         
-                }
-            }
-        }
-        if( use_default_strings_as_factors ) 
-            return DataFrame(obj) ;
-        SEXP as_df_symb = Rf_install("as.data.frame");
-        SEXP strings_as_factors_symb = Rf_install("stringsAsFactors");
-        
-        obj.erase(strings_as_factors_index) ;
-        names.erase(strings_as_factors_index) ;
-        obj.attr( "names") = names ;
-        Scoped<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
-        SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-        Scoped<SEXP> res = Rcpp_eval( call ) ; 
-        DataFrame out( res ) ;
-        return out ;
-    }
-    
-    
     
 } // namespace Rcpp
 

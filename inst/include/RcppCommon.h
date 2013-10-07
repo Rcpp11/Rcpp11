@@ -115,7 +115,8 @@ namespace Rcpp{
     template < template <class> class StoragePolicy > class Symbol_Impl ;
     using Symbol = Symbol_Impl<NoProtectStorage> ;
     
-    class DataFrame ;
+    template < template <class> class StoragePolicy > class DataFrame_Impl ;
+    using DataFrame = DataFrame_Impl<RObjectStorage> ;
     
 }	
 namespace Rcpp{

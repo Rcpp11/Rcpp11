@@ -31,12 +31,12 @@ class Vector_Impl :
     public VectorBase< RTYPE, true, Vector_Impl<RTYPE,StoragePolicy> >, 
     public internal::eval_methods<RTYPE> 
 {
+public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
     
     using Storage = RObjectStorage<Vector_Impl> ;
     using AttributeProxy_ = AttributeProxyPolicy<Vector_Impl> ;
     
-public:
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
     typedef typename traits::r_vector_const_proxy<RTYPE>::type const_Proxy ;
     typedef typename traits::r_vector_name_proxy<RTYPE>::type NameProxy ;
