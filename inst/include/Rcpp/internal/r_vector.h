@@ -1,6 +1,7 @@
 // r_vector.h:  information about R vectors
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -24,19 +25,32 @@ namespace Rcpp{
 namespace internal{
 
 template<int RTYPE> 
-typename Rcpp::traits::storage_type<RTYPE>::type* r_vector_start(SEXP x){ return get_vector_ptr(x) ; }
+typename Rcpp::traits::storage_type<RTYPE>::type* r_vector_start(SEXP x){ 
+    return get_vector_ptr(x) ;
+}
 
-template<> int* r_vector_start<INTSXP>(SEXP x) ; 
-template<> int* r_vector_start<LGLSXP>(SEXP x) ;
-template<> double* r_vector_start<REALSXP>(SEXP x) ;
-template<> Rbyte* r_vector_start<RAWSXP>(SEXP x) ; 
-template<> Rcomplex* r_vector_start<CPLXSXP>(SEXP x) ;                         
-
+template<> inline int* r_vector_start<INTSXP>(SEXP x){ 
+    return INTEGER(x) ; 
+}
+template<> inline int* r_vector_start<LGLSXP>(SEXP x){ 
+    return LOGICAL(x) ;
+}
+template<> inline double* r_vector_start<REALSXP>(SEXP x){ 
+    return REAL(x) ;
+}
+template<> inline Rbyte* r_vector_start<RAWSXP>(SEXP x){ 
+    return RAW(x) ;
+}
+template<> inline Rcomplex* r_vector_start<CPLXSXP>(SEXP x){ 
+    return COMPLEX(x) ;
+}
+	
 /**
  * The value 0 statically casted to the appropriate type for 
  * the given SEXP type
  */
 template <int RTYPE,typename CTYPE> CTYPE get_zero(){ return static_cast<CTYPE>(0) ; }
+
 /**
  * Specialization for Rcomplex
  */
