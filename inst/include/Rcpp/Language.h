@@ -139,7 +139,7 @@ namespace Rcpp{
          * eval this call in the requested environment
          */
         SEXP eval(SEXP env){
-            return internal::try_catch( Storage::get__(), env ) ;
+            return Rcpp_eval( Storage::get__(), env ) ;
         }
 
         SEXP fast_eval(){

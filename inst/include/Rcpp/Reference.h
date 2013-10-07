@@ -58,7 +58,7 @@ namespace Rcpp{
             // using callback to R as apparently R_do_new_object always makes the same environment
             SEXP newSym = Rf_install("new");
             Scoped<SEXP> call = Rf_lang2( newSym, Rf_mkString( klass.c_str() ) ) ;
-            Storage::set__( Rcpp::internal::try_catch( call ) ) ;
+            Storage::set__( Rcpp_eval( call ) ) ;
         
         }
         Reference_Impl( const char* klass ) : Reference(std::string(klass)){};

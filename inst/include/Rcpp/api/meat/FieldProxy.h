@@ -33,7 +33,7 @@ namespace Rcpp{
             parent, 
             Rf_ScalarString(field_name)
         ) ;
-        return Rcpp::internal::try_catch( call ) ;    
+        return Rcpp_eval( call ) ;    
     }
     
     template <typename CLASS>
@@ -80,7 +80,7 @@ namespace Rcpp{
             parent, 
             Rf_ScalarString(field_name) 
         );
-        return Rcpp::internal::try_catch( call ) ;    
+        return Rcpp_eval( call ) ;    
     }
     
     template <typename CLASS>

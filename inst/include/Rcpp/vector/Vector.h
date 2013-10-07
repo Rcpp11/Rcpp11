@@ -185,7 +185,7 @@ public:
             } else {
                 /* use the slower and more flexible version (callback to R) */
                 SEXP namesSym = Rf_install( "names<-" );
-                Scoped<SEXP> new_vec = internal::try_catch(Rf_lang3( namesSym, parent, x )) ;
+                Scoped<SEXP> new_vec = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
                 /* names<- makes a new vector, so we have to change 
                    the SEXP of the parent of this proxy */
                 parent.set__( new_vec ) ;

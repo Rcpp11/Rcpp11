@@ -185,25 +185,16 @@ namespace internal{
         return res;
     }
     
-    SEXP try_catch( SEXP expr, SEXP env ) {
-        RCPP_DEBUG( "try_catch( expr = <%p>, env = <%p> )", expr, env )
-        return Rcpp_eval(expr, env) ;
-    }
-    SEXP try_catch( SEXP expr ) {
-        RCPP_DEBUG( "try_catch( expr = <%p> )", expr )
-        return Rcpp_eval(expr) ;
-    }
-    
     SEXP eval_methods<EXPRSXP>::eval(){
         SEXP xp = ( static_cast<ExpressionVector&>(*this) ).get__() ;
         SEXP evalSym = Rf_install( "eval" );
-        return try_catch( Rf_lang2( evalSym, xp ) ) ;
+        return Rcpp_eval( Rf_lang2( evalSym, xp ) ) ;
     }
     
     SEXP eval_methods<EXPRSXP>::eval( SEXP env ){
         SEXP xp = ( static_cast<ExpressionVector&>(*this) ).get__() ;
         SEXP evalSym = Rf_install( "eval" );
-        return try_catch( Rf_lang3( evalSym, xp, env ) ) ;
+        return Rcpp_eval( Rf_lang3( evalSym, xp, env ) ) ;
     }
 	
 } // internal
