@@ -1,7 +1,4 @@
-//
-// Evaluator.h:  protected evaluation
-//
-// Copyright (C) 2009 - 2012    Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -18,10 +15,23 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_Evaluator_h
-#define Rcpp_Evaluator_h
+#ifndef RCPP_ROUTINE_H
+#define RCPP_ROUTINE_H
 
-#define R_NO_REMAP
-#include <Rinternals.h>
+namespace Rcpp {
 
+    SEXP Rcpp_eval__impl(SEXP, SEXP) ;
+    inline SEXP Rcpp_eval(SEXP expr, SEXP env){
+        GET_CALLABLE(Rcpp_eval__impl,expr,env)
+    }
+    inline SEXP Rcpp_eval(SEXP expr){
+        GET_CALLABLE(Rcpp_eval__impl,expr,R_GlobalEnv) 
+    }
+    
+    const char * type2name__impl(int sexp_type);
+    inline const char* type2name(int sexp_type){
+        GET_CALLABLE(type2name__impl, sexp_type)    
+    }
+}
+    
 #endif

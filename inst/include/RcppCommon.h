@@ -73,6 +73,7 @@ const char * sexp_to_name(int sexp_type);
 #include <tuple>
 #include <utility>
 
+#include <Rcpp/routines.h>
 #include <Rcpp/complex.h>
 #include <Rcpp/barrier.h>
 
