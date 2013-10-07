@@ -173,33 +173,13 @@ namespace Rcpp {
         default:    return "<unknown>";
         }
     }
-}
 
-// utilities
-
-
-
-namespace Rcpp{
-namespace internal{
-	
-	SEXP convert_using_rfunction(SEXP x, const char* const fun) {
-        SEXP res = R_NilValue ;
-        try{
-            SEXP funSym = Rf_install(fun);
-            res = Rcpp_eval( Rf_lang2( funSym, x ) ) ;
-        } catch( eval_error& e){
-            throw ::Rcpp::not_compatible( std::string("could not convert using R function : ") + fun  ) ;
-        }
-        return res;
-    }
-    
-} // internal
 } // Rcpp
 
 SEXP as_character_externalptr(SEXP xp){
-	char buffer[20] ;
-	snprintf( buffer, 20, "%p", (void*)EXTPTR_PTR(xp) ) ;
-	return Rcpp::wrap( (const char*)buffer ) ;
+    char buffer[20] ;
+    snprintf( buffer, 20, "%p", (void*)EXTPTR_PTR(xp) ) ;
+    return Rcpp::wrap( (const char*)buffer ) ;
 }
 
 #if defined(__GNUC__)
@@ -215,7 +195,6 @@ SEXP stack_trace( const char* file, int line ){
 }
 #else // ! (defined(WIN32) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__) || defined(__sun)
 #include <execinfo.h>
-#include <cxxabi.h>
 
 static std::string demangler_one( const char* input){
     static std::string buffer ;

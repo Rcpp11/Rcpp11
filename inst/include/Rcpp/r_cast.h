@@ -1,7 +1,5 @@
-//
-// rcast.h:  cast from one SEXP type to another
-//
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -26,7 +24,16 @@
 namespace Rcpp{
     namespace internal {
         
-        SEXP convert_using_rfunction(SEXP x, const char* const fun);
+        inline SEXP convert_using_rfunction(SEXP x, const char* const fun) {
+            SEXP res = R_NilValue ;
+            try{
+                SEXP funSym = Rf_install(fun);
+                res = Rcpp_eval( Rf_lang2( funSym, x ) ) ;
+            } catch( eval_error& e){
+                throw ::Rcpp::not_compatible( std::string("could not convert using R function : ") + fun  ) ;
+            }
+            return res;
+        }
         
         // r_true_cast is only meant to be used when the target SEXP type
         // is different from the SEXP type of x 
