@@ -233,5 +233,22 @@ namespace Rcpp {
         }
     #endif   
 
+    namespace {
+        unsigned long RNGScopeCounter = 0;
+    }
+    
+    unsigned long enterRNGScope__impl() {       
+        if (RNGScopeCounter == 0)
+            GetRNGstate();       
+        return ++RNGScopeCounter;
+    }
+    
+    unsigned long exitRNGScope__impl() {
+        RNGScopeCounter--;
+        if (RNGScopeCounter == 0)
+            PutRNGstate();
+        return RNGScopeCounter ;
+    }
+
 }
 
