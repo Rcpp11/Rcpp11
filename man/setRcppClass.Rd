@@ -6,15 +6,18 @@
 Create a Class Extending a C++ Class
 }
 \description{
-A class is defined that includes the fields and methods of a C++ class
-defined, usually in this package.  The \R{} class can include new
-methods and fields, such as for prototyping new computations for the
-C++ class.
+These routines create a class definition in \R for an exposed C++
+class, setting up and executing a load action to incorporate the C++
+pointer information.
+Neither function should normally need to be called directly; for most applications,
+a call to
+\code{\link{exposeClass}()} will create both C++ and \R code files to
+expose the C++ class.
 }
 \usage{
-setRcppClass(Class, CppClass, module, fields = list(), contains = ,
+setRcppClass(Class, CppClass = , module = , fields = list(), contains = ,
              methods = , saveAs = Class, where = , ...)
-loadRcppClass(Class, CppClass, module, fields = character(),
+loadRcppClass(Class, CppClass = , module = , fields = character(),
               contains = character(),
               methods = , saveAs = Class, where = , ...)
 }
@@ -30,19 +33,32 @@ extends. By default, the same as \code{Class}.
   \item{module}{
 The Rcpp module in which the class is defined.  The module does not
 have to be loaded separately; \code{setRcppClass()} will arrange to
-load the module.
+load the module. By default, \code{"class_"} followed by the C++ class
+name.
+
+If \code{\link{exposeClass}()} has been called, the necessary module
+code will have been written in the \code{src} directory of the package.
 }
   \item{fields, contains, methods}{
 Additional fields, superclasses and method definitions in \R{} that
 extend the C++ class.  These arguments are passed on to
 \code{\link{setRefClass}()}.
-See Details for the implementation of methods.
 }
   \item{saveAs}{
 Save a generator object for the class in the package's namespace under
 this name.  By default, the generator object has the name of the
 class.  To avoid saving any generator object, supply this argument as
 \code{NULL}.
+
+(This argument is currently needed because the actual class definition
+must take place at package load time, to include C++ pointer
+information.
+Therefore the
+value returned by \code{setRcppClass()} when called during package
+installation is not the generator object returned by
+\code{setRefClass()}.
+We may be able to hack
+around this problem in the future.)
 }
   \item{where}{
 The environment in which to save the class definition.  By default,
@@ -55,21 +71,12 @@ Arguments, if any, to pass on to \code{\link{setRefClass}()}.
 }
 \details{
 The call to these functions normally appears in the source code for a
-package.
-It generates a load action that loads the specified module and
-extracts the C++ class definition specified.
+package; in particular, a call is written in an \R source file when
+\code{\link{exposeClass}()} is called.
 
-\R{} code can define new fields and methods for the class, typically
-as prototypes for possible future C++ implementation.
+\R{} code for this class or (preferably) a subclass can define new fields and methods for the class.
 Methods for the \R{} class can refer to methods and fields defined in
-C++ for the C++ class.
-These will be mapped into the C++ equivalents by \R{} code generated
-by \code{setRcppClass}.
-The C++ code may not deal as well as \R{} with incompatible
-argument types and lengths.
-Segmentation faults are a definite possibility.
-If that's a problem, you should define methods in \R{} that check for
-legal data types and values.
+C++ for the C++ class, if those have been exposed.
 
 The fields  and methods defined can
 include overriding C++ fields or methods.
@@ -81,7 +88,14 @@ Otherwise, the C++ code will continue to use the old C++ definition.
 
 }
 \value{
-A generator for the new class.
+At load time, a generator for the new class is created and stored
+according to the \code{saveAs} argument, typically under the name of
+the class.
+
+The value returned at installation time is a dummy.  Future revisions
+of the function may allow us to return a valid generator at install
+time.  We recommend using the standard style of assigning the value
+to the name of the class, as one would do with \code{\link{setRefClass}}.
 }
 \author{
 John Chambers
