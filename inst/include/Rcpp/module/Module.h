@@ -159,13 +159,14 @@ namespace Rcpp{
          * The R code in Module.R uses this information to create a C++Function 
          * object
          */
-        SEXP get_function( const std::string& ){
+        SEXP get_function( const std::string& fun_name ){
             MAP::iterator it = functions.begin() ;
 	        int n = functions.size() ;
 	        CppFunction* fun = 0 ;
 	        for( int i=0; i<n; i++, ++it){
-	            if( name.compare( it->first ) == 0){
+	            if( fun_name.compare( it->first ) == 0){
 	                fun = it->second ;
+	            
 	                break ;
 	            }
 	        }
