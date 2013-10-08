@@ -81,8 +81,16 @@ namespace Rcpp{
 #include <Rcpp/module/debug_constructor.h>
 #include <Rcpp/module/Module.h>
 
-extern "C" Rcpp::Module* getCurrentScope() ;
-extern "C" void setCurrentScope( Rcpp::Module* ) ;
+Rcpp::Module* getCurrentScope__impl() ;
+inline Rcpp::Module* getCurrentScope(){
+    GET_CALLABLE(getCurrentScope__impl)
+}
+
+void setCurrentScope__impl( Rcpp::Module* ) ;
+void setCurrentScope( Rcpp::Module* mod ){
+    VOID_GET_CALLABLE(setCurrentScope__impl, mod )    
+}
+
 
 namespace Rcpp{
         

@@ -220,8 +220,8 @@ namespace Rcpp{
 	static Module* current_scope  ;
 }
 
-Rcpp::Module* getCurrentScope(){ return Rcpp::current_scope ; }
-void setCurrentScope( Rcpp::Module* scope ){ Rcpp::current_scope = scope ; }
+Rcpp::Module* getCurrentScope__impl(){ return Rcpp::current_scope ; }
+void setCurrentScope__impl( Rcpp::Module* scope ){ Rcpp::current_scope = scope ; }
 
 extern "C" void R_init_Rcpp11( DllInfo* info){
 	Rcpp::current_scope = 0 ;
