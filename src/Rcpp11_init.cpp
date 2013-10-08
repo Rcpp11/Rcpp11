@@ -111,7 +111,7 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
     REGISTER(get_vector_ptr)
     REGISTER(char_nocheck)
     REGISTER(dataptr)
-    
+    REGISTER(get_Rcpp11_namespace)
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

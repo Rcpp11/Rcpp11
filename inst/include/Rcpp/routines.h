@@ -70,6 +70,10 @@ namespace Rcpp {
          GET_CALLABLE(exitRNGScope__impl)   
     }
     
+    SEXP get_Rcpp11_namespace__impl() ;
+    inline SEXP get_Rcpp11_namespace() {
+        GET_CALLABLE(get_Rcpp11_namespace__impl)
+    }
 }
     
 #endif

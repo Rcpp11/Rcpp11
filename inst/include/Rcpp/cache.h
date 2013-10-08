@@ -2,6 +2,7 @@
 // cache.h:  
 //
 // Copyright (C) 2009 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -20,14 +21,6 @@
 
 #ifndef RCPP_CACHE_H
 #define RCPP_CACHE_H
-
-namespace Rcpp {
-namespace internal{
-        
-    SEXP get_Rcpp11_namespace() ;
-    
-}    
-}
 
 extern "C" {
     int* get_cache( int ) ;

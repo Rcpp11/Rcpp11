@@ -93,12 +93,10 @@ SEXP get_rcpp_cache() {
 }
 
 namespace Rcpp {
-    namespace internal {   
-		SEXP get_Rcpp11_namespace(){ 
-		    RCPP_DEBUG( "get_Rcpp11_namespace" )
-			return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
-		}
+    	SEXP get_Rcpp11_namespace__impl(){ 
+    	    return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
 	}
+	
 }
 
 static void set_error_occured(SEXP cache, bool occured){
