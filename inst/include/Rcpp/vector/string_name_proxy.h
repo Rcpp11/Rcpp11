@@ -27,10 +27,10 @@ namespace internal{
 		typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
 		
 		string_name_proxy( VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){} ;
+			parent(v), name(name_){}
 		string_name_proxy( const string_name_proxy& other ) : 
-			parent(other.parent), name(other.name){} ;
-		~string_name_proxy(){} ;
+			parent(other.parent), name(other.name){}
+		~string_name_proxy(){}
 		
 		string_name_proxy& operator=( const std::string& rhs ){
 			set( Rf_mkChar(rhs.c_str()) ) ;
@@ -40,7 +40,7 @@ namespace internal{
 			set( Rf_mkChar( other.get() ) ) ;
 			return *this ;
 		}
-		string_name_proxy& operator=( const Na_Proxy& other){
+		string_name_proxy& operator=( const Na_Proxy& /* other */){
 		    set( Rcpp::traits::get_na<RTYPE>() );
 		    return *this ;
 		}
@@ -64,7 +64,7 @@ namespace internal{
 			try{
 				index = parent.offset(name) ;
 				parent[ index ] = rhs ;
-			} catch( const index_out_of_bounds& ex ){
+			} catch( const index_out_of_bounds& /* ex */ ){
 				parent.push_back( rhs, name ); 
 			}
 		}

@@ -151,7 +151,7 @@ public:
 
     class NamesProxy {
     public:
-        NamesProxy( Vector_Impl& v) : parent(v){} ;
+        NamesProxy( Vector_Impl& v) : parent(v){}
 	
         /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) {
@@ -197,7 +197,7 @@ public:
     	
     class const_NamesProxy {
     public:
-        const_NamesProxy( const Vector_Impl& v) : parent(v){} ;
+        const_NamesProxy( const Vector_Impl& v) : parent(v){}
 	
         /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) = delete ;
@@ -312,7 +312,7 @@ public:
         return erase_range__impl( first, last ) ;
     }
 	
-    void update(SEXP x){
+    void update(SEXP /* x */){
         cache.update(*this) ;
     }
 	

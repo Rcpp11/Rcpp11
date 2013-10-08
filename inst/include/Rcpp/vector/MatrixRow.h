@@ -111,7 +111,7 @@ public:
         start(other.start), 
         parent_nrow(other.parent_nrow), 
         row(other.row)
-    {} ;
+    {}
         
     template <int RT, bool NA, typename T>
     MatrixRow& operator=( const Rcpp::VectorBase<RT,NA,T>& rhs ){

@@ -50,22 +50,22 @@ static std::string toString(const int i) {
 
 class no_such_env : public std::exception{                                     
 public:                                                                        
-    no_such_env( const std::string& name ) throw() : message( std::string("no such environment: '") + name + "'" ){} ;
-    no_such_env( int pos ) throw() : message( "no environment in given position '" + toString(pos) + "'") {} ;
-    virtual ~no_such_env() throw(){} ;                                         
-    virtual const char* what() const throw(){ return message.c_str() ; } ;     
+    no_such_env( const std::string& name ) throw() : message( std::string("no such environment: '") + name + "'" ){}
+    no_such_env( int pos ) throw() : message( "no environment in given position '" + toString(pos) + "'") {}
+    virtual ~no_such_env() throw(){}                                       
+    virtual const char* what() const throw(){ return message.c_str() ; }
 private:                                                                       
     std::string message ;                                                      
 } ;
 
 class file_io_error : public std::exception {                                      
 public:                                                                        
-    file_io_error(const std::string& file) throw() : message( std::string("file io error: '") + file + "'" ), file(file) {} ;
-    file_io_error(int code, const std::string& file) throw() : message( "file io error " + toString(code) + ": '" + file + "'"), file(file) {} ;
-    file_io_error(const std::string& msg, const std::string& file) throw() : message( msg + ": '" + file + "'"), file(file) {} ;
-    virtual ~file_io_error() throw(){} ;                                         
-    virtual const char* what() const throw(){ return message.c_str() ; } ; 
-    std::string filePath() const throw(){ return file ; } ;
+    file_io_error(const std::string& file_) throw() : message( std::string("file io error: '") + file_ + "'" ), file(file_) {}
+    file_io_error(int code, const std::string& file_) throw() : message( "file io error " + toString(code) + ": '" + file_ + "'"), file(file_) {}
+    file_io_error(const std::string& msg, const std::string& file_) throw() : message( msg + ": '" + file_ + "'"), file(file_) {}
+    virtual ~file_io_error() throw(){}                                       
+    virtual const char* what() const throw(){ return message.c_str() ; } 
+    std::string filePath() const throw(){ return file ; }
 private:                                                                       
     std::string message ;                                                      
     std::string file;
@@ -84,9 +84,9 @@ public:
 #define RCPP_EXCEPTION_CLASS(__CLASS__,__WHAT__)                               \
 class __CLASS__ : public std::exception{                                       \
 public:                                                                        \
-	__CLASS__( const std::string& message ) throw() : message( __WHAT__ ){} ;  \
-	virtual ~__CLASS__() throw(){} ;                                           \
-	virtual const char* what() const throw() { return message.c_str() ; }      \
+	__CLASS__( const std::string& msg ) noexcept : message( __WHAT__ ){}  \
+	virtual ~__CLASS__() noexcept{}                                            \
+	virtual const char* what() const noexcept { return message.c_str() ; }     \
 private:                                                                       \
 	std::string message ;                                                      \
 } ;
@@ -94,9 +94,9 @@ private:                                                                       \
 #define RCPP_SIMPLE_EXCEPTION_CLASS(__CLASS__,__MESSAGE__)                     \
 class __CLASS__ : public std::exception{                                       \
 public:                                                                        \
-	__CLASS__() throw() {} ;                                                   \
-	virtual ~__CLASS__() throw(){} ;                                           \
-	virtual const char* what() const throw(){ return __MESSAGE__ ; }           \
+	__CLASS__() noexcept {}                                                    \
+	virtual ~__CLASS__() noexcept {}                                           \
+	virtual const char* what() const noexcept{ return __MESSAGE__ ; }          \
 } ;
 
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")
@@ -111,15 +111,15 @@ RCPP_SIMPLE_EXCEPTION_CLASS(not_a_closure, "not a closure")
 RCPP_SIMPLE_EXCEPTION_CLASS(no_such_function, "no such function")
 RCPP_SIMPLE_EXCEPTION_CLASS(unevaluated_promise, "promise not yet evaluated")
 
-RCPP_EXCEPTION_CLASS(not_compatible, message )
-RCPP_EXCEPTION_CLASS(S4_creation_error, std::string("error creating object of S4 class : ") + message )
-RCPP_EXCEPTION_CLASS(reference_creation_error, std::string("error creating object of reference class : ") + message )
-RCPP_EXCEPTION_CLASS(no_such_binding, std::string("no such binding : '") + message + "'" )
-RCPP_EXCEPTION_CLASS(binding_not_found, std::string("binding not found: '") + message + "'" )
-RCPP_EXCEPTION_CLASS(binding_is_locked, std::string("binding is locked: '") + message + "'" )
-RCPP_EXCEPTION_CLASS(no_such_namespace, std::string("no such namespace: '") + message + "'" )
-RCPP_EXCEPTION_CLASS(function_not_exported, std::string("function not exported: ") + message)
-RCPP_EXCEPTION_CLASS(eval_error, message )
+RCPP_EXCEPTION_CLASS(not_compatible, msg )
+RCPP_EXCEPTION_CLASS(S4_creation_error, std::string("error creating object of S4 class : ") + msg )
+RCPP_EXCEPTION_CLASS(reference_creation_error, std::string("error creating object of reference class : ") + msg )
+RCPP_EXCEPTION_CLASS(no_such_binding, std::string("no such binding : '") + msg + "'" )
+RCPP_EXCEPTION_CLASS(binding_not_found, std::string("binding not found: '") + msg + "'" )
+RCPP_EXCEPTION_CLASS(binding_is_locked, std::string("binding is locked: '") + msg + "'" )
+RCPP_EXCEPTION_CLASS(no_such_namespace, std::string("no such namespace: '") + msg + "'" )
+RCPP_EXCEPTION_CLASS(function_not_exported, std::string("function not exported: ") + msg)
+RCPP_EXCEPTION_CLASS(eval_error, msg )
 
 #undef RCPP_EXCEPTION_CLASS
 #undef RCPP_SIMPLE_EXCEPTION_CLASS

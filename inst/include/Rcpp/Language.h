@@ -81,23 +81,6 @@ namespace Rcpp{
          */
         explicit Language_Impl( const Function& function) ;
         
-        /**
-         * Creates a call to the given symbol using variable number of 
-         * arguments
-         *
-         * @param symbol symbol
-         * @param ...Args variable length argument list. The type of each 
-         *        argument must be wrappable, meaning there need to be 
-         *        a wrap function that takes this type as its parameter
-         * 
-         * For example, Language( "rnorm", 10, 0.0 ) 
-         * will create the same call as 
-         * > call( "rnorm", 10L, 0.0 )
-         *
-         * 10 is wrapped as an integer vector using wrap( const& int )
-         * 0.0 is wrapped as a numeric vector using wrap( const& double )
-         * ...
-         */
         template<typename... Args> 
         Language_Impl( const std::string& symbol, const Args&... args) {
             Storage::set__( pairlist( Rf_install( symbol.c_str() ), args...) ) ;

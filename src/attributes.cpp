@@ -2418,8 +2418,6 @@ namespace {
             regenerateSource();
         }
         
-        bool isEmpty() const { return cppSourcePath_.empty(); }
-        
         bool isBuilt() const { return FileInfo(dynlibPath()).exists(); };
                 
         bool isSourceDirty() const {          

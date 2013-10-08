@@ -35,8 +35,8 @@ namespace Rcpp{
             /**
              * Creates  a binding
              * 
-             * @param env environment in which the binding is
-             * @param name name of the binding
+             * @param env_ environment in which the binding is
+             * @param name_ name of the binding
              */
             Binding( Environment_Impl& env_, const std::string& name_) :
                 env(env_), name(name_){}
@@ -174,7 +174,7 @@ namespace Rcpp{
     
         Environment_Impl(){
             Storage::set__(R_GlobalEnv) ;
-        } ;
+        }
 
         /**
          * wraps the given environment
@@ -446,7 +446,7 @@ namespace Rcpp{
          *
          * @throw no_such_namespace 
          */
-        static Environment_Impl namespace_env(const std::string& ) ;
+        static Environment_Impl namespace_env(const std::string& name) ;
     
         /**
          * The parent environment of this environment

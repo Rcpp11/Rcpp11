@@ -38,7 +38,7 @@ class Create {
             set_value( typename traits::number_to_type< sizeof...(Pack) >() , i+1, pack... ) ;
         }
         
-        inline void set_value( traits::number_to_type<0>, int i ){}
+        inline void set_value( traits::number_to_type<0>, int /* i */ ){}
         
         Vec data ;
 } ;  
@@ -69,7 +69,7 @@ class CreateWithNames {
             set_value( typename traits::number_to_type< sizeof...(Pack) >() , i+1, pack... ) ;
         }
         
-        inline void set_value( traits::number_to_type<0>, int i){}
+        inline void set_value( traits::number_to_type<0>, int /* i */){}
         
         
         Vec data ;

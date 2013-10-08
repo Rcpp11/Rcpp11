@@ -42,7 +42,7 @@ class SingleLogicalResult {
 public:
 	const static int UNRESOLVED = -5 ;
 	
-	SingleLogicalResult() : result(UNRESOLVED) {} ;
+	SingleLogicalResult() : result(UNRESOLVED) {}
 	
 	void apply(){
 		if( result == UNRESOLVED ){

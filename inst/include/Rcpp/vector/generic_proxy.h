@@ -30,9 +30,9 @@ namespace internal{
 			generic_proxy(): parent(0), index(-1){}
 			
 			generic_proxy( const generic_proxy& other ) : 
-				parent(other.parent), index(other.index){} ;
+				parent(other.parent), index(other.index){}
 			
-			generic_proxy( VECTOR& v, int i ) : parent(&v), index(i){} ;
+			generic_proxy( VECTOR& v, int i ) : parent(&v), index(i){}
 		
 			generic_proxy& operator=(SEXP rhs) { 
 				set(rhs) ;

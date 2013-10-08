@@ -56,7 +56,7 @@ public:
 		typedef std::random_access_iterator_tag iterator_category ;
 
 		iterator( const VectorBase& object_, int index_ ) : object(object_.get_ref()), index(index_){} 
-		iterator( const iterator& other) : object(other.object), index(other.index){};
+		iterator( const iterator& other) : object(other.object), index(other.index){}
 		
 		inline iterator& operator++(){
 			index++ ;

@@ -27,10 +27,10 @@ namespace internal{
 		generic_name_proxy( VECTOR& v, const std::string& name_) :
 			parent(v), name(name_){
 				RCPP_DEBUG( "generic_name_proxy( VECTOR& = %p, const string& = %s)", v.get__(), name_.c_str() );
-		} ;
+		}
 		generic_name_proxy( const generic_name_proxy& other ) : 
-			parent(other.parent), name(other.name){} ;
-		~generic_name_proxy(){} ;
+			parent(other.parent), name(other.name){}
+		~generic_name_proxy(){}
 		
 		generic_name_proxy& operator=( SEXP rhs ){
 			set( rhs ) ;
@@ -68,7 +68,7 @@ namespace internal{
 			try{
 				index = parent.offset(name) ;
 				parent[ index ] = rhs ;
-			} catch( const index_out_of_bounds& ex ){
+			} catch( const index_out_of_bounds& /* ex */ ){
 				parent.push_back( rhs, name ); 
 			}
 		}

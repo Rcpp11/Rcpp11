@@ -41,7 +41,7 @@ namespace Rcpp{
         /**
          * calls a function from that module with the specified arguments
          *
-         * @param name the name of the function to call
+         * @param name_ the name of the function to call
          * @param args an array of R objects to use as arguments for the function
          * @param nargs number of arguments
          */

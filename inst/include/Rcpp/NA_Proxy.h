@@ -28,8 +28,8 @@ inline bool operator==(int x         , Rcpp::Na_Proxy){ return Rcpp::traits::is_
 inline bool operator==(Rcpp::String x, Rcpp::Na_Proxy){ return Rcpp::traits::is_na<STRSXP>(x.get_sexp()) ; }
 inline bool operator==(Rcomplex x    , Rcpp::Na_Proxy){ return Rcpp::traits::is_na<CPLXSXP>(x) ; }
 inline bool operator==(SEXP x        , Rcpp::Na_Proxy){ return TYPEOF(x)==CHARSXP && Rcpp::traits::is_na<STRSXP>(x) ; }
-inline bool operator==(std::string x , Rcpp::Na_Proxy){ return false ; }
-inline bool operator==(const char* x , Rcpp::Na_Proxy){ return false ; }
+inline bool operator==(std::string   , Rcpp::Na_Proxy){ return false ; }
+inline bool operator==(const char*   , Rcpp::Na_Proxy){ return false ; }
 inline bool operator==(Rcpp::internal::string_proxy<STRSXP> x, Rcpp::Na_Proxy){ return Rcpp::traits::is_na<STRSXP>(x.get()) ; }
 
 inline bool operator==(Rcpp::Na_Proxy, double x       ){ return Rcpp::traits::is_na<REALSXP>(x) ; }
@@ -37,8 +37,8 @@ inline bool operator==(Rcpp::Na_Proxy, int x          ){ return Rcpp::traits::is
 inline bool operator==(Rcpp::Na_Proxy, Rcpp::String x ){ return Rcpp::traits::is_na<STRSXP>(x.get_sexp()) ; }
 inline bool operator==(Rcpp::Na_Proxy, SEXP x         ){ return TYPEOF(x)==CHARSXP && Rcpp::traits::is_na<STRSXP>(x) ; }
 inline bool operator==(Rcpp::Na_Proxy, Rcomplex x     ){ return Rcpp::traits::is_na<CPLXSXP>(x) ; }
-inline bool operator==(Rcpp::Na_Proxy, std::string x  ){ return false ; }
-inline bool operator==(Rcpp::Na_Proxy, const char* x  ){ return false ; }
+inline bool operator==(Rcpp::Na_Proxy, std::string    ){ return false ; }
+inline bool operator==(Rcpp::Na_Proxy, const char*    ){ return false ; }
 inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::string_proxy<STRSXP> x){ return Rcpp::traits::is_na<STRSXP>(x.get()) ; }
 
 #endif

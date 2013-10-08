@@ -26,10 +26,10 @@ namespace internal{
 		typedef ::Rcpp::Vector<RTYPE> VECTOR ;
 		typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
 		simple_name_proxy( VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){} ;
+			parent(v), name(name_){}
 		simple_name_proxy( const simple_name_proxy& other ) : 
-			parent(other.parent), name(other.name){} ;
-		~simple_name_proxy() {} ;
+			parent(other.parent), name(other.name){}
+		~simple_name_proxy() {}
 		
 		simple_name_proxy& operator=( CTYPE rhs ){
 			set( rhs ) ;
@@ -39,7 +39,7 @@ namespace internal{
 			set( other.get() ) ;
 			return *this ;
 		}
-		simple_name_proxy& operator=( const Na_Proxy& other){
+		simple_name_proxy& operator=( const Na_Proxy& /* other */ ){
 		    set( Rcpp::traits::get_na<RTYPE>() );
 		    return *this ;
 		}
@@ -66,7 +66,7 @@ namespace internal{
 			try{
 				index = parent.offset(name) ;
 				parent[ index ] = rhs ;
-			} catch( const index_out_of_bounds& ex ){
+			} catch( const index_out_of_bounds& /* ex */ ){
 				parent.push_back( rhs, name ); 
 			}
 		}

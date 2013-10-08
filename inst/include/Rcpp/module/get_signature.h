@@ -44,7 +44,7 @@ namespace Rcpp{
     
     template <>
     struct SignatureBody<>{
-        static void process( std::string& s ){}
+        static void process( std::string& ){}
     } ;
     
     template <typename OUT, typename... Args>

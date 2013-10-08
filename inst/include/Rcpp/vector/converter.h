@@ -31,7 +31,7 @@ namespace internal {
         return object.name.c_str() ;    
     }
     template <typename T>
-    const char* get_object_name__impl( const T& object, std::false_type){
+    const char* get_object_name__impl( const T& /* object */, std::false_type){
         return "" ;    
     }
     
@@ -64,7 +64,7 @@ namespace internal {
 			return input ;
 		}
 		
-		static target get( const Na_Proxy& input ){
+		static target get( const Na_Proxy& /* input */ ){
 			return traits::get_na<RTYPE>() ;
 		}
 		
@@ -117,7 +117,7 @@ namespace internal {
 		    return x;
 		}
 		
-		static target get( const Na_Proxy& input ){
+		static target get( const Na_Proxy& /* input */ ){
 			return NA_STRING ;
 		}
 		
@@ -152,7 +152,7 @@ namespace internal {
 			return input ;
 		}
 		
-		static target get( const Na_Proxy& input ){
+		static target get( const Na_Proxy& /* input */ ){
 			return Rf_ScalarLogical( NA_LOGICAL ) ;
 		}
 	} ;

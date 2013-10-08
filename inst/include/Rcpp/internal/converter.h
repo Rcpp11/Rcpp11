@@ -1,7 +1,7 @@
-//
 // converter.h:  
 //
 // Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -25,15 +25,9 @@ namespace Rcpp{
 namespace internal{	
 	class converter {
 	public:
-		converter( ) : x(R_NilValue){} ;
-		converter( SEXP x_) : x(x_){} ;
-		converter( const converter& other) : x(other.x){}
-		converter& operator=( const converter& other){
-			x = other.x ;
-			return *this ;
-		}
-		~converter(){}
-	
+		converter( ) : x(R_NilValue){}
+		converter( SEXP x_) : x(x_){}
+		
 		template <typename T> operator T(){
 			return ::Rcpp::as<T>( x ) ;	
 		}

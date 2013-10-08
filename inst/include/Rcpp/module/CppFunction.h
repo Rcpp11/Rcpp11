@@ -40,7 +40,7 @@ namespace Rcpp{
         virtual SEXP operator()(SEXP*) { 
             return R_NilValue ;
         }
-        virtual ~CppFunction(){} ;
+        virtual ~CppFunction(){}
         
         /**
          * The number of arguments of the function
@@ -124,7 +124,7 @@ namespace Rcpp{
             }
     
             inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name_){ ::Rcpp::signature<OUT, Args...>(s, name_) ; }
             
         private:
             Fun ptr_fun ;
@@ -147,7 +147,7 @@ namespace Rcpp{
             }
     
             inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline void signature(std::string& s, const char* name_){ ::Rcpp::signature<OUT,Args...>(s, name_) ; }
             inline SEXP get_formals(){ return formals; }
         
         private:

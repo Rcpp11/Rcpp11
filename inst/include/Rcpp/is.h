@@ -30,7 +30,7 @@ namespace Rcpp{
         
         template <typename T>
         struct Is {
-            inline bool test(SEXP x){
+            inline bool test(SEXP /* x */){
                 return false ;    
             }
         } ;

@@ -59,7 +59,7 @@ namespace Rcpp{
                 throw S4_creation_error( klass ) ;
         }
         
-        S4_Impl( const char* klass ) : S4( std::string(klass) ){}; 
+        S4_Impl( const char* klass ) : S4( std::string(klass) ){} 
         
         /**
          * Indicates if this object is an instance of the given S4 class

@@ -61,7 +61,7 @@ namespace Rcpp{
             Storage::set__( Rcpp_eval( call ) ) ;
         
         }
-        Reference_Impl( const char* klass ) : Reference(std::string(klass)){};
+        Reference_Impl( const char* klass ) : Reference(std::string(klass)){}
        
     } ;
 

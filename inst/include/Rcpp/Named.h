@@ -25,7 +25,7 @@ namespace Rcpp{
                     
 class Argument {
 public:
-	Argument() : name(){} ;
+	Argument() : name(){}
 	Argument( const std::string& name_) : name(name_){} 
 	
 	template<typename T>

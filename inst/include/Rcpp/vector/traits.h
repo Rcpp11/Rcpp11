@@ -32,7 +32,7 @@ namespace traits{
 		typedef typename r_vector_const_proxy<RTYPE>::type const_proxy ;
 		typedef typename storage_type<RTYPE>::type storage_type ;
 		
-		r_vector_cache() : start(0){} ;
+		r_vector_cache() : start(0){}
 		
 		inline void update( const VECTOR& v ) {
 		    start = ::Rcpp::internal::r_vector_start<RTYPE>(v.get__()) ;

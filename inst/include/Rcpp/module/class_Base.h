@@ -26,9 +26,9 @@ class class_Base {
 public:
     typedef XPtr<class_Base> XP_Class ;
     
-    class_Base() : name(), docstring(), enums(), parents(), is_debugging(false) {} ;
+    class_Base() : name(), docstring(), enums(), parents(), is_debugging(false) {}
     class_Base(const char* name_, const char* doc) : 
-        name(name_), docstring( doc == 0 ? "" : doc ), enums(), parents(), is_debugging(false) {} ;
+        name(name_), docstring( doc == 0 ? "" : doc ), enums(), parents(), is_debugging(false) {}
     
     virtual List fields(const XP_Class& ){ return List(0); }
     virtual List getMethods(const XP_Class&, std::string&){ return List(0); }

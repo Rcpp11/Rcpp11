@@ -61,30 +61,14 @@ public:
         return Storage::copy__(rhs) ;                    
     }                                           
     
-    /** 
-     * constructs a XPtr wrapping the external pointer (EXTPTRSXP SEXP)
-     *
-     * @param xp external pointer to wrap
-     */
     explicit XPtr(SEXP x, SEXP tag = R_NilValue, SEXP prot = R_NilValue) {
         if( TYPEOF(x) != EXTPTRSXP )
             throw ::Rcpp::not_compatible( "expecting an external pointer" ) ;
         Storage::set__(x) ;
         R_SetExternalPtrTag( x, tag ) ;
         R_SetExternalPtrProtected( x, prot ) ;
-    } ;
+    }
 		
-    /**
-     * creates a new external pointer wrapping the dumb pointer p. 
-     * 
-     * @param p dumb pointer to some object
-     * @param set_delete_finalizer if set to true, a finalizer will 
-     *        be registered for the external pointer. The finalizer
-     *        is called when the xp is garbage collected. The finalizer 
-     *        is merely a call to the delete operator or the pointer
-     *        so you need to make sure the pointer can be "delete" d
-     *        this way (has to be a C++ object)
-     */
     explicit XPtr(T* p, bool set_delete_finalizer = true, SEXP tag = R_NilValue, SEXP prot = R_NilValue){
         RCPP_DEBUG( "XPtr(T* p = <%p>, bool set_delete_finalizer = %s, SEXP tag = R_NilValue, SEXP prot = R_NilValue)", p, ( set_delete_finalizer ? "true" : "false" ) )
         Storage::set__( R_MakeExternalPtr( (void*)p , tag, prot) ) ;
@@ -93,18 +77,10 @@ public:
         }
     }
 
-    /**
-     * Returns a reference to the object wrapped. This allows this
-     * object to look and feel like a dumb pointer to T
-     */
     T& operator*() const {
         return *((T*)R_ExternalPtrAddr( Storage::get__() )) ;    
     }
   		
-    /**
-     * Returns the dumb pointer. This allows to call the -> operator 
-     * on this as if it was the dumb pointer
-     */
     T* operator->() const {
          return (T*)(R_ExternalPtrAddr(Storage::get__()));
     }

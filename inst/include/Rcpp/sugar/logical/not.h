@@ -33,7 +33,7 @@ template <bool NA> struct negate{
 template<> struct negate<false>{
 	static inline int apply( int x){
 		return x ? FALSE : TRUE ;
-	} ;
+	}
 } ;
 
 

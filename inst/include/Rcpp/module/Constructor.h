@@ -21,7 +21,7 @@
 template <typename Class>
 class Constructor_Base {
 public:
-    virtual Class* get_new( SEXP* args, int nargs ) = 0 ;
+    virtual Class* get_new( SEXP*, int ) = 0 ;
     virtual int nargs() = 0 ;
     virtual void signature(std::string& s, const std::string& class_name) = 0 ;
 } ;
@@ -41,7 +41,7 @@ public:
 template <typename Class, typename... Args>
 class Debug_Constructor_Impl : public Constructor_Base<Class>{
 public:
-    virtual Class* get_new( SEXP* args, int nargs ){
+    virtual Class* get_new( SEXP* args, int ){
         debug_constructor<Class,Debug_Constructor_Impl,Args...>(*this) ;  
         Class * obj = ConstructorInvoker<Class, Args...>(args).invoke() ;
         Rprintf( "  object = <%p>\n", obj ) ;

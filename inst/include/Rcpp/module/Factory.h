@@ -40,7 +40,7 @@ class Factory_Impl : public Factory_Base<Class>{
             ctor_signature<Args...>(s, class_name) ;
         }
     private:
-        Fun fun ; ;
+        Fun fun ;
 } ;        
 
 template <typename Class, typename... Args>
@@ -60,7 +60,7 @@ class Debug_Factory_Impl : public Factory_Base<Class>{
             ctor_signature<Args...>(s, class_name) ;
         }
     private:
-        Fun fun ; ;
+        Fun fun ;
 } ;        
 
 #endif

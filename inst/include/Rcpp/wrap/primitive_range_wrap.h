@@ -54,7 +54,7 @@ inline SEXP primitive_range_wrap__impl__nocast( InputIterator first, InputIterat
 	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	int __trip_count = size >> 2 ;
 	STORAGE* start = r_vector_start<RTYPE>(x) ;
-	int i = 0 ;
+	size_t i = 0 ;
 	for ( ; __trip_count > 0 ; --__trip_count) { 
     	start[i] = first[i] ; i++ ;            
     	start[i] = first[i] ; i++ ;            

@@ -29,7 +29,7 @@ namespace Rcpp{
             try{
                 SEXP funSym = Rf_install(fun);
                 res = Rcpp_eval( Rf_lang2( funSym, x ) ) ;
-            } catch( eval_error& e){
+            } catch( eval_error& /* e */){
                 throw ::Rcpp::not_compatible( std::string("could not convert using R function : ") + fun  ) ;
             }
             return res;
@@ -38,7 +38,7 @@ namespace Rcpp{
         // r_true_cast is only meant to be used when the target SEXP type
         // is different from the SEXP type of x 
         template <int TARGET>
-        SEXP r_true_cast( SEXP x) {
+        SEXP r_true_cast( SEXP /* x */) {
             throw not_compatible( "not compatible" ) ;
         }
 

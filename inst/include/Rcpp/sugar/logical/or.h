@@ -40,7 +40,7 @@ public:
 	> BASE ;
 	
 	Or_SingleLogicalResult_SingleLogicalResult( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) :
-		lhs(lhs_), rhs(rhs_){} ;
+		lhs(lhs_), rhs(rhs_){}
 	
 	inline void apply(){
 		int left = lhs.get() ;
@@ -76,7 +76,7 @@ public:
 	> BASE ;
 	
 	Or_SingleLogicalResult_SingleLogicalResult( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) :
-		lhs(lhs_), rhs(rhs_){} ;
+		lhs(lhs_), rhs(rhs_){}
 	
 	inline void apply(){
 		// here we know rhs does not have NA, so we start with the rhs
@@ -112,7 +112,7 @@ public:
 	> BASE ;
 	
 	Or_SingleLogicalResult_SingleLogicalResult( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) :
-		lhs(lhs_), rhs(rhs_){} ;
+		lhs(lhs_), rhs(rhs_){}
 	
 	inline void apply(){
 		// here we know lhs does not have NA, so we start with the rhs
@@ -147,7 +147,7 @@ public:
 	> BASE ;
 	
 	Or_SingleLogicalResult_SingleLogicalResult( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) :
-		lhs(lhs_), rhs(rhs_){} ;
+		lhs(lhs_), rhs(rhs_){}
 	
 	inline void apply(){
 		int left = lhs.get() ;
@@ -180,7 +180,7 @@ public:
 	> BASE ;
 	              
 	Or_SingleLogicalResult_bool( const LHS_TYPE& lhs_, bool rhs_) :
-		lhs(lhs_), rhs(rhs_){} ;
+		lhs(lhs_), rhs(rhs_){}
 	
 	inline void apply(){
 		if( rhs ){

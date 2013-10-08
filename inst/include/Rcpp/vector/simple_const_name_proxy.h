@@ -27,10 +27,10 @@ namespace internal{
 		typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
 		
 		simple_const_name_proxy( const VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){} ;
+			parent(v), name(name_){}
 		simple_const_name_proxy( const simple_const_name_proxy& other ) : 
-			parent(other.parent), name(other.name){} ;
-		~simple_const_name_proxy() {} ;
+			parent(other.parent), name(other.name){}
+		~simple_const_name_proxy() {}
 		
 		simple_const_name_proxy& operator=( const simple_const_name_proxy& other) = delete ;
 		

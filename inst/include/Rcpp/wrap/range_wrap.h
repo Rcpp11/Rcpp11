@@ -42,11 +42,11 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::true_type ){
 	size_t size = std::distance( first, last ) ;
-	Scoped<SEXP> x = Rf_allocVector( LGLSXP, size );
+	Scoped<SEXP> x = Rf_allocVector( LGLSXP, (int)size );
 	                                          
 	int __trip_count = size >> 2 ;
 	int* start = r_vector_start<LGLSXP>(x) ;
-	int i = 0 ;
+	size_t i = 0 ;
 	for ( ; __trip_count > 0 ; --__trip_count) { 
     	start[i] = first[i] ; i++ ;            
     	start[i] = first[i] ; i++ ;            
@@ -92,7 +92,7 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___generic( InputIterator first, InputIterator last ){ 
 	size_t size = std::distance( first, last ) ;
-	Scoped<SEXP> x = Rf_allocVector( VECSXP, size );
+	Scoped<SEXP> x = Rf_allocVector( VECSXP, (int)size );
 	size_t i =0 ;
 	while( i < size ){
 		RCPP_SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
@@ -139,7 +139,7 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
 	size_t size = std::distance( first, last ) ;
-	Scoped<SEXP> x = Rf_allocVector( STRSXP, size ) ;
+	Scoped<SEXP> x = Rf_allocVector( STRSXP, (int)size ) ;
 	size_t i = 0 ;
 	while( i < size ){
 		SET_STRING_ELT( x, i, make_charsexp(*first) ) ;
@@ -165,11 +165,11 @@ template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator last, std::false_type ){
 	size_t size = std::distance( first, last ) ;
 	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<typename T::second_type>::rtype ;
-	Scoped<SEXP> x = Rf_allocVector( RTYPE, size );
+	Scoped<SEXP> x = Rf_allocVector( RTYPE, (int)size );
 	Scoped<SEXP> names = Rf_allocVector( STRSXP, size ) ;
 	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
 	CTYPE* start = r_vector_start<RTYPE>(x) ;
-	size_t i =0;
+	int i =0;
 	std::string buf ; 
 	for( ; i<size; i++, ++first){
 		start[i] = (*first).second ;

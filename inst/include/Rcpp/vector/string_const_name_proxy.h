@@ -27,10 +27,10 @@ namespace internal{
 		typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
 		
 		string_const_name_proxy( const VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){} ;
+			parent(v), name(name_){}
 		string_const_name_proxy( const string_const_name_proxy& other ) : 
-			parent(other.parent), name(other.name){} ;
-		~string_const_name_proxy(){} ;
+			parent(other.parent), name(other.name){}
+		~string_const_name_proxy(){}
 		
 		string_const_name_proxy& operator=( const string_const_name_proxy& other) = delete ;
 		
