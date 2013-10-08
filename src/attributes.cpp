@@ -2,7 +2,6 @@
 // attributes.cpp:  Rcpp attributes
 //
 // Copyright (C) 2012 - 2013 JJ Allaire, Dirk Eddelbuettel and Romain Francois
-// Copyright (C) 2013 Rice University
 //
 // This file is part of Rcpp11.
 //
@@ -37,6 +36,7 @@
 
 #define RCPP_NO_SUGAR
 #include <Rcpp.h>
+#include <Rcpp/attributes/attributes.h>
 
 /*******************************************************************
  * AttributesUtil.h
@@ -109,8 +109,8 @@ namespace attributes {
         Type() {}
         Type(const std::string& name, bool isConst, bool isReference)
             : name_(name), isConst_(isConst), isReference_(isReference)
-        {
-        }
+        {}
+        
         bool empty() const { return name().empty(); }
         
         const std::string& name() const { return name_; }
@@ -148,7 +148,9 @@ namespace attributes {
         const std::string& name() const { return name_; }
         const Type& type() const { return type_; }
         const std::string& defaultValue() const { return defaultValue_; }
-        const bool is_Dots() const { return type_.name() == "Dots" || type_.name() == "Rcpp::Dots" ; }
+        const bool is_Dots() const { 
+            return type_.name() == "Dots" || type_.name() == "Rcpp::Dots" ;
+        }
         
     private:
         std::string name_;
@@ -229,10 +231,10 @@ namespace attributes {
         
         const std::vector<Param>& params() const { return params_; }
          
-        Param paramNamed(const std::string& name) const; 
-         
         bool hasParameter(const std::string& name) const {
-            return !paramNamed(name).empty();
+            return std::any_of( begin(params_), end(params_), 
+                [&](const Param& param){ return param.name() == name ; }
+            ) ;
         }
         
         const Function& function() const { return function_; }
@@ -359,10 +361,9 @@ namespace attributes {
         }
         
         virtual bool hasInterface(const std::string& name) const {
-            
-            for (const_iterator it=begin(); it != end(); ++it) {
-                if (it->name() == kInterfacesAttribute) {
-                    return it->hasParameter(name);
+            for( const Attribute& attr : attributes_ ){
+                if (attr.name() == kInterfacesAttribute) {
+                    return attr.hasParameter(name);
                 }
             }
             
@@ -702,20 +703,15 @@ namespace attributes {
     } // anonymous namespace
     
     
+    
+    
     // Generate a type signature for the function with the provided name
     // (type signature == function pointer declaration)
     std::string Function::signature(const std::string& name) const {
-        
         std::ostringstream ostr;
         
         ostr << type() << "(*" << name << ")(";
-        
-        const std::vector<Argument>& args = arguments();
-        for (std::size_t i = 0; i<args.size(); i++) {
-            ostr << args[i].type();
-            if (i != (args.size()-1))
-                ostr << ",";
-        }
+        ostr << collapse( arguments(), [](const Argument& arg){ return arg.type() ; } ) ;
         ostr << ")";
         
         return ostr.str();
@@ -740,16 +736,6 @@ namespace attributes {
             name_ = paramText;  
             stripQuotes(&name_);
         }
-    }
-    
-    // Check if the attribute has a parameter of a paricular name
-    Param Attribute::paramNamed(const std::string& name) const {
-        for (std::vector<Param>::const_iterator 
-          it = params_.begin(); it != params_.end(); ++it) {
-            if (it->name() == name)
-                return *it;
-        }
-        return Param();
     }
      
     // Type operator <<
@@ -787,12 +773,7 @@ namespace attributes {
             }
             os << function.name();
             os << "(";
-            const std::vector<Argument>& arguments = function.arguments();
-            for (std::size_t i = 0; i<arguments.size(); i++) {
-                os << arguments[i];
-                if (i != (arguments.size()-1))
-                    os << ", ";
-            }
+            os << collapse( function.arguments() ) ;
             os << ")";
         }
         return os;
@@ -815,11 +796,7 @@ namespace attributes {
             const std::vector<Param>& params = attribute.params();
             if (params.size() > 0) {
                 os << "(";
-                for (std::size_t i = 0; i<params.size(); i++) {
-                    os << params[i];
-                    if (i != (params.size()-1))
-                        os << ",";
-                }
+                os << collapse( params ) ;
                 os << ")";
             }
             os << "]]";
@@ -1483,12 +1460,11 @@ namespace attributes {
      
         // verbose if requested
         if (verbose) {
-            std::cout << "Exports from " << attributes.sourceFile() << ":" 
-                        << std::endl;
-            for (std::vector<Attribute>::const_iterator 
-                    it = attributes.begin(); it != attributes.end(); ++it) {
-                if (it->isExportedFunction())
-                    std::cout << "   " << it->function() << std::endl; 
+            std::cout << "Exports from " << attributes.sourceFile() << ":" << std::endl;
+            for( const Attribute& attr: attributes){
+                if( attr.isExportedFunction() ){
+                    std::cout << "   " << attr.function() << std::endl;
+                }
             }
             std::cout << std::endl;   
         }
@@ -1512,8 +1488,7 @@ namespace attributes {
                    << std::endl;
             ostr() << "    if (signatures.empty()) {" << std::endl;
             
-            for (std::size_t i=0;i<cppExports_.size(); i++) {
-                const Attribute& attr = cppExports_[i];
+            for( const Attribute& attr: cppExports_){
                 ostr() << "        signatures.insert(\"" 
                        << attr.function().signature(attr.exportedName())
                        << "\");" << std::endl;
@@ -1530,8 +1505,7 @@ namespace attributes {
                       "exported C++ functions)" << std::endl;
             ostr() << "extern \"C\" SEXP " << registerCCallableExportedName()
                    << "() { " << std::endl;
-            for (std::size_t i=0;i<cppExports_.size(); i++) {
-                const Attribute& attr = cppExports_[i];
+            for( const Attribute& attr : cppExports_){       
                 std::string name = package() + "_" + attr.exportedName();
                 ostr() << registerCCallable(
                               4, 
@@ -1564,9 +1538,8 @@ namespace attributes {
                    
         // includes 
         std::ostringstream ostr;
-        if (!includes.empty()) {
-            for (std::size_t i=0;i<includes.size(); i++)
-                ostr << includes[i] << std::endl;
+        for( const std::string& include: includes ){
+            ostr << include << std::endl;
         }
         if (hasCppInterface()) {
             ostr << "#include <string>" << std::endl;
@@ -1650,14 +1623,12 @@ namespace attributes {
         // don't write anything if there is no C++ interface
         if (!attributes.hasInterface(kInterfaceCpp)) 
             return;
-                                    
-        for(std::vector<Attribute>::const_iterator 
-            it = attributes.begin(); it != attributes.end(); ++it) {
-     
-            if (it->isExportedFunction()) {
+                 
+        for( const Attribute& attr : attributes){
+        
+            if (attr.isExportedFunction()) {
                 
-                Function function = 
-                    it->function().renamedTo(it->exportedName());
+                Function function = attr.function().renamedTo(attr.exportedName());
                     
                 // if it's hidden then don't generate a C++ interface
                 if (function.isHidden())
@@ -1668,11 +1639,9 @@ namespace attributes {
                 
                 std::string fnType = "Ptr_" + function.name();
                 ostr() << "        typedef SEXP(*" << fnType << ")(";
-                for (size_t i=0; i<function.arguments().size(); i++) {
-                    ostr() << "SEXP";
-                    if (i != (function.arguments().size()-1))
-                        ostr() << ",";
-                }
+                ostr() << collapse( function.arguments(), 
+                    [](const Argument&){ return "SEXP" ; }
+                ) ;
                 ostr() << ");" << std::endl;
                 
                 std::string ptrName = "p_" + function.name();
@@ -1694,13 +1663,12 @@ namespace attributes {
                 ostr() << "            RNGScope __rngScope;" << std::endl;
                 ostr() << "            __result = " << ptrName << "(";
                 
-                const std::vector<Argument>& args = function.arguments();
-                for (std::size_t i = 0; i<args.size(); i++) {
-                    ostr() << "Rcpp::wrap(" << args[i].name() << ")";
-                    if (i != (args.size()-1))
-                        ostr() << ", ";
-                }
-                       
+                ostr() << collapse( function.arguments(), 
+                    [](const Argument& arg){ 
+                        return std::string( "Rcpp::wrap( " ) + arg.name() + ")" ;
+                    }
+                ) ;
+                
                 ostr() << ");" << std::endl;
                 ostr() << "        }" << std::endl;
                 
@@ -1741,13 +1709,10 @@ namespace attributes {
             
             // includes
             if (!includes.empty()) {
-                for (std::size_t i=0;i<includes.size(); i++)
-                {
+                for( const std::string& include : includes ){
                     // don't do inst/include here
-                    if (includes[i].find("#include \"../inst/include/")
-                                                       == std::string::npos)
-                    {
-                        ostr << includes[i] << std::endl;
+                    if (include.find("#include \"../inst/include/") == std::string::npos){
+                        ostr << include << std::endl;
                     }
                 }
                 ostr << std::endl;
@@ -1837,30 +1802,20 @@ namespace attributes {
                                         bool verbose) {
         
         // write standalone roxygen chunks
-        const std::vector<std::vector<std::string> >& roxygenChunks = 
-                                                    attributes.roxygenChunks();
-        for (std::size_t i = 0; i<roxygenChunks.size(); i++) {
-            const std::vector<std::string>& chunk = roxygenChunks[i];
-            for (std::size_t l = 0; l < chunk.size(); l++)
-                ostr() << chunk[l] << std::endl;
+        for( const std::vector<std::string>& chunk : attributes.roxygenChunks() ){
+            ostr() << lines(chunk) << std::endl ;
             ostr() << "NULL" << std::endl << std::endl;
         }
         
         // write exported functions
         if (attributes.hasInterface(kInterfaceR)) {    
             // process each attribute
-            for(std::vector<Attribute>::const_iterator 
-                it = attributes.begin(); it != attributes.end(); ++it) {
-                
-                // alias the attribute and function (bail if not export)
-                const Attribute& attribute = *it;
-                if (!attribute.isExportedFunction())
-                    continue;
+            for( const Attribute& attribute : attributes ){
+                if (!attribute.isExportedFunction()) continue;
                 const Function& function = attribute.function();
                     
                 // print roxygen lines
-                for (size_t i=0; i<attribute.roxygen().size(); i++)
-                    ostr() << attribute.roxygen()[i] << std::endl;
+                ostr() << lines(attribute.roxygen()) << std::endl ;
                 
                 // determine the function name
                 std::string name = attribute.exportedName();
@@ -1875,7 +1830,6 @@ namespace attributes {
                     // build the parameter list 
                     std::string args = generateRArgList(function);
                     
-                              
                     // write the function
                     ostr() << name << " <- function(" << args << ") {" 
                            << std::endl;
@@ -1886,10 +1840,13 @@ namespace attributes {
                     ostr() << "'" << package() << "_" << function.name() << "', "
                            << "PACKAGE = '" << package() << "'" ;
                     
-                    // add arguments
-                    const std::vector<Argument>& arguments = function.arguments();
-                    for (size_t i = 0; i<arguments.size(); i++)
-                        ostr() << ", " << arguments[i].name();
+                    // add arguments 
+                    if( function.arguments().size() ){
+                        ostr() << "," ;
+                        ostr() << collapse( function.arguments(), 
+                            [](const Argument& arg){ return arg.name() ; }
+                        ) ;
+                    }
                     ostr() << ")";
                     if (function.type().isVoid())
                         ostr() << ")";
@@ -1918,12 +1875,7 @@ namespace attributes {
     }
     
     ExportsGenerators::~ExportsGenerators() {
-        try {
-            for(Itr it = generators_.begin(); it != generators_.end(); ++it)
-                delete *it;
-            generators_.clear(); 
-        }
-        catch(...) {}
+        delete_all( generators_) ;
     }
     
     void ExportsGenerators::add(ExportsGenerator* pGenerator) {
@@ -1931,32 +1883,23 @@ namespace attributes {
     }
     
     void ExportsGenerators::writeBegin() {
-        for(Itr it = generators_.begin(); it != generators_.end(); ++it)
-            (*it)->writeBegin();
+        for( auto ptr: generators_ ) ptr->writeBegin() ;
     }
     
-    void ExportsGenerators::writeFunctions(
-                                const SourceFileAttributes& attributes,
-                                bool verbose) {
-        for(Itr it = generators_.begin(); it != generators_.end(); ++it)
-            (*it)->writeFunctions(attributes, verbose);
+    void ExportsGenerators::writeFunctions( const SourceFileAttributes& attributes, bool verbose) {
+        for( auto ptr: generators_ ) ptr->writeFunctions(attributes, verbose);
     }
     
     void ExportsGenerators::writeEnd() {
-        for(Itr it = generators_.begin(); it != generators_.end(); ++it)
-            (*it)->writeEnd();
+        for( auto ptr: generators_ ) ptr->writeEnd() ;
     }
     
     // Commit and return a list of the files that were updated
-    std::vector<std::string> ExportsGenerators::commit(
-                            const std::vector<std::string>& includes) {
-        
+    std::vector<std::string> ExportsGenerators::commit( const std::vector<std::string>& includes) {
         std::vector<std::string> updated;
-        
-        for(Itr it = generators_.begin(); it != generators_.end(); ++it) {
-            if ((*it)->commit(includes))
-                updated.push_back((*it)->targetFile());
-        }
+        for( auto ptr: generators_)
+            if( ptr->commit(includes) )
+                updated.push_back(ptr->targetFile());
            
         return updated;
     }
@@ -1964,10 +1907,9 @@ namespace attributes {
     // Remove and return a list of files that were removed
     std::vector<std::string> ExportsGenerators::remove() {
         std::vector<std::string> removed;
-        for(Itr it = generators_.begin(); it != generators_.end(); ++it) {
-            if ((*it)->remove())
-                removed.push_back((*it)->targetFile());
-        }
+        for( auto ptr: generators_)
+            if(ptr->remove())
+                removed.push_back(ptr->targetFile());
         return removed;
     }
     
@@ -2107,8 +2049,8 @@ namespace attributes {
     std::string generateRArgList(const Function& function) {
         std::ostringstream argsOstr;
         const std::vector<Argument>& arguments = function.arguments();
-        for (size_t i = 0; i<arguments.size(); i++) {
-            const Argument& argument = arguments[i];
+        int i=0; 
+        for( const Argument& argument: arguments ){
             argsOstr << argument.name();
             if (!argument.defaultValue().empty()) {
                 std::string rArg = cppArgToRArg(argument.type().name(), 
@@ -2125,6 +2067,7 @@ namespace attributes {
                
             if (i != (arguments.size()-1))
                 argsOstr << ", ";
+            i++ ;
         }
         return argsOstr.str();
     }
@@ -2169,12 +2112,9 @@ namespace attributes {
             if( function.is_Dots() ){
                 ostrArgs << "SEXP calls, SEXP frames" ;
             } else {
-                for (size_t i = 0; i<arguments.size(); i++) {
-                    const Argument& argument = arguments[i];
-                    ostrArgs << "SEXP " << argument.name() << "SEXP";
-                    if (i != (arguments.size()-1))
-                        ostrArgs << ", ";
-                }
+                ostrArgs << collapse( arguments, 
+                    [](const Argument& arg){ return std::string("SEXP ") + arg.name() + "SEXP" ; } 
+                    );
             }
             std::string args = ostrArgs.str();
             ostr << args << ") {" << std::endl;
@@ -2187,9 +2127,7 @@ namespace attributes {
             if( function.is_Dots() ){
                 ostr << "        Rcpp::Dots dots( calls, frames ) ;" << std::endl;
             } else {
-                for (size_t i = 0; i<arguments.size(); i++) {
-                    const Argument& argument = arguments[i];
-                    
+                for( const Argument& argument: arguments ){
                     ostr << "        Rcpp::traits::input_parameter< " 
                          << argument.type().full_name() << " >::type " << argument.name() 
                          << "(" << argument.name() << "SEXP );" << std::endl;
@@ -2203,12 +2141,7 @@ namespace attributes {
             if( function.is_Dots() ){
                 ostr << "dots" ;
             } else {
-                for (size_t i = 0; i<arguments.size(); i++) {
-                    const Argument& argument = arguments[i];
-                    ostr << argument.name();
-                    if (i != (arguments.size()-1))
-                        ostr << ", ";
-                }
+                ostr << collapse( arguments, [](const Argument& arg){ return arg.name(); } ) ;
             }
             ostr << ");" << std::endl;
         
@@ -2240,12 +2173,7 @@ namespace attributes {
                 ostr << "        Rcpp::RNGScope __rngScope;" << std::endl;
                 ostr << "        __result = PROTECT(" << funcName 
                      << kTrySuffix << "(";
-                for (size_t i = 0; i<arguments.size(); i++) {
-                    const Argument& argument = arguments[i];
-                    ostr << argument.name() << "SEXP";
-                    if (i != (arguments.size()-1))
-                        ostr << ", ";
-                }
+                ostr << collapse( arguments, [](const Argument& arg){ return std::string("") + arg.name() + "SEXP" ; } ) ;     
                 ostr << "));" << std::endl;
                 ostr << "    }" << std::endl;
                 ostr << "    Rboolean __isError = Rf_inherits(__result, \"try-error\");"
