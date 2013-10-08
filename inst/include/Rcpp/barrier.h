@@ -21,16 +21,56 @@
 #ifndef Rcpp__barrier__h
 #define Rcpp__barrier__h
 
-SEXP get_string_elt(SEXP, int) ;
-const char* char_get_string_elt(SEXP, int) ;
-void set_string_elt(SEXP, int, SEXP) ;
-void char_set_string_elt(SEXP, int, const char*) ;        
-SEXP* get_string_ptr(SEXP) ;
+#include <Rcpp/macros/macros.h>
 
-SEXP get_vector_elt(SEXP, int) ;
-void set_vector_elt(SEXP, int, SEXP ) ;
-SEXP* get_vector_ptr(SEXP) ;
-const char* char_nocheck( SEXP ) ;
-void* dataptr(SEXP) ;
+SEXP get_string_elt__impl(SEXP, int) ;
+inline SEXP get_string_elt(SEXP s, int i){
+    GET_CALLABLE(get_string_elt__impl, s, i)
+}
+
+const char* char_get_string_elt__impl(SEXP, int) ;
+inline const char* char_get_string_elt(SEXP s, int i){
+    GET_CALLABLE(char_get_string_elt__impl, s, i)
+}
+
+void set_string_elt__impl(SEXP, int, SEXP) ;
+inline void set_string_elt(SEXP s, int i, SEXP v){
+    GET_CALLABLE(set_string_elt__impl, s, i, v)
+}
+
+void char_set_string_elt__impl(SEXP, int, const char*) ;        
+inline void char_set_string_elt(SEXP s, int i, const char* v){
+    GET_CALLABLE(char_set_string_elt__impl, s, i, v )    
+}
+
+SEXP* get_string_ptr__impl(SEXP) ;
+inline SEXP* get_string_ptr(SEXP s){
+    GET_CALLABLE(get_string_ptr__impl, s)    
+}
+
+SEXP get_vector_elt__impl(SEXP, int) ;
+inline SEXP get_vector_elt(SEXP v, int i){
+    GET_CALLABLE(get_vector_elt, v, i)
+}
+
+void set_vector_elt__impl(SEXP, int, SEXP ) ;
+inline void set_vector_elt(SEXP v, int i, SEXP x){
+    GET_CALLABLE(set_vector_elt__impl, v, i, x)
+}
+
+SEXP* get_vector_ptr__impl(SEXP) ;
+inline SEXP* get_vector_ptr(SEXP v){
+    GET_CALLABLE(get_vector_ptr__impl, v)    
+}
+
+const char* char_nocheck__impl( SEXP ) ;
+inline const char* char_nocheck( SEXP x){
+    GET_CALLABLE(char_nocheck__impl, x)
+}
+
+void* dataptr__impl(SEXP) ;
+inline void* dataptr(SEXP x){
+    GET_CALLABLE(dataptr__impl, x) 
+}
 
 #endif

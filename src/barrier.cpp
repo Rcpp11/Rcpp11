@@ -2,6 +2,7 @@
 // barrier.cpp:  write barrier
 //
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -29,31 +30,31 @@
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-SEXP get_string_elt(SEXP x, int i){
+SEXP get_string_elt__impl(SEXP x, int i){
     return STRING_ELT(x, i ) ;
 }    
-const char* char_get_string_elt(SEXP x, int i){
+const char* char_get_string_elt__impl(SEXP x, int i){
     return CHAR(STRING_ELT(x, i )) ;
 }    
-void set_string_elt(SEXP x, int i, SEXP value){
+void set_string_elt__impl(SEXP x, int i, SEXP value){
     STRING_ELT(x, i) = value ;
 }
-void char_set_string_elt(SEXP x, int i, const char* value){
+void char_set_string_elt__impl(SEXP x, int i, const char* value){
     STRING_ELT(x, i) = Rf_mkChar(value) ; 
 }
-SEXP* get_string_ptr(SEXP x){ return STRING_PTR(x) ; }
+SEXP* get_string_ptr__impl(SEXP x){ return STRING_PTR(x) ; }
 
-SEXP get_vector_elt(SEXP x, int i){
+SEXP get_vector_elt__impl(SEXP x, int i){
     return VECTOR_ELT(x, i ) ;
 }
-void set_vector_elt(SEXP x, int i, SEXP value){
+void set_vector_elt__impl(SEXP x, int i, SEXP value){
     RCPP_SET_VECTOR_ELT(x, i, value ) ;
 }
-SEXP* get_vector_ptr(SEXP x){ return VECTOR_PTR(x) ; }
-void* dataptr(SEXP x){ return DATAPTR(x); }
+SEXP* get_vector_ptr__impl(SEXP x){ return VECTOR_PTR(x) ; }
+void* dataptr__impl(SEXP x){ return DATAPTR(x); }
 
 // when we already know x is a CHARSXP
-const char* char_nocheck( SEXP x ){ return CHAR(x); }
+const char* char_nocheck__impl( SEXP x ){ return CHAR(x); }
 
 static bool Rcpp_cache_know = false ;
 static SEXP Rcpp_cache = R_NilValue ;
