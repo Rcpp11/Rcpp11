@@ -177,7 +177,6 @@ namespace Rcpp{
 
 #include <Rcpp/sugar/sugar_forward.h>
 
-#include <Rcpp/cache.h>
 #include <Rcpp/iostream/iostream.h>
 #include <Rcpp/longlong.h>
 

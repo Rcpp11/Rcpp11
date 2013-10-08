@@ -115,6 +115,8 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
     
     REGISTER(getCurrentScope)
     REGISTER(setCurrentScope)
+    
+    REGISTER(get_cache)
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

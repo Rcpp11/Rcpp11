@@ -18,6 +18,7 @@
 # along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
 .runThisTest <- Sys.getenv("RunAllRcppTests") == "yes"
+.runThisTest <- FALSE
 
 if( .runThisTest ) {
 

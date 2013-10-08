@@ -74,6 +74,12 @@ namespace Rcpp {
     inline SEXP get_Rcpp11_namespace() {
         GET_CALLABLE(get_Rcpp11_namespace__impl)
     }
+    
+    int* get_cache__impl( int ) ;
+    inline int* get_cache( int n ){
+        GET_CALLABLE(get_cache__impl, n)    
+    }
+    
 }
     
 #endif

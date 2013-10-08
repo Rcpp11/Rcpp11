@@ -24,7 +24,6 @@
 #include <Rinternals.h>
 #include <Rcpp/barrier.h>
 #include "internal.h"
-#include <Rcpp/cache.h>
 #include <algorithm>
 #include <Rcpp/macros/debug.h>
 
@@ -181,17 +180,20 @@ SEXP rcpp_get_current_error(){
     return VECTOR_ELT( get_rcpp_cache(), 2 ) ;
 }
 
-int* get_cache( int m){
-    SEXP cache = get_rcpp_cache() ;
-    SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
-    int n = Rf_length(hash_cache) ;
-    if( m > n ){
-        SEXP hash_cache_ = PROTECT(Rf_allocVector( INTSXP, m)) ;
-        RCPP_SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache_); 
-        hash_cache = hash_cache_ ;
+namespace Rcpp{
+    
+    int* get_cache__impl( int m){
+        SEXP cache = get_rcpp_cache() ;
+        SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
+        int n = Rf_length(hash_cache) ;
+        if( m > n ){
+            SEXP hash_cache_ = PROTECT(Rf_allocVector( INTSXP, m)) ;
+            RCPP_SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache_); 
+            hash_cache = hash_cache_ ;
+        }
+        int *res = INTEGER(hash_cache) ;
+        std::fill(res, res+m, 0 ) ;
+        return res ;
     }
-    int *res = INTEGER(hash_cache) ;
-    std::fill(res, res+m, 0 ) ;
-    return res ;
-}
 
+}
