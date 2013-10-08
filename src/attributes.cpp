@@ -2577,13 +2577,11 @@ namespace {
                        const std::string& dllInfo) const
         {
             // process each attribute
-            for(std::vector<Attribute>::const_iterator 
-                it = attributes.begin(); it != attributes.end(); ++it) {
+            for(std::vector<Attribute>::const_iterator it = attributes.begin(); it != attributes.end(); ++it) {
                 
                 // alias the attribute and function (bail if not export)
                 const Attribute& attribute = *it;
-                if (!attribute.isExportedFunction())
-                    continue;
+                if (!attribute.isExportedFunction()) continue;
                 const Function& function = attribute.function();
         
                 if( function.is_Dots() ){ 
@@ -2840,7 +2838,7 @@ BEGIN_RCPP
                                                       packageName, 
                                                       fileSep));
     }
-    catch(const Rcpp::file_exists& e) {}
+    catch(const Rcpp::file_exists& /* e */) {}
     
     // write begin
     generators.writeBegin();
@@ -2848,10 +2846,8 @@ BEGIN_RCPP
     // Parse attributes from each file and generate code as required. 
     bool haveAttributes = false;
     std::set<std::string> dependsAttribs;
-    for (std::size_t i=0; i<cppFiles.size(); i++) {
-        
+    for( const std::string& cppFile : cppFiles ){     
         // parse file (continue if there is no generator output)
-        std::string cppFile = cppFiles[i];
         SourceFileAttributesParser attributes(cppFile);
         if (!attributes.hasGeneratorOutput())
             continue;
@@ -2863,13 +2859,14 @@ BEGIN_RCPP
         generators.writeFunctions(attributes, verbose);
         
         // track depends
-        for (SourceFileAttributesParser::const_iterator 
-                     it = attributes.begin(); it != attributes.end(); ++it) {
-            if (it->name() == kDependsAttribute) {
-                for (size_t i = 0; i<it->params().size(); ++i)
-                    dependsAttribs.insert(it->params()[i].name());
-            }   
+        for( const auto& attr: attributes){
+            if( attr.name() == kDependsAttribute){
+                for( const auto& par : attr.params() ){
+                     dependsAttribs.insert(par.name());   
+                }
+            }
         }
+        
     }
     
     // write end
@@ -2903,8 +2900,9 @@ BEGIN_RCPP
            
     // verbose output
     if (verbose) {
-        for (size_t i=0; i<updated.size(); i++)
-            std::cout << updated[i] << " updated." << std::endl;
+        for( const auto& up : updated ){
+            std::cout << up << " updated." << std::endl;    
+        }
     }
     
     RCPP_DEBUG( "</compileAttributes>" )
