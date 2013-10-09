@@ -37,7 +37,10 @@ namespace Rcpp{
                 R_do_slot(R_getClassDef(CHAR(Rf_asChar(as<SEXP>(cl)))),containsSym),
                 R_NamesSymbol
             ));
-            return any( res.begin(), res.end(), clazz.c_str() ) ;
+            return std::any_of( 
+                res.begin(), res.end(), 
+                [&](String s){ return s == clazz.c_str() ; } 
+            ) ;
         } catch( ... ){
             // we catch eval_error and also not_compatible when 
             // contains is NULL

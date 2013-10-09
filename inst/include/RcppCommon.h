@@ -173,8 +173,6 @@ namespace Rcpp{
 #include <Rcpp/internal/const_Proxy_Iterator.h>
 #include <Rcpp/internal/converter.h>
 
-#include <Rcpp/algo.h>
-
 #include <Rcpp/sugar/sugar_forward.h>
 
 #include <Rcpp/iostream/iostream.h>
