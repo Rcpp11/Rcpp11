@@ -2404,8 +2404,7 @@ namespace {
             generateR(rOfs, sourceAttributes, dllInfo);
             
             // remove the DLLInfo
-            rOfs << std::endl << "rm(" << dllInfo << ")" 
-                 << std::endl;
+            rOfs << std::endl << "rm(" << dllInfo << ")" << std::endl;
      
             rOfs.close();
                
@@ -2413,20 +2412,18 @@ namespace {
             exportedFunctions_.clear();
             depends_.clear();
             plugins_.clear();
-            for (SourceFileAttributesParser::const_iterator 
-              it = sourceAttributes.begin(); it != sourceAttributes.end(); ++it) {
-                 
-                 if (it->name() == kExportAttribute && !it->function().empty()) 
-                    exportedFunctions_.push_back(it->exportedName());
+            for( const auto& attr : sourceAttributes ){
+                 if (attr.name() == kExportAttribute && !attr.function().empty()) 
+                    exportedFunctions_.push_back(attr.exportedName());
                 
-                 else if (it->name() == kDependsAttribute) {
-                     for (size_t i = 0; i<it->params().size(); ++i)
-                        depends_.push_back(it->params()[i].name());
+                 else if (attr.name() == kDependsAttribute) {
+                     for( const auto& param : attr.params() )
+                         depends_.push_back(param.name());
                  }
                  
-                 else if (it->name() == kPluginsAttribute) {
-                     for (size_t i = 0; i<it->params().size(); ++i)
-                        plugins_.push_back(it->params()[i].name());
+                 else if (attr.name() == kPluginsAttribute) {
+                     for( const auto& param : attr.params() )
+                         plugins_.push_back(param.name());
                  }
             }
             
@@ -2540,10 +2537,8 @@ namespace {
                 ostr << "library(Rcpp11)" << std::endl;
                 
                 // load each module
-                for (std::vector<std::string>::const_iterator 
-                    it = modules.begin(); it != modules.end(); ++it)
-                {
-                    ostr << " populate( Rcpp11::Module(\"" << *it << "\"," 
+                for( const std::string& module: modules){
+                    ostr << " populate( Rcpp11::Module(\"" << module << "\"," 
                          << dllInfo << "), environment() ) " << std::endl;
                 }
             }
@@ -2609,24 +2604,21 @@ namespace {
         // Lookup by file
         SourceCppDynlib* lookupByFile(const std::string& file) {
             RCPP_DEBUG( "lookupByFile" )
-            for (std::size_t i = 0; i < entries_.size(); i++) {
-                if (entries_[i].file == file)
-                    return &(entries_[i].dynlib);
-            }
-            
-            return NULL;
+            auto it = std::find_if( begin(entries_), end(entries_), 
+                [&](const Entry& entry){ return entry.file == file ; }
+            ) ;
+            if( it == end(entries_) ) return NULL ;
+            return &(it->dynlib) ;
         }
         
         // Lookup by code
         SourceCppDynlib* lookupByCode(const std::string& code) {
             RCPP_DEBUG( "lookupByCode" )
-            for (std::size_t i = 0; i < entries_.size(); i++) {
-                RCPP_DEBUG( " --- lookupByCode, i = %d", i )
-                if (entries_[i].code == code)
-                    return &(entries_[i].dynlib);
-            }
-            
-            return NULL;
+            auto it = std::find_if( begin(entries_), end(entries_), 
+                [&](const Entry& entry){ return entry.code == code ; }
+            ) ;
+            if( it == end(entries_) ) return NULL ;
+            return &(it->dynlib) ;
         }
       
     private:
