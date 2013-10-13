@@ -55,7 +55,7 @@
 #include <Rcpp/vector/const_generic_proxy.h>
 
 #include <Rcpp/String.h>
-#include <Rcpp/Na_Proxy.h>
+#include <Rcpp/NA_Proxy.h>
 
 #include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/swap.h>
