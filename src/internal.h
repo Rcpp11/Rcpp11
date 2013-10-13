@@ -95,7 +95,7 @@ for(; nargs<MAX_ARGS; nargs++){                  \
 
 #define RCPP_FUN_1(__OUT__,__NAME__, ___0)        \
 __OUT__ RCPP_DECORATE(__NAME__)(___0) ;               \
-extern "C" SEXP __NAME__(SEXP x0){                       \
+SEXP __NAME__(SEXP x0){                       \
 SEXP res = R_NilValue ;                             \
 BEGIN_RCPP                                          \
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 )) ) ; \
@@ -107,7 +107,7 @@ __OUT__ RCPP_DECORATE(__NAME__)(___0)
 
 #define RCPP_FUN_2(__OUT__,__NAME__, ___0, ___1)        \
 __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1) ;               \
-extern "C" SEXP __NAME__(SEXP x0, SEXP x1){                       \
+SEXP __NAME__(SEXP x0, SEXP x1){                       \
 SEXP res = R_NilValue ;                             \
 BEGIN_RCPP                                          \
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 )) ) ; \
@@ -118,7 +118,7 @@ __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1)
 
 #define RCPP_FUN_3(__OUT__,__NAME__, ___0, ___1, ___2)        \
 __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2) ;               \
-extern "C" SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2){                       \
+SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2){                       \
 SEXP res = R_NilValue ;                             \
 BEGIN_RCPP                                          \
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 ), ::Rcpp::internal::converter( x2 )) ) ; \
@@ -129,7 +129,7 @@ __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2)
 
 #define RCPP_FUN_4(__OUT__,__NAME__, ___0, ___1, ___2, ___3)        \
 __OUT__ RCPP_DECORATE(__NAME__)(___0, ___1, ___2, ___3) ;               \
-extern "C" SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2, SEXP x3){                       \
+SEXP __NAME__(SEXP x0, SEXP x1, SEXP x2, SEXP x3){                       \
 SEXP res = R_NilValue ;                             \
 BEGIN_RCPP                                          \
 res = ::Rcpp::wrap( RCPP_DECORATE(__NAME__)(::Rcpp::internal::converter( x0 ), ::Rcpp::internal::converter( x1 ), ::Rcpp::internal::converter( x2 ), ::Rcpp::internal::converter( x3 )) ) ; \
