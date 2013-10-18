@@ -1,5 +1,5 @@
-
 # Copyright (C) 2009 - 2012  Dirk Eddelbuettel and Romain Francois
+# Copyright (C) 2013 Romain Francois
 #
 # This file is part of Rcpp11.
 #
@@ -18,7 +18,7 @@
 
 Rcpp.package.skeleton <- function(
 	name = "anRpackage", list = character(), environment = .GlobalEnv,
-	path = ".", force = FALSE, namespace = TRUE,
+	path = ".", force = FALSE,
 	code_files = character(), cpp_files = character(),
 	example_code = TRUE,
 	attributes = TRUE,
@@ -58,7 +58,6 @@ Rcpp.package.skeleton <- function(
 	# first let the traditional version do its business
 	call <- match.call()
 	call[[1]] <- as.name("package.skeleton")
-	call[["namespace"]] <- namespace
 	# remove Rcpp specific arguments
 
 	call <- call[ c( 1L, which( names(call) %in% names(formals(package.skeleton)))) ]
