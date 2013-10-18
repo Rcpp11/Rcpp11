@@ -652,13 +652,13 @@ sourceCppFunction <- function(func, isVoid, dll, symbol) {
 
             # Check version -- we only support 2.15 and 2.16 right now
             ver <- key$`Current Version`
-            if (identical("2.15", ver) || identical("2.16", ver)) {
+            if (identical("2.15", ver) || identical("2.16", ver) || identical("3.0", ver) || identical("3.1", ver) ) {
 
                 # See if the InstallPath leads to the expected directories
                 rToolsPath <- key$`InstallPath`
                 if (!is.null(rToolsPath)) {
 
-                    # Return modified PATH if execpted directories exist
+                    # Return modified PATH if expected directories exist
                     binPath <- file.path(rToolsPath, "bin", fsep="\\")
                     gccPath <- file.path(rToolsPath, "gcc-4.6.3", "bin", fsep="\\")
                     if (file.exists(binPath) && file.exists(gccPath))
