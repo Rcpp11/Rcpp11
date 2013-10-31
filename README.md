@@ -35,8 +35,11 @@ depending on `Rcpp11` can be published.
 Installation
 ============
 
-To install `Rcpp11` from github, you first need to get a compiler that supports `C++11`. This is trivial on 
-recent version of OSX. You can just use clang. I have this on my `~/.R/Makevars` file: 
+To install `Rcpp11` from github, you first need to get a compiler that supports `C++11`. 
+- You should be fine with current releases of your linux distribution. 
+- This is trivial on recent version of OSX. You can just use clang. 
+
+I have this on my `~/.R/Makevars` file: 
 
 ```
 CC=clang
