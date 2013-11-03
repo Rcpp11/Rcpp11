@@ -29,7 +29,7 @@ namespace Rcpp{
          
         S4_Impl(){}
         
-        RCPP_GENERATE_CTOR_ASSIGN__(S4_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(S4_Impl) 
 	    
         /**
          * checks that x is an S4 object and wrap it.

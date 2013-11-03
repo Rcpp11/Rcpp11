@@ -34,7 +34,7 @@ namespace Rcpp{
         using Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::DottedPairProxy ;
         using const_Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::const_DottedPairProxy ;
         
-        RCPP_GENERATE_CTOR_ASSIGN__(Language_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(Language_Impl) 
 	
         Language_Impl(){}
         

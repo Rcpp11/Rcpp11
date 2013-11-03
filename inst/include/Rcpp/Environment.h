@@ -24,7 +24,7 @@ namespace Rcpp{
     RCPP_API_CLASS(Environment_Impl) {
     public:
     
-        RCPP_GENERATE_CTOR_ASSIGN__(Environment_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(Environment_Impl) 
 	
         /**
          * proxy class to allow read and write access to a binding in

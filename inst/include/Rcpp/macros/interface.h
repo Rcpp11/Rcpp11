@@ -19,7 +19,7 @@
 #ifndef Rcpp_macros_interface_h
 #define Rcpp_macros_interface_h
 
-#define RCPP_GENERATE_CTOR_ASSIGN__(__CLASS__)      \
+#define RCPP_GENERATE_CTOR_ASSIGN(__CLASS__)      \
 typedef StoragePolicy<__CLASS__> Storage ; \
 typedef AttributeProxyPolicy<__CLASS__> AttributePolicy ; \
 __CLASS__( const __CLASS__& other ){              \

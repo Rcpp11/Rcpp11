@@ -27,7 +27,7 @@ namespace Rcpp{
     RCPP_API_CLASS(Function_Impl) {
     public:
 
-        RCPP_GENERATE_CTOR_ASSIGN__(Function_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(Function_Impl) 
 	
         /**
          * Attempts to convert the SEXP to a pair list

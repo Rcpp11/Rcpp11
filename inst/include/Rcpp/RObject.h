@@ -32,7 +32,7 @@ namespace Rcpp{
          */     
         RObject_Impl() {}
 
-        RCPP_GENERATE_CTOR_ASSIGN__(RObject_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(RObject_Impl) 
         
         /**
          * wraps a SEXP. The SEXP is automatically protected from garbage 

@@ -24,7 +24,7 @@ namespace Rcpp{
     RCPP_API_CLASS(WeakReference_Impl) {
     public:
     
-        RCPP_GENERATE_CTOR_ASSIGN__(WeakReference_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(WeakReference_Impl) 
 	
         /**
          * wraps a weak reference

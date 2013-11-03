@@ -32,7 +32,7 @@ namespace Rcpp{
     {
     public:
     
-        RCPP_GENERATE_CTOR_ASSIGN__(Symbol_Impl) 
+        RCPP_GENERATE_CTOR_ASSIGN(Symbol_Impl) 
         
         /**
          * wraps the SEXP into a Symbol object. 
