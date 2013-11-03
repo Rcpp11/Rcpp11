@@ -63,7 +63,7 @@ namespace internal{
 			operator int() const { return ::Rcpp::as<int>(get()) ; }
 			
 			void swap(generic_proxy& other){
-				Scoped<SEXP> tmp = get() ;
+				Shield<SEXP> tmp = get() ;
 				set( other.get() ) ;
 				other.set(tmp) ;
 			}

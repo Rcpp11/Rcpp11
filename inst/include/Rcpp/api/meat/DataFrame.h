@@ -97,9 +97,9 @@ namespace Rcpp{
         obj.erase(strings_as_factors_index) ;
         names.erase(strings_as_factors_index) ;
         obj.attr( "names") = names ;
-        Scoped<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
+        Shield<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
         SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-        Scoped<SEXP> res = Rcpp_eval( call ) ; 
+        Shield<SEXP> res = Rcpp_eval( call ) ; 
         DataFrame out( res ) ;
         return out ;
     }

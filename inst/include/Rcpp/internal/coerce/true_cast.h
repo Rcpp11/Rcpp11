@@ -94,8 +94,8 @@ namespace internal{
             {
                 // return Rf_coerceVector( x, STRSXP );
                 // coerceVector does not work for some reason
-                Scoped<SEXP> call = Rf_lang2( Rf_install( "as.character" ), x ) ;
-                Scoped<SEXP> res  = Rf_eval( call, R_GlobalEnv ) ;
+                Shield<SEXP> call = Rf_lang2( Rf_install( "as.character" ), x ) ;
+                Shield<SEXP> res  = Rf_eval( call, R_GlobalEnv ) ;
                 return res ;
             }
         case CHARSXP:
@@ -120,7 +120,7 @@ namespace internal{
         switch( TYPEOF(x) ){
         case LANGSXP:
             {
-                Scoped<SEXP> y = Rf_duplicate( x ); 
+                Shield<SEXP> y = Rf_duplicate( x ); 
                 SET_TYPEOF(y,LISTSXP) ;
                 return y ;
             }

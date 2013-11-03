@@ -322,7 +322,7 @@ namespace Rcpp{
                        we have to go back to R to do this operation */
                     SEXP internalSym = Rf_install( ".Internal" );
                     SEXP removeSym = Rf_install( "remove" );
-                    Scoped<SEXP> call = Rf_lang2(
+                    Shield<SEXP> call = Rf_lang2(
                         internalSym, 
                         Rf_lang4(removeSym, Rf_mkString(name.c_str()), Storage::get__(), Rf_ScalarLogical( FALSE )) 
                      );

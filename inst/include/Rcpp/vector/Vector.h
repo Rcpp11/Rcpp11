@@ -185,7 +185,7 @@ public:
             } else {
                 /* use the slower and more flexible version (callback to R) */
                 SEXP namesSym = Rf_install( "names<-" );
-                Scoped<SEXP> new_vec = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
+                Shield<SEXP> new_vec = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
                 /* names<- makes a new vector, so we have to change 
                    the SEXP of the parent of this proxy */
                 parent.set__( new_vec ) ;
@@ -386,7 +386,7 @@ private:
     template <typename U>
     void fill__dispatch( std::false_type, const U& u){
         // when this is not trivial, this is SEXP
-        Scoped<SEXP> elem = converter_type::get( u ); 
+        Shield<SEXP> elem = converter_type::get( u ); 
         iterator it(begin());
         for( int i=0; i<size() ; i++, ++it){
             *it = ::Rf_duplicate( elem ) ;

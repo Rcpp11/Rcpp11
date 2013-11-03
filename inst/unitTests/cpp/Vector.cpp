@@ -623,9 +623,9 @@ NumericVector numeric_initlist(){
 
 // [[Rcpp::export]] 
 List list_initializer_list(){
-    Scoped<SEXP> x0 = Rf_ScalarInteger( 0 ) ;
-    Scoped<SEXP> x1 = Rf_ScalarInteger( 1 ) ;
-    Scoped<SEXP> x2 = Rf_ScalarInteger( 2 ) ;
+    Shield<SEXP> x0 = Rf_ScalarInteger( 0 ) ;
+    Shield<SEXP> x1 = Rf_ScalarInteger( 1 ) ;
+    Shield<SEXP> x2 = Rf_ScalarInteger( 2 ) ;
     List x = { x0, x1, x2} ;
     return x ;
 }

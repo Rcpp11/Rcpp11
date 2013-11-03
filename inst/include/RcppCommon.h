@@ -36,7 +36,7 @@
 #include <R_ext/Rdynload.h>
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
-#include <Rcpp/Scoped.h>
+#include <Rcpp/protection/protection.h>
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 // #define RCPP_SET_VECTOR_ELT(v,i,x) { Rprintf("SET_VECTOR_ELT(%p, %d, %p). file = %s, line = %d\n", (SEXP)v, i, (SEXP)x, __FILE__, __LINE__) ; SET_VECTOR_ELT( (SEXP)v,i,(SEXP)x) ; } 

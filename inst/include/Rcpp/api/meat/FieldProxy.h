@@ -28,7 +28,7 @@ namespace Rcpp{
     
     template <typename CLASS>
     SEXP FieldProxyPolicy<CLASS>::FieldProxy::get() const {
-        Scoped<SEXP> call = Rf_lang3( 
+        Shield<SEXP> call = Rf_lang3( 
             R_DollarSymbol, 
             parent, 
             Rf_ScalarString(field_name)
@@ -39,8 +39,8 @@ namespace Rcpp{
     template <typename CLASS>
     void FieldProxyPolicy<CLASS>::FieldProxy::set( SEXP x) {
         SEXP dollarGetsSym = Rf_install( "$<-");
-        Scoped<SEXP> name = Rf_ScalarString( field_name ) ;
-        Scoped<SEXP> call = Rf_lang4( 
+        Shield<SEXP> name = Rf_ScalarString( field_name ) ;
+        Shield<SEXP> call = Rf_lang4( 
             dollarGetsSym,
             parent, 
             name , 
@@ -75,7 +75,7 @@ namespace Rcpp{
 
     template <typename CLASS>
     SEXP FieldProxyPolicy<CLASS>::const_FieldProxy::get() const {
-        Scoped<SEXP> call = Rf_lang3( 
+        Shield<SEXP> call = Rf_lang3( 
             R_DollarSymbol, 
             parent, 
             Rf_ScalarString(field_name) 

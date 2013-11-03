@@ -25,8 +25,8 @@
 namespace Rcpp {
 
     inline SEXP grow( SEXP head, SEXP tail ){
-        Scoped<SEXP> x = head ;
-        Scoped<SEXP> res = Rf_cons( x, tail ) ;
+        Shield<SEXP> x = head ;
+        Shield<SEXP> res = Rf_cons( x, tail ) ;
         return res ;    
     }
     
@@ -39,8 +39,8 @@ namespace Rcpp {
         
         template <typename T>
         inline SEXP grow__dispatch( std::true_type, const T& head, SEXP tail ){
-            Scoped<SEXP> y = wrap( head.object) ;
-            Scoped<SEXP> x = Rf_cons( y , tail) ;
+            Shield<SEXP> y = wrap( head.object) ;
+            Shield<SEXP> x = Rf_cons( y , tail) ;
             SEXP headNameSym = ::Rf_install( head.name.c_str() );
             SET_TAG( x, headNameSym ); 
             return x; 	

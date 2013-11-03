@@ -31,7 +31,7 @@ namespace Rcpp{
         template <typename T> T primitive_as( SEXP x ){
             if( ::Rf_length(x) != 1 ) throw ::Rcpp::not_compatible( "expecting a single value" ) ;
             const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
-            Scoped<SEXP> y = r_cast<RTYPE>(x);
+            Shield<SEXP> y = r_cast<RTYPE>(x);
             typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE;
             T res = caster<STORAGE,T>( *r_vector_start<RTYPE>( y ) ) ;
             return res ; 

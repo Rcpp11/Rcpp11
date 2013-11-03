@@ -15,8 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__Scoped_h
-#define Rcpp__Scoped_h
+#ifndef Rcpp__protection_Shield_h
+#define Rcpp__protection_Shield_h
 
 namespace Rcpp{
     
@@ -26,19 +26,19 @@ namespace Rcpp{
     }
     
     template <typename T>
-    class Scoped{
+    class Shield{
     public:
-        Scoped( SEXP t_) : t(Rcpp_protect(t_)){}
-        ~Scoped(){
+        Shield( SEXP t_) : t(Rcpp_protect(t_)){}
+        ~Shield(){
             if( t != R_NilValue ) UNPROTECT(1) ;    
         }
-        Scoped( const Scoped& ) = delete ;
-        Scoped& operator=( const Scoped& ) = delete ;
+        Shield( const Scoped& ) = delete ;
+        Shield& operator=( const Scoped& ) = delete ;
         
-        Scoped( Scoped&& other ) : t(other.t) {
+        Shield( Scoped&& other ) : t(other.t) {
             other.t = R_NilValue ;
         }
-        Scoped& operator=( Scoped&& other ){
+        Shield& operator=( Scoped&& other ){
             t = other.t ;
             other.t = R_NilValue ;
             return *this ;

@@ -42,7 +42,7 @@ namespace Rcpp{
             while( !Rf_isNull(CDR(x)) ){
                 x = CDR(x) ;
             }
-            Scoped<SEXP> tail = pairlist( object ) ; 
+            Shield<SEXP> tail = pairlist( object ) ; 
             SETCDR( x, tail ) ;
         }
 	}
@@ -64,7 +64,7 @@ namespace Rcpp{
 				x = CDR(x) ;
 				i++; 
 			}
-			Scoped<SEXP> tail = grow( object, CDR(x) ) ; 
+			Shield<SEXP> tail = grow( object, CDR(x) ) ; 
 			SETCDR( x, tail ) ;
 		}
 	}
@@ -75,7 +75,7 @@ namespace Rcpp{
 	    CLASS& ref = static_cast<CLASS&>(*this) ;
         if( static_cast<R_len_t>(index) >= ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
 		
-        Scoped<SEXP> x = pairlist( object );
+        Shield<SEXP> x = pairlist( object );
         SEXP y = ref.get__() ;
         int i=0;
         while( i<index ){ y = CDR(y) ; i++; }

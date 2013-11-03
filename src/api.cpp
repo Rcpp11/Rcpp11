@@ -28,7 +28,7 @@ namespace Rcpp {
     // Evaluator
     SEXP Rcpp_eval__impl(SEXP expr_, SEXP env) {
         RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 
-        Scoped<SEXP> expr = expr_ ;
+        Shield<SEXP> expr = expr_ ;
 
         reset_current_error() ; 
 
@@ -43,19 +43,19 @@ namespace Rcpp {
         }
         RCPP_DEBUG( "  [Rcpp_eval] RCPP = " ) 
         
-        Scoped<SEXP> call = Rf_lang3( 
+        Shield<SEXP> call = Rf_lang3( 
             tryCatchSym, 
             Rf_lang3( evalqSym, expr, env ),
             errorRecorderSym
         ) ;
         SET_TAG( CDDR(call), errorSym ) ;
         /* call the tryCatch call */
-        Scoped<SEXP> res  = ::Rf_eval( call, RCPP );
+        Shield<SEXP> res  = ::Rf_eval( call, RCPP );
         
         if( error_occured() ) {
-            Scoped<SEXP> current_error        =  rcpp_get_current_error() ;
-            Scoped<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, current_error) ;
-            Scoped<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
+            Shield<SEXP> current_error        =  rcpp_get_current_error() ;
+            Shield<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, current_error) ;
+            Shield<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
             std::string message(CHAR(::Rf_asChar(condition_message)));
             throw eval_error(message) ;
         }
@@ -79,15 +79,15 @@ namespace Rcpp {
 
     static SEXP get_last_call(){
         SEXP sys_calls_symbol = Rf_install( "sys.calls" ) ;
-        Scoped<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   
-        Scoped<SEXP> calls = Rf_eval( sys_calls_expr, R_GlobalEnv ) ;
+        Shield<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   
+        Shield<SEXP> calls = Rf_eval( sys_calls_expr, R_GlobalEnv ) ;
         SEXP res = calls ;
         while( !Rf_isNull(CDR(res)) ) res = CDR(res); 
         return CAR(res) ;
     }
     
     static SEXP get_exception_classes( const std::string& ex_class) {
-        Scoped<SEXP> res = Rf_allocVector( STRSXP, 4 );
+        Shield<SEXP> res = Rf_allocVector( STRSXP, 4 );
         SET_STRING_ELT( res, 0, Rf_mkChar( ex_class.c_str() ) ) ;
         SET_STRING_ELT( res, 1, Rf_mkChar( "C++Error" ) ) ;
         SET_STRING_ELT( res, 2, Rf_mkChar( "error" ) ) ;
@@ -96,12 +96,12 @@ namespace Rcpp {
     }
     
     static SEXP make_condition(const std::string& ex_msg, SEXP call, SEXP cppstack, SEXP classes){
-        Scoped<SEXP> res     = Rf_allocVector( VECSXP, 3 ) ;
-        Scoped<SEXP> message = Rf_mkString( ex_msg.c_str() ) ;
+        Shield<SEXP> res     = Rf_allocVector( VECSXP, 3 ) ;
+        Shield<SEXP> message = Rf_mkString( ex_msg.c_str() ) ;
         RCPP_SET_VECTOR_ELT( res, 0, message ) ;
         RCPP_SET_VECTOR_ELT( res, 1, call ) ;
         RCPP_SET_VECTOR_ELT( res, 2, cppstack ) ;
-        Scoped<SEXP> names = Rf_allocVector( STRSXP, 3 ) ;
+        Shield<SEXP> names = Rf_allocVector( STRSXP, 3 ) ;
         SET_STRING_ELT( names, 0, Rf_mkChar( "message" ) ) ;
         SET_STRING_ELT( names, 1, Rf_mkChar( "call" ) ) ;
         SET_STRING_ELT( names, 2, Rf_mkChar( "cppstack" ) ) ;
@@ -114,18 +114,18 @@ namespace Rcpp {
         std::string ex_class = Rcpp::demangle( typeid(ex).name() ) ;
         std::string ex_msg   = ex.what() ; 
         
-        Scoped<SEXP> cppstack  = rcpp_get_stack_trace() ;
-        Scoped<SEXP> call      = get_last_call() ;
-        Scoped<SEXP> classes   = get_exception_classes(ex_class) ;
-        Scoped<SEXP> condition = make_condition( ex_msg, call, cppstack, classes ) ; 
+        Shield<SEXP> cppstack  = rcpp_get_stack_trace() ;
+        Shield<SEXP> call      = get_last_call() ;
+        Shield<SEXP> classes   = get_exception_classes(ex_class) ;
+        Shield<SEXP> condition = make_condition( ex_msg, call, cppstack, classes ) ; 
         rcpp_set_stack_trace( R_NilValue ) ;
         return condition ;
     }
     
     void forward_exception_to_r__impl( const std::exception& ex){
         SEXP stop_sym  = Rf_install( "stop" ) ;
-        Scoped<SEXP> condition = exception_to_r_condition(ex) ;
-        Scoped<SEXP> expr = Rf_lang2( stop_sym , condition );
+        Shield<SEXP> condition = exception_to_r_condition(ex) ;
+        Shield<SEXP> expr = Rf_lang2( stop_sym , condition );
         Rf_eval( expr, R_GlobalEnv ) ;
     }
 
@@ -135,10 +135,10 @@ namespace Rcpp {
     
     SEXP string_to_try_error__impl( const std::string& str){
         // form simple error condition based on a string
-        Scoped<SEXP> simpleErrorExpr = ::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str()));
-        Scoped<SEXP> simpleError = Rf_eval(simpleErrorExpr, R_GlobalEnv);
+        Shield<SEXP> simpleErrorExpr = ::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str()));
+        Shield<SEXP> simpleError = Rf_eval(simpleErrorExpr, R_GlobalEnv);
     	
-        Scoped<SEXP> tryError = Rf_mkString( str.c_str() ) ;
+        Shield<SEXP> tryError = Rf_mkString( str.c_str() ) ;
         Rf_setAttrib( tryError, R_ClassSymbol, Rf_mkString("try-error") ) ; 
         Rf_setAttrib( tryError, Rf_install( "condition") , simpleError ) ; 
         return tryError;
