@@ -98,7 +98,6 @@ namespace Rcpp{
     using ExpressionVector = Vector<EXPRSXP> ; 
     
     RCPP_API_CLASS_DECL(RObject) 
-    RCPP_API_CLASS_DECL(Function) 
     RCPP_API_CLASS_DECL(Language) 
     RCPP_API_CLASS_DECL(Pairlist) ;
     RCPP_API_CLASS_DECL(Environment) ;
@@ -107,6 +106,10 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(S4) ;
     RCPP_API_CLASS_DECL(Formula) ;
     RCPP_API_CLASS_DECL(Reference) ;
+    
+    template < template <class> class StoragePolicy, bool fast > class Function_Impl ;
+    using Function = Function_Impl<RObjectStorage, false> ;
+    using FastFunction = Function_Impl<RObjectStorage, true> ;
     
     template < template <class> class StoragePolicy > class Symbol_Impl ;
     using Symbol = Symbol_Impl<NoProtectStorage> ;

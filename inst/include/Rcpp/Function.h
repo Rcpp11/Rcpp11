@@ -21,10 +21,11 @@
 
 namespace Rcpp{ 
 
-    /** 
-     * functions
-     */
-    RCPP_API_CLASS(Function_Impl) {
+    template < template <class> class StoragePolicy, bool fast > class Function_Impl : 
+        public StoragePolicy<Function_Impl<StoragePolicy>>,      
+        public SlotProxyPolicy<Function_Impl<StoragePolicy>>,    
+        public AttributeProxyPolicy<Function_Impl<StoragePolicy>>
+    {
     public:
 
         RCPP_GENERATE_CTOR_ASSIGN(Function_Impl) 
