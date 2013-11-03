@@ -39,6 +39,7 @@
 #include <Rcpp/api/meat/is.h>
 #include <Rcpp/api/meat/as.h>
 #include <Rcpp/api/meat/export.h>
+#include <Rcpp/api/meat/protection.h>
 #include <Rcpp/api/meat/wrap.h>
 
 #endif

@@ -1,4 +1,7 @@
-// Copyright (C) 2013 Romain Francois
+//
+// DottedPair.h:   DottedPair meat
+//
+// Copyright (C) 2012 - 2013    Dirk Eddelbuettel and Romain Francois
 //
 // This file is part of Rcpp11.
 //
@@ -14,11 +17,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
+                    
+#ifndef Rcpp_api_protection_h
+#define Rcpp_api_protection_h
 
-#ifndef Rcpp__protection_h
-#define Rcpp__protection_h
+namespace Rcpp{ 
 
-#include <Rcpp/protection/Shield.h>
-#include <Rcpp/protection/Armor.h>
+    template <typename T>
+    template <typename U>
+    Armor<T>::Armor( U x ) : data() {
+        init( wrap(x) ) ;
+    }       
+        
+    template <typename T>
+    template <typename U>
+    inline Armor<T>& Armor<T>::operator=( U x ){
+        REPROTECT(data = wrap(x), index) ;
+        return *this ;
+    }
+         
+    template <typename T>
+    template <typename U>
+    inline Shield<T>::operator U() const { 
+        return as<U>(t) ; 
+    }    
+    
+}
 
 #endif
