@@ -22,38 +22,54 @@
 #define COMPILING_RCPP11
 #define USE_RINTERNALS
 #include <Rinternals.h>
-#include <Rcpp/barrier.h>
 #include "internal.h"
 #include <algorithm>
 #include <Rcpp/macros/debug.h>
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-SEXP get_string_elt__impl(SEXP x, int i){
+// [[Rcpp::register]]
+SEXP get_string_elt(SEXP x, int i){
     return STRING_ELT(x, i ) ;
 }    
-const char* char_get_string_elt__impl(SEXP x, int i){
+
+// [[Rcpp::register]]
+const char* char_get_string_elt(SEXP x, int i){
     return CHAR(STRING_ELT(x, i )) ;
-}    
-void set_string_elt__impl(SEXP x, int i, SEXP value){
+}  
+
+// [[Rcpp::register]]
+void set_string_elt(SEXP x, int i, SEXP value){
     STRING_ELT(x, i) = value ;
 }
-void char_set_string_elt__impl(SEXP x, int i, const char* value){
+
+// [[Rcpp::register]]
+void char_set_string_elt(SEXP x, int i, const char* value){
     STRING_ELT(x, i) = Rf_mkChar(value) ; 
 }
-SEXP* get_string_ptr__impl(SEXP x){ return STRING_PTR(x) ; }
 
-SEXP get_vector_elt__impl(SEXP x, int i){
+// [[Rcpp::register]]
+SEXP* get_string_ptr(SEXP x){ return STRING_PTR(x) ; }
+
+// [[Rcpp::register]]
+SEXP get_vector_elt(SEXP x, int i){
     return VECTOR_ELT(x, i ) ;
 }
-void set_vector_elt__impl(SEXP x, int i, SEXP value){
+
+// [[Rcpp::register]]
+void set_vector_elt(SEXP x, int i, SEXP value){
     RCPP_SET_VECTOR_ELT(x, i, value ) ;
 }
-SEXP* get_vector_ptr__impl(SEXP x){ return VECTOR_PTR(x) ; }
-void* dataptr__impl(SEXP x){ return DATAPTR(x); }
+
+// [[Rcpp::register]]
+SEXP* get_vector_ptr(SEXP x){ return VECTOR_PTR(x) ; }
+
+// [[Rcpp::register]]
+void* dataptr(SEXP x){ return DATAPTR(x); }
 
 // when we already know x is a CHARSXP
-const char* char_nocheck__impl( SEXP x ){ return CHAR(x); }
+// [[Rcpp::register]]
+const char* char_nocheck( SEXP x ){ return CHAR(x); }
 
 static bool Rcpp_cache_know = false ;
 static SEXP Rcpp_cache = R_NilValue ;
@@ -81,7 +97,7 @@ SEXP get_rcpp_cache() {
 }
 
 namespace Rcpp {
-    	SEXP get_Rcpp11_namespace__impl(){ 
+    	SEXP get_Rcpp11_namespace(){ 
     	    return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
 	}
 	
@@ -167,7 +183,8 @@ SEXP rcpp_get_current_error(){
 
 namespace Rcpp{
     
-    int* get_cache__impl( int m){
+    // [[Rcpp::register]]
+    int* get_cache( int m){
         SEXP cache = get_rcpp_cache() ;
         SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
         int n = Rf_length(hash_cache) ;

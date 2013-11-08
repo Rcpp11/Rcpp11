@@ -18,22 +18,8 @@
 #ifndef Rcpp_macros_get_callable_h
 #define Rcpp_macros_get_callable_h
 
-#if defined(COMPILING_RCPP11)
-#define GET_CALLABLE(__FUN__, ...) return __FUN__( __VA_ARGS__ ) ;
-#else
-#define GET_CALLABLE(__FUN__, ...)                          \
+#define GET_CALLABLE(__FUN__)                               \
 typedef decltype(__FUN__)* Fun ;                            \
-static Fun fun = (Fun)R_GetCCallable( "Rcpp11", #__FUN__) ; \
-return fun(__VA_ARGS__) ;
-#endif
-
-#if defined(COMPILING_RCPP11)
-#define VOID_GET_CALLABLE(__FUN__, ...) __FUN__( __VA_ARGS__ ) ;
-#else
-#define VOID_GET_CALLABLE(__FUN__, ...)                          \
-typedef decltype(__FUN__)* Fun ;                            \
-static Fun fun = (Fun)R_GetCCallable( "Rcpp11", #__FUN__) ; \
-fun(__VA_ARGS__) ;
-#endif
+static Fun fun = (Fun)R_GetCCallable( "Rcpp11", #__FUN__)   \
 
 #endif

@@ -35,12 +35,6 @@ namespace Rcpp{
         REPROTECT(data = wrap(x), index) ;
         return *this ;
     }      
-         
-    template <typename T>
-    template <typename U>
-    inline Shield<T>::operator U() const { 
-        return as<U>(t) ; 
-    }    
     
 }
 

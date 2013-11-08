@@ -68,9 +68,14 @@
 #include <tuple>
 #include <utility>
 
+namespace Rcpp{
+    template <bool unused>
+    class Module_Impl ; 
+    using Module = Module_Impl<true> ;
+}
+
 #include <Rcpp/routines.h>
 #include <Rcpp/complex.h>
-#include <Rcpp/barrier.h>
 
 #include <Rcpp/exceptions.h>
 #include <Rcpp/Demangler.h>

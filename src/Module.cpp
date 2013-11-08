@@ -114,7 +114,7 @@ RCPP_FUN_2(SEXP, CppObject__finalize, XP_Class cl, SEXP obj){
 }
 
 // .External functions
-extern "C" SEXP InternalFunction_invoke( SEXP args ){
+SEXP InternalFunction_invoke( SEXP args ){
 BEGIN_RCPP
 	SEXP p = CDR(args) ;
 	XP_Function fun( CAR(p) ) ; p = CDR(p) ;
@@ -123,7 +123,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
-extern "C" SEXP Module__invoke( SEXP args){
+SEXP Module__invoke( SEXP args){
 BEGIN_RCPP
 	SEXP p = CDR(args) ;
 	XP_Module module( CAR(p) ) ; p = CDR(p) ;
@@ -134,7 +134,7 @@ BEGIN_RCPP
 END_RCPP
 }
 
-extern "C" SEXP class__newInstance(SEXP args){
+SEXP class__newInstance(SEXP args){
 	SEXP p = CDR(args) ;
 	
 	XP_Module module( CAR(p) ) ; p = CDR(p) ;
@@ -147,7 +147,7 @@ SEXP rcpp_dummy_pointer = R_NilValue; // relies on being set in .onLoad()
 
 #define CHECK_DUMMY_OBJ(p) if(p == rcpp_dummy_pointer) forward_exception_to_r ( Rcpp::not_initialized())
 
-extern "C" SEXP class__dummyInstance(SEXP args) {
+SEXP class__dummyInstance(SEXP args) {
 	SEXP p;
 
 	if(args == R_NilValue)
@@ -159,7 +159,7 @@ extern "C" SEXP class__dummyInstance(SEXP args) {
 	return rcpp_dummy_pointer;
 }
 
-extern "C" SEXP CppMethod__invoke(SEXP args){
+SEXP CppMethod__invoke(SEXP args){
 	SEXP p = CDR(args) ;
 	
 	// the external pointer to the class
@@ -178,7 +178,7 @@ extern "C" SEXP CppMethod__invoke(SEXP args){
    	return clazz->invoke( met, obj, cargs, nargs ) ;
 }
 
-extern "C" SEXP CppMethod__invoke_void(SEXP args){
+SEXP CppMethod__invoke_void(SEXP args){
 	SEXP p = CDR(args) ;
 	
 	// the external pointer to the class
@@ -197,7 +197,7 @@ extern "C" SEXP CppMethod__invoke_void(SEXP args){
    	return R_NilValue ;
 }
 
-extern "C" SEXP CppMethod__invoke_notvoid(SEXP args){
+SEXP CppMethod__invoke_notvoid(SEXP args){
 	SEXP p = CDR(args) ;
 	
 	// the external pointer to the class
@@ -220,8 +220,15 @@ namespace Rcpp{
 	static Module* current_scope  ;
 }
 
-Rcpp::Module* getCurrentScope__impl(){ return Rcpp::current_scope ; }
-void setCurrentScope__impl( Rcpp::Module* scope ){ Rcpp::current_scope = scope ; }
+// [[Rcpp::register]]
+Rcpp::Module* getCurrentScope(){ 
+    return Rcpp::current_scope ; 
+}
+
+// [[Rcpp::register]]
+void setCurrentScope( Rcpp::Module* scope ){ 
+    Rcpp::current_scope = scope ; 
+}
 
 extern "C" void R_init_Rcpp11( DllInfo* info){
 	Rcpp::current_scope = 0 ;

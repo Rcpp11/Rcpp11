@@ -18,68 +18,165 @@
 #ifndef RCPP_ROUTINE_H
 #define RCPP_ROUTINE_H
 
-SEXP rcpp_set_stack_trace(SEXP) ;
+#if defined(COMPILING_RCPP11)
 
+// the idea is that this file should be generated automatically
+// by Rcpp::register
+
+namespace Rcpp{
+    SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv) ;
+    const char* type2name(int sexp_type) ;
+    std::string demangle( const std::string& name) ;
+    void forward_exception_to_r( const std::exception& ex ) ;
+    SEXP exception_to_try_error( const std::exception& ex ) ;
+    SEXP string_to_try_error( const std::string& str) ;
+    SEXP stack_trace( const char *file, int line) ;
+    unsigned long enterRNGScope(); 
+    unsigned long exitRNGScope() ;
+    SEXP get_Rcpp11_namespace() ; 
+    int* get_cache( int n ) ;
+}
+           
+SEXP rcpp_set_stack_trace(SEXP) ;
+SEXP get_string_elt(SEXP s, int i); 
+const char* char_get_string_elt(SEXP s, int i) ;
+void set_string_elt(SEXP s, int i, SEXP v); 
+void char_set_string_elt(SEXP s, int i, const char* v); 
+SEXP* get_string_ptr(SEXP s) ;
+SEXP get_vector_elt(SEXP v, int i) ;
+void set_vector_elt(SEXP v, int i, SEXP x); 
+SEXP* get_vector_ptr(SEXP v); 
+const char* char_nocheck( SEXP x) ;
+void* dataptr(SEXP x) ;
+Rcpp::Module* getCurrentScope() ;
+void setCurrentScope( Rcpp::Module* mod ) ;
+ 
+#else 
 namespace Rcpp {
-        
-    SEXP Rcpp_eval__impl(SEXP, SEXP) ;
-    inline SEXP Rcpp_eval(SEXP expr, SEXP env){
-        GET_CALLABLE(Rcpp_eval__impl,expr,env)
-    }
-    inline SEXP Rcpp_eval(SEXP expr){
-        GET_CALLABLE(Rcpp_eval__impl,expr,R_GlobalEnv) 
+    
+    inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
+        GET_CALLABLE(Rcpp_eval) ;
+        return fun(expr, env) ;
     }
     
-    const char * type2name__impl(int sexp_type);
     inline const char* type2name(int sexp_type){
-        GET_CALLABLE(type2name__impl, sexp_type)    
+        GET_CALLABLE(type2name) ;
+        return fun(sexp_type) ;
     }
     
-    std::string demangle__impl( const std::string& ) ;
     inline std::string demangle( const std::string& name){
-        GET_CALLABLE(demangle__impl, name)
+        GET_CALLABLE(demangle) ;
+        return fun(name) ;
     }
     
-    void forward_exception_to_r__impl( const std::exception& ex) ;
     inline void forward_exception_to_r( const std::exception& ex ){
-        GET_CALLABLE(forward_exception_to_r__impl, ex)
+        GET_CALLABLE(forward_exception_to_r); 
+        return fun(ex) ;
     }
     
-    SEXP exception_to_try_error__impl( const std::exception& ex ) ;
     inline SEXP exception_to_try_error( const std::exception& ex ){
-        GET_CALLABLE(exception_to_try_error__impl, ex)
+        GET_CALLABLE(exception_to_try_error);
+        return fun(ex) ;
     }
     
-    SEXP string_to_try_error__impl( const std::string& str) ;
     inline SEXP string_to_try_error( const std::string& str){
-        GET_CALLABLE(string_to_try_error__impl, str)
+        GET_CALLABLE(string_to_try_error) ;
+        return fun(str) ;
     }
     
-    SEXP stack_trace__impl( const char *file, int line) ;
     inline SEXP stack_trace( const char *file, int line){
-        GET_CALLABLE(stack_trace__impl, file, line)
+        GET_CALLABLE(stack_trace) ;
+        return fun(file, line) ;
     }
     
-    unsigned long enterRNGScope__impl() ;
     inline unsigned long enterRNGScope(){
-         GET_CALLABLE(enterRNGScope__impl)   
+         GET_CALLABLE(enterRNGScope) ;
+         return fun() ;
     }
     
-    unsigned long exitRNGScope__impl() ;
     inline unsigned long exitRNGScope(){
-         GET_CALLABLE(exitRNGScope__impl)   
+         GET_CALLABLE(exitRNGScope) ;
+         return fun() ;
     }
     
-    SEXP get_Rcpp11_namespace__impl() ;
     inline SEXP get_Rcpp11_namespace() {
-        GET_CALLABLE(get_Rcpp11_namespace__impl)
+        GET_CALLABLE(get_Rcpp11_namespace) ;
+        return fun();
     }
     
-    int* get_cache__impl( int ) ;
     inline int* get_cache( int n ){
-        GET_CALLABLE(get_cache__impl, n)    
+        GET_CALLABLE(get_cache) ;
+        return fun(n) ;    
     }
     
 }
-    
+           
+inline SEXP get_string_elt(SEXP s, int i){
+    GET_CALLABLE(get_string_elt) ;
+    return fun(s, i) ;
+}
+
+inline const char* char_get_string_elt(SEXP s, int i){
+    GET_CALLABLE(char_get_string_elt) ;
+    return fun(s, i); 
+}
+
+inline void set_string_elt(SEXP s, int i, SEXP v){
+    GET_CALLABLE(set_string_elt) ;
+    return fun(s, i, v) ;
+}
+
+inline void char_set_string_elt(SEXP s, int i, const char* v){
+    GET_CALLABLE(char_set_string_elt) ; 
+    return fun(s, i, v ) ;    
+}
+
+inline SEXP* get_string_ptr(SEXP s){
+    GET_CALLABLE(get_string_ptr) ; 
+    return fun(s) ;    
+}
+
+inline SEXP get_vector_elt(SEXP v, int i){
+    GET_CALLABLE(get_vector_elt) ;
+    return fun(v, i) ;
+}
+
+inline void set_vector_elt(SEXP v, int i, SEXP x){
+    GET_CALLABLE(set_vector_elt) ;
+    return fun(v, i, x) ;
+}
+
+inline SEXP* get_vector_ptr(SEXP v){
+    GET_CALLABLE(get_vector_ptr) ;
+    return fun(v) ;    
+}
+
+inline const char* char_nocheck( SEXP x){
+    GET_CALLABLE(char_nocheck) ;
+    return fun(x) ;
+}
+
+inline void* dataptr(SEXP x){
+    GET_CALLABLE(dataptr) ;
+    return fun(x) ; 
+}
+
+inline SEXP rcpp_set_stack_trace(SEXP x){
+    GET_CALLABLE(rcpp_set_stack_trace) ;
+    return fun(x) ;    
+}
+
+inline Rcpp::Module* getCurrentScope(){
+    GET_CALLABLE(getCurrentScope) ;
+    return fun();
+}
+
+inline void setCurrentScope( Rcpp::Module* mod ){
+    VOID_GET_CALLABLE(setCurrentScope) ;
+    return fun(mod) ;    
+}
+
+
+#endif
+
 #endif

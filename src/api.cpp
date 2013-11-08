@@ -25,8 +25,8 @@
 
 namespace Rcpp {
 
-    // Evaluator
-    SEXP Rcpp_eval__impl(SEXP expr_, SEXP env) {
+    // [[Rcpp::register]]
+    SEXP Rcpp_eval(SEXP expr_, SEXP env) {
         RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 
         Shield<SEXP> expr = expr_ ;
 
@@ -63,7 +63,8 @@ namespace Rcpp {
         return res ;
     }
                    
-    std::string demangle__impl( const std::string& name ){
+    // [[Rcpp::register]]
+    std::string demangle( const std::string& name ){
         std::string real_class ;
         int status =-1 ;
         char *dem = 0;
@@ -122,18 +123,21 @@ namespace Rcpp {
         return condition ;
     }
     
-    void forward_exception_to_r__impl( const std::exception& ex){
+    // [[Rcpp::register]]
+    void forward_exception_to_r( const std::exception& ex){
         SEXP stop_sym  = Rf_install( "stop" ) ;
         Shield<SEXP> condition = exception_to_r_condition(ex) ;
         Shield<SEXP> expr = Rf_lang2( stop_sym , condition );
         Rf_eval( expr, R_GlobalEnv ) ;
     }
 
-    SEXP exception_to_try_error__impl( const std::exception& ex ){
+    // [[Rcpp::register]]
+    SEXP exception_to_try_error( const std::exception& ex ){
         return string_to_try_error(ex.what());
     }
     
-    SEXP string_to_try_error__impl( const std::string& str){
+    // [[Rcpp::register]]
+    SEXP string_to_try_error( const std::string& str){
         // form simple error condition based on a string
         Shield<SEXP> simpleErrorExpr = ::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str()));
         Shield<SEXP> simpleError = Rf_eval(simpleErrorExpr, R_GlobalEnv);
@@ -144,7 +148,8 @@ namespace Rcpp {
         return tryError;
     }
 
-    const char * type2name__impl(int sexp_type) {
+    // [[Rcpp::register]]
+    const char * type2name(int sexp_type) {
         switch (sexp_type) {
         case NILSXP:	return "NILSXP";
         case SYMSXP:	return "SYMSXP";
@@ -177,7 +182,7 @@ namespace Rcpp {
     #if defined(__GNUC__)
     #if defined(WIN32) || defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__CYGWIN__) || defined(__sun)
         // Simpler version for Windows and *BSD 
-        SEXP stack_trace__impl( const char* file, int line ){
+        SEXP stack_trace( const char* file, int line ){
             Rcpp::List trace = Rcpp::List::create( 
                 Rcpp::Named( "file"  ) = file, 
                 Rcpp::Named( "line"  ) = line, 
@@ -200,7 +205,8 @@ namespace Rcpp {
             return Rcpp::demangle( buffer) ;
         }
         
-        SEXP stack_trace__impl( const char *file, int line) {
+        // [[Rcpp::register]]
+        SEXP stack_trace( const char *file, int line) {
             const size_t max_depth = 100;
             size_t stack_depth;
             void *stack_addrs[max_depth];
@@ -237,13 +243,15 @@ namespace Rcpp {
         unsigned long RNGScopeCounter = 0;
     }
     
-    unsigned long enterRNGScope__impl() {       
+    // [[Rcpp::register]]
+    unsigned long enterRNGScope() {       
         if (RNGScopeCounter == 0)
             GetRNGstate();       
         return ++RNGScopeCounter;
     }
     
-    unsigned long exitRNGScope__impl() {
+    // [[Rcpp::register]]
+    unsigned long exitRNGScope() {
         RNGScopeCounter--;
         if (RNGScopeCounter == 0)
             PutRNGstate();

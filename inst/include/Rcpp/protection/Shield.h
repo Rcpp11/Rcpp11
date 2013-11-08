@@ -32,13 +32,13 @@ namespace Rcpp{
         ~Shield(){
             if( t != R_NilValue ) UNPROTECT(1) ;    
         }
-        Shield( const Scoped& ) = delete ;
-        Shield& operator=( const Scoped& ) = delete ;
+        Shield( const Shield& ) = delete ;
+        Shield& operator=( const Shield& ) = delete ;
         
-        Shield( Scoped&& other ) : t(other.t) {
+        Shield( Shield&& other ) : t(other.t) {
             other.t = R_NilValue ;
         }
-        Shield& operator=( Scoped&& other ){
+        Shield& operator=( Shield&& other ){
             t = other.t ;
             other.t = R_NilValue ;
             return *this ;

@@ -71,7 +71,7 @@ static std::streambuf* cout_buf = nullptr ;
 static std::streambuf* cerr_buf = nullptr ;
 
 // this is called by R_init_Rcpp11 that is in Module.cpp
-extern "C" void init_Rcpp11_routines(DllInfo *info){
+void init_Rcpp11_routines(DllInfo *info){
     Rostream<true>  Rcout;
     Rostream<false> Rcerr;
     Rcout_buf = new Rstreambuf<true> ;
@@ -89,7 +89,7 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
         extEntries /*.External*/
     );
     
-    #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ "__impl", (DL_FUNC)__FUN__ ## __impl );
+    #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
     
     REGISTER(Rcpp_eval)
     REGISTER(type2name)
@@ -117,6 +117,7 @@ extern "C" void init_Rcpp11_routines(DllInfo *info){
     REGISTER(setCurrentScope)
     
     REGISTER(get_cache)
+    REGISTER(rcpp_set_stack_trace)
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

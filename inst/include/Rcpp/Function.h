@@ -22,9 +22,9 @@
 namespace Rcpp{ 
 
     template < template <class> class StoragePolicy, bool fast > class Function_Impl : 
-        public StoragePolicy<Function_Impl<StoragePolicy>>,      
-        public SlotProxyPolicy<Function_Impl<StoragePolicy>>,    
-        public AttributeProxyPolicy<Function_Impl<StoragePolicy>>
+        public StoragePolicy<Function_Impl<StoragePolicy, fast>>,      
+        public SlotProxyPolicy<Function_Impl<StoragePolicy, fast>>,    
+        public AttributeProxyPolicy<Function_Impl<StoragePolicy, fast>>
     {
     public:
 

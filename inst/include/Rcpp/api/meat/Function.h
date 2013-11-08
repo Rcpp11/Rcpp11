@@ -20,9 +20,9 @@
 
 namespace Rcpp{ 
 
-    template < template <class> class StoragePolicy>
+    template < template <class> class StoragePolicy, bool fast>
     template<typename... Args> 
-    SEXP Function_Impl<StoragePolicy, false>::operator()( const Args&... args) const {
+    SEXP Function_Impl<StoragePolicy, fast>::operator()( const Args&... args) const {
         RCPP_DEBUG( "Function::operator(...) nargs = %d", sizeof...(args)  )
         typedef typename std::tuple<Args...> Tuple ;
         RCPP_DEBUG( "tuple = %s", DEMANGLE(Tuple) )
@@ -30,16 +30,6 @@ namespace Rcpp{
         return call.eval() ;
     }
     
-    template < template <class> class StoragePolicy>
-    template<typename... Args> 
-    SEXP Function_Impl<StoragePolicy, false>::operator()( const Args&... args) const {
-        RCPP_DEBUG( "Function::operator(...) nargs = %d", sizeof...(args)  )
-        typedef typename std::tuple<Args...> Tuple ;
-        RCPP_DEBUG( "tuple = %s", DEMANGLE(Tuple) )
-        Language call( Storage::get__() , args... );
-        return call.fast_eval() ;
-    }
-	
     template < template <class> class StoragePolicy, bool fast>
     Function_Impl<StoragePolicy, fast>::Function_Impl(SEXP x) {
         RCPP_DEBUG( "Function::Function(SEXP = <%p>)", x)

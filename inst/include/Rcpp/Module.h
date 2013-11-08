@@ -55,10 +55,6 @@ namespace Rcpp{
     class CppObject_Impl ;
     using CppObject = CppObject_Impl<true> ;
     
-    template <bool unused>
-    class Module_Impl ; 
-    using Module = Module_Impl<true> ;
-    
     class CppFunction ;
     
     typedef XPtr<Module> XP_Module ; 
@@ -80,17 +76,6 @@ namespace Rcpp{
 #include <Rcpp/module/CppFunction.h>
 #include <Rcpp/module/debug_constructor.h>
 #include <Rcpp/module/Module.h>
-
-Rcpp::Module* getCurrentScope__impl() ;
-inline Rcpp::Module* getCurrentScope(){
-    GET_CALLABLE(getCurrentScope__impl)
-}
-
-void setCurrentScope__impl( Rcpp::Module* ) ;
-inline void setCurrentScope( Rcpp::Module* mod ){
-    VOID_GET_CALLABLE(setCurrentScope__impl, mod )    
-}
-
 
 namespace Rcpp{
         
@@ -412,6 +397,6 @@ namespace Rcpp{
         return mod_xp ;                                                 \
     }                                                                   \
     void _rcpp_module_##name##_init()
-
+    
 #endif
 
