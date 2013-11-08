@@ -20,6 +20,15 @@
 
 namespace Rcpp{ 
 
+    template <bool fast>
+    inline SEXP eval_call( const Language& call ){
+        return call.eval() ;
+    }
+    template <>
+    inline SEXP eval_call<true>( const Language& call){
+        return call.fast_eval() ;    
+    }
+    
     template < template <class> class StoragePolicy, bool fast>
     template<typename... Args> 
     SEXP Function_Impl<StoragePolicy, fast>::operator()( const Args&... args) const {
@@ -27,7 +36,7 @@ namespace Rcpp{
         typedef typename std::tuple<Args...> Tuple ;
         RCPP_DEBUG( "tuple = %s", DEMANGLE(Tuple) )
         Language call( Storage::get__() , args... );
-        return call.eval() ;
+        return eval_call<fast>( call ) ;
     }
     
     template < template <class> class StoragePolicy, bool fast>

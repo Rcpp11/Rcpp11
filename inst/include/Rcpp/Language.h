@@ -114,21 +114,21 @@ namespace Rcpp{
         /**
          * eval this call in the global environment
          */
-        SEXP eval(){
+        SEXP eval() const {
             return eval( R_GlobalEnv ) ;    
         }
 
         /**
          * eval this call in the requested environment
          */
-        SEXP eval(SEXP env){
+        SEXP eval(SEXP env) const {
             return Rcpp_eval( Storage::get__(), env ) ;
         }
 
-        SEXP fast_eval(){
+        SEXP fast_eval() const {
             return Rf_eval( Storage::get__(), R_GlobalEnv ) ;    
         }
-        SEXP fast_eval(SEXP env ){
+        SEXP fast_eval(SEXP env ) const {
             return Rf_eval( Storage::get__(), env ) ;    
         }
         
