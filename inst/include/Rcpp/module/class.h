@@ -441,7 +441,7 @@
             return out ;
         }
 
-        #include <Rcpp/module/Property.h>
+        #include <Rcpp/module/property.h>
 
         self& finalizer( void (*f)(Class*) ){
             SetFinalizer( new FunctionFinalizer<Class>( f ) ) ;
