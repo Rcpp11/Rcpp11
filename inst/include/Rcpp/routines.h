@@ -25,7 +25,7 @@
 
 namespace Rcpp{
     SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv) ;
-    const char* type2name(int sexp_type) ;
+    const char* type2name(SEXP x) ;
     std::string demangle( const std::string& name) ;
     void forward_exception_to_r( const std::exception& ex ) ;
     SEXP exception_to_try_error( const std::exception& ex ) ;
@@ -59,9 +59,9 @@ namespace Rcpp {
         return fun(expr, env) ;
     }
     
-    inline const char* type2name(int sexp_type){
+    inline const char* type2name(SEXP x){
         GET_CALLABLE(type2name) ;
-        return fun(sexp_type) ;
+        return fun(x) ;
     }
     
     inline std::string demangle( const std::string& name){

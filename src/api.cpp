@@ -149,8 +149,8 @@ namespace Rcpp {
     }
 
     // [[Rcpp::register]]
-    const char * type2name(int sexp_type) {
-        switch (sexp_type) {
+    const char * type2name(SEXP x) {
+        switch (TYPEOF(x)) {
         case NILSXP:	return "NILSXP";
         case SYMSXP:	return "SYMSXP";
         case RAWSXP:	return "RAWSXP";

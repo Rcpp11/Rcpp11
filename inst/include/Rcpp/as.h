@@ -45,7 +45,7 @@ namespace Rcpp{
             if( TYPEOF(x) == CHARSXP ) return CHAR( x ) ;
             if( ! ::Rf_isString(x) ){
                 std::string message( "expecting a string. got object of R type : " ) ;
-                message += type2name(TYPEOF(x)) ;
+                message += type2name(x) ;
                 throw ::Rcpp::not_compatible( message ) ;
             }
             if (Rf_length(x) != 1)
