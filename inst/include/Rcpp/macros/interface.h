@@ -1,4 +1,3 @@
-// Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
 // Copyright (C) 2013 Romain Francois
 //
 // This file is part of Rcpp11.
