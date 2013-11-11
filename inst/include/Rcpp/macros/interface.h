@@ -35,11 +35,6 @@ __CLASS__& operator=(const __CLASS__& rhs) {      \
     return Storage::copy__(rhs) ;                          \
 }                                                 \
 
-#define RCPP_POLICIES(__CLASS__)                 \
-    public RObjectStorage<__CLASS__>,            \
-    public SlotProxyPolicy<__CLASS__>,           \
-    public AttributeProxyPolicy<__CLASS__>       \
-
 #define RCPP_API_CLASS(__CLASS__)   \
 template < template <class> class StoragePolicy > class __CLASS__ : \
     public StoragePolicy<__CLASS__<StoragePolicy>>,            \
