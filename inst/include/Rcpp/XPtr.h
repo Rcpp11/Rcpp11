@@ -41,12 +41,12 @@ void finalizer_wrapper(SEXP p){
 
 template <typename T, void Finalizer(T*) = standard_delete_finalizer<T> >
 class XPtr :  
-    public RObjectStorage<XPtr<T,Finalizer>>,     
+    public PreserveStorage<XPtr<T,Finalizer>>,     
     public SlotProxyPolicy<XPtr<T,Finalizer>>,    
     public AttributeProxyPolicy<XPtr<T,Finalizer>>
 {
 public:
-	typedef RObjectStorage<XPtr> Storage ;
+	typedef PreserveStorage<XPtr> Storage ;
     	
     XPtr( const XPtr& other ){        
         Storage::copy__(other) ;                         

@@ -34,7 +34,7 @@ class Vector_Impl :
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
     
-    using Storage = RObjectStorage<Vector_Impl> ;
+    using Storage = PreserveStorage<Vector_Impl> ;
     using AttributeProxy_ = AttributeProxyPolicy<Vector_Impl> ;
     
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;

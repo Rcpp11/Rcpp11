@@ -15,21 +15,10 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_api_meat_RObjectStorage_h
-#define Rcpp_api_meat_RObjectStorage_h
+#ifndef Rcpp11_storage_storage_h
+#define Rcpp11_storage_storage_h
 
-namespace Rcpp{ 
- 
-    template <typename CLASS>
-    CharacterVector RObjectStorage<CLASS>::attributeNames() const {
-        SEXP attrs = ATTRIB(data);
-        CharacterVector v( Rf_length( attrs ) ) ; ;
-        for( int i=0; attrs != R_NilValue; i++, attrs=CDR(attrs) ){
-            v[i] = PRINTNAME(TAG(attrs)) ;
-        }
-        return v ;
-    }    
-    
-}
+#include <Rcpp/storage/PreserveStorage.h>
+#include <Rcpp/storage/NoProtectStorage.h>
 
 #endif

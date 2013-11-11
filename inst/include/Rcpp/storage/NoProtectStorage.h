@@ -15,24 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp_RObjectStorage_h
-#define Rcpp_RObjectStorage_h
+#ifndef Rcpp_storage_NoProtectStorage_h
+#define Rcpp_storage_NoProtectStorage_h
 
 namespace Rcpp{ 
 
     template <typename CLASS>
-    class RObjectStorage {
+    class NoProtectStorage {
     public:
         
-        RObjectStorage() : data(R_NilValue){}
-        
-        ~RObjectStorage(){
-            Rcpp_ReleaseObject(data) ;
-            data = R_NilValue;
-        }
-        
         inline void set__(SEXP x){
-            data = Rcpp_ReplaceObject(data, x) ;
+            data = x ;
             
             // calls the update method of CLASS
             // this is where to react to changes in the underlying SEXP
@@ -43,11 +36,7 @@ namespace Rcpp{
             return data ;    
         }
         
-        inline SEXP invalidate__(){
-            SEXP out = data ;
-            data = R_NilValue ;
-            return out ;
-        }
+        inline SEXP invalidate__(){ return data ;}
         
         inline CLASS& copy__(const CLASS& other){
             if( this != &other){

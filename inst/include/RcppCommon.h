@@ -88,14 +88,14 @@ namespace Rcpp{
     }
 
     class String ;
-    template <typename CLASS> class RObjectStorage ;
+    template <typename CLASS> class PreserveStorage ;
     template <typename CLASS> class NoProtectStorage ;
     
     template <int RTYPE, template <class> class StoragePolicy > 
     class Vector_Impl ;
     
     template <int RTYPE>
-    using Vector = Vector_Impl<RTYPE, RObjectStorage> ;
+    using Vector = Vector_Impl<RTYPE, PreserveStorage> ;
     
     template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
@@ -113,14 +113,14 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Reference) ;
     
     template < template <class> class StoragePolicy, bool fast > class Function_Impl ;
-    using Function = Function_Impl<RObjectStorage, false> ;
-    using FastFunction = Function_Impl<RObjectStorage, true> ;
+    using Function = Function_Impl<PreserveStorage, false> ;
+    using FastFunction = Function_Impl<PreserveStorage, true> ;
     
     template < template <class> class StoragePolicy > class Symbol_Impl ;
     using Symbol = Symbol_Impl<NoProtectStorage> ;
     
     template < template <class> class StoragePolicy > class DataFrame_Impl ;
-    using DataFrame = DataFrame_Impl<RObjectStorage> ;
+    using DataFrame = DataFrame_Impl<PreserveStorage> ;
     
 }	
 namespace Rcpp{

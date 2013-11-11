@@ -546,7 +546,7 @@ namespace Rcpp{
         template <typename T>
         inline SEXP wrap_range_sugar_expression( const T& object) {
             const int RTYPE = T::r_type::value ;
-            return Rcpp::Vector_Impl<RTYPE, RObjectStorage>(object) ;
+            return Rcpp::Vector_Impl<RTYPE, PreserveStorage>(object) ;
         }
 
         template <template <class> class StoragePolicy> 

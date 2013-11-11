@@ -42,6 +42,6 @@ template < template <class> class StoragePolicy > class __CLASS__ : \
    
 #define RCPP_API_CLASS_DECL(__CLASS__)  \
     template < template <class> class StoragePolicy > class __CLASS__##_Impl ; \
-    using __CLASS__ = __CLASS__##_Impl<RObjectStorage> ;
+    using __CLASS__ = __CLASS__##_Impl<PreserveStorage> ;
     
 #endif
