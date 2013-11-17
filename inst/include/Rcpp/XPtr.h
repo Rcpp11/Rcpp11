@@ -33,33 +33,25 @@ void standard_delete_finalizer(T* obj){
 template <typename T, void Finalizer(T*) >
 void finalizer_wrapper(SEXP p){
     if( TYPEOF(p) == EXTPTRSXP ){
-	T* ptr = (T*) R_ExternalPtrAddr(p) ;
-	RCPP_DEBUG( "finalizer_wrapper<%s>(SEXP p = <%p>). ptr = %p", DEMANGLE(T), p, ptr  )
-	Finalizer(ptr) ;
+        T* ptr = (T*) R_ExternalPtrAddr(p) ;
+        RCPP_DEBUG( "finalizer_wrapper<%s>(SEXP p = <%p>). ptr = %p", DEMANGLE(T), p, ptr  )
+        Finalizer(ptr) ;
     }
 }
 
-template <typename T, void Finalizer(T*) = standard_delete_finalizer<T> >
+template <                       
+    typename T, 
+    template <class> class StoragePolicy = PreserveStorage, 
+    void Finalizer(T*) = standard_delete_finalizer<T> 
+>
 class XPtr :  
-    public PreserveStorage<XPtr<T,Finalizer>>,     
-    public SlotProxyPolicy<XPtr<T,Finalizer>>,    
-    public AttributeProxyPolicy<XPtr<T,Finalizer>>
+    public StoragePolicy<XPtr<T,StoragePolicy,Finalizer>>,     
+    public SlotProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>,    
+    public AttributeProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>
 {
-public:
-	typedef PreserveStorage<XPtr> Storage ;
-    	
-    XPtr( const XPtr& other ){        
-        Storage::copy__(other) ;                         
-    }                                           
-    XPtr( XPtr&& other ){             
-        Storage::steal__(other) ;                        
-    }                                           
-    XPtr& operator=( XPtr&& other ){  
-        return Storage::steal__( other );                
-    }                                           
-    XPtr& operator=(const XPtr& rhs) {
-        return Storage::copy__(rhs) ;                    
-    }                                           
+public:  
+    
+    RCPP_GENERATE_CTOR_ASSIGN(XPtr)
     
     explicit XPtr(SEXP x, SEXP tag = R_NilValue, SEXP prot = R_NilValue) {
         if( TYPEOF(x) != EXTPTRSXP )
