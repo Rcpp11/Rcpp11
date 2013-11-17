@@ -19,19 +19,18 @@
 #define Rcpp_macros_interface_h
 
 #define RCPP_GENERATE_CTOR_ASSIGN(__CLASS__)      \
-typedef StoragePolicy<__CLASS__> Storage ; \
-typedef AttributeProxyPolicy<__CLASS__> AttributePolicy ; \
+typedef StoragePolicy<__CLASS__> Storage ;        \
 __CLASS__( const __CLASS__& other ){              \
-    Storage::copy__(other) ;                               \
+    Storage::copy__(other) ;                      \
 }                                                 \
 __CLASS__( __CLASS__&& other ){                   \
-    Storage::steal__(other) ;                              \
+    Storage::steal__(other) ;                     \
 }                                                 \
 __CLASS__& operator=( __CLASS__&& other ){        \
-    return Storage::steal__( other );                      \
+    return Storage::steal__( other );             \
 }                                                 \
 __CLASS__& operator=(const __CLASS__& rhs) {      \
-    return Storage::copy__(rhs) ;                          \
+    return Storage::copy__(rhs) ;                 \
 }                                                 \
 
 #define RCPP_API_CLASS(__CLASS__)   \
