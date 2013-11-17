@@ -33,10 +33,6 @@ class Vector :
 {
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
-    
-    using Storage = PreserveStorage<Vector> ;
-    using AttributeProxy_ = AttributeProxyPolicy<Vector> ;
-    
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
     typedef typename traits::r_vector_const_proxy<RTYPE>::type const_Proxy ;
     typedef typename traits::r_vector_name_proxy<RTYPE>::type NameProxy ;
@@ -54,18 +50,7 @@ public:
      */
     Vector() ;
     
-    Vector( const Vector& other ){        
-        Storage::copy__(other) ;                         
-    }                                           
-    Vector( Vector&& other ){             
-        Storage::steal__(other) ;                        
-    }                                           
-    Vector& operator=( Vector&& other ){  
-        return Storage::steal__( other );                
-    }                                           
-    Vector& operator=(const Vector& rhs) {
-        return Storage::copy__(rhs) ;                    
-    }                                           
+    RCPP_GENERATE_CTOR_ASSIGN(Vector)
     
     // we can't define these 3 in meat for some reason
     // maybe because of the typedef in instantiation.h
