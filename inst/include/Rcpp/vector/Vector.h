@@ -24,18 +24,18 @@ namespace Rcpp{
 template <bool NA,typename T> class SingleLogicalResult ;
 
 template <int RTYPE, template <class> class StoragePolicy>
-class Vector_Impl :
-    public StoragePolicy<Vector_Impl<RTYPE,StoragePolicy>>,     
-    public SlotProxyPolicy<Vector_Impl<RTYPE,StoragePolicy>>,    
-    public AttributeProxyPolicy<Vector_Impl<RTYPE,StoragePolicy>>,       
-    public VectorBase< RTYPE, true, Vector_Impl<RTYPE,StoragePolicy> >, 
+class Vector :
+    public StoragePolicy<Vector<RTYPE,StoragePolicy>>,     
+    public SlotProxyPolicy<Vector<RTYPE,StoragePolicy>>,    
+    public AttributeProxyPolicy<Vector<RTYPE,StoragePolicy>>,       
+    public VectorBase< RTYPE, true, Vector<RTYPE,StoragePolicy> >, 
     public internal::eval_methods<RTYPE, StoragePolicy > 
 {
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
     
-    using Storage = PreserveStorage<Vector_Impl> ;
-    using AttributeProxy_ = AttributeProxyPolicy<Vector_Impl> ;
+    using Storage = PreserveStorage<Vector> ;
+    using AttributeProxy_ = AttributeProxyPolicy<Vector> ;
     
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
     typedef typename traits::r_vector_const_proxy<RTYPE>::type const_Proxy ;
@@ -52,61 +52,61 @@ public:
      * Default constructor. Creates a vector of the appropriate type
      * and 0 length
      */
-    Vector_Impl() ;
+    Vector() ;
     
-    Vector_Impl( const Vector_Impl& other ){        
+    Vector( const Vector& other ){        
         Storage::copy__(other) ;                         
     }                                           
-    Vector_Impl( Vector_Impl&& other ){             
+    Vector( Vector&& other ){             
         Storage::steal__(other) ;                        
     }                                           
-    Vector_Impl& operator=( Vector_Impl&& other ){  
+    Vector& operator=( Vector&& other ){  
         return Storage::steal__( other );                
     }                                           
-    Vector_Impl& operator=(const Vector_Impl& rhs) {
+    Vector& operator=(const Vector& rhs) {
         return Storage::copy__(rhs) ;                    
     }                                           
     
     // we can't define these 3 in meat for some reason
     // maybe because of the typedef in instantiation.h
-    Vector_Impl( SEXP x ) {
+    Vector( SEXP x ) {
         Storage::set__( r_cast<RTYPE>( x ) ) ;
     }
-    Vector_Impl( const int& size, const stored_type& u ) {
-        RCPP_DEBUG_CTOR(Vector_Impl, "( const int& size = %d, const stored_type& u )", size)
+    Vector( const int& size, const stored_type& u ) {
+        RCPP_DEBUG_CTOR(Vector, "( const int& size = %d, const stored_type& u )", size)
         Storage::set__( Rf_allocVector( RTYPE, size) ) ;
         fill( u ) ;
     }
-    Vector_Impl( const int& size )  ;
+    Vector( const int& size )  ;
     
-    Vector_Impl( const Dimension& dims)  ;
-    
-    template <typename U> 
-    Vector_Impl( const Dimension& dims, const U& u) ;
+    Vector( const Dimension& dims)  ;
     
     template <typename U> 
-    Vector_Impl( const int& size, const U& u) ;
+    Vector( const Dimension& dims, const U& u) ;
     
-    Vector_Impl( const std::string& st ) {
+    template <typename U> 
+    Vector( const int& size, const U& u) ;
+    
+    Vector( const std::string& st ) {
         RCPP_DEBUG_CTOR(Vector, "( const std::string& = %s )", st.c_str() )
         Storage::set__( internal::vector_from_string<RTYPE>(st) ) ;
     }
-    Vector_Impl( const char* st ) {
+    Vector( const char* st ) {
         RCPP_DEBUG_CTOR(Vector, "( const char* = %s )", st )
         Storage::set__(internal::vector_from_string<RTYPE>(st));
     }
 	
     template <bool NA, typename VEC> 
-    Vector_Impl( const VectorBase<RTYPE,NA,VEC>& other )  ;
+    Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
     
     template <bool NA, typename T> 
-    Vector_Impl( const sugar::SingleLogicalResult<NA,T>& obj ) ;
+    Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
          
-    Vector_Impl( std::initializer_list<init_type> list ) {
+    Vector( std::initializer_list<init_type> list ) {
         Storage::set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
     }
 
-	template <typename T> Vector_Impl& 
+	template <typename T> Vector& 
     operator=( const T& x) ;
 	
     static inline stored_type get_na() { return traits::get_na<RTYPE>(); }
@@ -151,7 +151,7 @@ public:
 
     class NamesProxy {
     public:
-        NamesProxy( Vector_Impl& v) : parent(v){}
+        NamesProxy( Vector& v) : parent(v){}
 	
         /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) {
@@ -170,7 +170,7 @@ public:
         }
 		
     private:
-        Vector_Impl& parent; 
+        Vector& parent; 
 		
         SEXP get() const {
             return RCPP_GET_NAMES(parent) ;
@@ -197,7 +197,7 @@ public:
     	
     class const_NamesProxy {
     public:
-        const_NamesProxy( const Vector_Impl& v) : parent(v){}
+        const_NamesProxy( const Vector& v) : parent(v){}
 	
         /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) = delete ;
@@ -207,7 +207,7 @@ public:
         }
 		
     private:
-        const Vector_Impl& parent; 
+        const Vector& parent; 
 		
         SEXP get() const {
             return RCPP_GET_NAMES(parent) ;
@@ -244,10 +244,10 @@ public:
         return NameProxy( *this, name ) ;
     }
 	inline NameProxy operator[]( const std::string& name ) const {
-        return NameProxy( const_cast<Vector_Impl&>(*this), name ) ;
+        return NameProxy( const_cast<Vector&>(*this), name ) ;
     }
     
-    Vector_Impl& sort(){
+    Vector& sort(){
         std::sort( 
             internal::r_vector_start<RTYPE>(Storage::get__()), 
             internal::r_vector_start<RTYPE>(Storage::get__()) + size(), 
@@ -316,17 +316,17 @@ public:
         cache.update(*this) ;
     }
 	
-    typedef internal::RangeIndexer<RTYPE,true,Vector_Impl> Indexer ;
+    typedef internal::RangeIndexer<RTYPE,true,Vector> Indexer ;
 	
     inline Indexer operator[]( const Range& range ){
-        return Indexer( const_cast<Vector_Impl&>(*this), range );
+        return Indexer( const_cast<Vector&>(*this), range );
     }
     
     template <typename EXPR_VEC>
-    Vector_Impl& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
+    Vector& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
     
     template <typename EXPR_VEC>
-    Vector_Impl& operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ) ;
+    Vector& operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ) ;
     
     /** 
      *  Does this vector have an element with the target name 
@@ -342,7 +342,7 @@ protected:
         return INTEGER( ::Rf_getAttrib( Storage::get__(), R_DimSymbol ) ) ;
     }
     void init(){
-        RCPP_DEBUG_CLASS(Vector_Impl, "::init( SEXP = <%p> )", Storage::get__() )
+        RCPP_DEBUG_CLASS(Vector, "::init( SEXP = <%p> )", Storage::get__() )
         internal::r_init_vector<RTYPE>(Storage::get__()) ;
     }
 
@@ -399,7 +399,7 @@ private:
     }
 
 public:
-    template <typename... Args> static Vector_Impl create(Args... args) ;
+    template <typename... Args> static Vector create(Args... args) ;
     
 } ; /* Vector */
 

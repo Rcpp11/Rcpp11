@@ -91,11 +91,8 @@ namespace Rcpp{
     template <typename CLASS> class PreserveStorage ;
     template <typename CLASS> class NoProtectStorage ;
     
-    template <int RTYPE, template <class> class StoragePolicy > 
-    class Vector_Impl ;
-    
-    template <int RTYPE>
-    using Vector = Vector_Impl<RTYPE, PreserveStorage> ;
+    template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
+    class Vector ;
     
     template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;

@@ -21,9 +21,9 @@
 namespace Rcpp{
         
     template < template <class> class StoragePolicy>
-    class DataFrame_Impl : public Vector_Impl<VECSXP, StoragePolicy> {
+    class DataFrame_Impl : public Vector<VECSXP, StoragePolicy> {
     public:    
-        using Storage = typename Vector_Impl<VECSXP, StoragePolicy>::Storage ;
+        using Storage = typename Vector<VECSXP, StoragePolicy>::Storage ;
         DataFrame_Impl() ;
         DataFrame_Impl(SEXP x) ;
         DataFrame_Impl( const DataFrame_Impl& other) ;
