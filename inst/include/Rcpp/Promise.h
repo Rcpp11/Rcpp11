@@ -28,7 +28,11 @@ namespace Rcpp{
         Promise_Impl( SEXP x){
             if( TYPEOF(x) != PROMSXP )
                 throw not_compatible("not a promise") ;
-            Storage::set__(x) ;    
+            
+            while(TYPEOF(PRCODE(x)) == PROMSXP){
+                x = PRCODE(x) ;
+            }
+            Storage::set__(x) ;
         }
         
         /** 
@@ -60,6 +64,7 @@ namespace Rcpp{
          * The promise environment : PRENV
          */
         Environment_Impl<StoragePolicy> environment() const ;
+        
         void update(SEXP){}
         
     } ;

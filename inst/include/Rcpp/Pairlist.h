@@ -21,8 +21,8 @@
 
 namespace Rcpp{
 
-    RCPP_API_CLASS(Pairlist_Impl)
-        , public DottedPairProxyPolicy<Pairlist_Impl<StoragePolicy>>, 
+    RCPP_API_CLASS(Pairlist_Impl), 
+        public DottedPairProxyPolicy<Pairlist_Impl<StoragePolicy>>, 
         public DottedPairImpl<Pairlist_Impl<StoragePolicy>>
     {
     public:         
