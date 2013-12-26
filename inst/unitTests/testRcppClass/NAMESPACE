@@ -1,7 +1,0 @@
-useDynLib(testRcppClass)
-import(Rcpp11)
-
-export(genWorld, stdNumeric, rcpp_hello_world,
-       bar, foo, baz, baz1)
-
-exportClass(World, stdNumeric)#, NumEx)
