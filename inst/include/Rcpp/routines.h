@@ -172,7 +172,7 @@ inline Rcpp::Module* getCurrentScope(){
 }
 
 inline void setCurrentScope( Rcpp::Module* mod ){
-    VOID_GET_CALLABLE(setCurrentScope) ;
+    GET_CALLABLE(setCurrentScope) ;
     return fun(mod) ;    
 }
 
