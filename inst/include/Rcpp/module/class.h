@@ -94,12 +94,16 @@
                 return AddConstructor( new Constructor_Impl<Class,Args...>, valid, docstring ) ;
         }
     
-        self& default_constructor( const char* docstring= 0, ValidConstructor valid = &yes_arity<0> ){
+        self& default_constructor( const char* docstring= 0, ValidConstructor valid = nullptr ){
+            if( valid == nullptr)
+              valid = &yes_arity<0> ;
             return constructor<>( docstring, valid ) ; 
         }
         
         template <typename... Args>
-        self& factory( Class* (*fun)(Args...), const char* docstring = 0, ValidConstructor valid = &yes_arity<sizeof...(Args)> ){
+        self& factory( Class* (*fun)(Args...), const char* docstring = 0, ValidConstructor valid = nullptr ){
+            if( valid == nullptr )
+              valid = &yes_arity<sideof...(Args)> ;
             if( is_debugging )
                 AddFactory( new Debug_Factory_Impl<Class,Args...>(fun) , valid, docstring ) ;
             else 
