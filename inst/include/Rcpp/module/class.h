@@ -85,7 +85,9 @@
         }
         
         template <typename... Args>
-        self& constructor( const char* docstring = 0, ValidConstructor valid = &yes_arity< sizeof...(Args) > ){
+        self& constructor( const char* docstring = 0, ValidConstructor valid = nullptr ){
+            if( valid == nullptr )
+              valid = &yes_arity< sizeof...(Args) > ;
             if( is_debugging )
                 return AddConstructor( new Debug_Constructor_Impl<Class,Args...>, valid, docstring ) ;
             else
