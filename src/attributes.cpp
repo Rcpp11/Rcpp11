@@ -151,6 +151,9 @@ namespace attributes {
         const bool is_Dots() const { 
             return type_.name() == "Dots" || type_.name() == "Rcpp::Dots" ;
         }
+        const bool is_NamedDots() const { 
+            return type_.name() == "NamedDots" || type_.name() == "Rcpp::NamedDots" ;
+        }
         
     private:
         std::string name_;
@@ -187,9 +190,6 @@ namespace attributes {
         const std::string& name() const { return name_; }
         const std::vector<Argument>& arguments() const { return arguments_; }
         const std::string& source() const { return source_; }
-        bool is_Dots() const {
-            return arguments_.size() == 1 && arguments_[0].is_Dots() ;
-        }
         
     private:
         Type type_;
@@ -1820,40 +1820,41 @@ namespace attributes {
                 // determine the function name
                 std::string name = attribute.exportedName();
                     
-                if( function.is_Dots() ){
-                    ostr() << name << " <- function(...){ " << std::endl 
-                           << "    calls  <- sys.calls()" << std::endl 
-                           << "    frames <- sys.frames()" << std::endl
-                           << "    .Call( '" << package() << "_" << function.name() << "', calls, frames, PACKAGE='" << package() << "' ) " << std::endl 
-                           << "}" << std::endl ;
-                } else {
-                    // build the parameter list 
-                    std::string args = generateRArgList(function);
-                    
-                    // write the function
-                    ostr() << name << " <- function(" << args << ") {" 
-                           << std::endl;
-                    ostr() << "    ";
-                    if (function.type().isVoid())
-                        ostr() << "invisible(";
-                    ostr() << ".Call(";
-                    ostr() << "'" << package() << "_" << function.name() << "', "
-                           << "PACKAGE = '" << package() << "'" ;
-                    
-                    // add arguments 
-                    if( function.arguments().size() ){
-                        ostr() << "," ;
-                        ostr() << collapse( function.arguments(), 
-                            [](const Argument& arg){ return arg.name() ; }
-                        ) ;
-                    }
-                    ostr() << ")";
-                    if (function.type().isVoid())
-                        ostr() << ")";
-                    ostr() << std::endl;
-                    
-                    ostr() << "}" << std::endl << std::endl;
+                // build the parameter list 
+                std::string args = generateRArgList(function);
+                
+                // write the function
+                ostr() << name << " <- function(" << args << ") {" 
+                       << std::endl;
+                ostr() << "    ";
+                if (function.type().isVoid())
+                    ostr() << "invisible(";
+                ostr() << ".Call(";
+                ostr() << "'" << package() << "_" << function.name() << "', "
+                       << "PACKAGE = '" << package() << "'" ;
+                
+                // add arguments 
+                if( function.arguments().size() ){
+                    ostr() << "," ;
+                    ostr() << collapse( function.arguments(), 
+                        [](const Argument& arg){ 
+                          std::string out ;
+                          if( arg.is_Dots() || arg.is_NamedDots() ){
+                            out = "environment()" ;
+                          } else {
+                            out = arg.name() ;
+                          }
+                          return out ;
+                        }
+                    ) ;
                 }
+                ostr() << ")";
+                if (function.type().isVoid())
+                    ostr() << ")";
+                ostr() << std::endl;
+                
+                ostr() << "}" << std::endl << std::endl;
+               
             }           
         }                      
     }
@@ -2051,18 +2052,22 @@ namespace attributes {
         const std::vector<Argument>& arguments = function.arguments();
         int i=0; 
         for( const Argument& argument: arguments ){
-            argsOstr << argument.name();
-            if (!argument.defaultValue().empty()) {
-                std::string rArg = cppArgToRArg(argument.type().name(), 
-                                                argument.defaultValue());
-                if (!rArg.empty()) {
-                    argsOstr << " = " << rArg;
-                } else {
-                    showWarning("Unable to parse C++ default value '" +
-                                argument.defaultValue() + "' for argument "+
-                                argument.name() + " of function " +
-                                function.name());
-                }
+            if( argument.is_Dots() || argument.is_NamedDots() ){
+              argsOstr << "..." ;
+            } else {
+              argsOstr << argument.name();  
+              if (!argument.defaultValue().empty()) {
+                  std::string rArg = cppArgToRArg(argument.type().name(), 
+                                                  argument.defaultValue());
+                  if (!rArg.empty()) {
+                      argsOstr << " = " << rArg;
+                  } else {
+                      showWarning("Unable to parse C++ default value '" +
+                                  argument.defaultValue() + "' for argument "+
+                                  argument.name() + " of function " +
+                                  function.name());
+                  }
+              }   
             }
                
             if (i != (arguments.size()-1))
@@ -2108,14 +2113,12 @@ namespace attributes {
             ostr << "(";
             std::ostringstream ostrArgs;
             const std::vector<Argument>& arguments = function.arguments();
-            // deal with functions with a single argument of class "Dots"
-            if( function.is_Dots() ){
-                ostrArgs << "SEXP calls, SEXP frames" ;
-            } else {
-                ostrArgs << collapse( arguments, 
-                    [](const Argument& arg){ return std::string("SEXP ") + arg.name() + "SEXP" ; } 
-                    );
-            }
+            
+            ostrArgs << collapse( arguments, 
+              [](const Argument& arg){
+                return std::string("SEXP ") + arg.name() + "SEXP" ;
+              } 
+            );
             std::string args = ostrArgs.str();
             ostr << args << ") {" << std::endl;
             ostr << "BEGIN_RCPP" << std::endl;
@@ -2124,13 +2127,16 @@ namespace attributes {
             ostr << "    {" << std::endl;
             if (!cppInterface)
                 ostr << "        Rcpp::RNGScope __rngScope;" << std::endl;
-            if( function.is_Dots() ){
-                ostr << "        Rcpp::Dots dots( calls, frames ) ;" << std::endl;
-            } else {
-                for( const Argument& argument: arguments ){
-                    ostr << "        Rcpp::traits::input_parameter< " 
-                         << argument.type().full_name() << " >::type " << argument.name() 
-                         << "(" << argument.name() << "SEXP );" << std::endl;
+            
+            for( const Argument& argument: arguments ){
+                if( argument.is_Dots() ){
+                  ostr << "        Rcpp::Dots dots(" << argument.name() << "SEXP ) ;" << std::endl  ;   
+                } else if( argument.is_NamedDots() ){
+                  ostr << "        Rcpp::NamedDots dots( "<< argument.name() << "SEXP ) ; " << std::endl ;
+                } else {
+                  ostr << "        Rcpp::traits::input_parameter< " 
+                       << argument.type().full_name() << " >::type " << argument.name() 
+                       << "(" << argument.name() << "SEXP );" << std::endl;
                 }
             }
             
@@ -2138,11 +2144,9 @@ namespace attributes {
             if (!function.type().isVoid())
                 ostr << function.type() << " __result = ";
             ostr << function.name() << "(";
-            if( function.is_Dots() ){
-                ostr << "dots" ;
-            } else {
-                ostr << collapse( arguments, [](const Argument& arg){ return arg.name(); } ) ;
-            }
+            ostr << collapse( arguments, [](const Argument& arg){ 
+                return arg.name();   
+            } ) ;
             ostr << ");" << std::endl;
         
             if (!function.type().isVoid())
@@ -2509,24 +2513,15 @@ namespace {
                 if (!attribute.isExportedFunction()) continue;
                 const Function& function = attribute.function();
         
-                if( function.is_Dots() ){ 
-                    ostr << attribute.exportedName()
-                         << " <- Rcpp11:::sourceCppFunction("
-                         << "function(...){}, " 
-                         << (function.type().isVoid() ? "TRUE" : "FALSE") << ", "
-                         << dllInfo << ", " 
-                         << "'" << contextId_ + "_" + function.name() 
-                         << "')" << std::endl; 
-                } else {
-                    // export the function
-                    ostr <<  attribute.exportedName()
-                         << " <- Rcpp11:::sourceCppFunction("
-                         << "function(" << generateRArgList(function) << ") {}, " 
-                         << (function.type().isVoid() ? "TRUE" : "FALSE") << ", "
-                         << dllInfo << ", " 
-                         << "'" << contextId_ + "_" + function.name() 
-                         << "')" << std::endl;
-                }
+                // export the function
+                ostr <<  attribute.exportedName()
+                     << " <- Rcpp11:::sourceCppFunction("
+                     << "function(" << generateRArgList(function) << ") {}, " 
+                     << (function.type().isVoid() ? "TRUE" : "FALSE") << ", "
+                     << dllInfo << ", " 
+                     << "'" << contextId_ + "_" + function.name() 
+                     << "')" << std::endl;
+                
             }   
             
             // modules
