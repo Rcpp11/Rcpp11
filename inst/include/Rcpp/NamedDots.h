@@ -1,20 +1,24 @@
 // Copyright (C) 2013 Romain Francois
 
-#ifndef Rcpp_Dots_h
-#define Rcpp_Dots_h
+#ifndef Rcpp_NamedDots_h
+#define Rcpp_NamedDots_h
 
 namespace Rcpp{ 
     
     template < template <class> class StoragePolicy>
-    class Dots_Impl {
+    class NamedDots_Impl {
     public:
         typedef Environment_Impl<StoragePolicy> Environment ;
         typedef Promise_Impl<StoragePolicy> Promise ;
         
-        Dots_Impl( Environment env){
+        NamedDots_Impl( Environment env ){
             SEXP dots = env.find("...") ;
             while(dots != R_NilValue){
                 promises.push_back(CAR(dots)) ;
+                SEXP tag = TAG(dots) ;
+                if(tag==R_NilValue) 
+                    stop("unnamed contribution to ... in NamedDots") ; 
+                symbols.push_back(tag) ;
                 dots = CDR(dots);
             }
         }
@@ -31,12 +35,16 @@ namespace Rcpp{
             return promises[i].environment() ;    
         }
         
-    private:
+        inline Symbol& symbol(int i){
+            return symbols[i] ;
+        }
         
-        std::vector<Promise> promises ;
+    private:
+        std::vector<Promise> promises ;   
+        std::vector<Symbol> symbols ;
     } ;
     
-    typedef Dots_Impl<NoProtectStorage> Dots ; 
+    typedef NamedDots_Impl<NoProtectStorage> NamedDots ; 
     
 }
 

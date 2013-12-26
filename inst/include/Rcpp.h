@@ -67,6 +67,7 @@
 #include <Rcpp/Index.h>
 #include <Rcpp/Array.h>
 #include <Rcpp/Dots.h>
+#include <Rcpp/NamedDots.h>
 
 #include <Rcpp/Module.h>
 
