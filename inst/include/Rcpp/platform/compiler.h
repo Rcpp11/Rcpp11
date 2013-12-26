@@ -30,6 +30,8 @@
 #ifndef GOOD_COMPILER_FOR_RCPP
     # error "This compiler is not supported, only gcc and clang are supported"
 #endif
+        
+#include <cmath>
 
 #include <initializer_list>
 #include <unordered_map>

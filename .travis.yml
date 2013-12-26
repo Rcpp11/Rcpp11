@@ -1,5 +1,4 @@
-language: c
-compiler: clang
+language: cpp
 
 env:
   global:
@@ -7,12 +6,16 @@ env:
     - R_CHECK_ARGS="--no-manual --as-cran"
     
 before_install:
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
   - mkdir ~/.R
-  - echo -e "CC=clang\nCXX=clang++\nCXXFLAGS=-std=c++11 -stdlib=libc++\n" > ~/.R/Makevars
+  # - echo -e "CC=clang\nCXX=clang++\nCXXFLAGS=-std=c++11 -stdlib=libc++\n" > ~/.R/Makevars
     
 script: 
   - ./travis-tool.sh run_tests
