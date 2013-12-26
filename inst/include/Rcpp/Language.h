@@ -138,6 +138,76 @@ namespace Rcpp{
         }
     };
     
+    template <typename OUT=SEXP, 
+      template <class> class StoragePolicy = PreserveStorage,
+      bool fast = false
+    >
+    class fixed_call {
+    public:
+        typedef OUT result_type ;
+        typedef Language_Impl<StoragePolicy> Language ; 
+        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        
+        fixed_call( Language call_ ) : call(call_){}
+        fixed_call( Function fun ) : call(fun){}
+        
+        OUT operator()(){
+            return as<OUT>( call.eval() ) ;
+        }
+        
+    private:
+        Language call ;
+    } ;
+
+    template <typename T, typename OUT = SEXP, 
+      template <class> class StoragePolicy = PreserveStorage,
+      bool fast = false
+    >
+    class unary_call : public std::unary_function<T,OUT> {
+    public:
+        typedef Language_Impl<StoragePolicy> Language ; 
+        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        
+        unary_call( Language call_ ) : call(call_), proxy(call_,1) {}
+        unary_call( Language call_, int index ) : call(call_), proxy(call_,index){}
+        unary_call( Function fun ) : call( fun, R_NilValue), proxy(call,1) {}
+        
+        OUT operator()( const T& object ){
+            proxy = object ;
+            return as<OUT>( call.eval() ) ;
+        }
+        
+    private:
+        Language call ;
+        typename Language::Proxy proxy ;
+    } ;
+
+    template <typename T1, typename T2, 
+      typename OUT = SEXP, template <class> class StoragePolicy = PreserveStorage, 
+      bool fast = false
+    >
+    class binary_call : public std::binary_function<T1,T2,OUT> {
+    public:
+        typedef Language_Impl<StoragePolicy> Language ; 
+        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        
+        binary_call( Language call_ ) : call(call_), proxy1(call_,1), proxy2(call_,2) {}
+        binary_call( Language call_, int index1, int index2 ) : call(call_), proxy1(call_,index1), proxy2(call_,index2){}
+        binary_call( Function fun) : call(fun, R_NilValue, R_NilValue), proxy1(call,1), proxy2(call,2){}
+        
+        OUT operator()( const T1& o1, const T2& o2 ){
+            proxy1 = o1 ;
+            proxy2 = o2 ;
+            return as<OUT>( call.eval() ) ;
+        }
+        
+    private:
+        Language call ;
+        typename Language::Proxy proxy1 ;
+        typename Language::Proxy proxy2 ;
+    } ;
+
+    
 } // namespace Rcpp
 
 #endif
