@@ -402,29 +402,27 @@ registerPlugin <- function(name, plugin) {
 
 # Take an empty function body and connect it to the specified external symbol
 sourceCppFunction <- function(func, isVoid, dll, symbol) {
+
     args <- names(formals(func))
-    if( identical( args, "..." ) ){
-        body <- substitute({
-            calls  <- sys.calls()
-            frames <- sys.frames()
-            DOT_CALL( FUN, calls, frames )
-        }, list( FUN = getNativeSymbolInfo(symbol, dll)$address, DOT_CALL = .Call) )
-    } else {
-    
-        body <- quote( .Call( EXTERNALNAME, ARG ) )[ c(1:2, rep(3, length(args))) ]
-        
-        for (i in seq(along = args))
+
+    body <- quote( .Call( EXTERNALNAME, ARG ) )[ c(1:2, rep(3, length(args))) ]
+
+    for (i in seq(along = args)){
+        if(identical(args[i], "...")){
+            body[[i+2]] <- quote(environment())
+        } else {
             body[[i+2]] <- as.symbol(args[i])
-        
-        body[[1L]] <- .Call
-        body[[2L]] <- getNativeSymbolInfo(symbol, dll)$address
-        
+        }
     }
-    
+
+    body[[1L]] <- .Call
+    body[[2L]] <- getNativeSymbolInfo(symbol, dll)$address
+
     if (isVoid)
-    body <- call("invisible", body)
+        body <- call("invisible", body)
 
     body(func) <- body
+
     func
 }
 
