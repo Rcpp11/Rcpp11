@@ -10,10 +10,7 @@ Authors@R: c(
     person("Douglas", "Bates", role = "ctb", email = "bates@stat.wisc.edu")
     )
 Description: R and C++11 integration
-Depends: R (>= 3.0.1)
+Depends: R (>= 3.0.2)
 Imports: methods
-Suggests: RUnit, inline, rbenchmark, highlight
 License: GPL (>= 2)
-BugReports: http://r-forge.r-project.org/tracker/?atid=637&group_id=155&func=browse
-C++Standard: C++11
-Tags: c++ c++11
+
