@@ -1,0 +1,36 @@
+language: c
+
+compiler: clang
+
+env:
+  global:
+    - R_BUILD_ARGS="--no-manual"
+    - R_CHECK_ARGS="--no-manual --as-cran"
+    - CC=clang
+    - CXX=clang++
+
+before_install:
+  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
+  - chmod 755 ./travis-tool.sh
+  - ./travis-tool.sh bootstrap
+  - ./travis-tool.sh github_package testthat
+    
+script: 
+  - ./travis-tool.sh run_tests
+  - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
+  - R CMD INSTALL "${FILE}"
+  - git clone https://github.com/romainfrancois/Rcpp-test.git
+  - cd Rcpp-test
+  - Rscript -e "library(methods); library(testthat); library(Rcpp11); test_dir('.')"
+  - cd ..
+  
+after_failure:
+  - ./travis-tool.sh dump_logs
+  
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+
+    
+
