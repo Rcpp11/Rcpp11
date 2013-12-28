@@ -1,10 +1,5 @@
 language: cpp
 
-env:
-  global:
-    - R_BUILD_ARGS="--no-manual"
-    - R_CHECK_ARGS="--no-manual --as-cran"
-    
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
@@ -17,7 +12,7 @@ before_install:
   - sudo apt-get install -qq subversion
   - sudo apt-get install -qq rsync
   - sudo apt-get install -qq ttf-sil-gentium ttf-sil-gentium-basic
-  - sudo apt-get install -qq texinfo texlive-fonts-extra ttf-inconsolata ttf-droid
+  - sudo apt-get install -qq texinfo ttf-inconsolata
   - sudo apt-get install -qq texlive-xetex texlive-latex-recommended texlive-latex-extra
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
@@ -32,9 +27,9 @@ script:
   - R CMD build --no-manual Rcpp11
   - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
   - R CMD check --no-manual --as-cran "${FILE}"
-  # - R CMD INSTALL "${FILE}"
-  # - git clone https://github.com/romainfrancois/Rcpp-test.git
-  # - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
+  - R CMD INSTALL "${FILE}"
+  - git clone https://github.com/romainfrancois/Rcpp-test.git
+  - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
   
 after_script:
   - ./travis-tool.sh dump_logs
