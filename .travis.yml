@@ -7,7 +7,6 @@ before_install:
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
-  - ./travis-tool.sh github_package testthat
   - cd .. 
   - sudo apt-get install -qq subversion
   - sudo apt-get install -qq rsync
@@ -21,6 +20,7 @@ before_install:
   - make
   - sudo make install
   - cd ../Rcpp11
+  - ./travis-tool.sh github_package testthat
     
 script:
   - cd ..
