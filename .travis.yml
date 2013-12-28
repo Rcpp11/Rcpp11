@@ -6,8 +6,8 @@ env:
     - R_CHECK_ARGS="--no-manual --as-cran"
     
 before_install:
-  - export CC=gcc-4.8 -std=gnu99
-  - export CXX=g++-4.8 -std=c++11
+  - export CC="gcc-4.8 -std=gnu99"
+  - export CXX="g++-4.8 -std=c++11"
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
   - sudo apt-get install -qq g++-4.8
@@ -22,10 +22,9 @@ before_install:
   - sudo apt-get install -qq rsync
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
-  - ./tools/rsync-recommended 
-  - ./configure --enable-R-shlib --without-x
+  - ./configure --enable-R-shlib --without-x --without-recommended
   - make
-  - make install
+  - sudo make install
   - cd Rcpp11
     
 script: 
