@@ -21,19 +21,21 @@ before_install:
   - sudo apt-get install -qq texlive-xetex texlive-latex-recommended texlive-latex-extra
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
-  - CXX1X="g++-4.8" CXX1XSTD="-std=c++11"  ./configure --enable-R-shlib --without-x --without-recommended-packages
+  - ./tools/rsync-recommended
+  - CXX1X="g++-4.8" CXX1XSTD="-std=c++11"  ./configure --enable-R-shlib --without-x
   - make
   - sudo make install
   - cd ../Rcpp11
     
 script:         
-  - ./travis-tool.sh run_tests
-  # - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
-  # - R CMD INSTALL "${FILE}"
+  - R CMD build ${R_BUILD_ARGS} Rcpp11
+  - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
+  - R CMD check ${R_CHECK_ARGS} ${FILE}
+  - R CMD INSTALL "${FILE}"
   # - git clone https://github.com/romainfrancois/Rcpp-test.git
   # - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
   
-after_failure:
+after_script:
   - ./travis-tool.sh dump_logs
   
 notifications:
