@@ -20,6 +20,9 @@ before_install:
   - cd .. 
   - sudo apt-get install -qq subversion
   - sudo apt-get install -qq rsync
+  - sudo apt-get install -qq ttf-sil-gentium ttf-sil-gentium-basic
+  - sudo apt-get install -qq texinfo texlive-fonts-extra ttf-inconsolata ttf-droid
+  - sudo apt-get install -qq texlive-xetex texlive-latex-recommended texlive-latex-extra
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
   - ./configure --enable-R-shlib --without-x --without-recommended-packages
