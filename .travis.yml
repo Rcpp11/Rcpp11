@@ -28,7 +28,7 @@ before_install:
   - ./configure --enable-R-shlib --without-x --without-recommended-packages
   - make
   - sudo make install
-  - cd Rcpp11
+  - cd ../Rcpp11
     
 script: 
   - ./travis-tool.sh run_tests
