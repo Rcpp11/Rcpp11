@@ -4,9 +4,6 @@ env:
   global:
     - R_BUILD_ARGS="--no-manual"
     - R_CHECK_ARGS="--no-manual --as-cran"
-    - export CC=gcc-4.8
-    - export CXX=g++-4.8
-    - export CXXFLAGS=-std=c++11
     
 before_install:
   - export CC=gcc-4.8
