@@ -6,8 +6,6 @@ env:
     - R_CHECK_ARGS="--no-manual --as-cran"
     
 before_install:
-  - export CC="gcc-4.8 -std=gnu99"
-  - export CXX="g++-4.8 -std=c++11"
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
   - sudo apt-get install -qq g++-4.8
@@ -15,8 +13,6 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
-  - mkdir ~/.R
-  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   - cd .. 
   - sudo apt-get install -qq subversion
   - sudo apt-get install -qq rsync
@@ -25,12 +21,12 @@ before_install:
   - sudo apt-get install -qq texlive-xetex texlive-latex-recommended texlive-latex-extra
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
-  - ./configure --enable-R-shlib --without-x --without-recommended-packages
+  - CXX1X="g++-4.8" CXX1XSTD="-std=c++11"  ./configure --enable-R-shlib --without-x --without-recommended-packages
   - make
   - sudo make install
   - cd ../Rcpp11
     
-script: 
+script:         
   - ./travis-tool.sh run_tests
   # - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
   # - R CMD INSTALL "${FILE}"
