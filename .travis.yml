@@ -4,6 +4,9 @@ env:
   global:
     - R_BUILD_ARGS="--no-manual"
     - R_CHECK_ARGS="--no-manual --as-cran"
+    - CC=gcc-4.8
+    - CXX=g++-4.8
+    - CXXFLAGS=-std=c++11
     
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -15,13 +18,23 @@ before_install:
   - ./travis-tool.sh github_package testthat
   - mkdir ~/.R
   - echo -e "CC=gcc-4.8\nCXX=g++-4.8\nCXXFLAGS=-std=c++11 \n" > ~/.R/Makevars
+  - cd .. 
+  - sudo apt-get install -qq subversion
+  - sudo apt-get install -qq rsync
+  - svn checkout https://svn.r-project.org/R/trunk/ r-devel
+  - cd r-devel/
+  - ./tools/rsync-recommended 
+  - ./configure --enable-R-shlib --without-x
+  - make
+  - make install
+  - cd Rcpp11
     
 script: 
   - ./travis-tool.sh run_tests
-  - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
-  - R CMD INSTALL "${FILE}"
-  - git clone https://github.com/romainfrancois/Rcpp-test.git
-  - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
+  # - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
+  # - R CMD INSTALL "${FILE}"
+  # - git clone https://github.com/romainfrancois/Rcpp-test.git
+  # - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
   
 after_failure:
   - ./travis-tool.sh dump_logs
