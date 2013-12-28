@@ -27,11 +27,12 @@ before_install:
   - sudo make install
   - cd ../Rcpp11
     
-script:         
-  - R CMD build ${R_BUILD_ARGS} Rcpp11
+script:
+  - cd ..
+  - R CMD build --no-manual Rcpp11
   - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
-  - R CMD check ${R_CHECK_ARGS} ${FILE}
-  - R CMD INSTALL "${FILE}"
+  - R CMD check --no-manual --as-cran "${FILE}"
+  # - R CMD INSTALL "${FILE}"
   # - git clone https://github.com/romainfrancois/Rcpp-test.git
   # - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
   
