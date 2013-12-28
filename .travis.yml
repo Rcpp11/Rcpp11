@@ -22,7 +22,7 @@ before_install:
   - sudo apt-get install -qq rsync
   - svn checkout https://svn.r-project.org/R/trunk/ r-devel
   - cd r-devel/
-  - ./configure --enable-R-shlib --without-x --without-recommended
+  - ./configure --enable-R-shlib --without-x --without-recommended-packages
   - make
   - sudo make install
   - cd Rcpp11
