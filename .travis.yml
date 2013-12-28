@@ -16,7 +16,7 @@ before_install:
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
   - mkdir ~/.R
-  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g 03\nCFLAGS=-g -03\n" > ~/.R/Makevars
+  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   - cd .. 
   - sudo apt-get install -qq subversion
   - sudo apt-get install -qq rsync
