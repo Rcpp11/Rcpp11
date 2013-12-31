@@ -7,7 +7,8 @@ Authors@R: c(
     person("Dirk", "Eddelbuettel", role = "aut", email = "edd@debian.org" ),
     person("JJ", "Allaire", role = "ctb", email = "jj.allaire@gmail.com"),
     person("John", "Chambers", role = "ctb", email = "jmc@r-project.org"),
-    person("Douglas", "Bates", role = "ctb", email = "bates@stat.wisc.edu")
+    person("Douglas", "Bates", role = "ctb", email = "bates@stat.wisc.edu"),
+    person("Kevin", "Ushey", role = "ctb", email = "kevinushey@gmail.com")
     )
 Description: R and C++11 integration
 Depends: R (>= 3.1.0)
