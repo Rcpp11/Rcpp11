@@ -387,6 +387,7 @@ namespace Rcpp {
     }
     
     namespace internal {
+      
         template <int RTYPE>
         string_proxy<RTYPE>& string_proxy<RTYPE>::operator=( const String& s){
             set( s.get_sexp() );
@@ -394,18 +395,24 @@ namespace Rcpp {
         }
         
         template <int RTYPE>
+        string_proxy<RTYPE>& string_proxy<RTYPE>::operator=( const const_string_proxy<RTYPE>& s){
+            set( s.get() );
+            return *this ;
+        }
+        
+        template <int RTYPE>
         SEXP string_element_converter<RTYPE>::get( const Rcpp::String& input) {
             RCPP_DEBUG( "string_element_converter::get< Rcpp::String >()" )
             return input.get_sexp() ;   
-		}
+        }
         
         template <>
         inline SEXP make_charsexp<Rcpp::String>( const Rcpp::String& s){
             return s.get_sexp() ;    
         }
         
-	    template <int RTYPE>
-	    template <typename T>
+	      template <int RTYPE>
+	      template <typename T>
         string_proxy<RTYPE>& string_proxy<RTYPE>::operator+=(const T& rhs) {
             String tmp = get() ;
             tmp += rhs ;
@@ -416,7 +423,6 @@ namespace Rcpp {
         template<> inline SEXP caster<String,SEXP>( String from ) {
             return from.get_sexp() ;    
         }
-
         
 	}
     

@@ -11,7 +11,7 @@ Authors@R: c(
     person("Kevin", "Ushey", role = "ctb", email = "kevinushey@gmail.com")
     )
 Description: R and C++11 integration
-Depends: R (>= 3.1.0)
+Depends: R (>= 3.0.2)
 Imports: methods
 License: GPL (>= 2)
 

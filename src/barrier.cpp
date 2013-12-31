@@ -97,10 +97,9 @@ SEXP get_rcpp_cache() {
 }
 
 namespace Rcpp {
-    	SEXP get_Rcpp11_namespace(){ 
+  SEXP get_Rcpp11_namespace(){ 
     	    return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
 	}
-	
 }
 
 static void set_error_occured(SEXP cache, bool occured){
@@ -124,13 +123,13 @@ SEXP rcpp_get_stack_trace(){
 }
 
 SEXP init_Rcpp11_cache(){ 
-    RCPP_DEBUG( "init_Rcpp11_cache()\n" )
+  RCPP_DEBUG( "init_Rcpp11_cache()\n" )
 	
-    SEXP getNamespaceSym = Rf_install("getNamespace"); 
-    SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
-    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) ) ;
-    
-    // the Rcpp namespace
+  SEXP getNamespaceSym = Rf_install("getNamespace"); 
+  SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
+  SEXP cache   = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) ) ;
+  
+  // the Rcpp namespace
 	RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
 	set_error_occured( cache, false ) ;
 	set_current_error( cache, R_NilValue ) ;
@@ -138,7 +137,7 @@ SEXP init_Rcpp11_cache(){
 	RCPP_SET_VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
 	Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
     
-	UNPROTECT(3) ;
+	UNPROTECT(2) ;
 	return cache ;
 }
 
@@ -184,7 +183,7 @@ SEXP rcpp_get_current_error(){
 namespace Rcpp{
     
     // [[Rcpp::register]]
-    int* get_cache( int m){
+    int* get_cache(int m){
         SEXP cache = get_rcpp_cache() ;
         SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
         int n = Rf_length(hash_cache) ;
@@ -192,6 +191,7 @@ namespace Rcpp{
             SEXP hash_cache_ = PROTECT(Rf_allocVector( INTSXP, m)) ;
             RCPP_SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache_); 
             hash_cache = hash_cache_ ;
+            UNPROTECT(1) ;
         }
         int *res = INTEGER(hash_cache) ;
         std::fill(res, res+m, 0 ) ;

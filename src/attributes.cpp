@@ -1162,18 +1162,13 @@ namespace attributes {
         std::string currentArg;
         std::vector<std::string> args;
         char prevChar = 0;
-        for (std::string::const_iterator 
-                            it = argText.begin(); it != argText.end(); ++it) {
-            char ch = *it;
+        for( char ch: argText){
             
             if (ch == '"' && prevChar != '\\') {
                 insideQuotes = !insideQuotes;
             }
               
-            if ((ch == ',') && 
-                (templateCount == 0) &&
-                (parenCount == 0) &&
-                !insideQuotes) {
+            if ((ch == ',') && (templateCount == 0) && (parenCount == 0) && !insideQuotes) {
                 args.push_back(currentArg);
                 currentArg.clear();
                 continue;
@@ -1197,8 +1192,7 @@ namespace attributes {
             
             prevChar = ch;
         }
-        
-        if (!currentArg.empty())
+        if (!currentArg.empty() && currentArg != "void" )
             args.push_back(currentArg);
         
         return args;
@@ -2050,7 +2044,7 @@ namespace attributes {
     std::string generateRArgList(const Function& function) {
         std::ostringstream argsOstr;
         const std::vector<Argument>& arguments = function.arguments();
-        int i=0; 
+        int i=0;
         for( const Argument& argument: arguments ){
             if( argument.is_Dots() || argument.is_NamedDots() ){
               argsOstr << "..." ;
