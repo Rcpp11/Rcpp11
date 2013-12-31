@@ -1,7 +1,7 @@
 //
 // is_na.h:  vector operators
 //                                                                      
-// Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2010 - 2013 Dirk Eddelbuettel, Romain Francois, and Kevin Ushey
 //
 // This file is part of Rcpp11.
 //
@@ -37,12 +37,12 @@ namespace traits{
 	
 	template <> 
 	inline bool is_na<REALSXP>( double x ){
-		return R_IsNA(x) ;
+		return Rcpp::internal::is_NA(x);
 	}
 	
 	template <> 
 	inline bool is_na<CPLXSXP>( Rcomplex x ){
-		return R_IsNA(x.r) || R_IsNA(x.i) ;
+		return Rcpp::internal::is_NA(x.r) || Rcpp::internal::is_NaN(x.i) ;
 	}
 	
 	template <>

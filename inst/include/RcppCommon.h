@@ -154,6 +154,7 @@ namespace Rcpp{
     } 
 }
 
+#include <Rcpp/internal/na.h>
 #include <Rcpp/traits/traits.h>
 #include <Rcpp/Named.h>
 

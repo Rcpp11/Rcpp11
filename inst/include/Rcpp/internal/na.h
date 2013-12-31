@@ -1,7 +1,7 @@
 //
-// is_nan.h:  is NaN
-//                                                                      
-// Copyright (C) 2013 Dirk Eddelbuettel, Romain Francois, and Kevin Ushey
+// na.h - efficient NA testing
+//
+// Copyright (C) 2013 Kevin Ushey
 //
 // This file is part of Rcpp11.
 //
@@ -18,28 +18,36 @@
 // You should have received a copy of the GNU General Public License
 // along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef Rcpp__traits_is_nan_h
-#define Rcpp__traits_is_nan_h
+#ifndef Rcpp__internal__na__h
+#define Rcpp__internal__na__h
 
-namespace Rcpp{
-namespace traits{
-	
-	// default for most types 
-	template <int RTYPE> 
-	bool is_nan( typename storage_type<RTYPE>::type){
-	    return false ;    
-	}
-	
-	template <> 
-	inline bool is_nan<REALSXP>( double x ){
-		return Rcpp::internal::is_NaN(x) ;
-	}
-	
-	template <> 
-	inline bool is_nan<CPLXSXP>( Rcomplex x ){
-		return Rcpp::internal::is_NaN(x.r) || Rcpp::internal::is_NaN(x.i) ;
-	}
-	
+namespace Rcpp {
+namespace internal {
+
+template <typename T>
+bool is_NA(T x);
+
+template <>
+inline bool is_NA<double>(double x) {
+  return memcmp(
+    (char*) (&x),
+    (char*) (&NA_REAL),
+    sizeof(double)
+  ) == 0;
+}
+
+template <typename T>
+bool is_NaN(T x);
+
+template <>
+inline bool is_NaN<double>(double x) {
+  return memcmp(
+    (char*) (&x),
+    (char*) (&R_NaN),
+    sizeof(double)
+  ) == 0;
+}
+
 }
 }
 
