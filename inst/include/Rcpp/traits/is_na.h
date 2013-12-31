@@ -42,7 +42,7 @@ namespace traits{
 	
 	template <> 
 	inline bool is_na<CPLXSXP>( Rcomplex x ){
-		return Rcpp::internal::is_NA(x.r) || Rcpp::internal::is_NaN(x.i) ;
+		return Rcpp::internal::is_NA(x.r) || Rcpp::internal::is_NA(x.i) ;
 	}
 	
 	template <>
