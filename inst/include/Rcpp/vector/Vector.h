@@ -210,7 +210,7 @@ public:
     
     inline iterator begin() { return cache.get() ; }
     inline iterator end() { return cache.get() + size() ; }
-	inline const_iterator begin() const{ return cache.get_const() ; }
+    inline const_iterator begin() const{ return cache.get_const() ; }
     inline const_iterator end() const{ return cache.get_const() + size() ; }
 	
     inline Proxy operator[]( int i ){ return cache.ref(i) ; }
@@ -228,7 +228,7 @@ public:
     inline NameProxy at( const std::string& name ) const {
         return NameProxy( *this, name ) ;
     }
-	inline NameProxy operator[]( const std::string& name ) const {
+    inline NameProxy operator[]( const std::string& name ) const {
         return NameProxy( const_cast<Vector&>(*this), name ) ;
     }
     

@@ -1,4 +1,3 @@
-//
 // string_proxy.h:  
 //
 // Copyright (C) 2010 - 2013 Dirk Eddelbuettel and Romain Francois
@@ -21,7 +20,7 @@
 
 #ifndef Rcpp__vector__string_proxy_h
 #define Rcpp__vector__string_proxy_h
- 
+        
 namespace Rcpp{
 namespace internal{
 	
@@ -58,6 +57,7 @@ namespace internal{
 			return *this ;
 		}
 		
+		string_proxy& operator=( const const_string_proxy<RTYPE>& other) ;
 		string_proxy& operator=( const String& s) ;
 		
 		/**
@@ -93,12 +93,12 @@ namespace internal{
 			index  = other.index ;
 		}
 		
-        /**
-         * lhs use. Adds the content of the rhs proxy to the 
-         * element this proxy refers to.
-         */
-        template <typename T>
-        string_proxy& operator+=(const T& rhs) ;
+    /**
+     * lhs use. Adds the content of the rhs proxy to the 
+     * element this proxy refers to.
+     */
+    template <typename T>
+    string_proxy& operator+=(const T& rhs) ;
 		
 		/**
 		 * rhs use. Retrieves the current value of the 
