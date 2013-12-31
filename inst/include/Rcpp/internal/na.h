@@ -1,7 +1,7 @@
 //
 // na.h - efficient NA testing
 //
-// Copyright (C) 2013 Kevin Ushey and Romain Francois
+// Copyright (C) 2013 Kevin Ushey
 //
 // This file is part of Rcpp11.
 //
@@ -25,10 +25,10 @@ namespace Rcpp {
 namespace internal {
 
 template <typename T>
-bool Rcpp_IsNA(T x);
+bool is_NA(T x);
 
 template <>
-inline bool Rcpp_IsNA<double>(double x) {
+inline bool is_NA<double>(double x) {
   return memcmp(
     (char*) (&x),
     (char*) (&NA_REAL),
@@ -37,10 +37,10 @@ inline bool Rcpp_IsNA<double>(double x) {
 }
 
 template <typename T>
-bool Rcpp_IsNaN(T x);
+bool is_NaN(T x);
 
 template <>
-inline bool Rcpp_IsNaN<double>(double x) {
+inline bool is_NaN<double>(double x) {
   return memcmp(
     (char*) (&x),
     (char*) (&R_NaN),

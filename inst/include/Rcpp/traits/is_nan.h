@@ -1,7 +1,7 @@
 //
 // is_nan.h:  is NaN
 //                                                                      
-// Copyright (C) 2013 Dirk Eddelbuettel and Romain Francois
+// Copyright (C) 2013 Dirk Eddelbuettel, Romain Francois, and Kevin Ushey
 //
 // This file is part of Rcpp11.
 //
@@ -32,12 +32,12 @@ namespace traits{
 	
 	template <> 
 	inline bool is_nan<REALSXP>( double x ){
-		return Rcpp::internal::Rcpp_IsNaN(x) ;
+		return Rcpp::internal::is_NaN(x) ;
 	}
 	
 	template <> 
 	inline bool is_nan<CPLXSXP>( Rcomplex x ){
-		return Rcpp::internal::Rcpp_IsNaN(x.r) || Rcpp::internal::Rcpp_IsNaN(x.i) ;
+		return Rcpp::internal::is_NaN(x.r) || Rcpp::internal::is_NaN(x.i) ;
 	}
 	
 }

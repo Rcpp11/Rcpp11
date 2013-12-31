@@ -1,4 +1,4 @@
-// Copyright (C) 2013 Romain Francois
+// Copyright (C) 2013 Romain Francois and Kevin Ushey
 //
 // This file is part of Rcpp11.
 //
@@ -29,7 +29,7 @@ template <> inline int r_coerce<LGLSXP,INTSXP>(int from){
 	return (from==NA_LOGICAL) ? NA_INTEGER : from ;
 }
 template <> inline int r_coerce<REALSXP,INTSXP>(double from){
-	if (Rcpp::internal::Rcpp_IsNaN(from)) return NA_INTEGER;
+	if (Rcpp::internal::is_NaN(from)) return NA_INTEGER;
 	else if (from > INT_MAX || from <= INT_MIN ) {
 		return NA_INTEGER;
 	}
