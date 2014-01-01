@@ -4,6 +4,8 @@
 #define Rcpp_proxy_proxy_h
 
 #include <Rcpp/proxy/GenericProxy.h>
+
+#include <Rcpp/proxy/Binding.h>
 #include <Rcpp/proxy/SlotProxy.h>
 #include <Rcpp/proxy/AttributeProxy.h>
 #include <Rcpp/proxy/FieldProxy.h>
