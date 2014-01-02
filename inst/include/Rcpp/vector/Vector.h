@@ -1,20 +1,5 @@
 // Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
-// Copyright (C) 2013 Romain Francois
-//
-// This file is part of Rcpp11.
-//
-// Rcpp11 is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
-//
-// Rcpp11 is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
+// Copyright (C) 2013 - 2014 Romain Francois
 
 #ifndef Rcpp__vector__Vector_h
 #define Rcpp__vector__Vector_h
@@ -29,7 +14,8 @@ class Vector :
     public SlotProxyPolicy<Vector<RTYPE,StoragePolicy>>,    
     public AttributeProxyPolicy<Vector<RTYPE,StoragePolicy>>,       
     public VectorBase< RTYPE, true, Vector<RTYPE,StoragePolicy> >, 
-    public internal::eval_methods<RTYPE, StoragePolicy > 
+    public internal::eval_methods<RTYPE, StoragePolicy >, 
+    public NamesProxyPolicy<Vector<RTYPE, StoragePolicy>>
 {
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;
@@ -91,7 +77,7 @@ public:
         Storage::set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
     }
 
-	template <typename T> Vector& 
+    template <typename T> Vector& 
     operator=( const T& x) ;
 	
     static inline stored_type get_na() { return traits::get_na<RTYPE>(); }
@@ -134,80 +120,6 @@ public:
         fill__dispatch( typename traits::is_trivial<RTYPE>::type(), u ) ;
     }
 
-    class NamesProxy {
-    public:
-        NamesProxy( Vector& v) : parent(v){}
-	
-        /* lvalue uses */              
-        NamesProxy& operator=(const NamesProxy& rhs) {
-            set( rhs.get() ) ;
-            return *this ;
-        }
-	
-        template <typename T>
-        NamesProxy& operator=(const T& rhs){
-            set( wrap(rhs) ) ;
-            return *this ;
-        }
-	
-        template <typename T> operator T() const {
-            return Rcpp::as<T>(get()) ;
-        }
-		
-    private:
-        Vector& parent; 
-		
-        SEXP get() const {
-            return RCPP_GET_NAMES(parent) ;
-        }
-		
-        void set(SEXP x) const {
-			
-            /* check if we can use a fast version */         
-            if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
-                SEXP y = parent.get__() ; 
-                Rf_setAttrib( y, R_NamesSymbol, x ) ;
-            } else {
-                /* use the slower and more flexible version (callback to R) */
-                SEXP namesSym = Rf_install( "names<-" );
-                Shield<SEXP> new_vec = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
-                /* names<- makes a new vector, so we have to change 
-                   the SEXP of the parent of this proxy */
-                parent.set__( new_vec ) ;
-            }
-    		
-        }
-    		
-    } ;
-    	
-    class const_NamesProxy {
-    public:
-        const_NamesProxy( const Vector& v) : parent(v){}
-	
-        /* lvalue uses */              
-        NamesProxy& operator=(const NamesProxy& rhs) = delete ;
-	
-        template <typename T> operator T() const {
-            return Rcpp::as<T>(get()) ;
-        }
-		
-    private:
-        const Vector& parent; 
-		
-        SEXP get() const {
-            return RCPP_GET_NAMES(parent) ;
-        }
-		
-    } ;
-    	
-    
-    NamesProxy names() {
-        return NamesProxy(*this) ;
-    }
-    const_NamesProxy names() const {
-        return NamesProxy(*this) ;
-    }
-    
     inline iterator begin() { return cache.get() ; }
     inline iterator end() { return cache.get() + size() ; }
     inline const_iterator begin() const{ return cache.get_const() ; }

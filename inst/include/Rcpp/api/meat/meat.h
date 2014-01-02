@@ -5,6 +5,7 @@
 #define Rcpp_api_meat_meat_h
 
 #include <Rcpp/api/meat/Binding.h>
+#include <Rcpp/api/meat/NamesProxy.h>
 #include <Rcpp/api/meat/SlotProxy.h>
 #include <Rcpp/api/meat/StretchyList.h>
 #include <Rcpp/api/meat/AttributeProxy.h>

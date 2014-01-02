@@ -5,6 +5,7 @@
 
 #include <Rcpp/proxy/GenericProxy.h>
 
+#include <Rcpp/proxy/NamesProxy.h>
 #include <Rcpp/proxy/Binding.h>
 #include <Rcpp/proxy/SlotProxy.h>
 #include <Rcpp/proxy/AttributeProxy.h>
