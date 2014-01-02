@@ -4,6 +4,8 @@
 #ifndef Rcpp_api_meat_meat_h
 #define Rcpp_api_meat_meat_h
 
+#include <Rcpp/api/meat/TagProxy.h>
+#include <Rcpp/api/meat/ProtectedProxy.h>
 #include <Rcpp/api/meat/Binding.h>
 #include <Rcpp/api/meat/NamesProxy.h>
 #include <Rcpp/api/meat/SlotProxy.h>

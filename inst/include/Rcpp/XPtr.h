@@ -47,7 +47,9 @@ template <
 class XPtr :  
     public StoragePolicy<XPtr<T,StoragePolicy,Finalizer>>,     
     public SlotProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>,    
-    public AttributeProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>
+    public AttributeProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>, 
+    public ProtectedProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>,
+    public TagProxyPolicy<XPtr<T,StoragePolicy,Finalizer>>
 {
 public:  
     
@@ -85,73 +87,7 @@ public:
         return (T*)( R_ExternalPtrAddr(Storage::get__())) ;
     }
 
-    class TagProxy{
-    public:
-        TagProxy( XPtr& xp_ ): xp(xp_){}
-        
-        template <typename U>
-        TagProxy& operator=( const U& u){
-            set( Rcpp::wrap(u) );
-            return *this ;
-        }
-        
-        template <typename U>
-        operator U(){
-           return Rcpp::as<U>( get() ) ;
-        }
-        
-        operator SEXP(){ return get(); }
-        
-        inline SEXP get(){
-            return R_ExternalPtrTag(xp.get__()) ;
-        }
-        
-        inline void set( SEXP x){
-            R_SetExternalPtrTag( xp.get__(), x ) ;
-        }
-    	
-    private:
-       XPtr& xp ;
-    } ;
-
-	TagProxy tag(){
-		return TagProxy( *this ) ;
-	}
-    
-    class ProtectedProxy{
-    public:
-        ProtectedProxy( XPtr& xp_ ): xp(xp_){}
-        
-        template <typename U>
-        ProtectedProxy& operator=( const U& u){
-            set( Rcpp::wrap(u) );
-            return *this ;
-        }
-        
-        template <typename U>
-        operator U(){
-            return Rcpp::as<U>( get() ) ;
-        }
-        
-        operator SEXP(){ return get() ; }
-        
-        inline SEXP get(){
-            return R_ExternalPtrProtected(xp.get__()) ;
-        }
-        
-        inline void set( SEXP x){
-            R_SetExternalPtrProtected( xp.get__(), x ) ;
-        }
-    	
-    private:
-    	XPtr& xp ;
-    } ;
-
-	ProtectedProxy prot(){
-		return ProtectedProxy( *this ) ;
-	}
-	
-	void update(SEXP){}
+    void update(SEXP){}
     
 };
 
