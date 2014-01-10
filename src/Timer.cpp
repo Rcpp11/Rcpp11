@@ -95,28 +95,5 @@ namespace Rcpp{
     #error "Rcpp::Benchmark::Timer not supported by your OS."
 #endif
     
-    Timer::Timer() : data(), start_time( get_nanotime() ){}
-    
-    void Timer::step( const std::string& name){
-        nanotime_t now = get_nanotime() ;
-        data.push_back( std::make_pair( name, now - start_time ) ) ;
-        start_time = get_nanotime() ; 
-    }
-      
-    namespace{
-        String get_first( const std::pair<std::string,nanotime_t>& pair ){
-            return pair.first ;    
-        }
-        double get_second( const std::pair<std::string,nanotime_t>& pair ){
-            return static_cast<double>(pair.second) ;    
-        }
-    }
-    
-    Timer::operator SEXP() const {
-        NumericVector out = transform( data.begin(), data.end(), get_second ) ; 
-        CharacterVector names = transform( data.begin(), data.end(), get_first ) ;
-        out.attr( "names" ) = names ;
-        return out ;
-    }
 }
 
