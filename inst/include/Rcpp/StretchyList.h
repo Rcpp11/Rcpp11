@@ -14,7 +14,9 @@ namespace Rcpp{
      * in the R parser (gram.y)
      */
     RCPP_API_CLASS(StretchyList_Impl),
-        public DottedPairProxyPolicy<StretchyList_Impl<StoragePolicy> > {
+        public DottedPairProxyPolicy<StretchyList_Impl<StoragePolicy> >, 
+        public DottedPairMultipleNamedProxyPolicy<StretchyList_Impl<StoragePolicy>>
+    {
     public:
         
         RCPP_GENERATE_CTOR_ASSIGN(StretchyList_Impl) 
@@ -28,7 +30,19 @@ namespace Rcpp{
             Storage::set__(s) ;
         }
         StretchyList_Impl(SEXP x){
-            Storage::set__(r_cast<LISTSXP>(x)) ;    
+            Shield<SEXP> s = Rf_cons(R_NilValue, R_NilValue) ;
+            if( Rf_isNull(x) ){
+                SETCAR(s,s); 
+            } else {
+            
+                SETCDR(s, x) ;
+                
+                SEXP p = x ;
+                for(; !Rf_isNull(CDR(p)); p = CDR(p) );
+                SETCAR(s, p) ;
+                
+            }
+            Storage::set__(s) ;
         }
         
         void update(SEXP x){}

@@ -47,6 +47,7 @@
 #include <Rcpp/traits/sfinae.h>
 #include <Rcpp/traits/sequence.h>
 #include <Rcpp/traits/and_.h>
+#include <Rcpp/traits/all_named.h>
 
 #endif
 
