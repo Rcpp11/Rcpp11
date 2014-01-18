@@ -38,6 +38,7 @@
 #include <Rcpp/storage/PreserveStorage.h>
 #include <Rcpp/storage/NoProtectStorage.h>
 
+#include <Rcpp/Node.h>
 #include <Rcpp/DottedPairImpl.h>
 
 #include <Rcpp/RObject.h>
