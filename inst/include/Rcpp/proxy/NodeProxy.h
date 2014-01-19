@@ -87,7 +87,7 @@ namespace Rcpp{
           }
           
           inline TagProxy& set(SEXP x){
-              SETTAG(node, x) ;
+              SET_TAG(node, x) ;
               return *this ;
           }
           
