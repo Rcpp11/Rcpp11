@@ -13,5 +13,6 @@
 #include <Rcpp/proxy/FieldProxy.h>
 #include <Rcpp/proxy/DottedPairProxy.h>
 #include <Rcpp/proxy/DottedPairMultipleNamedProxyPolicy.h>
+#include <Rcpp/proxy/AttributesProxy.h>
 
 #endif

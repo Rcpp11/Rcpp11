@@ -19,6 +19,8 @@
 #include <Rcpp/Node.h>
 #include <Rcpp/DottedPairImpl.h>
 
+#include <Rcpp/structure.h>
+
 #include <Rcpp/RObject.h>
 
 #include <Rcpp/Promise.h>
@@ -47,7 +49,6 @@
 #include <Rcpp/Array.h>
 #include <Rcpp/Dots.h>
 #include <Rcpp/NamedDots.h>
-#include <Rcpp/structure.h>
 
 #include <Rcpp/Module.h>
 

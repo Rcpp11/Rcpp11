@@ -5,7 +5,7 @@ namespace Rcpp{
 
     template < template <class> class StoragePolicy >
     class Symbol_Impl : 
-        public StoragePolicy<Symbol_Impl<StoragePolicy>>    
+        public StoragePolicy<Symbol_Impl<StoragePolicy>>
     {
     public:
     

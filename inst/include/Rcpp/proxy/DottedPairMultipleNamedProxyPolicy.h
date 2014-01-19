@@ -22,6 +22,7 @@ namespace Rcpp {
                 set__impl(args...) ;
             }
             
+            void set(){}
             
         private:
             CLASS& obj ;

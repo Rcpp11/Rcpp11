@@ -4,14 +4,7 @@
 namespace Rcpp{
  
   template <typename... Args>
-  SEXP structure( SEXP obj, Args... args ){
-      StretchyList attrs = ATTRIB(obj) ;
-      
-      attrs.set( args... ) ;
-      SET_ATTRIB(obj, attrs) ;
-      
-      return obj ;
-  }
+  SEXP structure( SEXP obj, Args... args ) ;
 
 }
 #endif

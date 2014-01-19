@@ -24,7 +24,8 @@ __CLASS__( const GenericProxy<Proxy>& proxy ){                                 \
 template < template <class> class StoragePolicy > class __CLASS__ :            \
     public StoragePolicy<__CLASS__<StoragePolicy>>,                            \
     public SlotProxyPolicy<__CLASS__<StoragePolicy>>,                          \
-    public AttributeProxyPolicy<__CLASS__<StoragePolicy>>                      \
+    public AttributeProxyPolicy<__CLASS__<StoragePolicy>>,                     \
+    public AttributesProxyPolicy<__CLASS__<StoragePolicy>>                     \
    
 #define RCPP_API_CLASS_DECL(__CLASS__)                                         \
     template < template <class> class StoragePolicy > class __CLASS__##_Impl ; \
