@@ -41,5 +41,15 @@ namespace Rcpp{
             _["string"] = NA == NA_STRING 
         ) ;
     }
+    
+    inline String::String( Na_Proxy ) : String(NA_STRING){}
+    
+    inline String& String::operator=( Na_Proxy ) {
+      data = NA_STRING ;
+      buffer_ready = false ;
+      valid = true ;
+      return *this ;  
+    }
+            
 }
 #endif
