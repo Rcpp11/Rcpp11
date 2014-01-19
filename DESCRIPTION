@@ -4,6 +4,7 @@ Version: 0.0.0
 Date: 2013-09-23
 Authors@R: c(
     person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),
+    person("John", "Chambers", role = "ctb", email = "jmc@r-project.org"),
     person("Kevin", "Ushey", role = "ctb", email = "kevinushey@gmail.com")
     )
 Description: R and C++11 integration
