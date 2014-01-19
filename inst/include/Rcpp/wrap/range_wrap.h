@@ -65,7 +65,7 @@ inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, 
 	      {}                         
 	}                                            
 	
-	return wrap_extra_steps<T>( x ) ;
+	return x ;
     
 }
 template<typename InputIterator, typename T>
@@ -177,7 +177,7 @@ inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator
 		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
 	}
 	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return wrap_extra_steps<T>( x ) ;
+	return x ;
 }
 
 /** 
@@ -205,7 +205,7 @@ inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator
 		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
 	}
 	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return wrap_extra_steps<T>( x ) ;
+	return x ;
 }
 
 
