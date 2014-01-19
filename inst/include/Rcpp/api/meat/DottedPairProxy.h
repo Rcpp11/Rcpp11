@@ -1,5 +1,3 @@
-// Copyright (C) 2013 - 2014 Romain Francois
-
 #ifndef Rcpp_api_meat_DottedPairProxy_h
 #define Rcpp_api_meat_DottedPairProxy_h
 

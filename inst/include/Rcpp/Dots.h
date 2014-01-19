@@ -1,5 +1,3 @@
-// Copyright (C) 2013 Romain Francois
-
 #ifndef Rcpp_Dots_h
 #define Rcpp_Dots_h
 

@@ -1,6 +1,3 @@
-// Copyright (C) 2012 Dirk Eddelbuettel and Romain Francois
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp_api_meat_Environment_h
 #define Rcpp_api_meat_Environment_h
 

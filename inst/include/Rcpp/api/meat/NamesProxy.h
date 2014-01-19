@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp_api_meat_NamesProxy_h
 #define Rcpp_api_meat_NamesProxy_h
 

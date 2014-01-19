@@ -1,6 +1,3 @@
-// Copyright (C) 2009 - 2012    Dirk Eddelbuettel and Romain Francois
-// Copyright (C) 2013 - 2014    Romain Francois
-
 #ifndef Rcpp_Environment_h
 #define Rcpp_Environment_h
 

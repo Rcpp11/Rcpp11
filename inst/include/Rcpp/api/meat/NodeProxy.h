@@ -1,5 +1,3 @@
-// Copyright (C) 2013 Romain Francois
-
 #ifndef Rcpp_api_meat_NodeProxy_h
 #define Rcpp_api_meat_NodeProxy_h
 
