@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp_DottedPairMultipleNamedProxyPolicy_h
 #define Rcpp_DottedPairMultipleNamedProxyPolicy_h
 

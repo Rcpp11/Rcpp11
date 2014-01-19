@@ -1,30 +1,13 @@
-//
-// RcppCommon.h:  common include and defines statements
-//
-// Copyright (C) 2008 - 2009 Dirk Eddelbuettel
-// Copyright (C) 2009 - 2013 Dirk Eddelbuettel and Romain Francois
-//
-// This file is part of Rcpp11.
-//
-// Rcpp11 is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
-//
-// Rcpp11 is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
-
 #ifndef RcppCommon_h
 #define RcppCommon_h
 
 // #define RCPP_DEBUG_LEVEL 1
 
-#include <Rcpp/platform/compiler.h>
+#include <cmath>
+#include <initializer_list>
+#include <unordered_map>
+#include <unordered_set>
+
 #include <Rcpp/macros/macros.h>
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes

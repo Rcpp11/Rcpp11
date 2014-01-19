@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp_TagProxy_h
 #define Rcpp_TagProxy_h
 

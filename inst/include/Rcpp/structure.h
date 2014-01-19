@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp__structure__h
 #define Rcpp__structure__h
 

@@ -1,5 +1,3 @@
-// Copyright (C) 2013 Romain Francois
-
 #ifndef Rcpp__vector__simple_name_proxy_h
 #define Rcpp__vector__simple_name_proxy_h
 

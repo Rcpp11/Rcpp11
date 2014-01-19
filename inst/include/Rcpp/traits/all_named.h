@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp__traits__all_named__h
 #define Rcpp__traits__all_named__h
 

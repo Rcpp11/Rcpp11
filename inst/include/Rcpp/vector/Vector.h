@@ -1,6 +1,3 @@
-// Copyright (C) 2010 - 2012 Dirk Eddelbuettel and Romain Francois
-// Copyright (C) 2013 - 2014 Romain Francois
-
 #ifndef Rcpp__vector__Vector_h
 #define Rcpp__vector__Vector_h
 

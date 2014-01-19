@@ -1,5 +1,3 @@
-// Copyright (C) 2014 Romain Francois
-
 #ifndef Rcpp_ProtectedProxy_h
 #define Rcpp_ProtectedProxy_h
 

@@ -1,6 +1,3 @@
-# Copyright (C) 2012 JJ Allaire, Dirk Eddelbuettel and Romain Francois
-# Copyright (C) 2014 Romain Francois
-
 # Source C++ code from a file
 sourceCpp <- function(file = "",
                       code = NULL,
