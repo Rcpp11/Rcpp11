@@ -5,18 +5,20 @@ namespace Rcpp{
 
     template <typename CLASS>
     template <typename T>
-    void DottedPairImpl<CLASS>::push_front( const T& object){
-       CLASS& ref = static_cast<CLASS&>(*this) ;
-       ref.set__( grow(object, ref.get__() ) ) ;
+    Node DottedPairImpl<CLASS>::push_front( const T& object){
+        CLASS& ref = static_cast<CLASS&>(*this) ;
+        ref.set__( grow(object, ref.get__() ) ) ;
+        return Node(ref.get__()) ;
     }
 
     template <typename CLASS>
     template <typename T>
-    void DottedPairImpl<CLASS>::push_back( const T& object){
+    Node DottedPairImpl<CLASS>::push_back( const T& object){
         CLASS& ref = static_cast<CLASS&>(*this) ;
         if( ref.isNULL() ){
             ref.set__( grow( object, ref.get__() ) ) ;
-        } else {
+            return Node( ref.get__() );
+        } else {                                       
             SEXP x = ref.get__() ;
             /* traverse the pairlist */
             while( !Rf_isNull(CDR(x)) ){
@@ -24,47 +26,50 @@ namespace Rcpp{
             }
             Shield<SEXP> tail = pairlist( object ) ; 
             SETCDR( x, tail ) ;
+            return Node(tail) ;
         }
-	}
+    }
 
     template <typename CLASS>
     template <typename T>
-	void DottedPairImpl<CLASS>::insert( const size_t& index, const T& object) {
-		CLASS& ref = static_cast<CLASS&>(*this) ;
-        if( index == 0 ) {
-			push_front( object ) ;
-		} else {
-			if( ref.isNULL( ) ) throw index_out_of_bounds() ;
-			
-			if( static_cast<R_len_t>(index) > ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
-			
-			size_t i=1;
-			SEXP x = ref.get__() ;
-			while( i < index ){
-				x = CDR(x) ;
-				i++; 
-			}
-			Shield<SEXP> tail = grow( object, CDR(x) ) ; 
-			SETCDR( x, tail ) ;
-		}
-	}
+    Node DottedPairImpl<CLASS>::insert( const size_t& index, const T& object) {
+      CLASS& ref = static_cast<CLASS&>(*this) ;
+      if( index == 0 ) {
+          return push_front( object ) ;
+      } else {
+          if( ref.isNULL( ) ) throw index_out_of_bounds() ;
+          
+          if( static_cast<R_len_t>(index) > ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
+          
+          size_t i=1;
+          SEXP x = ref.get__() ;
+          while( i < index ){
+          	x = CDR(x) ;
+          	i++; 
+          }
+          Shield<SEXP> tail = grow( object, CDR(x) ) ; 
+          SETCDR( x, tail ) ;
+          return Node(tail) ;  
+      }
+    }
 	
-	template <typename CLASS>
+    template <typename CLASS>
     template <typename T>
-	void DottedPairImpl<CLASS>::replace( const int& index, const T& object ) {
-	    CLASS& ref = static_cast<CLASS&>(*this) ;
+    Node DottedPairImpl<CLASS>::replace( const int& index, const T& object ) {
+        CLASS& ref = static_cast<CLASS&>(*this) ;
         if( static_cast<R_len_t>(index) >= ::Rf_length(ref.get__()) ) throw index_out_of_bounds() ;
-		
+    	  
         Shield<SEXP> x = pairlist( object );
         SEXP y = ref.get__() ;
         int i=0;
         while( i<index ){ y = CDR(y) ; i++; }
         
         SETCAR( y, CAR(x) );
-        SET_TAG( y, TAG(x) );
-	}
+        SET_TAG( y, TAG(x) ); 
+        return Node(y) ;
+    }
 	
-	template <typename CLASS>
+    template <typename CLASS>
     void DottedPairImpl<CLASS>::remove( const size_t& index ) {
         CLASS& ref = static_cast<CLASS&>(*this) ;
         if( static_cast<R_len_t>(index) >= Rf_length(ref.get__()) ) throw index_out_of_bounds() ;

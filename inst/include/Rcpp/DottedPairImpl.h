@@ -8,16 +8,16 @@ namespace Rcpp{
     public:
              
         template <typename T>
-        void push_back( const T& object) ;
+        Node push_back( const T& object) ;
         
         template <typename T>
-        void push_front( const T& object) ;
+        Node push_front( const T& object) ;
         
         template <typename T>
-        void insert( const size_t& index, const T& object) ;
+        Node insert( const size_t& index, const T& object) ;
         
         template <typename T>
-        void replace( const int& index, const T& object ) ;
+        Node replace( const int& index, const T& object ) ;
         
         inline R_len_t length() const { 
             return ::Rf_length(static_cast<const CLASS&>(*this).get__()) ; 
