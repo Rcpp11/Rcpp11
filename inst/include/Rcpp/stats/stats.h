@@ -1,23 +1,3 @@
-//
-// binom.h: 
-//
-// Copyright (C) 2010 - 2011 Dirk Eddelbuettel and Romain Francois
-//
-// This file is part of Rcpp11.
-//
-// Rcpp11 is free software: you can redistribute it and/or modify it
-// under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 2 of the License, or
-// (at your option) any later version.
-//
-// Rcpp11 is distributed in the hope that it will be useful, but
-// WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Rcpp11.  If not, see <http://www.gnu.org/licenses/>.
-
 #ifndef Rcpp__stats__stats_h
 #define Rcpp__stats__stats_h
 
@@ -27,30 +7,29 @@
 #define ML_NEGINF	R_NegInf
 #define ML_NAN		R_NaN
 
-#include <Rcpp/stats/unif.h>
-#include <Rcpp/stats/norm.h>
-#include <Rcpp/stats/gamma.h>
-#include <Rcpp/stats/chisq.h>
-#include <Rcpp/stats/beta.h>
-#include <Rcpp/stats/t.h>
-#include <Rcpp/stats/lnorm.h>
-#include <Rcpp/stats/weibull.h>
-#include <Rcpp/stats/logis.h>
-#include <Rcpp/stats/f.h>
-#include <Rcpp/stats/exp.h>
+RCPP_DPQ_2(beta,::Rf_dbeta,::Rf_pbeta,::Rf_qbeta)
+RCPP_DPQ_2(binom,::Rf_dbinom,::Rf_pbinom,::Rf_qbinom)
+RCPP_DPQ_1(chisq,::Rf_dchisq,::Rf_pchisq,::Rf_qchisq)
+RCPP_DPQ_2(f,::Rf_df,::Rf_pf,::Rf_qf)
+RCPP_DPQ_1(geom, ::Rf_dgeom, ::Rf_pgeom, ::Rf_qgeom )
+RCPP_DPQ_3(hyper,::Rf_dhyper,::Rf_phyper,::Rf_qhyper)
+RCPP_DPQ_3(nbeta,::Rf_dnbeta,::Rf_pnbeta,::Rf_qnbeta)
+RCPP_DPQ_2(nbinom, ::Rf_dnbinom, ::Rf_pnbinom, ::Rf_qnbinom )
+RCPP_DPQ_2(nbinom_mu,::dnbinom_mu, ::pnbinom_mu, ::qnbinom_mu )
+RCPP_DPQ_2( nchisq, ::Rf_dnchisq, ::Rf_pnchisq, ::Rf_qnchisq )
+RCPP_DPQ_3(nf,::Rf_dnf,::Rf_pnf,::Rf_qnf)
+RCPP_DPQ_2(nt,::Rf_dnt,::Rf_pnt,::Rf_qnt)
+RCPP_DPQ_1(pois,::Rf_dpois,::Rf_ppois,::Rf_qpois)
+RCPP_DPQ_1(t, ::Rf_dt, ::Rf_pt, ::Rf_qt)
+
 #include <Rcpp/stats/cauchy.h>
-#include <Rcpp/stats/geom.h>
-#include <Rcpp/stats/hyper.h>
-
-#include <Rcpp/stats/nt.h>
-#include <Rcpp/stats/nchisq.h>
-#include <Rcpp/stats/nbeta.h>
-#include <Rcpp/stats/nf.h>
-#include <Rcpp/stats/nbinom.h>
-#include <Rcpp/stats/nbinom_mu.h>
-
-#include <Rcpp/stats/binom.h>
-#include <Rcpp/stats/pois.h>
+#include <Rcpp/stats/exp.h>
+#include <Rcpp/stats/gamma.h>
+#include <Rcpp/stats/lnorm.h>
+#include <Rcpp/stats/logis.h>
+#include <Rcpp/stats/norm.h>
+#include <Rcpp/stats/unif.h>
+#include <Rcpp/stats/weibull.h>
 
 #include <Rcpp/stats/random/random.h>
 
