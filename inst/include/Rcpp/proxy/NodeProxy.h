@@ -51,8 +51,6 @@ namespace Rcpp{
           }
           
         } ;
-      
-      
         
         inline ValueProxy value() {
             return ValueProxy( static_cast<NodeClass&>(*this).get() ) ;  
@@ -60,6 +58,65 @@ namespace Rcpp{
         
         inline const_ValueProxy value() const {
             return const_ValueProxy( static_cast<const NodeClass&>(*this).get() ) ;  
+        }
+        
+        
+        class TagProxy {
+        public:
+          TagProxy( SEXP node_ ) : node(node_){}
+          
+          TagProxy& operator=( const TagProxy& rhs){
+              if(this != &rhs) set( rhs.get() ) ;
+              return *this ;
+          }
+          
+          template <typename T>
+          TagProxy& operator=( const T& rhs){
+              return set( Symbol(rhs) ) ;  
+          }
+          
+          inline operator SEXP() const {
+              return get() ;  
+          }
+          
+        private:
+          SEXP node ;
+          
+          inline SEXP get() const {
+              return TAG(node) ; 
+          }
+          
+          inline TagProxy& set(SEXP x){
+              SETTAG(node, x) ;
+              return *this ;
+          }
+          
+        } ;
+        
+        class const_TagProxy {
+        public:
+          const_TagProxy( SEXP node_ ) : node(node_){}
+          
+          inline operator SEXP() const {
+              return get() ;  
+          }
+          
+        private:
+          SEXP node ;
+          
+          inline SEXP get() const {
+              return TAG(node) ; 
+          }
+          
+        } ;
+        
+        
+        inline TagProxy tag() {
+            return TagProxy( static_cast<NodeClass&>(*this).get() ) ;  
+        }
+        
+        inline const_TagProxy tag() const {
+            return const_TagProxy( static_cast<const NodeClass&>(*this).get() ) ;  
         }
       
     } ;
