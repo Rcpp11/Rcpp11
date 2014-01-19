@@ -25,9 +25,9 @@ RCPP_DPQ_1(t, ::Rf_dt, ::Rf_pt, ::Rf_qt)
 #include <Rcpp/stats/cauchy.h>
 #include <Rcpp/stats/exp.h>
 #include <Rcpp/stats/gamma.h>
-#include <Rcpp/stats/lnorm.h>
 #include <Rcpp/stats/logis.h>
 #include <Rcpp/stats/norm.h>
+#include <Rcpp/stats/lnorm.h>
 #include <Rcpp/stats/unif.h>
 #include <Rcpp/stats/weibull.h>
 
