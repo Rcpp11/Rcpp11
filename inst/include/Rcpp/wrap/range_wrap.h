@@ -22,30 +22,8 @@ template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::true_type ){
 	size_t size = std::distance( first, last ) ;
 	Shield<SEXP> x = Rf_allocVector( LGLSXP, (int)size );
-	                                          
-	int __trip_count = size >> 2 ;
-	int* start = r_vector_start<LGLSXP>(x) ;
-	size_t i = 0 ;
-	for ( ; __trip_count > 0 ; --__trip_count) { 
-    	start[i] = first[i] ; i++ ;            
-    	start[i] = first[i] ; i++ ;            
-    	start[i] = first[i] ; i++ ;            
-    	start[i] = first[i] ; i++ ;            
-	}                                            
-	switch (size - i){                          
-	  case 3:                                    
-	      start[i] = first[i] ; i++ ;             
-      case 2:                                    
-	      start[i] = first[i] ; i++ ;             
-	  case 1:                                    
-	      start[i] = first[i] ; i++ ;             
-	  case 0:                                    
-	  default:                                   
-	      {}                         
-	}                                            
-	
+	std::copy( first, last, LOGICAL(x)) ;   
 	return x ;
-    
 }
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::false_type ){
@@ -55,10 +33,7 @@ inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, 
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_enum_tag ){
     return range_wrap_enum__dispatch<InputIterator,T>( first, last, 
-        typename std::is_same< 
-            typename std::integral_constant<int, ::Rcpp::traits::r_sexptype_traits<T>::rtype >::type, 
-            typename std::integral_constant<int, LGLSXP>::type
-        >::type() 
+        typename std::integral_constant<bool, ::Rcpp::traits::r_sexptype_traits<T>::rtype == LGLSXP>::type()
     ); 
 }
 
