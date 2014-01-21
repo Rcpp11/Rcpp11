@@ -166,5 +166,6 @@ namespace Rcpp{
 
 #include <Rcpp/iostream/iostream.h>
 #include <Rcpp/longlong.h>
+#include <Rcpp/transient_vector.h>
 
 #endif
