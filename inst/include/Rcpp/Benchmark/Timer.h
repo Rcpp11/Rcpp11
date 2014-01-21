@@ -12,44 +12,37 @@ namespace Rcpp{
 
     nanotime_t get_nanotime(void); 
     
-    namespace internal{
-        String get_first( const std::pair<std::string,nanotime_t>& pair ){
-            return pair.first ;    
-        }
-        double get_second( const std::pair<std::string,nanotime_t>& pair ){
-            return static_cast<double>(pair.second) ;    
-        }
-    }
-            
     class Timer {
     public:
-        Timer() : data(), start_time( get_nanotime() ){}
+        Timer() : data(), origin(get_nanotime()) {}
+        Timer(nanotime_t origin_) : data(), origin(origin_) {}
         
-        void step( const std::string& name ){
-            nanotime_t now = get_nanotime() ;
-            data.push_back( std::make_pair( name, now - start_time ) ) ;
-            start_time = get_nanotime() ; 
+        inline void step( const std::string& name ){
+            data.emplace_back( std::make_pair( name, get_nanotime()-origin ) ) ;
         }
         
-        operator SEXP() const {
-            NumericVector out = transform( data.begin(), data.end(), internal::get_second ) ; 
-            CharacterVector names = transform( data.begin(), data.end(), internal::get_first ) ;
+        operator SEXP() const {                                    
+            NumericVector out = transform( data.begin(), data.end(), 
+                [](Step pair){ return static_cast<double>(pair.second) ;}  ) ; 
+            CharacterVector names = transform( data.begin(), data.end(), 
+                [](Step pair){ return String(pair.first) ;} ) ;
             out.attr( "names" ) = names ;
             return out ;
         }
         
-        void align_with( const Timer& other){
-            start_time = other.start_time ;    
-        }
+    private:
+        typedef std::pair<std::string,nanotime_t> Step;
+        typedef std::vector<Step> Steps;
         
-        private:
-            typedef std::pair<std::string,nanotime_t> Step;
-            typedef std::vector<Step> Steps;
-            
-            Steps data ;
-            nanotime_t start_time ;
-            
+        Steps data ;
+        
+        nanotime_t origin ;
+        
     } ;
+    
+    inline std::vector<Timer> get_timers( int n ){
+        return std::vector<Timer>(n, Timer(get_nanotime())) ;
+    }
     
 }
     
