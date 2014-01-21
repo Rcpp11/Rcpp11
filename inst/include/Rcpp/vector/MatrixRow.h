@@ -99,15 +99,18 @@ public:
     template <int RT, bool NA, typename T>
     MatrixRow& operator=( const Rcpp::VectorBase<RT,NA,T>& rhs ){
         int n = size() ;
-        const T& ref = rhs.get_ref() ;
-        RCPP_LOOP_UNROLL_LHSFUN(start,get_parent_index,ref)
-            return *this ;
+        for( int i=0; i<n; i++)
+            start[get_parent_index(i)] = rhs[i] ;
+        return *this ;
     }
         
     MatrixRow& operator=( const MatrixRow& rhs ){
-        int n = size() ;
-        RCPP_LOOP_UNROLL_LHSFUN(start,get_parent_index,rhs)
+        if( &rhs == this ) 
             return *this ;
+        int n = size() ;
+        for( int i=0; i<n; i++)
+            start[get_parent_index(i)] = rhs[i] ;
+        return *this ;
     }
 
     inline reference operator[]( int i ){

@@ -24,7 +24,6 @@
 #define Rcpp_error(MESSAGE) throw Rcpp::exception( MESSAGE, __FILE__, __LINE__ ) 
 
 #include <Rcpp/macros/debug.h>
-#include <Rcpp/macros/unroll.h>
 #include <Rcpp/macros/dispatch.h>
 #include <Rcpp/macros/module.h>
 #include <Rcpp/macros/interface.h>
