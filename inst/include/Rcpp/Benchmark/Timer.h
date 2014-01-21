@@ -38,6 +38,10 @@ namespace Rcpp{
             return out ;
         }
         
+        void align_with( const Timer& other){
+            start_time = other.start_time ;    
+        }
+        
         private:
             typedef std::pair<std::string,nanotime_t> Step;
             typedef std::vector<Step> Steps;
