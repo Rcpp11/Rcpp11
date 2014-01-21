@@ -482,7 +482,6 @@ namespace Rcpp{
         const EXPR_VEC& ref = rhs.get_ref() ;
         iterator start = begin() ;
         int n = size() ;
-        // TODO: maybe unroll this
         stored_type tmp ;
         for( int i=0; i<n; i++){
             Proxy left = start[i] ;

@@ -209,12 +209,6 @@ public:
         cache.update(*this) ;
     }
 	
-    typedef internal::RangeIndexer<RTYPE,true,Vector> Indexer ;
-	
-    inline Indexer operator[]( const Range& range ){
-        return Indexer( const_cast<Vector&>(*this), range );
-    }
-    
     template <typename EXPR_VEC>
     Vector& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
     

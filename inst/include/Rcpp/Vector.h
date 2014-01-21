@@ -8,7 +8,6 @@
 #include <Rcpp/vector/eval_methods.h>
 
 #include <Rcpp/vector/converter.h>
-#include <Rcpp/vector/RangeIndexer.h>
 
 #include <Rcpp/vector/Vector.h>
 
