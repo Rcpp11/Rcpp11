@@ -116,7 +116,9 @@ namespace Rcpp{
     template <typename T>
     inline void Vector<RTYPE,StoragePolicy>::import_expression( const T& other, int n ){
         iterator start = begin() ; 
-        RCPP_LOOP_UNROLL(start,other)
+        for( int i=0; i<n; i++){
+            start[i] = other[i] ;     
+        }
     }
     
     template <int RTYPE, template <class> class StoragePolicy>

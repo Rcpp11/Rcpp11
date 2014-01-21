@@ -37,13 +37,15 @@ public:
     template <int RT, bool NA, typename T>
     MatrixColumn& operator=( const Rcpp::VectorBase<RT,NA,T>& rhs ){
         const T& ref = rhs.get_ref() ;
-        RCPP_LOOP_UNROLL(start,ref)
+        for( int i=0; i<n; i++)
+            start[i] = ref[i] ;
         return *this ;
     }
         
     MatrixColumn& operator=( const MatrixColumn& rhs ){
-        iterator rhs_start = rhs.start ; 
-        RCPP_LOOP_UNROLL(start,rhs_start)
+        if( &rhs == this ) 
+            return *this ;
+        std::copy(rhs.begin(), rhs.end(), start);
         return *this ;
     }
 
