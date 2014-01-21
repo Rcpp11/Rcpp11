@@ -4,9 +4,6 @@
 namespace Rcpp{
 namespace internal{
 	
-// {{{ range wrap 
-// {{{ unnamed range wrap
-
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ) ;
 
@@ -60,7 +57,7 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
     return range_wrap_enum__dispatch<InputIterator,T>( first, last, 
         typename std::is_same< 
             typename std::integral_constant<int, ::Rcpp::traits::r_sexptype_traits<T>::rtype >::type, 
-            typename std::integral_constant<int,LGLSXP>::type
+            typename std::integral_constant<int, LGLSXP>::type
         >::type() 
     ); 
 }
@@ -130,10 +127,6 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 	}
 	return x ;
 }
-
-// }}}
-
-// {{{ named range wrap
 
 /** 
  * range based wrap implementation that deals with iterators over
@@ -295,8 +288,6 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 		) ;
 }
 
-// }}}
-
 /**
  * Dispatcher for all range based wrap implementations
  * 
@@ -318,7 +309,6 @@ template <typename InputIterator>
 inline SEXP range_wrap(InputIterator first, InputIterator last){
 	return range_wrap_dispatch<InputIterator,typename std::remove_reference<typename std::iterator_traits<InputIterator>::value_type>::type >( first, last ) ;
 }
-// }}}
         
 }
 }

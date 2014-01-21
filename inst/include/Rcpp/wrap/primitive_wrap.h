@@ -4,8 +4,6 @@
 namespace Rcpp{
 namespace internal{
 	
-// {{{ primitive wrap (wrapping a single primitive value)
-
 /**
  * wraps a single primitive value when there is no need for a cast
  */
@@ -62,7 +60,6 @@ inline SEXP primitive_wrap(const T& object){
 	RCPP_DEBUG( "primitive_wrap<%s>()", DEMANGLE(T) )
 	return primitive_wrap__impl( object, typename ::Rcpp::traits::r_type_traits<T>::r_category() ) ;
 }
-// }}}
 
 }
 }
