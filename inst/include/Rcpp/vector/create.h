@@ -62,7 +62,7 @@ class CreateWithNames {
 template <int RTYPE, typename... Args>
 struct create_type {
     typedef typename std::conditional<
-        traits::has_names<Args...>::type::value, 
+        traits::any_named<Args...>::type::value, 
         CreateWithNames<RTYPE, Args...>,
         Create<RTYPE, Args...>
     >::type type ;
