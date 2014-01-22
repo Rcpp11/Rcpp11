@@ -48,9 +48,6 @@ namespace Rcpp{
     Vector<RTYPE> concatenate(Args... args) {
         static_assert( traits::all_compatible<RTYPE,Args...>::type::value, "incompatible parameters" ) ;  
         
-        // typedef typename std::tuple<typename traits::is_compatible<RTYPE,Args>::type ... > compat_type ;
-        // Rprintf( "%s\n", DEMANGLE(compat_type) );
-        
         int n = get_size(args...) ;
         Vector<RTYPE> out = no_init(n) ;
         int i = 0 ;
