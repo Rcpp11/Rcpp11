@@ -3,7 +3,7 @@
 
 namespace Rcpp{
     namespace traits{
-        
+
         template <int RTYPE, typename T, bool prim>
         struct is_compatible_type {
             typedef typename std::is_same<typename T::stored_type, typename storage_type<RTYPE>::type >::type type ;
@@ -12,75 +12,99 @@ namespace Rcpp{
         struct is_compatible_type<RTYPE,T,true> {
             typedef typename std::is_same<T, typename storage_type<RTYPE>::type >::type type ;
         } ;
-        
+
         template <int RTYPE, typename T>
         struct is_compatible {
             typedef typename is_compatible_type<RTYPE,T,traits::is_primitive<T>::value>::type type ;
         } ;
-        
+
         template <int RTYPE, typename... Args>
         struct all_compatible {
-           typedef typename and_< typename is_compatible<RTYPE,typename traits::remove_const_and_reference<Args>::type >::type ... >::type type; 
+           typedef typename and_< typename is_compatible<RTYPE,typename traits::remove_const_and_reference<Args>::type >::type ... >::type type;
         } ;
     }
 
     template <typename T>
-    inline int get_size_one( const T&, std::true_type ){
-        return 1 ; 
+    inline int get_size_one( const T&, std::true_type, std::true_type ){
+        return 1 ;
     }
+
     template <typename T>
-    inline int get_size_one( const T& obj, std::false_type ){
-        return obj.size() ; 
+    inline int get_size_one( const T&, std::true_type, std::false_type ){
+        return 1 ;
     }
-    
+
+    template <typename T>
+    inline int get_size_one( const T& obj, std::false_type, std::true_type ){
+        return Rf_length(obj);
+    }
+
+    template <typename T>
+    inline int get_size_one( const T& obj, std::false_type, std::false_type ){
+        return obj.size();
+    }
+
     template <typename First>
     int get_size( const First& first){
-        return get_size_one<First>(first, typename traits::is_primitive<First>::type() ) ;   
+        return get_size_one<First>(first, typename traits::is_primitive<First>::type(), typename std::is_same<First, SEXP>::type() ) ;
     }
-    
+
     template <typename First, typename... Rest>
     int get_size( const First& first, Rest... rest ){
-        return get_size_one<First>(first, typename traits::is_primitive<First>::type() ) + get_size(rest...) ;   
+        return get_size_one<First>(first, typename traits::is_primitive<First>::type(), typename std::is_same<First, SEXP>::type() ) + get_size(rest...) ;
     }
-    
-    
+
     template <int RTYPE, typename... Args>
     Vector<RTYPE> concatenate(Args... args) {
-        static_assert( traits::all_compatible<RTYPE,Args...>::type::value, "incompatible parameters" ) ;  
-        
+        static_assert( traits::all_compatible<RTYPE,Args...>::type::value, "incompatible parameters" ) ;
+
         int n = get_size(args...) ;
         Vector<RTYPE> out = no_init(n) ;
         int i = 0 ;
         if (sizeof...(args)) {
             do_concatenate(out, i, args...);
         }
-        
+
         return out ;
-    
+
     }
-    
+
     template <typename T, typename Current, typename... Rest>
-    void do_concatenate_one( T& x, int& idx, const Current& curr, std::false_type ){
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::false_type, std::false_type ){
         int n = curr.size();
         for (int i=0; i < n; ++i, idx++) {
-            x[idx] = curr[i] ;
+            x[idx] = curr[i];
         }
     }
-    
+
     template <typename T, typename Current, typename... Rest>
-    void do_concatenate_one( T& x, int& idx, const Current& curr, std::true_type ){
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::false_type, std::true_type ){
+        int n = Rf_length(curr);
+        T Tcurr = as<T>(curr);
+        for (int i=0; i < n; ++i, idx++) {
+            x[idx] = Tcurr[i];
+        }
+    }
+
+    template <typename T, typename Current, typename... Rest>
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::true_type, std::false_type ){
         x[idx++]=curr ;
     }
-    
+
+    template <typename T, typename Current, typename... Rest>
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::true_type, std::true_type ){
+        x[idx++]=curr ;
+    }
+
     template <typename T, typename Current, typename... Rest>
     void do_concatenate(T& x, int& idx, const Current& curr, Rest... rest) {
-        do_concatenate_one(x,idx,curr, typename traits::is_primitive<Current>::type() );
+        do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type(), typename std::is_same<Current, SEXP>::type() );
         do_concatenate(x, idx, rest...);
     }
-    
+
     template <typename T, typename Current>
     void do_concatenate(T& x, int& idx, const Current& curr){
-        do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type());
+        do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type(), typename std::is_same<Current, SEXP>::type() );
     }
 
 }

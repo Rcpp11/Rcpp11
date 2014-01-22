@@ -1,3 +1,6 @@
 src/*.o
 src/*.so
 
+.Rproj*
+.Rhistory
+Rcpp11.Rproj
