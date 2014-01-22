@@ -20,8 +20,33 @@ namespace Rcpp{
 
         template <int RTYPE, typename... Args>
         struct all_compatible {
-           typedef typename and_< typename is_compatible<RTYPE,typename traits::remove_const_and_reference<Args>::type >::type ... >::type type;
+            typedef typename and_< typename is_compatible<RTYPE,typename traits::remove_const_and_reference<Args>::type >::type ... >::type type;
         } ;
+        
+        // not a primitive
+        template <typename T, bool prim>
+        struct get_compatible_r_vector_type__dispatch {
+            enum { 
+                rtype = r_sexptype_traits<typename T::stored_type>::rtype 
+            } ; 
+        } ;
+        
+        // a primitive
+        template <typename T>
+        struct get_compatible_r_vector_type__dispatch<T,true> {
+            enum { 
+                rtype = r_sexptype_traits<T>::rtype 
+            } ; 
+        } ;
+        
+        template <typename T>
+        struct get_compatible_r_vector_type {
+            enum{
+               rtype = get_compatible_r_vector_type__dispatch<T, is_primitive<T>::value >::rtype  
+            } ;
+        } ;
+        
+        
     }
 
     template <typename T>
@@ -66,9 +91,8 @@ namespace Rcpp{
         }
 
         return out ;
-
     }
-
+    
     template <typename T, typename Current, typename... Rest>
     void do_concatenate_one( T& x, int& idx, const Current& curr, std::false_type, std::false_type ){
         int n = curr.size();
@@ -107,6 +131,15 @@ namespace Rcpp{
         do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type(), typename std::is_same<Current, SEXP>::type() );
     }
 
+    template <typename First, typename... Args>
+    typename std::enable_if< 
+        traits::all_compatible< traits::get_compatible_r_vector_type<First>::rtype, Args...>::type::value,
+        Vector< traits::get_compatible_r_vector_type<First>::rtype >
+    >::type
+    fuse( const First& first, Args... args ){
+        return concatenate< traits::get_compatible_r_vector_type<First>::rtype, First, Args...>( first, args... ) ;  
+    }
+    
 }
 
 #endif

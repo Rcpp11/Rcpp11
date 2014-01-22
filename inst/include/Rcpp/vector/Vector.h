@@ -290,10 +290,6 @@ private:
 public:
     template <typename... Args> static Vector create(Args... args) ;
 
-    template <typename... Args> static Vector concat(Args... args){
-        return concatenate<RTYPE,Args...>(args...) ;
-    }
-
 } ; /* Vector */
 
 }
