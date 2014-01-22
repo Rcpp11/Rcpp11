@@ -4,12 +4,11 @@
 namespace Rcpp{
 namespace traits{
 	
-    template <typename LHS, typename RHS>
-    struct or_ {
-        typedef typename std::integral_constant<bool, 
-            LHS::value || RHS::value
-        > type ;
-    } ;
+    template<typename... T>
+    struct or_: std::true_type {};
+    
+    template <typename First, typename... Rest>
+    struct or_<First,Rest...> : std::integral_constant<bool, First::value || or_<Rest...>::value>{} ;
     
 }
 }
