@@ -3,17 +3,24 @@
 
 namespace Rcpp{
     namespace traits{
-            
+        
+        template <int RTYPE, typename T, bool prim>
+        struct is_compatible_type {
+            typedef typename std::is_same<typename T::stored_type, typename storage_type<RTYPE>::type >::type type ;
+        } ;
         template <int RTYPE, typename T>
-        struct is_compatible : public std::conditional<
-            traits::is_primitive<T>::value, 
-            typename std::is_same<T, typename storage_type<RTYPE>::type >::type, 
-            typename std::integral_constant<bool, std::is_same<typename T::value_type, typename storage_type<RTYPE>::type >::value >::type
-        >::type{} ;
+        struct is_compatible_type<RTYPE,T,true> {
+            typedef typename std::is_same<T, typename storage_type<RTYPE>::type >::type type ;
+        } ;
+        
+        template <int RTYPE, typename T>
+        struct is_compatible {
+            typedef typename is_compatible_type<RTYPE,T,traits::is_primitive<T>::value>::type type ;
+        } ;
         
         template <int RTYPE, typename... Args>
         struct all_compatible {
-           typedef typename and_< typename is_compatible<RTYPE,Args>::type ... >::type type; 
+           typedef typename and_< typename is_compatible<RTYPE,typename traits::remove_const_and_reference<Args>::type >::type ... >::type type; 
         } ;
     }
 
@@ -37,6 +44,48 @@ namespace Rcpp{
     }
     
     
+    template <int RTYPE, typename... Args>
+    Vector<RTYPE> concatenate(Args... args) {
+        static_assert( traits::all_compatible<RTYPE,Args...>::type::value, "incompatible parameters" ) ;  
+        
+        // typedef typename std::tuple<typename traits::is_compatible<RTYPE,Args>::type ... > compat_type ;
+        // Rprintf( "%s\n", DEMANGLE(compat_type) );
+        
+        int n = get_size(args...) ;
+        Vector<RTYPE> out = no_init(n) ;
+        int i = 0 ;
+        if (sizeof...(args)) {
+            do_concatenate(out, i, args...);
+        }
+        
+        return out ;
+    
+    }
+    
+    template <typename T, typename Current, typename... Rest>
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::false_type ){
+        int n = curr.size();
+        for (int i=0; i < n; ++i, idx++) {
+            x[idx] = curr[i] ;
+        }
+    }
+    
+    template <typename T, typename Current, typename... Rest>
+    void do_concatenate_one( T& x, int& idx, const Current& curr, std::true_type ){
+        x[idx++]=curr ;
+    }
+    
+    template <typename T, typename Current, typename... Rest>
+    void do_concatenate(T& x, int& idx, const Current& curr, Rest... rest) {
+        do_concatenate_one(x,idx,curr, typename traits::is_primitive<Current>::type() );
+        do_concatenate(x, idx, rest...);
+    }
+    
+    template <typename T, typename Current>
+    void do_concatenate(T& x, int& idx, const Current& curr){
+        do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type());
+    }
+
 }
 
 #endif

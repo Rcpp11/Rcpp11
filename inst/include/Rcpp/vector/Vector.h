@@ -1,6 +1,8 @@
 #ifndef Rcpp__vector__Vector_h
 #define Rcpp__vector__Vector_h
 
+#include <Rcpp/vector/concat.h>
+
 namespace Rcpp{
     
 template <bool NA,typename T> class SingleLogicalResult ;
@@ -287,6 +289,10 @@ private:
 
 public:
     template <typename... Args> static Vector create(Args... args) ;
+    
+    template <typename... Args> static Vector concat(Args... args){
+        return concatenate<RTYPE,Args...>(args...) ;    
+    }
     
 } ; /* Vector */
 
