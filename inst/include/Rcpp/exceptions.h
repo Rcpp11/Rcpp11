@@ -22,32 +22,32 @@ private:
 } ;
 
 // simple helper
-static std::string toString(const int i) { 
+static std::string toString(const int i) {
     std::ostringstream ostr;
     ostr << i;
     return ostr.str();
 }
 
-class no_such_env : public std::exception{                                     
-public:                                                                        
+class no_such_env : public std::exception{
+public:
     no_such_env( const std::string& name ) throw() : message( std::string("no such environment: '") + name + "'" ){}
     no_such_env( int pos ) throw() : message( "no environment in given position '" + toString(pos) + "'") {}
-    virtual ~no_such_env() throw(){}                                       
+    virtual ~no_such_env() throw(){}
     virtual const char* what() const throw(){ return message.c_str() ; }
-private:                                                                       
-    std::string message ;                                                      
+private:
+    std::string message ;
 } ;
 
-class file_io_error : public std::exception {                                      
-public:                                                                        
+class file_io_error : public std::exception {
+public:
     file_io_error(const std::string& file_) throw() : message( std::string("file io error: '") + file_ + "'" ), file(file_) {}
     file_io_error(int code, const std::string& file_) throw() : message( "file io error " + toString(code) + ": '" + file_ + "'"), file(file_) {}
     file_io_error(const std::string& msg, const std::string& file_) throw() : message( msg + ": '" + file_ + "'"), file(file_) {}
-    virtual ~file_io_error() throw(){}                                       
-    virtual const char* what() const throw(){ return message.c_str() ; } 
+    virtual ~file_io_error() throw(){}
+    virtual const char* what() const throw(){ return message.c_str() ; }
     std::string filePath() const throw(){ return file ; }
-private:                                                                       
-    std::string message ;                                                      
+private:
+    std::string message ;
     std::string file;
 } ;
 
@@ -81,7 +81,7 @@ public:                                                                        \
 
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")
 RCPP_SIMPLE_EXCEPTION_CLASS(index_out_of_bounds, "index out of bounds")
-RCPP_SIMPLE_EXCEPTION_CLASS(parse_error, "parse error") 
+RCPP_SIMPLE_EXCEPTION_CLASS(parse_error, "parse error")
 RCPP_SIMPLE_EXCEPTION_CLASS(not_s4, "not an S4 object")
 RCPP_SIMPLE_EXCEPTION_CLASS(not_reference, "not an S4 object of a reference class")
 RCPP_SIMPLE_EXCEPTION_CLASS(not_initialized, "C++ object not initialized (missing default constructor?)")
@@ -105,10 +105,16 @@ RCPP_EXCEPTION_CLASS(eval_error, msg )
 #undef RCPP_SIMPLE_EXCEPTION_CLASS
 } // namespace Rcpp
 
-#define DEMANGLE(__TYPE__) Rcpp::Demangler<__TYPE__>::get().c_str() 
+#define DEMANGLE(__TYPE__) Rcpp::Demangler<__TYPE__>::get().c_str()
 
 namespace Rcpp {
 	  inline void stop(const std::string& message) { throw Rcpp::exception(message.c_str()); }
+    template <typename... Args>
+    inline void stopf(const char* fmt, Args... args) {
+      char buff[1024];
+      snprintf(buff, 1024, fmt, args...);
+      stop(buff);
+    }
 } // namespace Rcpp
 
 #endif
