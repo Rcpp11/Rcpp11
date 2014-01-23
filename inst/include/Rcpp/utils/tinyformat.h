@@ -728,24 +728,16 @@ inline const char* FormatIterator::streamStateFromFormat(std::ostream& out,
 //   const char* myStr = "100% broken";
 //   printf(myStr);   // Parses % as a format specifier
 
-template <typename... Args> struct Formatter{
-  inline void operator()(FormatIterator& fmtIter){
-    fmtIter.finish() ;
-  }
-} ;
-
-template <typename T1, typename... Args>
-struct Formatter<T1, Args...>{
-  inline void operator()( FormatIterator& fmtIter, const T1& value1, const Args&... args){
-    fmtIter.accept(value1);
-    Formatter<Args...>()(fmtIter, args...);  
-  }
-} ;
-
-template<typename... Args>
-void format(FormatIterator& fmtIter, const Args&... args)
+template<typename T1, typename... Args>
+void format(FormatIterator& fmtIter, const T1& value1, const Args&... args)
 {
-    Formatter<Args...>()(fmtIter, args...) ;
+    fmtIter.accept(value1);
+    format(fmtIter, args...) ;    
+}
+template<typename T1>
+void format(FormatIterator& fmtIter, const T1& value1 ){
+    fmtIter.accept(value1);
+    fmtIter.finish() ;  
 }
 
 } // namespace detail
@@ -760,6 +752,9 @@ void format(std::ostream& out, const char* fmt, const Args&... args)
 {
     detail::FormatIterator fmtIter(out, fmt);
     format(fmtIter, args...);
+}
+inline void format(std::ostream& out, const char* fmt){
+    out << fmt ;  
 }
 
 template<typename... Args>
