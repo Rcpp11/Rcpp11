@@ -1,4 +1,2 @@
-USE_CXX1X=
-
-PKG_CPPFLAGS += -I../inst/include/
+PKG_CPPFLAGS+=-I../inst/include/
 
