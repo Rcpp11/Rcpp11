@@ -4,3 +4,4 @@ src/*.so
 .Rproj*
 .Rhistory
 Rcpp11.Rproj
+.Rproj.user

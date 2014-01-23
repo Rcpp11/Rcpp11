@@ -107,14 +107,17 @@ RCPP_EXCEPTION_CLASS(eval_error, msg )
 
 #define DEMANGLE(__TYPE__) Rcpp::Demangler<__TYPE__>::get().c_str()
 
+#include <Rcpp/utils/tinyformat.h>
+
 namespace Rcpp {
-	  inline void stop(const std::string& message) { throw Rcpp::exception(message.c_str()); }
-    template <typename... Args>
-    inline void stopf(const char* fmt, Args... args) {
-      char buff[1024];
-      snprintf(buff, 1024, fmt, args...);
-      stop(buff);
+  template <typename... Args>
+  inline void stop(const char* fmt, Args... args) {
+    if (sizeof...(args)) {
+      throw Rcpp::exception( tfm::format(fmt, args...).c_str() );
+    } else {
+      throw Rcpp::exception(fmt);
     }
+  }
 } // namespace Rcpp
 
 #endif
