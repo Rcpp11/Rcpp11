@@ -112,11 +112,7 @@ RCPP_EXCEPTION_CLASS(eval_error, msg )
 namespace Rcpp {
   template <typename... Args>
   inline void stop(const char* fmt, Args... args) {
-    if (sizeof...(args)) {
-      throw Rcpp::exception( tfm::format(fmt, args...).c_str() );
-    } else {
-      throw Rcpp::exception(fmt);
-    }
+    throw Rcpp::exception( tfm::format(fmt, args...).c_str() );
   }
 } // namespace Rcpp
 

@@ -742,23 +742,6 @@ struct Formatter<T1, Args...>{
   }
 } ;
 
-
-
-// template<typename T1>
-// void format(FormatIterator& fmtIter, const T1& value1)
-// {
-//     fmtIter.accept(value1);
-//     fmtIter.finish();
-// }
-// 
-// // General version for C++11
-// template<typename T1, typename... Args>
-// void format(FormatIterator& fmtIter, const T1& value1, const Args&... args)
-// {
-//     fmtIter.accept(value1);
-//     format(fmtIter, args...);
-// }
-
 template<typename... Args>
 void format(FormatIterator& fmtIter, const Args&... args)
 {
