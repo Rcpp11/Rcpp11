@@ -51,8 +51,8 @@ namespace Rcpp {
             }
             
         } ;
-          
-      public:
+           
+    public:
         
         template <typename... Args>
         void set( Args... args){         

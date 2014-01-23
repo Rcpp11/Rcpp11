@@ -6,7 +6,7 @@ namespace Rcpp{
     template <typename CLASS>
     class DottedPairImpl {
     public:
-             
+        
         template <typename T>
         Node push_back( const T& object) ;
         
