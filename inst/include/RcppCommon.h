@@ -4,6 +4,8 @@
 // #define RCPP_DEBUG_LEVEL 1
 
 #include <cmath>
+#include <csetjmp>
+
 #include <initializer_list>
 #include <unordered_map>
 #include <unordered_set>
