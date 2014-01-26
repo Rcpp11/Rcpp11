@@ -11,9 +11,14 @@
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
 
-#define JMP_BUF jmp_buf
-#define SETJMP(x) setjmp(x)
-                    
+#ifdef HAVE_POSIX_SETJMP
+# define JMP_BUF sigjmp_buf
+# define SETJMP(x) sigsetjmp(x,0)
+#else
+# define JMP_BUF jmp_buf
+# define SETJMP(x) setjmp(x)
+#endif
+
 enum {
     CTXT_TOPLEVEL = 0,
     CTXT_NEXT	    = 1,
@@ -39,19 +44,19 @@ typedef struct RPRSTACK {
 
 typedef struct RCNTXT {
     struct RCNTXT *nextcontext;	/* The next context up the chain */
-    int callflag;		/* The context "type" */
-    JMP_BUF cjmpbuf;		/* C stack and register information */
-    int cstacktop;		/* Top of the pointer protection stack */
-    int evaldepth;	        /* evaluation depth at inception */
-    SEXP promargs;		/* Promises supplied to closure */
-    SEXP callfun;		/* The closure called */
-    SEXP sysparent;		/* environment the closure was called from */
-    SEXP call;			/* The call that effected this context*/
-    SEXP cloenv;		/* The environment */
-    SEXP conexit;		/* Interpreted "on.exit" code */
-    void (*cend)(void *);	/* C "on.exit" thunk */
-    void *cenddata;		/* data for C "on.exit" thunk */
-    void *vmax;		        /* top of R_alloc stack */
+    int callflag;		            /* The context "type" */
+    JMP_BUF cjmpbuf;		        /* C stack and register information */
+    int cstacktop;		          /* Top of the pointer protection stack */
+    int evaldepth;	            /* evaluation depth at inception */
+    SEXP promargs;	            /* Promises supplied to closure */
+    SEXP callfun;		            /* The closure called */
+    SEXP sysparent;	            /* environment the closure was called from */
+    SEXP call;			            /* The call that effected this context*/
+    SEXP cloenv;		            /* The environment */
+    SEXP conexit;		            /* Interpreted "on.exit" code */
+    void (*cend)(void *);	      /* C "on.exit" thunk */
+    void *cenddata;		          /* data for C "on.exit" thunk */
+    void *vmax;		              /* top of R_alloc stack */
     int intsusp;                /* interrupts are suspended */
     SEXP handlerstack;          /* condition handler stack */
     SEXP restartstack;          /* stack of available restarts */
@@ -61,19 +66,14 @@ typedef struct RCNTXT {
     #ifdef BC_INT_STACK
         IStackval *intstack;
     #endif
-    SEXP srcref;	        /* The source line in effect */
-    int browserfinish;     /* should browser finish this context without stopping */
+    SEXP srcref;	              /* The source line in effect */
+    int browserfinish;          /* should browser finish this context without stopping */
 } RCNTXT ;
-
-#ifndef LibExtern
-#define LibExtern extern
-#endif
 
 extern SEXP R_HandlerStack ;
 extern SEXP R_RestartStack ;
-
 extern RCNTXT* R_ToplevelContext ;
-LibExtern RCNTXT* R_GlobalContext;  
+extern RCNTXT* R_GlobalContext;  
 
 
 #endif

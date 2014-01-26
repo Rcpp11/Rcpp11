@@ -13,6 +13,7 @@
 #include <Rcpp/macros/macros.h>
 
 #include <Rcpp/R.h>
+#include <Rcpp/Context.h>
 
 #include <Rcpp/protection/protection.h>
 
