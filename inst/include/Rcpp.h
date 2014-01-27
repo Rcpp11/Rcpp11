@@ -51,16 +51,14 @@
 #include <Rcpp/NamedDots.h>
 
 #include <Rcpp/Module.h>
+#include <Rcpp/Context.h>
 
 #include <Rmath.h>
 #include <Rcpp/sugar/undoRmath.h>
 
 #include <Rcpp/hash/hash.h>
-
-#ifndef RCPP_NO_SUGAR
 #include <Rcpp/sugar/sugar.h>
 #include <Rcpp/stats/stats.h>
-#endif
 
 #include <Rcpp/Rmath.h>
 

@@ -11,13 +11,7 @@
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
 
-#ifdef HAVE_POSIX_SETJMP
-# define JMP_BUF sigjmp_buf
-# define SETJMP(x) sigsetjmp(x,0)
-#else
-# define JMP_BUF jmp_buf
-# define SETJMP(x) setjmp(x)
-#endif
+#define JMP_BUF jmp_buf
 
 enum {
     CTXT_TOPLEVEL = 0,
@@ -74,6 +68,6 @@ extern SEXP R_HandlerStack ;
 extern SEXP R_RestartStack ;
 extern RCNTXT* R_ToplevelContext ;
 extern RCNTXT* R_GlobalContext;  
-
+extern int R_ShowErrorMessages ;
 
 #endif

@@ -52,6 +52,7 @@ void* dataptr(SEXP x){ return DATAPTR(x); }
 const char* char_nocheck( SEXP x ){ return CHAR(x); }
 
 static bool Rcpp_cache_know = false ;
+static bool handler_ready = false ;
 static SEXP Rcpp_cache = R_NilValue ;
 
 #define RCPP_HASH_CACHE_INDEX 4
@@ -77,9 +78,9 @@ SEXP get_rcpp_cache() {
 }
 
 namespace Rcpp {
-  SEXP get_Rcpp11_namespace(){ 
-    	    return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
-	}
+    SEXP get_Rcpp11_namespace(){ 
+        return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
+	  }
 }
 
 static void set_error_occured(SEXP cache, bool occured){
@@ -102,6 +103,21 @@ SEXP rcpp_get_stack_trace(){
     return VECTOR_ELT( get_rcpp_cache(), 3 ) ;
 }
 
+// [[Rcpp::register]]
+SEXP rcpp11_error_handler(){
+    if( ! handler_ready ){
+      SEXP cache   = get_rcpp_cache() ;
+      SEXP RCPP    = VECTOR_ELT(cache, 0) ;
+      SEXP handler = Rf_findVarInFrame(RCPP, Rf_install(".rcpp_error_recorder") ) ;
+      if( TYPEOF(handler) == PROMSXP){
+          handler = Rf_eval(handler, RCPP) ;
+      }
+      RCPP_SET_VECTOR_ELT( cache, 5, handler ) ;
+      handler_ready = true ;
+    }
+    return VECTOR_ELT( get_rcpp_cache(), 5) ;
+}
+
 SEXP init_Rcpp11_cache(){ 
   RCPP_DEBUG( "init_Rcpp11_cache()\n" )
 	
@@ -114,14 +130,15 @@ SEXP init_Rcpp11_cache(){
 	set_error_occured( cache, false ) ;
 	set_current_error( cache, R_NilValue ) ;
 	RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
-	RCPP_SET_VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
+	RCPP_SET_VECTOR_ELT( cache, 4, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
 	Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
     
 	UNPROTECT(2) ;
 	return cache ;
 }
 
-SEXP reset_current_error(){
+// [[Rcpp::register]]
+void reset_current_error(){
     RCPP_DEBUG("reset_current_error")
     SEXP cache = get_rcpp_cache() ;
     
@@ -133,10 +150,9 @@ SEXP reset_current_error(){
 	
     // stack trace
     RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
-	
-    return R_NilValue ;
 }
 
+// [[Rcpp::register]]
 int error_occured(){
     SEXP err = VECTOR_ELT( get_rcpp_cache(), 1 ) ;
     return LOGICAL(err)[0] ;
@@ -148,7 +164,7 @@ SEXP rcpp_error_recorder(SEXP e){
     // error occured
     
     RCPP_DEBUG( "rcpp_error_recorder()\n" )
-	set_error_occured( cache, true ) ;
+    set_error_occured( cache, true ) ;
 	
     // current error
     set_current_error(cache, e ) ;
@@ -156,6 +172,7 @@ SEXP rcpp_error_recorder(SEXP e){
     return R_NilValue ;
 }
 
+// [[Rcpp::register]]
 SEXP rcpp_get_current_error(){
     return VECTOR_ELT( get_rcpp_cache(), 2 ) ;
 }

@@ -9,7 +9,7 @@
     #                                          "for full use of reference methods"),
     #                                    R.version[["svn rev"]], minimum_svn_rev))
     # }
-    new_dummyObject(.dummyInstancePointer);
+    new_dummyObject(.dummyInstancePointer)
 }
 
 
