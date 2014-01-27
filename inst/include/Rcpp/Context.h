@@ -84,7 +84,7 @@ namespace Rcpp {
       ctx.type()     = CTXT_FUNCTION ;
       SEXP handler   = rcpp11_error_handler() ;
       R_HandlerStack = pairlist( 
-        ConditionHandler("condition", handler , Rcpp11) 
+        ConditionHandler("error", handler , Rcpp11) 
       ) ;
     }
     
