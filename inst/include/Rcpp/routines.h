@@ -35,7 +35,7 @@ void* dataptr(SEXP x) ;
 Rcpp::Module* getCurrentScope() ;
 void setCurrentScope( Rcpp::Module* mod ) ;
 SEXP rcpp_get_current_error() ;
-void reset_current_error() ;
+int& reset_current_error() ;
 int error_occured() ;
 SEXP rcpp11_error_handler() ;
 
@@ -43,9 +43,9 @@ SEXP rcpp11_error_handler() ;
 
 namespace Rcpp {
     
-    inline void reset_current_error(){
+    inline int& reset_current_error(){
         GET_CALLABLE(reset_current_error) ;
-        fun();  
+        return fun();  
     }
     
     inline nanotime_t get_nanotime(void){

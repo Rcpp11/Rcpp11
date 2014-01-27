@@ -83,10 +83,13 @@ namespace Rcpp {
 	  }
 }
 
-static void set_error_occured(SEXP cache, bool occured){
+static int& set_error_occured(SEXP cache, bool occured){
     RCPP_DEBUG( "set_error_occured( <%p>, %s, %s )", cache, PRETTY_BOOL(occured), PRETTY_BOOL(cache==R_NilValue) )
     RCPP_DEBUG( "R_NilValue = <%p>", R_NilValue )
-    RCPP_SET_VECTOR_ELT( cache, 1, Rf_ScalarLogical(occured) ) ;
+    SEXP err = VECTOR_ELT(cache, 1); 
+    int& ref = LOGICAL(err)[0] ;
+    ref = occured ;
+    return ref ;
 }
 
 void set_current_error(SEXP cache, SEXP e){ 
@@ -127,7 +130,11 @@ SEXP init_Rcpp11_cache(){
   
   // the Rcpp namespace
 	RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
-	set_error_occured( cache, false ) ;
+	SEXP error_occured = PROTECT(Rf_allocVector(LGLSXP, 1)) ;
+	LOGICAL(error_occured)[0] = FALSE ;
+	RCPP_SET_VECTOR_ELT( cache, 1, error_occured ) ; 
+	UNPROTECT(1); 
+	
 	set_current_error( cache, R_NilValue ) ;
 	RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
 	RCPP_SET_VECTOR_ELT( cache, 4, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
@@ -138,18 +145,19 @@ SEXP init_Rcpp11_cache(){
 }
 
 // [[Rcpp::register]]
-void reset_current_error(){
+int& reset_current_error(){
     RCPP_DEBUG("reset_current_error")
     SEXP cache = get_rcpp_cache() ;
     
-    // error occured
-    set_error_occured( cache, false ) ;
-	
     // current error
     set_current_error( cache, R_NilValue ) ;
 	
     // stack trace
     RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
+    
+    // error occured
+    return set_error_occured( cache, false ) ;
+	
 }
 
 // [[Rcpp::register]]
