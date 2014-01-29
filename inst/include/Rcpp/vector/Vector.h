@@ -135,11 +135,11 @@ public:
     inline NameProxy at( const std::string& name ){
         return NameProxy( *this, name ) ;
     }
-    inline NameProxy at( const std::string& name ) const {
-        return NameProxy( *this, name ) ;
+    inline const_NameProxy at( const std::string& name ) const {
+        return const_NameProxy( *this, name ) ;
     }
-    inline NameProxy operator[]( const std::string& name ) const {
-        return NameProxy( const_cast<Vector&>(*this), name ) ;
+    inline const_NameProxy operator[]( const std::string& name ) const {
+        return const_NameProxy( *this, name ) ;
     }
 
     Vector& sort(){

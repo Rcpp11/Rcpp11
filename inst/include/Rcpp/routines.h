@@ -18,7 +18,6 @@ namespace Rcpp{
     unsigned long exitRNGScope() ;
     SEXP get_Rcpp11_namespace() ; 
     int* get_cache( int n ) ;
-    nanotime_t get_nanotime(void) ;
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
