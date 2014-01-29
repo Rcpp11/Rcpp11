@@ -18,7 +18,6 @@ namespace Rcpp{
     unsigned long exitRNGScope() ;
     SEXP get_Rcpp11_namespace() ; 
     int* get_cache( int n ) ;
-    nanotime_t get_nanotime(void) ;
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
@@ -37,11 +36,6 @@ void setCurrentScope( Rcpp::Module* mod ) ;
  
 #else 
 namespace Rcpp {
-    
-    inline nanotime_t get_nanotime(void){
-        GET_CALLABLE(get_nanotime) ;
-        return fun() ; 
-    }
     
     inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
         GET_CALLABLE(Rcpp_eval) ;
