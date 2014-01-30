@@ -55,7 +55,7 @@ namespace Rcpp{
             ~MatrixExporter(){}
         
             T get() {
-                Shield<SEXP> dims = ::Rf_getAttrib( object, R_DimSymbol ) ;
+                SEXP dims = ::Rf_getAttrib( object, R_DimSymbol ) ;
                 if( dims == R_NilValue || ::Rf_length(dims) != 2 ){
                     throw ::Rcpp::not_a_matrix() ;
                 }

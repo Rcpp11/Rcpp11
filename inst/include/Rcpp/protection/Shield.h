@@ -27,7 +27,12 @@ namespace Rcpp{
             return *this ;
         }
         
-        operator SEXP() const { return t; }
+        // allowing Shield to be used with R internals macros
+        inline SEXP operator->() const {
+            return t;
+        }
+        inline operator SEXP() const { return t; }
+        
         SEXP t ;
     } ;
     

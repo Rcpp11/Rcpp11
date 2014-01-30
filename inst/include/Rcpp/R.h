@@ -5,10 +5,6 @@
 #define R_NO_REMAP
 #define USE_RINTERNALS
 
-#ifndef Rf_isString
-    #define Rf_isString isString
-#endif
-
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Complex.h>
@@ -16,6 +12,10 @@
 #include <R_ext/Rdynload.h>
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
+
+#ifndef Rf_isString
+    #define Rf_isString isString
+#endif
 
 #define JMP_BUF jmp_buf
 
