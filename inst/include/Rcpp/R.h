@@ -17,6 +17,13 @@
     #define Rf_isString isString
 #endif
 
+#define RCPP_DATAPTR(x)	(((SEXPREC_ALIGN *) (x)) + 1)
+#undef DATAPTR
+ 
+inline void* DATAPTR(SEXP x){ 
+    return RCPP_DATAPTR(x); 
+}
+
 #define JMP_BUF jmp_buf
 
 enum {
