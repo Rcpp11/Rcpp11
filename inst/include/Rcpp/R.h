@@ -13,16 +13,49 @@
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
 
-#ifndef Rf_isString
-    #define Rf_isString isString
-#endif
+#undef isNull
+#define RCPP_isNull(s)	(TYPEOF(s) == NILSXP)
+inline bool Rf_isNull(SEXP s){ return RCPP_isNull(s); }
+
+#undef isSymbol
+#define RCPP_isSymbol(s)	(TYPEOF(s) == SYMSXP)
+inline bool Rf_isSymbol(SEXP s){ return RCPP_isSymbol(s);}
+
+#undef isLogical
+#define RCPP_isLogical(s)	(TYPEOF(s) == LGLSXP)
+inline bool Rf_isLogical(SEXP s){ return RCPP_isLogical(s); }
+
+#undef isReal
+#define RCPP_isReal(s)	(TYPEOF(s) == REALSXP)
+inline bool Rf_isReal(SEXP s){ return RCPP_isReal(s); }
+
+#undef isComplex
+#define RCPP_isComplex(s)	(TYPEOF(s) == CPLXSXP)
+inline bool Rf_isComplex(SEXP s){ return RCPP_isComplex(s); }
+
+#undef isExpression
+#define RCPP_isExpression(s) (TYPEOF(s) == EXPRSXP)
+inline bool Rf_isExpression(SEXP s){ return RCPP_isExpression(s); }
+
+#undef isEnvironment
+#define RCPP_isEnvironment(s) (TYPEOF(s) == ENVSXP)
+inline bool Rf_isEnvironment(SEXP s){ return RCPP_isEnvironment(s); }
+
+#undef isString
+#define RCPP_isString(s)	(TYPEOF(s) == STRSXP)
+inline bool Rf_isString(SEXP s){ return RCPP_isString(s); }
+
+#undef isObject
+#define RCPP_isObject(s)	(OBJECT(s) != 0)
+inline bool Rf_isObject(SEXP s){ return RCPP_isObject(s); }
 
 #define RCPP_DATAPTR(x)	(((SEXPREC_ALIGN *) (x)) + 1)
 #undef DATAPTR
- 
-inline void* DATAPTR(SEXP x){ 
-    return RCPP_DATAPTR(x); 
-}
+inline void* DATAPTR(SEXP x){ return RCPP_DATAPTR(x); }
+
+#define RCPP_SETLEVELS(x,v)	(((x)->sxpinfo.gp)=((unsigned short)v))
+#undef SETLEVELS
+inline int SETLEVELS(SEXP x, int v){ return RCPP_SETLEVELS(x,v); }
 
 #define JMP_BUF jmp_buf
 
