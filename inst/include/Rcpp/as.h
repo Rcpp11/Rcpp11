@@ -22,7 +22,7 @@ namespace Rcpp{
         
         inline const char* check_single_string( SEXP x){
             if( TYPEOF(x) == CHARSXP ) return CHAR( x ) ;
-            if( ! ::Rf_isString(x) ){
+            if( ! Rf_isString(x) ){
                 std::string message( "expecting a string. got object of R type : " ) ;
                 message += type2name(x) ;
                 throw ::Rcpp::not_compatible( message ) ;

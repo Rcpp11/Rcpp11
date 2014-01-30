@@ -11,7 +11,7 @@ namespace internal{
     }
        
     template <> inline Rcpp::String as<Rcpp::String>(SEXP x, ::Rcpp::traits::r_type_string_tag ) {
-        if( ! ::Rf_isString(x) ){
+        if( ! Rf_isString(x) ){
             throw ::Rcpp::not_compatible( "expecting a string" ) ;
         }
         if (Rf_length(x) != 1) {

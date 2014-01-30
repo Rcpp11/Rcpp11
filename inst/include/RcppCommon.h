@@ -12,6 +12,12 @@
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes
 #define R_NO_REMAP
+#define USE_RINTERNALS
+
+#ifndef Rf_isString
+    #define Rf_isString isString
+#endif
+
 #include <R.h>
 #include <Rinternals.h>
 #include <R_ext/Complex.h>
@@ -19,6 +25,7 @@
 #include <R_ext/Rdynload.h>
 #include <R_ext/Callbacks.h>
 #include <Rversion.h>
+
 #include <Rcpp/protection/protection.h>
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
