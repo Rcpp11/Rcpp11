@@ -57,6 +57,10 @@ inline void* DATAPTR(SEXP x){ return RCPP_DATAPTR(x); }
 #undef SETLEVELS
 inline int SETLEVELS(SEXP x, int v){ return RCPP_SETLEVELS(x,v); }
 
+#undef PRINTNAME 
+#define RCPP_PRINTNAME(x)	((x)->u.symsxp.pname)
+inline SEXP PRINTNAME(SEXP x){ return RCPP_PRINTNAME(x) ; }
+
 #define JMP_BUF jmp_buf
 
 enum {
