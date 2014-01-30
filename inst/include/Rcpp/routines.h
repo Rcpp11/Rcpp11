@@ -33,9 +33,24 @@ const char* char_nocheck( SEXP x) ;
 void* dataptr(SEXP x) ;
 Rcpp::Module* getCurrentScope() ;
 void setCurrentScope( Rcpp::Module* mod ) ;
- 
+SEXP rcpp_get_current_error() ;
+int& reset_current_error() ;
+int error_occured() ;
+SEXP rcpp11_error_handler() ;
+
 #else 
+
 namespace Rcpp {
+    
+    inline int& reset_current_error(){
+        GET_CALLABLE(reset_current_error) ;
+        return fun();  
+    }
+    
+    inline nanotime_t get_nanotime(void){
+        GET_CALLABLE(get_nanotime) ;
+        return fun() ; 
+    }
     
     inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
         GET_CALLABLE(Rcpp_eval) ;
@@ -93,7 +108,12 @@ namespace Rcpp {
     }
     
 }
-           
+ 
+inline SEXP rcpp_get_current_error(){
+    GET_CALLABLE(rcpp_get_current_error);
+    return fun();
+}
+
 inline SEXP get_string_elt(SEXP s, int i){
     GET_CALLABLE(get_string_elt) ;
     return fun(s, i) ;
@@ -157,6 +177,16 @@ inline Rcpp::Module* getCurrentScope(){
 inline void setCurrentScope( Rcpp::Module* mod ){
     GET_CALLABLE(setCurrentScope) ;
     return fun(mod) ;    
+}
+
+inline SEXP rcpp11_error_handler(){
+    GET_CALLABLE(rcpp11_error_handler); 
+    return fun(); 
+}
+  
+inline int error_occured(){
+    GET_CALLABLE(error_occured); 
+    return fun(); 
 }
 
 
