@@ -2,6 +2,7 @@
 #define Rcpp__traits__traits__h
 
 #include <Rcpp/traits/number_to_type.h>
+#include <Rcpp/traits/static_max_int.h>
 #include <Rcpp/traits/is_wide_string.h>
 #include <Rcpp/traits/char_type.h>
 #include <Rcpp/traits/named_object.h>
@@ -31,4 +32,3 @@
 #include <Rcpp/traits/all_named.h>
 
 #endif
-
