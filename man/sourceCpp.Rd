@@ -10,7 +10,7 @@ and RCPP_MODULE declarations. A shared library is then built and its exported fu
 \usage{
 sourceCpp(file = "", code = NULL, env = globalenv(), 
           rebuild = FALSE, showOutput = verbose, 
-          verbose = getOption("verbose"))
+          verbose = getOption("verbose"), runRcode = TRUE)
 }
 \arguments{
   \item{file}{
@@ -30,6 +30,9 @@ sourceCpp(file = "", code = NULL, env = globalenv(),
 }
   \item{verbose}{
     \code{TRUE} to print detailed information about generated code to the console.
+}
+  \item{runRcode}{
+    \code{TRUE} to evaluate R code within \code{/*** R */} comment blocks    
 }
 }
 \details{
