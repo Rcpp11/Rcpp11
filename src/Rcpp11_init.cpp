@@ -70,7 +70,6 @@ void init_Rcpp11_routines(DllInfo *info){
     
     #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
     
-    REGISTER(get_nanotime)
     REGISTER(Rcpp_eval)
     REGISTER(type2name)
     REGISTER(demangle)
