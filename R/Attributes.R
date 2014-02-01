@@ -2,10 +2,10 @@
 sourceCpp <- function(file = "",
                       code = NULL,
                       env = globalenv(),
+                      embeddedR = TRUE,
                       rebuild = FALSE,
                       showOutput = verbose,
-                      verbose = getOption("verbose"), 
-                      runRcode = TRUE
+                      verbose = getOption("verbose")
                       ) {
 
     # resolve code into a file if necessary. also track the working
@@ -152,7 +152,7 @@ sourceCpp <- function(file = "",
     }
 
     # source the embeddedR
-    if (isTRUE(runRcode) && length(context$embeddedR) > 0) {
+    if (isTRUE(embeddedR) && length(context$embeddedR) > 0) {
         srcConn <- textConnection(context$embeddedR)
         setwd(rWorkingDir) # will be reset by previous on.exit handler
         source(file=srcConn, echo=TRUE)
