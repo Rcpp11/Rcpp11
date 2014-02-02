@@ -142,15 +142,6 @@ public:
         return const_NameProxy( *this, name ) ;
     }
 
-    Vector& sort(){
-        std::sort(
-            internal::r_vector_start<RTYPE>(Storage::get__()),
-            internal::r_vector_start<RTYPE>(Storage::get__()) + size(),
-            typename traits::comparator_type<RTYPE>::type()
-            ) ;
-        return *this ;
-    }
-
     template <typename T>
     void push_back( const T& object){
         push_back__impl( converter_type::get(object),
