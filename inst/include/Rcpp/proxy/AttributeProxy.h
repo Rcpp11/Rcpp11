@@ -46,10 +46,12 @@ namespace Rcpp{
         
         class const_AttributeProxy : public GenericProxy<const_AttributeProxy> {
         public:
-            const_AttributeProxy( const CLASS& v, const std::string& name) ;
-            const_AttributeProxy& operator=(const const_AttributeProxy& rhs) ;
+            const_AttributeProxy( const CLASS& v, const std::string& name)
+              : parent(v), attr_name(Rf_install(name.c_str())){}
                   
-            template <typename T> operator T() const ;
+            template <typename T> operator T() const {
+              return as<T>(get());  
+            }
             
             inline operator SEXP() const { 
                 return get() ; 
@@ -59,13 +61,17 @@ namespace Rcpp{
             const CLASS& parent; 
             SEXP attr_name ;
                 
-            SEXP get() const ;
+            SEXP get() const {
+              return Rf_getAttrib( parent, attr_name ) ;
+            }
         } ;
         
         AttributeProxy attr( const std::string& name) {
           return AttributeProxy( static_cast<CLASS&>(*this) , name ) ;
         }
-        const_AttributeProxy attr( const std::string& name) const ;
+        const_AttributeProxy attr( const std::string& name) const {
+          return const_AttributeProxy( static_cast<const CLASS&>(*this) , name ) ;  
+        }
         
     } ;
 

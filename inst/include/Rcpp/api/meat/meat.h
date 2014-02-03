@@ -9,7 +9,6 @@
 #include <Rcpp/api/meat/NamesProxy.h>
 #include <Rcpp/api/meat/SlotProxy.h>
 #include <Rcpp/api/meat/StretchyList.h>
-#include <Rcpp/api/meat/AttributeProxy.h>
 #include <Rcpp/api/meat/FieldProxy.h>
 #include <Rcpp/api/meat/DottedPairProxy.h>
 #include <Rcpp/api/meat/PreserveStorage.h>
