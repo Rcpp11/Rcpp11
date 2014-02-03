@@ -4,7 +4,9 @@
 namespace Rcpp{
 
 template <typename T>
-inline SEXP wrap( std::initializer_list<T> init ){ return internal::range_wrap( init.begin(), init.end() ) ; } 
+inline SEXP wrap( std::initializer_list<T> init ){ 
+  return internal::range_wrap( init.begin(), init.end() ) ; 
+} 
 
 // this also handles char[] 
 inline SEXP wrap(const char* const v ){ 

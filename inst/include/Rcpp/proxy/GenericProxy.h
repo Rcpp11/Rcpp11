@@ -8,6 +8,7 @@ struct GenericProxy {
     inline SEXP get() const {
         return static_cast<const Proxy&>(*this) ;    
     }
+    
 } ;
 
 }
