@@ -5,7 +5,6 @@
 #include <Rcpp/api/meat/NodeProxy.h>
 #include <Rcpp/api/meat/TagProxy.h>
 #include <Rcpp/api/meat/ProtectedProxy.h>
-#include <Rcpp/api/meat/NamesProxy.h>
 #include <Rcpp/api/meat/SlotProxy.h>
 #include <Rcpp/api/meat/StretchyList.h>
 #include <Rcpp/api/meat/FieldProxy.h>
