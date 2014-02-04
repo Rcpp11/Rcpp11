@@ -7,7 +7,6 @@
 #include <Rcpp/api/meat/PreserveStorage.h>
 #include <Rcpp/api/meat/NoProtectStorage.h>
 #include <Rcpp/api/meat/Dimension.h>
-#include <Rcpp/api/meat/RObject.h>
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>
