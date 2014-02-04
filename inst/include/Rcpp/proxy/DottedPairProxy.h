@@ -24,12 +24,18 @@ namespace Rcpp {
             }
             
             template <typename T>
-            DottedPairProxy& operator=(const T& rhs) ;
+            DottedPairProxy& operator=(const T& rhs) {
+                return set(wrap(rhs)) ;
+            }
             
             template <typename T>
-            DottedPairProxy& operator=(const traits::named_object<T>& rhs) ;
+            DottedPairProxy& operator=(const traits::named_object<T>& rhs) {
+                return set(wrap(rhs.object), rhs.name) ;
+            }
             
-            template <typename T> operator T() const ;
+            template <typename T> operator T() const {
+                return as<T>(get());  
+            }
             
             inline SEXP get() const { 
                 return CAR(node); 
@@ -61,7 +67,9 @@ namespace Rcpp {
                 node = x ;
             } 
             
-            template <typename T> operator T() const  ;
+            template <typename T> operator T() const {
+                return as<T>(get());  
+            }
             
             inline SEXP get() const { 
                 return CAR(node); 
