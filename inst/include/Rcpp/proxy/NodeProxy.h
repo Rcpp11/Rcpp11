@@ -17,10 +17,14 @@ namespace Rcpp{
           }
           
           template <typename T>
-          ValueProxy& operator=( const T& rhs) ;
+          ValueProxy& operator=( const T& rhs) {
+              return set( wrap(rhs) ) ;  
+          }
           
           template <typename T>
-          operator T() const ;
+          operator T() const {
+              return as<T>(get());  
+          }
           
         private:
           SEXP node ;
@@ -41,7 +45,9 @@ namespace Rcpp{
           const_ValueProxy(SEXP node_) : node(node_){}
           
           template <typename T>
-          operator T() const ;
+          operator T() const {
+              return as<T>(get());  
+          }
           
         private:
           SEXP node ;
