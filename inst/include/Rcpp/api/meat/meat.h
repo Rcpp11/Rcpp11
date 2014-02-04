@@ -2,8 +2,7 @@
 #define Rcpp_api_meat_meat_h
 
 #include <Rcpp/api/meat/structure.h>
-#include <Rcpp/api/meat/TagProxy.h>
-#include <Rcpp/api/meat/ProtectedProxy.h>
+
 #include <Rcpp/api/meat/StretchyList.h>
 #include <Rcpp/api/meat/DottedPairProxy.h>
 #include <Rcpp/api/meat/PreserveStorage.h>

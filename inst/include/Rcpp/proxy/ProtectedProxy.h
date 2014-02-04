@@ -12,10 +12,14 @@ namespace Rcpp{
             ProtectedProxy( XPtrClass& xp_ ): xp(xp_){}
             
             template <typename U>
-            ProtectedProxy& operator=( const U& u) ;
+            ProtectedProxy& operator=( const U& u) {
+                return set( wrap(u) );  
+            }
             
             template <typename U>
-            operator U() const ;
+            operator U() const {
+                return as<U>(get());  
+            }
             
             operator SEXP() const{ 
                 return get() ; 
@@ -28,8 +32,9 @@ namespace Rcpp{
                 return R_ExternalPtrProtected(xp) ;
             }
             
-            inline void set( SEXP x){
+            inline ProtectedProxy& set( SEXP x){
                 R_SetExternalPtrProtected( xp, x ) ;
+                return *this ;
             }
         	
         } ;
@@ -39,7 +44,9 @@ namespace Rcpp{
             const_ProtectedProxy( const XPtrClass& xp_ ): xp(xp_){}
             
             template <typename U>
-            operator U() const ;
+            operator U() const {
+                return as<U>(get());
+            }
             
             operator SEXP() const{ 
                 return get() ; 
