@@ -15,11 +15,20 @@ public:
             }  
         }
         
-        SlotProxy& operator=(const SlotProxy& rhs) ;
+        SlotProxy& operator=(const SlotProxy& rhs) {
+            set( rhs.get() ) ;
+            return *this ;
+        }
               
-        template <typename T> SlotProxy& operator=(const T& rhs) ;
+        template <typename T> 
+        SlotProxy& operator=(const T& rhs) {
+            set( wrap( rhs ) ) ;
+            return *this ;
+        }
             
-        template <typename T> operator T() const ;
+        template <typename T> operator T() const {
+            return as<T>(get()) ;  
+        }
         inline operator SEXP() const { 
             return get() ; 
         }
@@ -28,16 +37,27 @@ public:
         CLASS& parent; 
         SEXP slot_name ;
             
-        SEXP get() const ;
-        void set(SEXP x ) ;
+        SEXP get() const {
+            return R_do_slot( parent, slot_name ) ;
+        }
+        void set(SEXP x ) {
+            parent = R_do_slot_assign(parent, slot_name, x);
+        }
     } ;
     
     class const_SlotProxy : public GenericProxy<const_SlotProxy> {
     public:
-        const_SlotProxy( const CLASS& v, const std::string& name) ;
-        const_SlotProxy& operator=(const const_SlotProxy& rhs) ;
-              
-        template <typename T> operator T() const ;
+        const_SlotProxy( const CLASS& v, const std::string& name) 
+          : parent(v), slot_name(Rf_install(name.c_str()))
+        {
+            if( !R_has_slot( v, slot_name) ){
+                throw no_such_slot() ; 
+            }        
+        }
+        
+        template <typename T> operator T() const {
+            return as<T>(get()) ;  
+        }
         inline operator SEXP() const { 
             return get() ; 
         }
@@ -46,11 +66,21 @@ public:
         const CLASS& parent; 
         SEXP slot_name ;
             
-        SEXP get() const ;
+        SEXP get() const {
+            return R_do_slot( parent, slot_name ) ;  
+        }
     } ;
     
-    SlotProxy slot(const std::string& name) ;
-    const_SlotProxy slot(const std::string& name) const ;
+    SlotProxy slot(const std::string& name) {
+        SEXP x = static_cast<CLASS&>(*this) ;
+        if( !Rf_isS4(x) ) throw not_s4() ;
+        return SlotProxy( static_cast<CLASS&>(*this) , name ) ;
+    }
+    const_SlotProxy slot(const std::string& name) const {
+        SEXP x = static_cast<const CLASS&>(*this) ;
+        if( !Rf_isS4(x) ) throw not_s4() ;
+        return const_SlotProxy( static_cast<const CLASS&>(*this) , name ) ; 
+    }
     
 } ;
 
