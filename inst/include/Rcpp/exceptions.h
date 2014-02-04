@@ -5,13 +5,64 @@
 #include <Rinternals.h>
 #include <sstream>
 
+// for backtraces
+#if defined(__GCC__) || defined(__clang__)
+#include <execinfo.h>
+#endif
+
 #define GET_STACKTRACE() stack_trace( __FILE__, __LINE__ )
 
 namespace Rcpp{
 
 class exception : public std::exception {
 public:
-    explicit exception(const char* message_) : message(message_){}
+    explicit exception(const char* message_) : message(message_) {
+
+      #if defined(__GCC__) || defined(__clang__)
+
+      const size_t max_depth = 100;
+      size_t stack_depth;
+      void *stack_addrs[max_depth];
+      char **stack_strings;
+
+      stack_depth = backtrace(stack_addrs, max_depth);
+      stack_strings = backtrace_symbols(stack_addrs, stack_depth);
+      std::vector<std::string> demangled;
+      demangled.reserve(stack_depth);
+
+      // demangle the lines and add back in
+      for (int i=0; i < stack_depth-2; ++i) {
+
+        std::string buffer( stack_strings[i] );
+        std::string buffer2(stack_strings[i] );
+
+        std::string to_add;
+
+        size_t demangle_end = buffer.find_last_of('+') - 1;
+        buffer.resize( buffer.find_last_of('+') - 1 ) ;
+        size_t demangle_begin = buffer.find_last_of(' ');
+        to_add += std::string( buffer.begin(), buffer.begin() + demangle_begin + 1 );
+        buffer.erase(
+          buffer.begin(),
+          buffer.begin() + buffer.find_last_of(' ') + 1
+        ) ;
+        to_add += Rcpp::demangle(buffer);
+        to_add += std::string( buffer2.begin() + demangle_end, buffer2.end() );
+        demangled.emplace_back(to_add);
+      }
+
+      message += "\n\nTraceback (most recent call first):\n";
+
+      for (int i=0; i < stack_depth-2; ++i) {
+        message += demangled[i];
+        message += "\n";
+      }
+
+      free(stack_strings); // malloc()ed by backtrace_symbols
+
+      #endif
+
+    }
     exception(const char* message_, const char* file, int line ): message(message_){
         rcpp_set_stack_trace( stack_trace(file,line) ) ;
     }
@@ -21,17 +72,10 @@ private:
     std::string message ;
 } ;
 
-// simple helper
-static std::string toString(const int i) {
-    std::ostringstream ostr;
-    ostr << i;
-    return ostr.str();
-}
-
 class no_such_env : public std::exception{
 public:
     no_such_env( const std::string& name ) throw() : message( std::string("no such environment: '") + name + "'" ){}
-    no_such_env( int pos ) throw() : message( "no environment in given position '" + toString(pos) + "'") {}
+    no_such_env( int pos ) throw() : message( "no environment in given position '" + std::to_string(pos) + "'") {}
     virtual ~no_such_env() throw(){}
     virtual const char* what() const throw(){ return message.c_str() ; }
 private:
@@ -41,7 +85,7 @@ private:
 class file_io_error : public std::exception {
 public:
     file_io_error(const std::string& file_) throw() : message( std::string("file io error: '") + file_ + "'" ), file(file_) {}
-    file_io_error(int code, const std::string& file_) throw() : message( "file io error " + toString(code) + ": '" + file_ + "'"), file(file_) {}
+    file_io_error(int code, const std::string& file_) throw() : message( "file io error " + std::to_string(code) + ": '" + file_ + "'"), file(file_) {}
     file_io_error(const std::string& msg, const std::string& file_) throw() : message( msg + ": '" + file_ + "'"), file(file_) {}
     virtual ~file_io_error() throw(){}
     virtual const char* what() const throw(){ return message.c_str() ; }
