@@ -6,7 +6,7 @@
 #include <sstream>
 
 // for backtraces
-#if defined(__GCC__) || defined(__clang__)
+#if defined(__GNUC__) || defined(__clang__)
 #include <execinfo.h>
 #endif
 
@@ -31,7 +31,7 @@ private:
     std::string message ;
     
     // A private function for adding backtrace information if possible
-    #if defined(__GCC__) || defined(__clang__)
+    #if defined(__GNUC__) || defined(__clang__)
     void add_backtrace_information(std::string& message) {
       const size_t max_depth = 100;
       size_t stack_depth;
@@ -75,7 +75,9 @@ private:
     }
     #else
     // No-op if we can't add backtrace information
-    #define add_backtrace_information
+    void add_backtrace_information(std::string& message) {
+      // do nothing
+    }
     #endif
 } ;
 
