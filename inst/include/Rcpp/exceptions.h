@@ -17,9 +17,22 @@ namespace Rcpp{
 class exception : public std::exception {
 public:
     explicit exception(const char* message_) : message(message_) {
-
-      #if defined(__GCC__) || defined(__clang__)
-
+      add_backtrace_information(message);
+    }
+    explicit exception(const std::string& message_) : message(message_) {
+      add_backtrace_information(message);
+    }
+    exception(const char* message_, const char* file, int line ): message(message_){
+        rcpp_set_stack_trace( stack_trace(file,line) ) ;
+    }
+    virtual ~exception() noexcept {}
+    virtual const char* what() const noexcept { return message.c_str() ; }
+private:
+    std::string message ;
+    
+    // A private function for adding backtrace information if possible
+    #if defined(__GCC__) || defined(__clang__)
+    void add_backtrace_information(std::string& message) {
       const size_t max_depth = 100;
       size_t stack_depth;
       void *stack_addrs[max_depth];
@@ -59,69 +72,63 @@ public:
       }
 
       free(stack_strings); // malloc()ed by backtrace_symbols
-
-      #endif
-
     }
-    exception(const char* message_, const char* file, int line ): message(message_){
-        rcpp_set_stack_trace( stack_trace(file,line) ) ;
-    }
-    virtual ~exception() noexcept {}
-    virtual const char* what() const noexcept { return message.c_str() ; }
-private:
-    std::string message ;
+    #else
+    // No-op if we can't add backtrace information
+    #define add_backtrace_information
+    #endif
 } ;
 
-class no_such_env : public std::exception{
+class no_such_env : public exception {
 public:
-    no_such_env( const std::string& name ) throw() : message( std::string("no such environment: '") + name + "'" ){}
-    no_such_env( int pos ) throw() : message( "no environment in given position '" + std::to_string(pos) + "'") {}
-    virtual ~no_such_env() throw(){}
-    virtual const char* what() const throw(){ return message.c_str() ; }
-private:
-    std::string message ;
+    no_such_env( const std::string& name ) noexcept: 
+      exception( std::string("No such environment: '") + name + "'" ){}
+      
+    no_such_env( int pos ) noexcept:
+      exception( "No environment in given position '" + std::to_string(pos) + "'") {}
 } ;
 
-class file_io_error : public std::exception {
+class file_io_error : public exception {
 public:
-    file_io_error(const std::string& file_) throw() : message( std::string("file io error: '") + file_ + "'" ), file(file_) {}
-    file_io_error(int code, const std::string& file_) throw() : message( "file io error " + std::to_string(code) + ": '" + file_ + "'"), file(file_) {}
-    file_io_error(const std::string& msg, const std::string& file_) throw() : message( msg + ": '" + file_ + "'"), file(file_) {}
-    virtual ~file_io_error() throw(){}
-    virtual const char* what() const throw(){ return message.c_str() ; }
-    std::string filePath() const throw(){ return file ; }
+    file_io_error(const std::string& file_) noexcept:
+      exception( std::string("File IO error: '") + file_ + "'" ), file(file_) {}
+      
+    file_io_error(int code, const std::string& file_) noexcept:
+      exception( "File IO error " + std::to_string(code) + ": '" + file_ + "'"), file(file_) {}
+      
+    file_io_error(const std::string& msg, const std::string& file_) noexcept:
+      exception( msg + ": '" + file_ + "'"), file(file_) {}
+      
+    std::string filePath() const noexcept{ return file ; }
 private:
-    std::string message ;
     std::string file;
 } ;
 
 class file_not_found : public file_io_error {
 public:
-    file_not_found(const std::string& file) throw() : file_io_error("file not found", file) {}
+    file_not_found(const std::string& file) noexcept: 
+      file_io_error("File not found", file) {}
 };
 
 class file_exists : public file_io_error {
 public:
-    file_exists(const std::string& file) throw() : file_io_error("file already exists", file) {}
+    file_exists(const std::string& file) noexcept: 
+      file_io_error("File already exists", file) {}
 };
 
 #define RCPP_EXCEPTION_CLASS(__CLASS__,__WHAT__)                               \
-class __CLASS__ : public std::exception{                                       \
+class __CLASS__ : public exception{                                            \
 public:                                                                        \
-	__CLASS__( const std::string& msg ) noexcept : message( __WHAT__ ){}  \
-	virtual ~__CLASS__() noexcept{}                                            \
-	virtual const char* what() const noexcept { return message.c_str() ; }     \
-private:                                                                       \
-	std::string message ;                                                      \
-} ;
+	explicit __CLASS__( const std::string& msg ) noexcept: exception( __WHAT__ ) \
+  {}                                                                           \
+  explicit __CLASS__( const char* msg ) noexcept: exception( __WHAT__ ){}      \
+};                                                                             
 
 #define RCPP_SIMPLE_EXCEPTION_CLASS(__CLASS__,__MESSAGE__)                     \
-class __CLASS__ : public std::exception{                                       \
+class __CLASS__ : public exception{                                            \
 public:                                                                        \
-	__CLASS__() noexcept {}                                                    \
-	virtual ~__CLASS__() noexcept {}                                           \
-	virtual const char* what() const noexcept{ return __MESSAGE__ ; }          \
-} ;
+	__CLASS__() noexcept: exception(__MESSAGE__) {}                              \
+};                                                                             
 
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")
 RCPP_SIMPLE_EXCEPTION_CLASS(index_out_of_bounds, "index out of bounds")
