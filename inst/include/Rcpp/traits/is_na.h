@@ -1,9 +1,17 @@
 #ifndef Rcpp__traits_is_na_h
 #define Rcpp__traits_is_na_h
 
+namespace Rcpp {
+  namespace internal {
+    bool is_NA(double);
+    bool is_NaN(double);
+  }
+}
+
 namespace Rcpp{
 namespace traits{
-	
+  
+  
 	// default to always false, applies to VECSXP, EXPRSXP and RAWSXP
 	template <int RTYPE> 
 	bool is_na( typename storage_type<RTYPE>::type ){

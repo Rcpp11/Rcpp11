@@ -2,16 +2,20 @@
 #define Rcpp__internal__na__h
 
 namespace Rcpp {
+  
 namespace internal {
-
+  
 template <typename T>
-bool is_NA(T x);
+bool is_NA(T x) {
+  typedef typename ::Rcpp::traits::r_sexptype_traits<T>::rtype RTYPE;
+  return x == ::Rcpp::traits::get_na<RTYPE>();
+}
 
 template <>
 inline bool is_NA<double>(double x) {
   return memcmp(
-    reinterpret_cast<char*>(&x),
-    reinterpret_cast<char*>(&NA_REAL),
+    reinterpret_cast<void*>(&x),
+    reinterpret_cast<void*>(&NA_REAL),
     sizeof(double)
   ) == 0;
 }
@@ -21,11 +25,7 @@ bool is_NaN(T x);
 
 template <>
 inline bool is_NaN<double>(double x) {
-  return memcmp(
-    reinterpret_cast<char*>(&x),
-    reinterpret_cast<char*>(&R_NaN),
-    sizeof(double)
-  ) == 0;
+  return R_IsNaN(x);
 }
 
 }
