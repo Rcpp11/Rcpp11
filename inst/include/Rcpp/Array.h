@@ -10,6 +10,13 @@ namespace Rcpp{
         using Proxy = typename Vec::Proxy; 
         using const_Proxy = typename Vec::Proxy; 
         
+        Array( SEXP x ) : index(), data(x) {
+          IntegerVector dim = data.attr("dim") ;
+          if( dim.size() != N ) stop("incompatible dimensions") ;
+          for( int i=0; i<N; i++)
+            index[i] = dim[i] ;
+        }
+        
         template <
             typename... Args, 
             typename = typename std::enable_if< ValidIndexArgs<N,Args...>() >::type 

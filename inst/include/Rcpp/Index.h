@@ -12,6 +12,8 @@ namespace Rcpp{
     class Index {
     public:
     
+        Index(){}
+        
         template <
             typename... Args, 
             typename = typename std::enable_if< ValidIndexArgs<N,Args...>() >::type 
@@ -35,6 +37,10 @@ namespace Rcpp{
         
         inline operator SEXP() const { return wrap( dimensions ); }
         inline operator SEXP() { return wrap( dimensions ); }
+        
+        inline size_t& operator[](int i){
+          return dimensions[i] ;
+        }
         
     private:
         
