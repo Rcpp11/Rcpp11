@@ -196,23 +196,7 @@ SEXP CppMethod__invoke_notvoid(SEXP args){
    	return clazz->invoke_notvoid( met, obj, cargs, nargs ) ;
 }
 
-namespace Rcpp{
-	static Module* current_scope  ;
-}
-
-// [[Rcpp::register]]
-Rcpp::Module* getCurrentScope(){ 
-    return Rcpp::current_scope ; 
-}
-
-// [[Rcpp::register]]
-void setCurrentScope( Rcpp::Module* scope ){ 
-    Rcpp::current_scope = scope ; 
-}
-
 extern "C" void R_init_Rcpp11( DllInfo* info){
-	Rcpp::current_scope = 0 ;
-	
 	// init the cache
 	init_Rcpp11_cache() ;
 	

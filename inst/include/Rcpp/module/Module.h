@@ -201,6 +201,18 @@ namespace Rcpp{
 	        // TODO: add the enum to the class
 	        target_class->add_enum( enum_name, value ) ;
 	    }
+	    
+	    static void setCurrent( Module_Impl* scope ){ 
+          if( scope ){
+            rcpp_get_current_module() = XPtr<Module_Impl>(scope, false) ;
+          } else {
+            rcpp_get_current_module() = R_NilValue ;
+          }
+      }
+      
+      static Module_Impl* getCurrent(){ 
+          return XPtr<Module_Impl>( rcpp_get_current_module() ) ;
+      }
         
     private:
         MAP functions ;

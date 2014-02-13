@@ -81,10 +81,7 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(exitRNGScope)
     
     REGISTER(get_Rcpp11_namespace)
-    
-    REGISTER(getCurrentScope)
-    REGISTER(setCurrentScope)
-    
+    REGISTER(rcpp_get_current_module)
     REGISTER(get_cache)
     REGISTER(rcpp_set_stack_trace)
     REGISTER(rcpp_get_current_error)

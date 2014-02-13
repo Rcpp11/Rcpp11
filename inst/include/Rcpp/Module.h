@@ -340,17 +340,17 @@ namespace Rcpp {
 			return CppClass_Impl<unused>( this, it->second, buffer ) ;
 		END_RCPP
 	}
-	
+  
 }
 
 #define RCPP_MODULE(name)                                               \
     void _rcpp_module_##name##_init() ;                                 \
     static Rcpp::Module _rcpp_module_##name( # name ) ;                 \
     extern "C" SEXP _rcpp_module_boot_##name(){                         \
-        ::setCurrentScope( & _rcpp_module_##name ) ;                    \
+        Rcpp::Module::setCurrent( & _rcpp_module_##name ) ;             \
         _rcpp_module_##name##_init( ) ;                                 \
         Rcpp::XPtr<Rcpp::Module> mod_xp(& _rcpp_module_##name , false); \
-        ::setCurrentScope( 0 ) ;                                        \
+        Rcpp::Module::setCurrent( nullptr ) ;                           \
         return mod_xp ;                                                 \
     }                                                                   \
     void _rcpp_module_##name##_init()

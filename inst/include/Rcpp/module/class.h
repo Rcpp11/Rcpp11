@@ -43,7 +43,7 @@ namespace Rcpp{
             class_pointer(0), 
             typeinfo_name("")
         {
-            Rcpp::Module* module = getCurrentScope() ;
+            Module* module = Module::getCurrent() ;
             if( ! module->has_class(name_) ){
                 class_pointer = new self ;
                 class_pointer->name = name_ ;
@@ -467,7 +467,7 @@ namespace Rcpp{
             typedef typename parent_class_::signed_method_class parent_signed_method_class ;
             typedef typename parent_class_::method_class parent_method_class ;
             
-            Module* scope = getCurrentScope() ;
+            Module* scope = Module::getCurrent() ;
             parent_class_* parent_class_pointer = reinterpret_cast< parent_class_* > ( scope->get_class_pointer( parent ) );
             
             // importing methods

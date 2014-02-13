@@ -53,12 +53,11 @@ namespace Rcpp{
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
-Rcpp::Module* getCurrentScope() ;
-void setCurrentScope( Rcpp::Module* mod ) ;
 SEXP rcpp_get_current_error() ;
 int& reset_current_error() ;
 int error_occured() ;
 SEXP rcpp11_error_handler() ;
+SEXP& rcpp_get_current_module() ;
 
 #else 
 
@@ -136,16 +135,6 @@ inline SEXP rcpp_set_stack_trace(SEXP x){
     return fun(x) ;    
 }
 
-inline Rcpp::Module* getCurrentScope(){
-    GET_CALLABLE(getCurrentScope) ;
-    return fun();
-}
-
-inline void setCurrentScope( Rcpp::Module* mod ){
-    GET_CALLABLE(setCurrentScope) ;
-    return fun(mod) ;    
-}
-
 inline SEXP rcpp11_error_handler(){
     GET_CALLABLE(rcpp11_error_handler); 
     return fun(); 
@@ -154,6 +143,11 @@ inline SEXP rcpp11_error_handler(){
 inline int error_occured(){
     GET_CALLABLE(error_occured); 
     return fun(); 
+}
+
+inline SEXP& rcpp_get_current_module(){
+    GET_CALLABLE(rcpp_get_current_module); 
+    return fun();
 }
 
 

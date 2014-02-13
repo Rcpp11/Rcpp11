@@ -13,7 +13,7 @@ static bool handler_ready = false ;
 static SEXP Rcpp_cache = R_NilValue ;
 
 #define RCPP_HASH_CACHE_INDEX 4
-#define RCPP_CACHE_SIZE 6
+#define RCPP_CACHE_SIZE 7
 
 #ifndef RCPP_HASH_CACHE_INITIAL_SIZE
 #define RCPP_HASH_CACHE_INITIAL_SIZE 1024
@@ -61,6 +61,10 @@ SEXP rcpp_set_stack_trace(SEXP e){
 
 SEXP rcpp_get_stack_trace(){
     return VECTOR_ELT( get_rcpp_cache(), 3 ) ;
+}
+
+SEXP& rcpp_get_current_module(){
+    return VECTOR_ELT( get_rcpp_cache(), 6 ) ;
 }
 
 // [[Rcpp::register]]

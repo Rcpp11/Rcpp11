@@ -12,7 +12,7 @@ namespace Rcpp {
                 name(name_), values(), parent_typeinfo_name( typeid(Parent).name() ){ 
                 } 
             ~enum_(){
-                Rcpp::Module* module = getCurrentScope() ;
+                Rcpp::Module* module = Module::getCurrent() ;
                 module->add_enum( parent_typeinfo_name, name, values ) ;
             }
             
