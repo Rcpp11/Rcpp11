@@ -9,11 +9,6 @@
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
 // [[Rcpp::register]]
-SEXP get_vector_elt(SEXP x, int i){
-    return VECTOR_ELT(x, i ) ;
-}
-
-// [[Rcpp::register]]
 void set_vector_elt(SEXP x, int i, SEXP value){
     RCPP_SET_VECTOR_ELT(x, i, value ) ;
 }
