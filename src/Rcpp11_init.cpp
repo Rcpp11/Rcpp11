@@ -81,7 +81,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(enterRNGScope)
     REGISTER(exitRNGScope)
     
-    REGISTER(get_string_elt)
     REGISTER(set_string_elt)
     REGISTER(char_set_string_elt)
     REGISTER(get_string_ptr)
