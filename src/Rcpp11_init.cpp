@@ -81,7 +81,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(enterRNGScope)
     REGISTER(exitRNGScope)
     
-    REGISTER(dataptr)
     REGISTER(get_Rcpp11_namespace)
     
     REGISTER(getCurrentScope)

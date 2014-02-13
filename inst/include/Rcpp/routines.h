@@ -21,7 +21,6 @@ namespace Rcpp{
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
-void* dataptr(SEXP x) ;
 Rcpp::Module* getCurrentScope() ;
 void setCurrentScope( Rcpp::Module* mod ) ;
 SEXP rcpp_get_current_error() ;
@@ -103,11 +102,6 @@ namespace Rcpp {
 inline SEXP rcpp_get_current_error(){
     GET_CALLABLE(rcpp_get_current_error);
     return fun();
-}
-
-inline void* dataptr(SEXP x){
-    GET_CALLABLE(dataptr) ;
-    return fun(x) ; 
 }
 
 inline SEXP rcpp_set_stack_trace(SEXP x){

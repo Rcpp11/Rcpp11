@@ -8,9 +8,6 @@
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-// [[Rcpp::register]]
-void* dataptr(SEXP x){ return DATAPTR(x); }
-
 static bool Rcpp_cache_know = false ;
 static bool handler_ready = false ;
 static SEXP Rcpp_cache = R_NilValue ;
