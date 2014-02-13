@@ -120,7 +120,7 @@ namespace sugar {
     /* full specialization for character vectors */
     template <>
     inline SEXP* get_begin(const CharacterVector& obj){
-        return get_string_ptr(obj) ;
+        return STRING_PTR(obj) ;
     }
     
     template <typename T>
