@@ -25,7 +25,6 @@ SEXP* get_string_ptr(SEXP s) ;
 SEXP get_vector_elt(SEXP v, int i) ;
 void set_vector_elt(SEXP v, int i, SEXP x); 
 SEXP* get_vector_ptr(SEXP v); 
-const char* char_nocheck( SEXP x) ;
 void* dataptr(SEXP x) ;
 Rcpp::Module* getCurrentScope() ;
 void setCurrentScope( Rcpp::Module* mod ) ;
@@ -128,11 +127,6 @@ inline void set_vector_elt(SEXP v, int i, SEXP x){
 inline SEXP* get_vector_ptr(SEXP v){
     GET_CALLABLE(get_vector_ptr) ;
     return fun(v) ;    
-}
-
-inline const char* char_nocheck( SEXP x){
-    GET_CALLABLE(char_nocheck) ;
-    return fun(x) ;
 }
 
 inline void* dataptr(SEXP x){

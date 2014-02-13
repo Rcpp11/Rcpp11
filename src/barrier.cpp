@@ -27,10 +27,6 @@ SEXP* get_vector_ptr(SEXP x){ return VECTOR_PTR(x) ; }
 // [[Rcpp::register]]
 void* dataptr(SEXP x){ return DATAPTR(x); }
 
-// when we already know x is a CHARSXP
-// [[Rcpp::register]]
-const char* char_nocheck( SEXP x ){ return CHAR(x); }
-
 static bool Rcpp_cache_know = false ;
 static bool handler_ready = false ;
 static SEXP Rcpp_cache = R_NilValue ;

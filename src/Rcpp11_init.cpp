@@ -84,7 +84,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(get_string_ptr)
     REGISTER(set_vector_elt)
     REGISTER(get_vector_ptr)
-    REGISTER(char_nocheck)
     REGISTER(dataptr)
     REGISTER(get_Rcpp11_namespace)
     
