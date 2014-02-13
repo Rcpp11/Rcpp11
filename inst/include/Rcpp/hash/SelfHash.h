@@ -12,7 +12,7 @@ namespace sugar{
         typedef Vector<RTYPE> VECTOR ;
               
         SelfHash( SEXP table ) : n(Rf_length(table)), m(2), k(1), 
-            src( (STORAGE*)dataptr(table) ), data(), indices(), size_(0) 
+            src( (STORAGE*)DATAPTR(table) ), data(), indices(), size_(0) 
         {
             int desired = n*2 ;
             while( m < desired ){ m *= 2 ; k++ ; }

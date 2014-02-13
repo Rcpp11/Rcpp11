@@ -164,12 +164,6 @@ namespace Rcpp {
             setBuffer() ; buffer += CHAR(x) ; valid = false ;
             return *this ;
         }
-        // inline String& operator+=( int x     ){ data += char_nocheck(internal::r_coerce<INTSXP ,STRSXP>( x ) ) ; return *this ; }
-        // inline String& operator+=( double x  ){ data += char_nocheck(internal::r_coerce<REALSXP,STRSXP>( x ) ) ; return *this ; }
-        // inline String& operator+=( Rbyte x   ){ data += char_nocheck(internal::r_coerce<RAWSXP ,STRSXP>( x ) ) ; return *this ; }
-        // inline String& operator+=( bool x    ){ data += char_nocheck(internal::r_coerce<LGLSXP ,STRSXP>( x ) ) ; return *this ; }
-        // inline String& operator+=( Rcomplex x){ data += char_nocheck(internal::r_coerce<CPLXSXP,STRSXP>( x ) ) ; return *this ; }
-        
         
         inline String& replace_first( const char* s, const char* news ){
             RCPP_STRING_DEBUG_2( "String::replace_first( const char* = '%s' , const char* = '%s')", s, news ) ;
@@ -348,7 +342,7 @@ namespace Rcpp {
         inline bool is_na() const { return data == NA_STRING ; }
         inline void setBuffer(){ 
             if( !buffer_ready){
-                buffer = char_nocheck(data) ;
+                buffer = CHAR(data) ;
                 buffer_ready  = true ;
             }
         }

@@ -81,15 +81,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(enterRNGScope)
     REGISTER(exitRNGScope)
     
-    REGISTER(get_string_elt)
-    REGISTER(char_get_string_elt)
-    REGISTER(set_string_elt)
-    REGISTER(char_set_string_elt)
-    REGISTER(get_string_ptr)
-    REGISTER(set_vector_elt)
-    REGISTER(get_vector_ptr)
-    REGISTER(char_nocheck)
-    REGISTER(dataptr)
     REGISTER(get_Rcpp11_namespace)
     
     REGISTER(getCurrentScope)
@@ -97,6 +88,12 @@ void init_Rcpp11_routines(DllInfo *info){
     
     REGISTER(get_cache)
     REGISTER(rcpp_set_stack_trace)
+    REGISTER(rcpp_get_current_error)
+    
+    REGISTER(error_occured)
+    REGISTER(rcpp11_error_handler)
+    REGISTER(reset_current_error)
+
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

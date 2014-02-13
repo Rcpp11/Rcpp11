@@ -22,7 +22,7 @@ namespace internal{
 		}
 		
 		operator SEXP(){
-			return ::Rf_mkString(get()) ;
+			return Rf_mkString(get()) ;
 		}
 		
 	private:

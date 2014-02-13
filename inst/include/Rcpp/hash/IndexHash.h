@@ -14,7 +14,7 @@ namespace Rcpp{
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         typedef Vector<RTYPE> VECTOR ;
               
-        IndexHash( SEXP table ) : n(Rf_length(table)), m(2), k(1), src( (STORAGE*)dataptr(table) ), size_(0)
+        IndexHash( SEXP table ) : n(Rf_length(table)), m(2), k(1), src( (STORAGE*)DATAPTR(table) ), size_(0)
             , data()
         {
             int desired = n*2 ;

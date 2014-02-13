@@ -21,21 +21,26 @@ namespace Rcpp{
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
-SEXP get_string_elt(SEXP s, int i); 
-const char* char_get_string_elt(SEXP s, int i) ;
-void set_string_elt(SEXP s, int i, SEXP v); 
-void char_set_string_elt(SEXP s, int i, const char* v); 
-SEXP* get_string_ptr(SEXP s) ;
-SEXP get_vector_elt(SEXP v, int i) ;
-void set_vector_elt(SEXP v, int i, SEXP x); 
-SEXP* get_vector_ptr(SEXP v); 
-const char* char_nocheck( SEXP x) ;
-void* dataptr(SEXP x) ;
 Rcpp::Module* getCurrentScope() ;
 void setCurrentScope( Rcpp::Module* mod ) ;
- 
+SEXP rcpp_get_current_error() ;
+int& reset_current_error() ;
+int error_occured() ;
+SEXP rcpp11_error_handler() ;
+
 #else 
+
 namespace Rcpp {
+    
+    inline int& reset_current_error(){
+        GET_CALLABLE(reset_current_error) ;
+        return fun();  
+    }
+    
+    inline nanotime_t get_nanotime(void){
+        GET_CALLABLE(get_nanotime) ;
+        return fun() ; 
+    }
     
     inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
         GET_CALLABLE(Rcpp_eval) ;
@@ -93,55 +98,10 @@ namespace Rcpp {
     }
     
 }
-           
-inline SEXP get_string_elt(SEXP s, int i){
-    GET_CALLABLE(get_string_elt) ;
-    return fun(s, i) ;
-}
-
-inline const char* char_get_string_elt(SEXP s, int i){
-    GET_CALLABLE(char_get_string_elt) ;
-    return fun(s, i); 
-}
-
-inline void set_string_elt(SEXP s, int i, SEXP v){
-    GET_CALLABLE(set_string_elt) ;
-    return fun(s, i, v) ;
-}
-
-inline void char_set_string_elt(SEXP s, int i, const char* v){
-    GET_CALLABLE(char_set_string_elt) ; 
-    return fun(s, i, v ) ;    
-}
-
-inline SEXP* get_string_ptr(SEXP s){
-    GET_CALLABLE(get_string_ptr) ; 
-    return fun(s) ;    
-}
-
-inline SEXP get_vector_elt(SEXP v, int i){
-    GET_CALLABLE(get_vector_elt) ;
-    return fun(v, i) ;
-}
-
-inline void set_vector_elt(SEXP v, int i, SEXP x){
-    GET_CALLABLE(set_vector_elt) ;
-    return fun(v, i, x) ;
-}
-
-inline SEXP* get_vector_ptr(SEXP v){
-    GET_CALLABLE(get_vector_ptr) ;
-    return fun(v) ;    
-}
-
-inline const char* char_nocheck( SEXP x){
-    GET_CALLABLE(char_nocheck) ;
-    return fun(x) ;
-}
-
-inline void* dataptr(SEXP x){
-    GET_CALLABLE(dataptr) ;
-    return fun(x) ; 
+ 
+inline SEXP rcpp_get_current_error(){
+    GET_CALLABLE(rcpp_get_current_error);
+    return fun();
 }
 
 inline SEXP rcpp_set_stack_trace(SEXP x){
@@ -157,6 +117,16 @@ inline Rcpp::Module* getCurrentScope(){
 inline void setCurrentScope( Rcpp::Module* mod ){
     GET_CALLABLE(setCurrentScope) ;
     return fun(mod) ;    
+}
+
+inline SEXP rcpp11_error_handler(){
+    GET_CALLABLE(rcpp11_error_handler); 
+    return fun(); 
+}
+  
+inline int error_occured(){
+    GET_CALLABLE(error_occured); 
+    return fun(); 
 }
 
 
