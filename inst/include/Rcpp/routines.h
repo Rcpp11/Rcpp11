@@ -22,7 +22,6 @@ namespace Rcpp{
            
 SEXP rcpp_set_stack_trace(SEXP) ;
 void set_string_elt(SEXP s, int i, SEXP v); 
-void char_set_string_elt(SEXP s, int i, const char* v); 
 SEXP* get_string_ptr(SEXP s) ;
 SEXP get_vector_elt(SEXP v, int i) ;
 void set_vector_elt(SEXP v, int i, SEXP x); 
@@ -115,11 +114,6 @@ inline SEXP rcpp_get_current_error(){
 inline void set_string_elt(SEXP s, int i, SEXP v){
     GET_CALLABLE(set_string_elt) ;
     return fun(s, i, v) ;
-}
-
-inline void char_set_string_elt(SEXP s, int i, const char* v){
-    GET_CALLABLE(char_set_string_elt) ; 
-    return fun(s, i, v ) ;    
 }
 
 inline SEXP* get_string_ptr(SEXP s){

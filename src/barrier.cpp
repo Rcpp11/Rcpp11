@@ -14,11 +14,6 @@ void set_string_elt(SEXP x, int i, SEXP value){
 }
 
 // [[Rcpp::register]]
-void char_set_string_elt(SEXP x, int i, const char* value){
-    STRING_ELT(x, i) = Rf_mkChar(value) ; 
-}
-
-// [[Rcpp::register]]
 SEXP* get_string_ptr(SEXP x){ return STRING_PTR(x) ; }
 
 // [[Rcpp::register]]
