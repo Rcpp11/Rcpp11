@@ -14,11 +14,6 @@ SEXP get_string_elt(SEXP x, int i){
 }    
 
 // [[Rcpp::register]]
-const char* char_get_string_elt(SEXP x, int i){
-    return CHAR(STRING_ELT(x, i )) ;
-}  
-
-// [[Rcpp::register]]
 void set_string_elt(SEXP x, int i, SEXP value){
     STRING_ELT(x, i) = value ;
 }
