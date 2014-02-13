@@ -9,11 +9,6 @@
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
 // [[Rcpp::register]]
-void set_string_elt(SEXP x, int i, SEXP value){
-    STRING_ELT(x, i) = value ;
-}
-
-// [[Rcpp::register]]
 SEXP* get_string_ptr(SEXP x){ return STRING_PTR(x) ; }
 
 // [[Rcpp::register]]
