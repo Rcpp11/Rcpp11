@@ -9,9 +9,6 @@
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
 // [[Rcpp::register]]
-SEXP* get_vector_ptr(SEXP x){ return VECTOR_PTR(x) ; }
-
-// [[Rcpp::register]]
 void* dataptr(SEXP x){ return DATAPTR(x); }
 
 static bool Rcpp_cache_know = false ;

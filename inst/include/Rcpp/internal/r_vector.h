@@ -6,7 +6,7 @@ namespace internal{
 
 template<int RTYPE> 
 typename Rcpp::traits::storage_type<RTYPE>::type* r_vector_start(SEXP x){ 
-    return get_vector_ptr(x) ;
+    return VECTOR_PTR(x) ;
 }
 
 template<> inline int* r_vector_start<INTSXP>(SEXP x){ 
