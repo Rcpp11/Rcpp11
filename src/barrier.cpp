@@ -9,11 +9,9 @@
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-static bool Rcpp_cache_know = false ;
 static bool handler_ready = false ;
 static SEXP Rcpp_cache = R_NilValue ;
 
-#define RCPP_HASH_CACHE_INDEX 4
 #define RCPP_CACHE_SIZE 7
 
 #ifndef RCPP_HASH_CACHE_INITIAL_SIZE
@@ -132,22 +130,3 @@ SEXP rcpp_get_current_error(){
     return VECTOR_ELT( get_rcpp_cache(), 2 ) ;
 }
 
-namespace Rcpp{
-    
-    // [[Rcpp::register]]
-    int* get_cache(int m){
-        SEXP cache = get_rcpp_cache() ;
-        SEXP hash_cache = VECTOR_ELT( cache, RCPP_HASH_CACHE_INDEX) ;
-        int n = Rf_length(hash_cache) ;
-        if( m > n ){
-            SEXP hash_cache_ = PROTECT(Rf_allocVector( INTSXP, m)) ;
-            RCPP_SET_VECTOR_ELT(cache,RCPP_HASH_CACHE_INDEX, hash_cache_); 
-            hash_cache = hash_cache_ ;
-            UNPROTECT(1) ;
-        }
-        int *res = INTEGER(hash_cache) ;
-        std::fill(res, res+m, 0 ) ;
-        return res ;
-    }
-
-}

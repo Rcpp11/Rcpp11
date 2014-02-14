@@ -14,12 +14,12 @@ namespace Rcpp{
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         typedef Vector<RTYPE> VECTOR ;
               
-        IndexHash( SEXP table ) : n(Rf_length(table)), m(2), k(1), src( (STORAGE*)DATAPTR(table) ), size_(0)
-            , data()
+        IndexHash( SEXP table ) : n(Rf_length(table)), m(2), k(1), src( (STORAGE*)DATAPTR(table) ), size_(0), data()
         {
             int desired = n*2 ;
             while( m < desired ){ m *= 2 ; k++ ; }
-            data = get_cache(m) ;
+            vec  = IntegerVector(m) ; 
+            data = vec.begin() ;
         }
         
         inline IndexHash& fill(){
@@ -64,6 +64,7 @@ namespace Rcpp{
         int n, m, k ;
         STORAGE* src ;
         int size_ ;
+        IntegerVector vec ;
         int* data ;
         
         template <typename T>
