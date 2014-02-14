@@ -14,7 +14,9 @@ namespace Rcpp {
     return Rcpp_cache ;
   }
   
-  
+  inline SEXP get_Rcpp11_namespace(){ 
+      return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
+	}
   
 }
 #endif

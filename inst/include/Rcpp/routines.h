@@ -48,7 +48,6 @@ namespace Rcpp{
     SEXP stack_trace( const char *file, int line) ;
     unsigned long enterRNGScope(); 
     unsigned long exitRNGScope() ;
-    SEXP get_Rcpp11_namespace() ; 
 }
            
 SEXP rcpp_set_stack_trace(SEXP) ;
@@ -110,11 +109,6 @@ namespace Rcpp {
     inline unsigned long exitRNGScope(){
          GET_CALLABLE(exitRNGScope) ;
          return fun() ;
-    }
-    
-    inline SEXP get_Rcpp11_namespace() {
-        GET_CALLABLE(get_Rcpp11_namespace) ;
-        return fun();
     }
     
 }

@@ -14,16 +14,6 @@ static SEXP Rcpp_cache = R_NilValue ;
 
 #define RCPP_CACHE_SIZE 7
 
-#ifndef RCPP_HASH_CACHE_INITIAL_SIZE
-#define RCPP_HASH_CACHE_INITIAL_SIZE 1024
-#endif 
-
-namespace Rcpp {
-    SEXP get_Rcpp11_namespace(){ 
-        return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
-	  }
-}
-
 static int& set_error_occured(SEXP cache, bool occured){
     RCPP_DEBUG( "set_error_occured( <%p>, %s, %s )", cache, PRETTY_BOOL(occured), PRETTY_BOOL(cache==R_NilValue) )
     RCPP_DEBUG( "R_NilValue = <%p>", R_NilValue )
@@ -82,7 +72,6 @@ SEXP init_Rcpp11_cache(){
 	
 	set_current_error( cache, R_NilValue ) ;
 	RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
-	RCPP_SET_VECTOR_ELT( cache, 4, Rf_allocVector(INTSXP, RCPP_HASH_CACHE_INITIAL_SIZE) ) ;
 	Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
     
 	UNPROTECT(2) ;
