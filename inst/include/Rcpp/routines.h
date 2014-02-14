@@ -47,6 +47,7 @@ namespace Rcpp{
     SEXP stack_trace( const char *file, int line) ;
     unsigned long enterRNGScope(); 
     unsigned long exitRNGScope() ;
+    SEXP get_rcpp_cache() ;
 }
            
 #else 
@@ -93,6 +94,10 @@ namespace Rcpp {
          return fun() ;
     }
     
+    inline SEXP get_rcpp_cache(){
+        GET_CALLABLE(get_rcpp_cache) ;
+        return fun() ;
+    }
 }
 
 #endif

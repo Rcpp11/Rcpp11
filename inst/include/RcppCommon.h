@@ -12,6 +12,8 @@
 
 #include <Rcpp/macros/macros.h>
 #include <Rcpp/R.h>
+
+#include <Rcpp/routines.h>
 #include <Rcpp/cache.h>
 
 #include <Rcpp/protection/protection.h>
@@ -55,7 +57,6 @@ namespace Rcpp{
     using Module = Module_Impl<true> ;
 }
 
-#include <Rcpp/routines.h>
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>
