@@ -50,8 +50,6 @@ namespace Rcpp{
     unsigned long exitRNGScope() ;
 }
            
-SEXP rcpp_set_stack_trace(SEXP) ;
-SEXP rcpp_get_current_error() ;
 SEXP rcpp11_error_handler() ;
 SEXP& rcpp_get_current_module() ;
 
@@ -104,16 +102,6 @@ namespace Rcpp {
          return fun() ;
     }
     
-}
- 
-inline SEXP rcpp_get_current_error(){
-    GET_CALLABLE(rcpp_get_current_error);
-    return fun();
-}
-
-inline SEXP rcpp_set_stack_trace(SEXP x){
-    GET_CALLABLE(rcpp_set_stack_trace) ;
-    return fun(x) ;    
 }
 
 inline SEXP rcpp11_error_handler(){

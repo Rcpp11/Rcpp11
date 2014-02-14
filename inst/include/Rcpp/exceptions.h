@@ -23,7 +23,7 @@ public:
       add_backtrace_information(message);
     }
     exception(const char* message_, const char* file, int line ): message(message_){
-        rcpp_set_stack_trace( stack_trace(file,line) ) ;
+        rcpp_stack_trace() = stack_trace(file,line) ;
     }
     virtual ~exception() noexcept {}
     virtual const char* what() const noexcept { return message.c_str() ; }

@@ -23,13 +23,17 @@ namespace Rcpp {
     return LOGICAL(err)[0] ;
   }  
   
-  inline SEXP& current_error(){
+  inline SEXP& rcpp_current_error(){
     return VECTOR_ELT( get_rcpp_cache(), 2 ) ;  
+  }
+  
+  inline SEXP& rcpp_stack_trace(){
+    return VECTOR_ELT( get_rcpp_cache(), 3 ) ;  
   }
      
   inline int& reset_current_error(){
-    current_error() = R_NilValue ;
-    stack_trace() = R_NilValue ;
+    rcpp_current_error() = R_NilValue ;
+    rcpp_stack_trace() = R_NilValue ;
     return error_occured() = false ; 
   }
   

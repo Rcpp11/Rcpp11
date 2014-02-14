@@ -34,8 +34,7 @@ namespace Rcpp {
         Shield<SEXP> res  = ::Rf_eval( call, RCPP );
         
         if( error_occured() ) {
-            Shield<SEXP> current_error        =  rcpp_get_current_error() ;
-            Shield<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, current_error) ;
+            Shield<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, rcpp_current_error() ) ;
             Shield<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
             std::string message(CHAR(::Rf_asChar(condition_message)));
             throw eval_error(message) ;
@@ -96,11 +95,11 @@ namespace Rcpp {
         std::string ex_class = Rcpp::demangle( typeid(ex).name() ) ;
         std::string ex_msg   = ex.what() ; 
         
-        Shield<SEXP> cppstack  = rcpp_get_stack_trace() ;
+        Shield<SEXP> cppstack  = rcpp_stack_trace() ;
         Shield<SEXP> call      = get_last_call() ;
         Shield<SEXP> classes   = get_exception_classes(ex_class) ;
         Shield<SEXP> condition = make_condition( ex_msg, call, cppstack, classes ) ; 
-        rcpp_set_stack_trace( R_NilValue ) ;
+        rcpp_stack_trace() = R_NilValue ;
         return condition ;
     }
     

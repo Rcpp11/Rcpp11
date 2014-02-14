@@ -80,8 +80,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(exitRNGScope)
     
     REGISTER(rcpp_get_current_module)
-    REGISTER(rcpp_set_stack_trace)
-    REGISTER(rcpp_get_current_error)
     
     REGISTER(rcpp11_error_handler)
 
