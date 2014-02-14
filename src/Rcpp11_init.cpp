@@ -81,8 +81,6 @@ void init_Rcpp11_routines(DllInfo *info){
     
     REGISTER(rcpp_get_current_module)
     
-    REGISTER(rcpp11_error_handler)
-
 }
         
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

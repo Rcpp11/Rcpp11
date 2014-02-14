@@ -50,7 +50,6 @@ namespace Rcpp{
     unsigned long exitRNGScope() ;
 }
            
-SEXP rcpp11_error_handler() ;
 SEXP& rcpp_get_current_module() ;
 
 #else 
@@ -104,11 +103,6 @@ namespace Rcpp {
     
 }
 
-inline SEXP rcpp11_error_handler(){
-    GET_CALLABLE(rcpp11_error_handler); 
-    return fun(); 
-}
-  
 inline SEXP& rcpp_get_current_module(){
     GET_CALLABLE(rcpp_get_current_module); 
     return fun();

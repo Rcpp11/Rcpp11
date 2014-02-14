@@ -37,5 +37,21 @@ namespace Rcpp {
     return error_occured() = false ; 
   }
   
+  inline SEXP& rcpp11_error_handler(){
+    static bool handler_ready = false ;
+    if( ! handler_ready ){
+      SEXP cache   = get_rcpp_cache() ;
+      SEXP RCPP    = VECTOR_ELT(cache, 0) ;
+      SEXP handler = Rf_findVarInFrame(RCPP, Rf_install(".rcpp_error_recorder") ) ;
+      if( TYPEOF(handler) == PROMSXP){
+          handler = Rf_eval(handler, RCPP) ;
+      }
+      SET_VECTOR_ELT( cache, 5, handler ) ;
+      handler_ready = true ;
+    }
+    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 5) ;
+}
+
+  
 }
 #endif

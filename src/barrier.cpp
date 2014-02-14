@@ -9,27 +9,8 @@
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-static bool handler_ready = false ;
-
-#define RCPP_CACHE_SIZE 7
-
 SEXP& rcpp_get_current_module(){
     return VECTOR_ELT( Rcpp::get_rcpp_cache(), 6 ) ;
-}
-
-// [[Rcpp::register]]
-SEXP rcpp11_error_handler(){
-    if( ! handler_ready ){
-      SEXP cache   = Rcpp::get_rcpp_cache() ;
-      SEXP RCPP    = VECTOR_ELT(cache, 0) ;
-      SEXP handler = Rf_findVarInFrame(RCPP, Rf_install(".rcpp_error_recorder") ) ;
-      if( TYPEOF(handler) == PROMSXP){
-          handler = Rf_eval(handler, RCPP) ;
-      }
-      RCPP_SET_VECTOR_ELT( cache, 5, handler ) ;
-      handler_ready = true ;
-    }
-    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 5) ;
 }
 
 SEXP init_Rcpp11_cache(){ 
@@ -37,7 +18,7 @@ SEXP init_Rcpp11_cache(){
     
     SEXP getNamespaceSym = Rf_install("getNamespace"); 
     SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
-    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, RCPP_CACHE_SIZE ) ) ;
+    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, 7 ) ) ;
     
     // the Rcpp namespace
     RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
