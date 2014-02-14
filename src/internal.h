@@ -30,7 +30,6 @@ CALLFUN_2(Module__get_function);
 CALLFUN_1(Module__name);
 CALLFUN_2(CppObject__finalize);
 
-CALLFUN_0(get_rcpp_cache);
 CALLFUN_0(init_Rcpp11_cache);
 
 CALLFUN_1(rcpp_error_recorder);

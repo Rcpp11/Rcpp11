@@ -5,6 +5,7 @@
 #include "internal.h"
 #include <algorithm>
 #include <Rcpp/macros/debug.h>
+#include <Rcpp/cache.h>
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
@@ -18,21 +19,6 @@ static SEXP Rcpp_cache = R_NilValue ;
 #ifndef RCPP_HASH_CACHE_INITIAL_SIZE
 #define RCPP_HASH_CACHE_INITIAL_SIZE 1024
 #endif 
-
-// only used for debugging
-SEXP get_rcpp_cache() {
-    RCPP_DEBUG( "get_rcpp_cache (known = %s)", (Rcpp_cache_know ? "true" : "false" ) )
-    if( ! Rcpp_cache_know ){
-        SEXP getNamespaceSym = Rf_install("getNamespace"); 
-        SEXP RCPP       = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
-        Rcpp_cache      = Rf_findVarInFrame( RCPP, Rf_install(".rcpp_cache") ) ;
-        Rcpp_cache_know = true ;
-        UNPROTECT(1) ;
-    }
-    RCPP_DEBUG( "  [get_rcpp_cache] Rcpp_cache = <%p>", Rcpp_cache )
-        
-    return Rcpp_cache ;
-}
 
 namespace Rcpp {
     SEXP get_Rcpp11_namespace(){ 

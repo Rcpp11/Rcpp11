@@ -23,7 +23,6 @@ static R_CallMethodDef callEntries[]  = {
     DOT_CALL(Module__functions_names),
     DOT_CALL(Module__name),
     DOT_CALL(Module__get_function),
-    DOT_CALL(get_rcpp_cache),
     DOT_CALL(rcpp_error_recorder),
     DOT_CALL(as_character_externalptr),
     DOT_CALL(CppField__get),
