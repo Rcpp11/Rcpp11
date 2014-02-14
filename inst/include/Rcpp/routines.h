@@ -50,8 +50,6 @@ namespace Rcpp{
     unsigned long exitRNGScope() ;
 }
            
-SEXP& rcpp_get_current_module() ;
-
 #else 
 
 namespace Rcpp {
@@ -102,12 +100,6 @@ namespace Rcpp {
     }
     
 }
-
-inline SEXP& rcpp_get_current_module(){
-    GET_CALLABLE(rcpp_get_current_module); 
-    return fun();
-}
-
 
 #endif
 

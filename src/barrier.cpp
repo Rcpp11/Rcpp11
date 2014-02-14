@@ -9,10 +9,6 @@
 
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
-SEXP& rcpp_get_current_module(){
-    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 6 ) ;
-}
-
 SEXP init_Rcpp11_cache(){ 
     RCPP_DEBUG( "init_Rcpp11_cache()\n" )
     
