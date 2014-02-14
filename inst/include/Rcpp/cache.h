@@ -17,6 +17,12 @@ namespace Rcpp {
   inline SEXP get_Rcpp11_namespace(){ 
       return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
 	}
+	
+	inline int error_occured(){
+    SEXP err = VECTOR_ELT( get_rcpp_cache(), 1 ) ;
+    return LOGICAL(err)[0] ;
+  }
+
   
 }
 #endif

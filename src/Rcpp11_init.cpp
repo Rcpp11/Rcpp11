@@ -83,7 +83,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(rcpp_set_stack_trace)
     REGISTER(rcpp_get_current_error)
     
-    REGISTER(error_occured)
     REGISTER(rcpp11_error_handler)
     REGISTER(reset_current_error)
 

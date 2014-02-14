@@ -10,7 +10,6 @@
 #define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
 
 static bool handler_ready = false ;
-static SEXP Rcpp_cache = R_NilValue ;
 
 #define RCPP_CACHE_SIZE 7
 
@@ -29,22 +28,22 @@ void set_current_error(SEXP cache, SEXP e){
 }
 
 SEXP rcpp_set_stack_trace(SEXP e){
-    RCPP_SET_VECTOR_ELT( get_rcpp_cache(), 3, e ) ;
+    RCPP_SET_VECTOR_ELT( Rcpp::get_rcpp_cache(), 3, e ) ;
     return R_NilValue ;
 }
 
 SEXP rcpp_get_stack_trace(){
-    return VECTOR_ELT( get_rcpp_cache(), 3 ) ;
+    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 3 ) ;
 }
 
 SEXP& rcpp_get_current_module(){
-    return VECTOR_ELT( get_rcpp_cache(), 6 ) ;
+    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 6 ) ;
 }
 
 // [[Rcpp::register]]
 SEXP rcpp11_error_handler(){
     if( ! handler_ready ){
-      SEXP cache   = get_rcpp_cache() ;
+      SEXP cache   = Rcpp::get_rcpp_cache() ;
       SEXP RCPP    = VECTOR_ELT(cache, 0) ;
       SEXP handler = Rf_findVarInFrame(RCPP, Rf_install(".rcpp_error_recorder") ) ;
       if( TYPEOF(handler) == PROMSXP){
@@ -53,7 +52,7 @@ SEXP rcpp11_error_handler(){
       RCPP_SET_VECTOR_ELT( cache, 5, handler ) ;
       handler_ready = true ;
     }
-    return VECTOR_ELT( get_rcpp_cache(), 5) ;
+    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 5) ;
 }
 
 SEXP init_Rcpp11_cache(){ 
@@ -81,7 +80,7 @@ SEXP init_Rcpp11_cache(){
 // [[Rcpp::register]]
 int& reset_current_error(){
     RCPP_DEBUG("reset_current_error")
-    SEXP cache = get_rcpp_cache() ;
+    SEXP cache = Rcpp::get_rcpp_cache() ;
     
     // current error
     set_current_error( cache, R_NilValue ) ;
@@ -94,14 +93,8 @@ int& reset_current_error(){
 	
 }
 
-// [[Rcpp::register]]
-int error_occured(){
-    SEXP err = VECTOR_ELT( get_rcpp_cache(), 1 ) ;
-    return LOGICAL(err)[0] ;
-}
-
 SEXP rcpp_error_recorder(SEXP e){ 
-    SEXP cache = get_rcpp_cache() ;
+    SEXP cache = Rcpp::get_rcpp_cache() ;
     
     // error occured
     
@@ -116,6 +109,6 @@ SEXP rcpp_error_recorder(SEXP e){
 
 // [[Rcpp::register]]
 SEXP rcpp_get_current_error(){
-    return VECTOR_ELT( get_rcpp_cache(), 2 ) ;
+    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 2 ) ;
 }
 

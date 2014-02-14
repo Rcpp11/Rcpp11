@@ -12,6 +12,7 @@
 
 #include <Rcpp/macros/macros.h>
 #include <Rcpp/R.h>
+#include <Rcpp/cache.h>
 
 #include <Rcpp/protection/protection.h>
 

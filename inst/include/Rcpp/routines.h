@@ -53,7 +53,6 @@ namespace Rcpp{
 SEXP rcpp_set_stack_trace(SEXP) ;
 SEXP rcpp_get_current_error() ;
 int& reset_current_error() ;
-int error_occured() ;
 SEXP rcpp11_error_handler() ;
 SEXP& rcpp_get_current_module() ;
 
@@ -128,11 +127,6 @@ inline SEXP rcpp11_error_handler(){
     return fun(); 
 }
   
-inline int error_occured(){
-    GET_CALLABLE(error_occured); 
-    return fun(); 
-}
-
 inline SEXP& rcpp_get_current_module(){
     GET_CALLABLE(rcpp_get_current_module); 
     return fun();

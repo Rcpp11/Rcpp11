@@ -33,7 +33,6 @@ CALLFUN_2(CppObject__finalize);
 CALLFUN_0(init_Rcpp11_cache);
 
 CALLFUN_1(rcpp_error_recorder);
-int error_occured() ;
 CALLFUN_0(rcpp_get_stack_trace);
 
 CALLFUN_3(CppField__get);
