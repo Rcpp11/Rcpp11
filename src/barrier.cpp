@@ -13,15 +13,6 @@ static bool handler_ready = false ;
 
 #define RCPP_CACHE_SIZE 7
 
-static int& set_error_occured(SEXP cache, bool occured){
-    RCPP_DEBUG( "set_error_occured( <%p>, %s, %s )", cache, PRETTY_BOOL(occured), PRETTY_BOOL(cache==R_NilValue) )
-    RCPP_DEBUG( "R_NilValue = <%p>", R_NilValue )
-    SEXP err = VECTOR_ELT(cache, 1); 
-    int& ref = LOGICAL(err)[0] ;
-    ref = occured ;
-    return ref ;
-}
-
 void set_current_error(SEXP cache, SEXP e){ 
     RCPP_DEBUG( "set_current_error( <%p>, <%p> )", cache, e ) ;
     RCPP_SET_VECTOR_ELT( cache, 2, e ) ;
@@ -89,17 +80,14 @@ int& reset_current_error(){
     RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
     
     // error occured
-    return set_error_occured( cache, false ) ;
-	
+    return error_occured() = false ;
 }
 
 SEXP rcpp_error_recorder(SEXP e){ 
     SEXP cache = Rcpp::get_rcpp_cache() ;
     
     // error occured
-    
-    RCPP_DEBUG( "rcpp_error_recorder()\n" )
-    set_error_occured( cache, true ) ;
+    error_occured() = true ;
 	
     // current error
     set_current_error(cache, e ) ;
