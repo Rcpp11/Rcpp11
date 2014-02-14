@@ -54,11 +54,6 @@ namespace Rcpp{
 
 namespace Rcpp {
     
-    inline nanotime_t get_nanotime(void){
-        GET_CALLABLE(get_nanotime) ;
-        return fun() ; 
-    }
-    
     inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
         GET_CALLABLE(Rcpp_eval) ;
         return fun(expr, env) ;
