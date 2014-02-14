@@ -1,10 +1,6 @@
 #ifndef Rcpp__exceptions__h
 #define Rcpp__exceptions__h
 
-#define R_NO_REMAP
-#include <Rinternals.h>
-#include <sstream>
-
 // for backtraces
 #if defined(__GNUC__) || defined(__clang__)
 #include <execinfo.h>
@@ -14,6 +10,20 @@
 
 namespace Rcpp{
 
+    inline std::string demangle( const std::string& name ){
+        std::string real_class ;
+        int status =-1 ;
+        char *dem = 0;
+        dem = abi::__cxa_demangle(name.c_str(), 0, 0, &status);
+        if( status == 0 ){
+            real_class = dem ;
+            free(dem);
+        } else {
+            real_class = name ;
+        }
+        return real_class ;
+    }
+    
 class exception : public std::exception {
 public:
     explicit exception(const char* message_) : message(message_) {

@@ -2,7 +2,6 @@
 
 #include <Rcpp.h>
 #include "internal.h" 
-#include <cxxabi.h>
 
 namespace Rcpp {
 
@@ -42,22 +41,7 @@ namespace Rcpp {
 
         return res ;
     }
-                   
-    // [[Rcpp::register]]
-    std::string demangle( const std::string& name ){
-        std::string real_class ;
-        int status =-1 ;
-        char *dem = 0;
-        dem = abi::__cxa_demangle(name.c_str(), 0, 0, &status);
-        if( status == 0 ){
-            real_class = dem ;
-            free(dem);
-        } else {
-            real_class = name ;
-        }
-        return real_class ;
-    }
-
+    
     static SEXP get_last_call(){
         SEXP sys_calls_symbol = Rf_install( "sys.calls" ) ;
         Shield<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   

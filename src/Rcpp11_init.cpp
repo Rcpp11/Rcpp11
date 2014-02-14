@@ -70,7 +70,6 @@ void init_Rcpp11_routines(DllInfo *info){
     #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
     
     REGISTER(Rcpp_eval)
-    REGISTER(demangle)
     REGISTER(forward_exception_to_r)
     REGISTER(exception_to_try_error)
     REGISTER(string_to_try_error)
