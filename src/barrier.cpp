@@ -60,27 +60,12 @@ SEXP init_Rcpp11_cache(){
 	RCPP_SET_VECTOR_ELT( cache, 1, error_occured ) ; 
 	UNPROTECT(1); 
 	
-	set_current_error( cache, R_NilValue ) ;
+	current_error() = R_NilValue ;
 	RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
 	Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
     
 	UNPROTECT(2) ;
 	return cache ;
-}
-
-// [[Rcpp::register]]
-int& reset_current_error(){
-    RCPP_DEBUG("reset_current_error")
-    SEXP cache = Rcpp::get_rcpp_cache() ;
-    
-    // current error
-    set_current_error( cache, R_NilValue ) ;
-	
-    // stack trace
-    RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ;
-    
-    // error occured
-    return error_occured() = false ;
 }
 
 SEXP rcpp_error_recorder(SEXP e){ 

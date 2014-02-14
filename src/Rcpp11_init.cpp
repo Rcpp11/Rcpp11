@@ -84,7 +84,6 @@ void init_Rcpp11_routines(DllInfo *info){
     REGISTER(rcpp_get_current_error)
     
     REGISTER(rcpp11_error_handler)
-    REGISTER(reset_current_error)
 
 }
         

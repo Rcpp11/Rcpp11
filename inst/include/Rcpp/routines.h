@@ -52,18 +52,12 @@ namespace Rcpp{
            
 SEXP rcpp_set_stack_trace(SEXP) ;
 SEXP rcpp_get_current_error() ;
-int& reset_current_error() ;
 SEXP rcpp11_error_handler() ;
 SEXP& rcpp_get_current_module() ;
 
 #else 
 
 namespace Rcpp {
-    
-    inline int& reset_current_error(){
-        GET_CALLABLE(reset_current_error) ;
-        return fun();  
-    }
     
     inline nanotime_t get_nanotime(void){
         GET_CALLABLE(get_nanotime) ;

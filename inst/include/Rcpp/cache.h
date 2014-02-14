@@ -21,8 +21,17 @@ namespace Rcpp {
   inline int& error_occured(){
     SEXP err = VECTOR_ELT( get_rcpp_cache(), 1 ) ;
     return LOGICAL(err)[0] ;
+  }  
+  
+  inline SEXP& current_error(){
+    return VECTOR_ELT( get_rcpp_cache(), 2 ) ;  
   }
-
      
+  inline int& reset_current_error(){
+    current_error() = R_NilValue ;
+    stack_trace() = R_NilValue ;
+    return error_occured() = false ; 
+  }
+  
 }
 #endif
