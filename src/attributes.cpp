@@ -944,8 +944,8 @@ namespace attributes {
                 rcppInterfacesWarning("No interfaces specified", lineNumber);
             }
             else {
-                for (std::size_t i=0; i<params.size(); i++) {
-                    std::string param = params[i].name();
+                for (auto & params_i : params) {
+                    std::string param = params_i.name();
                     if (param != kInterfaceR && param != kInterfaceCpp) {
                         rcppInterfacesWarning(
                             "Unknown interface '" + param + "'", lineNumber);
@@ -1420,13 +1420,12 @@ namespace attributes {
         // track cppExports and signatures (we use these at the end to
         // generate the ValidateSignature and RegisterCCallable functions)
         if (attributes.hasInterface(kInterfaceCpp)) {
-            for (auto 
-                       it = attributes.begin(); it != attributes.end(); ++it) {
-                if (it->isExportedFunction()) {
+            for (const auto & attribute : attributes) {
+                if (attribute.isExportedFunction()) {
                     // add it to the list if it's not hidden
-                    Function fun = it->function().renamedTo(it->exportedName());
+                    Function fun = attribute.function().renamedTo(attribute.exportedName());
                     if (!fun.isHidden())
-                        cppExports_.push_back(*it);
+                        cppExports_.push_back(attribute);
                 }
             }
         }
@@ -2059,11 +2058,10 @@ namespace attributes {
                      const std::string& contextId) {
         
         // process each attribute
-        for(auto 
-            it = attributes.begin(); it != attributes.end(); ++it) {
+        for(const auto & attribute : attributes) {
             
             // alias the attribute and function (bail if not export)
-            const Attribute& attribute = *it;
+            
             if (!attribute.isExportedFunction())
                 continue;
             const Function& function = attribute.function();
@@ -2479,10 +2477,10 @@ namespace {
                        const std::string& dllInfo) const
         {
             // process each attribute
-            for(auto it = attributes.begin(); it != attributes.end(); ++it) {
+            for(const auto & attribute : attributes) {
                 
                 // alias the attribute and function (bail if not export)
-                const Attribute& attribute = *it;
+                
                 if (!attribute.isExportedFunction()) continue;
                 const Function& function = attribute.function();
         
@@ -2685,9 +2683,8 @@ BEGIN_RCPP
     
     Rcpp::CharacterVector vDepends = Rcpp::as<Rcpp::CharacterVector>(sDepends);   
     std::set<std::string> depends;
-    for (Rcpp::CharacterVector::iterator 
-                        it = vDepends.begin(); it != vDepends.end(); ++it) {
-        depends.insert(std::string(*it));
+    for (auto & vDepend : vDepends) {
+        depends.insert(std::string(vDepend));
     }
 
     std::vector<std::string> cppFiles = 

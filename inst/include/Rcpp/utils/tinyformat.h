@@ -521,9 +521,9 @@ void FormatIterator::accept(const T& value)
         std::string result = tmpStream.str(); // allocates... yuck.
         if(m_extraFlags & Flag_SpacePadPositive)
         {
-            for(size_t i = 0, iend = result.size(); i < iend; ++i)
-                if(result[i] == '+')
-                    result[i] = ' ';
+            for(auto & elem : result)
+                if(elem == '+')
+                    elem = ' ';
         }
         if((m_extraFlags & Flag_TruncateToPrecision) &&
            (int)result.size() > (int)m_out.precision())
