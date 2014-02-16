@@ -1,6 +1,8 @@
 #ifndef RCPP_ATTRIBUTES_COLLAPSE_H
 #define RCPP_ATTRIBUTES_COLLAPSE_H
 
+#include <utility>
+
 namespace Rcpp{
     
     template <typename T>
@@ -12,7 +14,7 @@ namespace Rcpp{
     public:
         
         Collapser( const T& data_, Fun fun_, const char* sep_ = "," ) : 
-            data(data_), fun(fun_), sep(sep_){}
+            data(data_), fun(std::move(fun_)), sep(sep_){}
         
         template <typename T2, typename Fun2 >
         friend std::ostream& operator<<( std::ostream& os, const Collapser<T2, Fun2>& x );

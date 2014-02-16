@@ -1,6 +1,8 @@
 #ifndef Rcpp__vector__string_const_name_proxy_h
 #define Rcpp__vector__string_const_name_proxy_h
 
+#include <utility>
+
 namespace Rcpp{
 namespace internal{
 	
@@ -9,8 +11,8 @@ namespace internal{
 	public:
 		typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
 		
-		string_const_name_proxy( const VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){}
+		string_const_name_proxy( const VECTOR& v, std::string  name_) :
+			parent(v), name(std::move(name_)){}
 		string_const_name_proxy( const string_const_name_proxy& other ) : 
 			parent(other.parent), name(other.name){}
 		~string_const_name_proxy(){}

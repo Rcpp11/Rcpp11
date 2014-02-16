@@ -1,6 +1,8 @@
 #ifndef Rcpp__vector__simple_name_proxy_h
 #define Rcpp__vector__simple_name_proxy_h
 
+#include <utility>
+
 namespace Rcpp{
 namespace internal{
 	
@@ -9,8 +11,8 @@ namespace internal{
 		typedef ::Rcpp::Vector<RTYPE> VECTOR ;
 		typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
 		
-		simple_name_proxy( VECTOR& v, const std::string& name_) :
-			parent(v), name(name_){}
+		simple_name_proxy( VECTOR& v, std::string  name_) :
+			parent(v), name(std::move(name_)){}
 		simple_name_proxy( const simple_name_proxy& other ) : 
 			parent(other.parent), name(other.name){}
 		~simple_name_proxy() {}

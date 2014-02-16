@@ -1,6 +1,8 @@
 #ifndef Rcpp_proxy_EnvironmentBinding_h
 #define Rcpp_proxy_EnvironmentBinding_h
 
+#include <utility>
+
 namespace Rcpp{
     
 template <typename EnvironmentClass>
@@ -9,8 +11,8 @@ public:
     
     class Binding : public GenericProxy<Binding> {
     public:
-        Binding( EnvironmentClass& env_, const std::string& name_) : 
-            env(env_), name(name_){}
+        Binding( EnvironmentClass& env_, std::string  name_) : 
+            env(env_), name(std::move(name_)){}
         
         inline bool active() const { 
             return env.bindingIsActive(name) ;    
@@ -59,8 +61,8 @@ public:
     
     class const_Binding : public GenericProxy<const_Binding> {
     public:
-        const_Binding( const EnvironmentClass& env_, const std::string& name_) : 
-            env(env_), name(name_){}
+        const_Binding( const EnvironmentClass& env_, std::string  name_) : 
+            env(env_), name(std::move(name_)){}
         
         inline bool active() const { 
             return env.bindingIsActive(name) ;    

@@ -29,14 +29,14 @@ public:
     explicit exception(const char* message_) : message(message_) {
       add_backtrace_information(message);
     }
-    explicit exception(const std::string& message_) : message(message_) {
+    explicit exception(std::string  message_) : message(std::move(message_)) {
       add_backtrace_information(message);
     }
     exception(const char* message_, const char* file, int line ): message(message_){
         rcpp_stack_trace() = stack_trace(file,line) ;
     }
     virtual ~exception() noexcept {}
-    virtual const char* what() const noexcept { return message.c_str() ; }
+    virtual const char* what() const noexcept override { return message.c_str() ; }
 private:
     std::string message ;
     

@@ -1,6 +1,8 @@
 #ifndef Rcpp__String_h
 #define Rcpp__String_h
 
+#include <utility>
+
 #ifndef RCPP_STRING_DEBUG_LEVEL
 #define RCPP_STRING_DEBUG_LEVEL 0
 #endif
@@ -57,7 +59,7 @@ namespace Rcpp {
         
         
         /** from a std::string */
-        String( const std::string& s) : buffer(s), valid(false), buffer_ready(true) {
+        String( std::string  s) : buffer(std::move(s)), valid(false), buffer_ready(true) {
             RCPP_STRING_DEBUG( "String(const std::string& )" ) ;
         }
         

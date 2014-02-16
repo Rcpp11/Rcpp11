@@ -1,13 +1,15 @@
 #ifndef Rcpp__sugar__replicate_h
 #define Rcpp__sugar__replicate_h
 
+#include <utility>
+
 namespace Rcpp{
 namespace sugar{
 
     template <typename OUT, typename CallType >
     class Replicate : public Rcpp::VectorBase< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> > {
     public:
-        Replicate( size_t n_, CallType call_ ): n(n_), call(call_) {}
+        Replicate( size_t n_, CallType call_ ): n(n_), call(std::move(call_)) {}
         
         inline OUT operator[]( int i ) const {
             return call() ;

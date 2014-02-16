@@ -1,6 +1,8 @@
 #ifndef Rcpp_Module_CppFunction_h
 #define Rcpp_Module_CppFunction_h
 
+#include <utility>
+
 namespace Rcpp{
     
     /** 
@@ -55,12 +57,12 @@ namespace Rcpp{
             CppFunction_Impl(Fun fun, const char* docstring = 0 ) : 
                 CppFunction(docstring), ptr_fun(fun){}
                 
-            inline SEXP operator()(SEXP* args) {
+            inline SEXP operator()(SEXP* args) override {
                 return FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
             }
     
-            inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT, Args...>(s, name) ; }
+            inline int nargs() override{ return sizeof...(Args); }
+            inline void signature(std::string& s, const char* name) override{ ::Rcpp::signature<OUT, Args...>(s, name) ; }
             
         private:
             Fun ptr_fun ;
@@ -72,15 +74,15 @@ namespace Rcpp{
             typedef OUT (*Fun)(Args...) ;
         
             CppFunction_WithFormals_Impl(Fun fun, List formals_,  const char* docstring = 0 ) : 
-                CppFunction(docstring), formals(formals_), ptr_fun(fun){}
+                CppFunction(docstring), formals(std::move(formals_)), ptr_fun(fun){}
             
-            inline SEXP operator()(SEXP* args) {
+            inline SEXP operator()(SEXP* args) override {
                 return FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
             }
     
-            inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name){ ::Rcpp::signature<OUT,Args...>(s, name) ; }
-            inline SEXP get_formals(){ return formals; }
+            inline int nargs() override{ return sizeof...(Args) ; }
+            inline void signature(std::string& s, const char* name) override{ ::Rcpp::signature<OUT,Args...>(s, name) ; }
+            inline SEXP get_formals() override{ return formals; }
         
         private:
             List formals ;
@@ -95,15 +97,15 @@ namespace Rcpp{
             Debug_CppFunction_Impl(Fun fun, const char* name_, const char* docstring = 0 ) : 
                 CppFunction(docstring), ptr_fun(fun), name(name_) {}
                 
-            inline SEXP operator()(SEXP* args) {
+            inline SEXP operator()(SEXP* args) override {
                 debug_function<Debug_CppFunction_Impl>( *this, name ) ;
                 SEXP res = FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
                 Rprintf( "\n" ) ;
                 return res ;
             }
     
-            inline int nargs(){ return sizeof...(Args); }
-            inline void signature(std::string& s, const char* name_){ ::Rcpp::signature<OUT, Args...>(s, name_) ; }
+            inline int nargs() override{ return sizeof...(Args); }
+            inline void signature(std::string& s, const char* name_) override{ ::Rcpp::signature<OUT, Args...>(s, name_) ; }
             
         private:
             Fun ptr_fun ;
@@ -116,18 +118,18 @@ namespace Rcpp{
             typedef OUT (*Fun)(Args...) ;
         
             Debug_CppFunction_WithFormals_Impl(Fun fun, List formals_, const char* name_, const char* docstring = 0 ) : 
-                CppFunction(docstring), formals(formals_), ptr_fun(fun), name(name_) {}
+                CppFunction(docstring), formals(std::move(formals_)), ptr_fun(fun), name(name_) {}
             
-            inline SEXP operator()(SEXP* args) {
+            inline SEXP operator()(SEXP* args) override {
                 debug_function<Debug_CppFunction_WithFormals_Impl>( *this, name ) ;
                 SEXP res = FunctionInvoker<OUT,Args...>( ptr_fun, args ).invoke() ;
                 Rprintf( "\n" ) ;
                 return res ;
             }
     
-            inline int nargs(){ return sizeof...(Args) ; }
-            inline void signature(std::string& s, const char* name_){ ::Rcpp::signature<OUT,Args...>(s, name_) ; }
-            inline SEXP get_formals(){ return formals; }
+            inline int nargs() override{ return sizeof...(Args) ; }
+            inline void signature(std::string& s, const char* name_) override{ ::Rcpp::signature<OUT,Args...>(s, name_) ; }
+            inline SEXP get_formals() override{ return formals; }
         
         private:
             List formals ;

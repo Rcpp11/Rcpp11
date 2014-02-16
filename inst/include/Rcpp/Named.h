@@ -1,12 +1,14 @@
 #ifndef Rcpp_Named_h    
 #define Rcpp_Named_h
+
+#include <utility>
                      
 namespace Rcpp{ 
                     
 class Argument {
 public:
 	Argument() : name(){}
-	Argument( const std::string& name_) : name(name_){} 
+	Argument( std::string  name_) : name(std::move(name_)){} 
 	
 	template<typename T>
 	inline traits::named_object<T> operator=( const T& t){

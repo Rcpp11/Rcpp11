@@ -93,11 +93,11 @@ namespace Rcpp{
             return *this ;   
         }
         
-        std::string get_typeinfo_name(){
+        std::string get_typeinfo_name() override{
             return typeinfo_name ;    
         }
     
-        SEXP newInstance( SEXP* args, int nargs ){
+        SEXP newInstance( SEXP* args, int nargs ) override{
             BEGIN_RCPP
                 signed_constructor_class* p ;
             int n = constructors.size() ;
@@ -125,7 +125,7 @@ namespace Rcpp{
             END_RCPP
                 }
         
-        bool has_default_constructor(){ 
+        bool has_default_constructor() override{ 
             int n = constructors.size() ;
             signed_constructor_class* p ;
             for( int i=0; i<n; i++ ){
@@ -141,7 +141,7 @@ namespace Rcpp{
             return false ;
         }
         
-        SEXP invoke( SEXP method_xp, SEXP object, SEXP *args, int nargs ){ 
+        SEXP invoke( SEXP method_xp, SEXP object, SEXP *args, int nargs ) override{ 
             BEGIN_RCPP
                 
                 vec_signed_method* mets = reinterpret_cast< vec_signed_method* >( EXTPTR_PTR( method_xp ) ) ;
@@ -168,7 +168,7 @@ namespace Rcpp{
             END_RCPP        
                 }
         
-        SEXP invoke_void( SEXP method_xp, SEXP object, SEXP *args, int nargs ){ 
+        SEXP invoke_void( SEXP method_xp, SEXP object, SEXP *args, int nargs ) override{ 
             BEGIN_RCPP
                 
                 vec_signed_method* mets = reinterpret_cast< vec_signed_method* >( EXTPTR_PTR( method_xp ) ) ;
@@ -190,7 +190,7 @@ namespace Rcpp{
             END_RCPP        
                 }
         
-        SEXP invoke_notvoid( SEXP method_xp, SEXP object, SEXP *args, int nargs ){ 
+        SEXP invoke_notvoid( SEXP method_xp, SEXP object, SEXP *args, int nargs ) override{ 
             BEGIN_RCPP
                 
                 vec_signed_method* mets = reinterpret_cast< vec_signed_method* >( EXTPTR_PTR( method_xp ) ) ;
@@ -237,24 +237,24 @@ namespace Rcpp{
 
         #include <Rcpp/module/method.h>
         
-        bool has_method( const std::string& m){
+        bool has_method( const std::string& m) override{
             return vec_methods.find(m) != vec_methods.end() ;
         }
-        bool has_property( const std::string& m){
+        bool has_property( const std::string& m) override{
             return properties.find(m) != properties.end() ;
         }
-        bool property_is_readonly( const std::string& p) {
+        bool property_is_readonly( const std::string& p) override {
             typename PROPERTY_MAP::iterator it = properties.find( p ) ;
             if( it == properties.end() ) throw std::range_error( "no such property" ) ;
             return it->second->is_readonly() ;
         }
-        std::string property_class(const std::string& p) {
+        std::string property_class(const std::string& p) override {
             typename PROPERTY_MAP::iterator it = properties.find( p ) ;
             if( it == properties.end() ) throw std::range_error( "no such property" ) ;
             return it->second->get_class() ;
         }
         
-        Rcpp::CharacterVector method_names(){
+        Rcpp::CharacterVector method_names() override{
             int n = 0 ; 
             int s = vec_methods.size() ;
             typename map_vec_signed_method::iterator it = vec_methods.begin( ) ;
@@ -274,7 +274,7 @@ namespace Rcpp{
             return out ;
         }
         
-        Rcpp::IntegerVector methods_arity(){
+        Rcpp::IntegerVector methods_arity() override{
             int n = 0 ; 
             int s = vec_methods.size() ;
             typename map_vec_signed_method::iterator it = vec_methods.begin( ) ;
@@ -298,7 +298,7 @@ namespace Rcpp{
             return res ;
         }
         
-        Rcpp::LogicalVector methods_voidness(){
+        Rcpp::LogicalVector methods_voidness() override{
             int n = 0 ; 
             int s = vec_methods.size() ;
             typename map_vec_signed_method::iterator it = vec_methods.begin( ) ;
@@ -323,7 +323,7 @@ namespace Rcpp{
         }
         
         
-        Rcpp::CharacterVector property_names(){
+        Rcpp::CharacterVector property_names() override{
             int n = properties.size() ;
             Rcpp::CharacterVector out(n) ;
             typename PROPERTY_MAP::iterator it = properties.begin( ) ;
@@ -333,7 +333,7 @@ namespace Rcpp{
             return out ;
         }
         
-        Rcpp::List property_classes(){
+        Rcpp::List property_classes() override{
             int n = properties.size() ;
             Rcpp::CharacterVector pnames(n) ;
             Rcpp::List out(n) ;
@@ -346,7 +346,7 @@ namespace Rcpp{
             return out ;
         }
         
-        Rcpp::CharacterVector complete(){
+        Rcpp::CharacterVector complete() override{
             int n = vec_methods.size() - specials ;
             int ntotal = n + properties.size() ;
             Rcpp::CharacterVector out(ntotal) ;
@@ -372,14 +372,14 @@ namespace Rcpp{
             return out ;
         }
         
-        SEXP getProperty( SEXP field_xp , SEXP object) {
+        SEXP getProperty( SEXP field_xp , SEXP object) override {
             BEGIN_RCPP
                 prop_class* prop = reinterpret_cast< prop_class* >( EXTPTR_PTR( field_xp ) ) ;
             return prop->get( XP(object) ); 
             END_RCPP
                 }
         
-        void setProperty( SEXP field_xp, SEXP object, SEXP value)  {
+        void setProperty( SEXP field_xp, SEXP object, SEXP value) override  {
             BEGIN_RCPP
                 prop_class* prop = reinterpret_cast< prop_class* >( EXTPTR_PTR( field_xp ) ) ;
             return prop->set( XP(object), value ); 
@@ -387,7 +387,7 @@ namespace Rcpp{
                 }
         
         
-        Rcpp::List fields( const XP_Class& class_xp ){
+        Rcpp::List fields( const XP_Class& class_xp ) override{
             int n = properties.size() ;
             Rcpp::CharacterVector pnames(n) ;
             Rcpp::List out(n) ;
@@ -400,7 +400,7 @@ namespace Rcpp{
             return out ;
         }
 
-        Rcpp::List getMethods( const XP_Class& class_xp, std::string& buffer){
+        Rcpp::List getMethods( const XP_Class& class_xp, std::string& buffer) override{
             RCPP_DEBUG( "Rcpp::List getMethods( const XP_Class& class_xp, std::string& buffer" )
             #if RCPP_DEBUG_LEVEL > 0
                 Rf_PrintValue( class_xp ) ;
@@ -419,7 +419,7 @@ namespace Rcpp{
             return res ;
         }
         
-        Rcpp::List getConstructors( const XP_Class& class_xp, std::string& buffer){
+        Rcpp::List getConstructors( const XP_Class& class_xp, std::string& buffer) override{
             int n = constructors.size() ;
             Rcpp::List out(n) ;
             typename vec_signed_constructor::iterator it = constructors.begin( ) ;
@@ -436,7 +436,7 @@ namespace Rcpp{
             return *this ;
         }    
 
-        virtual void run_finalizer( SEXP object ){
+        virtual void run_finalizer( SEXP object ) override{
             finalizer_pointer->run( XP(object) ) ;
         }
     

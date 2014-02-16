@@ -16,11 +16,11 @@ namespace Rcpp {
         Rstreambuf(){}
     	
     protected:
-        virtual std::streamsize xsputn(const char *s, std::streamsize n );
+        virtual std::streamsize xsputn(const char *s, std::streamsize n ) override;
         
-        virtual int overflow(int c = EOF );
+        virtual int overflow(int c = EOF ) override;
         
-        virtual int sync()  ;
+        virtual int sync() override  ;
     };
 
   

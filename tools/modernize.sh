@@ -1,4 +1,6 @@
 clang-modernize src/*.cpp \
+    -include="inst/include/Rcpp" \
+    -exclude="inst/include/Rcpp/iostream" \
     -style="Chromium" \
     -risk=risky \
     -add-override \
