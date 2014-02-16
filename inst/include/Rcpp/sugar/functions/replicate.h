@@ -1,7 +1,7 @@
 #ifndef Rcpp__sugar__replicate_h
 #define Rcpp__sugar__replicate_h
 
-#include <utility>
+
 
 namespace Rcpp{
 namespace sugar{

@@ -1,7 +1,7 @@
 #ifndef Rcpp_Module_CppFunction_h
 #define Rcpp_Module_CppFunction_h
 
-#include <utility>
+
 
 namespace Rcpp{
     

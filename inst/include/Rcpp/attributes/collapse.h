@@ -1,7 +1,7 @@
 #ifndef RCPP_ATTRIBUTES_COLLAPSE_H
 #define RCPP_ATTRIBUTES_COLLAPSE_H
 
-#include <utility>
+
 
 namespace Rcpp{
     

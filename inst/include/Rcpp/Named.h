@@ -1,7 +1,7 @@
 #ifndef Rcpp_Named_h    
 #define Rcpp_Named_h
 
-#include <utility>
+
                      
 namespace Rcpp{ 
                     

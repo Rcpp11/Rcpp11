@@ -1,7 +1,7 @@
 #ifndef Rcpp__String_h
 #define Rcpp__String_h
 
-#include <utility>
+
 
 #ifndef RCPP_STRING_DEBUG_LEVEL
 #define RCPP_STRING_DEBUG_LEVEL 0

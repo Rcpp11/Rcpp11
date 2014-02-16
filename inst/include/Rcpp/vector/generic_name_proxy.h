@@ -1,7 +1,7 @@
 #ifndef Rcpp__vector__generic_name_proxy_h
 #define Rcpp__vector__generic_name_proxy_h
 
-#include <utility>
+
 
 namespace Rcpp{
 namespace internal{
