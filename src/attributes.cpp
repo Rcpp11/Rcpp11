@@ -86,8 +86,8 @@ namespace attributes {
     class Type {
     public:
         Type() {}
-        Type(const std::string& name, bool isConst, bool isReference)
-            : name_(name), isConst_(isConst), isReference_(isReference)
+        Type(std::string  name, bool isConst, bool isReference)
+            : name_(std::move(name)), isConst_(isConst), isReference_(isReference)
         {}
         
         bool empty() const { return name().empty(); }
@@ -115,10 +115,10 @@ namespace attributes {
     class Argument {
     public:
         Argument() {}
-        Argument(const std::string& name, 
-                 const Type& type,
-                 const std::string& defaultValue) 
-            : name_(name), type_(type), defaultValue_(defaultValue) 
+        Argument(std::string  name, 
+                 Type  type,
+                 std::string  defaultValue) 
+            : name_(std::move(name)), type_(std::move(type)), defaultValue_(std::move(defaultValue)) 
         {
         }
         
@@ -144,11 +144,11 @@ namespace attributes {
     class Function {
     public:
         Function() {}
-        Function(const Type& type,
-                 const std::string& name, 
-                 const std::vector<Argument>& arguments,
-                 const std::string& source)
-            : type_(type), name_(name), arguments_(arguments), source_(source)
+        Function(Type  type,
+                 std::string  name, 
+                 std::vector<Argument>  arguments,
+                 std::string  source)
+            : type_(std::move(type)), name_(std::move(name)), arguments_(std::move(arguments)), source_(std::move(source))
         {
         }
         
@@ -196,11 +196,11 @@ namespace attributes {
     class Attribute {
     public:
         Attribute() {}
-        Attribute(const std::string& name, 
-                  const std::vector<Param>& params,
-                  const Function& function,
-                  const std::vector<std::string>& roxygen)
-            : name_(name), params_(params), function_(function), roxygen_(roxygen)
+        Attribute(std::string  name, 
+                  std::vector<Param>  params,
+                  Function  function,
+                  std::vector<std::string>  roxygen)
+            : name_(std::move(name)), params_(std::move(params)), function_(std::move(function)), roxygen_(std::move(roxygen))
         {
         }
         
@@ -308,7 +308,7 @@ namespace attributes {
     // Class used to parse and return attribute information from a source file
     class SourceFileAttributesParser : public SourceFileAttributes {
     public:
-        explicit SourceFileAttributesParser(const std::string& sourceFile);
+        explicit SourceFileAttributesParser(std::string  sourceFile);
         
     private:
         // prohibit copying
@@ -317,29 +317,29 @@ namespace attributes {
         
     public:
         // implemetnation of SourceFileAttributes interface
-        virtual const std::string& sourceFile() const { 
+        virtual const std::string& sourceFile() const override { 
             return sourceFile_; 
         }
-        virtual const_iterator begin() const { return attributes_.begin(); }
-        virtual const_iterator end() const { return attributes_.end(); }
+        virtual const_iterator begin() const override { return attributes_.begin(); }
+        virtual const_iterator end() const override { return attributes_.end(); }
         
-        virtual const std::vector<std::string>& modules() const
+        virtual const std::vector<std::string>& modules() const override
         {
             return modules_;
         }
         
-        virtual const std::vector<std::vector<std::string> >& roxygenChunks() const {
+        virtual const std::vector<std::vector<std::string> >& roxygenChunks() const override {
             return roxygenChunks_;                                                    
         }
         
-        virtual bool hasGeneratorOutput() const 
+        virtual bool hasGeneratorOutput() const override 
         { 
             return !attributes_.empty() || 
                    !modules_.empty() ||
                    !roxygenChunks_.empty(); 
         }
         
-        virtual bool hasInterface(const std::string& name) const {
+        virtual bool hasInterface(const std::string& name) const override {
             for( const Attribute& attr : attributes_ ){
                 if (attr.name() == kInterfacesAttribute) {
                     return attr.hasParameter(name);
@@ -407,9 +407,9 @@ namespace attributes {
     // Abstract class which manages writing of code for compileAttributes
     class ExportsGenerator {
     protected:
-        ExportsGenerator(const std::string& targetFile, 
-                         const std::string& package,
-                         const std::string& commentPrefix);
+        ExportsGenerator(std::string  targetFile, 
+                         std::string  package,
+                         std::string  commentPrefix);
  
     private:
         // prohibit copying
@@ -502,13 +502,13 @@ namespace attributes {
                                      const std::string& package,
                                      const std::string& fileSep);
          
-        virtual void writeBegin() {}; 
-        virtual void writeEnd();
-        virtual bool commit(const std::vector<std::string>& includes); 
+        virtual void writeBegin() override {}; 
+        virtual void writeEnd() override;
+        virtual bool commit(const std::vector<std::string>& includes) override; 
         
     private:
         virtual void doWriteFunctions(const SourceFileAttributes& attributes,
-                                      bool verbose);
+                                      bool verbose) override;
                                     
         std::string registerCCallable(size_t indent,
                                       const std::string& exportedName,
@@ -525,13 +525,13 @@ namespace attributes {
                                    const std::string& package,
                                    const std::string& fileSep);
          
-        virtual void writeBegin(); 
-        virtual void writeEnd(); 
-        virtual bool commit(const std::vector<std::string>& includes); 
+        virtual void writeBegin() override; 
+        virtual void writeEnd() override; 
+        virtual bool commit(const std::vector<std::string>& includes) override; 
         
     private:
         virtual void doWriteFunctions(const SourceFileAttributes& attributes,
-                                      bool verbose);
+                                      bool verbose) override;
         std::string getCCallable(const std::string& function) const; 
         std::string getHeaderGuard() const; 
         
@@ -546,13 +546,13 @@ namespace attributes {
                                    const std::string& package,
                                    const std::string& fileSep);
             
-        virtual void writeBegin() {}
-        virtual void writeEnd(); 
-        virtual bool commit(const std::vector<std::string>& includes); 
+        virtual void writeBegin() override {}
+        virtual void writeEnd() override; 
+        virtual bool commit(const std::vector<std::string>& includes) override; 
         
     private:
         virtual void doWriteFunctions(const SourceFileAttributes& attributes,
-                                      bool verbose) {}
+                                      bool verbose) override {}
         std::string getHeaderGuard() const; 
         
     private:
@@ -567,13 +567,13 @@ namespace attributes {
                           const std::string& package,
                           const std::string& fileSep);
         
-        virtual void writeBegin() {}
-        virtual void writeEnd(); 
-        virtual bool commit(const std::vector<std::string>& includes); 
+        virtual void writeBegin() override {}
+        virtual void writeEnd() override; 
+        virtual bool commit(const std::vector<std::string>& includes) override; 
         
     private:
         virtual void doWriteFunctions(const SourceFileAttributes& attributes,
-                                      bool verbose);
+                                      bool verbose) override;
 
     };
     
@@ -788,8 +788,8 @@ namespace attributes {
       
     // Parse the attributes from a source file
     SourceFileAttributesParser::SourceFileAttributesParser
-                                            (const std::string& sourceFile)
-        : sourceFile_(sourceFile)
+                                            (std::string  sourceFile)
+        : sourceFile_(std::move(sourceFile))
     { 
         // First read the entire file into a std::stringstream so we can check
         // it for attributes (we don't want to do any of our more expensive 
@@ -1317,12 +1317,12 @@ namespace attributes {
         const char * const kTrySuffix = "_try";
     } 
     
-    ExportsGenerator::ExportsGenerator(const std::string& targetFile, 
-                                       const std::string& package,
-                                       const std::string& commentPrefix)
-        : targetFile_(targetFile), 
-          package_(package),
-          commentPrefix_(commentPrefix),
+    ExportsGenerator::ExportsGenerator(std::string  targetFile, 
+                                       std::string  package,
+                                       std::string  commentPrefix)
+        : targetFile_(std::move(targetFile)), 
+          package_(std::move(package)),
+          commentPrefix_(std::move(commentPrefix)),
           hasCppInterface_(false) {
         
         // read the existing target file if it exists
@@ -1420,7 +1420,7 @@ namespace attributes {
         // track cppExports and signatures (we use these at the end to
         // generate the ValidateSignature and RegisterCCallable functions)
         if (attributes.hasInterface(kInterfaceCpp)) {
-            for (SourceFileAttributes::const_iterator 
+            for (auto 
                        it = attributes.begin(); it != attributes.end(); ++it) {
                 if (it->isExportedFunction()) {
                     // add it to the list if it's not hidden
@@ -2059,7 +2059,7 @@ namespace attributes {
                      const std::string& contextId) {
         
         // process each attribute
-        for(std::vector<Attribute>::const_iterator 
+        for(auto 
             it = attributes.begin(); it != attributes.end(); ++it) {
             
             // alias the attribute and function (bail if not export)
@@ -2286,8 +2286,8 @@ namespace {
     public:
         SourceCppDynlib() {}
         
-        SourceCppDynlib(const std::string& cppSourcePath, Rcpp::List platform) 
-            :  cppSourcePath_(cppSourcePath)
+        SourceCppDynlib(std::string  cppSourcePath, Rcpp::List platform) 
+            :  cppSourcePath_(std::move(cppSourcePath))
                
         {
             RCPP_DEBUG(" SourceCppDynlib::SourceCppDynlib( %s )", cppSourcePath.c_str() )
@@ -2479,7 +2479,7 @@ namespace {
                        const std::string& dllInfo) const
         {
             // process each attribute
-            for(std::vector<Attribute>::const_iterator it = attributes.begin(); it != attributes.end(); ++it) {
+            for(auto it = attributes.begin(); it != attributes.end(); ++it) {
                 
                 // alias the attribute and function (bail if not export)
                 const Attribute& attribute = *it;

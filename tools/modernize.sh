@@ -1,0 +1,12 @@
+clang-modernize src/*.cpp \
+    -style="Chromium" \
+    -risk=risky \
+    -add-override \
+    -pass-by-value \
+    -use-auto \
+    -- \
+    -std=c++1y \
+    -Iinst/include \
+    -I/Library/Frameworks/R.framework/Headers \
+    -I/Users/kevinushey/.llvm/libcxx/include \
+    -nostdinc++
