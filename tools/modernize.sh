@@ -6,11 +6,6 @@ if [ ${#IN_RCPP} == 0 ]; then
     exit 0
 fi;
 
-## Put all of the header files into a file tool/modernize-include.txt
-## Don't know know, why clang-modernize isn't happy when we just path
-## the whole patch 'inst/include'
-find inst/include -name "*.h" -type f > tools/modernize-include.txt
-
 ## NOTE: For some reason, clang-modernize tries to add a second
 ## set of overrides to Rstreambuf.h, so we exclude it explicitly
 
@@ -19,7 +14,7 @@ find inst/include -name "*.h" -type f > tools/modernize-include.txt
 
 clang-modernize src/*.cpp \
     -final-syntax-check \
-    -include-from=tools/modernize-include.txt \
+    -include="inst/include" \
     -exclude="inst/include/Rcpp/iostream/Rstreambuf.h" \
     -style="Chromium" \
     -risk=risky \
