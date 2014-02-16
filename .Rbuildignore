@@ -1,7 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 
-tools/
+^tools/
 
 .travis.yml
 .travis.R-devel.yml
