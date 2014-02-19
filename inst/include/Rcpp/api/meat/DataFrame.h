@@ -50,10 +50,6 @@ namespace Rcpp{
             x = y ;
         }
     } 
-    template <template <class> class StoragePolicy>
-    int DataFrame_Impl<StoragePolicy>::nrows() const { 
-        return Rf_length( VECTOR_ELT(Storage::get__(), 0) );
-    }
         
     template <template <class> class StoragePolicy>
     DataFrame_Impl<StoragePolicy> DataFrame_Impl<StoragePolicy>::from_list( List obj ){

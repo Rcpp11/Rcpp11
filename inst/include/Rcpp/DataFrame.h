@@ -18,7 +18,12 @@ namespace Rcpp{
                 
         ~DataFrame_Impl() ;
 
-        int nrows() const ;
+        int nrows() const {
+            SEXP rn = Rf_getAttrib( Storage::get__(), R_RowNamesSymbol ) ;
+            if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return INTEGER(rn)[1] ;
+            if( Rf_isNull(rn) ) return 0 ;
+            return LENGTH(rn) ;
+        }
         
         template <typename... Args>
         static DataFrame_Impl create(const Args&... args){
