@@ -1,4 +1,4 @@
-useDynLib(Rcpp11, .registration = TRUE)
+useDynLib(Rcpp11)
 
 import(methods)
 

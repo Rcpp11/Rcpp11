@@ -31,13 +31,6 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
   std::cout.rdbuf( Rcout_buf );
   std::cerr.rdbuf( Rcerr_buf );
   
-  // R_registerRoutines(info, 
-  //     NULL /* .C*/, 
-  //     NULL /*.Call*/,
-  //     NULL /* .Fortran */,
-  //     NULL /*.External*/
-  // );
-  
   #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
   
   REGISTER(Rcpp_eval)
