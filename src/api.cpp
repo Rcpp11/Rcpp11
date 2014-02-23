@@ -1,5 +1,3 @@
-#define COMPILING_RCPP11
-
 #include <Rcpp.h>
 #include "internal.h" 
 

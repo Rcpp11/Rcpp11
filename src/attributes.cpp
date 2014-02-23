@@ -1,5 +1,3 @@
-#define COMPILING_RCPP11
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <errno.h>

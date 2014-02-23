@@ -1,5 +1,3 @@
-#define COMPILING_RCPP11
-
 #include <Rcpp.h>
 #include "internal.h"
 
@@ -23,7 +21,9 @@ static R_CallMethodDef callEntries[]  = {
     DOT_CALL(Module__functions_names),
     DOT_CALL(Module__name),
     DOT_CALL(Module__get_function),
+    
     DOT_CALL(rcpp_error_recorder),
+    
     DOT_CALL(as_character_externalptr),
     DOT_CALL(CppField__get),
     DOT_CALL(CppField__set),
