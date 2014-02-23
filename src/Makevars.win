@@ -1,2 +1,2 @@
-PKG_CPPFLAGS = -I../inst/include/ -DCOMPILING_RCPP11
+PKG_CPPFLAGS = -I../inst/include -DCOMPILING_RCPP11
 
