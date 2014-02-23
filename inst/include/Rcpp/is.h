@@ -45,18 +45,12 @@ namespace Rcpp{
         template <> struct Is<WeakReference> : TypeofIs<WEAKREFSXP> {} ;
         template <> struct Is<Language>      : TypeofIs<LANGSXP> {} ;
         
-        template <typename T> struct ModuleIs ;
-        
         template <typename T>
         struct is_type{
             typedef typename std::conditional<
-                Rcpp::traits::is_module_object<T>::value, 
-                typename ModuleIs<T>::type, 
-                typename std::conditional<
-                    Rcpp::traits::is_primitive<T>::value, 
-                    typename PrimitiveIs<T>::type,
-                    typename Is<T>::type
-                >
+                Rcpp::traits::is_primitive<T>::value, 
+                typename PrimitiveIs<T>::type,
+                typename Is<T>::type
             >::type type ;
         } ;
         

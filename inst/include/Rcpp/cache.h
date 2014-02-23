@@ -41,11 +41,5 @@ namespace Rcpp {
     return VECTOR_ELT( Rcpp::get_rcpp_cache(), 5) ;
   }
   
-  inline SEXP& rcpp_get_current_module(){
-    return VECTOR_ELT( Rcpp::get_rcpp_cache(), 6 ) ;
-  }
-
-
-  
 }
 #endif

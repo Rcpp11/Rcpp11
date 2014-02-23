@@ -7,48 +7,16 @@ using namespace Rcpp ;
 #define DOT_CALL(name) DotCall(#name, &name)
 
 static R_CallMethodDef callEntries[]  = {
-    DOT_CALL(Class__name),
-    DOT_CALL(Class__has_default_constructor),
-    DOT_CALL(CppClass__complete),
-    DOT_CALL(CppClass__methods),
-    DOT_CALL(CppObject__finalize),
-    DOT_CALL(Module__classes_info),
-    DOT_CALL(Module__complete),
-    DOT_CALL(Module__get_class),
-    DOT_CALL(Module__has_class),
-    DOT_CALL(Module__has_function),
-    DOT_CALL(Module__functions_arity),
-    DOT_CALL(Module__functions_names),
-    DOT_CALL(Module__name),
-    DOT_CALL(Module__get_function),
-    
     DOT_CALL(rcpp_error_recorder),
-    
-    DOT_CALL(as_character_externalptr),
-    DOT_CALL(CppField__get),
-    DOT_CALL(CppField__set),
     
     {NULL, NULL, 0}
 }; 
-
-static R_ExternalMethodDef extEntries[]  = {
-    DOT_EXT(CppMethod__invoke),
-    DOT_EXT(CppMethod__invoke_void),
-    DOT_EXT(CppMethod__invoke_notvoid),
-    DOT_EXT(InternalFunction_invoke),
-    DOT_EXT(Module__invoke), 
-    DOT_EXT(class__newInstance), 
-    DOT_EXT(class__dummyInstance), 
-    
-    {NULL, NULL, 0}
-} ;
 
 static Rstreambuf<true>*  Rcout_buf = nullptr ;
 static Rstreambuf<false>* Rcerr_buf = nullptr ;
 static std::streambuf* cout_buf = nullptr ;
 static std::streambuf* cerr_buf = nullptr ;
 
-// this is called by R_init_Rcpp11 that is in Module.cpp
 void init_Rcpp11_routines(DllInfo *info){
     Rostream<true>  Rcout;
     Rostream<false> Rcerr;
@@ -64,7 +32,7 @@ void init_Rcpp11_routines(DllInfo *info){
         NULL /* .C*/, 
         callEntries /*.Call*/,
         NULL /* .Fortran */,
-        extEntries /*.External*/
+        NULL /*.External*/
     );
     
     #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
@@ -86,3 +54,41 @@ extern "C" void R_unload_Rcpp11(DllInfo *info) {
     delete Rcout_buf ; Rcout_buf = nullptr ;
     delete Rcerr_buf ; Rcerr_buf = nullptr ;
 }
+
+static SEXP init_Rcpp11_cache(){ 
+    RCPP_DEBUG( "init_Rcpp11_cache()\n" )
+    
+    SEXP getNamespaceSym = Rf_install("getNamespace"); 
+    SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
+    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, 7 ) ) ;
+    
+    // the Rcpp11 namespace
+    RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
+    SEXP error_occured = PROTECT(Rf_allocVector(LGLSXP, 1)) ;
+    LOGICAL(error_occured)[0] = FALSE ;
+    RCPP_SET_VECTOR_ELT( cache, 1, error_occured ) ; 
+    UNPROTECT(1); 
+    
+    RCPP_SET_VECTOR_ELT( cache, 2, R_NilValue) ;
+    RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
+    Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
+    
+    UNPROTECT(2) ;
+    return cache ;
+}
+
+SEXP rcpp_error_recorder(SEXP e){ 
+    SEXP cache = Rcpp::get_rcpp_cache() ;
+    Rcpp::error_occured() = true ;
+    Rcpp::rcpp_current_error() = e ;
+    return R_NilValue ;
+}
+
+extern "C" void R_init_Rcpp11( DllInfo* info){
+	// init the cache
+	init_Rcpp11_cache() ;
+	
+	// init routines
+	init_Rcpp11_routines(info) ;
+}
+

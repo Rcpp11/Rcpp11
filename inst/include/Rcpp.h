@@ -50,7 +50,6 @@
 #include <Rcpp/Dots.h>
 #include <Rcpp/NamedDots.h>
 
-#include <Rcpp/Module.h>
 #include <Rcpp/Context.h>
 
 #include <Rmath.h>

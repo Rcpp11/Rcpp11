@@ -42,16 +42,6 @@ namespace internal{
         }    
     } ;
     
-    template <typename T>
-    struct ModuleIs {
-        inline bool test(SEXP x){
-            typedef typename std::remove_pointer<T>::type CLASS ;
-            Environment env(x) ;
-            XPtr<class_Base> xp( env.get(".cppclass") );
-            return xp->has_typeinfo_name( typeid(CLASS).name() ) ;
-        }
-    } ;
-    
     template <int RTYPE> 
     struct Is< Matrix<RTYPE> > {
         inline bool test( SEXP x){
