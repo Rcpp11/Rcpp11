@@ -15,11 +15,6 @@ struct wrap_type_primitive_tag{};
 struct wrap_type_unknown_tag{};
  
 /**
- * declared module object type (by the RCPP_EXPOSED_CLASS macro)
- */
-struct wrap_type_module_object_tag{} ;
-
-/**
  * enums
  */
 struct wrap_type_enum_tag{} ;

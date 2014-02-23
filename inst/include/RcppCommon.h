@@ -48,15 +48,6 @@
 #include <typeinfo>
 #include <tuple>
 #include <utility>
-
-namespace Rcpp{
-    typedef uint64_t nanotime_t;
-    
-    template <bool unused>
-    class Module_Impl ; 
-    using Module = Module_Impl<true> ;
-}
-
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>

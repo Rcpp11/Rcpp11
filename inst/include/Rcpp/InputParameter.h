@@ -3,7 +3,7 @@
 
 namespace Rcpp { 
     
-    // default implementation used for pass by value and modules objects
+    // default implementation used for pass by value
     // as<> is called on the conversion operator
     template <typename T>
     class InputParameter {

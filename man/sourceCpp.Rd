@@ -4,8 +4,10 @@
 Source C++ Code from a File or String
 }
 \description{
-\code{sourceCpp} parses the specified C++ file or source code and looks for functions marked with the \code{\link[=exportAttribute]{Rcpp::export}} attribute
-and RCPP_MODULE declarations. A shared library is then built and its exported functions and Rcpp modules are made available in the specified environment.
+\code{sourceCpp} parses the specified C++ file or source code and looks for 
+functions marked with the \code{\link[=exportAttribute]{Rcpp::export}} attribute. 
+A shared library is then built and its exported functions 
+are made available in the specified environment.
 }
 \usage{
 sourceCpp(file = "", code = NULL, env = globalenv(), embeddedR = TRUE,
@@ -20,7 +22,7 @@ sourceCpp(file = "", code = NULL, env = globalenv(), embeddedR = TRUE,
     A character string with source code. If supplied, the code is taken from this string instead of a file. 
 }
   \item{env}{
-    Environment where the R functions and modules should be made available.
+    Environment where the R functions should be made available.
 }
   \item{embeddedR}{
     \code{TRUE} to run embedded R code chunks.    
@@ -44,10 +46,6 @@ sourceCpp(file = "", code = NULL, env = globalenv(), embeddedR = TRUE,
     compatible with \code{Rcpp::as}. 
     See the \code{\link[=exportAttribute]{Rcpp::export}} documentation for more details.
     
-    Content of Rcpp Modules will be automatically loaded into the specified 
-    environment using the \code{\link[=Module]{Module}} and 
-    \code{\link[=populate]{populate}} functions. 
-    
     If the source file has compilation dependencies on other 
     packages (e.g. \pkg{Matrix}, \pkg{RcppArmadillo}) then an 
     \code{\link[=dependsAttribute]{Rcpp::depends}} attribute 
@@ -66,14 +64,15 @@ fibonacci(10)
 */
 }
 
-	Multiple R code chunks can be included in a C++ file. R code is sourced after the C++ compliation is completed so all functions and modules will be available to the R code.   
+	Multiple R code chunks can be included in a C++ file. 
+	R code is sourced after the C++ compliation is completed so all 
+	functions will be available to the R code.   
 }
 
 \value{
-    Returns (invisibly) a list with two elements: 
+    Returns (invisibly) a list with one element: 
     \tabular{ll}{
         \code{functions} \tab Names of exported functions\cr
-        \code{modules} \tab Names of Rcpp modules\cr
     }
 }
 

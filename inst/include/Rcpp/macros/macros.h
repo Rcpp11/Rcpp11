@@ -25,7 +25,6 @@
 
 #include <Rcpp/macros/debug.h>
 #include <Rcpp/macros/dispatch.h>
-#include <Rcpp/macros/module.h>
 #include <Rcpp/macros/interface.h>
 #include <Rcpp/macros/get_callable.h>
 

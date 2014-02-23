@@ -267,8 +267,6 @@ namespace attributes {
         virtual const_iterator begin() const = 0;
         virtual const_iterator end() const = 0;
         
-        virtual const std::vector<std::string>& modules() const = 0;
-        
         virtual const std::vector<std::vector<std::string> >& roxygenChunks() const = 0;
                   
         virtual bool hasGeneratorOutput() const = 0;  
@@ -321,11 +319,6 @@ namespace attributes {
         virtual const_iterator begin() const override { return attributes_.begin(); }
         virtual const_iterator end() const override { return attributes_.end(); }
         
-        virtual const std::vector<std::string>& modules() const override
-        {
-            return modules_;
-        }
-        
         virtual const std::vector<std::vector<std::string> >& roxygenChunks() const override {
             return roxygenChunks_;                                                    
         }
@@ -333,7 +326,6 @@ namespace attributes {
         virtual bool hasGeneratorOutput() const override 
         { 
             return !attributes_.empty() || 
-                   !modules_.empty() ||
                    !roxygenChunks_.empty(); 
         }
         
@@ -385,7 +377,6 @@ namespace attributes {
         CharacterVector lines_;
         std::vector<Attribute> attributes_;
         FunctionMap functionMap_ ;
-        std::vector<std::string> modules_;
         std::vector<std::string> embeddedR_;
         std::vector<std::vector<std::string> > roxygenChunks_; 
         std::vector<std::string> roxygenBuffer_;
@@ -867,25 +858,7 @@ namespace attributes {
                 } 
             }
              
-            // Scan for Rcpp modules 
             commentState.reset();
-            Rcpp::List modMatches = regexMatches(lines_, 
-                "^\\s*RCPP_MODULE\\s*\\(\\s*(\\w+)\\s*\\).*$");
-            for (int i = 0; i<modMatches.size(); i++) {   
-                
-                // track whether we are in a comment and bail if we are in one
-                std::string line = lines[i];
-                commentState.submitLine(line);
-                if (commentState.inComment())
-                    continue;
-                
-                // get the module declaration
-                Rcpp::CharacterVector match = modMatches[i];
-                if (match.size() > 0) {
-                    const char * name = match[1];
-                    modules_.push_back(name);
-                }
-            }
             
             // Parse embedded R
             embeddedR_ = parseEmbeddedR(lines_, lines);
@@ -2400,9 +2373,6 @@ namespace {
                  }
             }
             
-            // capture modules
-            modules_ = sourceAttributes.modules();
-            
             // capture embededded R
             embeddedR_ = sourceAttributes.embeddedR();
         }
@@ -2450,10 +2420,6 @@ namespace {
             return exportedFunctions_;
         }
         
-        const std::vector<std::string>& modules() const {
-            return modules_;
-        }
-        
         const std::vector<std::string>& depends() const { return depends_; };
         
         const std::vector<std::string>& plugins() const { return plugins_; };
@@ -2492,21 +2458,7 @@ namespace {
                      << "')" << std::endl;
                 
             }   
-            
-            // modules
-            std::vector<std::string> modules = attributes.modules();
-            if (modules.size() > 0)
-            {
-                // modules require definition of C++Object to be loaded
-                ostr << "library(Rcpp11)" << std::endl;
-                
-                // load each module
-                for( const std::string& module: modules){
-                    ostr << " populate( Rcpp11::Module(\"" << module << "\"," 
-                         << dllInfo << "), environment() ) " << std::endl;
-                }
-            }
-                           
+                        
         }
         
         std::string createRandomizer() {
@@ -2527,7 +2479,6 @@ namespace {
         std::string previousDynlibFilename_;
         std::string dynlibExt_;
         std::vector<std::string> exportedFunctions_;
-        std::vector<std::string> modules_;
         std::vector<std::string> depends_;
         std::vector<std::string> plugins_;
         std::vector<std::string> embeddedR_;
@@ -2648,7 +2599,6 @@ BEGIN_RCPP
         _["buildDirectory"] = pDynlib->buildDirectory(),
         _["generatedCpp"] = pDynlib->generatedCpp(),
         _["exportedFunctions"] = pDynlib->exportedFunctions(),
-        _["modules"] = pDynlib->modules(),
         _["cppSourceFilename"] = pDynlib->cppSourceFilename(),
         _["rSourceFilename"] = pDynlib->rSourceFilename(),
         _["dynlibFilename"] = pDynlib->dynlibFilename(),

@@ -8,15 +8,6 @@ namespace Rcpp{
         return traits::wrap_type<T>::type::wrap(object) ; 
     }
 
-    template <typename T> struct ModuleObjectWrapper{
-        static inline SEXP wrap(const T& object) { 
-            Rcpp::XPtr<T> xp( new T(object), true ) ;
-            Function maker = Environment::Rcpp11_namespace()[ "cpp_object_maker"] ;
-            return maker( typeid(T).name() , xp ) ;
-        }
-    } ;
-    
-    
     namespace internal{
         
         template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>

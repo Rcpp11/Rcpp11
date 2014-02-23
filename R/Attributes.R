@@ -134,11 +134,10 @@ sourceCpp <- function(file = "",
                 "force a rebuild)\n\n", sep="")
     }
 
-    # load the module if we have exported symbols
-    if (length(context$exportedFunctions) > 0 || length(context$modules) > 0) {
+    if (length(context$exportedFunctions) > 0 ) {
 
         # remove existing objects of the same name from the environment
-        exports <- c(context$exportedFunctions, context$modules)
+        exports <- context$exportedFunctions
         removeObjs <- exports[exports %in% ls(envir = env, all.names = T)]
         remove(list = removeObjs, envir = env)
 
@@ -147,8 +146,7 @@ sourceCpp <- function(file = "",
         source(scriptPath, local = env)
 
     } else if (getOption("rcpp.warnNoExports", default=TRUE)) {
-        warning("No Rcpp::export attributes or RCPP_MODULE declarations ",
-                "found in source")
+        warning("No Rcpp::export attributes found in source")
     }
 
     # source the embeddedR
@@ -158,9 +156,8 @@ sourceCpp <- function(file = "",
         source(file=srcConn, echo=TRUE)
     }
 
-    # return (invisibly) a list containing exported functions and modules
-    invisible(list(functions = context$exportedFunctions,
-                   modules = context$modules))
+    # return (invisibly) a list containing exported functions
+    invisible(list(functions = context$exportedFunctions))
 }
 
 # Define a single C++ function
@@ -342,7 +339,7 @@ compileAttributes <- function(pkgdir = ".", verbose = getOption("verbose")) {
     # get a list of all source files
     cppFiles <- list.files(srcDir, pattern="\\.c(c|pp)$")
     
-    # derive base names (will be used for modules)
+    # derive base names
     cppFileBasenames <- tools::file_path_sans_ext(cppFiles)
 
     # expend them to their full paths
