@@ -1,5 +1,4 @@
 #include <Rcpp.h>
-#include "internal.h" 
 
 namespace Rcpp {
 

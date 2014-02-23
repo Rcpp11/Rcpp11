@@ -1,27 +1,11 @@
 #include <Rcpp.h>
-#include "internal.h"
 
 using namespace Rcpp ;
-
-#define DOT_EXT(name)  DotExternal(#name, &name)
-#define DOT_CALL(name) DotCall(#name, &name)
-
-static R_CallMethodDef callEntries[]  = {
-    DOT_CALL(rcpp_error_recorder),
-    
-    {NULL, NULL, 0}
-}; 
 
 static Rstreambuf<true>*  Rcout_buf = nullptr ;
 static Rstreambuf<false>* Rcerr_buf = nullptr ;
 static std::streambuf* cout_buf = nullptr ;
 static std::streambuf* cerr_buf = nullptr ;
-        
-SEXP rcpp_error_recorder(SEXP e){ 
-    SEXP cache = Rcpp::get_rcpp_cache() ;
-    Rcpp::rcpp_current_error() = e ;
-    return R_NilValue ;
-}
 
 extern "C" void R_init_Rcpp11( DllInfo* info){
 	SEXP getNamespaceSym = Rf_install("getNamespace"); 
@@ -47,12 +31,12 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
   std::cout.rdbuf( Rcout_buf );
   std::cerr.rdbuf( Rcerr_buf );
   
-  R_registerRoutines(info, 
-      NULL /* .C*/, 
-      callEntries /*.Call*/,
-      NULL /* .Fortran */,
-      NULL /*.External*/
-  );
+  // R_registerRoutines(info, 
+  //     NULL /* .C*/, 
+  //     NULL /*.Call*/,
+  //     NULL /* .Fortran */,
+  //     NULL /*.External*/
+  // );
   
   #define REGISTER(__FUN__) R_RegisterCCallable( "Rcpp11", #__FUN__ , (DL_FUNC)__FUN__ );
   
