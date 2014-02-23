@@ -7,11 +7,6 @@ namespace Rcpp {
     return VECTOR_ELT( get_rcpp_cache() , 0 ) ;
   }
   
-  inline int& error_occured(){
-    SEXP err = VECTOR_ELT( get_rcpp_cache(), 1 ) ;
-    return LOGICAL(err)[0] ;
-  }  
-  
   inline SEXP& rcpp_current_error(){
     return VECTOR_ELT( get_rcpp_cache(), 2 ) ;  
   }
@@ -20,10 +15,9 @@ namespace Rcpp {
     return VECTOR_ELT( get_rcpp_cache(), 3 ) ;  
   }
      
-  inline int& reset_current_error(){
+  inline void reset_current_error(){
     rcpp_current_error() = R_NilValue ;
-    rcpp_stack_trace() = R_NilValue ;
-    return error_occured() = false ; 
+    rcpp_stack_trace() = R_NilValue ; 
   }
   
   inline SEXP& rcpp11_error_handler(){

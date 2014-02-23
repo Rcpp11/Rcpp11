@@ -19,7 +19,6 @@ static std::streambuf* cerr_buf = nullptr ;
         
 SEXP rcpp_error_recorder(SEXP e){ 
     SEXP cache = Rcpp::get_rcpp_cache() ;
-    Rcpp::error_occured() = true ;
     Rcpp::rcpp_current_error() = e ;
     return R_NilValue ;
 }
@@ -31,11 +30,6 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
   
   // the Rcpp11 namespace
   RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
-  SEXP error_occured = PROTECT(Rf_allocVector(LGLSXP, 1)) ;
-  LOGICAL(error_occured)[0] = FALSE ;
-  RCPP_SET_VECTOR_ELT( cache, 1, error_occured ) ; 
-  UNPROTECT(1); 
-  
   RCPP_SET_VECTOR_ELT( cache, 2, R_NilValue) ;
   RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
   Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );

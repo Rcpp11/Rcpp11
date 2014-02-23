@@ -30,7 +30,7 @@ namespace Rcpp {
         /* call the tryCatch call */
         Shield<SEXP> res  = ::Rf_eval( call, RCPP );
         
-        if( error_occured() ) {
+        if( rcpp_current_error() != R_NilValue ) {
             Shield<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, rcpp_current_error() ) ;
             Shield<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
             std::string message(CHAR(::Rf_asChar(condition_message)));
