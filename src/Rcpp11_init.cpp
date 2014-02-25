@@ -2,13 +2,33 @@
 
 using namespace Rcpp ;
 
+#define DOT_CALL(name) DotCall(#name, &name)
+
+extern "C" SEXP rcpp_error_recorder(SEXP e){
+    rcpp_current_error() = e ;
+    return R_NilValue ;
+}
+            
+static R_CallMethodDef callEntries[]  = {
+    DOT_CALL(rcpp_error_recorder),
+                     
+    {NULL, NULL, 0}
+}; 
+
 static Rstreambuf<true>*  Rcout_buf = nullptr ;
 static Rstreambuf<false>* Rcerr_buf = nullptr ;
 static std::streambuf* cout_buf = nullptr ;
 static std::streambuf* cerr_buf = nullptr ;
 
 extern "C" void R_init_Rcpp11( DllInfo* info){
-	SEXP getNamespaceSym = Rf_install("getNamespace"); 
+  R_registerRoutines(info, 
+      NULL /* .C*/, 
+      callEntries /*.Call*/,
+      NULL /* .Fortran */,
+      NULL /*.External*/
+  );
+    
+  SEXP getNamespaceSym = Rf_install("getNamespace"); 
   SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
   SEXP cache   = PROTECT( Rf_allocVector( VECSXP, 7 ) ) ;
   

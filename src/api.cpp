@@ -27,6 +27,7 @@ namespace Rcpp {
         ) ;
         SET_TAG( CDDR(call), errorSym ) ;
         /* call the tryCatch call */
+        
         Shield<SEXP> res  = ::Rf_eval( call, RCPP );
         
         if( rcpp_current_error() != R_NilValue ) {
