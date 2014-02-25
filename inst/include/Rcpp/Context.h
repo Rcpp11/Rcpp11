@@ -89,25 +89,29 @@ namespace Rcpp {
     }
     
     template <typename Fun>
-    void try_catch_helper( void* fun ){
+    void try_catch_helper( void* data ){
         install_Rcpp11_error_handler() ;
-        
-        Fun& f = *reinterpret_cast<Fun*>(fun) ;
-        f() ;
+        Fun& fun = *reinterpret_cast<Fun*>(data) ;
+        fun() ;
     } ;
+    
   }  
   
   template <typename Fun>
-  bool try_catch( Fun fun ){
+  void try_catch( Fun fun ) {
       int oldshow = R_ShowErrorMessages;
       R_ShowErrorMessages = FALSE;
       reset_current_error(); 
       
-      R_ToplevelExec( &internal::try_catch_helper<Fun>, &fun ) ;
-       
-      R_ShowErrorMessages = oldshow;
+      bool ok = R_ToplevelExec( &internal::try_catch_helper<Fun>, &fun ) ;
       
-      return rcpp_current_error() != R_NilValue ;  
+      if( !ok ){
+        SEXP msg = PROTECT( Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  rcpp_current_error() ), R_GlobalEnv ) ) ; 
+        eval_error ex( CHAR(STRING_ELT(msg, 0)) ) ;
+        UNPROTECT(1) ;
+        throw ex ;
+      } 
+      
   }
 
   

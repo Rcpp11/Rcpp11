@@ -48,6 +48,7 @@
 #include <typeinfo>
 #include <tuple>
 #include <utility>
+#include <future>
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>
