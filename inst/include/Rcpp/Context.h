@@ -101,13 +101,13 @@ namespace Rcpp {
   bool try_catch( Fun fun ){
       int oldshow = R_ShowErrorMessages;
       R_ShowErrorMessages = FALSE;
-      int& err = reset_current_error(); 
+      reset_current_error(); 
       
       R_ToplevelExec( &internal::try_catch_helper<Fun>, &fun ) ;
        
       R_ShowErrorMessages = oldshow;
       
-      return !err ;  
+      return rcpp_current_error() != R_NilValue ;  
   }
 
   
