@@ -44,9 +44,7 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
   SET_VECTOR_ELT( cache, 5, handler ) ;
       
   Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
-             
-  Rf_PrintValue( cache ) ;
-  
+     
   UNPROTECT(2) ;
     
 	// init routines
