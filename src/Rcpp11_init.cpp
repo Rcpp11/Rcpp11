@@ -36,7 +36,16 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
   RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
   RCPP_SET_VECTOR_ELT( cache, 2, R_NilValue) ;
   RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
+  
+  SEXP handler = Rf_findVarInFrame(RCPP, Rf_install(".rcpp_error_recorder") ) ;
+  if( TYPEOF(handler) == PROMSXP){
+      handler = Rf_eval(handler, RCPP) ;
+  }
+  SET_VECTOR_ELT( cache, 5, handler ) ;
+      
   Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
+             
+  Rf_PrintValue( cache ) ;
   
   UNPROTECT(2) ;
     
