@@ -61,7 +61,8 @@ inline int SETLEVELS(SEXP x, int v){ return RCPP_SETLEVELS(x,v); }
 #define RCPP_PRINTNAME(x)	((x)->u.symsxp.pname)
 inline SEXP PRINTNAME(SEXP x){ return RCPP_PRINTNAME(x) ; }
 
-#define JMP_BUF jmp_buf
+// #define JMP_BUF jmp_buf
+#define JMP_BUF sigjmp_buf
 
 enum {
     CTXT_TOPLEVEL = 0,
