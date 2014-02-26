@@ -20,9 +20,5 @@ namespace Rcpp {
     rcpp_stack_trace() = R_NilValue ; 
   }
   
-  inline SEXP rcpp11_error_handler(){
-    return VECTOR_ELT( get_rcpp_cache(), 5 ) ;
-  }
-  
 }
 #endif
