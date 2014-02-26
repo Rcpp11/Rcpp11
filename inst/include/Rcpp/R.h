@@ -119,7 +119,6 @@ extern SEXP R_HandlerStack ;
 extern SEXP R_RestartStack ;
 extern RCNTXT* R_ToplevelContext ;
 extern RCNTXT* R_GlobalContext;  
-extern int R_ShowErrorMessages ;
 extern SEXP R_ReturnedValue ;
 
 #endif

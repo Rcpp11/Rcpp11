@@ -1,7 +1,4 @@
 language: cpp
-env:
-  global:
-    - BOOTSTRAP_LATEX="1"
     
 before_install:
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
@@ -9,20 +6,9 @@ before_install:
   - sudo apt-get install -qq g++-4.8
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
+  - mkdir ~/.R
+  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   - ./travis-tool.sh bootstrap
-  - cd .. 
-  - sudo apt-get install -qq subversion
-  - sudo apt-get install -qq rsync
-  - sudo apt-get install -qq ttf-sil-gentium ttf-sil-gentium-basic
-  - sudo apt-get install -qq texinfo ttf-inconsolata
-  - sudo apt-get install -qq texlive-xetex texlive-latex-recommended texlive-latex-extra
-  - svn checkout https://svn.r-project.org/R/trunk/ r-devel
-  - cd r-devel/
-  - ./tools/rsync-recommended
-  - CXX1X="g++-4.8" CXX1XSTD="-std=c++11"  ./configure --enable-R-shlib --without-x
-  - make
-  - sudo make install
-  - cd ../Rcpp11
   - ./travis-tool.sh github_package testthat
     
 script:
@@ -42,4 +28,3 @@ notifications:
     on_success: change
     on_failure: change
 
-    

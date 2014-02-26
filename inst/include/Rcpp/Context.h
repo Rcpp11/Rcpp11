@@ -26,11 +26,8 @@ namespace Rcpp {
     
     template <typename Fun>
     void try_catch( Fun fun ) {
-        int oldshow = R_ShowErrorMessages;
-        R_ShowErrorMessages = FALSE;
         
         bool ok = R_ToplevelExec( &internal::try_catch_helper<Fun>, &fun ) ;
-        R_ShowErrorMessages = oldshow ;
         
         if( !ok ){
           SEXP condition = VECTOR_ELT(R_ReturnedValue,0) ; 
