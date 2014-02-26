@@ -32,6 +32,7 @@ namespace Rcpp{
         default:    return "<unknown>";
         }
     }
+    SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv) ;
 }
 
 #if defined(COMPILING_RCPP11)
@@ -40,7 +41,6 @@ namespace Rcpp{
 // by Rcpp::register
 
 namespace Rcpp{
-    SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv) ;
     void forward_exception_to_r( const std::exception& ex ) ;
     SEXP exception_to_try_error( const std::exception& ex ) ;
     SEXP string_to_try_error( const std::string& str) ;
@@ -53,11 +53,6 @@ namespace Rcpp{
 #else 
 
 namespace Rcpp {
-    
-    inline SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv){
-        GET_CALLABLE(Rcpp_eval) ;
-        return fun(expr, env) ;
-    }
     
     inline void forward_exception_to_r( const std::exception& ex ){
         GET_CALLABLE(forward_exception_to_r); 

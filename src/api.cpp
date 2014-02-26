@@ -2,44 +2,6 @@
 
 namespace Rcpp {
 
-    // [[Rcpp::register]]
-    SEXP Rcpp_eval(SEXP expr_, SEXP env) {
-        RCPP_DEBUG( "Rcpp_eval( expr = <%p>, env = <%p> )", expr_, env ) 
-        Shield<SEXP> expr = expr_ ;
-
-        reset_current_error() ; 
-
-        Environment RCPP = Environment::Rcpp11_namespace(); 
-        static SEXP tryCatchSym = NULL, evalqSym, conditionMessageSym, errorRecorderSym, errorSym ;
-        if (!tryCatchSym) {
-            tryCatchSym               = ::Rf_install("tryCatch");
-            evalqSym                  = ::Rf_install("evalq");
-            conditionMessageSym       = ::Rf_install("conditionMessage");
-            errorRecorderSym          = ::Rf_install(".rcpp_error_recorder");
-            errorSym                  = ::Rf_install("error");
-        }
-        RCPP_DEBUG( "  [Rcpp_eval] RCPP = " ) 
-        
-        Shield<SEXP> call = Rf_lang3( 
-            tryCatchSym, 
-            Rf_lang3( evalqSym, expr, env ),
-            errorRecorderSym
-        ) ;
-        SET_TAG( CDDR(call), errorSym ) ;
-        /* call the tryCatch call */
-        
-        Shield<SEXP> res  = ::Rf_eval( call, RCPP );
-        
-        if( rcpp_current_error() != R_NilValue ) {
-            Shield<SEXP> conditionMessageCall = ::Rf_lang2(conditionMessageSym, rcpp_current_error() ) ;
-            Shield<SEXP> condition_message    = ::Rf_eval(conditionMessageCall, R_GlobalEnv) ;
-            std::string message(CHAR(::Rf_asChar(condition_message)));
-            throw eval_error(message) ;
-        }
-
-        return res ;
-    }
-    
     static SEXP get_last_call(){
         SEXP sys_calls_symbol = Rf_install( "sys.calls" ) ;
         Shield<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   
