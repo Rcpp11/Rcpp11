@@ -53,8 +53,7 @@ namespace Rcpp {
           SEXP condition = VECTOR_ELT(return_value,0) ; 
           
           if( Rf_isNull(condition) ){
-              // TODO: do what tryCtch does, call geterrmessage()
-              throw eval_error( "error (unknown message)" ) ;    
+              throw eval_error( R_curErrorBuf() ) ;    
           } else {
               SEXP msg = PROTECT( Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  condition ), R_GlobalEnv ) ) ; 
               eval_error ex( CHAR(STRING_ELT(msg, 0)) ) ;
