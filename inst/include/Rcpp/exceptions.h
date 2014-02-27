@@ -26,22 +26,25 @@ namespace Rcpp{
     
 class exception : public std::exception {
 public:
-    explicit exception(const char* message_) : message(message_) {
+    explicit exception(const char* message_) : message(message_), r_stack_trace(R_NilValue) {
         add_backtrace_information(message);
     }
-    explicit exception(std::string  message_) : message(std::move(message_)) {
+    explicit exception(std::string  message_) : message(std::move(message_)), r_stack_trace(R_NilValue) {
         add_backtrace_information(message);
     }
-    exception(const char* message_, const char* file, int line ): message(message_){
+    exception(const char* message_, const char* file, int line ): message(message_), r_stack_trace(R_NilValue){
         add_backtrace_information(message);
         r_stack_trace = stack_trace(file,line) ;
+        R_PreserveObject(r_stack_trace) ;
     }
-    virtual ~exception() noexcept {}
+    virtual ~exception() noexcept {
+        if( r_stack_trace == R_NilValue) R_ReleaseObject(r_stack_trace) ;
+    }
     virtual const char* what() const noexcept override { return message.c_str() ; }
 
 private:
     std::string message ;
-    List r_stack_trace ;
+    SEXP r_stack_trace ;
     
     // A private function for adding backtrace information if possible
     #if defined(__GNUC__) || defined(__clang__)
