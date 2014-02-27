@@ -20,16 +20,14 @@ namespace Rcpp {
         return res;
     }
     
-    static SEXP make_condition(const std::string& ex_msg, SEXP call, SEXP cppstack, SEXP classes){
-        Shield<SEXP> res     = Rf_allocVector( VECSXP, 3 ) ;
+    static SEXP make_condition(const std::string& ex_msg, SEXP call, SEXP classes){
+        Shield<SEXP> res     = Rf_allocVector( VECSXP, 2 ) ;
         Shield<SEXP> message = Rf_mkString( ex_msg.c_str() ) ;
         RCPP_SET_VECTOR_ELT( res, 0, message ) ;
         RCPP_SET_VECTOR_ELT( res, 1, call ) ;
-        RCPP_SET_VECTOR_ELT( res, 2, cppstack ) ;
-        Shield<SEXP> names = Rf_allocVector( STRSXP, 3 ) ;
+        Shield<SEXP> names = Rf_allocVector( STRSXP, 2 ) ;
         SET_STRING_ELT( names, 0, Rf_mkChar( "message" ) ) ;
         SET_STRING_ELT( names, 1, Rf_mkChar( "call" ) ) ;
-        SET_STRING_ELT( names, 2, Rf_mkChar( "cppstack" ) ) ;
         Rf_setAttrib( res, R_NamesSymbol, names ) ;
         Rf_setAttrib( res, R_ClassSymbol, classes ) ;
         return res ;
@@ -41,7 +39,7 @@ namespace Rcpp {
         
         Shield<SEXP> call      = get_last_call() ;
         Shield<SEXP> classes   = get_exception_classes(ex_class) ;
-        Shield<SEXP> condition = make_condition( ex_msg, call, R_NilValue, classes ) ; 
+        Shield<SEXP> condition = make_condition( ex_msg, call, classes ) ; 
         return condition ;
     }
     
