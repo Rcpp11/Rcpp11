@@ -7,34 +7,56 @@ namespace Rcpp {
       
         template <typename Fun>
         void try_catch_helper( void* data ){
+            typedef std::pair<Fun*, SEXP&> Pair ;
+            Pair* pair = reinterpret_cast<Pair*>(data) ;
+            
             RCNTXT* ctx    = R_GlobalContext ;
             ctx->callflag  = CTXT_FUNCTION ;
             
-            SEXP entry     = PROTECT(Rf_allocVector(VECSXP, 5)) ;
-            SET_VECTOR_ELT(entry, 0, Rf_mkChar("error") );
-            SET_VECTOR_ELT(entry, 3, ctx->cloenv );
-            SET_VECTOR_ELT(entry, 4, Rf_allocVector(VECSXP,3) );
-            SETLEVELS(entry, FALSE);
+            // first call to .addCondHands to add a handler
+            SEXP args = pairlist( 
+                Rf_mkString("error"),
+                Rf_allocVector(VECSXP,1), 
+                ctx->cloenv, 
+                ctx->cloenv, 
+                Rf_ScalarLogical(FALSE)
+            ) ;
             
-            R_HandlerStack = Rf_cons(entry, R_NilValue) ;
-            UNPROTECT(1) ;  
-            Fun& fun = *reinterpret_cast<Fun*>(data) ;
+            SEXP symb = Rf_install(".addCondHands") ;
+            SEXP ifun = INTERNAL( symb ) ;
+            PRIMFUN(ifun)(symb, ifun, args, R_GlobalEnv );
+               
+            // call it a second time to get the current R_HandlerStack
+            CAR(args) = R_NilValue ;
+            SEXP value = PRIMFUN(ifun)(symb, ifun, args, R_GlobalEnv ) ;
+            pair->second = VECTOR_ELT(CAR(value),4) ;
+            
+            Fun& fun = *reinterpret_cast<Fun*>(pair->first) ;
             fun() ;
+            
         } ;
       
     }  
     
     template <typename Fun>
     void try_catch( Fun fun ) {
+        typedef std::pair<Fun*, SEXP&> Pair ;
         
-        bool ok = R_ToplevelExec( &internal::try_catch_helper<Fun>, &fun ) ;
+        SEXP return_value ;
         
+        Pair pair = std::make_pair(&fun, std::ref(return_value)) ;
+        
+        bool ok = R_ToplevelExec( &internal::try_catch_helper<Fun>, &pair ) ;
+    
         if( !ok ){
-          SEXP condition = VECTOR_ELT(R_ReturnedValue,0) ; 
+          
+          SEXP condition = VECTOR_ELT(return_value,0) ; 
+          
           if( Rf_isNull(condition) ){
+              // TODO: do what tryCtch does, call geterrmessage()
               throw eval_error( "error (unknown message)" ) ;    
           } else {
-              SEXP msg = PROTECT( Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  rcpp_current_error() ), R_GlobalEnv ) ) ; 
+              SEXP msg = PROTECT( Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  condition ), R_GlobalEnv ) ) ; 
               eval_error ex( CHAR(STRING_ELT(msg, 0)) ) ;
               UNPROTECT(1) ;
               throw ex ;
