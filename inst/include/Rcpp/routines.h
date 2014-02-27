@@ -44,7 +44,6 @@ namespace Rcpp{
     void forward_exception_to_r( const std::exception& ex ) ;
     SEXP exception_to_try_error( const std::exception& ex ) ;
     SEXP string_to_try_error( const std::string& str) ;
-    SEXP stack_trace( const char *file, int line) ;
     unsigned long enterRNGScope(); 
     unsigned long exitRNGScope() ;
 }
@@ -66,11 +65,6 @@ namespace Rcpp {
     inline SEXP string_to_try_error( const std::string& str){
         GET_CALLABLE(string_to_try_error) ;
         return fun(str) ;
-    }
-    
-    inline SEXP stack_trace( const char *file, int line){
-        GET_CALLABLE(stack_trace) ;
-        return fun(file, line) ;
     }
     
     inline unsigned long enterRNGScope(){
