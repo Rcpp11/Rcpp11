@@ -39,11 +39,9 @@ namespace Rcpp {
         std::string ex_class = Rcpp::demangle( typeid(ex).name() ) ;
         std::string ex_msg   = ex.what() ; 
         
-        Shield<SEXP> cppstack  = rcpp_stack_trace() ;
         Shield<SEXP> call      = get_last_call() ;
         Shield<SEXP> classes   = get_exception_classes(ex_class) ;
-        Shield<SEXP> condition = make_condition( ex_msg, call, cppstack, classes ) ; 
-        rcpp_stack_trace() = R_NilValue ;
+        Shield<SEXP> condition = make_condition( ex_msg, call, R_NilValue, classes ) ; 
         return condition ;
     }
     
