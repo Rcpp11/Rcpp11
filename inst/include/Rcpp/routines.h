@@ -35,38 +35,4 @@ namespace Rcpp{
     SEXP Rcpp_eval(SEXP expr, SEXP env = R_GlobalEnv) ;
 }
 
-#if defined(COMPILING_RCPP11)
-
-// the idea is that this file should be generated automatically
-// by Rcpp::register
-
-namespace Rcpp{
-    void forward_exception_to_r( const std::exception& ex ) ;
-    SEXP exception_to_try_error( const std::exception& ex ) ;
-    SEXP string_to_try_error( const std::string& str) ;
-}
-           
-#else 
-
-namespace Rcpp {
-    
-    inline void forward_exception_to_r( const std::exception& ex ){
-        GET_CALLABLE(forward_exception_to_r); 
-        return fun(ex) ;
-    }
-    
-    inline SEXP exception_to_try_error( const std::exception& ex ){
-        GET_CALLABLE(exception_to_try_error);
-        return fun(ex) ;
-    }
-    
-    inline SEXP string_to_try_error( const std::string& str){
-        GET_CALLABLE(string_to_try_error) ;
-        return fun(str) ;
-    }
-    
-}
-
-#endif
-
 #endif

@@ -51,6 +51,7 @@
 #include <Rcpp/NamedDots.h>
 
 #include <Rcpp/Context.h>
+#include <Rcpp/Condition.h>
 
 #include <Rmath.h>
 #include <Rcpp/sugar/undoRmath.h>
