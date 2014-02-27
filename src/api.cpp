@@ -2,15 +2,6 @@
 
 namespace Rcpp {
 
-    static SEXP get_last_call(){
-        SEXP sys_calls_symbol = Rf_install( "sys.calls" ) ;
-        Shield<SEXP> sys_calls_expr = Rf_lang1(sys_calls_symbol) ;   
-        Shield<SEXP> calls = Rf_eval( sys_calls_expr, R_GlobalEnv ) ;
-        SEXP res = calls ;
-        while( !Rf_isNull(CDR(res)) ) res = CDR(res); 
-        return CAR(res) ;
-    }
-    
     static SEXP get_exception_classes( const std::string& ex_class) {
         Shield<SEXP> res = Rf_allocVector( STRSXP, 4 );
         SET_STRING_ELT( res, 0, Rf_mkChar( ex_class.c_str() ) ) ;
@@ -37,7 +28,7 @@ namespace Rcpp {
         std::string ex_class = Rcpp::demangle( typeid(ex).name() ) ;
         std::string ex_msg   = ex.what() ; 
         
-        Shield<SEXP> call      = get_last_call() ;
+        Shield<SEXP> call      = get_current_call() ;
         Shield<SEXP> classes   = get_exception_classes(ex_class) ;
         Shield<SEXP> condition = make_condition( ex_msg, call, classes ) ; 
         return condition ;

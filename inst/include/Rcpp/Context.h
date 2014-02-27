@@ -3,6 +3,15 @@
 
 namespace Rcpp {
  
+    // borrowed from rJava
+    inline SEXP get_current_call() {
+        RCNTXT *ctx = R_GlobalContext;
+        /* skip the .External/.Call context to get at the underlying call */
+        if (ctx->nextcontext && (ctx->callflag & CTXT_BUILTIN))
+            ctx = ctx->nextcontext;
+        return ctx->call;
+    }
+    
     namespace internal{
       
         template <typename Fun>
