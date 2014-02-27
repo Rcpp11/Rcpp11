@@ -3,14 +3,18 @@
 
 namespace Rcpp{ 
 
-class RNGScope{
-public:
-	RNGScope(){ enterRNGScope(); }
-	~RNGScope(){ exitRNGScope(); }	
-} ;
-
-template <typename T>
-class Generator : public RNGScope {} ;
+    class RNGScope{
+    public:
+        RNGScope(){ 
+            GetRNGstate() ;
+        }
+        ~RNGScope(){
+            PutRNGstate() ;
+        }	
+    } ;
+    
+    template <typename T>
+    class Generator : public RNGScope {} ;
 
 }
 

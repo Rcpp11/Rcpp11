@@ -68,24 +68,5 @@ namespace Rcpp {
         return tryError;
     }
 
-    namespace {
-        unsigned long RNGScopeCounter = 0;
-    }
-    
-    // [[Rcpp::register]]
-    unsigned long enterRNGScope() {       
-        if (RNGScopeCounter == 0)
-            GetRNGstate();       
-        return ++RNGScopeCounter;
-    }
-    
-    // [[Rcpp::register]]
-    unsigned long exitRNGScope() {
-        RNGScopeCounter--;
-        if (RNGScopeCounter == 0)
-            PutRNGstate();
-        return RNGScopeCounter ;
-    }
-
 }
 

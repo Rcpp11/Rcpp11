@@ -26,8 +26,6 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
     REGISTER(exception_to_try_error)
     REGISTER(string_to_try_error)
     
-    REGISTER(enterRNGScope)
-    REGISTER(exitRNGScope)
 }
 
 extern "C" void R_unload_Rcpp11(DllInfo *info) {

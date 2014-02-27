@@ -44,8 +44,6 @@ namespace Rcpp{
     void forward_exception_to_r( const std::exception& ex ) ;
     SEXP exception_to_try_error( const std::exception& ex ) ;
     SEXP string_to_try_error( const std::string& str) ;
-    unsigned long enterRNGScope(); 
-    unsigned long exitRNGScope() ;
 }
            
 #else 
@@ -65,16 +63,6 @@ namespace Rcpp {
     inline SEXP string_to_try_error( const std::string& str){
         GET_CALLABLE(string_to_try_error) ;
         return fun(str) ;
-    }
-    
-    inline unsigned long enterRNGScope(){
-         GET_CALLABLE(enterRNGScope) ;
-         return fun() ;
-    }
-    
-    inline unsigned long exitRNGScope(){
-         GET_CALLABLE(exitRNGScope) ;
-         return fun() ;
     }
     
 }
