@@ -153,7 +153,6 @@ namespace Rcpp{
 
 #include <Rcpp/sugar/sugar_forward.h>
 
-#include <Rcpp/iostream/iostream.h>
 #include <Rcpp/longlong.h>
 #include <Rcpp/transient_vector.h>
 
