@@ -8,18 +8,6 @@ static std::streambuf* cout_buf = nullptr ;
 static std::streambuf* cerr_buf = nullptr ;
 
 extern "C" void R_init_Rcpp11( DllInfo* info){
-    SEXP getNamespaceSym = Rf_install("getNamespace"); 
-    SEXP RCPP    = PROTECT( Rf_eval(Rf_lang2( getNamespaceSym, Rf_mkString("Rcpp11") ), R_GlobalEnv) );
-    SEXP cache   = PROTECT( Rf_allocVector( VECSXP, 7 ) ) ;
-    
-    // the Rcpp11 namespace
-    RCPP_SET_VECTOR_ELT( cache, 0, RCPP ) ;
-    RCPP_SET_VECTOR_ELT( cache, 2, R_NilValue) ;
-    RCPP_SET_VECTOR_ELT( cache, 3, R_NilValue ) ; // stack trace
-        
-    Rf_defineVar( Rf_install(".rcpp_cache"), cache, RCPP );
-       
-    UNPROTECT(2) ;
       
     // init routines
     Rostream<true>  Rcout;
@@ -41,7 +29,6 @@ extern "C" void R_init_Rcpp11( DllInfo* info){
     
     REGISTER(enterRNGScope)
     REGISTER(exitRNGScope)
-    REGISTER(get_rcpp_cache)
 }
 
 extern "C" void R_unload_Rcpp11(DllInfo *info) {
