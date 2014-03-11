@@ -17,8 +17,8 @@ script:
   - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
   - R CMD check --no-manual --as-cran "${FILE}"
   - R CMD INSTALL "${FILE}"
-  - git clone https://github.com/romainfrancois/Rcpp-test.git
-  - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
+  # - git clone https://github.com/romainfrancois/Rcpp-test.git
+  # - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); test_dir('.')"
   
 after_script:
   - ./travis-tool.sh dump_logs
