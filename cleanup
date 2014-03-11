@@ -1,2 +1,0 @@
-rm -f src/*o src/*dll
-find . -name \*~ -exec rm {} \;

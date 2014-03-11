@@ -1,14 +1,1 @@
-useDynLib(Rcpp11)
-
-import(methods)
-
-export(cppFunction,
-       evalCpp,
-       sourceCpp,
-       compileAttributes,
-       registerPlugin,
-       demangle,
-       sizeof
-       )
-S3method( print, bytes )
 
