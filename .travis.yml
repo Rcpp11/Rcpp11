@@ -10,7 +10,6 @@ before_install:
   - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
-  - ./travis-tool.sh github_package RcppCore/attributes
     
 script:
   - cd ..
@@ -18,6 +17,8 @@ script:
   - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
   - R CMD check --no-manual --as-cran "${FILE}"
   - R CMD INSTALL "${FILE}"
+  - git clone https://github.com/RcppCore/attributes.git
+  - R CMD INSTALL attributes
   - git clone https://github.com/romainfrancois/Rcpp-test.git
   - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); library(attributes); test_dir('.')"
   
