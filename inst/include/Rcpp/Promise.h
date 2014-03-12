@@ -40,12 +40,16 @@ namespace Rcpp{
         /**
          * The promise expression: PRCODE
          */
-        ExpressionVector expression() const  ;
+        SEXP expression() const {
+            return PRCODE(Storage::get__());    
+        }
 
         /**
          * The promise environment : PRENV
          */
-        Environment_Impl<StoragePolicy> environment() const ;
+        SEXP environment() const {
+            return PRENV(Storage::get__());     
+        }
         
         void update(SEXP){}
         
