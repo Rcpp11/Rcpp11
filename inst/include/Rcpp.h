@@ -133,9 +133,9 @@ namespace Rcpp{
 #include <Rcpp/internal/r_vector.h>
 #include <Rcpp/r_cast.h>
 
+#include <Rcpp/as.h>
 #include <Rcpp/internal/export.h>
 #include <Rcpp/internal/r_coerce.h>
-#include <Rcpp/as.h>
 #include <Rcpp/InputParameter.h>
 #include <Rcpp/is.h>
 

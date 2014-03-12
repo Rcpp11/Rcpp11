@@ -120,15 +120,15 @@ namespace Rcpp{
         }
     };
     
-    template <typename OUT=SEXP, 
-      template <class> class StoragePolicy = PreserveStorage,
-      bool fast = false
+    template <
+        typename OUT=SEXP, 
+        template <class> class StoragePolicy = PreserveStorage
     >
     class fixed_call {
     public:
         typedef OUT result_type ;
         typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        typedef Function_Impl<StoragePolicy> Function ; 
         
         fixed_call( Language call_ ) : call(call_){}
         fixed_call( Function fun ) : call(fun){}
@@ -142,13 +142,12 @@ namespace Rcpp{
     } ;
 
     template <typename T, typename OUT = SEXP, 
-      template <class> class StoragePolicy = PreserveStorage,
-      bool fast = false
+      template <class> class StoragePolicy = PreserveStorage
     >
     class unary_call : public std::unary_function<T,OUT> {
     public:
         typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        typedef Function_Impl<StoragePolicy> Function ; 
         
         unary_call( Language call_ ) : call(call_), proxy(call_,1) {}
         unary_call( Language call_, int index ) : call(call_), proxy(call_,index){}
@@ -165,13 +164,12 @@ namespace Rcpp{
     } ;
 
     template <typename T1, typename T2, 
-      typename OUT = SEXP, template <class> class StoragePolicy = PreserveStorage, 
-      bool fast = false
+      typename OUT = SEXP, template <class> class StoragePolicy = PreserveStorage
     >
     class binary_call : public std::binary_function<T1,T2,OUT> {
     public:
         typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy,fast> Function ; 
+        typedef Function_Impl<StoragePolicy> Function ; 
         
         binary_call( Language call_ ) : call(call_), proxy1(call_,1), proxy2(call_,2) {}
         binary_call( Language call_, int index1, int index2 ) : call(call_), proxy1(call_,index1), proxy2(call_,index2){}
