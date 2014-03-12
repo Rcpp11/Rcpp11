@@ -299,13 +299,6 @@ namespace Rcpp{
         }
     
         /**
-         * @return the Rcpp namespace
-         */
-        static Environment_Impl Rcpp11_namespace(){
-            return get_Rcpp11_namespace() ;
-        }
-    
-        /**
          * @param name the name of the package of which we want the namespace
          *
          * @return the namespace of the package

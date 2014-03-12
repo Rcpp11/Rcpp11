@@ -17,9 +17,6 @@ namespace Rcpp{
     namespace traits {
         template <int RTYPE, bool NA, typename VECTOR> struct Extractor ;
         
-        template <int RTYPE> struct r_vector_cache_type ;
-        template <int RTYPE> class r_vector_cache ;
-        
         template <int RTYPE> struct r_vector_name_proxy ;
         template <int RTYPE> struct r_vector_const_name_proxy ;
         template <int RTYPE> struct r_vector_proxy ;

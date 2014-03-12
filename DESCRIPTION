@@ -10,4 +10,5 @@ Authors@R: c(
 Description: R and C++11 integration
 Depends: R (>= 3.0.2)
 License: GPL (>= 2)
+SystemRequirements: C++11
 

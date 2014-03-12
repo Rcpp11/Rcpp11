@@ -1,8 +1,6 @@
 #ifndef Rcpp__vector__Vector_h
 #define Rcpp__vector__Vector_h
 
-#include <Rcpp/vector/concat.h>
-
 namespace Rcpp{
 
 template <int RTYPE, template <class> class StoragePolicy>
@@ -17,7 +15,6 @@ class Vector :
     public RObjectMethods<Vector<RTYPE, StoragePolicy>>
 {
 public:
-    typename traits::r_vector_cache_type<RTYPE>::type cache ;
     typedef typename traits::r_vector_proxy<RTYPE>::type Proxy ;
     typedef typename traits::r_vector_const_proxy<RTYPE>::type const_Proxy ;
     typedef typename traits::r_vector_name_proxy<RTYPE>::type NameProxy ;
@@ -108,26 +105,14 @@ public:
     void fill( const U& u){
         fill__dispatch( typename traits::is_trivial<RTYPE>::type(), u ) ;
     }
-
-    inline iterator begin() { return cache.get() ; }
-    inline iterator end() { return cache.get() + size() ; }
-    inline const_iterator begin() const{ return cache.get_const() ; }
-    inline const_iterator end() const{ return cache.get_const() + size() ; }
-
-    inline Proxy operator[]( int i ){ return cache.ref(i) ; }
-    inline const_Proxy operator[]( int i ) const { return cache.ref(i) ; }
-
-    inline Proxy at( int i ){ return cache.ref(i) ; }
-    inline const_Proxy at( int i ) const { return cache.ref(i) ; }
+    
+    inline iterator begin() { return get_iterator(0) ; }
+    inline iterator end() { return get_iterator(size()) ; }
+    inline const_iterator begin() const{ return get_const_iterator(0) ; }
+    inline const_iterator end() const{ return get_const_iterator(size()) ; }
 
     inline NameProxy operator[]( const std::string& name ){
         return NameProxy( *this, name ) ;
-    }
-    inline NameProxy at( const std::string& name ){
-        return NameProxy( *this, name ) ;
-    }
-    inline const_NameProxy at( const std::string& name ) const {
-        return const_NameProxy( *this, name ) ;
     }
     inline const_NameProxy operator[]( const std::string& name ) const {
         return const_NameProxy( *this, name ) ;
@@ -166,14 +151,11 @@ public:
 
     template <typename T>
     iterator insert( int position, const T& object){
-        return insert(
-            cache.get() + position,
-            object
-        );
+        return insert(get_iterator(position),object);
     }
 
     iterator erase( int position){
-        return erase_single__impl( cache.get() + position) ;
+        return erase_single__impl( get_iterator(position) ) ;
     }
 
     iterator erase( iterator position){
@@ -181,17 +163,14 @@ public:
     }
 
     iterator erase( int first, int last){
-        iterator start = cache.get() ;
-        return erase_range__impl( start + first, start + last ) ;
+        return erase_range__impl( get_iterator(first), get_iterator(last) ) ;
     }
 
     iterator erase( iterator first, iterator last){
         return erase_range__impl( first, last ) ;
     }
 
-    void update(SEXP /* x */){
-        cache.update(*this) ;
-    }
+    void update(SEXP /* x */){}
 
     template <typename EXPR_VEC>
     Vector& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
@@ -261,6 +240,54 @@ private:
 public:
     template <typename... Args> static Vector create(Args... args) ;
 
+private:
+    inline value_type* data(){
+        return reinterpret_cast<value_type*>( DATAPTR(Storage::get__()) );    
+    }
+    inline const value_type* data() const{
+        return reinterpret_cast<const value_type*>( DATAPTR(Storage::get__()) );    
+    }
+    
+    inline Proxy get_Proxy(int i){
+        return get_Proxy__impl( int i, std::is_reference<Proxy>::type() ) ;    
+    }
+    inline Proxy get_Proxy__impl( int i, std::true_type ){
+        return &( data() + i ) ;    
+    }
+    inline Proxy get_Proxy__impl( int i, std::false_type ){
+        return Proxy( *this, i ) ;    
+    }
+    
+    inline Proxy get_constProxy(int i) const {
+        return get_constProxy__impl( int i, std::is_reference<const_Proxy>::type() ) ;    
+    }
+    inline Proxy get_constProxy__impl( int i, std::true_type ) const {
+        return &( data() + i ) ;    
+    }
+    inline Proxy get_constProxy__impl( int i, std::false_type ) const {
+        return const_Proxy( *this, i ) ;    
+    }
+    
+    inline iterator get_iterator(int i){
+        return get_iterator__impl(i, std::is_pointer<iterator>::type() );
+    }
+    inline iterator get_iterator__impl(int i, std::true_type ){
+        return data() + i ;    
+    }
+    inline iterator get_iterator__impl(int i, std::false_type ){
+        return iterator( Proxy(*this, i) );    
+    }
+    
+    inline iterator get_const_iterator(int i) const {
+        return get_const_iterator__impl(i, std::is_pointer<iterator>::type() );
+    }
+    inline iterator get_const_iterator__impl(int i, std::true_type ) const {
+        return data() + i ;    
+    }
+    inline iterator get_const_iterator__impl(int i, std::false_type ) const {
+        return const_iterator( Proxy(*this, i) );    
+    }
+    
 } ; /* Vector */
 
 }

@@ -8,7 +8,7 @@
 #include <Rcpp/vector/eval_methods.h>
 
 #include <Rcpp/vector/converter.h>
-
+#include <Rcpp/vector/concat.h>
 #include <Rcpp/vector/Vector.h>
 
 #include <Rcpp/vector/simple_name_proxy.h>
@@ -20,7 +20,6 @@
 #include <Rcpp/vector/generic_const_name_proxy.h>
 
 #include <Rcpp/vector/proxy.h>
-#include <Rcpp/vector/traits.h>
 
 #include <Rcpp/vector/instantiation.h>
 #include <Rcpp/vector/create.h>
