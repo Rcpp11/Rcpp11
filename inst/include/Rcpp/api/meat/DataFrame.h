@@ -6,7 +6,8 @@ namespace Rcpp{
     namespace internal{
         inline SEXP empty_data_frame(){
             SEXP dataFrameSym = ::Rf_install( "data.frame");
-            return ::Rf_eval( ::Rf_lang1( dataFrameSym ), R_GlobalEnv ) ;       
+            Shield<SEXP> call( ::Rf_lang1( dataFrameSym ) );
+            return ::Rf_eval(call, R_GlobalEnv) ;       
         }
     }
     

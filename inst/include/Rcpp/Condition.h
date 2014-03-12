@@ -31,7 +31,8 @@ namespace Rcpp {
             SET_STRING_ELT( names, 1, Rf_mkChar( "call" ) ) ;
             Rf_setAttrib( cond, R_NamesSymbol, names ) ;
             Rf_setAttrib( cond, R_ClassSymbol, get_exception_classes() ) ;
-            Rf_eval( Rf_lang2( Rf_install("stop"), cond ), R_GlobalEnv ) ;        
+            Shield<SEXP> call = Rf_lang2( Rf_install("stop"), cond );
+            Rf_eval( call, R_GlobalEnv ) ;        
         }
         
     private:
