@@ -1,9 +1,6 @@
 #ifndef Rcpp__Formula_h
 #define Rcpp__Formula_h
 
-#include <RcppCommon.h>
-#include <Rcpp/Language.h>
-
 namespace Rcpp{ 
 
     template < template <class> class StoragePolicy >

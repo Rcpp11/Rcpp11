@@ -1,9 +1,6 @@
 #ifndef Rcpp_grow_h
 #define Rcpp_grow_h
 
-#include <RcppCommon.h>
-#include <Rcpp/Named.h>
-
 namespace Rcpp {
 
     inline SEXP grow( SEXP head, SEXP tail ){

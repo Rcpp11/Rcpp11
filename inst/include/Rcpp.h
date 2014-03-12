@@ -82,10 +82,7 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(S4) ;
     RCPP_API_CLASS_DECL(Formula) ;
     RCPP_API_CLASS_DECL(Reference) ;
-    
-    template < template <class> class StoragePolicy, bool fast > class Function_Impl ;
-    using Function = Function_Impl<PreserveStorage, false> ;
-    using FastFunction = Function_Impl<PreserveStorage, true> ;
+    RCPP_API_CLASS_DECL(Function) ;
     
     template < template <class> class StoragePolicy > class Symbol_Impl ;
     using Symbol = Symbol_Impl<NoProtectStorage> ;
