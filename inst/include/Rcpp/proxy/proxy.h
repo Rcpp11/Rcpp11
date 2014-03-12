@@ -3,6 +3,7 @@
 
 #include <Rcpp/proxy/GenericProxy.h>
 
+#include <Rcpp/proxy/RObjectMethods.h>
 #include <Rcpp/proxy/NodeProxy.h>
 #include <Rcpp/proxy/TagProxy.h>
 #include <Rcpp/proxy/ProtectedProxy.h>

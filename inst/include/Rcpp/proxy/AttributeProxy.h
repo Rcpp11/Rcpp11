@@ -4,7 +4,7 @@
 namespace Rcpp{
     
     template <typename CLASS>
-    class AttributeProxyPolicy {
+    class AttributeProxyPolicy { 
     public:
         
         class AttributeProxy : public GenericProxy<AttributeProxy> {
@@ -67,11 +67,34 @@ namespace Rcpp{
         } ;
         
         AttributeProxy attr( const std::string& name) {
-          return AttributeProxy( static_cast<CLASS&>(*this) , name ) ;
+          return AttributeProxy( ref() , name ) ;
         }
         const_AttributeProxy attr( const std::string& name) const {
-          return const_AttributeProxy( static_cast<const CLASS&>(*this) , name ) ;  
+          return const_AttributeProxy( ref() , name ) ;  
         }
+          
+        bool hasAttribute( const std::string& attr) const {
+            SEXP attrs = ATTRIB(ref());
+            while( attrs != R_NilValue ){
+                if( attr == CHAR(PRINTNAME(TAG(attrs))) ){
+                    return true ;
+                }
+                attrs = CDR( attrs ) ;
+            }
+            return false;    
+        }
+        
+        
+    private:
+        
+        Class& ref(){
+            return static_cast<Class&>(*this) ;    
+        }
+        
+        const Class& ref() const{
+            return static_cast<const Class&>(*this) ;    
+        }
+    
         
     } ;
 

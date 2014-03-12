@@ -15,7 +15,8 @@ class Vector :
     public VectorBase< RTYPE, true, Vector<RTYPE,StoragePolicy> >,
     public internal::eval_methods<RTYPE, StoragePolicy >,
     public NamesProxyPolicy<Vector<RTYPE, StoragePolicy>>,
-    public AttributesProxyPolicy<Vector<RTYPE, StoragePolicy>>
+    public AttributesProxyPolicy<Vector<RTYPE, StoragePolicy>>, 
+    public RObjectMethods<Vector<RTYPE, StoragePolicy>>
 {
 public:
     typename traits::r_vector_cache_type<RTYPE>::type cache ;

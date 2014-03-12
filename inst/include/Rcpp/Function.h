@@ -7,7 +7,8 @@ namespace Rcpp{
         public StoragePolicy<Function_Impl<StoragePolicy, fast>>,      
         public SlotProxyPolicy<Function_Impl<StoragePolicy, fast>>,    
         public AttributeProxyPolicy<Function_Impl<StoragePolicy, fast>>, 
-        public AttributesProxyPolicy<Function_Impl<StoragePolicy, fast>>
+        public AttributesProxyPolicy<Function_Impl<StoragePolicy, fast>>, 
+        public RObjectMethods<Function_Impl<StoragePolicy, fast>>
     {
     public:
 

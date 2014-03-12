@@ -72,14 +72,34 @@ public:
     } ;
     
     SlotProxy slot(const std::string& name) {
-        SEXP x = static_cast<CLASS&>(*this) ;
+        SEXP x = ref() ;
         if( !Rf_isS4(x) ) throw not_s4() ;
         return SlotProxy( static_cast<CLASS&>(*this) , name ) ;
     }
     const_SlotProxy slot(const std::string& name) const {
-        SEXP x = static_cast<const CLASS&>(*this) ;
+        SEXP x = ref() ;
         if( !Rf_isS4(x) ) throw not_s4() ;
         return const_SlotProxy( static_cast<const CLASS&>(*this) , name ) ; 
+    }
+    
+    bool hasSlot(const std::string& name) const {
+        SEXP data = ref() ;
+        if( !Rf_isS4(data) ) throw not_s4() ;
+        return R_has_slot( data, Rf_mkString(name.c_str()) ) ;    
+    }
+    
+    inline bool isS4() const { 
+        return ::Rf_isS4(ref()) ; 
+    }
+    
+private:
+    
+    Class& ref(){
+        return static_cast<Class&>(*this) ;    
+    }
+    
+    const Class& ref() const{
+        return static_cast<const Class&>(*this) ;    
     }
     
 } ;
