@@ -74,7 +74,8 @@ namespace Rcpp{
         }
           
         bool hasAttribute( const std::string& attr) const {
-            SEXP attrs = ATTRIB(ref());
+            SEXP data = ref() ;
+            SEXP attrs = ATTRIB(data);
             while( attrs != R_NilValue ){
                 if( attr == CHAR(PRINTNAME(TAG(attrs))) ){
                     return true ;
