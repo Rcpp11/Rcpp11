@@ -7,11 +7,14 @@ namespace Rcpp{
     class Armor {
     public:
         
-        Armor() : data(){
+        Armor() {
             init(R_NilValue) ;    
         }
         
-        template <typename U> Armor( U x );
+        template <typename U> 
+        Armor( U x ) {
+            init( wrap(x) ) ;
+        }
         
         Armor(const Armor&) = delete ;
         Armor& operator=(const Armor&) = delete ;
@@ -21,7 +24,10 @@ namespace Rcpp{
         }
               
         template <typename U>
-        inline Armor& operator=( U x ) ;
+        inline Armor& operator=( U x ) {
+            REPROTECT(data = wrap(x), index) ;
+            return *this ;    
+        }
         
         ~Armor(){
             UNPROTECT(1) ;
