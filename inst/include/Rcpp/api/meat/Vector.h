@@ -509,19 +509,7 @@ namespace Rcpp{
         }
         return *this ;  
     }
-   
-    template <int RTYPE, template <class> class StoragePolicy>
-    bool Vector<RTYPE,StoragePolicy>::containsElementNamed( const char* target ) const {
-        SEXP names = RCPP_GET_NAMES( Storage::get__() ) ; 
-        if( Rf_isNull(names) ) return false ;
-        int n = Rf_length(names) ;
-        for( int i=0; i<n; i++){
-            if( !strcmp( target, CHAR(STRING_ELT(names, i)) ) ) 
-                return true ;   
-        }
-        return false ;
-    }
-     
+    
     namespace internal {
     
         template <typename T>

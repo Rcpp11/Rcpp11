@@ -41,13 +41,6 @@ namespace internal{
             return TYPEOF(x) == CLOSXP || TYPEOF(x) == SPECIALSXP || TYPEOF(x) == BUILTINSXP ; 
         }    
     } ;
-    
-    template <int RTYPE> 
-    struct Is< Matrix<RTYPE> > {
-        inline bool test( SEXP x){
-            return TYPEOF(x) == RTYPE && Rf_isMatrix(x) ;  
-        }
-    } ;
         
     
 } // namespace internal

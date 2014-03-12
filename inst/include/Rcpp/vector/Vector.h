@@ -209,19 +209,8 @@ public:
     template <typename EXPR_VEC>
     Vector& operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ) ;
 
-    /**
-     *  Does this vector have an element with the target name
-     */
-    bool containsElementNamed( const char* target ) const ;
-
-
 protected:
 
-    // TODO: REMOVE
-    inline int* dims() const {
-        if( !::Rf_isMatrix(Storage::get__()) ) throw not_a_matrix() ;
-        return INTEGER( ::Rf_getAttrib( Storage::get__(), R_DimSymbol ) ) ;
-    }
     void init(){
         RCPP_DEBUG_CLASS(Vector, "::init( SEXP = <%p> )", Storage::get__() )
         internal::r_init_vector<RTYPE>(Storage::get__()) ;

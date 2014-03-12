@@ -68,7 +68,6 @@ namespace Rcpp{
     template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
     class Vector ;
     
-    template <int RTYPE> class Matrix ;
     using CharacterVector = Vector<STRSXP> ;
     using List = Vector<VECSXP> ; 
     using ExpressionVector = Vector<EXPRSXP> ; 
@@ -142,7 +141,6 @@ namespace Rcpp{
 #include <Rcpp/is.h>
 
 #include <Rcpp/vector/VectorBase.h>
-#include <Rcpp/vector/MatrixBase.h>
 
 #include <Rcpp/wrap/wrap.h>
 

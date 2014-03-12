@@ -36,7 +36,6 @@ namespace Rcpp{
         };
            
         template <int RTYPE> struct Is< Vector<RTYPE> > : TypeofIs<RTYPE>{} ;
-        template <int RTYPE> struct Is< Matrix<RTYPE> >  ;
         
         template <> struct Is<Environment>   : TypeofIs<ENVSXP> {} ;
         template <> struct Is<Pairlist>      : TypeofIs<LISTSXP> {} ;

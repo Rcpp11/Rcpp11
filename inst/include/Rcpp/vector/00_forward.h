@@ -4,10 +4,6 @@
 namespace Rcpp{
     class Na_Proxy ;
     
-    template <int RTYPE> class MatrixRow ;
-    template <int RTYPE> class MatrixColumn ;
-    template <int RTYPE> class SubMatrix ;
-
     class Dimension ;
             
     namespace internal{

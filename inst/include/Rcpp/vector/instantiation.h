@@ -16,18 +16,5 @@ namespace Rcpp{
     typedef Vector<VECSXP> List ;
     typedef Vector<EXPRSXP> ExpressionVector ;
     
-    typedef Matrix<CPLXSXP> ComplexMatrix ;
-    typedef Matrix<INTSXP> IntegerMatrix ;
-    typedef Matrix<LGLSXP> LogicalMatrix ;
-    typedef Matrix<REALSXP> NumericMatrix ;
-    typedef Matrix<REALSXP> DoubleMatrix ;
-    typedef Matrix<RAWSXP> RawMatrix ;
-    
-    typedef Matrix<STRSXP> CharacterMatrix ;   
-    typedef Matrix<STRSXP> StringMatrix ;
-    typedef Matrix<VECSXP> GenericMatrix ;
-    typedef Matrix<VECSXP> ListMatrix ;
-    typedef Matrix<EXPRSXP> ExpressionMatrix ;
-
 }
 #endif

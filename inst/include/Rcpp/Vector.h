@@ -22,11 +22,6 @@
 #include <Rcpp/vector/proxy.h>
 #include <Rcpp/vector/traits.h>
 
-#include <Rcpp/vector/Matrix.h>
-#include <Rcpp/vector/SubMatrix.h>
-#include <Rcpp/vector/MatrixRow.h>
-#include <Rcpp/vector/MatrixColumn.h>
-
 #include <Rcpp/vector/instantiation.h>
 #include <Rcpp/vector/create.h>
 

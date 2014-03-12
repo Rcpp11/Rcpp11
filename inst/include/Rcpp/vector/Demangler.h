@@ -12,14 +12,5 @@ namespace Rcpp{
     DEMANGLE_ECHO(Rcpp::List) 
     DEMANGLE_ECHO(Rcpp::RawVector)
     
-    DEMANGLE_ECHO(Rcpp::DoubleMatrix) 
-    DEMANGLE_ECHO(Rcpp::StringMatrix) 
-    DEMANGLE_ECHO(Rcpp::IntegerMatrix) 
-    DEMANGLE_ECHO(Rcpp::LogicalMatrix) 
-    DEMANGLE_ECHO(Rcpp::ComplexMatrix) 
-    DEMANGLE_ECHO(Rcpp::ExpressionMatrix) 
-    DEMANGLE_ECHO(Rcpp::GenericMatrix) 
-    DEMANGLE_ECHO(Rcpp::RawMatrix)
-    
 }
 #endif
