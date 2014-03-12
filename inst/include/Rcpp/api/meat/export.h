@@ -2,19 +2,7 @@
 #define Rcpp_api_meat_export_h
 
 namespace Rcpp{ 
-namespace internal{
-        
-    template <typename InputIterator, typename value_type>
-    void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_generic_tag ) {
-        R_len_t n = ::Rf_length(x) ;
-        for( R_len_t i=0; i<n; i++, ++first ){
-            *first = ::Rcpp::as<value_type>( VECTOR_ELT(x, i) ) ;
-        }
-    }
-                
     
-} // namespace internal
-
     namespace traits{
         
         template < template <class, class> class ContainerTemplate, typename T > class ContainerExporter {
