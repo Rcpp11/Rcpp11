@@ -7,11 +7,12 @@ namespace Rcpp{
         public BindingPolicy< Environment_Impl<StoragePolicy> >
     {
     private:
+        
         inline SEXP as_environment(SEXP x){  
             if( Rf_isEnvironment(x) ) return x ;
             SEXP asEnvironmentSym = Rf_install("as.environment");
             try {
-                Shield<SEXP> res( Rcpp_eval( Rf_lang2( asEnvironmentSym, x ) ) );
+                Shield<SEXP> res = Rcpp_eval( Rf_lang2( asEnvironmentSym, x ) );
                 return res ;
             } catch( const eval_error& ex){
                 throw not_compatible( "cannot convert to environment"  ) ; 
@@ -30,8 +31,36 @@ namespace Rcpp{
             Storage::set__( as_environment(x) ) ;
         }
      
-        Environment_Impl( const std::string& name ) ;
-        Environment_Impl( int pos ) ;
+        Environment_Impl( const std::string& name ) {
+            Storage::set__(R_EmptyEnv) ;
+            /* similar to matchEnvir@envir.c */
+            if( name == ".GlobalEnv" ) {
+                Storage::set__( R_GlobalEnv ) ;
+            } else if( name == "package:base" ){
+                Storage::set__( R_BaseEnv ) ;
+            } else{
+                SEXP res = R_NilValue ;
+                try{
+                    SEXP asEnvironmentSym = Rf_install("as.environment"); 
+                    res = Rcpp_eval(Rf_lang2( asEnvironmentSym, Rf_mkString(name.c_str()) ) ) ;
+                } catch( const eval_error& ex){
+                    throw no_such_env(name) ;
+                }
+                Storage::set__( res ) ;
+            }        
+        }
+        
+        Environment_Impl( int pos ) {
+            Storage::set__( R_GlobalEnv) ;
+            SEXP res ;
+            try{
+                SEXP asEnvironmentSym = Rf_install("as.environment"); 
+                res =  Rcpp_eval( Rf_lang2( asEnvironmentSym, Rf_ScalarInteger(pos) ) ) ;
+            } catch( const eval_error& ex){
+                throw no_such_env(pos) ;
+            }
+            Storage::set__( res ) ;    
+        }
     
         /**
          * The list of objects in the environment
@@ -135,7 +164,9 @@ namespace Rcpp{
          * @param x wrappable object. anything that has a wrap( WRAPPABLE ) is fine
          */
         template <typename WRAPPABLE>
-        bool assign( const std::string& name, const WRAPPABLE& x) const ;
+        bool assign( const std::string& name, const WRAPPABLE& x) const {
+            return assign( name, wrap( x ) ) ;    
+        }
     
         /**
          * @return true if this environment is locked
@@ -165,7 +196,7 @@ namespace Rcpp{
                 }
             } else{
                 throw no_such_binding(name) ;
-            }
+            }      
             return true;
         
         }
@@ -281,7 +312,16 @@ namespace Rcpp{
          *
          * @throw no_such_namespace 
          */
-        static Environment_Impl namespace_env(const std::string& name) ;
+        static Environment_Impl namespace_env(const std::string& name) {
+            SEXP env = R_NilValue ;
+            try{
+                SEXP getNamespaceSym = Rf_install("getNamespace");
+                env = Rcpp_eval( Rf_lang2(getNamespaceSym, Rf_mkString(package.c_str()) ) ) ;
+            } catch( const eval_error& ex){
+                throw no_such_namespace( package  ) ; 
+            }
+            return Environment( env ) ;        
+        }
     
         /**
          * The parent environment of this environment
@@ -293,7 +333,10 @@ namespace Rcpp{
         /**
          * creates a new environment whose this is the parent
          */
-        Environment_Impl new_child(bool hashed) ;
+        Environment_Impl new_child(bool hashed) {
+            SEXP newEnvSym = Rf_install("new.env");
+            return Environment( Rcpp_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(hashed), Storage::get__() )) );    
+        }
         
         void update(SEXP){}
     };

@@ -5,7 +5,6 @@
 
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>
-#include <Rcpp/api/meat/Environment.h>
 #include <Rcpp/api/meat/Promise.h>
 #include <Rcpp/api/meat/DottedPairImpl.h>
 #include <Rcpp/api/meat/Vector.h>
