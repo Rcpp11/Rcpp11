@@ -33,14 +33,6 @@ namespace Rcpp{
     }
     
     template <int RTYPE, template <class> class StoragePolicy>
-    template <bool NA, typename T>
-    Vector<RTYPE,StoragePolicy>::Vector( const sugar::SingleLogicalResult<NA,T>& obj ) {
-        Storage::set__( r_cast<RTYPE>( const_cast<sugar::SingleLogicalResult<NA,T>&>(obj).get_sexp() ) );
-        RCPP_DEBUG_CTOR( Vector, "( const sugar::SingleLogicalResult<%s,T>& ) [T = %s]", (NA?"true":"false"), DEMANGLE(T) )
-    }
-    
-    
-    template <int RTYPE, template <class> class StoragePolicy>
     template <typename T> 
     Vector<RTYPE,StoragePolicy>& Vector<RTYPE,StoragePolicy>::operator=( const T &x ){
         assign_object( x, typename traits::is_sugar_expression<T>::type() ) ;

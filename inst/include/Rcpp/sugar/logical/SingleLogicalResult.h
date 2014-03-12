@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{  
 
 template <bool NA,typename T>
-class SingleLogicalResult {
+class SingleLogicalResult : VectorBase<LGLSXP,NA,SingleLogicalResult<NA,T> > {
 public:
 	const static int UNRESOLVED = -5 ;
 	
@@ -41,17 +41,20 @@ public:
 		return is_true() ;
 	}
 	
-	inline int size(){ return 1 ; }
+	inline int size(){     
+	    return 1 ; 
+	}
+	
+	inline operator[](int){
+	    apply() ;
+	    return result ;
+	}
 	
 	inline int get(){
 		apply();
 		return result;
 	}
 	
-	inline SEXP get_sexp(){
-	    apply() ;
-	    return Rf_ScalarLogical( result ) ;
-	}
 	
 protected:
 	int result ;

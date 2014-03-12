@@ -5,8 +5,6 @@
 
 namespace Rcpp{
 
-template <bool NA,typename T> class SingleLogicalResult ;
-
 template <int RTYPE, template <class> class StoragePolicy>
 class Vector :
     public StoragePolicy<Vector<RTYPE,StoragePolicy>>,
@@ -65,9 +63,6 @@ public:
 
     template <bool NA, typename VEC>
     Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
-
-    template <bool NA, typename T>
-    Vector( const sugar::SingleLogicalResult<NA,T>& obj ) ;
 
     Vector( std::initializer_list<init_type> list ) {
         Storage::set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
