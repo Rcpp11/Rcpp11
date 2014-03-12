@@ -22,7 +22,8 @@ namespace Rcpp{
             Storage::set__(x) ;    
         }
         
-        template <typename T> S4_Impl( const T& ) ;
+        template <typename T> 
+        S4_Impl( const T& object ) : S4_Impl( wrap(object) ){}
         
         S4_Impl& operator=( SEXP other ){
             Storage::set__( other ) ;

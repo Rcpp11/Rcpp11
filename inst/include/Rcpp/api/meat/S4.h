@@ -4,10 +4,6 @@
 namespace Rcpp{
 
     template < template <class> class StoragePolicy>
-    template <typename T>
-    S4_Impl<StoragePolicy>::S4_Impl( const T& object ) : S4(wrap(object)){}
-       
-    template < template <class> class StoragePolicy>
     bool S4_Impl<StoragePolicy>::is( const std::string& clazz ) {
         CharacterVector cl = AttributeProxyPolicy<S4_Impl>::attr("class");
                 
