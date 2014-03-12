@@ -23,7 +23,6 @@ template<typename T> struct __NAME__ :                            \
 std::integral_constant<bool, __NAME__##__helper<T>::value >{ };   \
 
 
-    RCPP_HAS_TYPE_SFINAE(expands_to_logical,r_expands_to_logical) 	
     RCPP_HAS_TYPE_SFINAE(has_iterator , iterator)
     RCPP_HAS_TYPE_SFINAE(is_generator , r_generator)
     RCPP_HAS_TYPE_SFINAE(is_exporter  , r_export_type)

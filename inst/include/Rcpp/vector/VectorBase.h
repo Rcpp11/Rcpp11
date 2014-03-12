@@ -5,7 +5,7 @@ namespace Rcpp{
 	
 /** a base class for vectors, modelled after the CRTP */
 template <int RTYPE, bool na, typename VECTOR>
-class VectorBase : public traits::expands_to_logical__impl<RTYPE> {
+class VectorBase  {
 public:
 	struct rcpp_sugar_expression{} ;
     struct r_type : std::integral_constant<int,RTYPE>{} ;
