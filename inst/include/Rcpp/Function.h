@@ -14,7 +14,7 @@ namespace Rcpp{
          * @throw not_compatible if the SEXP could not be converted
          * to a pair list using as.pairlist
          */
-        Function_Impl(SEXP lang = R_NilValue){
+        Function_Impl(SEXP x = R_NilValue){
             RCPP_DEBUG( "Function::Function(SEXP = <%p>)", x)
             switch( TYPEOF(x) ){
             case CLOSXP:
@@ -47,7 +47,7 @@ namespace Rcpp{
          */
         template<typename... Args> 
         SEXP operator()( const Args&... args) const {
-            Language call( Storage::get__() , args... )
+            Language call( Storage::get__() , args... ) ;
             return call.eval() ;
         }
         

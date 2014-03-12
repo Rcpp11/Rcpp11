@@ -312,7 +312,7 @@ namespace Rcpp{
          *
          * @throw no_such_namespace 
          */
-        static Environment_Impl namespace_env(const std::string& name) {
+        static Environment_Impl namespace_env(const std::string& package) {
             SEXP env = R_NilValue ;
             try{
                 SEXP getNamespaceSym = Rf_install("getNamespace");
