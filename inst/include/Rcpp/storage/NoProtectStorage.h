@@ -39,8 +39,6 @@ namespace Rcpp{
             return ::Rf_inherits( data, clazz) ;
         }
         
-        CharacterVector attributeNames() const ;
-        
         bool hasAttribute( const std::string& attr) const {
             SEXP attrs = ATTRIB(data);
             while( attrs != R_NilValue ){

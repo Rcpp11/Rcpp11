@@ -4,8 +4,6 @@
 #include <Rcpp/api/meat/structure.h>
 
 #include <Rcpp/api/meat/StretchyList.h>
-#include <Rcpp/api/meat/PreserveStorage.h>
-#include <Rcpp/api/meat/NoProtectStorage.h>
 #include <Rcpp/api/meat/Dimension.h>
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>

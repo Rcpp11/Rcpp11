@@ -46,11 +46,11 @@ namespace Rcpp{
             return static_cast<CLASS&>(*this) ;
         }
         
+        inline operator SEXP() const { return data; }
+        
         inline bool inherits(const char* clazz) const { 
             return ::Rf_inherits( data, clazz) ;
         }
-        
-        CharacterVector attributeNames() const ;
         
         bool hasAttribute( const std::string& attr) const {
             SEXP attrs = ATTRIB(data);
@@ -71,7 +71,6 @@ namespace Rcpp{
         inline bool isObject() const { return ::Rf_isObject(data) ;}
         inline bool isS4() const { return ::Rf_isS4(data) ; }
         
-        inline operator SEXP() const { return data; }
         
     private:
         SEXP data ;
