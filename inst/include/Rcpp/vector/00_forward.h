@@ -4,8 +4,6 @@
 namespace Rcpp{
     class Na_Proxy ;
     
-    class Dimension ;
-            
     namespace internal{
         template <int RTYPE> class string_proxy ;
         template <int RTYPE> class const_string_proxy ;

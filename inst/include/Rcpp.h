@@ -175,7 +175,6 @@ namespace Rcpp{
 #include <Rcpp/Reference.h>
 #include <Rcpp/clone.h>
 #include <Rcpp/grow.h>
-#include <Rcpp/Dimension.h>
 #include <Rcpp/Environment.h>
 #include <Rcpp/Evaluator.h>
 

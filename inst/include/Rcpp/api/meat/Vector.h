@@ -18,27 +18,6 @@ namespace Rcpp{
     }
     
     template <int RTYPE, template <class> class StoragePolicy>
-    Vector<RTYPE,StoragePolicy>::Vector( const Dimension& dims ) {
-        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d) )", dims.size()  )
-        Storage::set__(Rf_allocVector( RTYPE, dims.prod() )) ; 
-        init() ;
-        if( dims.size() > 1 ){
-            AttributeProxyPolicy<Vector>::attr( "dim" ) = dims;
-        }
-    }
-    
-    template <int RTYPE, template <class> class StoragePolicy>
-    template <typename U>
-    Vector<RTYPE,StoragePolicy>::Vector( const Dimension& dims, const U& u) {
-        RCPP_DEBUG_CTOR( Vector, "( const Dimension& (%d), const %s& )", dims.size(), DEMANGLE(U) )
-        Storage::set__( Rf_allocVector( RTYPE, dims.prod() ) ) ;
-        fill(u) ;
-        if( dims.size() > 1 ){
-            AttributeProxyPolicy<Vector>::attr( "dim" ) = dims;
-        }
-    }
-    
-    template <int RTYPE, template <class> class StoragePolicy>
     template <typename U>
     Vector<RTYPE,StoragePolicy>::Vector( const int& size, const U& u) {
         RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )

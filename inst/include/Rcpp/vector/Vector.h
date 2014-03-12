@@ -51,11 +51,6 @@ public:
     }
     Vector( const int& size )  ;
 
-    Vector( const Dimension& dims)  ;
-
-    template <typename U>
-    Vector( const Dimension& dims, const U& u) ;
-
     template <typename U>
     Vector( const int& size, const U& u) ;
 
