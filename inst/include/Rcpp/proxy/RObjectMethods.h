@@ -3,7 +3,7 @@
 
 namespace Rcpp{
     
-    template <typename CLASS>
+    template <typename Class>
     class RObjectMethods {
     public:
         inline bool inherits(const char* clazz) const { 

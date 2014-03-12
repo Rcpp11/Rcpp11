@@ -26,7 +26,7 @@ template < template <class> class StoragePolicy > class __CLASS__ :            \
     public SlotProxyPolicy<__CLASS__<StoragePolicy>>,                          \
     public AttributeProxyPolicy<__CLASS__<StoragePolicy>>,                     \
     public AttributesProxyPolicy<__CLASS__<StoragePolicy>>,                    \
-    public RObjectMethods<__CLASS<StoragePolicy>>                              \
+    public RObjectMethods<__CLASS__<StoragePolicy>>                            \
    
 #define RCPP_API_CLASS_DECL(__CLASS__)                                         \
     template < template <class> class StoragePolicy > class __CLASS__##_Impl ; \

@@ -87,12 +87,12 @@ namespace Rcpp{
         
     private:
         
-        Class& ref(){
-            return static_cast<Class&>(*this) ;    
+        CLASS& ref(){
+            return static_cast<CLASS&>(*this) ;    
         }
         
-        const Class& ref() const{
-            return static_cast<const Class&>(*this) ;    
+        const CLASS& ref() const{
+            return static_cast<const CLASS&>(*this) ;    
         }
     
         
