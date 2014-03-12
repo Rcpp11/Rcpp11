@@ -4,6 +4,7 @@
 #include <Rcpp/api/meat/structure.h>
 
 #include <Rcpp/api/meat/Dimension.h>
+
 #include <Rcpp/api/meat/Language.h>
 #include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/Environment.h>
@@ -11,7 +12,6 @@
 #include <Rcpp/api/meat/DottedPairImpl.h>
 #include <Rcpp/api/meat/Vector.h>
 #include <Rcpp/api/meat/Matrix.h>
-#include <Rcpp/api/meat/Reference.h>
 #include <Rcpp/api/meat/S4.h>
 #include <Rcpp/api/meat/is.h>
 #include <Rcpp/api/meat/as.h>

@@ -23,7 +23,7 @@ namespace Rcpp{
         Reference_Impl(SEXP x) : Base(x){}
         
         template <typename T>
-        Reference_Impl(const T& object ) ;
+        Reference_Impl(const T& object ) : Reference(wrap(object)){}
         
         Reference_Impl& operator=( SEXP other ) {
             Storage::set__( other ) ;
