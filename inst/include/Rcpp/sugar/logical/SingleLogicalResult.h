@@ -4,19 +4,6 @@
 namespace Rcpp{
 namespace sugar{  
 
-template <bool> 
-class forbidden_conversion ;
-
-template <> 
-class forbidden_conversion<true>{} ;
-
-template <bool x>
-class conversion_to_bool_is_forbidden : 
-	forbidden_conversion<x>{
-	public:
-		void touch(){}
-}; 
-
 template <bool NA,typename T>
 class SingleLogicalResult {
 public:
@@ -50,8 +37,7 @@ public:
 	}
 	
 	inline operator bool(){
-		conversion_to_bool_is_forbidden<!NA> x ;
-		x.touch() ;
+	    static_assert( !NA, "conversion to bool is forbidden" );
 		return is_true() ;
 	}
 	

@@ -63,7 +63,7 @@ namespace internal{
 
     template <typename T> struct MatrixWrapper {
         static inline SEXP wrap(const T& object) {
-            return wrap_dispatch_matrix_not_logical<T>( object, typename ::Rcpp::traits::r_type_traits<typename T::stored_type>::r_category() ) ;    
+            return internal::wrap_dispatch_matrix_not_logical<T>( object, typename ::Rcpp::traits::r_type_traits<typename T::stored_type>::r_category() ) ;    
         }
     } ;
     
