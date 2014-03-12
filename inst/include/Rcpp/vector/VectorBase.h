@@ -9,7 +9,6 @@ class VectorBase  {
 public:
 	struct rcpp_sugar_expression{} ;
     struct r_type : std::integral_constant<int,RTYPE>{} ;
-	struct can_have_na : std::integral_constant<bool,na>{} ;
 	typedef typename traits::storage_type<RTYPE>::type stored_type ;
 	typedef typename traits::storage_type<RTYPE>::type elem_type ;
 	
