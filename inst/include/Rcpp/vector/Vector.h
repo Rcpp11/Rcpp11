@@ -3,7 +3,10 @@
 
 namespace Rcpp{
 
-template <int RTYPE, template <class> class StoragePolicy>
+template <
+    int RTYPE, 
+    template <class> class StoragePolicy
+>
 class Vector :
     public StoragePolicy<Vector<RTYPE,StoragePolicy>>,
     public SlotProxyPolicy<Vector<RTYPE,StoragePolicy>>,
@@ -33,7 +36,7 @@ public:
         Storage::set__( r_cast<RTYPE>( x ) ) ;
     }
     
-    Vector( int n ) : Vector(Rf_allocVector(RTYPE, n) ) {} ;
+    Vector( int n ) : Vector(Rf_allocVector(RTYPE, n) ) {}
     Vector() : Vector(0) {}
 
     template <typename U>

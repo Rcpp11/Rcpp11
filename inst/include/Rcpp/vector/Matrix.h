@@ -114,18 +114,19 @@ namespace Rcpp{
         using Row = MatrixRow<RTYPE, Matrix> ;
         
         Matrix(int nr, int nc) : vec(nr*nc){
-            Shield<SEXP> dim = Rf_allocVector(INTSXP, 2 ) ;
-            dims = INTEGER(dim) ;
-            dims[0] = nr ;
-            dims[1] = nc ;
-            Rf_setAttrib(vec, R_DimSymbol, dim ) ;
+            set_dimensions(nr,nc) ;
         }
-        Matrix(int i) : Matrix(i,i){}
+        
+        template <typename U>
+        Matrix(int nr, int nc, const U& u) : vec(nr*nc, u){
+            set_dimensions(nr,nc) ;
+        }
+        
         Matrix() : Matrix(0,0){}
         
         Matrix( SEXP x ){
             SEXP d = Rf_getAttrib(x,R_DimSymbol) ;
-            if( d == R_NilValue )
+            if( d == R_NilValue || Rf_length(d) != 2)
                 throw not_a_matrix() ;
             vec = x ;
             dims = INTEGER(d) ;
@@ -170,6 +171,14 @@ namespace Rcpp{
         
         inline int offset(int i, int j) const {
             return i + nrow()*j ;
+        }
+        
+        inline void set_dimensions(int nr, int nc){
+            Shield<SEXP> dim = Rf_allocVector(INTSXP, 2 ) ;
+            dims = INTEGER(dim) ;
+            dims[0] = nr ;
+            dims[1] = nc ;
+            Rf_setAttrib(vec, R_DimSymbol, dim ) ;        
         }
         
     } ;

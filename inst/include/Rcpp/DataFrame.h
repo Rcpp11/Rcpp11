@@ -2,11 +2,12 @@
 #define Rcpp__DataFrame_h
 
 namespace Rcpp{
-        
+      
     template < template <class> class StoragePolicy>
     class DataFrame_Impl : public Vector<VECSXP, StoragePolicy> {
     public:    
         using Storage = typename Vector<VECSXP, StoragePolicy>::Storage ;
+        
         DataFrame_Impl() ;
         DataFrame_Impl(SEXP x) ;
         DataFrame_Impl( const DataFrame_Impl& other) ;
@@ -19,7 +20,7 @@ namespace Rcpp{
         ~DataFrame_Impl() ;
 
         int nrows() const {
-            SEXP rn = Rf_getAttrib( Storage::get__(), R_RowNamesSymbol ) ;
+            SEXP rn = Rf_getAttrib( *this, R_RowNamesSymbol ) ;
             if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return INTEGER(rn)[1] ;
             if( Rf_isNull(rn) ) return 0 ;
             return LENGTH(rn) ;

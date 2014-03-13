@@ -28,7 +28,7 @@ namespace Rcpp{
     
     template <template <class> class StoragePolicy>
     DataFrame_Impl<StoragePolicy>& DataFrame_Impl<StoragePolicy>::operator=( DataFrame_Impl& other) {
-        Storage::set__( other.get__() ) ;
+        set_sexp( other.get__() ) ;
         return *this ;
     }
             
@@ -48,7 +48,6 @@ namespace Rcpp{
         } else{
             SEXP y = internal::convert_using_rfunction( x, "as.data.frame" ) ;
             Storage::set__( y ) ;
-            x = y ;
         }
     } 
         
