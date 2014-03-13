@@ -47,22 +47,20 @@ private:
 	int n ;
 } ;
 
-template <typename T> struct diag_result_type_trait{
-	typedef typename std::conditional<
-		Rcpp::traits::matrix_interface<T>::value, 
-		Diag_Extractor< T::r_type::value , T::can_have_na::value , T >, 
-		Diag_Maker< T::r_type::value , T::can_have_na::value , T > 
-	>::type type ;
-} ;
-
 } // sugar
 
-template <typename T>
-inline typename sugar::diag_result_type_trait<T>::type 
-diag( const T& t ){
-	return typename sugar::diag_result_type_trait<T>::type( t ) ;
+
+template <int RTYPE, bool NA, typename Vec>
+inline sugar::Diag_Maker<RTYPE, NA, Vec>
+diag( const VectorBase<RTYPE,NA,Vec>& x ){
+    return sugar::Diag_Maker<RTYPE,NA,Vec>(x) ;    
 }
 
+template <int RTYPE, bool NA, typename Mat>
+inline sugar::Diag_Extractor<RTYPE, NA, Mat>
+diag( const MatrixBase<RTYPE, NA, Mat>& mat){
+    return sugar::Diag_Extractor<RTYPE,NA,Mat>( mat ) ;    
+}
 
 } // Rcpp
 #endif
