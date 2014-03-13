@@ -11,6 +11,19 @@ namespace Rcpp{
         
         MatrixColumn( Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.nrow()){}
         
+        MatrixColumn& operator=( const MatrixColumn& other ){
+            if( &other != this ){
+                std::copy( other.begin(), other.end(), start );    
+            }
+            return *this ;    
+        }
+        
+        template <bool NA, typename Vec>
+        MatrixColumn& operator=( const VectorBase<RTYPE,NA,Vec>& expr ){
+            for( int i=0; i<n; i++) start[i] = expr[i] ;
+            return *this ;    
+        }
+        
         inline int size() const { return n ;}
         inline Proxy operator[]( int i){ return *(start+i) ; }
         
@@ -28,7 +41,7 @@ namespace Rcpp{
         const_MatrixColumn( const Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.nrow()){}
         
         inline int size() const { return n ;}
-        inline const_Proxy operator[]( int i){ return *(start+i) ; }
+        inline const_Proxy operator[]( int i) const { return *(start+i) ; }
         
     private:
         typename Mat::const_iterator start ;
@@ -62,7 +75,7 @@ namespace Rcpp{
         const_MatrixRow( const Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.ncol()), nr(mat.nrow()){}
         
         inline int size() const { return n ;}
-        inline const_Proxy operator[]( int i){ return *(start+i*nr) ; }
+        inline const_Proxy operator[]( int i) const { return *(start+i*nr) ; }
         
     private:
         typename Mat::const_iterator start ;
@@ -140,8 +153,8 @@ namespace Rcpp{
         
         inline Row row(int i){ return Row(*this, i) ; }
         inline const_Row row(int i) const { return const_Row(*this, i) ; }
-        inline Column operator()(int i, internal::NamedPlaceHolder){ return row(i); }
-        inline const_Column operator()(int i, internal::NamedPlaceHolder) const { return row(i); }
+        inline Row operator()(int i, internal::NamedPlaceHolder){ return row(i); }
+        inline const_Row operator()(int i, internal::NamedPlaceHolder) const { return row(i); }
         
     private:
         
