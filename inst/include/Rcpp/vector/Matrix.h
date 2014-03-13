@@ -133,8 +133,8 @@ namespace Rcpp{
         inline Proxy operator()(int i, int j) { return vec[offset(i,j)] ; }
         inline const_Proxy operator()(int i, int j) const { return vec[offset(i,j)] ; }
         
-        inline Column col(int i){ return Column(*this, i) ; }
-        inline const_Column col(int i) const { return const_Column(*this, i) ; }
+        inline Column column(int i){ return Column(*this, i) ; }
+        inline const_Column column(int i) const { return const_Column(*this, i) ; }
         inline Column operator()(internal::NamedPlaceHolder, int i){ return col(i); }
         inline const_Column operator()(internal::NamedPlaceHolder, int i) const { return col(i); }
         
