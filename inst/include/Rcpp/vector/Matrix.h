@@ -135,8 +135,8 @@ namespace Rcpp{
         
         inline Column column(int i){ return Column(*this, i) ; }
         inline const_Column column(int i) const { return const_Column(*this, i) ; }
-        inline Column operator()(internal::NamedPlaceHolder, int i){ return col(i); }
-        inline const_Column operator()(internal::NamedPlaceHolder, int i) const { return col(i); }
+        inline Column operator()(internal::NamedPlaceHolder, int i){ return column(i); }
+        inline const_Column operator()(internal::NamedPlaceHolder, int i) const { return column(i); }
         
         inline Row row(int i){ return Row(*this, i) ; }
         inline const_Row row(int i) const { return const_Row(*this, i) ; }
