@@ -98,7 +98,7 @@ namespace Rcpp{
         
     };
     
-    template <int RTYPE, template <class> class StoragePolicy = PreserveStorage>
+    template <int RTYPE, template <class> class StoragePolicy>
     class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,StoragePolicy> >{
     private:
         Vector<RTYPE,StoragePolicy> vec ;

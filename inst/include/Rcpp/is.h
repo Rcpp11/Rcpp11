@@ -26,6 +26,11 @@ namespace Rcpp{
                 return TYPEOF(x) == RTYPE ;    
             }
         } ;
+        template <int RTYPE> struct IsMatrixTypeofIs{
+            inline bool test(SEXP x){
+                return TYPEOF(x) == RTYPE && Rf_isMatrix(x) ;
+            }
+        } ;
         
         template <typename T>
         struct PrimitiveIs{
@@ -36,6 +41,7 @@ namespace Rcpp{
         };
            
         template <int RTYPE> struct Is< Vector<RTYPE> > : TypeofIs<RTYPE>{} ;
+        template <int RTYPE> struct Is< Matrix<RTYPE> > : IsMatrixTypeofIs<RTYPE>{} ;
         
         template <> struct Is<Environment>   : TypeofIs<ENVSXP> {} ;
         template <> struct Is<Pairlist>      : TypeofIs<LISTSXP> {} ;
