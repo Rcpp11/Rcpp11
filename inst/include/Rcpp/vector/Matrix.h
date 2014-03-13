@@ -3,8 +3,77 @@
 
 namespace Rcpp{
 
+    template <int RTYPE, typename Mat>
+    class MatrixColumn : public VectorBase<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
+    public:
+        using iterator = typename Mat::iterator ;
+        using Proxy = typename Mat::Proxy ;
+        
+        MatrixColumn( Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.nrow()){}
+        
+        inline int size() const { return n ;}
+        inline Proxy operator[]( int i){ return *(start+i) ; }
+        
+    private:
+        typename Mat::iterator start ;
+        int n ;
+    };
+    
+    template <int RTYPE, typename Mat>
+    class const_MatrixColumn : public VectorBase<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
+    public:
+        using const_iterator = typename Mat::const_iterator ;
+        using const_Proxy = typename Mat::const_Proxy ;
+        
+        const_MatrixColumn( const Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.nrow()){}
+        
+        inline int size() const { return n ;}
+        inline const_Proxy operator[]( int i){ return *(start+i) ; }
+        
+    private:
+        typename Mat::const_iterator start ;
+        int n ;
+    };
+    
+    
+    template <int RTYPE, typename Mat>
+    class MatrixRow : public VectorBase<RTYPE,true,MatrixRow<RTYPE,Mat>> {
+    public:
+        using iterator = typename Mat::iterator ;
+        using Proxy = typename Mat::Proxy ;
+        
+        MatrixRow( Mat& mat, int i) : start(mat.begin() + i), n(mat.ncol()), nr(mat.nrow()){}
+        
+        inline int size() const { return n ;}
+        inline Proxy operator[]( int i){ return *(start+i*nr) ; }
+        
+    private:
+        typename Mat::iterator start ;
+        int n ;
+        int nr ;
+    };
+    
+    template <int RTYPE, typename Mat>
+    class const_MatrixRow : public VectorBase<RTYPE,true,MatrixRow<RTYPE,Mat>> {
+    public:
+        using const_iterator = typename Mat::const_iterator ;
+        using const_Proxy = typename Mat::const_Proxy ;
+        
+        const_MatrixRow( const Mat& mat, int i) : start(mat.begin() + i * mat.nrow()), n(mat.ncol()), nr(mat.nrow()){}
+        
+        inline int size() const { return n ;}
+        inline const_Proxy operator[]( int i){ return *(start+i*nr) ; }
+        
+    private:
+        typename Mat::const_iterator start ;
+        int n ;
+        int nr ;
+    };
+    
+    
+    
     template <int RTYPE, template <class> class StoragePolicy = PreserveStorage>
-    class Matrix {
+    class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,StoragePolicy> >{
     private:
         Vector<RTYPE,StoragePolicy> vec ;
         int* dims ;
@@ -14,7 +83,12 @@ namespace Rcpp{
         using const_Proxy = typename Vector<RTYPE,StoragePolicy>::const_Proxy ;
         using iterator = typename Vector<RTYPE,StoragePolicy>::iterator ;
         using const_iterator = typename Vector<RTYPE,StoragePolicy>::const_iterator ;
-         
+        
+        using Column = MatrixColumn<RTYPE, Matrix> ;
+        using const_Column = const_MatrixColumn<RTYPE, Matrix> ;
+        using Row = MatrixRow<RTYPE, Matrix> ;
+        using const_Row = const_MatrixRow<RTYPE, Matrix> ;
+        
         Matrix(int nr, int nc) : vec(nr, nc){
             set_dims(nr, nc) ;    
         }
@@ -29,12 +103,9 @@ namespace Rcpp{
             dims = INTEGER(d) ;
         }
         
-        inline int nrow() const {
-            return dims[0] ;
-        }
-        inline int ncol() const {
-            return dims[1] ;    
-        }
+        inline int nrow() const { return dims[0] ; }
+        inline int ncol() const { return dims[1] ; }
+        inline int size() const { return vec.size() ; }
         
         inline iterator begin(){ return vec.begin() ; }
         inline iterator end(){ return vec.end(); }
@@ -44,6 +115,16 @@ namespace Rcpp{
         
         inline Proxy operator()(int i, int j) { return vec[offset(i,j)] ; }
         inline const_Proxy operator()(int i, int j) const { return vec[offset(i,j)] ; }
+        
+        inline Column col(int i){ return Column(*this, i) ; }
+        inline const_Column col(int i) const { return const_Column(*this, i) ; }
+        inline Column operator()(internal::NamedPlaceHolder, int i){ return col(i); }
+        inline const_Column operator()(internal::NamedPlaceHolder, int i) const { return col(i); }
+        
+        inline Row row(int i){ return Row(*this, i) ; }
+        inline const_Row row(int i) const { return const_Row(*this, i) ; }
+        inline Column operator()(int i, internal::NamedPlaceHolder){ return row(i); }
+        inline const_Column operator()(int i, internal::NamedPlaceHolder) const { return row(i); }
         
     private:
         
