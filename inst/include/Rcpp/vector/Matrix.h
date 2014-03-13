@@ -89,8 +89,12 @@ namespace Rcpp{
         using Row = MatrixRow<RTYPE, Matrix> ;
         using const_Row = const_MatrixRow<RTYPE, Matrix> ;
         
-        Matrix(int nr, int nc) : vec(nr, nc){
-            set_dims(nr, nc) ;    
+        Matrix(int nr, int nc) : vec(nr*nc){
+            Shield<SEXP> dim = Rf_allocVector(INTSXP, 2 ) ;
+            dims = INTEGER(dim) ;
+            dims[0] = nr ;
+            dims[1] = nc ;
+            Rf_setAttrib(vec, R_DimSymbol, dim ) ;
         }
         Matrix(int i) : Matrix(i,i){}
         Matrix() : Matrix(0,0){}
@@ -103,6 +107,19 @@ namespace Rcpp{
             dims = INTEGER(d) ;
         }
         
+        template <bool NA, typename Mat>
+        Matrix( const MatrixBase<RTYPE,NA,Mat>& mat ) : Matrix( mat.nrow(), mat.ncol() ) {
+            int nr = dims[0] ;
+            int nc = dims[1] ;
+            for( int j=0, k=0; j<nc; j++){
+                for( int i=0; i<nr; i++){
+                    vec[k++] = mat(i,j) ;
+                }
+            }
+        }
+        
+        inline operator SEXP() const { return vec ; }
+            
         inline int nrow() const { return dims[0] ; }
         inline int ncol() const { return dims[1] ; }
         inline int size() const { return vec.size() ; }
@@ -127,17 +144,6 @@ namespace Rcpp{
         inline const_Column operator()(int i, internal::NamedPlaceHolder) const { return row(i); }
         
     private:
-        
-        inline void set_dims(int nr, int nc){
-            Armor<SEXP> dim = Rf_getAttrib(vec, R_DimSymbol ) ;
-            if( dim == R_NilValue || Rf_length(dim) != 2 ){
-                dim = Rf_allocVector(INTSXP, 2 ) ;
-                Rf_setAttrib(vec, R_DimSymbol, dim ) ;
-            }
-            dims = INTEGER(dim) ;
-            dims[0] = nr ;
-            dims[0] = nc ;
-        }
         
         inline int offset(int i, int j) const {
             return i + nrow()*j ;

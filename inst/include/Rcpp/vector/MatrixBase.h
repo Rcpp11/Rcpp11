@@ -8,9 +8,9 @@ namespace Rcpp{
     public:
         using value_type = typename traits::storage_type<RTYPE>::type ;
         
-        Matrix& get_ref() { return static_cast<Matrix&>(*this) ; }
+        const Matrix& get_ref() const { return static_cast<const Matrix&>(*this) ; }
         
-        inline value_type operator()(int i, int j){ return get_ref()(i,j) ; }
+        inline value_type operator()(int i, int j) const { return get_ref()(i,j) ; }
         inline int nrow() const { return get_ref().nrow() ; }
         inline int ncol() const { return get_ref().ncol() ; }
         inline int size() const { return get_ref().size() ; }

@@ -14,6 +14,7 @@
 #include <Rcpp/R.h>
 
 #include <Rcpp/routines.h>
+#include <Rcpp/wrap/forward.h>
 
 #include <Rcpp/protection/protection.h>
 

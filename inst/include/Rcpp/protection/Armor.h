@@ -7,13 +7,18 @@ namespace Rcpp{
     class Armor {
     public:
         
-        Armor() {
-            init(R_NilValue) ;    
+        Armor() : data(R_NilValue), index(-1) {}
+        
+        Armor( SEXP x ) {
+            init(x) ;
         }
         
-        template <typename U> 
-        Armor( U x ) {
-            init( wrap(x) ) ;
+        Armor(Armor&& other ) {
+            index = other.index ;
+            data = other.data ;
+            
+            other.index = -1 ;
+            other.data = R_NilValue ;
         }
         
         Armor(const Armor&) = delete ;
@@ -24,13 +29,17 @@ namespace Rcpp{
         }
               
         template <typename U>
-        inline Armor& operator=( U x ) {
-            REPROTECT(data = wrap(x), index) ;
+        inline Armor& operator=( const U& x ) {
+            if( index < 0 ){
+                init( wrap(x) ) ;
+            } else {
+                REPROTECT(data = wrap(x), index) ;
+            }
             return *this ;    
         }
         
         ~Armor(){
-            UNPROTECT(1) ;
+            if( index >= 0 ) UNPROTECT_PTR(data) ;
         }
         
     private:
