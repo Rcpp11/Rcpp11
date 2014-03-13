@@ -37,6 +37,7 @@
 #include <Rcpp/vector/swap.h>
 #include <Rcpp/vector/Demangler.h>
 
+#include <Rcpp/vector/StrideIterator.h>
 #include <Rcpp/vector/MatrixBase.h>
 #include <Rcpp/vector/Matrix.h>
 
