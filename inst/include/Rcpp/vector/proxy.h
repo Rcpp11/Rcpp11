@@ -74,10 +74,10 @@ namespace traits {
 	
 	template <int RTYPE>
 	struct r_vector_const_iterator {
-		typedef typename storage_type<RTYPE>::type* const type ;
+	    using type = const typename storage_type<RTYPE>::type* ;
 	};
 	template <int RTYPE> struct const_proxy_based_iterator{
-		typedef ::Rcpp::internal::const_Proxy_Iterator< typename r_vector_const_proxy<RTYPE>::type > type ;
+	    using type = ::Rcpp::internal::const_Proxy_Iterator< typename r_vector_const_proxy<RTYPE>::type > ;
 	} ;
 	template<> struct r_vector_const_iterator<VECSXP>  : const_proxy_based_iterator<VECSXP>{} ;
 	template<> struct r_vector_const_iterator<EXPRSXP> : const_proxy_based_iterator<EXPRSXP>{} ;
