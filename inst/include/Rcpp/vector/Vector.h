@@ -252,6 +252,7 @@ private:
         return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
     }
     
+    // dispatch between simple vectors and proxy based vectors
     inline Proxy get_Proxy(int i){
         return get_Proxy__impl( i, typename std::is_reference<Proxy>::type() ) ;    
     }

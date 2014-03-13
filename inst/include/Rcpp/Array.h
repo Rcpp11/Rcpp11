@@ -49,7 +49,7 @@ namespace Rcpp{
         
     private:
         Index<N> index ;
-        Vector<RTYPE> data ;
+        Vec data ;
     } ;
     
     
