@@ -26,37 +26,23 @@ public:
     typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
     typedef typename traits::storage_type<RTYPE>::type stored_type ;
 
-    /**
-     * Default constructor. Creates a vector of the appropriate type
-     * and 0 length
-     */
-    Vector() ;
-
+    
     RCPP_GENERATE_CTOR_ASSIGN(Vector)
 
-    // we can't define these 3 in meat for some reason
-    // maybe because of the typedef in instantiation.h
     Vector( SEXP x ) {
         Storage::set__( r_cast<RTYPE>( x ) ) ;
     }
-    Vector( const int& size, const stored_type& u ) {
-        RCPP_DEBUG_CTOR(Vector, "( const int& size = %d, const stored_type& u )", size)
-        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
-        fill( u ) ;
-    }
-    Vector( const int& size )  ;
+    
+    Vector( int n ) : Vector(Rf_allocVector(RTYPE, n) ) {} ;
+    Vector() : Vector(0) {}
 
     template <typename U>
-    Vector( const int& size, const U& u) ;
-
-    Vector( const std::string& st ) {
-        RCPP_DEBUG_CTOR(Vector, "( const std::string& = %s )", st.c_str() )
-        Storage::set__( internal::vector_from_string<RTYPE>(st) ) ;
+    Vector( int n, const U& u ) : Vector(n) {
+        fill( u ) ;
     }
-    Vector( const char* st ) {
-        RCPP_DEBUG_CTOR(Vector, "( const char* = %s )", st )
-        Storage::set__(internal::vector_from_string<RTYPE>(st));
-    }
+    
+    Vector( const std::string& st ) : Vector( internal::vector_from_string<RTYPE>(st) ) {}
+    Vector( const char* st ) : Vector(internal::vector_from_string<RTYPE>(st)){}
 
     template <bool NA, typename VEC>
     Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
@@ -181,13 +167,6 @@ public:
 
     template <typename EXPR_VEC>
     Vector& operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ) ;
-
-protected:
-
-    void init(){
-        RCPP_DEBUG_CLASS(Vector, "::init( SEXP = <%p> )", Storage::get__() )
-        internal::r_init_vector<RTYPE>(Storage::get__()) ;
-    }
 
 private:
 

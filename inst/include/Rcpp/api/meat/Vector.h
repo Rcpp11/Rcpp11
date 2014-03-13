@@ -4,28 +4,6 @@
 namespace Rcpp{ 
 
     template <int RTYPE, template <class> class StoragePolicy>
-    Vector<RTYPE,StoragePolicy>::Vector() {
-        RCPP_DEBUG_CTOR( Vector, "()" )
-        Storage::set__( Rf_allocVector( RTYPE, 0 ) ) ;
-        init() ;
-    }
-    
-    template <int RTYPE, template <class> class StoragePolicy>
-    Vector<RTYPE,StoragePolicy>::Vector( const int& size ) {
-        RCPP_DEBUG_CTOR( Vector, "( int = %d ) ", size )
-        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
-        init() ;
-    }
-    
-    template <int RTYPE, template <class> class StoragePolicy>
-    template <typename U>
-    Vector<RTYPE,StoragePolicy>::Vector( const int& size, const U& u) {
-        RCPP_DEBUG_CTOR( Vector, "( const int& size, const %s& u )", size, DEMANGLE(U) )
-        Storage::set__( Rf_allocVector( RTYPE, size) ) ;
-        fill( u ) ;	
-    }
-        
-    template <int RTYPE, template <class> class StoragePolicy>
     template <bool NA, typename VEC>
     Vector<RTYPE,StoragePolicy>::Vector( const VectorBase<RTYPE,NA,VEC>& other ) {
         RCPP_DEBUG_CTOR( Vector, "( const VectorBase<%d,%s,VEC>& ) [VEC = %s]", RTYPE, (NA?"true":"false"), DEMANGLE(VEC) )
