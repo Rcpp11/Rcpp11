@@ -19,26 +19,21 @@ namespace Rcpp{
             return data ;    
         }
         
-        inline SEXP invalidate__(){ return data ;}
-        
-        inline CLASS& copy__(const CLASS& other){
-            if( this != &other){
-                set__(other.get__());
-            }
-            return static_cast<CLASS&>(*this) ;
+        inline void copy__(const CLASS& other){
+            set__(other.get__());
         }
         
-        inline CLASS& steal__(CLASS& other){
-            if( this != &other){
-                set__(other.invalidate__());
-            }
-            return static_cast<CLASS&>(*this) ;
+        inline void steal__(CLASS& other){
+            set__(other.invalidate__());
         }
         
         inline operator SEXP() const { return data; }
         
     private:
         SEXP data ;
+        
+        inline SEXP invalidate__(){ return data ;}
+        
     } ;
     
 }

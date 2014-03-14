@@ -56,6 +56,14 @@ namespace Rcpp {
     inline SEXP pairlist( const Args&... args ){
         return PairlistHelper<Args...>::get( args... ) ;    
     }
+    template <typename... Args>
+    inline SEXP language( const Args&... args ){
+        Shield<SEXP> call = pairlist( args... ) ;
+        SET_TAG(call, R_NilValue);
+        SET_TYPEOF(call, LANGSXP) ;
+        return call ;
+    }
+    
 
 } // namespace Rcpp
 

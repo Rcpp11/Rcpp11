@@ -10,10 +10,12 @@ __CLASS__( __CLASS__&& other ){                                                \
     Storage::steal__(other) ;                                                  \
 }                                                                              \
 __CLASS__& operator=( __CLASS__&& other ){                                     \
-    return Storage::steal__( other );                                          \
+    Storage::steal__( other );                                                 \
+    return *this ;                                                             \
 }                                                                              \
-__CLASS__& operator=(const __CLASS__& rhs) {                                   \
-    return Storage::copy__(rhs) ;                                              \
+__CLASS__& operator=(const __CLASS__& other) {                                 \
+    if( this != &other ) Storage::copy__(other) ;                              \
+    return *this ;                                                             \
 }                                                                              \
 template <typename Proxy>                                                      \
 __CLASS__( const GenericProxy<Proxy>& proxy ){                                 \

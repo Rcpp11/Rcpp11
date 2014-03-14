@@ -61,15 +61,17 @@ namespace Rcpp{
          * 
          * @param function function to call
          */
-        explicit Language_Impl( const Function& function) ;
+        explicit Language_Impl( const Function& function) {
+            Storage::set__( Rf_lang1( function ) ) ;
+        }
         
         template<typename... Args> 
         Language_Impl( const std::string& symbol, const Args&... args) {
-            Storage::set__( pairlist( Rf_install( symbol.c_str() ), args...) ) ;
+            Storage::set__( language( Rf_install( symbol.c_str() ), args...) ) ;
         }
         template<typename... Args> 
         Language_Impl( const Function& function, const Args&... args) {
-            Storage::set__( pairlist( function, args...) ) ;
+            Storage::set__( language( function, args...) ) ;
         }
         
         /**
@@ -89,11 +91,6 @@ namespace Rcpp{
         }
 
         /**
-         * sets the function
-         */
-        void setFunction( const Function& function) ;
-
-        /**
          * eval this call in the global environment
          */
         SEXP eval() const {
@@ -107,10 +104,7 @@ namespace Rcpp{
             return Rcpp_eval( Storage::get__(), env ) ;
         }
 
-        inline void update(SEXP x){
-            SET_TYPEOF( x, LANGSXP ) ;
-            SET_TAG( x, R_NilValue ) ;
-        }
+        inline void update(SEXP){}
     };
     
     template <

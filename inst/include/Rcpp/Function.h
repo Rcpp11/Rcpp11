@@ -47,8 +47,8 @@ namespace Rcpp{
          */
         template<typename... Args> 
         SEXP operator()( const Args&... args) const {
-            Language call( Storage::get__() , args... ) ;
-            return call.eval() ;
+            Shield<SEXP> call = language( Storage::get__() , args... ) ;
+            return Rcpp_eval( call ) ;
         }
         
         /**

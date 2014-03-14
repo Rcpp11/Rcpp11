@@ -187,10 +187,10 @@ namespace Rcpp{
 
 #include <Rcpp/XPtr.h>
 #include <Rcpp/Symbol.h>
+#include <Rcpp/Function.h>
 #include <Rcpp/Language.h>
 #include <Rcpp/Pairlist.h>
 #include <Rcpp/StretchyList.h>
-#include <Rcpp/Function.h>
 #include <Rcpp/WeakReference.h>
 #include <Rcpp/Formula.h>
 #include <Rcpp/DataFrame.h>
