@@ -1,13 +1,13 @@
 Package: Rcpp11
-Title: R and C++11 integration
-Version: 0.0.0
-Date: 2013-09-23
+Title: R and C++11
+Version: 3.1.0
+Date: 2014-04-10
 Authors@R: c(
     person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),
-    person("John", "Chambers", role = "ctb", email = "jmc@r-project.org"),
-    person("Kevin", "Ushey", role = "ctb", email = "kevinushey@gmail.com")
+    person("Kevin", "Ushey", role = "aut", email = "kevinushey@gmail.com"),
+    person("John", "Chambers", role = "ctb", email = "jmc@r-project.org")
     )
-Description: R and C++11 integration
+Description: R and C++11
 Depends: R (>= 3.0.2)
 License: GPL (>= 2)
 SystemRequirements: C++11
