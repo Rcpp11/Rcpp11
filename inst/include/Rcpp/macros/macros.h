@@ -1,7 +1,6 @@
 #ifndef Rcpp_macros_macros_h
 #define Rcpp_macros_macros_h
 
-#define RCPP_DECORATE(__FUN__) __FUN__##__rcpp__wrapper__
 #define RCPP_GET_NAMES(x)       Rf_getAttrib(x, R_NamesSymbol)
 #define RCPP_GET_CLASS(x)       Rf_getAttrib(x, R_ClassSymbol)
 
