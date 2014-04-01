@@ -20,18 +20,16 @@ namespace Rcpp{
         ~DataFrame_Impl() ;
 
         int nrows() const {
-            SEXP rn = R_NilValue ; 
             SEXP att = ATTRIB( Storage::get__() ); 
             while( att != R_NilValue ){
                 if( TAG(att) == R_RowNamesSymbol ){
-                    rn = CAR(att) ; 
-                    break ;
+                    SEXP rn = CAR(att) ; 
+                    if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return -INTEGER(rn)[1] ;
+                    return LENGTH(rn) ;        
                 }
                 att = CDR(att) ;    
             }
-            if( Rf_isNull(rn) ) return 0 ;
-            if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return -INTEGER(rn)[1] ;
-            return LENGTH(rn) ;
+            return 0 ;
         }
         
         template <typename... Args>
