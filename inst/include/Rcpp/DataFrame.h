@@ -24,7 +24,8 @@ namespace Rcpp{
             SEXP att = ATTRIB( Storage::get__() ); 
             while( att != R_NilValue ){
                 if( TAG(att) == R_RowNamesSymbol ){
-                    rn = CAR(att) ;        
+                    rn = CAR(att) ; 
+                    break ;
                 }
                 att = CDR(att) ;    
             }
