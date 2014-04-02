@@ -24,7 +24,7 @@ namespace Rcpp{
             while( att != R_NilValue ){
                 if( TAG(att) == R_RowNamesSymbol ){
                     SEXP rn = CAR(att) ; 
-                    if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return -INTEGER(rn)[1] ;
+                    if( TYPEOF(rn) == INTSXP && LENGTH(rn) == 2 && INTEGER(rn)[0] == NA_INTEGER ) return abs(INTEGER(rn)[1]) ;
                     return LENGTH(rn) ;        
                 }
                 att = CDR(att) ;    
