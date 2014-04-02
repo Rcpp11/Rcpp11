@@ -4,8 +4,10 @@
 namespace Rcpp{
      
     template < template <class> class StoragePolicy>
-    class DataFrame_Impl {
-    public:    
+    class DataFrame_Impl : public RObjectMethods<DataFrame_Impl<StoragePolicy>> {
+    public: 
+        using List = Vector<VECSXP, StoragePolicy>; 
+        
         DataFrame_Impl() : data(empty_data_frame()){}
         DataFrame_Impl(SEXP x) {
             set_sexp(x) ;        
@@ -23,7 +25,11 @@ namespace Rcpp{
         DataFrame_Impl& operator=( SEXP x) {
             set_sexp(x) ;    
         }
-            
+               
+        inline int size() const {
+            return data.size() ;    
+        }
+        
         int nrows() const {
             SEXP att = ATTRIB( get() ); 
             while( att != R_NilValue ){
@@ -41,7 +47,21 @@ namespace Rcpp{
         static DataFrame_Impl create(const Args&... args){
             return from_list( List::create( args...) ) ;
         }
-
+           
+        inline typename List::Proxy operator[](int i){ return data[i] ; }
+        inline typename List::const_Proxy operator[](int i) const { return data[i] ; }
+        
+        inline typename List::NameProxy operator[]( const std::string& name ){
+            return data[name] ;
+        }
+        inline typename List::const_NameProxy operator[]( const std::string& name ) const {
+            return data[name] ;
+        }
+             
+        inline operator SEXP() const {
+            return get() ;
+        }
+        
     private:
         
         void set_sexp(SEXP x) {
@@ -53,11 +73,11 @@ namespace Rcpp{
             }    
         }
         
-        inline SEXP get(){
+        inline SEXP get() const {
             return data ;    
         }
         
-        static DataFrame_Impl from_list( Rcpp::List ) {
+        static DataFrame_Impl from_list( Rcpp::List obj ) {
             bool use_default_strings_as_factors = true ;
             bool strings_as_factors = true ;
             int strings_as_factors_index = -1 ;
@@ -89,10 +109,10 @@ namespace Rcpp{
         
         }
         
-        Vector<VECSXP, StoragePolicy> data ;
+        List data ;
         
         inline SEXP empty_data_frame(){
-            Shield<SEXP> df = Rf_allocVector(VECXSP, 0) ;
+            Shield<SEXP> df = Rf_allocVector(VECSXP, 0) ;
             Rf_setAttrib( df, R_NamesSymbol, Rf_allocVector(STRSXP,0) ) ;
             Rf_setAttrib( df, R_RowNamesSymbol, Rf_allocVector(STRSXP,0) ) ;
             Rf_setAttrib( df, R_ClassSymbol, Rf_mkString( "data.frame" ) );
