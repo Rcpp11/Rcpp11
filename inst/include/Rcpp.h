@@ -205,7 +205,6 @@ namespace Rcpp{
 #include <Rmath.h>
 #include <Rcpp/sugar/undoRmath.h>
 
-#include <Rcpp/hash/hash.h>
 #include <Rcpp/sugar/sugar.h>
 #include <Rcpp/stats/stats.h>
 
