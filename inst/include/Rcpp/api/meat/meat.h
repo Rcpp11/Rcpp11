@@ -1,7 +1,6 @@
 #ifndef Rcpp_api_meat_meat_h
 #define Rcpp_api_meat_meat_h
 
-#include <Rcpp/api/meat/DataFrame.h>
 #include <Rcpp/api/meat/DottedPairImpl.h>
 #include <Rcpp/api/meat/Vector.h>
 #include <Rcpp/api/meat/S4.h>
