@@ -163,8 +163,6 @@ public:
         return erase_range__impl( first, last ) ;
     }
 
-    void update(SEXP){}
-
     template <typename EXPR_VEC>
     Vector& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
 

@@ -9,10 +9,6 @@ namespace Rcpp{
         
         inline void set__(SEXP x){
             data = x ;
-            
-            // calls the update method of CLASS
-            // this is where to react to changes in the underlying SEXP
-            static_cast<CLASS&>(*this).update(data) ;
         }
         
         inline SEXP get__() const {

@@ -20,6 +20,9 @@ namespace Rcpp{
         template <typename T> 
         DataFrame_Impl( const T& obj) : DataFrame_Impl(wrap(obj)){}
                 
+        template <typename Proxy>                     
+        DataFrame_Impl( const GenericProxy<Proxy>& proxy ) : DataFrame_Impl( proxy.get() ){}
+        
         DataFrame_Impl& 
         operator=( DataFrame_Impl& other) {
             data = other.data ;
@@ -66,6 +69,7 @@ namespace Rcpp{
         }
         
     private:
+        List data ;
         
         void set_sexp(SEXP x) {
             if( ::Rf_inherits( x, "data.frame" )){
@@ -111,8 +115,6 @@ namespace Rcpp{
             return out ;
         
         }
-        
-        List data ;
         
         inline SEXP empty_data_frame(){
             Shield<SEXP> df = Rf_allocVector(VECSXP, 0) ;

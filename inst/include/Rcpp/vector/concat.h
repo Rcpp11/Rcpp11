@@ -84,7 +84,7 @@ namespace Rcpp{
         static_assert( traits::all_compatible<RTYPE,Args...>::type::value, "incompatible parameters" ) ;
 
         int n = get_size(args...) ;
-        Vector<RTYPE> out = no_init(n) ;
+        Vector<RTYPE> out(n) ;
         int i = 0 ;
         if (sizeof...(args)) {
             do_concatenate(out, i, args...);

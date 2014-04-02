@@ -3,7 +3,6 @@
 
 #include <Rcpp/vector/00_forward.h>
 
-#include <Rcpp/vector/no_init.h>
 #include <Rcpp/vector/vector_from_string.h>
 #include <Rcpp/vector/eval_methods.h>
 

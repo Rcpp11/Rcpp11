@@ -43,8 +43,6 @@ namespace Rcpp{
             Storage::set__(s) ;
         }
         
-        void update(SEXP){}
-        
         inline operator SEXP() const{
             return CDR(Storage::get__() );    
         }

@@ -18,7 +18,6 @@ namespace Rcpp{
             Storage::set__(other) ;
         }
         
-        void update(SEXP){}
    };
     
 } // namespace Rcpp

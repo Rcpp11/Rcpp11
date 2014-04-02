@@ -67,8 +67,6 @@ public:
         return (T*)( R_ExternalPtrAddr(Storage::get__())) ;
     }
 
-    void update(SEXP){}
-    
 };
 
 } // namespace Rcpp 

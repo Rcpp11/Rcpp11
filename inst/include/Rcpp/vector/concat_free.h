@@ -19,7 +19,7 @@ int max_type(Current lhs, Rest... rest) {
 
 #define CONCATENATE_CASE(RTYPE) \
   case RTYPE: { \
-  Vector<RTYPE> output = no_init(n); \
+  Vector<RTYPE> output(n); \
   if (sizeof...(args)) { \
     do_concatenate(output, i, args...); \
   } \

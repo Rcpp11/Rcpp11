@@ -20,7 +20,7 @@ __CLASS__& operator=(const __CLASS__& other) {                                 \
 template <typename Proxy>                                                      \
 __CLASS__( const GenericProxy<Proxy>& proxy ){                                 \
     Storage::set__( proxy.get() ) ;                                            \
-}
+}                                            
 
 #define RCPP_API_CLASS(__CLASS__)                                              \
 template < template <class> class StoragePolicy > class __CLASS__ :            \

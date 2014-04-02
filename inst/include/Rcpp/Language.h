@@ -104,7 +104,6 @@ namespace Rcpp{
             return Rcpp_eval( Storage::get__(), env ) ;
         }
 
-        inline void update(SEXP){}
     };
     
     template <

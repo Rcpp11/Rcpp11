@@ -19,14 +19,14 @@ namespace Rcpp{
          * @param x must be an S4 object
          */
         S4_Impl(SEXP x){
-            Storage::set__(x) ;    
+            set(x) ;    
         }
         
         template <typename T> 
         S4_Impl( const T& object ) : S4_Impl( wrap(object) ){}
         
         S4_Impl& operator=( SEXP other ){
-            Storage::set__( other ) ;
+            set(other);
             return *this ;        
         }
         
@@ -49,10 +49,12 @@ namespace Rcpp{
          */
         bool is( const std::string& clazz) ;
         
-        inline void update(SEXP x){
-            if( ! ::Rf_isS4(x) ){
-                throw not_s4() ;
-            }
+    private:
+        inline void set(SEXP x){
+           if( ! ::Rf_isS4(x) ){
+               throw not_s4() ;
+           } 
+           Storage::set__(x) ;
         }
         
     } ;

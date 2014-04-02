@@ -51,8 +51,8 @@ public:
     inline operator IntegerVector() const { 
         // fill the result
         int n = map.size() ;
-        IntegerVector result = no_init(n) ;
-        CharacterVector names = no_init(n) ;
+        IntegerVector result(n) ;
+        CharacterVector names(n) ;
         std::for_each( map.begin(), map.end(), Grabber<SORTED_MAP,RTYPE>(result, names) ) ;
         result.names() = names ;
         return result ;

@@ -20,7 +20,6 @@ namespace Rcpp{
         template<typename... Args> 
         Pairlist_Impl( const Args&... args) : Pairlist_Impl(pairlist(args...)) {}
        
-        void update(SEXP){}
     } ;
         
 }

@@ -21,7 +21,7 @@ namespace sugar{
         }
        
         inline IntegerVector fill_and_self_match(){
-            IntegerVector result = no_init(n) ;
+            IntegerVector result(n) ;
             int* res = INTEGER(result) ;
             for( int i=0; i<n; i++) res[i] = add_value_get_index(i) ;
             return result ;    

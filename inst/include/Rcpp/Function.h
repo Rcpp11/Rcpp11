@@ -67,7 +67,7 @@ namespace Rcpp{
         SEXP body() const {
             return BODY( Storage::get__() ) ;    
         }
-        void update(SEXP){}
+        
     };
 
 } // namespace Rcpp

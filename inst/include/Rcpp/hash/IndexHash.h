@@ -28,7 +28,7 @@ namespace Rcpp{
         }
         
         inline LogicalVector fill_and_get_duplicated() { 
-            LogicalVector result = no_init(n) ;
+            LogicalVector result(n) ;
             int* res = LOGICAL(result) ;
             for( int i=0; i<n; i++) res[i] = ! add_value(i) ;
             return result ;
@@ -54,7 +54,7 @@ namespace Rcpp{
         
         // keys, in the order they appear in the data
         inline Vector<RTYPE> keys() const{
-            Vector<RTYPE> res = no_init(size_) ;
+            Vector<RTYPE> res(size_) ;
             for( int i=0, j=0; j<size_; i++){
                 if( data[i] ) res[j++] = src[data[i]-1] ;
             }

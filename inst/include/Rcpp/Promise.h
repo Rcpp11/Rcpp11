@@ -51,8 +51,6 @@ namespace Rcpp{
             return PRENV(Storage::get__());     
         }
         
-        void update(SEXP){}
-        
     } ;
 
 } // namespace

@@ -35,7 +35,6 @@ namespace Rcpp{
             return R_WeakRefValue(Storage::get__());
         }
 
-        void update(SEXP){}
     } ;
 
 

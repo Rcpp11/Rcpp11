@@ -331,7 +331,6 @@ namespace Rcpp{
             return Environment( Rcpp_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(hashed), Storage::get__() )) );    
         }
         
-        void update(SEXP){}
     };
 
 } // namespace Rcpp
