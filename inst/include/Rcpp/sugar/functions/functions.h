@@ -48,7 +48,6 @@
 #include <Rcpp/sugar/functions/match.h>
 #include <Rcpp/sugar/functions/table.h>
 #include <Rcpp/sugar/functions/duplicated.h>
-#include <Rcpp/sugar/functions/self_match.h>
 #include <Rcpp/sugar/functions/setdiff.h>
 
 #include <Rcpp/sugar/functions/strings/strings.h>
