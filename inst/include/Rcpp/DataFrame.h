@@ -4,7 +4,10 @@
 namespace Rcpp{
      
     template < template <class> class StoragePolicy>
-    class DataFrame_Impl : public RObjectMethods<DataFrame_Impl<StoragePolicy>> {
+    class DataFrame_Impl : 
+        public RObjectMethods<DataFrame_Impl<StoragePolicy>>, 
+        public AttributeProxyPolicy<DataFrame_Impl<StoragePolicy>>
+        {
     public: 
         using List = Vector<VECSXP, StoragePolicy>; 
         
