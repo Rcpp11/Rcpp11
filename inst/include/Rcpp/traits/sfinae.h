@@ -27,7 +27,6 @@ std::integral_constant<bool, __NAME__##__helper<T>::value >{ };   \
     RCPP_HAS_TYPE_SFINAE(is_generator , r_generator)
     RCPP_HAS_TYPE_SFINAE(is_exporter  , r_export_type)
     RCPP_HAS_TYPE_SFINAE(is_eigen_base,StorageKind)
-    RCPP_HAS_TYPE_SFINAE(is_sugar_expression,rcpp_sugar_expression)
     RCPP_HAS_TYPE_SFINAE(matrix_interface, r_matrix_interface)
     
 #undef RCPP_HAS_TYPE_SFINAE    
