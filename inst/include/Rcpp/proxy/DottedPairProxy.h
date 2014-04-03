@@ -47,9 +47,9 @@ namespace Rcpp {
                 SETCAR( node, x ) ; 
                 return *this ;
             } 
-            inline DottedPairProxy& set(SEXP x, const char* name){
+            inline DottedPairProxy& set(SEXP x, SEXP name){
                 SETCAR( node, x ) ;
-                SEXP rhsNameSym = ::Rf_install( name );
+                SEXP rhsNameSym = name ;
                 SET_TAG( node, rhsNameSym ) ;
                 return *this ;
             }

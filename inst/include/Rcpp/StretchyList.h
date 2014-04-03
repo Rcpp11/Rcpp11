@@ -63,8 +63,7 @@ namespace Rcpp{
         StretchyList_Impl& push_back__impl(const T& obj, std::true_type ) {
             Shield<SEXP> s( wrap(obj.object) ) ;
             SEXP tmp  = Rf_cons( s, R_NilValue );
-            Symbol tag  = obj.name ;
-            SET_TAG(tmp, tag) ;
+            SET_TAG(tmp, obj.name) ;
             SEXP self = Storage::get__() ;
             SETCDR( CAR(self), tmp) ;
             SETCAR( self, tmp ) ;
@@ -86,9 +85,8 @@ namespace Rcpp{
             SEXP tmp ;
             SEXP self = Storage::get__() ;
             Shield<SEXP> s( wrap(obj.object) ) ;
-            Symbol tag = obj.name ;
             tmp = Rf_cons(s, CDR(self) ) ;
-            SET_TAG(tmp, tag );
+            SET_TAG(tmp, obj.name );
             SETCDR(self, tmp) ;
             return *this ;    
         }

@@ -41,7 +41,7 @@ namespace Rcpp {
             
             template <typename T>
             void set__one( traits::named_object<T> first){
-                SEXP tag = Rf_install( first.name.c_str() ) ;
+                SEXP tag = first.name ;
                 auto it = map.find( tag ) ;
                 if( it == map.end() ){
                     map[tag] = obj.push_back(first) ;

@@ -7,7 +7,7 @@ namespace internal {
     
     template <typename T>
     const char* get_object_name__impl( const T& object, std::true_type ){
-        return object.name.c_str() ;    
+        return CHAR(PRINTNAME(object.name)) ;    
     }
     template <typename T>
     const char* get_object_name__impl( const T& /* object */, std::false_type){

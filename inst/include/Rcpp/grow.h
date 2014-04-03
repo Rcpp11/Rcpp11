@@ -20,8 +20,7 @@ namespace Rcpp {
         inline SEXP grow__dispatch( std::true_type, const T& head, SEXP tail ){
             Shield<SEXP> y = wrap( head.object) ;
             Shield<SEXP> x = Rf_cons( y , tail) ;
-            SEXP headNameSym = ::Rf_install( head.name.c_str() );
-            SET_TAG( x, headNameSym ); 
+            SET_TAG( x, head.name ); 
             return x; 	
         }
     

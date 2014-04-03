@@ -1,8 +1,6 @@
 #ifndef Rcpp_Named_h    
 #define Rcpp_Named_h
 
-
-                     
 namespace Rcpp{ 
                     
 class Argument {
