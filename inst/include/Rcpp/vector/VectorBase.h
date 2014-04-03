@@ -7,9 +7,10 @@ namespace Rcpp{
 template <int RTYPE, bool na, typename VECTOR>
 class VectorBase  {
 public:
-	struct r_type : std::integral_constant<int,RTYPE>{} ;
-	typedef typename traits::storage_type<RTYPE>::type stored_type ;
-	typedef typename traits::storage_type<RTYPE>::type elem_type ;
+    struct rcpp_sugar_expression{} ;
+    struct r_type : std::integral_constant<int,RTYPE>{} ;
+    typedef typename traits::storage_type<RTYPE>::type stored_type ;
+    typedef typename traits::storage_type<RTYPE>::type elem_type ;
 	
 	VECTOR& get_ref(){
 		return static_cast<VECTOR&>(*this) ;
@@ -20,10 +21,12 @@ public:
 	}
 
 	inline stored_type operator[]( int i) const {
-	    return static_cast<const VECTOR*>(this)->operator[](i) ;
+	    return get_ref()[i] ;
 	}
 	
-	inline int size() const { return static_cast<const VECTOR*>(this)->size() ; }
+	inline int size() const { 
+	    return get_ref().size() ;
+	}
 	
 	class iterator {
 	public:

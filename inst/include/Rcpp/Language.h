@@ -106,73 +106,41 @@ namespace Rcpp{
 
     };
     
-    template <
-        typename OUT=SEXP, 
-        template <class> class StoragePolicy = PreserveStorage
-    >
-    class fixed_call {
+    
+    template <typename OUT = SEXP, typename... Args> 
+    class typed_call {
     public:
-        typedef OUT result_type ;
-        typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy> Function ; 
+        using Proxy = Language::Proxy ;
         
-        fixed_call( Language call_ ) : call(call_){}
-        fixed_call( Function fun ) : call(fun){}
+        typed_call( Language call_) : call(call_){
+            for( int i=0; i<n; i++){
+                proxies.emplace_back( call, i+1 ) ;
+            }
+        }
         
-        OUT operator()(){
+        inline OUT operator()( const Args&... args ){
+            set__impl( traits::number_to_type<n>(), args... ) ;
             return as<OUT>( call.eval() ) ;
         }
         
     private:
+        const static int n = sizeof...(Args) ;
         Language call ;
-    } ;
-
-    template <typename T, typename OUT = SEXP, 
-      template <class> class StoragePolicy = PreserveStorage
-    >
-    class unary_call : public std::unary_function<T,OUT> {
-    public:
-        typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy> Function ; 
+        std::vector<Proxy> proxies ;
         
-        unary_call( Language call_ ) : call(call_), proxy(call_,1) {}
-        unary_call( Language call_, int index ) : call(call_), proxy(call_,index){}
-        unary_call( Function fun ) : call( fun, R_NilValue), proxy(call,1) {}
-        
-        OUT operator()( const T& object ){
-            proxy = object ;
-            return as<OUT>( call.eval() ) ;
+        template <int N, typename First, typename... Types>
+        inline void set__impl( traits::number_to_type<N>, const First& first, const Types&... args ){
+            proxies[n-N] = first ;
+            set_impl( traits::number_to_type<N-1>(), args...) ;
         }
         
-    private:
-        Language call ;
-        typename Language::Proxy proxy ;
-    } ;
-
-    template <typename T1, typename T2, 
-      typename OUT = SEXP, template <class> class StoragePolicy = PreserveStorage
-    >
-    class binary_call : public std::binary_function<T1,T2,OUT> {
-    public:
-        typedef Language_Impl<StoragePolicy> Language ; 
-        typedef Function_Impl<StoragePolicy> Function ; 
-        
-        binary_call( Language call_ ) : call(call_), proxy1(call_,1), proxy2(call_,2) {}
-        binary_call( Language call_, int index1, int index2 ) : call(call_), proxy1(call_,index1), proxy2(call_,index2){}
-        binary_call( Function fun) : call(fun, R_NilValue, R_NilValue), proxy1(call,1), proxy2(call,2){}
-        
-        OUT operator()( const T1& o1, const T2& o2 ){
-            proxy1 = o1 ;
-            proxy2 = o2 ;
-            return as<OUT>( call.eval() ) ;
+        template <typename First>
+        inline void set_impl( traits::number_to_type<1>, const First& first ){
+            proxies[n-1] = first ;
         }
         
-    private:
-        Language call ;
-        typename Language::Proxy proxy1 ;
-        typename Language::Proxy proxy2 ;
     } ;
-
+    
     
 } // namespace Rcpp
 
