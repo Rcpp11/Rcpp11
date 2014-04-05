@@ -185,4 +185,8 @@ extern RCNTXT* R_GlobalContext;
 #define PRIMOFFSET(x)	((x)->u.primsxp.offset)
 #define PRIMFUN(x)	(R_FunTab[PRIMOFFSET(x)].cfun)
 
+extern SEXP R_TrueValue ;
+extern SEXP R_FalseValue ;
+extern SEXP R_LogicalNAValue ;
+
 #endif

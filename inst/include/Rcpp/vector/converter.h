@@ -132,7 +132,7 @@ namespace internal {
 		}
 		
 		static target get( const Na_Proxy& /* input */ ){
-			return Rf_ScalarLogical( NA_LOGICAL ) ;
+			return R_LogicalNAValue ;
 		}
 	} ;
 }

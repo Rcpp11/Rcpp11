@@ -28,7 +28,7 @@ namespace Rcpp {
                 Rf_allocVector(VECSXP,1), 
                 ctx->cloenv, 
                 ctx->cloenv, 
-                Rf_ScalarLogical(FALSE)
+                R_FalseValue
             ) ;
             
             SEXP symb = Rf_install(".addCondHands") ;

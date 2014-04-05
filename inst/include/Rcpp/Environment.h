@@ -190,7 +190,7 @@ namespace Rcpp{
                     SEXP removeSym = Rf_install( "remove" );
                     Shield<SEXP> call = Rf_lang2(
                         internalSym, 
-                        Rf_lang4(removeSym, Rf_mkString(name.c_str()), Storage::get__(), Rf_ScalarLogical( FALSE )) 
+                        Rf_lang4(removeSym, Rf_mkString(name.c_str()), Storage::get__(), R_FalseValue) 
                      );
                     Rf_eval( call, R_GlobalEnv ) ;
                 }
