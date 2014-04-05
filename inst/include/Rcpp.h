@@ -164,6 +164,7 @@ namespace Rcpp{
 #include <Rcpp/storage/NoProtectStorage.h>
 
 #include <Rcpp/Node.h>
+#include <Rcpp/grow.h>
 #include <Rcpp/DottedPairImpl.h>
 
 #include <Rcpp/structure.h>
@@ -174,7 +175,6 @@ namespace Rcpp{
 #include <Rcpp/S4.h>
 #include <Rcpp/Reference.h>
 #include <Rcpp/clone.h>
-#include <Rcpp/grow.h>
 #include <Rcpp/Environment.h>
 #include <Rcpp/Evaluator.h>
 

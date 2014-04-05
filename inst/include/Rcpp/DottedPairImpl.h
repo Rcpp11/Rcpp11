@@ -45,8 +45,8 @@ namespace Rcpp{
                 size_t i=1;
                 SEXP x = ref.get__() ;
                 while( i < index ){
-                	x = CDR(x) ;
-                	i++; 
+                    x = CDR(x) ;
+                    i++; 
                 }
                 Shield<SEXP> tail = grow( object, CDR(x) ) ; 
                 SETCDR( x, tail ) ;
@@ -90,12 +90,15 @@ namespace Rcpp{
             }
     
         }
-	    
+        
     private:
         CLASS& get_ref(){
             return static_cast<CLASS&>(*this) ;
         }
         
+        const CLASS& get_ref() const {
+            return static_cast<const CLASS&>(*this) ;
+        }
     } ;
     
 }

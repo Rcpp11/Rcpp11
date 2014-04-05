@@ -47,9 +47,27 @@ namespace Rcpp{
         /**
          * Indicates if this object is an instance of the given S4 class
          */
-        bool is( const std::string& clazz) ;
+        bool is( const std::string& clazz) {
+            SEXP cl = Rf_getAttrib( Storage::get__(), R_ClassSymbol ) ; 
+            if(cl == R_NilValue) return false ;
+            
+            // simple test for exact match
+            if( ! clazz.compare( CHAR(STRING_ELT(cl, 0)) ) ) return true ;
+                    
+            SEXP containsSym = Rf_install("contains");
+            Shield<SEXP> contains = R_do_slot(R_getClassDef(CHAR(Rf_asChar(cl))),containsSym); 
+            SEXP res = Rf_getAttrib(contains,R_NamesSymbol );
+            if(res == R_NilValue) return false ;
+            
+            return std::any_of( 
+                VECTOR_PTR(res), VECTOR_PTR(res) + LENGTH(res), 
+                [&](SEXP s){ return clazz == CHAR(s) ; } 
+            ) ;
+                    
+        }
         
     private:
+        
         inline void set(SEXP x){
            if( ! ::Rf_isS4(x) ){
                throw not_s4() ;
