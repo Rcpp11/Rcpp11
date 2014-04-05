@@ -114,14 +114,14 @@ namespace Rcpp{
     typename Vector<RTYPE,StoragePolicy>::iterator Vector<RTYPE,StoragePolicy>::erase_range__impl( iterator first, iterator last ){
         if( first > last ) throw std::range_error("invalid range") ;
         if( last > end() || first < begin() ) throw index_out_of_bounds() ;
-		
+        
         iterator it = begin() ;
         iterator this_end = end() ;
         int nremoved = std::distance(first,last) ;
         int target_size = size() - nremoved  ;
         Vector target( target_size ) ;
         iterator target_it = target.begin() ;
-		
+        
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
         iterator result ;
         if( names == R_NilValue ){
@@ -176,7 +176,7 @@ namespace Rcpp{
         }
         *target_it = object;
         Storage::set__( target.get__() ) ;
-    }	
+    }    
     
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_back__impl(const stored_type& object, std::true_type){
@@ -203,8 +203,8 @@ namespace Rcpp{
         }
         *target_it = object_sexp;
         Storage::set__( target.get__() ) ;
-    }	
-    	
+    }    
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_back_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
@@ -229,11 +229,11 @@ namespace Rcpp{
         }
         SET_STRING_ELT( newnames, i, Rf_mkChar( name.c_str() ) );
         target.attr("names") = newnames ;
-    		
+            
         *target_it = object;
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_back_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         Shield<SEXP> object_sexp = object ;
@@ -259,11 +259,11 @@ namespace Rcpp{
         }
         SET_STRING_ELT( newnames, i, Rf_mkChar( name.c_str() ) );
         target.attr("names") = newnames ;
-    		
+            
         *target_it = object_sexp;
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_front__impl(const stored_type& object, std::false_type ){
         int n = size() ;
@@ -290,7 +290,7 @@ namespace Rcpp{
         }
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_front__impl(const stored_type& object, std::true_type ){
         Shield<SEXP> object_sexp = object ;
@@ -318,7 +318,7 @@ namespace Rcpp{
         }
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_front_name__impl(const stored_type& object, const std::string& name, std::false_type ){
         int n = size() ;
@@ -332,7 +332,7 @@ namespace Rcpp{
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
         *target_it = object;
         ++target_it ;
-    		
+            
         if( names == R_NilValue ){
             Shield<SEXP> dummy = Rf_mkChar("");
             for( ; it < this_end; ++it, ++target_it,i++ ){
@@ -346,10 +346,10 @@ namespace Rcpp{
             }
         }
         target.attr("names") = newnames ;
-    		
+            
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     template <int RTYPE, template <class> class StoragePolicy>
     void Vector<RTYPE,StoragePolicy>::push_front_name__impl(const stored_type& object, const std::string& name, std::true_type ){
         Shield<SEXP> object_sexp = object ;
@@ -364,7 +364,7 @@ namespace Rcpp{
         SET_STRING_ELT( newnames, 0, Rf_mkChar( name.c_str() ) );
         *target_it = object_sexp;
         ++target_it ;
-    		
+            
         if( names == R_NilValue ){
             Shield<SEXP> dummy = Rf_mkChar("");
             for( ; it < this_end; ++it, ++target_it,i++ ){
@@ -378,10 +378,10 @@ namespace Rcpp{
             }
         }
         target.attr("names") = newnames ;
-    		
+            
         Storage::set__( target.get__() ) ;
     }
-    	
+        
     
     template <int RTYPE, template <class> class StoragePolicy>
     template <typename T>
@@ -480,7 +480,7 @@ namespace Rcpp{
             SEXP evalSym = Rf_install( "eval" );
             return Rcpp_eval( Rf_lang3( evalSym, xp, env ) ) ;
         }
-	
+    
     }
     
     template <int RTYPE, template <class> class StoragePolicy>

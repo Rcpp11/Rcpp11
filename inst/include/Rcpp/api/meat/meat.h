@@ -4,7 +4,6 @@
 #include <Rcpp/api/meat/Vector.h>
 #include <Rcpp/api/meat/is.h>
 #include <Rcpp/api/meat/as.h>
-
 #include <Rcpp/api/meat/wrap.h>
 
 #endif

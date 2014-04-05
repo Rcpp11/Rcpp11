@@ -29,7 +29,6 @@ public:
     typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
     typedef typename traits::storage_type<RTYPE>::type stored_type ;
 
-    
     RCPP_GENERATE_CTOR_ASSIGN(Vector)
 
     Vector( SEXP x ) {
