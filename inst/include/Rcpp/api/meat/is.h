@@ -11,7 +11,6 @@ namespace internal{
     template <>
     struct Is<DataFrame> {
         inline bool test(SEXP x ){ 
-            if( TYPEOF(x) != VECSXP ) return false ;
             return Rf_inherits( x, "data.frame" ) ; 
         }    
     } ;
@@ -24,14 +23,12 @@ namespace internal{
     template <>
     struct Is<Reference> {
         inline bool test(SEXP x ){ 
-            if( ! ::Rf_isS4(x) ) return false ;
             return ::Rf_inherits(x, "envRefClass" ) ; 
         }    
     } ;
     template <>
     struct Is<Formula> {
         inline bool test(SEXP x ){ 
-            if( TYPEOF(x) != LANGSXP ) return false ; 
             return Rf_inherits( x, "formula" ) ; 
         }    
     } ;

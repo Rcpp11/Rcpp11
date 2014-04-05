@@ -60,7 +60,7 @@ namespace internal{
 			}
 			
 		private:
-			inline void set(SEXP x) { RCPP_SET_VECTOR_ELT( *parent, index, x ) ;} 
+			inline void set(SEXP x) { SET_VECTOR_ELT( *parent, index, x ) ;} 
 			inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
 		
 	}  ;

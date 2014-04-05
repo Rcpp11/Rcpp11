@@ -24,8 +24,8 @@ namespace Rcpp {
         inline void stop(){
             Shield<SEXP> cond    = Rf_allocVector( VECSXP, 2 ) ;
             Shield<SEXP> message = Rf_mkString( ex.what() ) ;
-            RCPP_SET_VECTOR_ELT( cond, 0, message ) ;
-            RCPP_SET_VECTOR_ELT( cond, 1, get_current_call() ) ;
+            SET_VECTOR_ELT( cond, 0, message ) ;
+            SET_VECTOR_ELT( cond, 1, get_current_call() ) ;
             Shield<SEXP> names = Rf_allocVector( STRSXP, 2 ) ;
             SET_STRING_ELT( names, 0, Rf_mkChar( "message" ) ) ;
             SET_STRING_ELT( names, 1, Rf_mkChar( "call" ) ) ;

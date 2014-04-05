@@ -37,7 +37,7 @@ namespace Rcpp{
             Rcpp::String buffer ;
             for( size_t i = 0; i < size ; i++, ++first){
                 buffer = first->first ;    
-                RCPP_SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
+                SET_VECTOR_ELT( x, i, Rcpp::wrap(first->second) );
                 SET_STRING_ELT( names, i, buffer.get_sexp() ) ;
             }
             ::Rf_setAttrib( x, R_NamesSymbol, names) ;

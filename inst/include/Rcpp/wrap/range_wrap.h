@@ -49,7 +49,7 @@ inline SEXP range_wrap_dispatch___generic( InputIterator first, InputIterator la
 	Shield<SEXP> x = Rf_allocVector( VECSXP, (int)size );
 	size_t i =0 ;
 	while( i < size ){
-		RCPP_SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
+		SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
 		i++ ;
 		++first ;
 	}
@@ -173,7 +173,7 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
 	while( i < size ){
 		element = ::Rcpp::wrap( first->second ) ;
 		buf = first->first ;
-		RCPP_SET_VECTOR_ELT( x, i, element ) ;
+		SET_VECTOR_ELT( x, i, element ) ;
 		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ; 
 		i++ ;
 		++first ;

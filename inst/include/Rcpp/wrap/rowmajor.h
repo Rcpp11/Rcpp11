@@ -10,7 +10,7 @@ namespace internal{
         int i=0, j=0 ;
         for( j=0; j<ncol; j++){
             for( i=0; i<nrow; i++, ++first ){
-                RCPP_SET_VECTOR_ELT( out, j + ncol*i, ::Rcpp::wrap( *first) ) ;
+                SET_VECTOR_ELT( out, j + ncol*i, ::Rcpp::wrap( *first) ) ;
             }
         }
         Shield<SEXP> dims = ::Rf_allocVector( INTSXP, 2); 

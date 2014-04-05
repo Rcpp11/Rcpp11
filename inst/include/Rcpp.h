@@ -18,9 +18,6 @@
 
 #include <Rcpp/protection/protection.h>
 
-#define RCPP_SET_VECTOR_ELT SET_VECTOR_ELT 
-// #define RCPP_SET_VECTOR_ELT(v,i,x) { Rprintf("SET_VECTOR_ELT(%p, %d, %p). file = %s, line = %d\n", (SEXP)v, i, (SEXP)x, __FILE__, __LINE__) ; SET_VECTOR_ELT( (SEXP)v,i,(SEXP)x) ; } 
-
 #include <cstdint>
 #include <array>
 #include <type_traits>
