@@ -13,7 +13,7 @@ namespace Rcpp{
     template <int RTYPE, template <class> class StoragePolicy>
     template <typename T> 
     Vector<RTYPE,StoragePolicy>& Vector<RTYPE,StoragePolicy>::operator=( const T &x ){
-        assign_object( x, typename traits::is_sugar_expression<T>::type() ) ;
+        assign_object( x, typename traits::is_vector_expression<T>::type() ) ;
         return *this ;
     }
     
