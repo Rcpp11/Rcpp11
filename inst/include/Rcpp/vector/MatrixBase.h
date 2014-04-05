@@ -4,10 +4,9 @@
 namespace Rcpp{
 
     template <int RTYPE, bool NA, typename Matrix>
-    class MatrixBase {
+    class MatrixBase : public traits::MatrixExpression {
     public:
         using stored_type  = typename traits::storage_type<RTYPE>::type ;
-        struct r_matrix_interface{} ;
         
         const Matrix& get_ref() const { return static_cast<const Matrix&>(*this) ; }
         

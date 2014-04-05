@@ -28,5 +28,6 @@
 #include <Rcpp/traits/sequence.h>
 #include <Rcpp/traits/and_.h>
 #include <Rcpp/traits/all_named.h>
+#include <Rcpp/traits/is_matrix_expression.h>
 
 #endif

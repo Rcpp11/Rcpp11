@@ -7,7 +7,7 @@ namespace traits{
     template <typename T>
     struct wrap_type {
         typedef typename Rcpp::traits::wrap_type_traits<T>::wrap_category wrap_category ;
-        const static bool has_matrix_interface = Rcpp::traits::matrix_interface<T>::value ;
+        const static bool has_matrix_interface = Rcpp::traits::is_matrix_expression<T>::value ;
         const static bool has_iterator = Rcpp::traits::has_iterator<T>::value ;
         const static bool is_primitive = std::is_same< wrap_category , Rcpp::traits::wrap_type_primitive_tag>::value ;
         const static bool is_enum      = std::is_enum<T>::value  ;
