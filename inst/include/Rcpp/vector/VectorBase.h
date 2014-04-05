@@ -5,9 +5,8 @@ namespace Rcpp{
 	
 /** a base class for vectors, modelled after the CRTP */
 template <int RTYPE, bool na, typename VECTOR>
-class VectorBase  {
+class VectorBase : public traits::VectorExpression {
 public:
-    struct rcpp_sugar_expression{} ;
     struct r_type : std::integral_constant<int,RTYPE>{} ;
     typedef typename traits::storage_type<RTYPE>::type stored_type ;
     typedef typename traits::storage_type<RTYPE>::type elem_type ;

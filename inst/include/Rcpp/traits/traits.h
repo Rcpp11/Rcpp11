@@ -29,5 +29,6 @@
 #include <Rcpp/traits/and_.h>
 #include <Rcpp/traits/all_named.h>
 #include <Rcpp/traits/is_matrix_expression.h>
+#include <Rcpp/traits/is_vector_expression.h>
 
 #endif
