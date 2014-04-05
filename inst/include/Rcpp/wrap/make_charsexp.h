@@ -4,11 +4,11 @@
 namespace Rcpp{
 namespace internal{
 	
-  #define MAXELTSIZE 8192
-  inline char* get_string_buffer(){
-      static char buffer[MAXELTSIZE];
-      return buffer ;    
-  }
+    #define MAXELTSIZE 8192
+    inline char* get_string_buffer(){
+        static char buffer[MAXELTSIZE];
+        return buffer ;    
+    }
 	
 	inline SEXP make_charsexp__impl__wstring( const wchar_t* data ){
 		char* buffer = get_string_buffer() ;
