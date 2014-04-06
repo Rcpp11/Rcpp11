@@ -3,7 +3,7 @@
 
 namespace Rcpp {
 
-    template <typename Clock>
+    template <typename Clock = std::chrono::high_resolution_clock>
     class Timer {
     public:
         using time_point = typename Clock::time_point ;
@@ -40,17 +40,16 @@ namespace Rcpp {
             return Clock::now() ;    
         }
         
+        static std::vector<Timer> get_timers(int n){
+            return std::vector<Timer>( n, Timer() ) ;    
+        }
+        
     private:
         
         Steps data ;
         time_point origin ;
         
     } ;
-    
-    template <typename Clock>
-    inline std::vector<Timer<Clock>> get_timers( int n ){
-        return std::vector<Timer<Clock>>(n, Timer<Clock>() ) ;
-    }
     
 }
     
