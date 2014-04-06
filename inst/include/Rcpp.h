@@ -46,6 +46,7 @@
 #include <tuple>
 #include <utility>
 #include <future>
+#include <chrono>
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>
@@ -208,5 +209,7 @@ namespace Rcpp{
 #include <Rcpp/Rmath.h>
 
 #include <Rcpp/api/meat/meat.h>
+
+#include <Rcpp/Timer.h>
 
 #endif
