@@ -6,9 +6,10 @@ namespace Rcpp {
     template <typename Clock>
     class Timer {
     public:
-        using time_point = std::chrono::time_point<Clock> ;
+        using time_point = typename Clock::time_point ;
         using Step  = std::pair<std::string,time_point>;
         using Steps = std::vector<Step> ;
+        using microseconds = std::chrono::duration<double, std::micro> ;
         
         Timer(time_point origin_ ) : data(), origin(origin_){}
         Timer() : data(), origin(now()) {}
@@ -27,10 +28,8 @@ namespace Rcpp {
             NumericVector res(n) ;
             CharacterVector names(n) ;
             auto it = data.begin() ;
-            for( int i=0; i<n; i++, ++it){
-                res[i] = static_cast<double>( 
-                    std::chrono::duration_cast<std::chrono::microseconds>( it->second )
-                ) ;
+            for( int i=0; i<n; i++, ++it){ 
+                res[i] = std::chrono::duration_cast<microseconds>( it->second - origin ).count() ;
                 names[i] = it->first ;
             }
             res.names() = names ;
@@ -38,7 +37,7 @@ namespace Rcpp {
         }
         
         inline time_point now() const {
-            return time_point::now() ;    
+            return Clock::now() ;    
         }
         
     private:
