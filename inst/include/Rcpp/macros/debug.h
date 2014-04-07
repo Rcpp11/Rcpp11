@@ -37,11 +37,9 @@ namespace Rcpp {
 template <typename... Args>
 inline void stop(const char* fmt, Args... args);
 
-class __RCPP_LOGGER_CLASS__ {
+struct __RCPP_LOGGER_CLASS__ {
   
   FILE* __RCPP_LOG_FILE__;
-  
-public:
 
   __RCPP_LOGGER_CLASS__() = delete;
   __RCPP_LOGGER_CLASS__(const char* file, const char* mode = "w") {
