@@ -47,6 +47,8 @@
 #include <utility>
 #include <future>
 #include <chrono>
+
+#include <Rcpp/api/CRTP.h>
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>

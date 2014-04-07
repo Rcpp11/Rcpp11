@@ -63,7 +63,7 @@ public:
      * the length of the vector, uses Rf_length
      */
     inline R_len_t length() const { return ::Rf_length( Storage::get__() ) ; }
-
+    
     /**
      * alias of length
      */
