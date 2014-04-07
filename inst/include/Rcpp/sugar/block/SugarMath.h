@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 	
 template <bool NA, typename OUT, typename U1, typename T1, typename FunPtr>
-class SugarMath_1 : public Rcpp::VectorBase< 
+class SugarMath_1 : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
 	NA, 
 	SugarMath_1<NA,OUT,U1,T1,FunPtr>
@@ -29,7 +29,7 @@ private:
 };
 
 template <bool NA, typename OUT, typename T1, typename FunPtr>
-class SugarMath_1<NA,OUT,int,T1,FunPtr> : public Rcpp::VectorBase< 
+class SugarMath_1<NA,OUT,int,T1,FunPtr> : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
 	NA, 
 	SugarMath_1<NA,OUT,int,T1,FunPtr>

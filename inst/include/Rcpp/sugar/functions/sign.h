@@ -24,7 +24,7 @@ public:
 
 	
 template <int RTYPE, bool NA, typename T>
-class Sign : public Rcpp::VectorBase< INTSXP,NA, Sign<RTYPE,NA,T> > {
+class Sign : public SugarVectorExpression< INTSXP,NA, Sign<RTYPE,NA,T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

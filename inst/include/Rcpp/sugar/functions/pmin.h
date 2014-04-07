@@ -75,7 +75,7 @@ template <
 	bool LHS_NA, typename LHS_T, 
 	bool RHS_NA, typename RHS_T
 	>
-class Pmin_Vector_Vector : public VectorBase< 
+class Pmin_Vector_Vector : public SugarVectorExpression< 
 	RTYPE , 
 	( LHS_NA || RHS_NA ) ,
 	Pmin_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>
@@ -103,7 +103,7 @@ template <
 	int RTYPE, 
 	bool LHS_NA, typename LHS_T
 	>
-class Pmin_Vector_Primitive : public VectorBase< 
+class Pmin_Vector_Primitive : public SugarVectorExpression< 
 	RTYPE , 
 	true ,
 	Pmin_Vector_Primitive<RTYPE,LHS_NA,LHS_T>

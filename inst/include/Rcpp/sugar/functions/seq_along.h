@@ -4,7 +4,7 @@
 namespace Rcpp{
 namespace sugar{
 
-class SeqLen : public VectorBase< INTSXP,false,SeqLen > {
+class SeqLen : public SugarVectorExpression< INTSXP,false,SeqLen > {
 public:
 	SeqLen( int len_ ) : len(len_){}
 	

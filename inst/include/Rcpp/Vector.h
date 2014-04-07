@@ -2,9 +2,9 @@
 #define Rcpp__Vector_h
 
 #include <Rcpp/vector/00_forward.h>
+#include <Rcpp/vector/SugarVectorExpression.h>
 
 #include <Rcpp/vector/vector_from_string.h>
-#include <Rcpp/vector/eval_methods.h>
 
 #include <Rcpp/vector/converter.h>
 #include <Rcpp/vector/concat.h>

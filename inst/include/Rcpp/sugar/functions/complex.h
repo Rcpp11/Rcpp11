@@ -12,7 +12,7 @@ namespace sugar{
 
 	
 template <bool NA, typename OUT, typename T, typename FunPtr>
-class SugarComplex : public Rcpp::VectorBase< 
+class SugarComplex : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
 	NA, 
 	SugarComplex<NA,OUT,T,FunPtr>

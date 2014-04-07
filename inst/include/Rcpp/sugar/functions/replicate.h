@@ -7,7 +7,7 @@ namespace Rcpp{
 namespace sugar{
 
     template <typename OUT, typename CallType >
-    class Replicate : public Rcpp::VectorBase< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> > {
+    class Replicate : public SugarVectorExpression< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> > {
     public:
         Replicate( size_t n_, CallType call_ ): n(n_), call(std::move(call_)) {}
         

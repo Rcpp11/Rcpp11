@@ -10,7 +10,7 @@ template <int RTYPE,
     typename Function, 
     typename STORAGE
 >
-class Mapply_2 : public VectorBase< 
+class Mapply_2 : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<
 		typename std::result_of<Function(STORAGE,STORAGE)>::type
 	>::rtype , 

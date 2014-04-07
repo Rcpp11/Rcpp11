@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 	
 template <int RTYPE, bool NA, typename T>
-class Diag_Extractor : public Rcpp::VectorBase< RTYPE ,NA, Diag_Extractor<RTYPE,NA,T> > {
+class Diag_Extractor : public SugarVectorExpression< RTYPE ,NA, Diag_Extractor<RTYPE,NA,T> > {
 public:
 	typedef typename Rcpp::MatrixBase<RTYPE,NA,T> MAT_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

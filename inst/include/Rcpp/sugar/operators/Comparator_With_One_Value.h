@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, typename Operator, bool NA, typename T>
-class Comparator_With_One_Value : public ::Rcpp::VectorBase< LGLSXP, true, Comparator_With_One_Value<RTYPE,Operator,NA,T> > {
+class Comparator_With_One_Value : public SugarVectorExpression< LGLSXP, true, Comparator_With_One_Value<RTYPE,Operator,NA,T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 	typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -43,7 +43,7 @@ private:
 
 template <int RTYPE, typename Operator, typename T>
 class Comparator_With_One_Value<RTYPE,Operator,false,T> : 
-	public ::Rcpp::VectorBase< RTYPE, true, Comparator_With_One_Value<LGLSXP,Operator,false,T> > {
+	public SugarVectorExpression< RTYPE, true, Comparator_With_One_Value<LGLSXP,Operator,false,T> > {
 
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;

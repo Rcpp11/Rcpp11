@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar {     
 
     template <int RTYPE, bool NA, typename VECTOR>
-    class Nona : public Rcpp::VectorBase<RTYPE,false, Nona<RTYPE,NA,VECTOR> > {
+    class Nona : public SugarVectorExpression<RTYPE,false, Nona<RTYPE,NA,VECTOR> > {
     public:
         typedef typename Rcpp::VectorBase<RTYPE,NA,VECTOR> SUGAR_TYPE ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -21,7 +21,7 @@ namespace sugar {
     
     // specialization when the expression is actually a vector expression
     template <int RTYPE, bool NA>
-    class Nona< RTYPE,NA,Rcpp::Vector<RTYPE> > : public Rcpp::VectorBase<RTYPE,false, Nona<RTYPE,NA,Rcpp::Vector<RTYPE> > > {
+    class Nona< RTYPE,NA,Rcpp::Vector<RTYPE> > : public SugarVectorExpression<RTYPE,false, Nona<RTYPE,NA,Rcpp::Vector<RTYPE> > > {
     public:
         typedef typename Rcpp::VectorBase<RTYPE,NA, Rcpp::Vector<RTYPE> > SUGAR_TYPE ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

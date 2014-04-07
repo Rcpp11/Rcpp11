@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename VEC_TYPE>
-class IsNaN : public ::Rcpp::VectorBase< LGLSXP, false, IsNaN<RTYPE,NA,VEC_TYPE> > {
+class IsNaN : public SugarVectorExpression< LGLSXP, false, IsNaN<RTYPE,NA,VEC_TYPE> > {
 public:
 	
 	IsNaN( const VEC_TYPE& obj_) : obj(obj_){}

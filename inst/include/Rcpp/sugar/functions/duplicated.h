@@ -5,16 +5,14 @@ namespace Rcpp{
 
 template <int RTYPE, bool NA, typename T>
 inline LogicalVector duplicated( const VectorBase<RTYPE,NA,T>& x ){
-    Vector<RTYPE> vec(x) ;
-    LogicalVector res(vec.size()) ;
+    int n=x.size(); 
+    LogicalVector res(n) ;
     
     using STORAGE = typename traits::storage_type<RTYPE>::type ;
     std::unordered_set<STORAGE> set ;
-    std::transform( vec.begin(), vec.end(), res.begin(), 
-        [&set](STORAGE y){
-            return !set.insert(y).second ;    
-        }) ;
-    
+    for( int i=0; i<n; i++){
+        res[i] = !set.insert(x[i]).second ;    
+    }
     return res ;
 }
 

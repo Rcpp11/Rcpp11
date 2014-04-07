@@ -8,11 +8,10 @@ template <
     template <class> class StoragePolicy
 >
 class Vector :
+    public VectorBase< RTYPE, true, Vector<RTYPE,StoragePolicy> >,
     public StoragePolicy<Vector<RTYPE,StoragePolicy>>,
     public SlotProxyPolicy<Vector<RTYPE,StoragePolicy>>,
     public AttributeProxyPolicy<Vector<RTYPE,StoragePolicy>>,
-    public VectorBase< RTYPE, true, Vector<RTYPE,StoragePolicy> >,
-    public internal::eval_methods<RTYPE, StoragePolicy >,
     public NamesProxyPolicy<Vector<RTYPE, StoragePolicy>>,
     public AttributesProxyPolicy<Vector<RTYPE, StoragePolicy>>, 
     public RObjectMethods<Vector<RTYPE, StoragePolicy>>
@@ -47,36 +46,36 @@ public:
     Vector( const char* st ) : Vector(internal::vector_from_string<RTYPE>(st)){}
 
     template <bool NA, typename VEC>
-    Vector( const VectorBase<RTYPE,NA,VEC>& other )  ;
+    Vector( const SugarVectorExpression<RTYPE,NA,VEC>& other ) : Vector(other.size()) {
+        other.apply(*this) ;
+    }
 
     Vector( std::initializer_list<init_type> list ) {
         Storage::set__( r_cast<RTYPE>( wrap( list.begin(), list.end() ) ) );
     }
 
-    template <typename T> Vector&
-    operator=( const T& x) ;
-
+    template <bool NA, typename Vec>
+    Vector& operator=( const SugarVectorExpression<RTYPE, NA, Vec>& expr ){
+        int n = expr.size() ;
+        if( n != size() ){
+            reset(n) ;    
+        }
+        expr.apply(*this) ;
+        return *this ;
+    }
+    
+private:
+    
+    inline void reset(int n){
+        Storage::set__(Rf_allocVector(RTYPE, n) ) ;        
+    }
+    
+public:
     static inline stored_type get_na() { return traits::get_na<RTYPE>(); }
     static inline bool is_na( stored_type x){ return traits::is_na<RTYPE>(x); }
 
-    /**
-     * the length of the vector, uses Rf_length
-     */
     inline R_len_t length() const { return ::Rf_length( Storage::get__() ) ; }
-    
-    /**
-     * alias of length
-     */
-    inline R_len_t size() const { return ::Rf_length( Storage::get__() ) ; }
-
-    /**
-     * one dimensional offset doing bounds checking to ensure
-     * it is valid
-     */
-    size_t offset(const size_t& i) const {
-        if( static_cast<R_len_t>(i) >= size() ) throw index_out_of_bounds() ;
-        return i ;
-    }
+    inline R_len_t size() const { return length() ; }
 
     R_len_t offset(const std::string& name) const {
         SEXP names = RCPP_GET_NAMES( Storage::get__() ) ;
@@ -186,25 +185,6 @@ private:
 
     iterator erase_range__impl( iterator first, iterator last ) ;
 
-    template <bool NA, typename T> inline void assign_sugar_expression( const VectorBase<RTYPE,NA,T>& x ) ;
-
-    // sugar
-    template <typename T> inline void assign_object( const T& x, std::true_type )  ;
-
-    // anything else
-    template <typename T> inline void assign_object( const T& x, std::false_type ) ;
-
-    // we are importing a real sugar expression, i.e. not a vector
-    template <bool NA, typename VEC>
-    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::false_type ) ;
-
-    // we are importing a sugar expression that actually is a vector
-    template <bool NA, typename VEC>
-    inline void import_sugar_expression( const Rcpp::VectorBase<RTYPE,NA,VEC>& other, std::true_type ) ;
-
-    template <typename T>
-    inline void import_expression( const T& other, int n ) ;
-
     template <typename U>
     void fill__dispatch( std::false_type, const U& u){
         // when this is not trivial, this is SEXP
@@ -224,6 +204,7 @@ public:
     template <typename... Args> static Vector create(Args... args) ;
 
 private:
+    
     inline stored_type* data(){
         return reinterpret_cast<stored_type*>( DATAPTR(Storage::get__()) );    
     }

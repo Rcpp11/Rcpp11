@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
     template <int RTYPE, bool needs_cast, typename storage_type, typename value_type, typename InputIterator >
-    class Import : public Rcpp::VectorBase< RTYPE, true, Import<RTYPE,needs_cast, storage_type, value_type, InputIterator> > {
+    class Import : public SugarVectorExpression< RTYPE, true, Import<RTYPE,needs_cast, storage_type, value_type, InputIterator> > {
     public:
         Import( InputIterator begin, size_t n_): n(n_), it(begin) {}
         
@@ -20,7 +20,7 @@ namespace sugar{
     } ;
 
     template <int RTYPE, typename storage_type, typename value_type, typename InputIterator >
-    class Import<RTYPE,true,storage_type,value_type,InputIterator>  : public Rcpp::VectorBase< RTYPE, true, Import<RTYPE,true, storage_type, value_type, InputIterator> > {
+    class Import<RTYPE,true,storage_type,value_type,InputIterator>  : public SugarVectorExpression< RTYPE, true, Import<RTYPE,true, storage_type, value_type, InputIterator> > {
     public:
         Import( InputIterator begin, size_t n_ ): n(n_), it(begin) {}
         

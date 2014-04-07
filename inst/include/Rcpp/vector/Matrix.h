@@ -4,7 +4,7 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Mat>
-    class MatrixColumn : public VectorBase<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
+    class MatrixColumn : public SugarVectorExpression<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
     public:
         using iterator = typename Mat::iterator ;
         using Proxy = typename Mat::Proxy ;
@@ -46,7 +46,7 @@ namespace Rcpp{
     };
     
     template <int RTYPE, typename Mat>
-    class MatrixRow : public VectorBase<RTYPE,true,MatrixRow<RTYPE,Mat>> {
+    class MatrixRow : public SugarVectorExpression<RTYPE,true,MatrixRow<RTYPE,Mat>> {
     public:
         using Proxy = typename Mat::Proxy ;
         using const_Proxy = typename Mat::const_Proxy ;

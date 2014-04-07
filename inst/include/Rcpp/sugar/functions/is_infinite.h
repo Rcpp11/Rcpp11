@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename VEC_TYPE>
-class IsInfinite : public ::Rcpp::VectorBase< LGLSXP, false, IsInfinite<RTYPE,NA,VEC_TYPE> > {
+class IsInfinite : public SugarVectorExpression< LGLSXP, false, IsInfinite<RTYPE,NA,VEC_TYPE> > {
 public:
 	
 	IsInfinite( const VEC_TYPE& obj_) : obj(obj_){}

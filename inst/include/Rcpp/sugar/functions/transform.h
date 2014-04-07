@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
     template <int RTYPE, bool needs_cast, typename storage_type, typename value_type, typename result_type, typename InputIterator, typename Func >
-    class Transform : public Rcpp::VectorBase< RTYPE, true, Transform<RTYPE,needs_cast, storage_type, value_type, result_type, InputIterator, Func> > {
+    class Transform : public SugarVectorExpression< RTYPE, true, Transform<RTYPE,needs_cast, storage_type, value_type, result_type, InputIterator, Func> > {
     public:
         Transform( InputIterator begin, Func func_, size_t n_ ): n(n_), it(begin), func(func_) {}
         
@@ -21,7 +21,7 @@ namespace sugar{
     } ;
 
     template <int RTYPE, typename storage_type, typename value_type, typename result_type, typename InputIterator, typename Func >
-    class Transform<RTYPE,true,storage_type,value_type,result_type,InputIterator,Func> : public Rcpp::VectorBase< RTYPE, true, Transform<RTYPE, true, storage_type, value_type, result_type, InputIterator, Func> > {
+    class Transform<RTYPE,true,storage_type,value_type,result_type,InputIterator,Func> : public SugarVectorExpression< RTYPE, true, Transform<RTYPE, true, storage_type, value_type, result_type, InputIterator, Func> > {
     public:
         Transform( InputIterator begin, Func func_, size_t n_ ): n(n_), it(begin), func(func_) {}
         

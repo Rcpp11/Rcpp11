@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename T, typename Function>
-class Lapply : public VectorBase< 
+class Lapply : public SugarVectorExpression< 
 	VECSXP , 
 	true ,
 	Lapply<RTYPE,NA,T,Function>

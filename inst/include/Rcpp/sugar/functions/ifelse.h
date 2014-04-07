@@ -10,7 +10,7 @@ template <
 	bool LHS_NA , typename LHS_T, 
 	bool RHS_NA , typename RHS_T
 	>
-class IfElse : public VectorBase< 
+class IfElse : public SugarVectorExpression< 
 	RTYPE, 
 	( COND_NA || LHS_NA || RHS_NA ) ,
 	IfElse<RTYPE,COND_NA,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T>
@@ -51,7 +51,7 @@ template <
 	bool LHS_NA , typename LHS_T, 
 	bool RHS_NA , typename RHS_T
 	>
-class IfElse<RTYPE,false,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T> : public VectorBase< 
+class IfElse<RTYPE,false,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T> : public SugarVectorExpression< 
 	RTYPE, 
 	( LHS_NA || RHS_NA ) ,
 	IfElse<RTYPE,false,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T>
@@ -93,7 +93,7 @@ template <
 	bool COND_NA, typename COND_T, 
 	bool RHS_NA , typename RHS_T
 	>
-class IfElse_Primitive_Vector : public VectorBase< 
+class IfElse_Primitive_Vector : public SugarVectorExpression< 
 	RTYPE, 
 	true ,
 	IfElse_Primitive_Vector<RTYPE,COND_NA,COND_T,RHS_NA,RHS_T>
@@ -131,7 +131,7 @@ template <
 	typename COND_T, 
 	bool RHS_NA , typename RHS_T
 	>
-class IfElse_Primitive_Vector<RTYPE,false,COND_T,RHS_NA,RHS_T> : public VectorBase< 
+class IfElse_Primitive_Vector<RTYPE,false,COND_T,RHS_NA,RHS_T> : public SugarVectorExpression< 
 	RTYPE, 
 	true,
 	IfElse_Primitive_Vector<RTYPE,false,COND_T,RHS_NA,RHS_T>
@@ -170,7 +170,7 @@ template <
 	bool COND_NA, typename COND_T, 
 	bool LHS_NA , typename LHS_T
 	>
-class IfElse_Vector_Primitive : public VectorBase< 
+class IfElse_Vector_Primitive : public SugarVectorExpression< 
 	RTYPE, 
 	true ,
 	IfElse_Vector_Primitive<RTYPE,COND_NA,COND_T,LHS_NA,LHS_T>
@@ -207,7 +207,7 @@ template <
 	typename COND_T, 
 	bool LHS_NA , typename LHS_T
 	>
-class IfElse_Vector_Primitive<RTYPE,false,COND_T,LHS_NA,LHS_T> : public VectorBase< 
+class IfElse_Vector_Primitive<RTYPE,false,COND_T,LHS_NA,LHS_T> : public SugarVectorExpression< 
 	RTYPE, 
 	true ,
 	IfElse_Vector_Primitive<RTYPE,false,COND_T,LHS_NA,LHS_T>
@@ -247,7 +247,7 @@ template <
 	int RTYPE, 
 	bool COND_NA, typename COND_T
 	>
-class IfElse_Primitive_Primitive : public VectorBase< 
+class IfElse_Primitive_Primitive : public SugarVectorExpression< 
 	RTYPE, 
 	true ,
 	IfElse_Primitive_Primitive<RTYPE,COND_NA,COND_T>
@@ -280,7 +280,7 @@ private:
 template <
 	int RTYPE, typename COND_T
 	>
-class IfElse_Primitive_Primitive<RTYPE,false,COND_T> : public VectorBase< 
+class IfElse_Primitive_Primitive<RTYPE,false,COND_T> : public SugarVectorExpression< 
 	RTYPE, 
 	true ,
 	IfElse_Primitive_Primitive<RTYPE,false,COND_T>

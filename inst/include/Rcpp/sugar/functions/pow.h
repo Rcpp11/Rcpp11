@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename T, typename EXPONENT_TYPE>
-class Pow : public Rcpp::VectorBase< REALSXP ,NA, Pow<RTYPE,NA,T,EXPONENT_TYPE> > {
+class Pow : public SugarVectorExpression< REALSXP ,NA, Pow<RTYPE,NA,T,EXPONENT_TYPE> > {
 public:
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	
@@ -22,7 +22,7 @@ private:
 } ;
 	
 template <bool NA, typename T, typename EXPONENT_TYPE>
-class Pow<INTSXP,NA,T,EXPONENT_TYPE> : public Rcpp::VectorBase< REALSXP ,NA, Pow<INTSXP,NA,T,EXPONENT_TYPE> > {
+class Pow<INTSXP,NA,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP ,NA, Pow<INTSXP,NA,T,EXPONENT_TYPE> > {
 public:
 	Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
 	
@@ -37,7 +37,7 @@ private:
 	EXPONENT_TYPE op ;
 } ;
 template <typename T, typename EXPONENT_TYPE>
-class Pow<INTSXP,false,T,EXPONENT_TYPE> : public Rcpp::VectorBase< REALSXP ,false, Pow<INTSXP,false,T,EXPONENT_TYPE> > {
+class Pow<INTSXP,false,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP ,false, Pow<INTSXP,false,T,EXPONENT_TYPE> > {
 public:
 	Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
 	

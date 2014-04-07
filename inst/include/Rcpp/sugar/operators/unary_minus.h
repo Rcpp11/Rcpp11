@@ -59,7 +59,7 @@ namespace sugar{
 	
 
 	template <int RTYPE, bool NA, typename T>
-	class UnaryMinus_Vector : public Rcpp::VectorBase< 
+	class UnaryMinus_Vector : public SugarVectorExpression< 
 		unary_minus_result_type<RTYPE>::value ,
 		NA, 
 		UnaryMinus_Vector< unary_minus_result_type<RTYPE>::value ,NA,T> 

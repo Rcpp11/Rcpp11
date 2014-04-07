@@ -3,7 +3,7 @@
 
 namespace Rcpp{
 
-    class Range : public VectorBase<INTSXP,false, Range >{
+    class Range : public SugarVectorExpression<INTSXP,false, Range >{
     public:
         Range( int start_, int end__ ) : start(start_), end_(end__){
             if( start_ > end__ ){

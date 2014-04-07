@@ -52,7 +52,7 @@ namespace sugar{
 	
 
 	template <int RTYPE, bool NA, typename T>
-	class Not_Vector : public Rcpp::VectorBase<LGLSXP,NA, Not_Vector<RTYPE,NA,T> > {
+	class Not_Vector : public SugarVectorExpression<LGLSXP,NA, Not_Vector<RTYPE,NA,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 		typedef typename traits::storage_type<RTYPE>::type STORAGE ;

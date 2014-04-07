@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename VEC_TYPE>
-class IsNa : public ::Rcpp::VectorBase< LGLSXP, false, IsNa<RTYPE,NA,VEC_TYPE> > {
+class IsNa : public SugarVectorExpression< LGLSXP, false, IsNa<RTYPE,NA,VEC_TYPE> > {
 public:
 	typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 	typedef Rcpp::VectorBase<RTYPE,NA,VEC_TYPE> BASE ;
@@ -27,7 +27,7 @@ private:
 // the result (FALSE) because it is embedded in the type
 // (the second template parameter of VectorBase)
 template <int RTYPE, typename VEC_TYPE>
-class IsNa<RTYPE,false,VEC_TYPE> : public ::Rcpp::VectorBase< LGLSXP, false, IsNa<RTYPE,false,VEC_TYPE> > {
+class IsNa<RTYPE,false,VEC_TYPE> : public SugarVectorExpression< LGLSXP, false, IsNa<RTYPE,false,VEC_TYPE> > {
 public:
 	typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 	typedef Rcpp::VectorBase<RTYPE,false,VEC_TYPE> BASE ;
@@ -46,7 +46,7 @@ private:
 } ;
 
 template <typename T>
-class IsNa_Vector_is_na : public Rcpp::VectorBase<LGLSXP, false, IsNa_Vector_is_na<T> >{
+class IsNa_Vector_is_na : public SugarVectorExpression<LGLSXP, false, IsNa_Vector_is_na<T> >{
    public:
        IsNa_Vector_is_na( const T& x) : ref(x){}
        

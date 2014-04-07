@@ -6,7 +6,7 @@ namespace sugar{
 
 	template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T >
 	class Minus_Vector_Vector : 
-	    public Rcpp::VectorBase<RTYPE,true, Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
+	    public SugarVectorExpression<RTYPE,true, Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
@@ -33,7 +33,7 @@ namespace sugar{
 	// RTYPE = REALSXP
 	template <bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T >
 	class Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,RHS_NA,RHS_T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
@@ -56,7 +56,7 @@ namespace sugar{
 	
 	
 	template <int RTYPE, typename LHS_T, bool RHS_NA, typename RHS_T >
-	class Minus_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> : public Rcpp::VectorBase<RTYPE,true, Minus_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> > {
+	class Minus_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> : public SugarVectorExpression<RTYPE,true, Minus_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
@@ -82,7 +82,7 @@ namespace sugar{
 	// RTYPE = REALSXP
 	template <typename LHS_T, bool RHS_NA, typename RHS_T >
 	class Minus_Vector_Vector<REALSXP,false,LHS_T,RHS_NA,RHS_T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Vector_Vector<REALSXP,false,LHS_T,RHS_NA,RHS_T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Vector_Vector<REALSXP,false,LHS_T,RHS_NA,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,false,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
@@ -105,7 +105,7 @@ namespace sugar{
 
 	
 	template <int RTYPE, bool LHS_NA, typename LHS_T, typename RHS_T >
-	class Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> : public Rcpp::VectorBase<RTYPE,true, Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> > {
+	class Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> : public SugarVectorExpression<RTYPE,true, Minus_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<RTYPE,false,RHS_T> RHS_TYPE ;
@@ -131,7 +131,7 @@ namespace sugar{
 	// RTYPE = REALSXP
 	template <bool LHS_NA, typename LHS_T, typename RHS_T >
 	class Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,false,RHS_T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,false,RHS_T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Vector_Vector<REALSXP,LHS_NA,LHS_T,false,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<REALSXP,false,RHS_T> RHS_TYPE ;
@@ -155,7 +155,7 @@ namespace sugar{
 	
 	template <int RTYPE, typename LHS_T, typename RHS_T >
 	class Minus_Vector_Vector<RTYPE,false,LHS_T,false,RHS_T> : 
-	    public Rcpp::VectorBase<RTYPE,false, Minus_Vector_Vector<RTYPE,false,LHS_T,false,RHS_T> > {
+	    public SugarVectorExpression<RTYPE,false, Minus_Vector_Vector<RTYPE,false,LHS_T,false,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<RTYPE,false,RHS_T> RHS_TYPE ;
@@ -178,7 +178,7 @@ namespace sugar{
 	} ;
 	template <typename LHS_T, typename RHS_T >
 	class Minus_Vector_Vector<REALSXP,false,LHS_T,false,RHS_T> : 
-	    public Rcpp::VectorBase<REALSXP,false, Minus_Vector_Vector<REALSXP,false,LHS_T,false,RHS_T> > {
+	    public SugarVectorExpression<REALSXP,false, Minus_Vector_Vector<REALSXP,false,LHS_T,false,RHS_T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,false,LHS_T> LHS_TYPE ;
 		typedef typename Rcpp::VectorBase<REALSXP,false,RHS_T> RHS_TYPE ;
@@ -205,7 +205,7 @@ namespace sugar{
 	
 	template <int RTYPE, bool NA, typename T>
 	class Minus_Vector_Primitive : 
-	    public Rcpp::VectorBase<RTYPE,true, Minus_Vector_Primitive<RTYPE,NA,T> > {
+	    public SugarVectorExpression<RTYPE,true, Minus_Vector_Primitive<RTYPE,NA,T> > {
 	public:
 		typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 		typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
@@ -229,7 +229,7 @@ namespace sugar{
 	} ;
 	template <bool NA, typename T>
 	class Minus_Vector_Primitive<REALSXP,NA,T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Vector_Primitive<REALSXP,NA,T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Vector_Primitive<REALSXP,NA,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,NA,T> VEC_TYPE ;
 		typedef typename Rcpp::traits::Extractor<REALSXP,NA,T>::type VEC_EXT ;
@@ -251,7 +251,7 @@ namespace sugar{
 
 	template <int RTYPE, typename T>
 	class Minus_Vector_Primitive<RTYPE,false,T> : 
-	    public Rcpp::VectorBase<RTYPE,true, Minus_Vector_Primitive<RTYPE,false,T> > {
+	    public SugarVectorExpression<RTYPE,true, Minus_Vector_Primitive<RTYPE,false,T> > {
 	public:
 		typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 		typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
@@ -275,7 +275,7 @@ namespace sugar{
 	} ;
 	template <typename T>
 	class Minus_Vector_Primitive<REALSXP,false,T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Vector_Primitive<REALSXP,false,T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Vector_Primitive<REALSXP,false,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,false,T> VEC_TYPE ;
 		typedef typename Rcpp::traits::Extractor<REALSXP,false,T>::type VEC_EXT ;
@@ -301,7 +301,7 @@ namespace sugar{
 	
 	template <int RTYPE, bool NA, typename T>                                                   
 	class Minus_Primitive_Vector : 
-	    public Rcpp::VectorBase<RTYPE,true, Minus_Primitive_Vector<RTYPE,NA,T> > {
+	    public SugarVectorExpression<RTYPE,true, Minus_Primitive_Vector<RTYPE,NA,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 		typedef typename traits::storage_type<RTYPE>::type STORAGE ; 
@@ -323,7 +323,7 @@ namespace sugar{
 	} ;
 	template <bool NA, typename T>                                                   
 	class Minus_Primitive_Vector<REALSXP,NA,T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Primitive_Vector<REALSXP,NA,T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Primitive_Vector<REALSXP,NA,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,NA,T> VEC_TYPE ;
 		typedef typename Rcpp::traits::Extractor<REALSXP,NA,T>::type VEC_EXT ;
@@ -345,7 +345,7 @@ namespace sugar{
 	
 	template <int RTYPE, typename T>                                                   
 	class Minus_Primitive_Vector<RTYPE,false,T> : 
-	    public Rcpp::VectorBase<RTYPE,true, Minus_Primitive_Vector<RTYPE,false,T> > {
+	    public SugarVectorExpression<RTYPE,true, Minus_Primitive_Vector<RTYPE,false,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
 		typedef typename traits::storage_type<RTYPE>::type STORAGE ; 
@@ -369,7 +369,7 @@ namespace sugar{
 	} ;
 	template <typename T>                                                   
 	class Minus_Primitive_Vector<REALSXP,false,T> : 
-	    public Rcpp::VectorBase<REALSXP,true, Minus_Primitive_Vector<REALSXP,false,T> > {
+	    public SugarVectorExpression<REALSXP,true, Minus_Primitive_Vector<REALSXP,false,T> > {
 	public:
 		typedef typename Rcpp::VectorBase<REALSXP,false,T> VEC_TYPE ;
 		typedef typename Rcpp::traits::Extractor<REALSXP,false,T>::type VEC_EXT ;

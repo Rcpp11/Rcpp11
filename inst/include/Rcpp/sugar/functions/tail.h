@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 	
 template <int RTYPE, bool NA, typename T>
-class Tail : public Rcpp::VectorBase< RTYPE ,NA, Tail<RTYPE,NA,T> > {
+class Tail : public SugarVectorExpression< RTYPE ,NA, Tail<RTYPE,NA,T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

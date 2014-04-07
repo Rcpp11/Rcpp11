@@ -10,7 +10,7 @@ template <
     int RTYPE_3, bool NA_3, typename T_3, 
     typename Function
 >
-class Mapply_3 : public VectorBase< 
+class Mapply_3 : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<
 		typename std::result_of<Function>::type
 	>::rtype , 

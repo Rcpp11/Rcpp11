@@ -5,7 +5,7 @@ namespace Rcpp{
     namespace sugar{
     
         template <int RTYPE, bool NA, typename T>
-        class Rep : public Rcpp::VectorBase< RTYPE ,NA, Rep<RTYPE,NA,T> > {
+        class Rep : public SugarVectorExpression< RTYPE ,NA, Rep<RTYPE,NA,T> > {
         public:
             typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -24,7 +24,7 @@ namespace Rcpp{
         } ;
         
         template <typename T>
-        class Rep_Single : public Rcpp::VectorBase< 
+        class Rep_Single : public SugarVectorExpression< 
             Rcpp::traits::r_sexptype_traits<T>::rtype, 
             true, 
             Rep_Single<T>

@@ -5,10 +5,7 @@ namespace Rcpp{
     
 /** a base class for vectors, modelled after the CRTP */
 template <int RTYPE, bool na, typename VECTOR>
-class VectorBase : 
-    public traits::VectorExpression, 
-    public CRTP<VECTOR>{
-        
+class VectorBase : public CRTP<VECTOR>{
 public:
     using CRTP<VECTOR>::get_ref ;
     

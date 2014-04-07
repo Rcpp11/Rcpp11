@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename T, typename Function, bool NO_CONVERSION>
-class Sapply : public VectorBase< 
+class Sapply : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<
 		typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type
 	>::rtype , 
@@ -43,7 +43,7 @@ private:
 
 
 template <int RTYPE, bool NA, typename T, typename Function>
-class Sapply<RTYPE,NA,T,Function,true> : public VectorBase< 
+class Sapply<RTYPE,NA,T,Function,true> : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<
 		typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type
 	>::rtype , 

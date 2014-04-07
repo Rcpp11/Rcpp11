@@ -4,6 +4,7 @@
 /* for exp( double ) */
 #include <cmath>
 
+#include <Rcpp/sugar/Range.h>
 #include <Rcpp/sugar/functions/Lazy.h>
 
 #include <Rcpp/sugar/functions/math.h>

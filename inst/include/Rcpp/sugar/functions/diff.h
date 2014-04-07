@@ -8,7 +8,7 @@ namespace sugar{
 //       value once only works because we process the object from left to 
 //       right
 template <int RTYPE, bool LHS_NA, typename LHS_T>
-class Diff : public Rcpp::VectorBase< RTYPE, LHS_NA , Diff<RTYPE,LHS_NA,LHS_T> > {
+class Diff : public SugarVectorExpression< RTYPE, LHS_NA , Diff<RTYPE,LHS_NA,LHS_T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -51,7 +51,7 @@ private:
 } ;
 
 template <typename LHS_T, bool LHS_NA>
-class Diff<REALSXP, LHS_NA, LHS_T> : public Rcpp::VectorBase< REALSXP, LHS_NA, Diff<REALSXP,LHS_NA,LHS_T> >{
+class Diff<REALSXP, LHS_NA, LHS_T> : public SugarVectorExpression< REALSXP, LHS_NA, Diff<REALSXP,LHS_NA,LHS_T> >{
 public:
 	typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
 	
@@ -74,7 +74,7 @@ private:
 } ;
 
 template <int RTYPE, typename LHS_T>
-class Diff<RTYPE,false,LHS_T> : public Rcpp::VectorBase< RTYPE, false , Diff<RTYPE,false,LHS_T> > {
+class Diff<RTYPE,false,LHS_T> : public SugarVectorExpression< RTYPE, false , Diff<RTYPE,false,LHS_T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;

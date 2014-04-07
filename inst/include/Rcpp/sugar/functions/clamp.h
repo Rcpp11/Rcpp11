@@ -33,7 +33,7 @@ template <
 	int RTYPE, 
 	bool NA, typename T
 	>
-class Clamp_Primitive_Vector_Primitive : public VectorBase< 
+class Clamp_Primitive_Vector_Primitive : public SugarVectorExpression< 
 	RTYPE , 
 	NA ,
 	Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>
