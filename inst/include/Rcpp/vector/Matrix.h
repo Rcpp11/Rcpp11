@@ -91,7 +91,7 @@ namespace Rcpp{
         
         template <typename T>
         inline void import( const T& x){
-            for( int i=0, k=0; i<n; i++) {
+            for( int i=0; i<n; i++) {
                 at(i) = x[i] ;
             }
         }
