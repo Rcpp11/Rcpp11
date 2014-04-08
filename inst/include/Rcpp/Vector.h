@@ -11,6 +11,7 @@
 #include <Rcpp/vector/create.h>
 #include <Rcpp/vector/Vector.h>
 
+#include <Rcpp/vector/name_proxy.h>
 #include <Rcpp/vector/simple_name_proxy.h>
 #include <Rcpp/vector/string_name_proxy.h>
 #include <Rcpp/vector/generic_name_proxy.h>
