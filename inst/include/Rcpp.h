@@ -210,6 +210,8 @@ namespace Rcpp{
 #include <Rcpp/sugar/sugar.h>
 #include <Rcpp/stats/stats.h>
 
+#include <Rcpp/macros/logger.h>
+
 #include <Rcpp/Rmath.h>
 
 #include <Rcpp/api/meat/meat.h>

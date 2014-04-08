@@ -28,48 +28,4 @@
     #define RCPP_DEBUG_DTOR( CLASS, fmt, ... )
 #endif
 
-// A user-level logging class
-// Usage:
-// 1. debug(fmt, ...) writes debug output to screen
-// 2. RcppLogger(file); flog(fmt, ...) writes log output to file
-namespace Rcpp {
-
-template <typename... Args>
-inline void stop(const char* fmt, Args... args);
-
-struct __RCPP_LOGGER_CLASS__ {
-  
-  FILE* __RCPP_LOG_FILE__;
-
-  __RCPP_LOGGER_CLASS__() = delete;
-  __RCPP_LOGGER_CLASS__(const char* file, const char* mode = "w") {
-    __RCPP_LOG_FILE__ = fopen(file, mode);
-    if (__RCPP_LOG_FILE__ == 0) {
-      stop("Could not open file '%s' for logging", file);
-    }
-  }
-  
-  ~__RCPP_LOGGER_CLASS__() {
-    if (__RCPP_LOG_FILE__ != 0) {
-      fclose(__RCPP_LOG_FILE__);
-    }
-  }
-  
-};
-
-#define RcppLogger(file) \
-  __RCPP_LOGGER_CLASS__ __RCPP_LOGGER_INSTANCE__(file);
-
-#define flog(fmt, ...) { \
-  std::string msg = tfm::format(fmt, __VA_ARGS__); \
-  fprintf(__RCPP_LOGGER_INSTANCE__.__RCPP_LOG_FILE__, "(%s:%d):  %s\n", short_file_name(__FILE__), __LINE__, msg.c_str()); \
-}
-
-#define debug(fmt, ...) { \
-  std::string msg = tfm::format(fmt, __VA_ARGS__); \
-  Rprintf("(%s:%d):  %s\n", short_file_name(__FILE__), __LINE__, msg.c_str()); \
-}
-
-}
-
 #endif
