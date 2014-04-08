@@ -8,6 +8,7 @@
 
 #include <Rcpp/vector/converter.h>
 #include <Rcpp/vector/concat.h>
+#include <Rcpp/vector/create.h>
 #include <Rcpp/vector/Vector.h>
 
 #include <Rcpp/vector/simple_name_proxy.h>
@@ -21,7 +22,6 @@
 #include <Rcpp/vector/proxy.h>
 
 #include <Rcpp/vector/instantiation.h>
-#include <Rcpp/vector/create.h>
 
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/const_string_proxy.h>

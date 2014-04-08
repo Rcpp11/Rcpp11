@@ -34,7 +34,7 @@ class CreateWithNames {
     public:
         CreateWithNames( Args... args ) : 
             data( (int)sizeof...(Args)), 
-            names( (int)sizeof...(Args))
+            names( Rf_allocVector(STRSXP, (int)sizeof...(Args)) )
         {
             if( sizeof...(Args) ){
                 set_value( traits::number_to_type<sizeof...(Args)>(), 0, args...) ;
@@ -48,15 +48,14 @@ class CreateWithNames {
         template <typename T, typename... Pack>
         inline void set_value( traits::number_to_type<sizeof...(Pack) + 1>, int i, const T& obj, const Pack&... pack ){
             data[i] = converter_type::get(obj) ;
-            names[i] = Rf_mkChar( internal::get_object_name(obj) ) ;
+            SET_STRING_ELT(names, i, Rf_mkChar( internal::get_object_name(obj) ) );
             set_value( typename traits::number_to_type< sizeof...(Pack) >() , i+1, pack... ) ;
         }
         
         inline void set_value( traits::number_to_type<0>, int /* i */){}
         
-        
         Vec data ;
-        CharacterVector names ;
+        Shield<SEXP> names ;
 } ;  
 
 template <int RTYPE, typename... Args>

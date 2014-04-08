@@ -359,13 +359,6 @@ namespace Rcpp{
     
     }
     
-    template <int RTYPE, template <class> class StoragePolicy>
-    template <typename... Args> 
-    Vector<RTYPE, StoragePolicy> Vector<RTYPE,StoragePolicy>::create(Args... args){
-        return typename create_type<RTYPE, Args...>::type( args... ) ;
-    }
-    
-    
 } // namespace Rcpp
 
 #endif

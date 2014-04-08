@@ -180,7 +180,10 @@ private:
     iterator erase_range__impl( iterator first, iterator last ) ;
 
 public:
-    template <typename... Args> static Vector create(Args... args) ;
+    
+    template <typename... Args> static Vector create(Args... args) {
+        return typename create_type<RTYPE, Args...>::type( args... ) ;    
+    }
 
 private:
     
