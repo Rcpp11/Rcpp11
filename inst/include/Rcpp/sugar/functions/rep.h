@@ -18,9 +18,26 @@ namespace Rcpp{
             }
             inline int size() const { return times * n ; }
         
-        private:
             const VEC_TYPE& object ;
             int times, n ;
+            
+            template <typename Target>
+            void process( Target& target ) const {
+                auto it = target.begin() ;
+                for( int i=0; i<times; i++){
+                    for( int j=0; j<n; j++, ++it){
+                        *it = object[j] ;
+                    }
+                }
+            }
+            
+        } ;
+        
+        template <typename Target, int RTYPE, bool NA, typename T>
+        struct sugar_vector_expression_op<Target, Rep<RTYPE,NA,T>> {
+            inline void apply(Target& target, const Rep<RTYPE,NA,T>& obj ) {
+                obj.process(target) ;
+            }
         } ;
         
         template <typename T>
@@ -30,17 +47,24 @@ namespace Rcpp{
             Rep_Single<T>
         > {
         public:
-            Rep_Single( const T& x_, int n_) : x(x_), n(n_){}
+            Rep_Single( T x_, int n_) : x(x_), n(n_){}
             
             inline T operator[]( int i ) const {
                 return x;
             }
             inline int size() const { return n ; }
         
-        private:
-            const T& x ;
+            T x ;
             int n ;
         } ;
+        
+        template <typename Target, typename T>
+        struct sugar_vector_expression_op<Target, Rep_Single<T>> {
+            inline void apply(Target& target, const Rep_Single<T>& obj ){
+                std::fill( target.begin(), target.end(), obj.x ) ;    
+            }
+        } ;
+        
     
     } // sugar
 
@@ -49,19 +73,19 @@ namespace Rcpp{
         return sugar::Rep<RTYPE,NA,T>( t, n ) ;
     }
     
-    inline sugar::Rep_Single<double> rep( const double& x, int n ){
+    inline sugar::Rep_Single<double> rep( double x, int n ){
         return sugar::Rep_Single<double>( x, n ) ;
     }
-    inline sugar::Rep_Single<int> rep( const int& x, int n ){
+    inline sugar::Rep_Single<int> rep( int x, int n ){
         return sugar::Rep_Single<int>( x, n ) ;
     }
-    inline sugar::Rep_Single<Rbyte> rep( const Rbyte& x, int n ){
+    inline sugar::Rep_Single<Rbyte> rep( Rbyte x, int n ){
         return sugar::Rep_Single<Rbyte>( x, n ) ;
     }
-    inline sugar::Rep_Single<Rcomplex> rep( const Rcomplex& x, int n ){
+    inline sugar::Rep_Single<Rcomplex> rep( Rcomplex x, int n ){
         return sugar::Rep_Single<Rcomplex>( x, n ) ;
     }
-    inline sugar::Rep_Single<bool> rep( const bool& x, int n ){
+    inline sugar::Rep_Single<bool> rep( bool x, int n ){
         return sugar::Rep_Single<bool>( x, n ) ;
     }
 
