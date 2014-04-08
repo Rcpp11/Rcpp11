@@ -90,7 +90,7 @@ public:
 
     template <typename U>
     void fill( const U& u){
-        fill__dispatch( typename traits::is_trivial<RTYPE>::type(), u ) ;
+        std::fill( begin(), end(), converter_type::get( u ) ) ;
     }
     
     inline iterator begin() { return get_iterator(0) ; }
@@ -178,21 +178,6 @@ private:
     iterator erase_single__impl( iterator position ) ;
 
     iterator erase_range__impl( iterator first, iterator last ) ;
-
-    template <typename U>
-    void fill__dispatch( std::false_type, const U& u){
-        // when this is not trivial, this is SEXP
-        Shield<SEXP> elem = converter_type::get( u );
-        iterator it(begin());
-        for( int i=0; i<size() ; i++, ++it){
-            *it = ::Rf_duplicate( elem ) ;
-        }
-    }
-
-    template <typename U>
-    void fill__dispatch( std::true_type, const U& u){
-        std::fill( begin(), end(), converter_type::get( u ) ) ;
-    }
 
 public:
     template <typename... Args> static Vector create(Args... args) ;
