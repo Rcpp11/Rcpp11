@@ -161,12 +161,6 @@ public:
         return erase_range__impl( first, last ) ;
     }
 
-    template <typename EXPR_VEC>
-    Vector& operator+=( const VectorBase<RTYPE,true,EXPR_VEC>& rhs ) ;
-
-    template <typename EXPR_VEC>
-    Vector& operator+=( const VectorBase<RTYPE,false,EXPR_VEC>& rhs ) ;
-
 private:
 
     void push_back__impl(const stored_type& object, std::true_type ) ;
