@@ -38,12 +38,10 @@ namespace internal{
         int index ;
     
     private:
-       inline void move(int n) { index += n ; }
+        inline void move(int n) { index += n ; }
+        inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
     
-    
-         inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
-    
-      }  ;
+    }  ;
 
 }
 }
