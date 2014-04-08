@@ -31,6 +31,8 @@ namespace Rcpp{
         friend inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::const_string_proxy<STRSXP> x){ 
             return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
         }
+     
+    public:
         
         inline operator int() const { return NA_INTEGER ; }
         inline operator Rcomplex() const { return traits::get_na<CPLXSXP>() ; }

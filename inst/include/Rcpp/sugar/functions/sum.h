@@ -19,8 +19,8 @@ public:
         STORAGE current ;
         for( int i=0; i<n; i++){
             current = object[i] ;
-            if( Rcpp::traits::is_na<RTYPE>(current) ) 
-                return Rcpp::traits::get_na<RTYPE>() ;
+            if( current == NA ) 
+                return NA ;
             result += current ;
         }
         return result ;

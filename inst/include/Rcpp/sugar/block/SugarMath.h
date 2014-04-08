@@ -41,7 +41,7 @@ public:
 
     inline OUT operator[]( int i) const { 
         int x = vec[i] ;
-        if( Rcpp::traits::is_na<INTSXP>(x) ) return Rcpp::traits::get_na<REALSXP>( ) ;
+        if( Rcpp::traits::is_na<INTSXP>(x) ) return NA ;
         return ptr( x ) ;
     }
     inline int size() const { return vec.size() ; }

@@ -188,7 +188,7 @@ public:
 
     inline STORAGE operator[]( int i ) const {
         int x = cond[i] ;
-        if( Rcpp::traits::is_na<LGLSXP>(x) ) return Rcpp::traits::get_na<RTYPE>() ;
+        if( x == NA ) return NA ;
         if( x ) return lhs[i] ;
         return rhs ;
     }
@@ -263,7 +263,7 @@ public:
 
     inline STORAGE operator[]( int i ) const {
         int x = cond[i] ;
-        if( Rcpp::traits::is_na<LGLSXP>(x) ) return Rcpp::traits::get_na<RTYPE>() ;
+        if( x == NA ) return NA ;
         return x ? lhs : rhs ;
     }
 

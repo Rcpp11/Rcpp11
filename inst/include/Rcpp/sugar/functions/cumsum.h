@@ -4,10 +4,10 @@
 namespace Rcpp{
 namespace sugar{
 
-template <int RTYPE, bool NA, typename T>
-class Cumsum : public Lazy< Rcpp::Vector<RTYPE> , Cumsum<RTYPE,NA,T> > {
+template <int RTYPE, bool HAS_NA, typename T>
+class Cumsum : public Lazy< Rcpp::Vector<RTYPE> , Cumsum<RTYPE,HAS_NA,T> > {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::VectorBase<RTYPE,HAS_NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     typedef Rcpp::Vector<RTYPE> VECTOR ;
 
@@ -15,9 +15,9 @@ public:
 
     VECTOR get() const {
         int n = object.size() ;
-        VECTOR result( n, Rcpp::traits::get_na<RTYPE>() ) ; 
+        VECTOR result( n, NA ) ; 
         STORAGE current = object[0] ;
-        if( Rcpp::traits::is_na<RTYPE>(current) ) 
+        if( current == NA ) 
             return result ;
         result[0] = current ;
         for( int i=1; i<n; i++){

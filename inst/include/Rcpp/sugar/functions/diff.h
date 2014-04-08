@@ -28,7 +28,7 @@ public:
         }
         if( was_na || traits::is_na<RTYPE>(y) ) {
             set_previous(i+1, y ) ;
-            return traits::get_na<RTYPE>() ; // NA
+            return NA; 
         }
         STORAGE res = y - previous ;
         set_previous( i+1, y) ;
