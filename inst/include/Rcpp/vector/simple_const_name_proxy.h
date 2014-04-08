@@ -1,8 +1,6 @@
 #ifndef Rcpp__vector__simple_const_name_proxy_h
 #define Rcpp__vector__simple_const_name_proxy_h
 
-
-
 namespace Rcpp{
 namespace internal{
 
