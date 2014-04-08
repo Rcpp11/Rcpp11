@@ -11,34 +11,45 @@ namespace Rcpp{
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             
             Rep( const VEC_TYPE& object_, int times_ ) : 
-                object(object_), times(times_), n(object_.size()){}
+                object(object_.get_ref()), times(times_), n(object_.size()){}
             
             inline STORAGE operator[]( int i ) const {
                 return object[ i % n ] ;
             }
             inline int size() const { return times * n ; }
         
-            const VEC_TYPE& object ;
+            const T& object ;
             int times, n ;
-            
-            template <typename Target>
-            void process( Target& target ) const {
-                auto it = target.begin() ;
-                for( int i=0; i<times; i++){
-                    for( int j=0; j<n; j++, ++it){
-                        *it = object[j] ;
-                    }
-                }
-            }
             
         } ;
         
         template <typename Target, int RTYPE, bool NA, typename T>
         struct sugar_vector_expression_op<Target, Rep<RTYPE,NA,T>> {
             inline void apply(Target& target, const Rep<RTYPE,NA,T>& obj ) {
-                obj.process(target) ;
+                int n= obj.n, times = obj.times ;
+                auto source = obj.object ;
+                auto it = target.begin() ;
+                for( int i=0; i<times; i++){
+                    for( int j=0; j<n; j++, ++it){
+                        *it = source[j] ;
+                    }
+                }
             }
         } ;
+        
+        template <typename Target, int RTYPE, bool NA, template <class> class StoragePolicy >
+        struct sugar_vector_expression_op<Target, Rep<RTYPE,NA,Vector<RTYPE,StoragePolicy> >> {
+            inline void apply(Target& target, const Rep<RTYPE,NA,Vector<RTYPE,StoragePolicy> >& obj ) {
+                int n= obj.n, times = obj.times ;
+                auto it = target.begin() ;
+                auto source = obj.object ;
+                for( int i=0; i<times; i++){
+                    std::copy( source.begin(), source.end(), it ) ;
+                    it += n ;
+                }
+            }
+        } ;
+        
         
         template <typename T>
         class Rep_Single : public SugarVectorExpression< 
