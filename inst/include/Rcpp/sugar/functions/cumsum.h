@@ -7,41 +7,41 @@ namespace sugar{
 template <int RTYPE, bool NA, typename T>
 class Cumsum : public Lazy< Rcpp::Vector<RTYPE> , Cumsum<RTYPE,NA,T> > {
 public:
-	typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
-	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	typedef Rcpp::Vector<RTYPE> VECTOR ;
+    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    typedef Rcpp::Vector<RTYPE> VECTOR ;
 
-	Cumsum( const VEC_TYPE& object_ ) : object(object_){}
+    Cumsum( const VEC_TYPE& object_ ) : object(object_){}
 
-	VECTOR get() const {
-	    int n = object.size() ;
-		VECTOR result( n, Rcpp::traits::get_na<RTYPE>() ) ; 
-		STORAGE current = object[0] ;
-		if( Rcpp::traits::is_na<RTYPE>(current) ) 
-		    return result ;
-		result[0] = current ;
-		for( int i=1; i<n; i++){
-		    current = object[i] ;
-		    if( Rcpp::traits::is_na<RTYPE>(current) ) 
-		        return result ;
-		    result[i] = result[i-1] + current ;
-		}
-		return result ;
-	}         
+    VECTOR get() const {
+        int n = object.size() ;
+        VECTOR result( n, Rcpp::traits::get_na<RTYPE>() ) ; 
+        STORAGE current = object[0] ;
+        if( Rcpp::traits::is_na<RTYPE>(current) ) 
+            return result ;
+        result[0] = current ;
+        for( int i=1; i<n; i++){
+            current = object[i] ;
+            if( Rcpp::traits::is_na<RTYPE>(current) ) 
+                return result ;
+            result[i] = result[i-1] + current ;
+        }
+        return result ;
+    }         
 private:
-	const VEC_TYPE& object ;
+    const VEC_TYPE& object ;
 } ;
 
 } // sugar
 
 template <bool NA, typename T>
 inline sugar::Cumsum<INTSXP,NA,T> cumsum( const VectorBase<INTSXP,NA,T>& t){
-	return sugar::Cumsum<INTSXP,NA,T>( t ) ;
+    return sugar::Cumsum<INTSXP,NA,T>( t ) ;
 }
 
 template <bool NA, typename T>
 inline sugar::Cumsum<REALSXP,NA,T> cumsum( const VectorBase<REALSXP,NA,T>& t){
-	return sugar::Cumsum<REALSXP,NA,T>( t ) ;
+    return sugar::Cumsum<REALSXP,NA,T>( t ) ;
 }
 
 

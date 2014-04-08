@@ -33,52 +33,52 @@ namespace sugar {
             return orig ;
         }
         inline iterator operator+(difference_type n) const {
-			return iterator( ref, index+n ) ;
-		}
-		inline iterator operator-(difference_type n) const {
-			return iterator( ref, index-n ) ;
-		}
-		inline iterator& operator+=(difference_type n) {
-			index += n ;
-			return *this ;
-		}
-		inline iterator& operator-=(difference_type n) {
-			index -= n; 
-			return *this ;
-		}
+            return iterator( ref, index+n ) ;
+        }
+        inline iterator operator-(difference_type n) const {
+            return iterator( ref, index-n ) ;
+        }
+        inline iterator& operator+=(difference_type n) {
+            index += n ;
+            return *this ;
+        }
+        inline iterator& operator-=(difference_type n) {
+            index -= n; 
+            return *this ;
+        }
         inline reference operator[](int i){
-		    return ref[index+i] ;
-		}
-	
-		inline reference operator*() {
-			return ref[index] ;
-		}
-		inline pointer operator->(){
-			return &ref[index] ;
-		}
-	
-		inline bool operator==( const iterator& y) const {
-			return ( index == y.index ) ;
-		}
-		inline bool operator!=( const iterator& y) const {
-			return ( index != y.index ) ;
-		}
-		inline bool operator<( const iterator& other ) const {
-			return index < other.index ;
-		}
-		inline bool operator>( const iterator& other ) const {
-			return index > other.index ;
-		}
-		inline bool operator<=( const iterator& other ) const {
-			return index <= other.index ;
-		}
-		inline bool operator>=( const iterator& other ) const {
-			return index >= other.index ;
-		}
-	
-		inline difference_type operator-(const iterator& other) const {
-			return index - other.index ;
-		}
+            return ref[index+i] ;
+        }
+    
+        inline reference operator*() {
+            return ref[index] ;
+        }
+        inline pointer operator->(){
+            return &ref[index] ;
+        }
+    
+        inline bool operator==( const iterator& y) const {
+            return ( index == y.index ) ;
+        }
+        inline bool operator!=( const iterator& y) const {
+            return ( index != y.index ) ;
+        }
+        inline bool operator<( const iterator& other ) const {
+            return index < other.index ;
+        }
+        inline bool operator>( const iterator& other ) const {
+            return index > other.index ;
+        }
+        inline bool operator<=( const iterator& other ) const {
+            return index <= other.index ;
+        }
+        inline bool operator>=( const iterator& other ) const {
+            return index >= other.index ;
+        }
+    
+        inline difference_type operator-(const iterator& other) const {
+            return index - other.index ;
+        }
 
         
     private:   

@@ -5,13 +5,13 @@ namespace Rcpp {
     namespace stats{
         
         
-    	class PoissonGenerator : public Generator<double>{
-    	public:
-    	    PoissonGenerator( double mu_ ) : mu(mu_){}  
-    	    inline double operator()() const { return ::Rf_rpois(mu); }
-    	private:
-    	    double mu ;
-    	} ;
+        class PoissonGenerator : public Generator<double>{
+        public:
+            PoissonGenerator( double mu_ ) : mu(mu_){}  
+            inline double operator()() const { return ::Rf_rpois(mu); }
+        private:
+            double mu ;
+        } ;
     }  // stats
 
 } // Rcpp

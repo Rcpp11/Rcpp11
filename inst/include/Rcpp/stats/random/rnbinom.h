@@ -2,24 +2,24 @@
 #define Rcpp__stats__random_rnbinom_h
 
 namespace Rcpp {
-	namespace stats {
+    namespace stats {
 
 
-		class NBinomGenerator : public ::Rcpp::Generator<double> {
-		public:
+        class NBinomGenerator : public ::Rcpp::Generator<double> {
+        public:
 
-			NBinomGenerator( double siz_, double prob_ ) : 
-				siz(siz_), lambda( (1-prob_)/prob_ ) {}
+            NBinomGenerator( double siz_, double prob_ ) : 
+                siz(siz_), lambda( (1-prob_)/prob_ ) {}
 
-			inline double operator()() const {
-				return ::Rf_rpois( ::Rf_rgamma( siz, lambda ) ) ; 
-			}
+            inline double operator()() const {
+                return ::Rf_rpois( ::Rf_rgamma( siz, lambda ) ) ; 
+            }
 
-		private:
-			double siz ;
-			double lambda ;
-		} ;
-	} // stats
+        private:
+            double siz ;
+            double lambda ;
+        } ;
+    } // stats
 
 } // Rcpp
 

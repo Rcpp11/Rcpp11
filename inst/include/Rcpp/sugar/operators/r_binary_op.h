@@ -5,14 +5,14 @@ namespace Rcpp{
 namespace sugar{
 
 #undef RCPP_OP
-#define RCPP_OP(NAME,OP)   	                                     \
+#define RCPP_OP(NAME,OP)                                            \
 template <int RTYPE>                                                \
 class NAME {                                                        \
 public:                                                             \
-	typedef typename traits::storage_type<RTYPE>::type STORAGE ;    \
-	inline int operator()( STORAGE lhs, STORAGE rhs) const {       \
-		return lhs OP rhs ;                                         \
-	}                                                               \
+    typedef typename traits::storage_type<RTYPE>::type STORAGE ;    \
+    inline int operator()( STORAGE lhs, STORAGE rhs) const {       \
+        return lhs OP rhs ;                                         \
+    }                                                               \
 } ;
 RCPP_OP(less,<)
 RCPP_OP(greater,>)

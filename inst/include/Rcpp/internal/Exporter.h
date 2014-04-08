@@ -4,33 +4,33 @@
 namespace Rcpp{
     namespace traits{
 
-		template <typename T> class Exporter{
-		public:
-		    Exporter( SEXP x ) : t(x){}
-		    inline T get(){ return t ; }
-	
-		private:
-		    T t ;
-		} ;
-	
-		template <typename T> class RangeExporter {
-		public:
-		    typedef typename T::value_type r_export_type ;
-	
-		    RangeExporter( SEXP x ) : object(x){}
-		    ~RangeExporter(){}
-	
-		    T get(){ 
-		        T vec( ::Rf_length(object) );
-		        ::Rcpp::internal::export_range( object, vec.begin() ) ;
-		        return vec ;
-		    }
-	
-		private:
-		    SEXP object ;
-		} ;
+        template <typename T> class Exporter{
+        public:
+            Exporter( SEXP x ) : t(x){}
+            inline T get(){ return t ; }
+    
+        private:
+            T t ;
+        } ;
+    
+        template <typename T> class RangeExporter {
+        public:
+            typedef typename T::value_type r_export_type ;
+    
+            RangeExporter( SEXP x ) : object(x){}
+            ~RangeExporter(){}
+    
+            T get(){ 
+                T vec( ::Rf_length(object) );
+                ::Rcpp::internal::export_range( object, vec.begin() ) ;
+                return vec ;
+            }
+    
+        private:
+            SEXP object ;
+        } ;
         
-		template <typename T, typename value_type> class IndexingExporter {
+        template <typename T, typename value_type> class IndexingExporter {
         public:
             typedef value_type r_export_type ;
         
@@ -71,7 +71,7 @@ namespace Rcpp{
 
         template < template<class,class> class Container, typename T>
         struct container_exporter{
-        		typedef RangeExporter< Container<T, std::allocator<T> > > type ;
+                typedef RangeExporter< Container<T, std::allocator<T> > > type ;
         } ;
         
         template < template <class, class> class ContainerTemplate, typename T > class ContainerExporter {
@@ -93,7 +93,7 @@ namespace Rcpp{
             }
         
         private:
-        		SEXP object ;
+                SEXP object ;
         } ;
         template < template<class,class> class Container > struct container_exporter< Container, int >{
             typedef ContainerExporter< Container, int > type ;     

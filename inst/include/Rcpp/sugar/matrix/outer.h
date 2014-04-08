@@ -8,8 +8,8 @@ template <int RTYPE, typename Function, typename STORAGE>
 class Outer : public MatrixBase< 
     Rcpp::traits::r_sexptype_traits<
         typename std::result_of<Function(STORAGE,STORAGE)>::type
-	>::rtype , 
-	true ,
+    >::rtype , 
+    true ,
     Outer<RTYPE,Function,STORAGE>
 > {
 public:

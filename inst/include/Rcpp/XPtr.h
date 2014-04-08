@@ -42,7 +42,7 @@ public:
         R_SetExternalPtrTag( x, tag ) ;
         R_SetExternalPtrProtected( x, prot ) ;
     }
-	
+    
     explicit XPtr(T* p, bool set_delete_finalizer = true, SEXP tag = R_NilValue, SEXP prot = R_NilValue){
         RCPP_DEBUG( "XPtr(T* p = <%p>, bool set_delete_finalizer = %s, SEXP tag = R_NilValue, SEXP prot = R_NilValue)", p, ( set_delete_finalizer ? "true" : "false" ) )
         Storage::set__( R_MakeExternalPtr( (void*)p , tag, prot) ) ;
@@ -54,11 +54,11 @@ public:
     T& operator*() const {
         return *((T*)R_ExternalPtrAddr( Storage::get__() )) ;    
     }
-  	
+      
     T* operator->() const {
          return (T*)(R_ExternalPtrAddr(Storage::get__()));
     }
-  		  	
+                
     void setDeleteFinalizer() {
         R_RegisterCFinalizerEx( Storage::get__(), finalizer_wrapper<T,Finalizer> , FALSE) ;     
     }

@@ -26,14 +26,14 @@ public:
         template <typename T> operator T() const {
             return as<T>( get() ) ;  
         }
-	
+    
     private:
         CLASS& parent; 
-	
+    
         SEXP get() const {
             return RCPP_GET_NAMES(parent.get__()) ;
         }
-	
+    
         void set(SEXP x) {
             /* check if we can use a fast version */
             if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
@@ -45,9 +45,9 @@ public:
                 Shield<SEXP> new_vec( Rcpp_eval(Rf_lang3( namesSym, parent, x ))) ;
                 parent.set__(new_vec); 
             }
-    	
+        
         }
-    	
+        
     } ;
 
     class const_NamesProxy : public GenericProxy<const_NamesProxy>{
@@ -57,14 +57,14 @@ public:
         template <typename T> operator T() const {
             return as<T>( get() ) ;  
         }
-	
+    
     private:
         const CLASS& parent; 
-	
+    
         SEXP get() const {
             return RCPP_GET_NAMES(parent.get__()) ;
         }
-	
+    
     } ;
 
     NamesProxy names() {

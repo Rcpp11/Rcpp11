@@ -388,8 +388,8 @@ namespace Rcpp {
             return s.get_sexp() ;    
         }
         
-	    template <int RTYPE>
-	    template <typename T>
+        template <int RTYPE>
+        template <typename T>
         string_proxy<RTYPE>& string_proxy<RTYPE>::operator+=(const T& rhs) {
             String tmp = get() ;
             tmp += rhs ;
@@ -401,7 +401,7 @@ namespace Rcpp {
             return from.get_sexp() ;    
         }
         
-	}
+    }
     
 } // Rcpp 
 

@@ -11,36 +11,36 @@ template <
     typename Function
 >
 class Mapply_3 : public SugarVectorExpression< 
-	Rcpp::traits::r_sexptype_traits<
-		typename std::result_of<Function>::type
-	>::rtype , 
-	true ,
-	Mapply_3<RTYPE_1,NA_1,T_1,RTYPE_2,NA_2,T_2,RTYPE_3,NA_3,T_3,Function>
+    Rcpp::traits::r_sexptype_traits<
+        typename std::result_of<Function>::type
+    >::rtype , 
+    true ,
+    Mapply_3<RTYPE_1,NA_1,T_1,RTYPE_2,NA_2,T_2,RTYPE_3,NA_3,T_3,Function>
 > {
 public:         
-	typedef typename std::result_of<Function>::type result_type ;
+    typedef typename std::result_of<Function>::type result_type ;
 
     typedef Rcpp::VectorBase<RTYPE_1,NA_1,T_1> VEC_1 ;
-	typedef Rcpp::VectorBase<RTYPE_2,NA_2,T_2> VEC_2 ;
-	typedef Rcpp::VectorBase<RTYPE_3,NA_3,T_3> VEC_3 ;
+    typedef Rcpp::VectorBase<RTYPE_2,NA_2,T_2> VEC_2 ;
+    typedef Rcpp::VectorBase<RTYPE_3,NA_3,T_3> VEC_3 ;
 
-	typedef typename Rcpp::traits::Extractor<RTYPE_1,NA_1,T_1>::type EXT_1 ;
-	typedef typename Rcpp::traits::Extractor<RTYPE_2,NA_2,T_2>::type EXT_2 ;
-	typedef typename Rcpp::traits::Extractor<RTYPE_3,NA_3,T_3>::type EXT_3 ;
+    typedef typename Rcpp::traits::Extractor<RTYPE_1,NA_1,T_1>::type EXT_1 ;
+    typedef typename Rcpp::traits::Extractor<RTYPE_2,NA_2,T_2>::type EXT_2 ;
+    typedef typename Rcpp::traits::Extractor<RTYPE_3,NA_3,T_3>::type EXT_3 ;
 
-	Mapply_3( const VEC_1& vec_1_, const VEC_2& vec_2_, const VEC_3& vec_3_, Function fun_ ) : 
-		vec_1(vec_1_.get_ref()), vec_2(vec_2_.get_ref()), vec_3(vec_3_.get_ref()), fun(fun_){}
+    Mapply_3( const VEC_1& vec_1_, const VEC_2& vec_2_, const VEC_3& vec_3_, Function fun_ ) : 
+        vec_1(vec_1_.get_ref()), vec_2(vec_2_.get_ref()), vec_3(vec_3_.get_ref()), fun(fun_){}
 
-	inline result_type operator[]( int i ) const {
-		return fun( vec_1[i], vec_2[i], vec_3[i] );
-	}
-	inline int size() const { return vec_1.size() ; }
+    inline result_type operator[]( int i ) const {
+        return fun( vec_1[i], vec_2[i], vec_3[i] );
+    }
+    inline int size() const { return vec_1.size() ; }
 
 private:
-	const EXT_1& vec_1 ;
-	const EXT_2& vec_2 ;
-	const EXT_3& vec_3 ;
-	Function fun ;
+    const EXT_1& vec_1 ;
+    const EXT_2& vec_2 ;
+    const EXT_3& vec_3 ;
+    Function fun ;
 } ;
 
 } // sugar
@@ -58,7 +58,7 @@ mapply(
     const Rcpp::VectorBase<RTYPE_3,NA_3,T_3>& t3, 
     Function fun
 ){
-	return sugar::Mapply_3<RTYPE_1,NA_1,T_1,RTYPE_2,NA_2,T_2,RTYPE_3,NA_3,T_3,Function>( t1, t2, t3, fun ) ;
+    return sugar::Mapply_3<RTYPE_1,NA_1,T_1,RTYPE_2,NA_2,T_2,RTYPE_3,NA_3,T_3,Function>( t1, t2, t3, fun ) ;
 }
 
 } // Rcpp

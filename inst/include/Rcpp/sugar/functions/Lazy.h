@@ -7,7 +7,7 @@ namespace sugar{
 template <typename T, typename EXPR>
 class Lazy {
 public:
-	inline operator T() const { return static_cast<const EXPR&>(*this).get() ; }
+    inline operator T() const { return static_cast<const EXPR&>(*this).get() ; }
 } ;
 
 }

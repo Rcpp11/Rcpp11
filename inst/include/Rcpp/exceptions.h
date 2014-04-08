@@ -130,7 +130,7 @@ public:
 #define RCPP_EXCEPTION_CLASS(__CLASS__,__WHAT__)                               \
 class __CLASS__ : public exception{                                            \
 public:                                                                        \
-	explicit __CLASS__( const std::string& msg ) noexcept: exception( __WHAT__ ) \
+    explicit __CLASS__( const std::string& msg ) noexcept: exception( __WHAT__ ) \
   {}                                                                           \
   explicit __CLASS__( const char* msg ) noexcept: exception( __WHAT__ ){}      \
 };                                                                             
@@ -138,7 +138,7 @@ public:                                                                        \
 #define RCPP_SIMPLE_EXCEPTION_CLASS(__CLASS__,__MESSAGE__)                     \
 class __CLASS__ : public exception{                                            \
 public:                                                                        \
-	__CLASS__() noexcept: exception(__MESSAGE__) {}                              \
+    __CLASS__() noexcept: exception(__MESSAGE__) {}                              \
 };                                                                             
 
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")

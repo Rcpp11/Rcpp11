@@ -47,10 +47,10 @@ namespace sugar{
 
 template <int RTYPE, bool NA, typename T>
 inline Vector<RTYPE> na_omit( const VectorBase<RTYPE,NA,T>& t){
-	return sugar::na_omit_impl<RTYPE,NA,T>( 
-	    t.get_ref(), 
-	    typename std::is_same<T,Vector<RTYPE> >::type()
-	) ;
+    return sugar::na_omit_impl<RTYPE,NA,T>( 
+        t.get_ref(), 
+        typename std::is_same<T,Vector<RTYPE> >::type()
+    ) ;
 }
 
 } // Rcpp

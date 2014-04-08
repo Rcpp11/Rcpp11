@@ -61,7 +61,7 @@ template <typename T> struct r_type_traits {
 
 template <typename KEY, typename VALUE> 
 struct r_type_traits< std::pair<const KEY,VALUE> > { 
-	typedef r_type_pair_tag r_category ; 
+    typedef r_type_pair_tag r_category ; 
 } ;
 
 /** 

@@ -12,10 +12,10 @@ public:
 } ;
 
 template <int RTYPE> struct comparator_type {
-	typedef std::less< typename storage_type<RTYPE>::type > type ;
+    typedef std::less< typename storage_type<RTYPE>::type > type ;
 } ;
 template <> struct comparator_type<STRSXP>{
-	typedef StringCompare type ;
+    typedef StringCompare type ;
 } ;
    
 

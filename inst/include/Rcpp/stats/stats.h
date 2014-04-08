@@ -3,9 +3,9 @@
 
 #include <Rcpp/stats/dpq/dpq.h>
 
-#define ML_POSINF	R_PosInf
-#define ML_NEGINF	R_NegInf
-#define ML_NAN		R_NaN
+#define ML_POSINF    R_PosInf
+#define ML_NEGINF    R_NegInf
+#define ML_NAN        R_NaN
 
 RCPP_DPQ_2(beta,::Rf_dbeta,::Rf_pbeta,::Rf_qbeta)
 RCPP_DPQ_2(binom,::Rf_dbinom,::Rf_pbinom,::Rf_qbinom)

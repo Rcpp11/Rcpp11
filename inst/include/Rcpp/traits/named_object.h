@@ -20,7 +20,7 @@ namespace Rcpp{
         class named_object<SEXP> {
         public:
             typedef SEXP object_type ;
-        	
+            
             named_object( SEXP name_, const SEXP& o_): name(name_), object(o_) {
                R_PreserveObject(object) ;
             }

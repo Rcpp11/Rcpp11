@@ -68,7 +68,7 @@ private:
 #define SB2_RHT VectorBase<REALSXP,RHS_NA,RHS_T>
 
 #define SUGAR_BLOCK_2(__NAME__,__SYMBOL__)                                                      \
-    namespace Rcpp{                                                     			\
+    namespace Rcpp{                                                                 \
         template <bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T >                    \
         inline sugar::SugarBlock_2< (LHS_NA||RHS_NA) ,double,double,SB2_LHT,double,SB2_RHT>     \
         __NAME__(                                                                               \

@@ -18,10 +18,10 @@ inline double get_na<REALSXP>(){ return NA_REAL ; }
 
 template<>
 inline Rcomplex get_na<CPLXSXP>(){ 
-	Rcomplex x ;
-	x.r = NA_REAL ;
-	x.i = NA_REAL ;
-	return x ;
+    Rcomplex x ;
+    x.r = NA_REAL ;
+    x.i = NA_REAL ;
+    return x ;
 }
 
 template<>

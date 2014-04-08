@@ -7,8 +7,8 @@ namespace internal{
 template <int FROM, int TO>
 typename ::Rcpp::traits::storage_type<TO>::type 
 r_coerce( typename ::Rcpp::traits::storage_type<FROM>::type from ){
-	// this implementation is never actually called
-	return static_cast<typename ::Rcpp::traits::storage_type<TO>::type >(from);
+    // this implementation is never actually called
+    return static_cast<typename ::Rcpp::traits::storage_type<TO>::type >(from);
 }
 template <> int r_coerce<INTSXP,INTSXP>(int from) ;
 template <> int r_coerce<LGLSXP,LGLSXP>(int from) ;

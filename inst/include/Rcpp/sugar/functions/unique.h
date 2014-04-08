@@ -5,8 +5,8 @@ namespace Rcpp{
 
 template <int RTYPE, bool NA, typename T>
 inline Vector<RTYPE> unique( const VectorBase<RTYPE,NA,T>& t ){
-	using STORAGE = typename traits::storage_type<RTYPE>::type ;
-	return wrap( std::unordered_set<STORAGE>( t.begin(), t.end() ) ) ;
+    using STORAGE = typename traits::storage_type<RTYPE>::type ;
+    return wrap( std::unordered_set<STORAGE>( t.begin(), t.end() ) ) ;
 }
 
 template <int RTYPE, bool NA, typename T, bool RHS_NA, typename RHS_T>

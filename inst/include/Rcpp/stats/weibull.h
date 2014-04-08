@@ -8,7 +8,7 @@ inline double dweibull_1(double x, double shape /*, double scale [=1.0] */ , int
     double tmp1, tmp2;
 #ifdef IEEE_754
     if (ISNAN(x) || ISNAN(shape) )
-	return x + shape + 1.0;
+    return x + shape + 1.0;
 #endif
     if (shape <= 0 ) return R_NaN ;
 
@@ -20,31 +20,31 @@ inline double dweibull_1(double x, double shape /*, double scale [=1.0] */ , int
     tmp2 = tmp1 * x;
     /* These are incorrect if tmp1 == 0 */
     return  give_log ?
-	-tmp2 + ::log(shape * tmp1 ) :
-	shape * tmp1 * ::exp(-tmp2) ;
+    -tmp2 + ::log(shape * tmp1 ) :
+    shape * tmp1 * ::exp(-tmp2) ;
 }
 inline double pweibull_1(double x, double shape /*, double scale [=1.0] */, int lower_tail, int log_p) {
 #ifdef IEEE_754
     if (ISNAN(x) || ISNAN(shape) )
-	return x + shape + 1.0;
+    return x + shape + 1.0;
 #endif
     if(shape <= 0) return R_NaN;
 
     if (x <= 0)
-	return R_DT_0;
-	x = -::pow(x , shape);
+    return R_DT_0;
+    x = -::pow(x , shape);
     if (lower_tail)
-	return (log_p
-		/* log(1 - exp(x))  for x < 0 : */
-		? (x > -M_LN2 ? ::log(-::expm1(x)) : ::log1p(-::exp(x)))
-		: -::expm1(x));
+    return (log_p
+        /* log(1 - exp(x))  for x < 0 : */
+        ? (x > -M_LN2 ? ::log(-::expm1(x)) : ::log1p(-::exp(x)))
+        : -::expm1(x));
     /* else:  !lower_tail */
     return R_D_exp(x);
 }
 inline double qweibull_1(double p, double shape /*, double scale [=1.0] */, int lower_tail, int log_p){
 #ifdef IEEE_754
     if (ISNAN(p) || ISNAN(shape))
-	return p + shape + 1.0;
+    return p + shape + 1.0;
 #endif
     if (shape <= 0 ) return R_NaN ;
 

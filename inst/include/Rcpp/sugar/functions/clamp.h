@@ -30,28 +30,28 @@ struct clamp_operator<REALSXP,true> {
 
 
 template <
-	int RTYPE, 
-	bool NA, typename T
-	>
+    int RTYPE, 
+    bool NA, typename T
+    >
 class Clamp_Primitive_Vector_Primitive : public SugarVectorExpression< 
-	RTYPE , 
-	NA ,
-	Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>
+    RTYPE , 
+    NA ,
+    Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>
 > {
 public:
-	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	typedef clamp_operator<RTYPE,NA> OPERATOR ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+    typedef clamp_operator<RTYPE,NA> OPERATOR ;
 
-	Clamp_Primitive_Vector_Primitive( STORAGE lhs_, const T& vec_, STORAGE rhs_) : vec(vec_), op(lhs_,rhs_) {}
+    Clamp_Primitive_Vector_Primitive( STORAGE lhs_, const T& vec_, STORAGE rhs_) : vec(vec_), op(lhs_,rhs_) {}
 
-	inline STORAGE operator[]( int i ) const {
-		return op( vec[i] ) ;
-	}
-	inline int size() const { return vec.size() ; }
+    inline STORAGE operator[]( int i ) const {
+        return op( vec[i] ) ;
+    }
+    inline int size() const { return vec.size() ; }
 
 private:
-	const T& vec ;
-	OPERATOR op ; 
+    const T& vec ;
+    OPERATOR op ; 
 } ;
 
 
@@ -61,11 +61,11 @@ private:
 template <int RTYPE, bool NA, typename T>
 inline sugar::Clamp_Primitive_Vector_Primitive<RTYPE,NA,T> 
 clamp( 
-	typename Rcpp::traits::storage_type<RTYPE>::type lhs,
-	const Rcpp::VectorBase<RTYPE,NA,T>& vec,  
-	typename Rcpp::traits::storage_type<RTYPE>::type rhs
-	){
-	return sugar::Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>( lhs, vec.get_ref(), rhs ) ;
+    typename Rcpp::traits::storage_type<RTYPE>::type lhs,
+    const Rcpp::VectorBase<RTYPE,NA,T>& vec,  
+    typename Rcpp::traits::storage_type<RTYPE>::type rhs
+    ){
+    return sugar::Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>( lhs, vec.get_ref(), rhs ) ;
 }
 
 

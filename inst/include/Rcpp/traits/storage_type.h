@@ -11,7 +11,7 @@ namespace traits{
  * The default is SEXP, which works for VECSXP, EXPRSXP and STRSXP
  */
 template<int RTYPE> struct storage_type{ 
-	typedef SEXP type ;
+    typedef SEXP type ;
 } ;
 
 /**
@@ -19,7 +19,7 @@ template<int RTYPE> struct storage_type{
  * typedef to int
  */
 template<> struct storage_type<INTSXP>{ 
-	typedef int type ;
+    typedef int type ;
 } ;
 
 /**
@@ -27,7 +27,7 @@ template<> struct storage_type<INTSXP>{
  * typedef to double
  */
 template<> struct storage_type<REALSXP>{ 
-	typedef double type ;
+    typedef double type ;
 } ;
 
 /**
@@ -35,7 +35,7 @@ template<> struct storage_type<REALSXP>{
  * typedef to Rcomplex
  */
 template<> struct storage_type<CPLXSXP>{ 
-	typedef Rcomplex type ;
+    typedef Rcomplex type ;
 } ;
 
 /**
@@ -43,7 +43,7 @@ template<> struct storage_type<CPLXSXP>{
  * typedef to Rbyte
  */
 template<> struct storage_type<RAWSXP>{ 
-	typedef Rbyte type ;
+    typedef Rbyte type ;
 } ;
 
 /**
@@ -51,7 +51,7 @@ template<> struct storage_type<RAWSXP>{
  * typedef to int
  */
 template<> struct storage_type<LGLSXP>{ 
-	typedef int type ;
+    typedef int type ;
 } ;
 
 } // traits

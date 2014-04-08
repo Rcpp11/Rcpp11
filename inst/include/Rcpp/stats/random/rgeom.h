@@ -2,22 +2,22 @@
 #define Rcpp__stats__random_rgeom_h
 
 namespace Rcpp {
-	namespace stats {
+    namespace stats {
 
 
-		class GeomGenerator : public ::Rcpp::Generator<double> {
-		public:
+        class GeomGenerator : public ::Rcpp::Generator<double> {
+        public:
 
-			GeomGenerator( double p ) : lambda( (1-p)/p  ) {}
+            GeomGenerator( double p ) : lambda( (1-p)/p  ) {}
 
-			inline double operator()() const {
-				return ::Rf_rpois(exp_rand() * lambda); 
-			}
+            inline double operator()() const {
+                return ::Rf_rpois(exp_rand() * lambda); 
+            }
 
-		private:
-			double lambda ;
-		} ;
-	} // stats
+        private:
+            double lambda ;
+        } ;
+    } // stats
 
 } // Rcpp
 

@@ -5,38 +5,38 @@ namespace Rcpp{
                     
 class Argument {
 public:
-	Argument() : name(){}
-	Argument( std::string  name_) : name(std::move(name_)){} 
+    Argument() : name(){}
+    Argument( std::string  name_) : name(std::move(name_)){} 
 
-	template<typename T>
-	inline traits::named_object<T> operator=( const T& t){
-		return traits::named_object<T>( name, t ) ;
-	}
+    template<typename T>
+    inline traits::named_object<T> operator=( const T& t){
+        return traits::named_object<T>( name, t ) ;
+    }
 
-	std::string name ;
+    std::string name ;
 } ;
 
 inline Argument Named( const std::string& name){
-	return Argument( name );
+    return Argument( name );
 }
 template <typename T>
 inline traits::named_object<T> Named( const std::string& name, const T& o){
-	return traits::named_object<T>( name, o );
+    return traits::named_object<T>( name, o );
 }
 
 namespace internal{
 
 class NamedPlaceHolder {
 public:
-	NamedPlaceHolder(){}
-	~NamedPlaceHolder(){}
-	Argument operator[]( const std::string& arg) const {
-		return Argument( arg ) ;
-	}
-	Argument operator()(const std::string& arg) const {
-		return Argument( arg ) ;
-	}
-	operator SEXP() const { return R_MissingArg ; }
+    NamedPlaceHolder(){}
+    ~NamedPlaceHolder(){}
+    Argument operator[]( const std::string& arg) const {
+        return Argument( arg ) ;
+    }
+    Argument operator()(const std::string& arg) const {
+        return Argument( arg ) ;
+    }
+    operator SEXP() const { return R_MissingArg ; }
 } ;
 } // internal
 

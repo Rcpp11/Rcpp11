@@ -15,15 +15,15 @@ inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ) ;
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag){ 
-	return primitive_range_wrap__impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_sexptype_needscast<T>() ) ;
+    return primitive_range_wrap__impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_sexptype_needscast<T>() ) ;
 }
 
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::true_type ){
-	size_t size = std::distance( first, last ) ;
-	Shield<SEXP> x = Rf_allocVector( LGLSXP, (int)size );
-	std::copy( first, last, LOGICAL(x)) ;   
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    Shield<SEXP> x = Rf_allocVector( LGLSXP, (int)size );
+    std::copy( first, last, LOGICAL(x)) ;   
+    return x ;
 }
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::false_type ){
@@ -45,20 +45,20 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___generic( InputIterator first, InputIterator last ){ 
-	size_t size = std::distance( first, last ) ;
-	Shield<SEXP> x = Rf_allocVector( VECSXP, (int)size );
-	size_t i =0 ;
-	while( i < size ){
-		SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
-		i++ ;
-		++first ;
-	}
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    Shield<SEXP> x = Rf_allocVector( VECSXP, (int)size );
+    size_t i =0 ;
+    while( i < size ){
+        SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
+        i++ ;
+        ++first ;
+    }
+    return x ;
 }
 
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_generic_tag ){ 
-	return range_wrap_dispatch___generic<InputIterator, T>( first, last ) ;
+    return range_wrap_dispatch___generic<InputIterator, T>( first, last ) ;
 }
 
 
@@ -69,15 +69,15 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
-	size_t size = std::distance( first, last ) ;
-	Shield<SEXP> x = Rf_allocVector( STRSXP, (int)size ) ;
-	size_t i = 0 ;
-	while( i < size ){
-		SET_STRING_ELT( x, i, make_charsexp(*first) ) ;
-		i++ ;
-		++first ;
-	}
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    Shield<SEXP> x = Rf_allocVector( STRSXP, (int)size ) ;
+    size_t i = 0 ;
+    while( i < size ){
+        SET_STRING_ELT( x, i, make_charsexp(*first) ) ;
+        i++ ;
+        ++first ;
+    }
+    return x ;
 }
 
 /** 
@@ -90,21 +90,21 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator last, std::false_type ){
-	size_t size = std::distance( first, last ) ;
-	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<typename T::second_type>::rtype ;
-	Shield<SEXP> x = Rf_allocVector( RTYPE, (int)size );
-	Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
-	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
-	CTYPE* start = r_vector_start<RTYPE>(x) ;
-	int i =0;
-	std::string buf ; 
-	for( ; i<size; i++, ++first){
-		start[i] = (*first).second ;
-		buf = (*first).first ;
-		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    const int RTYPE = ::Rcpp::traits::r_sexptype_traits<typename T::second_type>::rtype ;
+    Shield<SEXP> x = Rf_allocVector( RTYPE, (int)size );
+    Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
+    typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
+    CTYPE* start = r_vector_start<RTYPE>(x) ;
+    int i =0;
+    std::string buf ; 
+    for( ; i<size; i++, ++first){
+        start[i] = (*first).second ;
+        buf = (*first).first ;
+        SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
+    }
+    ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
+    return x ;
 }
 
 /** 
@@ -118,21 +118,21 @@ inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator last, std::true_type ){
-	size_t size = std::distance( first, last ) ;
-	const int RTYPE = ::Rcpp::traits::r_sexptype_traits<typename T::second_type>::rtype ;
-	Shield<SEXP> x = Rf_allocVector( RTYPE, size ) ;
-	Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
-	typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
-	CTYPE* start = r_vector_start<RTYPE>(x) ;
-	size_t i =0;
-	std::string buf ; 
-	for( ; i<size; i++, ++first){
-		start[i] = static_cast<CTYPE>( first->second );
-		buf = first->first ;
-		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    const int RTYPE = ::Rcpp::traits::r_sexptype_traits<typename T::second_type>::rtype ;
+    Shield<SEXP> x = Rf_allocVector( RTYPE, size ) ;
+    Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
+    typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
+    CTYPE* start = r_vector_start<RTYPE>(x) ;
+    size_t i =0;
+    std::string buf ; 
+    for( ; i<size; i++, ++first){
+        start[i] = static_cast<CTYPE>( first->second );
+        buf = first->first ;
+        SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ;
+    }
+    ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
+    return x ;
 }
 
 
@@ -147,8 +147,8 @@ inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_primitive_tag){ 
-	return range_wrap_dispatch___impl__cast<InputIterator,T>( first, last, 
-		typename ::Rcpp::traits::r_sexptype_needscast<typename T::second_type>() ) ;
+    return range_wrap_dispatch___impl__cast<InputIterator,T>( first, last, 
+        typename ::Rcpp::traits::r_sexptype_needscast<typename T::second_type>() ) ;
 }
 
 /**
@@ -164,22 +164,22 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template <typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_generic_tag ){ 
-	size_t size = std::distance( first, last ) ;
-	Shield<SEXP> x = Rf_allocVector( VECSXP, size );
-	Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
-	size_t i =0 ;
-	std::string buf ;
-	SEXP element = R_NilValue ;
-	while( i < size ){
-		element = ::Rcpp::wrap( first->second ) ;
-		buf = first->first ;
-		SET_VECTOR_ELT( x, i, element ) ;
-		SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ; 
-		i++ ;
-		++first ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    Shield<SEXP> x = Rf_allocVector( VECSXP, size );
+    Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
+    size_t i =0 ;
+    std::string buf ;
+    SEXP element = R_NilValue ;
+    while( i < size ){
+        element = ::Rcpp::wrap( first->second ) ;
+        buf = first->first ;
+        SET_VECTOR_ELT( x, i, element ) ;
+        SET_STRING_ELT( names, i, Rf_mkChar(buf.c_str()) ) ; 
+        i++ ;
+        ++first ;
+    }
+    ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
+    return x ;
 }
 
 
@@ -195,15 +195,15 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_string_tag ){
-	size_t size = std::distance( first, last ) ;
-	Shield<SEXP> x = Rf_allocVector( STRSXP, size ) ;
-	Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
-	for( size_t i = 0; i < size ; i++, ++first){
-		SET_STRING_ELT( x, i, make_charsexp( first->second ) ) ;
-		SET_STRING_ELT( names, i, make_charsexp( first->first) ) ;
-	}
-	::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-	return x ;
+    size_t size = std::distance( first, last ) ;
+    Shield<SEXP> x = Rf_allocVector( STRSXP, size ) ;
+    Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
+    for( size_t i = 0; i < size ; i++, ++first){
+        SET_STRING_ELT( x, i, make_charsexp( first->second ) ) ;
+        SET_STRING_ELT( names, i, make_charsexp( first->first) ) ;
+    }
+    ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
+    return x ;
 
 }
 
@@ -227,17 +227,17 @@ inline SEXP range_wrap_dispatch___impl__pair( InputIterator first, InputIterator
  */
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pair_tag ){
-	typedef typename T::second_type VALUE ;
-	typedef typename T::first_type KEY ;
+    typedef typename T::second_type VALUE ;
+    typedef typename T::first_type KEY ;
 
-	return range_wrap_dispatch___impl__pair<
-			InputIterator,
-			KEY, 
-			VALUE, 
-			Rcpp::traits::r_sexptype_traits<VALUE>::rtype
-		>( first, last, 
-		typename Rcpp::traits::is_primitive<VALUE>::type()
-		) ;
+    return range_wrap_dispatch___impl__pair<
+            InputIterator,
+            KEY, 
+            VALUE, 
+            Rcpp::traits::r_sexptype_traits<VALUE>::rtype
+        >( first, last, 
+        typename Rcpp::traits::is_primitive<VALUE>::type()
+        ) ;
 }
 
 /**
@@ -247,9 +247,9 @@ inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last,
  */
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ){
-	typedef typename ::Rcpp::traits::r_type_traits<T>::r_category categ ;
+    typedef typename ::Rcpp::traits::r_type_traits<T>::r_category categ ;
     RCPP_DEBUG( "range_wrap_dispatch< InputIterator = \n%s , T = %s>, categ=%s\n", DEMANGLE(InputIterator), DEMANGLE(T), DEMANGLE(categ) ) ;
-	return range_wrap_dispatch___impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_type_traits<T>::r_category() ) ;
+    return range_wrap_dispatch___impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_type_traits<T>::r_category() ) ;
 }
 
 // we use the iterator trait to make the dispatch
@@ -259,7 +259,7 @@ inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ){
  */
 template <typename InputIterator>
 inline SEXP range_wrap(InputIterator first, InputIterator last){
-	return range_wrap_dispatch<InputIterator,typename std::remove_reference<typename std::iterator_traits<InputIterator>::value_type>::type >( first, last ) ;
+    return range_wrap_dispatch<InputIterator,typename std::remove_reference<typename std::iterator_traits<InputIterator>::value_type>::type >( first, last ) ;
 }
         
 }

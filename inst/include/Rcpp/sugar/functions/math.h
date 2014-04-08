@@ -44,7 +44,7 @@ SUGAR_BLOCK_2(beta      , ::Rf_beta     )
 SUGAR_BLOCK_2(lbeta     , ::Rf_lbeta    )
 SUGAR_BLOCK_2(psigamma  , ::Rf_psigamma )
 
-VECTORIZED_MATH_1(trunc, ::Rf_ftrunc) 		// truncates to zero (cf Writing R Extension, 6.7.3 Numerical Utilities)
+VECTORIZED_MATH_1(trunc, ::Rf_ftrunc)         // truncates to zero (cf Writing R Extension, 6.7.3 Numerical Utilities)
 SUGAR_BLOCK_2(round,     ::Rf_fround)           // rounds 'x' to 'digits' decimals digits (used by R's round())
 SUGAR_BLOCK_2(signif,    ::Rf_fprec)            // rounds 'x' to 'digits' significant digits (used by R's signif())
 

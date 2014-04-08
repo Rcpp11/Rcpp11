@@ -3,62 +3,62 @@
 
 namespace Rcpp{
 namespace internal{
-	
-	template <int RTYPE> class generic_name_proxy {
-	public:
-		typedef ::Rcpp::Vector<RTYPE> VECTOR ;
-		generic_name_proxy( VECTOR& v, std::string  name_) :
-			parent(v), name(std::move(name_)){
-				RCPP_DEBUG( "generic_name_proxy( VECTOR& = %p, const string& = %s)", v.get__(), name_.c_str() );
-		}
-		generic_name_proxy( const generic_name_proxy& other ) : 
-			parent(other.parent), name(other.name){}
-		~generic_name_proxy(){}
-	
-		generic_name_proxy& operator=( SEXP rhs ){
-			set( rhs ) ;
-			return *this ;
-		}
-		generic_name_proxy& operator=( const generic_name_proxy& other){
-			set( other.get() ) ;
-			return *this ;
-		}
-	
-		template <typename T>
-		generic_name_proxy& operator=( const T& rhs ){
-			set( ::Rcpp::wrap(rhs) ) ;
-			return *this ;
-		}
-	
-		operator SEXP() const {
-			 return get() ;
-		}
-	
-		template <typename T>
-		operator T() const {
-			return ::Rcpp::as<T>( get() ) ;
-		}
-	
-		operator bool() const{
-		    return ::Rcpp::as<bool>(get()); 
-		}
-	
-	private:
-		VECTOR& parent ;
-		std::string name;
-		void set( SEXP rhs ){
-			int index = 0 ;
-			try{
-				index = parent.offset(name) ;
-				parent[ index ] = rhs ;
-			} catch( const index_out_of_bounds& /* ex */ ){
-				parent.push_back( rhs, name ); 
-			}
-		}
-		SEXP get() const {
-			return parent[ parent.offset(name) ];
-		}
-	} ;
+    
+    template <int RTYPE> class generic_name_proxy {
+    public:
+        typedef ::Rcpp::Vector<RTYPE> VECTOR ;
+        generic_name_proxy( VECTOR& v, std::string  name_) :
+            parent(v), name(std::move(name_)){
+                RCPP_DEBUG( "generic_name_proxy( VECTOR& = %p, const string& = %s)", v.get__(), name_.c_str() );
+        }
+        generic_name_proxy( const generic_name_proxy& other ) : 
+            parent(other.parent), name(other.name){}
+        ~generic_name_proxy(){}
+    
+        generic_name_proxy& operator=( SEXP rhs ){
+            set( rhs ) ;
+            return *this ;
+        }
+        generic_name_proxy& operator=( const generic_name_proxy& other){
+            set( other.get() ) ;
+            return *this ;
+        }
+    
+        template <typename T>
+        generic_name_proxy& operator=( const T& rhs ){
+            set( ::Rcpp::wrap(rhs) ) ;
+            return *this ;
+        }
+    
+        operator SEXP() const {
+             return get() ;
+        }
+    
+        template <typename T>
+        operator T() const {
+            return ::Rcpp::as<T>( get() ) ;
+        }
+    
+        operator bool() const{
+            return ::Rcpp::as<bool>(get()); 
+        }
+    
+    private:
+        VECTOR& parent ;
+        std::string name;
+        void set( SEXP rhs ){
+            int index = 0 ;
+            try{
+                index = parent.offset(name) ;
+                parent[ index ] = rhs ;
+            } catch( const index_out_of_bounds& /* ex */ ){
+                parent.push_back( rhs, name ); 
+            }
+        }
+        SEXP get() const {
+            return parent[ parent.offset(name) ];
+        }
+    } ;
 }
 }
 #endif

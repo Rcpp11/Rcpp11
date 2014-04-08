@@ -51,7 +51,7 @@ namespace Rcpp{
             int k=0 ;
             for( int j=0; j<nc; j++)
                 for( int i=0; i<nr; i++, k++)
-            	       SET_VECTOR_ELT( res, k, ::Rcpp::wrap( object(i,j) ) ) ;
+                       SET_VECTOR_ELT( res, k, ::Rcpp::wrap( object(i,j) ) ) ;
             Shield<SEXP> dim = Rf_allocVector( INTSXP, 2) ;
             INTEGER(dim)[0] = nr ;
             INTEGER(dim)[1] = nc ;
