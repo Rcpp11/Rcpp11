@@ -85,6 +85,9 @@ namespace Rcpp{
         }
         
         static DataFrame_Impl from_list( Rcpp::List obj ) {
+            std::vector<SEXP> columns ;
+            std::vector<std::string> out_names ;
+            
             bool use_default_strings_as_factors = true ;
             bool strings_as_factors = true ;
             int strings_as_factors_index = -1 ;
@@ -97,17 +100,21 @@ namespace Rcpp{
                         use_default_strings_as_factors = false ;        
                         if( !as<bool>(obj[i]) ) strings_as_factors = false ;
                         break ;         
+                    } else {
+                        columns.push_back( obj[i] ) ;
+                        out_names.push_back( std::string(names[i]) ) ;
                     }
                 }
             }
             if( use_default_strings_as_factors ) 
                 return DataFrame(obj) ;
+            
+            obj = wrap(columns) ;
+            obj.names() = wrap(out_names) ;
+            
             SEXP as_df_symb = Rf_install("as.data.frame");
             SEXP strings_as_factors_symb = Rf_install("stringsAsFactors");
             
-            obj.erase(strings_as_factors_index) ;
-            names.erase(strings_as_factors_index) ;
-            obj.attr( "names") = names ;
             Shield<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
             SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
             Shield<SEXP> res = Rcpp_eval( call ) ; 
