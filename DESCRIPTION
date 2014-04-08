@@ -9,6 +9,6 @@ Authors@R: c(
     )
 Description: R and C++11
 Depends: R (>= 3.0.2)
-License: GPL (>= 2)
+License: MIT + file LICENSE
 SystemRequirements: C++11
 
