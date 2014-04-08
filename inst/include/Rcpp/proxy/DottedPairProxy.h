@@ -75,7 +75,7 @@ namespace Rcpp {
                 return CAR(node); 
             }
             inline operator SEXP() const { return get() ; }
-        	
+        
         private:
             SEXP node ;
         } ;

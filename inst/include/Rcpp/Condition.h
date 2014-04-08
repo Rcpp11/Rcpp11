@@ -48,7 +48,7 @@ namespace Rcpp {
             // form simple error condition based on a string
             Shield<SEXP> simpleErrorExpr = ::Rf_lang2(::Rf_install("simpleError"), Rf_mkString(str.c_str()));
             Shield<SEXP> simpleError = Rf_eval(simpleErrorExpr, R_GlobalEnv);
-    	    
+    
             Shield<SEXP> tryError = Rf_mkString( str.c_str() ) ;
             Rf_setAttrib( tryError, R_ClassSymbol, Rf_mkString("try-error") ) ; 
             Rf_setAttrib( tryError, Rf_install( "condition") , simpleError ) ; 

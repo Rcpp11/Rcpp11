@@ -3,7 +3,7 @@
  
 namespace Rcpp{
 namespace internal{
-		
+	
 	  template <int RTYPE> 
 	  class const_generic_proxy : public GenericProxy<const_generic_proxy<RTYPE>> {
     public:
@@ -36,15 +36,15 @@ namespace internal{
         
         const VECTOR* parent; 
         int index ;
-    	
+    
     private:
        inline void move(int n) { index += n ; }
-    	 
-    	 
+    
+    
     	 inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
     
 	  }  ;
-	
+
 }
 }
 

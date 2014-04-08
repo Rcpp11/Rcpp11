@@ -12,14 +12,14 @@ class Diff : public SugarVectorExpression< RTYPE, LHS_NA , Diff<RTYPE,LHS_NA,LHS
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	
+
 	Diff( const LHS_TYPE& lhs_ ) : 
 	    lhs(lhs_), 
 	    previous(lhs_[0]),
 	    previous_index(0),
 	    was_na(traits::is_na<RTYPE>(previous)) 
 	{}
-	
+
 	inline STORAGE operator[]( int i ) const {
         STORAGE y = lhs[i+1] ;
         if( previous_index != i ){
@@ -34,15 +34,15 @@ public:
         set_previous( i+1, y) ;
         return res ;
 	}     
-	
+
 	inline void set_previous(int i, STORAGE value) const {
 	    previous = value ;
 	    was_na = traits::is_na<RTYPE>(previous) ;
 	    previous_index = i ;
 	}
-	
+
 	inline int size() const { return lhs.size() - 1 ; }
-	         
+
 private:
 	const LHS_TYPE& lhs ;
 	mutable STORAGE previous ;
@@ -54,9 +54,9 @@ template <typename LHS_T, bool LHS_NA>
 class Diff<REALSXP, LHS_NA, LHS_T> : public SugarVectorExpression< REALSXP, LHS_NA, Diff<REALSXP,LHS_NA,LHS_T> >{
 public:
 	typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
-	
+
 	Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs_[0]), previous_index(0) {}
-	
+
 	inline double operator[]( int i ) const {
 		double y = lhs[i+1] ;
 		if( previous_index != i ) previous = lhs[i] ;
@@ -66,7 +66,7 @@ public:
 		return res ;
 	}
 	inline int size() const { return lhs.size() - 1 ; }
-	         
+
 private:
 	const LHS_TYPE& lhs ;
 	mutable double previous ;
@@ -78,9 +78,9 @@ class Diff<RTYPE,false,LHS_T> : public SugarVectorExpression< RTYPE, false , Dif
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	
+
 	Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs[0]), previous_index(0) {}
-	
+
 	inline STORAGE operator[]( int i ) const {
 		STORAGE y = lhs[i+1] ;
 		if( previous_index != i ) previous = lhs[i] ;
@@ -90,7 +90,7 @@ public:
 		return y - previous ;
 	}
 	inline int size() const { return lhs.size() - 1 ; }
-	         
+
 private:
 	const LHS_TYPE& lhs ;
 	mutable STORAGE previous ;

@@ -22,25 +22,25 @@ public:
 	}
 } ;
 
-	
+
 template <int RTYPE, bool NA, typename T>
 class Sign : public SugarVectorExpression< INTSXP,NA, Sign<RTYPE,NA,T> > {
 public:
 	typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-	
+
 	Sign( const VEC_TYPE& object_ ) : object(object_){}
-	
+
 	inline int operator[]( int i ) const {
 		return get(i) ;
 	}
 	inline int size() const { return object.size() ; }
-	
+
 	inline int get(int i) const { return sign__impl<NA,RTYPE>::get( object[i] ); }
 private:
 	const VEC_TYPE& object ;
 } ;
-	
+
 } // sugar
 
 template <bool NA, typename T>

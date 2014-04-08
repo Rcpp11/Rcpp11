@@ -46,11 +46,11 @@ public:
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
 	pmin_op_Vector_Primitive( STORAGE right_ ) :  right(right_) {}
-	
+
 	inline STORAGE operator()( STORAGE left ) const {
 		return left < right ? left : right ;
-	}	
-		
+	}
+	
 private:
 	STORAGE right ;
 } ;
@@ -58,11 +58,11 @@ private:
 template <> class pmin_op_Vector_Primitive<REALSXP,true> {
 public:
 	pmin_op_Vector_Primitive( double right_ ) :  right(right_) {}
-	
+
 	inline double operator()( double left ) const {
 		return ( Rcpp::traits::is_na<REALSXP>( left ) || (left < right) ) ? left : right ;
-	}	
-		
+	}
+	
 private:
 	double right ;
 } ;
@@ -83,14 +83,14 @@ class Pmin_Vector_Vector : public SugarVectorExpression<
 public:
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	typedef pmin_op<RTYPE,LHS_NA,RHS_NA> OPERATOR ;
-	
+
 	Pmin_Vector_Vector( const LHS_T& lhs_, const RHS_T& rhs_ ) : lhs(lhs_), rhs(rhs_), op() {}
-	
+
 	inline STORAGE operator[]( int i ) const {
 		return op( lhs[i], rhs[i] ) ;
 	}
 	inline int size() const { return lhs.size() ; }
-	         
+
 private:
 	const LHS_T& lhs ;
 	const RHS_T& rhs ;
@@ -111,12 +111,12 @@ class Pmin_Vector_Primitive : public SugarVectorExpression<
 public:
 	typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	typedef pmin_op_Vector_Primitive<RTYPE,LHS_NA> OPERATOR ;
-	
+
 	Pmin_Vector_Primitive( const LHS_T& lhs_, STORAGE rhs_ ) : lhs(lhs_), op(rhs_) {}
-	
+
 	inline STORAGE operator[]( int i ) const { return op( lhs[i] ) ; }
 	inline int size() const { return lhs.size() ; }
-	         
+
 private:
 	const LHS_T& lhs ;
 	OPERATOR op ;

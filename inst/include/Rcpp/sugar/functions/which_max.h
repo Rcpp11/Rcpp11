@@ -10,7 +10,7 @@ public:
     typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	WhichMax(const VEC_TYPE& obj_ ) : obj(obj_){}
-	
+
 	int get() const {
 	    STORAGE current = obj[0] ;
 	    STORAGE min = current ;
@@ -27,10 +27,10 @@ public:
 		}
 		return index ;
 	}
-	
+
 private:
-    const VEC_TYPE& obj ;	
-	
+    const VEC_TYPE& obj ;
+
 } ;
    
 template <int RTYPE, typename T>
@@ -39,7 +39,7 @@ public:
     typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 	WhichMax(const VEC_TYPE& obj_ ) : obj(obj_){}
-	
+
 	int get() const {
 	    STORAGE current = obj[0] ;
 	    STORAGE min = current ;
@@ -54,10 +54,10 @@ public:
 		}
 		return index ;
 	}
-	
+
 private:
-    const VEC_TYPE& obj ;	
-	
+    const VEC_TYPE& obj ;
+
 } ;
 
     

@@ -6,23 +6,23 @@ namespace Rcpp{
     
         class UpperTri : public MatrixBase<LGLSXP,false,UpperTri> {
         public:
-        	
+        
             UpperTri( int nr_, int nc_, bool diag) : nr(nr_), nc(nc_), keep_diag(diag){}
-        	
+        
             inline int operator()( int i, int j ) const {
                 return keep_diag ? (i>=j) : (i>j) ;
             }
-        	
+        
             inline int size() const { return nr * nc ; }
             inline int nrow() const { return nr; }
             inline int ncol() const { return nc; }
-        	         
+        
         private:
             int nr, nc ;
             bool keep_diag ;
-        	
+        
         } ;
-    	
+    
     } // sugar
     
     template <int RTYPE, bool LHS_NA, typename LHS_T>

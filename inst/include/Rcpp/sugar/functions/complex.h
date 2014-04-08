@@ -10,7 +10,7 @@
 namespace Rcpp{
 namespace sugar{
 
-	
+
 template <bool NA, typename OUT, typename T, typename FunPtr>
 class SugarComplex : public SugarVectorExpression< 
 	Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
@@ -18,11 +18,11 @@ class SugarComplex : public SugarVectorExpression<
 	SugarComplex<NA,OUT,T,FunPtr>
 	> {
 public:
-	
+
 	typedef Rcpp::VectorBase<CPLXSXP,NA,T> VEC_TYPE ;
-	
+
 	SugarComplex( FunPtr ptr_, const VEC_TYPE & vec_) : ptr(ptr_), vec(vec_){}
-	
+
 	inline OUT operator[]( int i) const { 
 		Rcomplex x = vec[i] ;
 		if( Rcpp::traits::is_na<CPLXSXP>( x ) ) 
@@ -30,7 +30,7 @@ public:
 		return ptr( x ); 
 	}
 	inline int size() const { return vec.size() ; }
-	
+
 private:
 	FunPtr ptr ;
 	const VEC_TYPE& vec ;
@@ -64,7 +64,7 @@ inline double complex__Re( Rcomplex x){ return x.r ; }
 	inline Rcomplex complex__sqrt(Rcomplex z){
 	    Rcomplex r ;
 		double mag;
-	
+
 	    if( (mag = RCPP_HYPOT(z.r, z.i)) == 0.0)
 		r.r = r.i = 0.0;
 	    else if(z.r > 0) {
@@ -112,7 +112,7 @@ inline double complex__Re( Rcomplex x){ return x.r ; }
 	       	   r.i = (y2 <0 ? -1.0 : 1.0);
 	   return r ;
 	}
-	
+
 inline Rcomplex complex__asin(Rcomplex z)
 {
 	Rcomplex r ;
@@ -160,15 +160,15 @@ inline Rcomplex complex__atan(Rcomplex z)
     }
     return r ;
 }
-	
-	
+
+
 	inline Rcomplex complex__acosh(Rcomplex z){
 	    Rcomplex r, a = complex__acos(z);
 	    r.r = -a.i;
 	    r.i = a.r;
 	    return r ;
 	}
-	
+
 	inline Rcomplex complex__asinh(Rcomplex z){
 	    Rcomplex r, b;
 	    b.r = -z.i;
@@ -178,7 +178,7 @@ inline Rcomplex complex__atan(Rcomplex z)
 	    r.i = -a.r;
 	    return r ;
 	}
-	
+
 	inline Rcomplex complex__atanh(Rcomplex z){
 	    Rcomplex r, b;
 	    b.r = -z.i;
@@ -210,7 +210,7 @@ inline Rcomplex complex__tanh(Rcomplex z)
     return r ;
 }
 
-	
+
 
 } // internal
 
@@ -245,8 +245,8 @@ RCPP_SUGAR_COMPLEX( cosh, Rcomplex )
 RCPP_SUGAR_COMPLEX( sinh, Rcomplex )
 RCPP_SUGAR_COMPLEX( tanh, Rcomplex )
 
-#undef RCPP_SUGAR_COMPLEX	 
-	
+#undef RCPP_SUGAR_COMPLEX
+
 } // Rcpp
 #endif
 

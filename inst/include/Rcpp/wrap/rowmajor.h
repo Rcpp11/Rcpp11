@@ -70,7 +70,7 @@ namespace internal{
         INTEGER(dims)[1] = ncol; 
         ::Rf_setAttrib( out, R_DimSymbol, dims) ;
         return out ;
-    	
+    
     }
     
     template <typename value_type, typename InputIterator> 
@@ -82,7 +82,7 @@ namespace internal{
     inline SEXP rowmajor_wrap(InputIterator first, int nrow, int ncol){
         typedef typename std::iterator_traits<InputIterator>::value_type VALUE_TYPE ;
         return rowmajor_wrap__dispatch<VALUE_TYPE,InputIterator>( first, nrow, ncol, typename ::Rcpp::traits::r_type_traits<VALUE_TYPE>::r_category() );
-    }	
+    }
 
     
 }

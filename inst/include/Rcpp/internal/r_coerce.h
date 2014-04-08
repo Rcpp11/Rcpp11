@@ -54,7 +54,7 @@ template <> const char* coerce_to_string<REALSXP>(double from) ;
 template <> const char* coerce_to_string<INTSXP >(int from) ;
 template <> const char* coerce_to_string<RAWSXP >(Rbyte from) ;
 template <> const char* coerce_to_string<LGLSXP >(int from) ;
-	
+
 template <> inline SEXP r_coerce<STRSXP ,STRSXP>(SEXP from){ return from ; }
 template <> inline SEXP r_coerce<CPLXSXP,STRSXP>(Rcomplex from) { return Rcpp::traits::is_na<CPLXSXP>(from) ? NA_STRING : Rf_mkChar( coerce_to_string<CPLXSXP>( from ) ) ; }
 template <> inline SEXP r_coerce<REALSXP,STRSXP>(double from){ return Rcpp::traits::is_na<REALSXP>(from) ? NA_STRING :Rf_mkChar( coerce_to_string<REALSXP>( from ) ) ; }

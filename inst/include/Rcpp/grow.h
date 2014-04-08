@@ -21,7 +21,7 @@ namespace Rcpp {
             Shield<SEXP> y = wrap( head.object) ;
             Shield<SEXP> x = Rf_cons( y , tail) ;
             SET_TAG( x, head.name ); 
-            return x; 	
+            return x; 
         }
     
     } // internal

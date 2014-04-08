@@ -3,7 +3,7 @@
 
 namespace Rcpp{
 namespace traits {
-	
+
 	template <int RTYPE> 
 	struct r_vector_name_proxy{
 		typedef typename ::Rcpp::internal::simple_name_proxy<RTYPE> type ;
@@ -71,7 +71,7 @@ namespace traits {
 	template<> struct r_vector_iterator<EXPRSXP> : proxy_based_iterator<EXPRSXP>{} ;
 	template<> struct r_vector_iterator<STRSXP> : proxy_based_iterator<STRSXP>{} ;
     
-	
+
 	template <int RTYPE>
 	struct r_vector_const_iterator {
 	    using type = const typename storage_type<RTYPE>::type* ;
@@ -83,7 +83,7 @@ namespace traits {
 	template<> struct r_vector_const_iterator<EXPRSXP> : const_proxy_based_iterator<EXPRSXP>{} ;
 	template<> struct r_vector_const_iterator<STRSXP>  : const_proxy_based_iterator<STRSXP>{} ;
     
-	
+
 }  // traits
 }
 

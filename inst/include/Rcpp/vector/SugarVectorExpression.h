@@ -12,12 +12,11 @@ namespace Rcpp{
         
         template <typename Target>
         void apply( Target& target ) const {
-            // get_ref().apply(target) ;
-            
             // TODO: need better than this
             int n = get_ref().size() ;
-            for(int i=0; i<n; i++){
-                target[i] = get_ref()[i] ;    
+            auto it = target.begin() ;
+            for(int i=0; i<n; i++, ++it){
+                *it = get_ref()[i] ;    
             }
         }
     

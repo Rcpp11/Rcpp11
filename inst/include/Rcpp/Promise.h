@@ -6,7 +6,7 @@ namespace Rcpp{
     RCPP_API_CLASS(Promise_Impl) {     
     public:
         RCPP_GENERATE_CTOR_ASSIGN(Promise_Impl) 
-	
+
         Promise_Impl( SEXP x){
             if( TYPEOF(x) != PROMSXP )
                 throw not_compatible("not a promise") ;

@@ -19,26 +19,26 @@ public:
     
     typedef typename Rcpp::traits::r_vector_element_converter<RESULT_R_TYPE>::type converter_type ;
     typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type OUT_STORAGE ;
-	
+
     Outer( Vec lhs_, Vec rhs_, Function fun_ ) : 
         lhs(lhs_), rhs(rhs_), fun(fun_), nr(lhs.size()), nc(rhs.size()) {}
-	
+
     inline OUT_STORAGE operator()( int i, int j ) const {
         return converter_type::get( fun( lhs[i], rhs[j] ) );
     }
-	
+
     inline int size() const { return nr * nc ; }
     inline int nrow() const { return nr; }
     inline int ncol() const { return nc; }
-	         
+
 private:
-	      
+
     Vector<RTYPE> lhs, rhs ;
-	
+
     Function fun ;
     int nr, nc ;
 } ;
-	
+
 } // sugar
 
 template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T, typename Function >

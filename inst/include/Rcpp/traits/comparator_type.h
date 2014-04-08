@@ -10,9 +10,9 @@ public:
         return strcmp( CHAR(x), CHAR(y) ) < 0 ; 
     }
 } ;
-	
+
 template <int RTYPE> struct comparator_type {
-	typedef std::less< typename storage_type<RTYPE>::type > type ;	
+	typedef std::less< typename storage_type<RTYPE>::type > type ;
 } ;
 template <> struct comparator_type<STRSXP>{
 	typedef StringCompare type ;

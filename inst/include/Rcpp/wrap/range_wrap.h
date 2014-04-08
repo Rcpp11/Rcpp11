@@ -3,7 +3,7 @@
  
 namespace Rcpp{
 namespace internal{
-	
+
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch( InputIterator first, InputIterator last ) ;
 
@@ -229,7 +229,7 @@ template<typename InputIterator, typename T>
 inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pair_tag ){
 	typedef typename T::second_type VALUE ;
 	typedef typename T::first_type KEY ;
-	
+
 	return range_wrap_dispatch___impl__pair<
 			InputIterator,
 			KEY, 

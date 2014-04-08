@@ -1,5 +1,5 @@
 /* This is borrowed from R, with some changes */
-	
+
 /* give_log in "d";  log_p in "p" & "q" : */
 #define give_log log_p
 							/* "DEFAULT" */

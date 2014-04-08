@@ -20,20 +20,20 @@ namespace Rcpp{
         class named_object<SEXP> {
         public:
             typedef SEXP object_type ;
-        		
+        	
             named_object( SEXP name_, const SEXP& o_): name(name_), object(o_) {
-               R_PreserveObject(object) ;	
+               R_PreserveObject(object) ;
             }
             named_object( const std::string& name_, const SEXP& o_): named_object(Rf_install(name_.c_str()), o_) {
-               R_PreserveObject(object) ;	
+               R_PreserveObject(object) ;
             }
             named_object( const named_object<SEXP>& other ) : named_object(other.name, other.object){
-               R_PreserveObject(object) ;	
+               R_PreserveObject(object) ;
             }
             ~named_object(){
-               R_ReleaseObject(object) ;	
+               R_ReleaseObject(object) ;
             }
-        	
+        
             SEXP name ;
             SEXP object ;
         } ;

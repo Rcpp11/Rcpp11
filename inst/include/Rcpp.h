@@ -92,7 +92,7 @@ namespace Rcpp{
     template < template <class> class StoragePolicy > class DataFrame_Impl ;
     using DataFrame = DataFrame_Impl<PreserveStorage> ;
     
-}	
+}
 namespace Rcpp{
     inline SEXP Rcpp_PreserveObject(SEXP x){ 
         if( x != R_NilValue ) {

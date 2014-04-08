@@ -3,7 +3,7 @@
 
 namespace Rcpp{
 namespace traits{
-	
+
     template<typename... T>
     struct or_: std::false_type {};
     

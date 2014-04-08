@@ -7,7 +7,7 @@ namespace Rcpp{
     public:
     
         RCPP_GENERATE_CTOR_ASSIGN(WeakReference_Impl) 
-	
+
         /**
          * wraps a weak reference
          *

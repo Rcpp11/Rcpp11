@@ -7,7 +7,7 @@ namespace Rcpp{
     public:
 
         RCPP_GENERATE_CTOR_ASSIGN(Function_Impl) 
-	
+
         /**
          * Attempts to convert the SEXP to a pair list
          *
@@ -33,7 +33,7 @@ namespace Rcpp{
          * @param name name of the function
          */
         Function_Impl(const std::string& name){
-            SEXP nameSym = Rf_install( name.c_str() );	
+            SEXP nameSym = Rf_install( name.c_str() );
             Storage::set__( Rf_findFun( nameSym, R_GlobalEnv ) ) ;
         }
        

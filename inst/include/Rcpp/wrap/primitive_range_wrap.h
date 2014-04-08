@@ -3,7 +3,7 @@
  
 namespace Rcpp{
 namespace internal{
-	
+
     /**
      * Range based primitive wrap implementation. used when 
      * - T is a primitive type, indicated by the r_type_traits

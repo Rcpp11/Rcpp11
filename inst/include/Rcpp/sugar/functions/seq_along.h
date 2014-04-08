@@ -7,16 +7,16 @@ namespace sugar{
 class SeqLen : public SugarVectorExpression< INTSXP,false,SeqLen > {
 public:
 	SeqLen( int len_ ) : len(len_){}
-	
+
 	inline int operator[]( int i ) const {
 		return 1 + i ;
 	}
 	inline int size() const { return len ; }
-	         
+
 private:
 	int len ;
 } ;
-	
+
 } // sugar
 
 template <int RTYPE, bool NA, typename T>

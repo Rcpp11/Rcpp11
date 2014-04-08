@@ -13,7 +13,7 @@ namespace traits {
 	template<> struct init_type<LGLSXP>{
 		typedef bool type ;
 	} ;
-	
+
 }
 }
 

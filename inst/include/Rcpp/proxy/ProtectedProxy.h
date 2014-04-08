@@ -36,7 +36,7 @@ namespace Rcpp{
                 R_SetExternalPtrProtected( xp, x ) ;
                 return *this ;
             }
-        	
+        
         } ;
 
         class const_ProtectedProxy : public GenericProxy<const_ProtectedProxy>{
@@ -68,7 +68,7 @@ namespace Rcpp{
         const_ProtectedProxy prot() const {
             return const_ProtectedProxy( static_cast<const XPtrClass&>(*this) ) ;
         }
-	
+
         
     } ;
     

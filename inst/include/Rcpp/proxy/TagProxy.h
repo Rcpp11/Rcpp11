@@ -37,7 +37,7 @@ namespace Rcpp{
               R_SetExternalPtrTag( xp, x ) ;
               return *this ;
           }
-      	
+      
       } ;
       
       class const_TagProxy : public GenericProxy<const_TagProxy>{

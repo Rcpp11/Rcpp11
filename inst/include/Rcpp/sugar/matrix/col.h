@@ -15,11 +15,11 @@ namespace Rcpp{
             inline int size() const { return nr * nc ; }
             inline int nrow() const { return nr; }
             inline int ncol() const { return nc; }
-        	         
+        
         private:
             int nr, nc ;
         } ;
-    	
+    
     } // sugar
     
     template <int RTYPE, bool LHS_NA, typename LHS_T>
