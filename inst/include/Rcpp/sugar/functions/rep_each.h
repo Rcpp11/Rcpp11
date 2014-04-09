@@ -15,7 +15,7 @@ public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Rep_each( const VEC_TYPE& object_, int times_ ) :
-        object(object_), times(times_), n(object_.size()) {}
+        object(object_.get_ref()), times(times_), n(object_.size()) {}
 
     inline STORAGE operator[]( int i ) const {
         return object[ i / times ] ;
@@ -28,7 +28,7 @@ public:
     }
 
 private:
-    const VEC_TYPE& object ;
+    const T& object ;
     int times;
     int n ;
 
