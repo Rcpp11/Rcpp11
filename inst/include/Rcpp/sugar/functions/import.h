@@ -5,33 +5,51 @@ namespace Rcpp{
 namespace sugar{
 
     template <int RTYPE, bool needs_cast, typename storage_type, typename value_type, typename InputIterator >
-    class Import : public SugarVectorExpression< RTYPE, true, Import<RTYPE,needs_cast, storage_type, value_type, InputIterator> > {
+    class Import : 
+        public SugarVectorExpression< RTYPE, true, Import<RTYPE,needs_cast, storage_type, value_type, InputIterator> >, 
+        public custom_sugar_vector_expression
+    {
     public:
-        Import( InputIterator begin, size_t n_): n(n_), it(begin) {}
+        Import( InputIterator begin_, InputIterator end_ ): begin(begin_), end(end_), n( std::distance(begin, end) ){}
         
         inline storage_type operator[]( int i ) const {
-            return *(it + i) ;
+            return *(begin + i) ;
         }
         inline int size() const { return n ; }
         
+        template <typename Target>
+        inline void apply( Target& target ){
+            std::copy( begin, end, target.begin() ) ;     
+        }
+        
     private:
-        size_t n ;
-        InputIterator it ; 
+        
+        InputIterator begin, end ;
+        size_t n ; 
     } ;
 
     template <int RTYPE, typename storage_type, typename value_type, typename InputIterator >
-    class Import<RTYPE,true,storage_type,value_type,InputIterator>  : public SugarVectorExpression< RTYPE, true, Import<RTYPE,true, storage_type, value_type, InputIterator> > {
+    class Import<RTYPE,true,storage_type,value_type,InputIterator>  : 
+        public SugarVectorExpression< RTYPE, true, Import<RTYPE,true, storage_type, value_type, InputIterator> >, 
+        public custom_sugar_vector_expression
+    {
     public:
-        Import( InputIterator begin, size_t n_ ): n(n_), it(begin) {}
+        Import( InputIterator begin_, InputIterator end_ ): begin(begin_), end(end_), n( std::distance(begin, end) ){}
         
         inline storage_type operator[]( int i ) const {
-            return Rcpp::internal::caster<value_type,storage_type>( *(it + i) ) ;
+            return Rcpp::internal::caster<value_type,storage_type>( *(begin + i) ) ;
         }
         inline int size() const { return n ; }
         
+        template <typename Target>
+        inline void apply( Target& target ){
+            std::transform( begin, end, target.begin(), internal::caster<value_type,storage_type> ) ;     
+        }
+        
     private:
+        InputIterator begin, end ;
         size_t n ;
-        InputIterator it ; 
+         
     } ;
 
     template <typename InputIterator>

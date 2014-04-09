@@ -5,34 +5,56 @@ namespace Rcpp{
 namespace sugar{
 
     template <int RTYPE, bool needs_cast, typename storage_type, typename value_type, typename result_type, typename InputIterator, typename Func >
-    class Transform : public SugarVectorExpression< RTYPE, true, Transform<RTYPE,needs_cast, storage_type, value_type, result_type, InputIterator, Func> > {
+    class Transform : 
+        public SugarVectorExpression< RTYPE, true, Transform<RTYPE,needs_cast, storage_type, value_type, result_type, InputIterator, Func> >, 
+        public custom_sugar_vector_expression {
     public:
-        Transform( InputIterator begin, Func func_, size_t n_ ): n(n_), it(begin), func(func_) {}
+        Transform( InputIterator begin_, InputIterator end_, Func func_, size_t n_ ): 
+            begin(begin_), end(end_), n(std::distance(begin, end)), func(func_) {}
         
         inline storage_type operator[]( int i ) const {
-            return func( *(it + i) ) ;
+            return func( *(begin + i) ) ;
         }
         inline int size() const { return n ; }
         
+        template <typename Target>
+        inline void apply( Target& target ){
+            std::transform( begin, end, target.begin(), func ) ;     
+        }
+        
     private:
+        InputIterator begin, end ;
+        
         size_t n ;
-        InputIterator it ;
         Func func ;
     } ;
 
     template <int RTYPE, typename storage_type, typename value_type, typename result_type, typename InputIterator, typename Func >
-    class Transform<RTYPE,true,storage_type,value_type,result_type,InputIterator,Func> : public SugarVectorExpression< RTYPE, true, Transform<RTYPE, true, storage_type, value_type, result_type, InputIterator, Func> > {
+    class Transform<RTYPE,true,storage_type,value_type,result_type,InputIterator,Func> : 
+        public SugarVectorExpression< RTYPE, true, Transform<RTYPE, true, storage_type, value_type, result_type, InputIterator, Func> >,
+        public custom_sugar_vector_expression {
     public:
-        Transform( InputIterator begin, Func func_, size_t n_ ): n(n_), it(begin), func(func_) {}
+        Transform( InputIterator begin_, InputIterator end_, Func func_, size_t n_ ): 
+            begin(begin_), end(end_), n(std::distance(begin, end)), func(func_) {}
         
         inline storage_type operator[]( int i ) const {
-            return Rcpp::internal::caster<result_type,storage_type>( func( *(it + i) ) ) ;
+            return Rcpp::internal::caster<result_type,storage_type>( func( *(begin + i) ) ) ;
         }
         inline int size() const { return n ; }
         
+        template <typename Target>
+        inline void apply( Target& target ){
+            std::transform( begin, end, target.begin(), 
+                [this](value_type x){ 
+                    return Rcpp::internal::caster<result_type,storage_type>(func(x)); 
+                }
+            ) ;     
+        }
+        
     private:
+        InputIterator begin, end ;
+        
         size_t n ;
-        InputIterator it ;
         Func func ;
     } ;
 
