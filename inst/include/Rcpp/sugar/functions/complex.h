@@ -7,33 +7,7 @@
 # define RCPP_HYPOT ::Rf_pythag
 #endif
 
-    namespace Rcpp{
-        namespace sugar{
-                
-        template <bool Na, typename OUT, typename T, typename FunPtr>
-        class SugarComplex : public SugarVectorExpression< 
-            Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
-            Na, 
-            SugarComplex<Na,OUT,T,FunPtr>
-            > {
-        public:
-        
-            typedef Rcpp::VectorBase<CPLXSXP,Na,T> VEC_TYPE ;
-        
-            SugarComplex( FunPtr ptr_, const VEC_TYPE & vec_) : ptr(ptr_), vec(vec_){}
-        
-            inline OUT operator[]( int i) const { 
-                Rcomplex x = vec[i] ;
-                if( x == NA ) return NA ;
-                return ptr( x ); 
-            }
-            inline int size() const { return vec.size() ; }
-        
-        private:
-            FunPtr ptr ;
-            const VEC_TYPE& vec ;
-        };
-    } // sugar
+namespace Rcpp{
     
     namespace internal{
         inline double complex__Re( Rcomplex x){ return x.r ; }
@@ -208,19 +182,45 @@
             return r ;
         }
     
-    
-    
     } // internal
 
-#define RCPP_SUGAR_COMPLEX(__NAME__,__OUT__)                                \
-    template <bool NA, typename T>                                          \
-    inline sugar::SugarComplex<NA,__OUT__,T, __OUT__ (*)(Rcomplex) >        \
-    __NAME__(                                                               \
-        const VectorBase<CPLXSXP,NA,T>& t                                   \
-        ){                                                                  \
-        return sugar::SugarComplex<NA,__OUT__,T, __OUT__ (*)(Rcomplex) >(   \
-            internal::complex__##__NAME__, t                                \
-        ) ;                                                                 \
+    namespace sugar{
+                
+        template <bool HAS_NA, typename T, typename Fun, typename OUT>
+        class SugarComplex : public SugarVectorExpression< 
+            Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
+            HAS_NA, 
+            SugarComplex<HAS_NA,T,Fun,OUT>
+            > {
+        public:
+            using VEC_TYPE = Rcpp::VectorBase<CPLXSXP,HAS_NA,T> ;
+        
+            SugarComplex( const VEC_TYPE & vec_) : vec(vec_){}
+        
+            inline OUT operator[]( int i) const { 
+                Rcomplex x = vec[i] ;
+                if( x == NA ) return NA ;
+                return Fun::func( x ); 
+            }
+            inline int size() const { 
+                return vec.size() ; 
+            }
+        
+        private:
+            const VEC_TYPE& vec ;
+        };
+    } // sugar
+        
+#define RCPP_SUGAR_COMPLEX(__NAME__,__OUT__)                                                            \
+    namespace sugar {                                                                                   \
+        struct Complex_op__##__NAME__ {                                                                 \
+            static inline __OUT__ func( Rcomplex x) { return Rcpp::internal::complex__##__NAME__(x) ; } \
+        } ;                                                                                             \
+    }                                                                                                   \
+    template <bool NA, typename T>                                                                      \
+    inline sugar::SugarComplex<NA,T, sugar::Complex_op__##__NAME__,__OUT__ >                            \
+    __NAME__( const VectorBase<CPLXSXP,NA,T>& t ){                                                      \
+        return sugar::SugarComplex<NA,T, sugar::Complex_op__##__NAME__,__OUT__ >(t) ;                   \
     }
 
 RCPP_SUGAR_COMPLEX( Re, double )

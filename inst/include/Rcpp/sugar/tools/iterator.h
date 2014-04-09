@@ -92,40 +92,25 @@ namespace sugar {
     template <int RTYPE> struct sugar_const_iterator_type< Rcpp::Vector<RTYPE> >{
         typedef typename Rcpp::Vector<RTYPE>::const_iterator type ;
     } ;
-    template <> struct sugar_const_iterator_type< CharacterVector >{
-        typedef SEXP* type ;
-    } ;
-    
-    
-    template <typename T> struct is_sugar_vector : public std::false_type{} ;
-    template <int RTYPE> struct is_sugar_vector< Rcpp::Vector<RTYPE> > : public std::true_type{} ;
-    
     
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_begin__impl(const T& obj, std::true_type ){
+    inline typename sugar_const_iterator_type<T>::type sugar_begin__impl(const T& obj, std::true_type ){
         return obj.begin() ;
     }
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_begin__impl(const T& obj, std::false_type ){
+    inline typename sugar_const_iterator_type<T>::type sugar_begin__impl(const T& obj, std::false_type ){
         typedef typename sugar_const_iterator_type<T>::type const_iterator ; 
         return const_iterator( obj ) ;
     }
     
-    
-    
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_begin(const T& obj){
-        return get_begin__impl( obj, typename is_sugar_vector<T>::type() ) ;
-    }
-    /* full specialization for character vectors */
-    template <>
-    inline SEXP* get_begin(const CharacterVector& obj){
-        return STRING_PTR(obj) ;
+    inline typename sugar_const_iterator_type<T>::type sugar_begin(const T& obj){
+        return sugar_begin__impl( obj, typename traits::is_materialized<T>::type() ) ;
     }
     
     template <typename T>
-    inline typename sugar_const_iterator_type<T>::type get_end(const T& obj){
-        return get_begin<T>(obj) + obj.size() ;
+    inline typename sugar_const_iterator_type<T>::type sugar_end(const T& obj){
+        return sugar_begin<T>(obj) + obj.size() ;
     }
     
     

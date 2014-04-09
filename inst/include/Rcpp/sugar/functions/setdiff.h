@@ -24,8 +24,8 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         SetDiff( const LHS_T& lhs, const RHS_T& rhs) : 
-            lhs_set( get_begin(lhs), get_end(lhs) ), 
-            rhs_set( get_begin(rhs), get_end(rhs) )
+            lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
+            rhs_set( sugar_begin(rhs), sugar_end(rhs) )
         {
             
             std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
@@ -52,8 +52,8 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         SetEqual( const LHS_T& lhs, const RHS_T& rhs) : 
-            lhs_set( get_begin(lhs), get_end(lhs) ), 
-            rhs_set( get_begin(rhs), get_end(rhs) )
+            lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
+            rhs_set( sugar_begin(rhs), sugar_end(rhs) )
         {
             
             std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
@@ -86,8 +86,8 @@ namespace sugar{
             intersect()
         {
             
-            SET lhs_set( get_begin(lhs), get_end(lhs) ) ; 
-            SET rhs_set( get_begin(rhs), get_end(rhs) ) ; 
+            SET lhs_set( sugar_begin(lhs), sugar_end(lhs) ) ; 
+            SET rhs_set( sugar_begin(rhs), sugar_end(rhs) ) ; 
             
             ITERATOR end = lhs_set.end() ;
             ITERATOR rhs_end = rhs_set.end() ;
@@ -116,9 +116,9 @@ namespace sugar{
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Union( const LHS_T& lhs, const RHS_T& rhs) : 
-            result( get_begin(lhs), get_end(lhs) )
+            result( sugar_begin(lhs), sugar_end(lhs) )
         {
-            result.insert( get_begin(rhs), get_end(rhs) ) ;
+            result.insert( sugar_begin(rhs), sugar_end(rhs) ) ;
         }
         
         Vector<RTYPE> get() const {
