@@ -6,9 +6,9 @@ namespace Rcpp{
     namespace sugar {
         // default applyer for when Expression does not know how to 
         // apply itself to Target
-        template <typename Target, typename Expression>
+        template <typename Target, int RTYPE, bool NA, typename Expr>
         struct sugar_vector_expression_op {
-            inline void apply( Target& target, const Expression& expr ){
+            inline void apply( Target& target, const SugarVectorExpression<RTYPE,NA,Expr>& expr ){
                 std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
             }
         } ;
@@ -20,7 +20,7 @@ namespace Rcpp{
         if( std::is_base_of<sugar::custom_sugar_vector_expression, Expr>::value )
             get_ref().apply(target) ;
         else 
-            sugar::sugar_vector_expression_op<Target,Expr>().apply( target, get_ref() ) ;  
+            sugar::sugar_vector_expression_op<Target,RTYPE,NA,Expr>().apply( target, *this ) ;  
     }
     
 }
