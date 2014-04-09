@@ -5,7 +5,10 @@ namespace Rcpp{
 namespace sugar{
 
 template <int RTYPE, bool NA, typename T>
-class Head : public SugarVectorExpression< RTYPE ,NA, Head<RTYPE,NA,T> > {
+class Head : 
+    public SugarVectorExpression< RTYPE ,NA, Head<RTYPE,NA,T> >, 
+    public custom_sugar_vector_expression 
+{
 public:
     typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -21,6 +24,11 @@ public:
     }
     inline int size() const { return n; }
 
+    template <typename Target>
+    inline void apply( Target& target ) const {
+        std::copy_n( sugar_begin(*this), n, target.begin() ) ;   
+    }
+    
 private:
     const VEC_TYPE& object ;
     int n ;
