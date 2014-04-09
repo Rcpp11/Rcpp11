@@ -34,7 +34,7 @@ private:
     inline void apply_impl(Target& target, std::true_type) const {
         auto it = target.begin();
         if (n >= len) {
-            std::copy(object.begin(), object.begin() + len, it);
+            std::copy_n(object.begin(), len, it);
             return;
         }
 
@@ -45,13 +45,35 @@ private:
             it += n;
         }
         if (leftoverElems) {
-            std::copy(object.begin(), object.begin() + leftoverElems, it);
+            std::copy_n(object.begin(), leftoverElems, it);
         }
     }
 
     template <typename Target>
     inline void apply_impl(Target& target, std::false_type) const {
-        std::fill(target.begin(), target.begin() + len, object);
+        auto it = target.begin();
+        auto source_it = sugar_begin(*this) ;
+        if (n >= len) {
+            std::copy(source_it, source_it + len, it);
+            return;
+        }
+
+        int timesToFullCopy = len / n;
+        int leftoverElems = len % n;
+        
+        // first copy data from the sugar expression
+        std::copy_n(source_it, n, it);
+        it += n;
+                
+        // then copy the materialized part into the rest of the output
+        for (int i=1; i < timesToFullCopy; ++i) {
+            std::copy_n(target.begin(), n, it);
+            it += n;
+            
+        }
+        if (leftoverElems) {
+            std::copy_n(target.begin(), leftoverElems, it);
+        }
     }
 } ;
 
