@@ -17,9 +17,9 @@ script:
   - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
   - R CMD check --no-manual --as-cran "${FILE}"
   - R CMD INSTALL "${FILE}"
-  - git clone https://github.com/RcppCore/attributes.git
+  - git clone https://github.com/Rcpp11/attributes.git
   - R CMD INSTALL attributes
-  - git clone https://github.com/romainfrancois/Rcpp-test.git
+  - git clone https://github.com/Rcpp11/Rcpp-test.git
   - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); library(attributes); test_dir('.')"
   
 after_script:
