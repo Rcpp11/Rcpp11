@@ -42,11 +42,18 @@ namespace Rcpp{
             template <typename Target>
             inline void apply_impl( Target& target, std::false_type ) const {
                 auto it = target.begin() ;
-                for( int i=0; i<times; i++){
-                    for( int j=0; j<n; j++, ++it){
-                        *it = object[j] ;
-                    }
-                }       
+                
+                // materialize the first time
+                for( int j=0; j<n; j++, ++it){
+                    *it = object[j] ;    
+                }
+                
+                // then copy
+                for( int i=1; i<times; i++){
+                    std::copy( target.begin(), object.begin() + n, it ) ;
+                    it += n ;
+                }
+                
             }
             
         } ;
