@@ -5,7 +5,10 @@ namespace Rcpp{
     namespace sugar{
     
         template <int RTYPE, bool NA, typename T>
-        class Rep : public SugarVectorExpression< RTYPE ,NA, Rep<RTYPE,NA,T> > {
+        class Rep : 
+            public SugarVectorExpression< RTYPE ,NA, Rep<RTYPE,NA,T> >, 
+            public custom_sugar_vector_expression
+        {
         public:
             typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
@@ -18,45 +21,42 @@ namespace Rcpp{
             }
             inline int size() const { return times * n ; }
         
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                return apply_impl( target, typename Rcpp::traits::is_materialized<T>::type() );   
+            }
+            
+        private:
             const T& object ;
             int times, n ;
             
-        } ;
-        
-        template <typename Target, int RTYPE, bool NA, typename T>
-        struct sugar_vector_expression_op<Target, Rep<RTYPE,NA,T>> {
-            inline void apply(Target& target, const Rep<RTYPE,NA,T>& obj ) {
-                int n= obj.n, times = obj.times ;
-                auto source = obj.object ;
+            template <typename Target>
+            inline void apply_impl( Target& target, std::true_type ) const {
+                auto it = target.begin() ;
+                for( int i=0; i<times; i++){
+                    std::copy( object.begin(), object.end(), it ) ;
+                    it += n ;
+                }    
+            }
+            
+            template <typename Target>
+            inline void apply_impl( Target& target, std::false_type ) const {
                 auto it = target.begin() ;
                 for( int i=0; i<times; i++){
                     for( int j=0; j<n; j++, ++it){
-                        *it = source[j] ;
+                        *it = object[j] ;
                     }
-                }
+                }       
             }
+            
         } ;
-        
-        template <typename Target, int RTYPE, bool NA, template <class> class StoragePolicy >
-        struct sugar_vector_expression_op<Target, Rep<RTYPE,NA,Vector<RTYPE,StoragePolicy> >> {
-            inline void apply(Target& target, const Rep<RTYPE,NA,Vector<RTYPE,StoragePolicy> >& obj ) {
-                int n= obj.n, times = obj.times ;
-                auto it = target.begin() ;
-                auto source = obj.object ;
-                for( int i=0; i<times; i++){
-                    std::copy( source.begin(), source.end(), it ) ;
-                    it += n ;
-                }
-            }
-        } ;
-        
         
         template <typename T>
         class Rep_Single : public SugarVectorExpression< 
             Rcpp::traits::r_sexptype_traits<T>::rtype, 
             true, 
             Rep_Single<T>
-        > {
+        >, public custom_sugar_vector_expression {
         public:
             Rep_Single( T x_, int n_) : x(x_), n(n_){}
             
@@ -65,18 +65,16 @@ namespace Rcpp{
             }
             inline int size() const { return n ; }
         
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::fill( target.begin(), target.end(), x ) ;    
+            }
+            
+        private:
             T x ;
             int n ;
         } ;
         
-        template <typename Target, typename T>
-        struct sugar_vector_expression_op<Target, Rep_Single<T>> {
-            inline void apply(Target& target, const Rep_Single<T>& obj ){
-                std::fill( target.begin(), target.end(), obj.x ) ;    
-            }
-        } ;
-        
-    
     } // sugar
 
     template <int RTYPE, bool NA, typename T>

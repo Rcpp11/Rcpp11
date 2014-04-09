@@ -28,6 +28,7 @@
 #include <Rcpp/vector/impl/List.h>
 #include <Rcpp/vector/impl/ExpressionVector.h>
 
+#include <Rcpp/vector/is_materialized.h>
 #include <Rcpp/vector/instantiation.h>
 
 #include <Rcpp/String.h>

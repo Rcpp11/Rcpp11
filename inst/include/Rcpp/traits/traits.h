@@ -1,6 +1,7 @@
 #ifndef Rcpp__traits__traits__h
 #define Rcpp__traits__traits__h
 
+#include <Rcpp/traits/is_materialized.h> 
 #include <Rcpp/traits/number_to_type.h>
 #include <Rcpp/traits/static_max_int.h>
 #include <Rcpp/traits/is_wide_string.h>
