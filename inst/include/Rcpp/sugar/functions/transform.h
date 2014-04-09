@@ -18,7 +18,7 @@ namespace sugar{
         inline int size() const { return n ; }
         
         template <typename Target>
-        inline void apply( Target& target ){
+        inline void apply( Target& target ) const {
             std::transform( begin, end, target.begin(), func ) ;     
         }
         
@@ -43,7 +43,7 @@ namespace sugar{
         inline int size() const { return n ; }
         
         template <typename Target>
-        inline void apply( Target& target ){
+        inline void apply( Target& target ) const {
             std::transform( begin, end, target.begin(), 
                 [this](value_type x){ 
                     return Rcpp::internal::caster<result_type,storage_type>(func(x)); 

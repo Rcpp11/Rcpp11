@@ -18,7 +18,7 @@ namespace sugar{
         inline int size() const { return n ; }
         
         template <typename Target>
-        inline void apply( Target& target ){
+        inline void apply( Target& target ) const {
             std::copy( begin, end, target.begin() ) ;     
         }
         
@@ -42,7 +42,7 @@ namespace sugar{
         inline int size() const { return n ; }
         
         template <typename Target>
-        inline void apply( Target& target ){
+        inline void apply( Target& target ) const {
             std::transform( begin, end, target.begin(), internal::caster<value_type,storage_type> ) ;     
         }
         
