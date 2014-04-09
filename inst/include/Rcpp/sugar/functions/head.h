@@ -26,7 +26,7 @@ public:
 
     template <typename Target>
     inline void apply( Target& target ) const {
-        std::copy_n( sugar_begin(*this), n, target.begin() ) ;   
+        std::copy_n( sugar_begin(object), n, target.begin() ) ;   
     }
     
 private:
