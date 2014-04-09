@@ -49,7 +49,7 @@ class Sapply<RTYPE,NA,T,Function,true> : public SugarVectorExpression<
     >::rtype , 
     true ,
     Sapply<RTYPE,NA,T,Function,true>
-> {
+>, public custom_sugar_vector_expression {
 public:
     typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
     const static int RESULT_R_TYPE = 
@@ -69,8 +69,13 @@ public:
     }
     inline int size() const { return vec.size() ; }
 
+    template <typename Target>
+    inline void apply( Target& target ) const {
+        std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;     
+    }
+    
 private:
-    const EXT& vec ;
+    const VEC& vec ;
     Function fun ;
 
 } ;

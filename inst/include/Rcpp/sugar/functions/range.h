@@ -46,8 +46,11 @@ namespace sugar{
             int n = obj.size() ;
             for( int i=1; i<n; i++){
                 current = obj[i] ;
-                if( current < min_ ) min_ = current ;
-                if( current > max_ ) max_ = current ;
+                if( current < min_ ) {
+                    min_ = current ;
+                } else if( current > max_ ) {
+                    max_ = current ;
+                }
             }
             return Vector<RTYPE>::create( min_, max_ ) ;
         }
