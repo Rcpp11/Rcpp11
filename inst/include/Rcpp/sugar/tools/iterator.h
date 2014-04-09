@@ -69,12 +69,12 @@ namespace sugar {
             return index > other.index ;
         }
         inline bool operator<=( const iterator& other ) const {
-            return index <= other.index ;
+            return index <= other.index ;        
         }
         inline bool operator>=( const iterator& other ) const {
             return index >= other.index ;
         }
-    
+                                                  
         inline difference_type operator-(const iterator& other) const {
             return index - other.index ;
         }
@@ -91,8 +91,18 @@ namespace sugar {
     } ;
     
     template <int RTYPE, bool NA, typename Expr>
+    struct sugar_const_iterator_type< VectorBase<RTYPE,NA,Expr> > {
+        using type = SugarIterator<Expr> ;
+    } ;
+    
+    template <int RTYPE, bool NA, typename Expr>
     struct sugar_const_iterator_type< SugarVectorExpression<RTYPE,NA,Expr> > {
         using type = SugarIterator<Expr> ;
+    } ;
+    
+    template <int RTYPE, template <class> class StoragePolicy>
+    struct sugar_const_iterator_type< Vector<RTYPE,StoragePolicy> > {
+        using type = typename Vector<RTYPE,StoragePolicy>::const_iterator ;
     } ;
     
     template <typename T>
