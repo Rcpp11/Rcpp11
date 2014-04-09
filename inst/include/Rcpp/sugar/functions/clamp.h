@@ -29,19 +29,16 @@ namespace Rcpp{
         
         
         
-        template <
-            int RTYPE, 
-            bool NA, typename T
-            >
+        template <int RTYPE, bool NA, typename T>
         class Clamp_Primitive_Vector_Primitive : public SugarVectorExpression< 
             RTYPE , 
             NA ,
             Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>
-        > {
+        >, public custom_sugar_vector_expression {
         public:
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             typedef clamp_operator<RTYPE,NA> OPERATOR ;
-        
+             
             Clamp_Primitive_Vector_Primitive( STORAGE lhs_, const T& vec_, STORAGE rhs_) : vec(vec_), op(lhs_,rhs_) {}
         
             inline STORAGE operator[]( int i ) const {
@@ -49,9 +46,29 @@ namespace Rcpp{
             }
             inline int size() const { return vec.size() ; }
         
+            template <typename Target>
+            inline void apply(Target& target) const {
+                return apply_impl(target, typename traits::is_materialized<T>::type() ) ;    
+            }
+            
         private:
             const T& vec ;
-            OPERATOR op ; 
+            OPERATOR op ;
+            
+            template <typename Target>
+            inline void apply_impl(Target& target, std::true_type) const {
+                std::transform( vec.begin(), vec.end(), target.begin(), op ) ;        
+            }
+            
+            template <typename Target>
+            inline void apply_impl(Target& target, std::false_type) const {
+                int n=size();
+                auto it = target.begin() ;
+                for(int i=0; i<n; i++, ++it){
+                    *it = op(vec[i]) ;
+                }
+            }
+            
         } ;
 
 
