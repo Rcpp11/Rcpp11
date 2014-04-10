@@ -9,6 +9,8 @@ namespace Rcpp{
         using value_type = typename std::iterator_traits<iterator>::value_type ;
         using reference = typename std::iterator_traits<iterator>::reference ;
         using pointer = typename std::iterator_traits<iterator>::pointer  ;
+        using difference_type = typename std::iterator_traits<iterator>::difference_type ;
+        using iterator_category = typename std::iterator_traits<iterator>::iterator_category ;
         
         StrideIterator( iterator it_, int n_ ) : it(it_), n(n_){}
         
