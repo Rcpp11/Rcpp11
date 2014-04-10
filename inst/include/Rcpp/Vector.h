@@ -3,6 +3,7 @@
 
 #include <Rcpp/vector/00_forward.h>
 #include <Rcpp/vector/SugarVectorExpression.h>
+#include <Rcpp/vector/SugarMatrixExpression.h>
 
 #include <Rcpp/vector/VectorOffset.h>
 #include <Rcpp/vector/converter.h>

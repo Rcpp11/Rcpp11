@@ -4,7 +4,7 @@
 namespace Rcpp{
 
     template <int RTYPE, bool NA, typename Matrix>
-    class MatrixBase : public traits::MatrixExpression, public CRTP<Matrix> {
+    class MatrixBase : public CRTP<Matrix> {
     public:
         using CRTP<Matrix>::get_ref ;
         using stored_type  = typename traits::storage_type<RTYPE>::type ;

@@ -4,7 +4,9 @@
 namespace Rcpp{
     namespace sugar{
     
-        class Col : public MatrixBase<INTSXP,false,Col> {
+        class Col : 
+            public SugarMatrixExpression<INTSXP,false,Col>, 
+            public custom_sugar_matrix_expression {
         public:
             Col( int nr_, int nc_) : nr(nr_), nc(nc_) {}
             
@@ -16,6 +18,15 @@ namespace Rcpp{
             inline int nrow() const { return nr; }
             inline int ncol() const { return nc; }
         
+            template <typename Target>
+            inline void apply( Target& target ){
+                auto it = target.begin() ;
+                for( int j=0; j<nc; j++){
+                    std::fill_n( it, nr, j );
+                    it += nr ;
+                }
+            }
+            
         private:
             int nr, nc ;
         } ;

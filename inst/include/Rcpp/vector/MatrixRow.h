@@ -16,15 +16,24 @@ namespace Rcpp{
         
         MatrixRow& operator=( const MatrixRow& other ){
             if( &other != this ){
-                import(other) ;       
+                if( other.size() != size() ) throw incompatible_dimensions() ;
+                std::copy( other.begin(), other.end(), begin() ) ;
             }
             return *this ;    
         }
         
-        template <bool NA, typename Vec>
-        MatrixRow& operator=( const VectorBase<RTYPE,NA,Vec>& expr ){
-            import(expr) ;
-            return *this ;    
+        template <bool NA, typename Expr>
+        MatrixRow& operator=( const SugarVectorExpression<RTYPE,NA,Expr>& expr ){
+            if( expr.size() != size() ) throw incompatible_dimensions() ;
+            expr.apply(*this) ;
+            return *this;    
+        }
+        
+        template < template <class> class StoragePolicy >
+        MatrixRow& operator=( const Vector<RTYPE,StoragePolicy>& vec ){
+            if( vec.size() != size() ) throw incompatible_dimensions() ;
+            std::copy( vec.begin(), vec.end(), begin() );
+            return *this;
         }
         
         inline int size() const { return n ;}
@@ -46,13 +55,6 @@ namespace Rcpp{
         int index ;
         int n ;
         int nr ;
-        
-        template <typename T>
-        inline void import( const T& x){
-            for( int i=0; i<n; i++) {
-                at(i) = x[i] ;
-            }
-        }
         
     };
 

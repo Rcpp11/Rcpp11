@@ -37,15 +37,18 @@ namespace Rcpp{
             dims = INTEGER(d) ;
         }
         
-        template <bool NA, typename Mat>
-        Matrix( const MatrixBase<RTYPE,NA,Mat>& mat ) : Matrix( mat.nrow(), mat.ncol() ) {
-            int nr = dims[0] ;
-            int nc = dims[1] ;
-            for( int j=0, k=0; j<nc; j++){
-                for( int i=0; i<nr; i++){
-                    vec[k++] = mat(i,j) ;
-                }
-            }
+        Matrix( const Matrix& other ) = default ;
+        Matrix& operator=( const Matrix& ) = default ;
+            
+        template <bool NA, typename Expr>
+        Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : Matrix( expr.nrow(), expr.ncol() ) {
+            expr.apply(*this) ;
+        }
+        template <bool NA, typename Expr>
+        Matrix& operator=( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) {
+            if( nrow() != expr.nrow() || ncol() != expr.ncol() ) throw incompatible_dimensions() ;
+            expr.apply(*this) ;
+            return *this ;
         }
         
         inline operator SEXP() const { return vec ; }

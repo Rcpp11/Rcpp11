@@ -4,7 +4,9 @@
 namespace Rcpp{
     namespace sugar{
     
-        class LowerTri : public MatrixBase<LGLSXP,false,LowerTri> {
+        class LowerTri : 
+            public SugarMatrixExpression<LGLSXP,false,LowerTri>, 
+            public custom_sugar_matrix_expression {
         public:
             LowerTri( int nr_, int nc_, bool diag) : nr(nr_), nc(nc_), keep_diag(diag){}
             
@@ -16,6 +18,24 @@ namespace Rcpp{
             inline int nrow() const { return nr; }
             inline int ncol() const { return nc; }
         
+            template <typename Target>
+            inline void apply( Target& target ){
+                auto it = target.begin() ;
+                if( keep_diag ){
+                    for( int j=0; j<nc; j++){
+                        for( int i=0; i<nr; i++, ++it ){
+                            *it = (i<=j) ;
+                        }
+                    }
+                } else {
+                    for( int j=0; j<nc; j++){
+                        for( int i=0; i<nr; i++, ++it ){
+                            *it = (i<j) ;
+                        }
+                    }
+                }
+            }
+            
         private:
             int nr, nc ;
             bool keep_diag ;

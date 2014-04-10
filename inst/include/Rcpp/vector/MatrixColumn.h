@@ -21,7 +21,7 @@ namespace Rcpp{
         }
         
         template <bool NA, typename Vec>
-        MatrixColumn& operator=( const VectorBase<RTYPE,NA,Vec>& expr ){
+        MatrixColumn& operator=( const SugarVectorExpression<RTYPE,NA,Vec>& expr ){
             if( expr.size() != size() ) throw incompatible_dimensions() ;
             expr.apply(*this) ;
             return *this;

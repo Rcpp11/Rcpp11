@@ -144,6 +144,7 @@ namespace Rcpp{
 #include <Rcpp/is.h>
 
 #include <Rcpp/vector/VectorBase.h>
+#include <Rcpp/vector/MatrixBase.h>
 
 #include <Rcpp/wrap/wrap.h>
 
