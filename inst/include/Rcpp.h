@@ -184,7 +184,6 @@ namespace Rcpp{
 
 #include <Rcpp/Vector.h>
 #include <Rcpp/sugar/nona/nona.h>
-#include <Rcpp/Extractor.h>
 
 #include <Rcpp/XPtr.h>
 #include <Rcpp/Symbol.h>

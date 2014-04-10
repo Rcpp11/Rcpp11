@@ -2,61 +2,81 @@
 #define RCPP_SUGAR_VECTORIZEDMATH_H
 
 namespace Rcpp{
-namespace sugar{
-
-extern "C" typedef double (*DDFun)(double);
-
-template <DDFun Func, bool NA, typename VEC>
-class Vectorized : public SugarVectorExpression<REALSXP, NA, Vectorized<Func,NA,VEC> >{
-public:
-    typedef typename Rcpp::VectorBase<REALSXP,NA,VEC> VEC_TYPE ;
-    typedef typename Rcpp::traits::Extractor<REALSXP,NA,VEC>::type VEC_EXT ;
+    namespace sugar{
+    
+        extern "C" typedef double (*DDFun)(double);
         
-    Vectorized( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-    inline double operator[]( int i) const {
-        return Func( object[i] ) ;
-    }
-    inline int size() const { return object.size(); }
+        template <DDFun Func, bool HAS_NA, typename VEC>
+        class Vectorized : 
+            public SugarVectorExpression<REALSXP, HAS_NA, Vectorized<Func,HAS_NA,VEC> >, 
+            public custom_sugar_vector_expression {
+        public:
+            typedef typename Rcpp::VectorBase<REALSXP,HAS_NA,VEC> VEC_TYPE ;
+                
+            Vectorized( const VEC_TYPE& object_) : object( object_.get_ref() ){}
+            inline double operator[]( int i) const {
+                return Func( object[i] ) ;
+            }
+            inline int size() const { return object.size(); }
+               
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(object), sugar_end(object), target.begin(), Func );    
+            }
+            
+        private:
+            const VEC_TYPE& object ;     
+        } ;
         
-private:
-    const VEC_EXT& object ;     
-} ;
-
-template <DDFun Func, bool NA, typename VEC>
-class Vectorized_INTSXP : public SugarVectorExpression<REALSXP, NA, Vectorized_INTSXP<Func,NA,VEC> >{
-public:
-    typedef typename Rcpp::VectorBase<INTSXP,NA,VEC> VEC_TYPE ;
-    typedef typename Rcpp::traits::Extractor<INTSXP,NA,VEC>::type VEC_EXT ;
+        template <DDFun Func, bool HAS_NA, typename VEC>
+        class Vectorized_INTSXP : 
+            public SugarVectorExpression<REALSXP, HAS_NA, Vectorized_INTSXP<Func,HAS_NA,VEC> >, 
+            public custom_sugar_vector_expression {
+        public:
+            typedef typename Rcpp::VectorBase<INTSXP,HAS_NA,VEC> VEC_TYPE ;
+                
+            Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
+            inline double operator[]( int i) const {
+                int x = object[i] ;
+                if( x == NA_INTEGER ) return NA_REAL ;
+                return Func( x ) ;
+            }
+            inline int size() const { return object.size(); }
+                
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(object), sugar_end(object), target.begin(), [](int x) -> double{
+                    if( x == NA ) return NA ;
+                    return Func( x ) ;
+                });    
+            }
+        private:
+            const VEC_TYPE& object ;     
+        } ;
         
-    Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-    inline double operator[]( int i) const {
-        int x = object[i] ;
-        if( x == NA_INTEGER ) return NA_REAL ;
-        return Func( x ) ;
-    }
-    inline int size() const { return object.size(); }
-        
-private:
-    const VEC_EXT& object ;     
-} ;
-template <DDFun Func, typename VEC>
-class Vectorized_INTSXP<Func,false,VEC> : 
-    public SugarVectorExpression<REALSXP,false, Vectorized_INTSXP<Func,false,VEC> >{
-public:
-    typedef typename Rcpp::VectorBase<INTSXP,false,VEC> VEC_TYPE ;
-    typedef typename Rcpp::traits::Extractor<INTSXP,false,VEC>::type VEC_EXT ;
-        
-    Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-    inline double operator[]( int i) const {
-        return Func( object[i] ) ;
-    }
-    inline int size() const { return object.size(); }
-        
-private:
-    const VEC_EXT& object ;     
-} ;
-
-} // sugar
+        template <DDFun Func, typename VEC>
+        class Vectorized_INTSXP<Func,false,VEC> : 
+            public SugarVectorExpression<REALSXP,false, Vectorized_INTSXP<Func,false,VEC> >, 
+            public custom_sugar_vector_expression{
+        public:
+            typedef typename Rcpp::VectorBase<INTSXP,false,VEC> VEC_TYPE ;
+                
+            Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
+            inline double operator[]( int i) const {
+                return Func( object[i] ) ;
+            }
+            inline int size() const { return object.size(); }
+              
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(object), sugar_end(object), target.begin(), Func );    
+            }
+            
+        private:
+            const VEC_TYPE& object ;     
+        } ;
+    
+    } // sugar
 } // Rcpp
 
 #define VECTORIZED_MATH_1(__NAME__,__SYMBOL__)                               \

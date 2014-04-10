@@ -11,9 +11,10 @@ class Sapply : public SugarVectorExpression<
     >::rtype , 
     true ,
     Sapply<RTYPE,NA,T,Function,NO_CONVERSION>
-> {
+>, public custom_sugar_vector_expression {
 public:
-    typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
+    using VEC_STORAGE = typename Rcpp::traits::storage_type<RTYPE>::type ;
+    typedef typename std::result_of<Function(VEC_STORAGE)>::type result_type ; 
 
     const static int RESULT_R_TYPE = 
         Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
@@ -22,21 +23,22 @@ public:
     typedef typename Rcpp::traits::r_vector_element_converter<RESULT_R_TYPE>::type converter_type ;
     typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type STORAGE ;
 
-    typedef typename Rcpp::traits::Extractor< RTYPE, NA, T>::type EXT ;
-
-    Sapply( const VEC& vec_, Function fun_ ) : vec(vec_.get_ref()), fun(fun_){
-        RCPP_DEBUG( "Sapply With Converter = %s", DEMANGLE(Sapply) )
-        RCPP_DEBUG( "Sapply Converter = %s", DEMANGLE(converter_type) ) 
-    }
+    Sapply( const VEC& vec_, Function fun_ ) : vec(vec_), fun(fun_){}
 
     inline STORAGE operator[]( int i ) const {
-        STORAGE res = converter_type::get( fun( vec[i] ) );
-        return res ;
+        return converter_type::get( fun( vec[i] ) );
     }
     inline int size() const { return vec.size() ; }
 
+    template <typename Target>
+    inline void apply( Target& target ) const {
+        std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this]( VEC_STORAGE x){
+            return converter_type::get( fun(x) ) ;       
+        }) ;     
+    }
+    
 private:
-    const EXT& vec ;
+    const VEC& vec ;
     Function fun ;
 
 } ;
@@ -57,8 +59,6 @@ public:
 
     typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
     typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type STORAGE ;
-
-    typedef typename Rcpp::traits::Extractor< RTYPE, NA, T>::type EXT ;
 
     Sapply( const VEC& vec_, Function fun_ ) : vec(vec_.get_ref()), fun(fun_){
         RCPP_DEBUG( "Sapply  = %s", DEMANGLE(Sapply) )

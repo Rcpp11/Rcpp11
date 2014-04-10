@@ -1,5 +1,5 @@
-#ifndef Rcpp__vector__foward_h
-#define Rcpp__vector__foward_h
+#ifndef Rcpp__vector__forward_h
+#define Rcpp__vector__forward_h
 
 namespace Rcpp{
     class Na_Proxy ;
@@ -14,10 +14,6 @@ namespace Rcpp{
         template <int RTYPE> class generic_name_proxy ;
     }
     
-    namespace traits {
-        template <int RTYPE, bool NA, typename VECTOR> struct Extractor ;
-    }
-
 }
 
 
