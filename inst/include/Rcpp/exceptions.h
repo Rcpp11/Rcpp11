@@ -141,6 +141,7 @@ public:                                                                        \
     __CLASS__() noexcept: exception(__MESSAGE__) {}                              \
 };                                                                             
 
+RCPP_SIMPLE_EXCEPTION_CLASS(incompatible_dimensions, "incompatible dimensions")
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")
 RCPP_SIMPLE_EXCEPTION_CLASS(index_out_of_bounds, "index out of bounds")
 RCPP_SIMPLE_EXCEPTION_CLASS(parse_error, "parse error")
