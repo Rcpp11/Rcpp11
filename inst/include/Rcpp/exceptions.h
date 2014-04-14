@@ -2,8 +2,8 @@
 #define Rcpp__exceptions__h
 
 // for backtraces
-#if defined(__GNUC__) || defined(__clang__)
-#include <execinfo.h>
+#if ( defined(__GNUC__) || defined(__clang__) ) &&  !defined(_WIN32)
+    #include <execinfo.h>
 #endif
 
 namespace Rcpp{
@@ -40,7 +40,7 @@ private:
     std::string message ;
     
     // A private function for adding backtrace information if possible
-    #if defined(__GNUC__) || defined(__clang__)
+    #if ( defined(__GNUC__) || defined(__clang__) ) &&  !defined(_WIN32)
     void add_backtrace_information(std::string& message) {
       const size_t max_depth = 100;
       size_t stack_depth;
