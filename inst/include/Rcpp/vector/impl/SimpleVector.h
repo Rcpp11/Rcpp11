@@ -63,7 +63,7 @@ namespace Rcpp{
     
         template <bool NA, typename Expr>
         Vector( const SugarVectorExpression<RTYPE,NA,Expr>& other ) {
-            init(other.size())
+            init(other.size()) ;
             other.apply(*this) ;
         }
     
