@@ -18,10 +18,14 @@ namespace Rcpp{
         DataFrame_Impl( const DataFrame_Impl& other) : data(other.data){}
                 
         template <typename T> 
-        DataFrame_Impl( const T& obj) : DataFrame_Impl(wrap(obj)){}
+        DataFrame_Impl( const T& obj) {
+            set_sexp(wrap(obj));
+        }
                 
         template <typename Proxy>                     
-        DataFrame_Impl( const GenericProxy<Proxy>& proxy ) : DataFrame_Impl( proxy.get() ){}
+        DataFrame_Impl( const GenericProxy<Proxy>& proxy ) {
+            set_sexp( proxy.get() ); 
+        }
         
         DataFrame_Impl& 
         operator=( DataFrame_Impl& other) {
