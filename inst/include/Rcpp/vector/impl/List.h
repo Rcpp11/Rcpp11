@@ -39,7 +39,7 @@ namespace Rcpp{
             Storage::set__( r_cast<VECSXP>( x ) ) ;
         }
         
-        Vector( int n ) () {
+        Vector( int n ) {
             reset(n);
         }
         Vector() {
