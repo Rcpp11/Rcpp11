@@ -52,15 +52,14 @@ namespace Rcpp{
         Vec data ;
     } ;
     
-    
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using NumericArray   = Array<N, REALSXP, StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using DoubleArray    = Array<N, REALSXP, StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using IntegerArray   = Array<N, INTSXP , StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using StringArray    = Array<N, STRSXP , StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using CharacterArray = Array<N, STRSXP , StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using LogicalArray   = Array<N, LGLSXP , StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using RawArray       = Array<N, RAWSXP , StoragePolicy> ;
-    template <int N, template <class> class StoragePolicy = PreserveStorage> using ComplexArray   = Array<N, CPLXSXP, StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using NumericArray   = Array<N, REALSXP, StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using DoubleArray    = Array<N, REALSXP, StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using IntegerArray   = Array<N, INTSXP , StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using StringArray    = Array<N, STRSXP , StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using CharacterArray = Array<N, STRSXP , StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using LogicalArray   = Array<N, LGLSXP , StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using RawArray       = Array<N, RAWSXP , StoragePolicy> ;
+    // template <int N, template <class> class StoragePolicy = PreserveStorage> using ComplexArray   = Array<N, CPLXSXP, StoragePolicy> ;
     
 } // Rcpp 
 
