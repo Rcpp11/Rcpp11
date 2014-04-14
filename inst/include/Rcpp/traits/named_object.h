@@ -24,10 +24,10 @@ namespace Rcpp{
             named_object( SEXP name_, const SEXP& o_): name(name_), object(o_) {
                R_PreserveObject(object) ;
             }
-            named_object( const std::string& name_, const SEXP& o_): named_object(Rf_install(name_.c_str()), o_) {
+            named_object( const std::string& name_, const SEXP& o_): name( Rf_install(name_.c_str()) ), object(o_){
                R_PreserveObject(object) ;
             }
-            named_object( const named_object<SEXP>& other ) : named_object(other.name, other.object){
+            named_object( const named_object<SEXP>& other ) : name(other.name), object(other.object){
                R_PreserveObject(object) ;
             }
             ~named_object(){
