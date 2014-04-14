@@ -90,13 +90,22 @@ private:
     #endif
 } ;
 
+// FIXME: we should not have to do this, but there is no std::to_string on
+//        windows (at least not with gcc 4.6.3)
+template <typename T>
+std::string NumberToString( T Number ){
+   std::ostringstream ss;
+   ss << Number;
+   return ss.str();
+}
+
 class no_such_env : public exception {
 public:
     no_such_env( const std::string& name ) noexcept: 
       exception( std::string("No such environment: '") + name + "'" ){}
       
     no_such_env( int pos ) noexcept:
-      exception( "No environment in given position '" + std::to_string(pos) + "'") {}
+      exception( "No environment in given position '" + NumberToString(pos) + "'") {}
 } ;
 
 class file_io_error : public exception {
@@ -105,7 +114,7 @@ public:
       exception( std::string("File IO error: '") + file_ + "'" ), file(file_) {}
       
     file_io_error(int code, const std::string& file_) noexcept:
-      exception( "File IO error " + std::to_string(code) + ": '" + file_ + "'"), file(file_) {}
+      exception( "File IO error " + NumberToString(code) + ": '" + file_ + "'"), file(file_) {}
       
     file_io_error(const std::string& msg, const std::string& file_) noexcept:
       exception( msg + ": '" + file_ + "'"), file(file_) {}
