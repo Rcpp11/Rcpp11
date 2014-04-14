@@ -18,7 +18,9 @@ namespace Rcpp{
         }
         
         template<typename... Args> 
-        Pairlist_Impl( const Args&... args) : Pairlist_Impl(pairlist(args...)) {}
+        Pairlist_Impl( const Args&... args) {
+            Storage::set__(pairlist(args...)) ;
+        }
        
     } ;
         
