@@ -38,22 +38,35 @@ namespace Rcpp{
             Storage::set__( r_cast<STRSXP>( x ) ) ;
         }
         
-        Vector( int n ) : Vector(Rf_allocVector(STRSXP, n) ) {}
-        Vector() : Vector(0) {}
+        Vector( int n ) {
+            reset(n); 
+        }
+        Vector() {
+            reset(0); 
+        }
     
-        Vector( int n, const char* s ) : Vector(n) {
+        Vector( int n, const char* s ) {
+            reset(n) ;
             std::fill( begin(), end(), Rf_mkChar(s) ) ;
         }
         
-        Vector( const char* st ) : Vector(1, st ){}         
-        Vector( const std::string& st ) : Vector( 1, st.c_str() ) {}
+        Vector( const char* st ){
+            reset(1) ;
+            *begin() = st ;
+        }         
+        Vector( const std::string& st ) {
+            reset(1) ;
+            *begin() = st ;
+        }
         
-        Vector( std::initializer_list<const char*> list ) : Vector(list.size()){
+        Vector( std::initializer_list<const char*> list ){
+            reset(list.size()) ;
             std::copy( list.begin(), list.end(), begin() ) ;
         }
     
         template <bool NA, typename Expr>
-        Vector( const SugarVectorExpression<STRSXP,NA,Expr>& other ) : Vector(other.size()) {
+        Vector( const SugarVectorExpression<STRSXP,NA,Expr>& other ) {
+            reset( other.size() );
             other.apply(*this) ;
         }
     

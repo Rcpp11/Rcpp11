@@ -39,16 +39,22 @@ namespace Rcpp{
             Storage::set__( r_cast<VECSXP>( x ) ) ;
         }
         
-        Vector( int n ) : Vector(Rf_allocVector(VECSXP, n) ) {}
-        Vector() : Vector(0) {}
+        Vector( int n ) () {
+            reset(n);
+        }
+        Vector() {
+            reset(0) ;
+        }
     
         template <typename U>
-        Vector( int n, const U& obj ) : Vector(Rf_allocVector(VECSXP, n) ) {
+        Vector( int n, const U& obj ) {
+            reset(n) ;
             std::fill( begin(), end(), wrap(obj) ) ;
         }
         
         template <bool NA, typename Expr>
-        Vector( const SugarVectorExpression<VECSXP,NA,Expr>& other ) : Vector(other.size()) {
+        Vector( const SugarVectorExpression<VECSXP,NA,Expr>& other ) {
+            reset(other.size());
             other.apply(*this) ;
         }
     

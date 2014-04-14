@@ -44,26 +44,26 @@ namespace Rcpp{
         }
         
         Vector(int n) {
-            init(n) ;
+            reset(n) ;
         }
         
         Vector(){
-            init(0);
+            reset(0);
         }
     
         Vector( int n, init_type x ) {
-            init(n);
+            reset(n);
             std::fill( begin(), end(), x) ;
         }
         
         Vector( std::initializer_list<init_type> list ){
-            init(list.size());
+            reset(list.size());
             std::copy( list.begin(), list.end(), begin() ) ;
         }
     
         template <bool NA, typename Expr>
         Vector( const SugarVectorExpression<RTYPE,NA,Expr>& other ) {
-            init(other.size()) ;
+            reset(other.size()) ;
             other.apply(*this) ;
         }
     
@@ -88,10 +88,6 @@ namespace Rcpp{
         }
         inline const stored_type* data() const{
             return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
-        }
-        
-        inline void init(int n){
-            Storage::set__( Rf_allocVector(RTYPE, n)  );     
         }
         
     public:

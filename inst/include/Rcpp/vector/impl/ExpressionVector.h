@@ -38,22 +38,19 @@ namespace Rcpp{
             Storage::set__( r_cast<EXPRSXP>( x ) ) ;
         }
         
-        Vector( int n ) : Vector(Rf_allocVector(EXPRSXP, n) ) {}
-        Vector() : Vector(0) {}
-    
-        Vector( const char* st){
-            ParseStatus status;
-            Shield<SEXP> expr = Rf_mkString( st );
-            Shield<SEXP> res  = R_ParseVector(expr, -1, &status, R_NilValue);
-            if( status != PARSE_OK ){
-                throw parse_error() ;
-            }
-            Storage::set__(res) ;
+        Vector( int n ) {
+            reset(n) ;
         }
-        Vector( const std::string& st) : Vector( st.c_str()){} ;
+        Vector() {
+            reset(0) ;
+        }
+    
+        Vector( const char* st){init_from_string(st); }
+        Vector( const std::string& st) { init_from_string(st.c_str()); }
         
         template <bool NA, typename Expr>
-        Vector( const SugarVectorExpression<EXPRSXP,NA,Expr>& other ) : Vector(other.size()) {
+        Vector( const SugarVectorExpression<EXPRSXP,NA,Expr>& other ) {
+            reset(other.size());
             other.apply(*this) ;
         }
     
@@ -68,6 +65,16 @@ namespace Rcpp{
         }
         
     private:
+        
+        inline void init_from_string( const char* st ){
+            ParseStatus status;
+            Shield<SEXP> expr = Rf_mkString( st );
+            Shield<SEXP> res  = R_ParseVector(expr, -1, &status, R_NilValue);
+            if( status != PARSE_OK ){
+                throw parse_error() ;
+            }
+            Storage::set__(res) ;
+        }
         
         inline void reset(int n){
             Storage::set__(Rf_allocVector(EXPRSXP, n) ) ;        
