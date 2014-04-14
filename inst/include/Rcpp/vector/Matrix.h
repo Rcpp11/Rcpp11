@@ -44,7 +44,7 @@ namespace Rcpp{
             
         template <bool NA, typename Expr>
         Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
-            set_dimensions( expr.nrow(), expr.ncol() ) {
+            set_dimensions( expr.nrow(), expr.ncol() ) ;
             expr.apply(*this) ;
         }
         template <bool NA, typename Expr>
