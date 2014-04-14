@@ -34,7 +34,7 @@ public:
         add_backtrace_information(message);
     }
     virtual ~exception() noexcept {}
-    virtual const char* what() const noexcept override { return message.c_str() ; }
+    virtual const char* what() const noexcept /* override */ { return message.c_str() ; }
 
 private:
     std::string message ;
