@@ -127,7 +127,25 @@ inline int SETLEVELS(SEXP x, int v){ return RCPP_SETLEVELS(x,v); }
 inline SEXP PRINTNAME(SEXP x){ return RCPP_PRINTNAME(x) ; }
 
 // #define JMP_BUF jmp_buf
-#define JMP_BUF sigjmp_buf
+#if defined(_WIN32)
+// borrowed from psignal.h. We just need sigjmp_buf to be of the right size
+// so that the definition of RCNTXT works. We don't use them. 
+    
+#ifndef _SIGSET_T_
+#define	_SIGSET_T_
+typedef int sigset_t;
+#endif	/* Not _SIGSET_T_ */
+    
+extern "C" {    
+    typedef struct {    
+      jmp_buf jmpbuf;     /* Calling environment.  */  
+      int mask_was_saved;       /* Saved the signal mask?  */                   
+      sigset_t saved_mask;      /* Saved signal mask.  */                       
+    } sigjmp_buf[1];    
+}
+#else
+    #define JMP_BUF sigjmp_buf
+#endif
 
 enum {
     CTXT_TOPLEVEL = 0,
