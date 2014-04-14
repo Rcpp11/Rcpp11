@@ -64,10 +64,8 @@ namespace Rcpp {
           if( Rf_isNull(condition) ){
               throw eval_error( R_curErrorBuf() ) ;    
           } else {
-              SEXP msg = PROTECT( Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  condition ), R_GlobalEnv ) ) ; 
-              eval_error ex( CHAR(STRING_ELT(msg, 0)) ) ;
-              UNPROTECT(1) ;
-              throw ex ;
+              Shield<SEXP> msg = Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  condition ), R_GlobalEnv ) ; 
+              throw eval_error( CHAR(STRING_ELT(msg, 0)) ) ;
           }
         } 
     }

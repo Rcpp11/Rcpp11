@@ -80,7 +80,6 @@ namespace Rcpp{
                 data = x ;
             } else{
                 data = internal::convert_using_rfunction( x, "as.data.frame" ) ;
-                
             }    
         }
         
