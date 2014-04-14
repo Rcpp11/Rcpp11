@@ -3,6 +3,8 @@
 
 // #define RCPP_DEBUG_LEVEL 1
 
+#include <Rcpp/platform.h>
+
 #include <cmath>
 #include <csetjmp>
 

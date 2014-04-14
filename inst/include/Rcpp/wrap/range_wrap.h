@@ -27,7 +27,11 @@ inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, 
 }
 template<typename InputIterator, typename T>
 inline SEXP range_wrap_enum__dispatch( InputIterator first, InputIterator last, std::false_type ){
-    return range_wrap_dispatch<InputIterator, typename std::underlying_type<T>::type >( first, last ) ;
+    #if defined(RCPP_HAS_UNDERLYING_TYPE)
+        return range_wrap_dispatch<InputIterator, typename std::underlying_type<T>::type >( first, last ) ;
+    #else 
+        return range_wrap_dispatch<InputIterator,int>( first, last ) ;
+    #endif
 }
 
 template<typename InputIterator, typename T>
