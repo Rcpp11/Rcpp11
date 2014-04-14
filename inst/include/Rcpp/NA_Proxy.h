@@ -50,7 +50,7 @@ namespace Rcpp{
         ) ;
     }
     
-    inline String::String( Na_Proxy ) : String(NA_STRING){}
+    inline String::String( Na_Proxy ) : data(NA_STRING), valid(true), buffer_ready(false) {}
     
     inline String& String::operator=( Na_Proxy ) {
       data = NA_STRING ;
