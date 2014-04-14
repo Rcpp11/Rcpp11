@@ -27,7 +27,9 @@ namespace Rcpp{
             set_dimensions(nr,nc) ;
         }
         
-        Matrix() : Matrix(0,0){}
+        Matrix() : vec(0){
+            set_dimensions(0,0) ;
+        }
         
         Matrix( SEXP x ){
             SEXP d = Rf_getAttrib(x,R_DimSymbol) ;
@@ -41,7 +43,8 @@ namespace Rcpp{
         Matrix& operator=( const Matrix& ) = default ;
             
         template <bool NA, typename Expr>
-        Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : Matrix( expr.nrow(), expr.ncol() ) {
+        Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
+            set_dimensions( expr.nrow(), expr.ncol() ) {
             expr.apply(*this) ;
         }
         template <bool NA, typename Expr>
