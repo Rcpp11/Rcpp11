@@ -143,9 +143,9 @@ extern "C" {
       sigset_t saved_mask;      /* Saved signal mask.  */                       
     } sigjmp_buf[1];    
 }
-#else
-    #define JMP_BUF sigjmp_buf
 #endif
+
+#define JMP_BUF sigjmp_buf
 
 enum {
     CTXT_TOPLEVEL = 0,
