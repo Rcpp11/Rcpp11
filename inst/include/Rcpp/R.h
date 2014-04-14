@@ -136,13 +136,12 @@ inline SEXP PRINTNAME(SEXP x){ return RCPP_PRINTNAME(x) ; }
 typedef int sigset_t;
 #endif	/* Not _SIGSET_T_ */
     
-extern "C" {    
-    typedef struct {    
-      jmp_buf jmpbuf;     /* Calling environment.  */  
-      int mask_was_saved;       /* Saved the signal mask?  */                   
-      sigset_t saved_mask;      /* Saved signal mask.  */                       
-    } sigjmp_buf[1];    
-}
+typedef struct {    
+  jmp_buf jmpbuf;     /* Calling environment.  */  
+  int mask_was_saved;       /* Saved the signal mask?  */                   
+  sigset_t saved_mask;      /* Saved signal mask.  */                       
+} sigjmp_buf[1];    
+
 #endif
 
 #define JMP_BUF sigjmp_buf
