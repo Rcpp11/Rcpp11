@@ -7,7 +7,7 @@ namespace Rcpp{
     class MatrixBase : public CRTP<Matrix> {
     public:
         using CRTP<Matrix>::get_ref ;
-        using stored_type  = typename traits::storage_type<RTYPE>::type ;
+        typedef typename traits::storage_type<RTYPE>::type stored_type;
         
         inline stored_type operator()(int i, int j) const { 
             return get_ref()(i,j) ; 

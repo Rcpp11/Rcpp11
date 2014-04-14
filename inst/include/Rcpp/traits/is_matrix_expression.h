@@ -5,12 +5,13 @@ namespace Rcpp {
     
     struct SugarMatrixExpressionBase {} ;
     
-namespace traits {
-                       
-    template <typename T>
-    using is_matrix_expression = typename std::is_base_of<SugarMatrixExpressionBase, T>::type ;
-        
-}
+    namespace traits {
+                           
+        template <typename T>
+        struct is_matrix_expression{
+            typedef typename std::is_base_of<SugarMatrixExpressionBase, T>::type type ;
+        } ; 
+    }
 }
 
 #endif

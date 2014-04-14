@@ -13,7 +13,7 @@ class Sapply : public SugarVectorExpression<
     Sapply<RTYPE,NA,T,Function,NO_CONVERSION>
 >, public custom_sugar_vector_expression {
 public:
-    using VEC_STORAGE = typename Rcpp::traits::storage_type<RTYPE>::type ;
+    typedef typename Rcpp::traits::storage_type<RTYPE>::type VEC_STORAGE;
     typedef typename std::result_of<Function(VEC_STORAGE)>::type result_type ; 
 
     const static int RESULT_R_TYPE = 

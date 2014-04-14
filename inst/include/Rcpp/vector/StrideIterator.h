@@ -5,12 +5,12 @@ namespace Rcpp{
 
     template <typename iterator>
     class StrideIterator {
-    public:
-        using value_type = typename std::iterator_traits<iterator>::value_type ;
-        using reference = typename std::iterator_traits<iterator>::reference ;
-        using pointer = typename std::iterator_traits<iterator>::pointer  ;
-        using difference_type = typename std::iterator_traits<iterator>::difference_type ;
-        using iterator_category = typename std::iterator_traits<iterator>::iterator_category ;
+    public:         
+        typedef typename std::iterator_traits<iterator>::value_type value_type;
+        typedef typename std::iterator_traits<iterator>::reference reference;
+        typedef typename std::iterator_traits<iterator>::pointer  pointer;
+        typedef typename std::iterator_traits<iterator>::difference_type difference_type;
+        typedef typename std::iterator_traits<iterator>::iterator_category iterator_category;
         
         StrideIterator( iterator it_, int n_ ) : it(it_), n(n_){}
         

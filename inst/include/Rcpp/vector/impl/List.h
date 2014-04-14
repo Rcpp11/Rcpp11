@@ -21,15 +21,15 @@ namespace Rcpp{
     {
     public:
         
-        using value_type      = SEXP ;
-        using stored_type     = SEXP ;
-        using init_type       = SEXP ;
-        using Proxy           = internal::generic_proxy<VECSXP> ;
-        using const_Proxy     = internal::const_generic_proxy<VECSXP> ;
-        using iterator        = internal::Proxy_Iterator<Proxy> ; 
-        using const_iterator  = internal::const_Proxy_Iterator<const_Proxy> ;
-        using NameProxy       = internal::generic_name_proxy<VECSXP> ;
-        using const_NameProxy = internal::generic_const_name_proxy<VECSXP> ;
+        typedef SEXP value_type  ;
+        typedef SEXP stored_type ;
+        typedef SEXP init_type   ;
+        typedef internal::generic_proxy<VECSXP>            Proxy           ;
+        typedef internal::const_generic_proxy<VECSXP>      const_Proxy     ;
+        typedef internal::Proxy_Iterator<Proxy>             iterator        ; 
+        typedef internal::const_Proxy_Iterator<const_Proxy> const_iterator  ;
+        typedef internal::generic_name_proxy<VECSXP>       NameProxy       ;
+        typedef internal::generic_const_name_proxy<VECSXP> const_NameProxy ;
         
         using VectorOffset<Vector>::size ;
         

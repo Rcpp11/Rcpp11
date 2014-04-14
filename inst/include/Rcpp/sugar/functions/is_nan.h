@@ -9,7 +9,7 @@ namespace Rcpp{
             public SugarVectorExpression< LGLSXP, false, IsNaN<RTYPE,NA,VEC_TYPE> >, 
             public custom_sugar_vector_expression {
         public:      
-            using Base = Rcpp::VectorBase<RTYPE,NA,VEC_TYPE> ;
+            typedef Rcpp::VectorBase<RTYPE,NA,VEC_TYPE> Base ;
             
             IsNaN( const Base& obj_) : obj(obj_){}
         

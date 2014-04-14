@@ -45,8 +45,8 @@ namespace Rcpp{
         }
     } ;
     
-    template <typename T>
-    using r_transient_vector = typename std::vector<T, r_transient_allocator<T> > ;
+    // template <typename T>
+    // using r_transient_vector = typename std::vector<T, r_transient_allocator<T> > ;
     
 }
 

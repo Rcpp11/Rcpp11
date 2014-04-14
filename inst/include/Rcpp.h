@@ -87,10 +87,10 @@ namespace Rcpp{
     RCPP_API_CLASS_DECL(Function) ;
     
     template < template <class> class StoragePolicy > class Symbol_Impl ;
-    using Symbol = Symbol_Impl<NoProtectStorage> ;
+    typedef Symbol_Impl<NoProtectStorage> Symbol ;
     
     template < template <class> class StoragePolicy > class DataFrame_Impl ;
-    using DataFrame = DataFrame_Impl<PreserveStorage> ;
+    typedef DataFrame_Impl<PreserveStorage> DataFrame ;
     
 }
 namespace Rcpp{

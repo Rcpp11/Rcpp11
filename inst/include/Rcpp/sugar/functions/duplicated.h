@@ -8,7 +8,7 @@ inline LogicalVector duplicated( const VectorBase<RTYPE,NA,T>& x ){
     int n=x.size(); 
     LogicalVector res(n) ;
     
-    using STORAGE = typename traits::storage_type<RTYPE>::type ;
+    typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     std::unordered_set<STORAGE> set ;
     for( int i=0; i<n; i++){
         res[i] = !set.insert(x[i]).second ;    

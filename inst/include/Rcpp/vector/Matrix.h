@@ -10,13 +10,13 @@ namespace Rcpp{
         int* dims ;
         
     public:
-        using Proxy = typename Vector<RTYPE,StoragePolicy>::Proxy ;
-        using const_Proxy = typename Vector<RTYPE,StoragePolicy>::const_Proxy ;
-        using iterator = typename Vector<RTYPE,StoragePolicy>::iterator ;
-        using const_iterator = typename Vector<RTYPE,StoragePolicy>::const_iterator ;
+        typedef typename Vector<RTYPE,StoragePolicy>::Proxy Proxy;
+        typedef typename Vector<RTYPE,StoragePolicy>::const_Proxy const_Proxy;
+        typedef typename Vector<RTYPE,StoragePolicy>::iterator iterator;
+        typedef typename Vector<RTYPE,StoragePolicy>::const_iterator const_iterator;
         
-        using Column = MatrixColumn<RTYPE, Matrix> ;
-        using Row = MatrixRow<RTYPE, Matrix> ;
+        typedef MatrixColumn<RTYPE, Matrix> Column;
+        typedef MatrixRow<RTYPE, Matrix> Row;
         
         Matrix(int nr, int nc) : vec(nr*nc){
             set_dimensions(nr,nc) ;

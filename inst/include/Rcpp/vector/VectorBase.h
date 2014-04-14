@@ -10,8 +10,8 @@ public:
     using CRTP<VECTOR>::get_ref ;
     
     struct r_type : std::integral_constant<int,RTYPE>{} ;
-    using stored_type = typename traits::storage_type<RTYPE>::type ; 
-    using elem_type   = typename traits::storage_type<RTYPE>::type ;
+    typedef typename traits::storage_type<RTYPE>::type stored_type ; 
+    typedef typename traits::storage_type<RTYPE>::type elem_type   ;
     
     inline stored_type operator[]( int i) const {
         return get_ref()[i] ;

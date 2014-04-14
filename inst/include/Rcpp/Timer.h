@@ -6,10 +6,10 @@ namespace Rcpp {
     template <typename Clock = std::chrono::high_resolution_clock>
     class Timer {
     public:
-        using time_point = typename Clock::time_point ;
-        using Step  = std::pair<std::string,time_point>;
-        using Steps = std::vector<Step> ;
-        using microseconds = std::chrono::duration<double, std::micro> ;
+        typedef typename Clock::time_point time_point ;
+        typedef std::pair<std::string,time_point> Step;
+        typedef std::vector<Step> Steps;
+        typedef std::chrono::duration<double, std::micro> microseconds ;
         
         Timer(time_point origin_ ) : data(), origin(origin_){}
         Timer() : data(), origin(now()) {}

@@ -6,7 +6,7 @@ namespace traits{
 
     template <typename T>
     struct is_materialized {
-        using type = std::false_type ;    
+        typedef std::false_type type ;    
     }; 
     
 }

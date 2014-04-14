@@ -8,8 +8,8 @@ namespace Rcpp{
         public RObjectMethods<DataFrame_Impl<StoragePolicy>>, 
         public AttributeProxyPolicy<DataFrame_Impl<StoragePolicy>>
         {
-    public: 
-        using List = Vector<VECSXP, StoragePolicy>; 
+    public:
+        typedef Vector<VECSXP, StoragePolicy> List ; 
         
         DataFrame_Impl() : data(empty_data_frame()){}
         DataFrame_Impl(SEXP x) {

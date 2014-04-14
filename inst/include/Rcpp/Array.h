@@ -6,9 +6,9 @@ namespace Rcpp{
     template <int N, int RTYPE, template <class> class StoragePolicy = PreserveStorage>
     class Array {
     public:
-        using Vec = Vector<RTYPE,StoragePolicy>;
-        using Proxy = typename Vec::Proxy; 
-        using const_Proxy = typename Vec::const_Proxy; 
+        typedef Vector<RTYPE,StoragePolicy> Vec; 
+        typedef typename Vec::Proxy Proxy; 
+        typedef typename Vec::const_Proxy const_Proxy ; 
         
         Array( SEXP x ) : index(), data(x) {
           IntegerVector dim = data.attr("dim") ;

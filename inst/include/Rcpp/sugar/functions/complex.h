@@ -193,7 +193,7 @@ namespace Rcpp{
             SugarComplex<HAS_NA,T,Fun,OUT>
             > {
         public:
-            using VEC_TYPE = Rcpp::VectorBase<CPLXSXP,HAS_NA,T> ;
+            typedef Rcpp::VectorBase<CPLXSXP,HAS_NA,T> VEC_TYPE ;
         
             SugarComplex( const VEC_TYPE & vec_) : vec(vec_){}
         

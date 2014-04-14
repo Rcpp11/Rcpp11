@@ -22,18 +22,18 @@ namespace Rcpp{
     {
     public:
         
-        using value_type      = typename traits::storage_type<RTYPE>::type ;
-        using stored_type     = value_type ;
-        using init_type       = typename std::conditional<RTYPE==LGLSXP,bool,stored_type>::type ;
-        using reference       = stored_type& ;
-        using const_reference = const stored_type& ;
-        using Proxy           = reference ;
-        using const_Proxy     = const_reference ;
-        using iterator        = value_type* ; 
-        using const_iterator  = const value_type* ;
+        typedef typename traits::storage_type<RTYPE>::type value_type ;
+        typedef value_type stored_type  ;
+        typedef typename std::conditional<RTYPE==LGLSXP,bool,stored_type>::type init_type ;
+        typedef stored_type&       reference       ;
+        typedef const stored_type& const_reference ;
+        typedef reference          Proxy           ;
+        typedef const_reference    const_Proxy     ;
+        typedef value_type*        iterator        ; 
+        typedef const value_type*  const_iterator  ;
         
-        using NameProxy       = internal::simple_name_proxy<RTYPE> ;
-        using const_NameProxy = internal::simple_const_name_proxy<RTYPE> ;
+        typedef internal::simple_name_proxy<RTYPE>         NameProxy       ;
+        typedef internal::simple_const_name_proxy<RTYPE>   const_NameProxy ;
         
         using VectorOffset<Vector>::size ;
         

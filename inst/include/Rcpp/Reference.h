@@ -12,8 +12,8 @@ namespace Rcpp{
         public FieldProxyPolicy<Reference_Impl<StoragePolicy>>
     {
     public:
-        using Base    = S4_Impl<StoragePolicy> ;
-        using Storage = typename Base::Storage ;
+        typedef S4_Impl<StoragePolicy> Base ;
+        typedef typename Base::Storage Storage ;
         
         /**
          * checks that x is an S4 object of a reference class and wrap it.

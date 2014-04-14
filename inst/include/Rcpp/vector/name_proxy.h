@@ -7,7 +7,7 @@ namespace internal{
     template <int RTYPE, typename VECTOR>
     class name_proxy {
     public:
-        using stored_type = typename Rcpp::traits::storage_type<RTYPE>::type ;
+        typedef typename Rcpp::traits::storage_type<RTYPE>::type stored_type;
         
         void set( VECTOR& parent, const std::string& name, stored_type rhs ){
             int index = 0 ;

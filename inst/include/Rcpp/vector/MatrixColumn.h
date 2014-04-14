@@ -6,10 +6,10 @@ namespace Rcpp{
     template <int RTYPE, typename Mat>
     class MatrixColumn : public SugarVectorExpression<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
     public:
-        using iterator = typename Mat::iterator ;
-        using Proxy = typename Mat::Proxy ;
-        using const_iterator = typename Mat::const_iterator ;
-        using const_Proxy = typename Mat::const_Proxy ;
+        typedef typename Mat::iterator iterator;
+        typedef typename Mat::Proxy Proxy ;
+        typedef typename Mat::const_iterator const_iterator;
+        typedef typename Mat::const_Proxy const_Proxy;
         
         MatrixColumn( Mat& mat_, int i) : mat(mat_), index(i), n(mat.nrow()){}
         

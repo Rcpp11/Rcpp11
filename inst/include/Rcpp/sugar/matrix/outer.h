@@ -13,7 +13,7 @@ namespace Rcpp{
             Outer<RTYPE,Function,STORAGE>  
         > {
         public:
-            using Vec = Vector<RTYPE> ;
+            typedef Vector<RTYPE> Vec ;
             typedef typename std::result_of<Function(STORAGE,STORAGE)>::type result_type ;
             const static int RESULT_R_TYPE = Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
             

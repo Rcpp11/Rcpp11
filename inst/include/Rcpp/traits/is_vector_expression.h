@@ -8,7 +8,9 @@ namespace Rcpp {
     namespace traits {
                            
         template <typename T>
-        using is_vector_expression = typename std::is_base_of<SugarVectorExpressionBase, T>::type ;
+        struct is_vector_expression {
+            typedef typename std::is_base_of<SugarVectorExpressionBase, T>::type type;
+        } ;
         
     }
 }

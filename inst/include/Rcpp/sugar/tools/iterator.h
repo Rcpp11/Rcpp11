@@ -8,13 +8,13 @@ namespace sugar {
     template <typename T>
     class SugarIterator {
     public:
-        using stored_type       = typename T::stored_type ;
-        using value_type        = stored_type ;
-        using difference_type   = int ;
-        using reference         = stored_type ;
-        using pointer           = stored_type* ;
-        using iterator_category = std::random_access_iterator_tag  ;
-        using iterator          = SugarIterator ;
+        typedef typename T::stored_type  stored_type  ;
+        typedef stored_type value_type  ;
+        typedef int difference_type  ;
+        typedef stored_type reference ;
+        typedef stored_type* pointer ;
+        typedef std::random_access_iterator_tag iterator_category ;
+        typedef SugarIterator iterator ;
         
         SugarIterator( const T& ref_ ) :ref(ref_), index(0) {}
         SugarIterator( const T& ref_, int index_) : ref(ref_), index(index_) {}
@@ -88,12 +88,12 @@ namespace sugar {
     
     template <int RTYPE, bool NA, typename Expr>
     struct sugar_const_iterator_type {
-        using type = SugarIterator<Expr> ;
+        typedef SugarIterator<Expr> type;
     } ;
     
     template <int RTYPE, template <class> class StoragePolicy>
     struct sugar_const_iterator_type< RTYPE, true, Vector<RTYPE,StoragePolicy> > {
-        using type = typename Vector<RTYPE,StoragePolicy>::const_iterator ;
+        typedef typename Vector<RTYPE,StoragePolicy>::const_iterator type;
     } ;
     
     template <int RTYPE, bool NA, typename Expr>

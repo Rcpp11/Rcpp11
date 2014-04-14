@@ -13,8 +13,8 @@ namespace Rcpp{
         public DottedPairImpl<Language_Impl<StoragePolicy>>
     {
     public:
-        using Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::DottedPairProxy ;
-        using const_Proxy = typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::const_DottedPairProxy ;
+        typedef typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::DottedPairProxy Proxy;
+        typedef typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::const_DottedPairProxy const_Proxy;
         
         RCPP_GENERATE_CTOR_ASSIGN(Language_Impl) 
 
@@ -110,7 +110,7 @@ namespace Rcpp{
     template <typename OUT = SEXP, typename... Args> 
     class typed_call {
     public:
-        using Proxy = Language::Proxy ;
+        typedef Language::Proxy Proxy ;
         
         typed_call( Language call_) : call(call_){
             for( int i=0; i<n; i++){
