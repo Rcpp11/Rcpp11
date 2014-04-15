@@ -79,14 +79,14 @@ namespace Rcpp{
     
     RCPP_API_CLASS_DECL(RObject) 
     RCPP_API_CLASS_DECL(Language) 
-    RCPP_API_CLASS_DECL(Pairlist) ;
-    RCPP_API_CLASS_DECL(Environment) ;
-    RCPP_API_CLASS_DECL(Promise) ;
-    RCPP_API_CLASS_DECL(WeakReference) ;
-    RCPP_API_CLASS_DECL(S4) ;
-    RCPP_API_CLASS_DECL(Formula) ;
-    RCPP_API_CLASS_DECL(Reference) ;
-    RCPP_API_CLASS_DECL(Function) ;
+    RCPP_API_CLASS_DECL(Pairlist)
+    RCPP_API_CLASS_DECL(Environment)
+    RCPP_API_CLASS_DECL(Promise)
+    RCPP_API_CLASS_DECL(WeakReference)
+    RCPP_API_CLASS_DECL(S4)
+    RCPP_API_CLASS_DECL(Formula)
+    RCPP_API_CLASS_DECL(Reference)
+    RCPP_API_CLASS_DECL(Function)
     
     template < template <class> class StoragePolicy > class Symbol_Impl ;
     typedef Symbol_Impl<NoProtectStorage> Symbol ;
