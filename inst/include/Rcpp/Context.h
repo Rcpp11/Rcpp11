@@ -74,7 +74,7 @@ namespace Rcpp {
     inline SEXP Rcpp_eval(SEXP expr, SEXP env ){
         // version not using contexts for windows until we figure out how to
         Shield<SEXP> x = Rf_lang3( Rf_install("try"), expr, Rf_ScalarLogical(TRUE) );
-        SET_TAG( CADDR(x), Rf_install("silent") );
+        SET_TAG( CDDR(x), Rf_install("silent") );
         Shield<SEXP> res = Rf_eval( x, env) ;
         if( Rf_inherits( res, "try-error" ) ){
             throw eval_error( CHAR(STRING_ELT(res, 0)) ) ;    
