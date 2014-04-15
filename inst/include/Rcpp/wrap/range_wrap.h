@@ -100,7 +100,7 @@ inline SEXP range_wrap_dispatch___impl__cast( InputIterator first, InputIterator
     Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
     typedef typename ::Rcpp::traits::storage_type<RTYPE>::type CTYPE ;
     CTYPE* start = r_vector_start<RTYPE>(x) ;
-    int i =0;
+    size_t i =0;
     std::string buf ; 
     for( ; i<size; i++, ++first){
         start[i] = (*first).second ;
