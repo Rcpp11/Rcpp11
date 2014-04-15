@@ -18,7 +18,7 @@ script:
   - cd Rcpp-test
   - R CMD INSTALL .
   - cd ../Rcpp11
-  - Rscript -e "require(RcppTest); require(testthat); test_package('RcppTest')"
+  - Rscript -e "require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
   
 after_script:
   - ./travis-tool.sh dump_logs
