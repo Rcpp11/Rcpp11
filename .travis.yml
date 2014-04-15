@@ -12,15 +12,7 @@ before_install:
   - ./travis-tool.sh github_package testthat
     
 script:
-  - cd ..
-  - R CMD build --no-manual Rcpp11
-  - FILE=$(ls -1t Rcpp11_*.tar.gz | head -n 1)
-  - R CMD check --no-manual --as-cran "${FILE}"
-  - R CMD INSTALL "${FILE}"
-  - git clone https://github.com/Rcpp11/attributes.git
-  - R CMD INSTALL attributes
-  - git clone https://github.com/Rcpp11/Rcpp-test.git
-  - Rscript -e "setwd('Rcpp-test'); library(methods); library(testthat); library(Rcpp11); library(attributes); test_dir('.')"
+  - Rscript -e "install_github( 'Rcpp11/Rcpp-test'); test_package('RcppTest')"
   
 after_script:
   - ./travis-tool.sh dump_logs
