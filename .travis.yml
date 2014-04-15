@@ -12,6 +12,7 @@ before_install:
   - ./travis-tool.sh github_package testthat
     
 script:
+  - R CMD INSTALL .
   - cd ..
   - git clone https://github.com/Rcpp11/Rcpp-test.git
   - cd Rcpp-test
