@@ -12,7 +12,7 @@ before_install:
   - ./travis-tool.sh github_package testthat
     
 script:
-  - Rscript -e "install_github( 'Rcpp11/Rcpp-test'); test_package('RcppTest')"
+  - Rscript -e "library('methods'); library('devtools'); library('testthat'); install_github( 'Rcpp11/Rcpp-test'); test_package('RcppTest')"
   
 after_script:
   - ./travis-tool.sh dump_logs
