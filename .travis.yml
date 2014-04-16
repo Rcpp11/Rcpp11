@@ -12,7 +12,7 @@ script:
   - git clone https://github.com/Rcpp11/Rcpp-test.git
   - R CMD INSTALL --install-tests Rcpp-test
   - cd Rcpp11
-  - Rscript -e "require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
+  - Rscript -e "require(methods); require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
   
 after_script:
   - ./travis-tool.sh dump_logs
