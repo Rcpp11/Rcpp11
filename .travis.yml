@@ -1,13 +1,8 @@
 language: cpp
     
 before_install:
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq g++-4.8
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
-  - mkdir ~/.R
-  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nCXXFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
     
@@ -15,9 +10,8 @@ script:
   - R CMD INSTALL .
   - cd ..
   - git clone https://github.com/Rcpp11/Rcpp-test.git
-  - cd Rcpp-test
-  - R CMD INSTALL .
-  - cd ../Rcpp11
+  - R CMD INSTALL --install-tests Rcpp-test
+  - cd Rcpp11
   - Rscript -e "require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
   
 after_script:
