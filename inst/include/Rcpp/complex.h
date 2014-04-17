@@ -2,6 +2,12 @@
 #ifndef RCPP__complex_H
 #define RCPP__complex_H
 
+inline Rcomplex& operator+=( Rcomplex& lhs, const Rcomplex& rhs ){
+    lhs.r += rhs.r ;
+    lhs.i += rhs.i ;
+    return lhs ;
+}
+
 // Rcomplex support
 inline Rcomplex operator*( const Rcomplex& lhs, const Rcomplex& rhs){          
     Rcomplex y ;
