@@ -66,6 +66,11 @@ namespace Rcpp{
             reset(other.size()) ;
             other.apply(*this) ;
         }
+        
+        template <bool NA>
+        Vector( const VectorBase<RTYPE,NA,Vector>& other) {
+            Storage::set__( other.get_ref() );
+        }
     
         template <bool NA, typename Expr>
         Vector& operator=( const SugarVectorExpression<RTYPE, NA, Expr>& expr ){
