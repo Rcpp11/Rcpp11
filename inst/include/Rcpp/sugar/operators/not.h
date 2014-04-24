@@ -54,7 +54,7 @@ namespace sugar{
     template <int RTYPE, bool NA, typename T>
     class Not_Vector : public SugarVectorExpression<LGLSXP,NA, Not_Vector<RTYPE,NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         typedef not_<RTYPE,NA> OPERATOR ;
     
@@ -78,7 +78,7 @@ namespace sugar{
 template <int RTYPE,bool NA, typename T>
 inline Rcpp::sugar::Not_Vector< RTYPE , NA , T >
 operator!( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& x
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& x
 ) {
     return Rcpp::sugar::Not_Vector<RTYPE,NA, T >( x ) ;
 }

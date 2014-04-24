@@ -56,7 +56,7 @@ private:
 
 template <int RTYPE, bool NA, typename T, typename EXPONENT_TYPE>
 inline sugar::Pow<RTYPE,NA,T,EXPONENT_TYPE> pow( 
-    const VectorBase<RTYPE,NA,T>& t, 
+    const SugarVectorExpression<RTYPE,NA,T>& t, 
     EXPONENT_TYPE exponent
 ){
     return sugar::Pow<RTYPE,NA,T,EXPONENT_TYPE>( t.get_ref() , exponent ) ;

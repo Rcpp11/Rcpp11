@@ -145,7 +145,6 @@ namespace Rcpp{
 #include <Rcpp/InputParameter.h>
 #include <Rcpp/is.h>
 
-#include <Rcpp/vector/VectorBase.h>
 #include <Rcpp/vector/MatrixBase.h>
 
 #include <Rcpp/wrap/wrap.h>

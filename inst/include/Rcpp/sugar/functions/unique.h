@@ -4,13 +4,13 @@
 namespace Rcpp{
 
 template <int RTYPE, bool NA, typename T>
-inline Vector<RTYPE> unique( const VectorBase<RTYPE,NA,T>& t ){
+inline Vector<RTYPE> unique( const SugarVectorExpression<RTYPE,NA,T>& t ){
     typedef typename traits::storage_type<RTYPE>::type STORAGE;
     return wrap( std::unordered_set<STORAGE>( t.begin(), t.end() ) ) ;
 }
 
 template <int RTYPE, bool NA, typename T, bool RHS_NA, typename RHS_T>
-inline LogicalVector in( const VectorBase<RTYPE,NA,T>& x, const VectorBase<RTYPE,RHS_NA,RHS_T>& table ){
+inline LogicalVector in( const SugarVectorExpression<RTYPE,NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table ){
     typedef typename traits::storage_type<RTYPE>::type STORAGE;
     
     std::unordered_set<STORAGE> set( table.begin(), table.end() );

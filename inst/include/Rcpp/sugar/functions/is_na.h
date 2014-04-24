@@ -10,7 +10,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-            typedef Rcpp::VectorBase<RTYPE,NA,VEC_TYPE> BASE ;
+            typedef Rcpp::SugarVectorExpression<RTYPE,NA,VEC_TYPE> BASE ;
         
             IsNa( const BASE& obj_) : obj(obj_){}
         
@@ -32,14 +32,14 @@ namespace Rcpp{
               
         // specialization for the case where we already know
         // the result (FALSE) because it is embedded in the type
-        // (the second template parameter of VectorBase)
+        // (the second template parameter of SugarVectorExpression)
         template <int RTYPE, typename VEC_TYPE>
         class IsNa<RTYPE,false,VEC_TYPE> : 
             public SugarVectorExpression< LGLSXP, false, IsNa<RTYPE,false,VEC_TYPE> >, 
             public custom_sugar_vector_expression {
         public:
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-            typedef Rcpp::VectorBase<RTYPE,false,VEC_TYPE> BASE ;
+            typedef Rcpp::SugarVectorExpression<RTYPE,false,VEC_TYPE> BASE ;
         
             IsNa( const BASE& obj_) : obj(obj_){}
         
@@ -62,7 +62,7 @@ namespace Rcpp{
     } // sugar
     
     template <int RTYPE, bool NA, typename T>
-    inline sugar::IsNa<RTYPE,NA,T> is_na( const Rcpp::VectorBase<RTYPE,NA,T>& t){
+    inline sugar::IsNa<RTYPE,NA,T> is_na( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t){
         return sugar::IsNa<RTYPE,NA,T>( t ) ;
     }
 

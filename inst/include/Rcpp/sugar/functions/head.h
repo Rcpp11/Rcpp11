@@ -10,7 +10,7 @@ class Head :
     public custom_sugar_vector_expression 
 {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Head( const VEC_TYPE& object_, int n_ ) : object(object_), n(n_) {
@@ -38,7 +38,7 @@ private:
 
 template <int RTYPE,bool NA, typename T>
 inline sugar::Head<RTYPE,NA,T> head( 
-    const VectorBase<RTYPE,NA,T>& t, 
+    const SugarVectorExpression<RTYPE,NA,T>& t, 
     int n 
     ){
     return sugar::Head<RTYPE,NA,T>( t, n ) ;

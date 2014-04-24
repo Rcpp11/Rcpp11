@@ -7,8 +7,8 @@ namespace sugar{
     template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T >
     class Divides_Vector_Vector : public SugarVectorExpression<RTYPE,true, Divides_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -32,8 +32,8 @@ namespace sugar{
     class Divides_Vector_Vector<REALSXP,LHS_NA,LHS_T,RHS_NA,RHS_T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Vector_Vector<REALSXP,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -53,8 +53,8 @@ namespace sugar{
     template <int RTYPE, typename LHS_T, bool RHS_NA, typename RHS_T >
     class Divides_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> : public SugarVectorExpression<RTYPE,true, Divides_Vector_Vector<RTYPE,false,LHS_T,RHS_NA,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -77,8 +77,8 @@ namespace sugar{
     class Divides_Vector_Vector<REALSXP,false,LHS_T,RHS_NA,RHS_T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Vector_Vector<REALSXP,false,LHS_T,RHS_NA,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,false,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,RHS_NA,RHS_T> RHS_TYPE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -99,8 +99,8 @@ namespace sugar{
     class Divides_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> : 
         public SugarVectorExpression<RTYPE,true, Divides_Vector_Vector<RTYPE,LHS_NA,LHS_T,false,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<RTYPE,false,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,RHS_T> RHS_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -122,8 +122,8 @@ namespace sugar{
     class Divides_Vector_Vector<REALSXP,LHS_NA,LHS_T,false,RHS_T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Vector_Vector<REALSXP,LHS_NA,LHS_T,false,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<REALSXP,false,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,RHS_T> RHS_TYPE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -143,8 +143,8 @@ namespace sugar{
     class Divides_Vector_Vector<RTYPE,false,LHS_T,false,RHS_T> : 
         public SugarVectorExpression<RTYPE,false, Divides_Vector_Vector<RTYPE,false,LHS_T,false,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<RTYPE,false,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,RHS_T> RHS_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -165,8 +165,8 @@ namespace sugar{
     class Divides_Vector_Vector<REALSXP,false,LHS_T,false,RHS_T> : 
         public SugarVectorExpression<REALSXP,false, Divides_Vector_Vector<REALSXP,false,LHS_T,false,RHS_T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,false,LHS_T> LHS_TYPE ;
-        typedef typename Rcpp::VectorBase<REALSXP,false,RHS_T> RHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,LHS_T> LHS_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,RHS_T> RHS_TYPE ;
         
         Divides_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -190,7 +190,7 @@ namespace sugar{
         public SugarVectorExpression<RTYPE,true, Divides_Vector_Primitive<RTYPE,NA,T> > {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-        typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
         
         Divides_Vector_Primitive( const VEC_TYPE& lhs_, STORAGE rhs_ ) : 
             lhs(lhs_), rhs(rhs_), rhs_na( Rcpp::traits::is_na<RTYPE>(rhs_) ) {
@@ -214,7 +214,7 @@ namespace sugar{
     class Divides_Vector_Primitive<REALSXP,NA,T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Vector_Primitive<REALSXP,NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,NA,T> VEC_TYPE ;
         
         Divides_Vector_Primitive( const VEC_TYPE& lhs_, double rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {
@@ -238,7 +238,7 @@ namespace sugar{
         public SugarVectorExpression<RTYPE,true, Divides_Vector_Primitive<RTYPE,false,T> > {
     public:
         typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-        typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,T> VEC_TYPE ;
         
         Divides_Vector_Primitive( const VEC_TYPE& lhs_, STORAGE rhs_ ) : 
             lhs(lhs_), rhs(rhs_), rhs_na( Rcpp::traits::is_na<RTYPE>(rhs_) ) {}
@@ -260,7 +260,7 @@ namespace sugar{
     class Divides_Vector_Primitive<REALSXP,false,T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Vector_Primitive<REALSXP,false,T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,false,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,T> VEC_TYPE ;
         
         Divides_Vector_Primitive( const VEC_TYPE& lhs_, double rhs_ ) : 
             lhs(lhs_), rhs(rhs_){}
@@ -281,7 +281,7 @@ namespace sugar{
     class Divides_Primitive_Vector : 
         public SugarVectorExpression<RTYPE,true, Divides_Primitive_Vector<RTYPE,NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ; 
     
         Divides_Primitive_Vector( STORAGE lhs_, const VEC_TYPE& rhs_ ) : 
@@ -303,7 +303,7 @@ namespace sugar{
     class Divides_Primitive_Vector<REALSXP,NA,T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Primitive_Vector<REALSXP,NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,NA,T> VEC_TYPE ;
         
         Divides_Primitive_Vector( double lhs_, const VEC_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -323,7 +323,7 @@ namespace sugar{
     class Divides_Primitive_Vector<RTYPE,false,T> : 
         public SugarVectorExpression<RTYPE,true, Divides_Primitive_Vector<RTYPE,false,T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,T> VEC_TYPE ;
         typedef typename traits::storage_type<RTYPE>::type STORAGE ; 
         
         Divides_Primitive_Vector( STORAGE lhs_, const VEC_TYPE& rhs_ ) : 
@@ -345,7 +345,7 @@ namespace sugar{
     class Divides_Primitive_Vector<REALSXP,false,T> : 
         public SugarVectorExpression<REALSXP,true, Divides_Primitive_Vector<REALSXP,false,T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,false,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,T> VEC_TYPE ;
         
         Divides_Primitive_Vector( double lhs_, const VEC_TYPE& rhs_ ) : 
             lhs(lhs_), rhs(rhs_) {}
@@ -367,7 +367,7 @@ namespace sugar{
 template <int RTYPE,bool NA, typename T>
 inline Rcpp::sugar::Divides_Vector_Primitive< RTYPE , NA, T >
 operator/( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs, 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs, 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs 
 ) {
     return Rcpp::sugar::Divides_Vector_Primitive<RTYPE,NA,T>( lhs, rhs ) ;
@@ -378,7 +378,7 @@ template <int RTYPE,bool NA, typename T>
 inline Rcpp::sugar::Divides_Primitive_Vector< RTYPE , NA,T>
 operator/( 
     typename Rcpp::traits::storage_type<RTYPE>::type lhs, 
-    const Rcpp::VectorBase<RTYPE,NA,T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& rhs
 ) {
     return Rcpp::sugar::Divides_Primitive_Vector<RTYPE,NA,T>( lhs, rhs ) ;
 }
@@ -390,8 +390,8 @@ inline Rcpp::sugar::Divides_Vector_Vector<
     RHS_NA, RHS_T
     >
 operator/( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
 ) {
     return Rcpp::sugar::Divides_Vector_Vector<
         RTYPE, 

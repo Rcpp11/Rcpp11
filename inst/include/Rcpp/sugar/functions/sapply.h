@@ -19,7 +19,7 @@ public:
     const static int RESULT_R_TYPE = 
         Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 
-    typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
+    typedef Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC ;
     typedef typename Rcpp::traits::r_vector_element_converter<RESULT_R_TYPE>::type converter_type ;
     typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type STORAGE ;
 
@@ -57,7 +57,7 @@ public:
     const static int RESULT_R_TYPE = 
         Rcpp::traits::r_sexptype_traits<result_type>::rtype ;
 
-    typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
+    typedef Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC ;
     typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type STORAGE ;
 
     Sapply( const VEC& vec_, Function fun_ ) : vec(vec_.get_ref()), fun(fun_){
@@ -91,7 +91,7 @@ inline sugar::Sapply<
         typename Rcpp::traits::storage_type< traits::r_sexptype_traits< typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type >::rtype >::type
     >::value
 > 
-sapply( const Rcpp::VectorBase<RTYPE,NA,T>& t, Function fun ){
+sapply( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t, Function fun ){
     typedef typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type result_type ; 
     return sugar::Sapply<RTYPE,NA,T,Function, 
     std::is_same< 

@@ -9,7 +9,7 @@ class Tail :
     public SugarVectorExpression< RTYPE ,NA, Tail<RTYPE,NA,T> >, 
     public custom_sugar_vector_expression {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Tail( const VEC_TYPE& object_, int n_ ) : object(object_), start(0), n(n_) {
@@ -40,7 +40,7 @@ private:
 
 template <int RTYPE,bool NA, typename T>
 inline sugar::Tail<RTYPE,NA,T> tail( 
-    const VectorBase<RTYPE,NA,T>& t, 
+    const SugarVectorExpression<RTYPE,NA,T>& t, 
     int n 
     ){
     return sugar::Tail<RTYPE,NA,T>( t, n ) ;

@@ -12,7 +12,7 @@ class SugarMath_1 : public SugarVectorExpression<
     > {
 public:
 
-    typedef Rcpp::VectorBase< Rcpp::traits::r_sexptype_traits<OUT>::rtype ,NA,T1> VEC_TYPE ;
+    typedef Rcpp::SugarVectorExpression< Rcpp::traits::r_sexptype_traits<OUT>::rtype ,NA,T1> VEC_TYPE ;
 
     SugarMath_1( FunPtr ptr_, const VEC_TYPE & vec_) : ptr(ptr_), vec(vec_){}
 
@@ -35,7 +35,7 @@ class SugarMath_1<NA,OUT,int,T1,FunPtr> : public SugarVectorExpression<
     SugarMath_1<NA,OUT,int,T1,FunPtr>
     > {
 public:
-    typedef Rcpp::VectorBase< INTSXP ,NA,T1> VEC_TYPE ;
+    typedef Rcpp::SugarVectorExpression< INTSXP ,NA,T1> VEC_TYPE ;
 
     SugarMath_1( FunPtr ptr_, const VEC_TYPE & vec_) : ptr(ptr_), vec(vec_){}
 
@@ -53,13 +53,13 @@ private:
 
 template <typename OUT, typename T1, typename FunPtr>
 class SugarMath_1<false,OUT,int,T1,FunPtr> : public 
-Rcpp::VectorBase< 
+Rcpp::SugarVectorExpression< 
     Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
     false, 
     SugarMath_1<false,OUT,int,T1,FunPtr>
 > {
 public:
-    typedef Rcpp::VectorBase< INTSXP ,false,T1> VEC_TYPE ;
+    typedef Rcpp::SugarVectorExpression< INTSXP ,false,T1> VEC_TYPE ;
     SugarMath_1( FunPtr ptr_, const VEC_TYPE & vec_) : ptr(ptr_), vec(vec_){}
 
     inline OUT operator[]( int i) const { 
@@ -81,7 +81,7 @@ private:
     template <bool NA, typename T>                                           \
     inline sugar::SugarMath_1<NA,double,double,T, double (*)(double) >       \
     __NAME__(                                                                \
-        const VectorBase<REALSXP,NA,T>& t                                    \
+        const SugarVectorExpression<REALSXP,NA,T>& t                                    \
     ){                                                                       \
         return sugar::SugarMath_1<NA,double,double,T, double (*)(double)>(   \
             &__SYMBOL__ , t                                                   \
@@ -92,7 +92,7 @@ private:
     template <bool NA, typename T>                                           \
     inline sugar::SugarMath_1<NA,double,int,T, double (*)(double) >          \
     __NAME__(                                                                \
-        const VectorBase<INTSXP,NA,T>& t                                     \
+        const SugarVectorExpression<INTSXP,NA,T>& t                                     \
     ){                                                                       \
         return sugar::SugarMath_1<NA,double,int,T, double (*)(double)>(      \
             &__SYMBOL__ , t                                                   \

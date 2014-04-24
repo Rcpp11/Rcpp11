@@ -7,7 +7,7 @@ namespace sugar{
 template <int RTYPE, bool NA, typename T>                                    
 class Sd : public Lazy< typename Rcpp::traits::storage_type<RTYPE>::type , Sd<RTYPE,NA,T> > {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     
     Sd( const VEC_TYPE& object_ ) : object(object_){}
@@ -22,7 +22,7 @@ private:
 } // sugar
 
 template <bool NA, typename T>
-inline sugar::Sd<REALSXP,NA,T> sd( const VectorBase<REALSXP,NA,T>& t){
+inline sugar::Sd<REALSXP,NA,T> sd( const SugarVectorExpression<REALSXP,NA,T>& t){
     return sugar::Sd<REALSXP,NA,T>( t ) ;
 }
 

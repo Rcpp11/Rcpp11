@@ -64,8 +64,8 @@ private:
 } // sugar
 } // Rcpp
 
-#define SB2_LHT VectorBase<REALSXP,LHS_NA,LHS_T>
-#define SB2_RHT VectorBase<REALSXP,RHS_NA,RHS_T>
+#define SB2_LHT SugarVectorExpression<REALSXP,LHS_NA,LHS_T>
+#define SB2_RHT SugarVectorExpression<REALSXP,RHS_NA,RHS_T>
 
 #define SUGAR_BLOCK_2(__NAME__,__SYMBOL__)                                                      \
     namespace Rcpp{                                                                 \

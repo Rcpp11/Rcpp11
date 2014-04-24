@@ -9,8 +9,8 @@ class Comparator :
     public SugarVectorExpression< LGLSXP, true, Comparator<RTYPE,Operator,LHS_NA,LHS_T,RHS_NA,RHS_T> > {
 
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
-    typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     Comparator( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) : 
@@ -40,8 +40,8 @@ class Comparator<RTYPE,Operator,false,LHS_T,RHS_NA,RHS_T> :
     public SugarVectorExpression< LGLSXP, true, Comparator<RTYPE,Operator,false,LHS_T,RHS_NA,RHS_T> > {
 
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
-    typedef typename Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T> RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     Comparator( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) : 
@@ -68,8 +68,8 @@ class Comparator<RTYPE,Operator,false,LHS_T,false,RHS_T> :
     public SugarVectorExpression< LGLSXP, true, Comparator<RTYPE,Operator,false,LHS_T,false,RHS_T> > {
 
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
-    typedef typename Rcpp::VectorBase<RTYPE,false,RHS_T> RHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,false,RHS_T> RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     Comparator( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) : 

@@ -11,7 +11,7 @@ namespace Rcpp{
             public SugarVectorExpression<REALSXP, HAS_NA, Vectorized<Func,HAS_NA,VEC> >, 
             public custom_sugar_vector_expression {
         public:
-            typedef typename Rcpp::VectorBase<REALSXP,HAS_NA,VEC> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<REALSXP,HAS_NA,VEC> VEC_TYPE ;
                 
             Vectorized( const VEC_TYPE& object_) : object( object_.get_ref() ){}
             inline double operator[]( int i) const {
@@ -33,7 +33,7 @@ namespace Rcpp{
             public SugarVectorExpression<REALSXP, HAS_NA, Vectorized_INTSXP<Func,HAS_NA,VEC> >, 
             public custom_sugar_vector_expression {
         public:
-            typedef typename Rcpp::VectorBase<INTSXP,HAS_NA,VEC> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<INTSXP,HAS_NA,VEC> VEC_TYPE ;
                 
             Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
             inline double operator[]( int i) const {
@@ -59,7 +59,7 @@ namespace Rcpp{
             public SugarVectorExpression<REALSXP,false, Vectorized_INTSXP<Func,false,VEC> >, 
             public custom_sugar_vector_expression{
         public:
-            typedef typename Rcpp::VectorBase<INTSXP,false,VEC> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<INTSXP,false,VEC> VEC_TYPE ;
                 
             Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
             inline double operator[]( int i) const {
@@ -83,14 +83,14 @@ namespace Rcpp{
 namespace Rcpp{                                                              \
         template <bool NA, typename T>                                           \
         inline sugar::Vectorized<__SYMBOL__,NA,T>                                \
-        __NAME__( const VectorBase<REALSXP,NA,T>& t ){                           \
+        __NAME__( const SugarVectorExpression<REALSXP,NA,T>& t ){                           \
                 return sugar::Vectorized<__SYMBOL__,NA,T>( t ) ;                     \
         }                                                                        \
         inline sugar::Vectorized<__SYMBOL__,true,NumericVector>                  \
         __NAME__( SEXP x){ return __NAME__( NumericVector( x ) ) ; }             \
         template <bool NA, typename T>                                           \
         inline sugar::Vectorized_INTSXP<__SYMBOL__,NA,T>                         \
-        __NAME__( const VectorBase<INTSXP,NA,T>& t      ){                           \
+        __NAME__( const SugarVectorExpression<INTSXP,NA,T>& t      ){                           \
                 return sugar::Vectorized_INTSXP<__SYMBOL__,NA,T>( t ) ;              \
         }                                                                        \
 }

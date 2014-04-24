@@ -9,11 +9,23 @@ namespace Rcpp{
     
     template <int RTYPE, bool NA, typename Expr>
     struct SugarVectorExpression : 
-        public VectorBase<RTYPE, NA, Expr>, 
-        public SugarVectorExpressionBase
+        public SugarVectorExpressionBase, 
+        public CRTP<Expr>
     {
-        using VectorBase<RTYPE, NA, Expr>::get_ref ;
+        using CRTP<Expr>::get_ref ;
+    
+        struct r_type : std::integral_constant<int,RTYPE>{} ;
+        typedef typename traits::storage_type<RTYPE>::type stored_type ; 
+        typedef typename traits::storage_type<RTYPE>::type elem_type   ;
         
+        inline stored_type operator[]( int i) const {
+            return get_ref()[i] ;
+        }
+        
+        inline int size() const { 
+            return get_ref().size() ;
+        }
+    
         template <typename Target>
         void apply( Target& target ) const ;
     

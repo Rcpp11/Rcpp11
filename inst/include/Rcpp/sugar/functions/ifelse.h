@@ -16,9 +16,9 @@ class IfElse : public SugarVectorExpression<
     IfElse<RTYPE,COND_NA,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,COND_NA,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     IfElse( const COND_TYPE& cond_, const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -54,9 +54,9 @@ class IfElse<RTYPE,false,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T> : public SugarVectorE
     IfElse<RTYPE,false,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,false,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,false,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     IfElse( const COND_TYPE& cond_, const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
@@ -91,8 +91,8 @@ class IfElse_Primitive_Vector : public SugarVectorExpression<
     IfElse_Primitive_Vector<RTYPE,COND_NA,COND_T,RHS_NA,RHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,COND_NA,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     IfElse_Primitive_Vector( const COND_TYPE& cond_, STORAGE lhs_, const RHS_TYPE& rhs_ ) : 
@@ -125,8 +125,8 @@ class IfElse_Primitive_Vector<RTYPE,false,COND_T,RHS_NA,RHS_T> : public SugarVec
     IfElse_Primitive_Vector<RTYPE,false,COND_T,RHS_NA,RHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,false,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,false,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>  RHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     
     IfElse_Primitive_Vector( const COND_TYPE& cond_, STORAGE lhs_, const RHS_TYPE& rhs_ ) : 
@@ -161,8 +161,8 @@ class IfElse_Vector_Primitive : public SugarVectorExpression<
     IfElse_Vector_Primitive<RTYPE,COND_NA,COND_T,LHS_NA,LHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,COND_NA,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     
     IfElse_Vector_Primitive( const COND_TYPE& cond_, const LHS_TYPE& lhs_, STORAGE rhs_ ) : 
@@ -197,8 +197,8 @@ class IfElse_Vector_Primitive<RTYPE,false,COND_T,LHS_NA,LHS_T> : public SugarVec
     IfElse_Vector_Primitive<RTYPE,false,COND_T,LHS_NA,LHS_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,false,COND_T> COND_TYPE ;
-    typedef Rcpp::VectorBase<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,false,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<RTYPE ,LHS_NA ,LHS_T>  LHS_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     
     IfElse_Vector_Primitive( const COND_TYPE& cond_, const LHS_TYPE& lhs_, STORAGE rhs_ ) : 
@@ -234,7 +234,7 @@ class IfElse_Primitive_Primitive : public SugarVectorExpression<
     IfElse_Primitive_Primitive<RTYPE,COND_NA,COND_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,COND_NA,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T> COND_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     IfElse_Primitive_Primitive( const COND_TYPE& cond_, STORAGE lhs_, STORAGE rhs_ ) : 
@@ -267,7 +267,7 @@ class IfElse_Primitive_Primitive<RTYPE,false,COND_T> : public SugarVectorExpress
     IfElse_Primitive_Primitive<RTYPE,false,COND_T>
 > {
 public:         
-    typedef Rcpp::VectorBase<LGLSXP,false,COND_T> COND_TYPE ;
+    typedef Rcpp::SugarVectorExpression<LGLSXP,false,COND_T> COND_TYPE ;
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
 
     IfElse_Primitive_Primitive( const COND_TYPE& cond_, STORAGE lhs_, STORAGE rhs_ ) : 
@@ -298,9 +298,9 @@ template <
     >
 inline sugar::IfElse< RTYPE,COND_NA,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
-    const Rcpp::VectorBase<RTYPE ,LHS_NA ,LHS_T>& lhs,
-    const Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<RTYPE ,LHS_NA ,LHS_T>& lhs,
+    const Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>& rhs
     ){
     return sugar::IfElse<RTYPE,COND_NA,COND_T,LHS_NA,LHS_T,RHS_NA,RHS_T>( cond, lhs, rhs ) ;
 }
@@ -313,9 +313,9 @@ template <
     >
 inline sugar::IfElse_Primitive_Vector< RTYPE,COND_NA,COND_T,RHS_NA,RHS_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
     typename traits::storage_type<RTYPE>::type lhs,
-    const Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>& rhs
     ){
     return sugar::IfElse_Primitive_Vector<RTYPE,COND_NA,COND_T,RHS_NA,RHS_T>( cond, lhs, rhs ) ;
 }
@@ -327,8 +327,8 @@ template <
     >
 inline sugar::IfElse_Vector_Primitive< RTYPE,COND_NA,COND_T,RHS_NA,RHS_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
-    const Rcpp::VectorBase<RTYPE ,RHS_NA ,RHS_T>& lhs,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<RTYPE ,RHS_NA ,RHS_T>& lhs,
     typename traits::storage_type<RTYPE>::type rhs
     ){
     return sugar::IfElse_Vector_Primitive<RTYPE,COND_NA,COND_T,RHS_NA,RHS_T>( cond, lhs, rhs ) ;
@@ -339,7 +339,7 @@ template<
 >
 inline sugar::IfElse_Primitive_Primitive< REALSXP,COND_NA,COND_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
     double lhs,
     double rhs
     ){
@@ -351,7 +351,7 @@ template<
 >
 inline sugar::IfElse_Primitive_Primitive< INTSXP,COND_NA,COND_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
     int lhs,
     int rhs
     ){
@@ -363,7 +363,7 @@ template<
 >
 inline sugar::IfElse_Primitive_Primitive< CPLXSXP,COND_NA,COND_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
     Rcomplex lhs,
     Rcomplex rhs
     ){
@@ -375,7 +375,7 @@ template<
 >
 inline sugar::IfElse_Primitive_Primitive< LGLSXP,COND_NA,COND_T > 
 ifelse( 
-    const Rcpp::VectorBase<LGLSXP,COND_NA,COND_T>& cond,
+    const Rcpp::SugarVectorExpression<LGLSXP,COND_NA,COND_T>& cond,
     bool lhs,
     bool rhs
     ){

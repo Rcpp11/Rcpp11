@@ -10,7 +10,7 @@ class Rep_len :
     public custom_sugar_vector_expression {
 
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Rep_len( const VEC_TYPE& object_, int len_ ) :
@@ -57,7 +57,7 @@ private:
 } // sugar
 
 template <int RTYPE, bool NA, typename T>
-inline sugar::Rep_len<RTYPE,NA,T> rep_len( const VectorBase<RTYPE,NA,T>& t, int len ){
+inline sugar::Rep_len<RTYPE,NA,T> rep_len( const SugarVectorExpression<RTYPE,NA,T>& t, int len ){
     return sugar::Rep_len<RTYPE,NA,T>( t, len ) ;
 }
 

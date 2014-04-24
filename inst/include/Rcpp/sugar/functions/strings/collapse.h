@@ -17,7 +17,7 @@ namespace Rcpp{
     
     
     template <bool NA, typename T>
-    inline String collapse( const VectorBase<STRSXP,NA,T>& vec ){
+    inline String collapse( const SugarVectorExpression<STRSXP,NA,T>& vec ){
         return sugar::collapse__impl( vec.get_ref().begin(), vec.size() ) ;
     }
 

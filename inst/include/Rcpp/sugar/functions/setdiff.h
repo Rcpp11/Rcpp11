@@ -23,7 +23,7 @@ namespace sugar{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        SetDiff( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs) : 
+        SetDiff( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs) : 
             lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
             rhs_set( sugar_begin(rhs), sugar_end(rhs) )
         {
@@ -51,7 +51,7 @@ namespace sugar{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        SetEqual( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ) : 
+        SetEqual( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
             lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
             rhs_set( sugar_begin(rhs), sugar_end(rhs) )
         {
@@ -82,7 +82,7 @@ namespace sugar{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Intersect( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ) : 
+        Intersect( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
             intersect()
         {
             
@@ -115,7 +115,7 @@ namespace sugar{
     public:
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
-        Union( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ) : 
+        Union( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
             result( sugar_begin(lhs), sugar_end(lhs) )
         {
             result.insert( sugar_begin(rhs), sugar_end(rhs) ) ;
@@ -139,23 +139,23 @@ namespace sugar{
 } // sugar
 
 template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> setdiff( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ){
+inline Vector<RTYPE> setdiff( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
     return sugar::SetDiff<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
 }
 
 template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline bool setequal( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ){
+inline bool setequal( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
     return sugar::SetEqual<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
 }
 
 template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> intersect( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ){
+inline Vector<RTYPE> intersect( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
     return sugar::Intersect<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
 }
 
 // we cannot use "union" because it is a keyword
 template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> union_( const VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const VectorBase<RTYPE,RHS_NA,RHS_T>& rhs ){
+inline Vector<RTYPE> union_( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
     return sugar::Union<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
 }
 

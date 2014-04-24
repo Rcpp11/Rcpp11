@@ -71,7 +71,7 @@ private:
 } // sugar
 
 template <int RTYPE, bool NA, typename T>
-inline IntegerVector table( const VectorBase<RTYPE,NA,T>& x ){
+inline IntegerVector table( const SugarVectorExpression<RTYPE,NA,T>& x ){
     return sugar::Table<RTYPE,T>(x.get_ref()) ;
 }
 

@@ -53,17 +53,17 @@ namespace Rcpp{
 
 // we cannot use the RCPP_DPQ_1 macro here because of rate and shape
 template <bool NA, typename T>
-inline stats::D1<REALSXP,NA,T> dexp( const Rcpp::VectorBase<REALSXP,NA,T>& x, double shape, bool log = false ) {
+inline stats::D1<REALSXP,NA,T> dexp( const Rcpp::SugarVectorExpression<REALSXP,NA,T>& x, double shape, bool log = false ) {
     return stats::D1<REALSXP,NA,T>( ::Rf_dexp, x, 1.0/shape, log ); 
 }
 
 template <bool NA, typename T>
-inline stats::P1<REALSXP,NA,T> pexp( const Rcpp::VectorBase<REALSXP,NA,T>& x, double shape, bool lower = true, bool log = false ) {
+inline stats::P1<REALSXP,NA,T> pexp( const Rcpp::SugarVectorExpression<REALSXP,NA,T>& x, double shape, bool lower = true, bool log = false ) {
     return stats::P1<REALSXP,NA,T>( ::Rf_pexp, x, 1.0/shape, lower, log ); 
 }
 
 template <bool NA, typename T>
-inline stats::Q1<REALSXP,NA,T> qexp( const Rcpp::VectorBase<REALSXP,NA,T>& x, double shape, bool lower = true, bool log = false ) {
+inline stats::Q1<REALSXP,NA,T> qexp( const Rcpp::SugarVectorExpression<REALSXP,NA,T>& x, double shape, bool lower = true, bool log = false ) {
     return stats::Q1<REALSXP,NA,T>( ::Rf_qexp, x, 1.0/shape, lower, log ); 
 }
 

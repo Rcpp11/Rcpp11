@@ -9,7 +9,7 @@ namespace Rcpp{
             public SugarVectorExpression< RTYPE ,NA, Rev<RTYPE,NA,T> >, 
             public custom_sugar_vector_expression {
         public:
-            typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
             Rev( const VEC_TYPE& object_ ) : 
@@ -37,7 +37,7 @@ namespace Rcpp{
     } // sugar
     
     template <int RTYPE,bool NA, typename T>
-    inline sugar::Rev<RTYPE,NA,T> rev( const VectorBase<RTYPE,NA,T>& t){
+    inline sugar::Rev<RTYPE,NA,T> rev( const SugarVectorExpression<RTYPE,NA,T>& t){
         return sugar::Rev<RTYPE,NA,T>( t ) ;
     }
 

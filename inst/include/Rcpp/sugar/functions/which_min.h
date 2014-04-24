@@ -7,7 +7,7 @@ namespace sugar{
 template <int RTYPE, bool NA, typename T>
 class WhichMin {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     WhichMin(const VEC_TYPE& obj_ ) : obj(obj_){}
 
@@ -36,7 +36,7 @@ private:
 template <int RTYPE, typename T>
 class WhichMin<RTYPE,false,T> {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,false,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
     WhichMin(const VEC_TYPE& obj_ ) : obj(obj_){}
 
@@ -66,7 +66,7 @@ private:
 
 
 template <int RTYPE, bool NA, typename T>
-int which_min( const VectorBase<RTYPE,NA,T>& t ){
+int which_min( const SugarVectorExpression<RTYPE,NA,T>& t ){
     return sugar::WhichMin<RTYPE,NA,T>(t).get() ; 
 }
   

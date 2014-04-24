@@ -32,7 +32,7 @@ namespace Rcpp{
             public Rcpp::SugarMatrixExpression< RTYPE ,NA, Diag_Maker<RTYPE,NA,T> >, 
             public custom_sugar_matrix_expression {
         public:
-            typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
             Diag_Maker( const VEC_TYPE& object_ ) : object(object_), n(object_.size()) {}
@@ -65,7 +65,7 @@ namespace Rcpp{
     
     template <int RTYPE, bool NA, typename Vec>
     inline sugar::Diag_Maker<RTYPE, NA, Vec>
-    diag( const VectorBase<RTYPE,NA,Vec>& x ){
+    diag( const SugarVectorExpression<RTYPE,NA,Vec>& x ){
         return sugar::Diag_Maker<RTYPE,NA,Vec>(x) ;    
     }
     

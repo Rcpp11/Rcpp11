@@ -56,7 +56,7 @@ namespace sugar{
 
 
 template <int RTYPE, bool NA, typename T>
-sugar::Min<RTYPE,NA,T> min( const VectorBase<RTYPE,NA,T>& x){
+sugar::Min<RTYPE,NA,T> min( const SugarVectorExpression<RTYPE,NA,T>& x){
     return sugar::Min<RTYPE,NA,T>(x.get_ref()) ;
 }
 

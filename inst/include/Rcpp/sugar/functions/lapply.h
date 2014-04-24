@@ -11,7 +11,7 @@ namespace Rcpp{
             Lapply<RTYPE,NA,T,Function>
         > {
         public:         
-            typedef Rcpp::VectorBase<RTYPE,NA,T> VEC ;
+            typedef Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             
             Lapply( const VEC& vec_, Function fun_ ) : 
@@ -31,7 +31,7 @@ namespace Rcpp{
     
     template <int RTYPE, bool NA, typename T, typename Function >
     inline sugar::Lapply<RTYPE,NA,T,Function> 
-    lapply( const Rcpp::VectorBase<RTYPE,NA,T>& t, Function fun ){
+    lapply( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t, Function fun ){
         return sugar::Lapply<RTYPE,NA,T,Function>( t, fun ) ;
     }
 

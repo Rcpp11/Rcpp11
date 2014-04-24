@@ -43,7 +43,7 @@ namespace Rcpp{
     
     template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T, typename Function >
     sugar::Outer<RTYPE,Function, typename traits::storage_type<RTYPE>::type >
-    outer( const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs, Function fun ){
+    outer( const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs, Function fun ){
         return sugar::Outer<RTYPE,Function, typename traits::storage_type<RTYPE>::type >( 
             Vector<RTYPE>(lhs.get_ref()), 
             Vector<RTYPE>(rhs.get_ref()),

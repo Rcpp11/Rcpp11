@@ -10,7 +10,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator<( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -31,7 +31,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator>( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 
@@ -54,7 +54,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator>( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -75,7 +75,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator<( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 
@@ -98,7 +98,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator<=( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -119,7 +119,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator>=( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs 
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 
@@ -143,7 +143,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator>=( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -164,7 +164,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator<=( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 
@@ -187,7 +187,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator==( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -208,7 +208,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator==( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 
@@ -231,7 +231,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     T
     > 
 operator!=( 
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs , 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
@@ -252,7 +252,7 @@ inline Rcpp::sugar::Comparator_With_One_Value<
     > 
 operator!=( 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::VectorBase<RTYPE,NA,T>& lhs 
+    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs 
     ){
     return Rcpp::sugar::Comparator_With_One_Value<
         RTYPE, 

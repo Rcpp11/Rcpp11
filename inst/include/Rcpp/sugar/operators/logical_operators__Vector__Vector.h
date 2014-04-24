@@ -10,8 +10,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator<( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 
@@ -31,8 +31,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator>( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 
@@ -52,8 +52,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator<=( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 
@@ -73,8 +73,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator>=( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 
@@ -94,8 +94,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator==( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 
@@ -115,8 +115,8 @@ inline Rcpp::sugar::Comparator<
     RHS_NA, RHS_T
     > 
 operator!=( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs , 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs , 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
     ){
     return Rcpp::sugar::Comparator<
         RTYPE, 

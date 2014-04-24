@@ -26,7 +26,7 @@ public:
 template <int RTYPE, bool NA, typename T>
 class Sign : public SugarVectorExpression< INTSXP,NA, Sign<RTYPE,NA,T> > {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,NA,T> VEC_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Sign( const VEC_TYPE& object_ ) : object(object_){}
@@ -44,12 +44,12 @@ private:
 } // sugar
 
 template <bool NA, typename T>
-inline sugar::Sign<INTSXP,NA,T> sign( const VectorBase<INTSXP,NA,T>& t){
+inline sugar::Sign<INTSXP,NA,T> sign( const SugarVectorExpression<INTSXP,NA,T>& t){
     return sugar::Sign<INTSXP,NA,T>( t ) ;
 }
 
 template <bool NA, typename T>
-inline sugar::Sign<REALSXP,NA,T> sign( const VectorBase<REALSXP,NA,T>& t){
+inline sugar::Sign<REALSXP,NA,T> sign( const SugarVectorExpression<REALSXP,NA,T>& t){
     return sugar::Sign<REALSXP,NA,T>( t ) ;
 }
 

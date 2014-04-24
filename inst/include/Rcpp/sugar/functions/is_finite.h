@@ -10,7 +10,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
         
-            IsFinite( const VectorBase<RTYPE,NA,VEC_TYPE>& obj_) : obj(obj_){}
+            IsFinite( const SugarVectorExpression<RTYPE,NA,VEC_TYPE>& obj_) : obj(obj_){}
         
             inline int operator[]( int i ) const {
                 return ::Rcpp::traits::is_finite<RTYPE>( obj[i] ) ;
@@ -24,7 +24,7 @@ namespace Rcpp{
             }       
             
         private:
-            const VectorBase<RTYPE,NA,VEC_TYPE>& obj ;
+            const SugarVectorExpression<RTYPE,NA,VEC_TYPE>& obj ;
         
         } ;
     
@@ -32,7 +32,7 @@ namespace Rcpp{
     } // sugar
     
     template <int RTYPE, bool NA, typename T>
-    inline sugar::IsFinite<RTYPE,NA,T> is_finite( const Rcpp::VectorBase<RTYPE,NA,T>& t){
+    inline sugar::IsFinite<RTYPE,NA,T> is_finite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t){
         return sugar::IsFinite<RTYPE,NA,T>( t ) ;
     }
 

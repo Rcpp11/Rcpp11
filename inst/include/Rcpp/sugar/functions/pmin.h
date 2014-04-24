@@ -133,8 +133,8 @@ template <
 >
 inline sugar::Pmin_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T> 
 pmin( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, 
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs 
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs 
     ){
     return sugar::Pmin_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs.get_ref(), rhs.get_ref() ) ;
 }
@@ -145,7 +145,7 @@ template <
 >
 inline sugar::Pmin_Vector_Primitive<RTYPE,LHS_NA,LHS_T> 
 pmin( 
-    const Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T>& lhs, 
+    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, 
     typename Rcpp::traits::storage_type<RTYPE>::type rhs 
     ){
     return sugar::Pmin_Vector_Primitive<RTYPE,LHS_NA,LHS_T>( lhs.get_ref(), rhs ) ;
@@ -159,7 +159,7 @@ template <
 inline sugar::Pmin_Vector_Primitive<RTYPE,RHS_NA,RHS_T> 
 pmin( 
     typename Rcpp::traits::storage_type<RTYPE>::type lhs,  
-    const Rcpp::VectorBase<RTYPE,RHS_NA,RHS_T>& rhs 
+    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs 
     ){
     return sugar::Pmin_Vector_Primitive<RTYPE,RHS_NA,RHS_T>( rhs.get_ref(), lhs ) ;
 }

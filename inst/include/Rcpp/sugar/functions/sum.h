@@ -18,7 +18,7 @@ namespace Rcpp{
     template <int RTYPE, bool HAS_NA, typename T>
     class Sum : public Lazy< typename Rcpp::traits::storage_type<RTYPE>::type , Sum<RTYPE,HAS_NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,HAS_NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T> VEC_TYPE ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Sum( const VEC_TYPE& object_ ) : object(object_){}
@@ -44,7 +44,7 @@ namespace Rcpp{
     template <bool HAS_NA, typename T>
     class Sum<REALSXP,HAS_NA,T> : public Lazy< double , Sum<REALSXP,HAS_NA,T> > {
     public:
-        typedef typename Rcpp::VectorBase<REALSXP,HAS_NA,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<REALSXP,HAS_NA,T> VEC_TYPE ;
         
         Sum( const VEC_TYPE& object_ ) : object(object_){}
     
@@ -59,7 +59,7 @@ namespace Rcpp{
     template <int RTYPE, typename T>
     class Sum<RTYPE,false,T> : public Lazy< typename Rcpp::traits::storage_type<RTYPE>::type , Sum<RTYPE,false,T> > {
     public:
-        typedef typename Rcpp::VectorBase<RTYPE,false,T> VEC_TYPE ;
+        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,T> VEC_TYPE ;
         typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
         
         Sum( const VEC_TYPE& object_ ) : object(object_){}
@@ -74,22 +74,22 @@ namespace Rcpp{
     } // sugar
     
     template <bool NA, typename T>
-    inline sugar::Sum<CPLXSXP,NA,T> sum( const VectorBase<CPLXSXP,NA,T>& t){
+    inline sugar::Sum<CPLXSXP,NA,T> sum( const SugarVectorExpression<CPLXSXP,NA,T>& t){
         return sugar::Sum<CPLXSXP,NA,T>( t ) ;
     }
     
     template <bool NA, typename T>
-    inline sugar::Sum<INTSXP,NA,T> sum( const VectorBase<INTSXP,NA,T>& t){
+    inline sugar::Sum<INTSXP,NA,T> sum( const SugarVectorExpression<INTSXP,NA,T>& t){
         return sugar::Sum<INTSXP,NA,T>( t ) ;
     }
     
     template <bool NA, typename T>
-    inline sugar::Sum<REALSXP,NA,T> sum( const VectorBase<REALSXP,NA,T>& t){
+    inline sugar::Sum<REALSXP,NA,T> sum( const SugarVectorExpression<REALSXP,NA,T>& t){
         return sugar::Sum<REALSXP,NA,T>( t ) ;
     }
     
     template <bool NA, typename T>
-    inline sugar::Sum<LGLSXP,NA,T> sum( const VectorBase<LGLSXP,NA,T>& t){
+    inline sugar::Sum<LGLSXP,NA,T> sum( const SugarVectorExpression<LGLSXP,NA,T>& t){
         return sugar::Sum<LGLSXP,NA,T>( t ) ;
     }
 

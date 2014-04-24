@@ -8,7 +8,7 @@ namespace Rcpp{
         template <bool NA, typename T> 
         class Mean_Numeric : Lazy<double, Mean_Numeric<NA,T> >{
         public:
-            typedef VectorBase<REALSXP,NA,T> VEC_TYPE ;
+            typedef SugarVectorExpression<REALSXP,NA,T> VEC_TYPE ;
             
             Mean_Numeric( const VEC_TYPE& object_ ) : object(object_){}
             
@@ -36,7 +36,7 @@ namespace Rcpp{
         template <bool NA, typename T> 
         class Mean_Complex : public Lazy< Rcomplex, Mean_Complex<NA,T> >{
         public:
-            typedef VectorBase<CPLXSXP,NA,T> VEC_TYPE ;
+            typedef SugarVectorExpression<CPLXSXP,NA,T> VEC_TYPE ;
             
             Mean_Complex( const VEC_TYPE& object_ ) : object(object_){}
             
@@ -74,7 +74,7 @@ namespace Rcpp{
         template <int RTYPE, bool HAS_NA, typename T> 
         class Mean_Integer : Lazy<double, Mean_Integer<RTYPE,HAS_NA,T> >{
         public:
-            typedef VectorBase<INTSXP,HAS_NA,T> VEC_TYPE ;
+            typedef SugarVectorExpression<INTSXP,HAS_NA,T> VEC_TYPE ;
             
             Mean_Integer( const VEC_TYPE& object_ ) : object(object_){}
             
@@ -99,22 +99,22 @@ namespace Rcpp{
     } // sugar
     
     template <bool NA, typename T>
-    inline sugar::Mean_Numeric<NA,T> mean( const VectorBase<REALSXP,NA,T>& t){
+    inline sugar::Mean_Numeric<NA,T> mean( const SugarVectorExpression<REALSXP,NA,T>& t){
         return sugar::Mean_Numeric<NA,T>( t ) ;
     }
 
     template <bool NA, typename T>
-    inline sugar::Mean_Complex<NA,T> mean( const VectorBase<CPLXSXP,NA,T>& t){
+    inline sugar::Mean_Complex<NA,T> mean( const SugarVectorExpression<CPLXSXP,NA,T>& t){
         return sugar::Mean_Complex<NA,T>( t ) ;
     }
 
     template <bool NA, typename T>
-    inline sugar::Mean_Integer<INTSXP,NA,T> mean( const VectorBase<INTSXP,NA,T>& t){
+    inline sugar::Mean_Integer<INTSXP,NA,T> mean( const SugarVectorExpression<INTSXP,NA,T>& t){
         return sugar::Mean_Integer<INTSXP,NA,T>( t ) ;
     }
 
     template <bool NA, typename T>
-    inline sugar::Mean_Integer<LGLSXP,NA,T> mean( const VectorBase<LGLSXP,NA,T>& t){
+    inline sugar::Mean_Integer<LGLSXP,NA,T> mean( const SugarVectorExpression<LGLSXP,NA,T>& t){
         return sugar::Mean_Integer<LGLSXP,NA,T>( t ) ;
     }
 

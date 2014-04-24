@@ -79,7 +79,7 @@ namespace Rcpp{
     inline sugar::Clamp_Primitive_Vector_Primitive<RTYPE,NA,T> 
     clamp( 
         typename Rcpp::traits::storage_type<RTYPE>::type lhs,
-        const Rcpp::VectorBase<RTYPE,NA,T>& vec,  
+        const Rcpp::SugarVectorExpression<RTYPE,NA,T>& vec,  
         typename Rcpp::traits::storage_type<RTYPE>::type rhs
         ){
         return sugar::Clamp_Primitive_Vector_Primitive<RTYPE,NA,T>( lhs, vec.get_ref(), rhs ) ;

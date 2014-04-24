@@ -4,7 +4,7 @@
 namespace Rcpp{
 
 template <int RTYPE, bool X_NA, typename T, bool RHS_NA, typename RHS_T>
-inline IntegerVector match( const VectorBase<RTYPE,X_NA,T>& x, const VectorBase<RTYPE,RHS_NA,RHS_T>& table_ ){
+inline IntegerVector match( const SugarVectorExpression<RTYPE,X_NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table_ ){
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     
     std::unordered_map<STORAGE,int> map ;

@@ -97,23 +97,23 @@ namespace sugar {
     } ;
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const VectorBase<RTYPE,NA,Expr>& obj, std::true_type ){
+    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ){
         return obj.get_ref().begin() ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const VectorBase<RTYPE,NA,Expr>& obj, std::false_type ){
+    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
         typedef typename sugar_const_iterator_type<RTYPE,NA,Expr>::type const_iterator ; 
         return const_iterator( obj.get_ref() ) ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin(const VectorBase<RTYPE,NA,Expr>& obj){
+    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin(const SugarVectorExpression<RTYPE,NA,Expr>& obj){
         return sugar_begin__impl( obj, typename traits::is_materialized<Expr>::type() ) ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_end(const VectorBase<RTYPE,NA,Expr>& obj){
+    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_end(const SugarVectorExpression<RTYPE,NA,Expr>& obj){
         return sugar_begin<RTYPE,NA,Expr>(obj) + obj.size() ;
     }
     

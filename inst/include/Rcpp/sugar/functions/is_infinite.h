@@ -10,7 +10,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
         
-            IsInfinite( const VectorBase<RTYPE,NA,VEC_TYPE>& obj_) : obj(obj_){}
+            IsInfinite( const SugarVectorExpression<RTYPE,NA,VEC_TYPE>& obj_) : obj(obj_){}
         
             inline int operator[]( int i ) const {
                 return ::Rcpp::traits::is_infinite<RTYPE>( obj[i] ) ;
@@ -24,7 +24,7 @@ namespace Rcpp{
             }
             
         private:
-            const VectorBase<RTYPE,NA,VEC_TYPE>& obj ;
+            const SugarVectorExpression<RTYPE,NA,VEC_TYPE>& obj ;
         
         } ;
     
@@ -32,7 +32,7 @@ namespace Rcpp{
     } // sugar
     
     template <int RTYPE, bool NA, typename T>
-    inline sugar::IsInfinite<RTYPE,NA,T> is_infinite( const Rcpp::VectorBase<RTYPE,NA,T>& t){
+    inline sugar::IsInfinite<RTYPE,NA,T> is_infinite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t){
         return sugar::IsInfinite<RTYPE,NA,T>( t ) ;
     }
 

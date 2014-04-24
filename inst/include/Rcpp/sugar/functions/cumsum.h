@@ -7,7 +7,7 @@ namespace Rcpp{
         template <int RTYPE, bool HAS_NA, typename T>
         class Cumsum : public Lazy< Rcpp::Vector<RTYPE> , Cumsum<RTYPE,HAS_NA,T> > {
         public:
-            typedef typename Rcpp::VectorBase<RTYPE,HAS_NA,T> VEC_TYPE ;
+            typedef typename Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             typedef Rcpp::Vector<RTYPE> VECTOR ;
         
@@ -35,12 +35,12 @@ namespace Rcpp{
     } // sugar
     
     template <bool NA, typename T>
-    inline sugar::Cumsum<INTSXP,NA,T> cumsum( const VectorBase<INTSXP,NA,T>& t){
+    inline sugar::Cumsum<INTSXP,NA,T> cumsum( const SugarVectorExpression<INTSXP,NA,T>& t){
         return sugar::Cumsum<INTSXP,NA,T>( t ) ;
     }
     
     template <bool NA, typename T>
-    inline sugar::Cumsum<REALSXP,NA,T> cumsum( const VectorBase<REALSXP,NA,T>& t){
+    inline sugar::Cumsum<REALSXP,NA,T> cumsum( const SugarVectorExpression<REALSXP,NA,T>& t){
         return sugar::Cumsum<REALSXP,NA,T>( t ) ;
     }
 

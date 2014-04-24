@@ -57,7 +57,7 @@ namespace sugar{
 } // sugar
 
 template <int RTYPE, bool NA, typename T>
-sugar::Max<RTYPE,NA,T> max( const VectorBase<RTYPE,NA,T>& x){
+sugar::Max<RTYPE,NA,T> max( const SugarVectorExpression<RTYPE,NA,T>& x){
     return sugar::Max<RTYPE,NA,T>(x.get_ref()) ;
 }
 

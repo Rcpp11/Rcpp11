@@ -10,7 +10,7 @@ namespace sugar{
 template <int RTYPE, bool LHS_NA, typename LHS_T>
 class Diff : public SugarVectorExpression< RTYPE, LHS_NA , Diff<RTYPE,LHS_NA,LHS_T> > {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Diff( const LHS_TYPE& lhs_ ) : 
@@ -53,7 +53,7 @@ private:
 template <typename LHS_T, bool LHS_NA>
 class Diff<REALSXP, LHS_NA, LHS_T> : public SugarVectorExpression< REALSXP, LHS_NA, Diff<REALSXP,LHS_NA,LHS_T> >{
 public:
-    typedef typename Rcpp::VectorBase<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
 
     Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs_[0]), previous_index(0) {}
 
@@ -76,7 +76,7 @@ private:
 template <int RTYPE, typename LHS_T>
 class Diff<RTYPE,false,LHS_T> : public SugarVectorExpression< RTYPE, false , Diff<RTYPE,false,LHS_T> > {
 public:
-    typedef typename Rcpp::VectorBase<RTYPE,false,LHS_T> LHS_TYPE ;
+    typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
     Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs[0]), previous_index(0) {}
@@ -101,14 +101,14 @@ private:
 
 template <bool LHS_NA, typename LHS_T>
 inline sugar::Diff<INTSXP,LHS_NA,LHS_T> diff( 
-    const VectorBase<INTSXP,LHS_NA,LHS_T>& lhs
+    const SugarVectorExpression<INTSXP,LHS_NA,LHS_T>& lhs
     ){
     return sugar::Diff<INTSXP,LHS_NA,LHS_T>( lhs ) ;
 }
 
 template <bool LHS_NA, typename LHS_T>
 inline sugar::Diff<REALSXP,LHS_NA,LHS_T> diff( 
-    const VectorBase<REALSXP,LHS_NA,LHS_T>& lhs
+    const SugarVectorExpression<REALSXP,LHS_NA,LHS_T>& lhs
     ){
     return sugar::Diff<REALSXP,LHS_NA,LHS_T>( lhs ) ;
 }

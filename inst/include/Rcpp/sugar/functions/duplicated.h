@@ -4,7 +4,7 @@
 namespace Rcpp{
 
 template <int RTYPE, bool NA, typename T>
-inline LogicalVector duplicated( const VectorBase<RTYPE,NA,T>& x ){
+inline LogicalVector duplicated( const SugarVectorExpression<RTYPE,NA,T>& x ){
     int n=x.size(); 
     LogicalVector res(n) ;
     

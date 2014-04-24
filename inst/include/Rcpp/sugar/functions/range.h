@@ -65,7 +65,7 @@ namespace sugar{
 } // sugar
 
 template <int RTYPE, bool NA, typename T>
-sugar::Range<RTYPE,NA,T> range( const VectorBase<RTYPE,NA,T>& x){
+sugar::Range<RTYPE,NA,T> range( const SugarVectorExpression<RTYPE,NA,T>& x){
     return sugar::Range<RTYPE,NA,T>(x.get_ref()) ;
 }
 
