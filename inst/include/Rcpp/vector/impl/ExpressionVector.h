@@ -51,21 +51,41 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         Vector( const SugarVectorExpression<EXPRSXP,NA,Expr>& other ) {
-            reset(other.size());
-            other.apply(*this) ;            
+            import_expression( other, typename std::is_base_of< VectorOf<EXPRSXP>, Expr>::type() ) ;
         }
-    
+        
         template <bool NA, typename Expr>
-        Vector& operator=( const SugarVectorExpression<EXPRSXP, NA, Expr>& expr ){
-            int n = expr.size() ;
-            if( n != size() ){
-                reset(n) ;    
-            }
-            expr.apply(*this) ;
+        Vector& operator=( const SugarVectorExpression<EXPRSXP, NA, Expr>& other ){
+            assign_expression( other, typename std::is_base_of< VectorOf<EXPRSXP>, Expr>::type() ) ;
             return *this ;
         }
         
     private:
+        
+        template <bool NA, typename Expr>
+        inline void import_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other,  std::true_type ){
+            Storage::set__( other.get_ref().get__() ) ;    
+        }
+        
+        template <bool NA, typename Expr>
+        inline void import_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other, std::false_type ){
+            reset(other.size());
+            other.apply(*this) ;
+        }
+        
+        template <bool NA, typename Expr>
+        inline void assign_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other,  std::true_type ){
+            Storage::set__( other.get_ref().get__() ) ;    
+        }
+        
+        template <bool NA, typename Expr>
+        inline void assign_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other, std::false_type ){
+            int n = other.size() ;
+            if( n != size() ){
+                reset(n) ;    
+            }
+            other.apply(*this) ;
+        }
         
         inline void init_from_string( const char* st ){
             ParseStatus status;

@@ -9,7 +9,6 @@ namespace Rcpp{
         Vector& get_ref() { return static_cast<Vector&>(*this) ; }
         const Vector& get_ref() const { return static_cast<const Vector&>(*this) ; }
         
-        
     public:
         
         inline R_len_t length() const { return ::Rf_length( get_ref() ) ; }
