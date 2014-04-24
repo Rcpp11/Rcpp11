@@ -9,6 +9,7 @@ namespace Rcpp{
         template <class> class StoragePolicy
     >
     class Vector<EXPRSXP,StoragePolicy> :
+        public VectorOf<EXPRSXP>,
         public SugarVectorExpression< EXPRSXP, true, VEC>,
         public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,
@@ -51,7 +52,7 @@ namespace Rcpp{
         template <bool NA, typename Expr>
         Vector( const SugarVectorExpression<EXPRSXP,NA,Expr>& other ) {
             reset(other.size());
-            other.apply(*this) ;
+            other.apply(*this) ;            
         }
     
         template <bool NA, typename Expr>

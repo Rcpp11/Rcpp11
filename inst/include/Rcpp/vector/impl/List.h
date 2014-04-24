@@ -10,6 +10,7 @@ namespace Rcpp{
         template <class> class StoragePolicy
     >
     class Vector<VECSXP,StoragePolicy> :
+        public VectorOf<VECSXP>,
         public SugarVectorExpression< VECSXP, true, VEC>,
         public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,

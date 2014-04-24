@@ -11,6 +11,7 @@ namespace Rcpp{
         template <class> class StoragePolicy
     >
     class Vector :
+        public VectorOf<RTYPE>,
         public SugarVectorExpression< RTYPE, true, VEC >,
         public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,
@@ -63,21 +64,41 @@ namespace Rcpp{
     
         template <bool NA, typename Expr>
         Vector( const SugarVectorExpression<RTYPE,NA,Expr>& other ) {
-            reset(other.size()) ;
-            other.apply(*this) ;
+            import_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
         }
         
         template <bool NA, typename Expr>
-        Vector& operator=( const SugarVectorExpression<RTYPE, NA, Expr>& expr ){
-            int n = expr.size() ;
-            if( n != size() ){
-                reset(n) ;    
-            }
-            expr.apply(*this) ;
+        Vector& operator=( const SugarVectorExpression<RTYPE, NA, Expr>& other ){
+            assign_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
             return *this ;
         }
         
     private:
+        
+        template <bool NA, typename Expr>
+        inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
+            Storage::set__( other.get_ref().get__() ) ;    
+        }
+        
+        template <bool NA, typename Expr>
+        inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+            reset(other.size());
+            other.apply(*this) ;
+        }
+        
+        template <bool NA, typename Expr>
+        inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
+            Storage::set__( other.get_ref().get__() ) ;    
+        }
+        
+        template <bool NA, typename Expr>
+        inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+            int n = other.size() ;
+            if( n != size() ){
+                reset(n) ;    
+            }
+            other.apply(*this) ;
+        }
         
         inline void reset(int n){
             Storage::set__(Rf_allocVector(RTYPE, n) ) ;        
