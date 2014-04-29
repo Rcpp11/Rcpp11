@@ -37,6 +37,8 @@
 #include <Rcpp/sugar/functions/head.h>
 #include <Rcpp/sugar/functions/tail.h>
 
+#include <Rcpp/sugar/functions/functional.h>
+
 #include <Rcpp/sugar/functions/sum.h>
 #include <Rcpp/sugar/functions/mean.h>
 #include <Rcpp/sugar/functions/var.h>
