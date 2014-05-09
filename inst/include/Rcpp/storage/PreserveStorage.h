@@ -3,47 +3,52 @@
 
 namespace Rcpp{ 
 
-    template <typename CLASS>
     class PreserveStorage {
     public:
         
+        // default ctor: set data to R_NilValue
         PreserveStorage() : data(R_NilValue){}
         
+        // SEXP ctor: we protect the data
+        PreserveStorage(SEXP data_) : data(Rcpp_PreserveObject(data_)){}
+        
+        // destructor : we release the data
         ~PreserveStorage(){
             Rcpp_ReleaseObject(data) ;
             data = R_NilValue;
         }
-        PreserveStorage(const PreserveStorage& ) = delete ;
-        PreserveStorage(PreserveStorage&& ) = delete ;
-        PreserveStorage& operator=(const PreserveStorage& ) = delete ;
-        PreserveStorage& operator=(PreserveStorage&& ) = delete ;
         
-        inline void set__(SEXP x){
-            data = Rcpp_ReplaceObject(data, x) ;
+        // copy constructor: we protect again
+        PreserveStorage(const PreserveStorage& other ) : data( Rcpp_PreserveObject(other.data) ){}
+        
+        // move constructor: we steal data
+        PreserveStorage(PreserveStorage&& other) : data(other.data){
+            other.data = R_NilValue ;    
         }
         
-        inline SEXP get__() const {
-            return data ;    
+        // assignment : we release the previous data, and protect again the one from other
+        PreserveStorage& operator=(const PreserveStorage& other) {
+            Rcpp_ReplaceObject( data, other.data ) ;
+            data = other.data ;
+            return *this ;
         }
         
-        inline void copy__(const CLASS& other){
-            set__(other.get__());
-        }
-        
-        inline void steal__(CLASS& other){
-            set__(other.invalidate__());
+        // move assignment: we just steal data
+        PreserveStorage& operator=(PreserveStorage&& other) {
+            data = other.data ; other.data = R_NilValue ;
+            return *this ;
         }
         
         inline operator SEXP() const { return data; }
         
+        inline PreserveStorage& operator=( SEXP x){
+            data = Rcpp_ReplaceObject(data, x) ;
+            return *this ;
+        }
+        
+        
     private:
         SEXP data ;
-        
-        inline SEXP invalidate__(){
-            SEXP out = data ;
-            data = R_NilValue ;
-            return out ;
-        }
         
     } ;
     

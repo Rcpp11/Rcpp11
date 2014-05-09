@@ -42,7 +42,8 @@ namespace Rcpp{
         std::vector<Symbol> symbols ;
     } ;
     
-    typedef NamedDots_Impl<NoProtectStorage> NamedDots ; 
+    // typedef NamedDots_Impl<NoProtectStorage> NamedDots ; 
+    typedef NamedDots_Impl<PreserveStorage> NamedDots ;
     
 }
 

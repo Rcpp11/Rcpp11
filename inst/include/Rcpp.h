@@ -64,11 +64,11 @@ namespace Rcpp{
     }
 
     class String ;
-    template <typename CLASS> class PreserveStorage ;
-    template <typename CLASS> class NoProtectStorage ;
+    class PreserveStorage ;
+    // class NoProtectStorage ;
     
     template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
-    class Vector ;
+    class Vector ;                      
     
     template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
     class Matrix ;

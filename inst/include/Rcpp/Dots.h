@@ -34,7 +34,8 @@ namespace Rcpp{
         std::vector<Promise> promises ;
     } ;
     
-    typedef Dots_Impl<NoProtectStorage> Dots ; 
+    // typedef Dots_Impl<NoProtectStorage> Dots ;
+    typedef Dots_Impl<PreserveStorage> Dots ;
     
 }
 
