@@ -49,7 +49,7 @@ namespace Rcpp{
          * > as.call( as.list( as.name( "rnorm") ) )
          * > call( "rnorm" )
          */
-        explicit Formula_Impl( const std::string& symbol ): 
+        explicit Formula_Impl( const std::string& code ): 
             data( internal::convert_using_rfunction( ::Rf_mkString(code.c_str()), "as.formula") ){}
         
         /**
