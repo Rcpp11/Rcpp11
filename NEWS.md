@@ -8,6 +8,12 @@
 * more C++ support for Rcomplex: 
      `Rcomplex& operator+=( Rcomplex&, const Rcomplex& )`
      `Rcomplex operator/( Rcomplex, double )`
+
+* Internal refactoring/simplification of all api classes. Api classes are now 
+  parameterized by a class for the storage policy instead of a template 
+  as before. 
+  
+* `Dots` and `NamedDots` handle the border case when `...` is missing (#123)
      
 # Rcpp11 3.1.0.1
 

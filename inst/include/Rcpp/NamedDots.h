@@ -11,13 +11,15 @@ namespace Rcpp{
         
         NamedDots_Impl( Environment env ){
             SEXP dots = env.find("...") ;
-            while(dots != R_NilValue){
-                promises.push_back(CAR(dots)) ;
-                SEXP tag = TAG(dots) ;
-                if(tag==R_NilValue) 
-                    stop("unnamed contribution to ... in NamedDots") ; 
-                symbols.push_back(tag) ;
-                dots = CDR(dots);
+            if( dots != R_MissingArg ){
+                while(dots != R_NilValue){
+                    promises.push_back(CAR(dots)) ;
+                    SEXP tag = TAG(dots) ;
+                    if(tag==R_NilValue) 
+                        stop("unnamed contribution to ... in NamedDots") ; 
+                    symbols.push_back(tag) ;
+                    dots = CDR(dots);
+                }
             }
         }
         

@@ -11,9 +11,11 @@ namespace Rcpp{
         
         Dots_Impl( Environment env){
             SEXP dots = env.find("...") ;
-            while(dots != R_NilValue){
-                promises.push_back(CAR(dots)) ;
-                dots = CDR(dots);
+            if( dots != R_MissingArg ){ 
+                while(dots != R_NilValue){
+                    promises.push_back(CAR(dots)) ;
+                    dots = CDR(dots);
+                }
             }
         }
         
