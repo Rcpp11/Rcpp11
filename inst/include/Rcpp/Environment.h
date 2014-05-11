@@ -69,7 +69,7 @@ namespace Rcpp{
                 R_ObjectTable *tb = (R_ObjectTable*)R_ExternalPtrAddr(HASHTAB(data));
                 return tb->objects(tb) ;
             } else{
-                return R_lsInternal( data, all ) ;
+                return R_lsInternal( data, static_cast<Rboolean>(all) ) ;
             }
             return R_NilValue ;
         

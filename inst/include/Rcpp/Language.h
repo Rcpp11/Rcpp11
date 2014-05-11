@@ -21,29 +21,29 @@ namespace Rcpp{
         typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::DottedPairProxy Proxy;
         typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::const_DottedPairProxy const_Proxy;
         
-        /**
-         * Creates a call using the given symbol as the function name
-         *
-         * @param symbol symbol name to call
-         *
-         * Language( "rnorm" ) makes a SEXP similar to this (expressed in R)
-         * > as.call( as.list( as.name( "rnorm") ) )
-         * > call( "rnorm" )
-         */
-        explicit Language_Impl( const std::string& symbol ): 
-            data( Rf_lang1( Rf_install(symbol.c_str()) ) ){}
-
-        /**
-         * Creates a call using the given symbol as the function name
-         *
-         * @param symbol symbol name to call
-         *
-         * Language( Symbol("rnorm") ) makes a SEXP similar to this: 
-         * > call( "rnorm" )
-         */
-        explicit Language_Impl( const Symbol& symbol ) : 
-            data( Rf_lang1( symbol ) ) {}
-
+        //        /**
+        //         * Creates a call using the given symbol as the function name
+        //         *
+        //         * @param symbol symbol name to call
+        //         *
+        //         * Language( "rnorm" ) makes a SEXP similar to this (expressed in R)
+        //         * > as.call( as.list( as.name( "rnorm") ) )
+        //         * > call( "rnorm" )
+        //         */
+        //        explicit Language_Impl( const std::string& symbol ): 
+        //            data( Rf_lang1( Rf_install(symbol.c_str()) ) ){}
+        //
+        //        /**
+        //         * Creates a call using the given symbol as the function name
+        //         *
+        //         * @param symbol symbol name to call
+        //         *
+        //         * Language( Symbol("rnorm") ) makes a SEXP similar to this: 
+        //         * > call( "rnorm" )
+        //         */
+        //        explicit Language_Impl( const Symbol& symbol ) : 
+        //            data( Rf_lang1( symbol ) ) {}
+        //
         /**
          * Creates a call to the function
          * 
@@ -58,7 +58,7 @@ namespace Rcpp{
             
         template<typename... Args> 
         Language_Impl( const Function& function, const Args&... args) : 
-            data(language( function, args...)){}
+            data( language( function, args...)){}
         
         /**
          * sets the symbol of the call

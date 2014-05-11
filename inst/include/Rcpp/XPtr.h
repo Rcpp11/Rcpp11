@@ -38,7 +38,7 @@ class XPtr :
         data = x ;    
     }
     
-    explicit XPtr(SEXP x, SEXP tag = R_NilValue, SEXP prot = R_NilValue) {
+    explicit XPtr(SEXP x, SEXP tag, SEXP prot) {
         R_SetExternalPtrTag( x, tag ) ;
         R_SetExternalPtrProtected( x, prot ) ;
         set(x) ;
