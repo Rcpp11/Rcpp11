@@ -44,8 +44,6 @@ namespace Rcpp{
                     throw no_such_env(name) ;
                 }
                 data = res ;
-            } else {
-                data = R_EmptyEnv ;    
             }
         }
         
