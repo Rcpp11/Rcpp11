@@ -15,7 +15,7 @@ namespace Rcpp{
         RCPP_API_IMPL(Language_Impl)
         
         inline void set(SEXP x){
-            data = r_cast<LANGSXP>(lang) ;    
+            data = r_cast<LANGSXP>(x) ;    
         }
         
         typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::DottedPairProxy Proxy;
