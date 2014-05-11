@@ -9,8 +9,8 @@ namespace Rcpp{
         
         class AttributeProxy : public GenericProxy<AttributeProxy> {
         public:
-            AttributeProxy( CLASS& v, const std::string& name) 
-                : parent(v), attr_name(Rf_install(name.c_str()))
+            AttributeProxy( CLASS& v, Symbol name ) 
+                : parent(v), attr_name(name)
             {}
             
             AttributeProxy& operator=(const AttributeProxy& rhs){
@@ -34,7 +34,7 @@ namespace Rcpp{
             
         private:
             CLASS& parent; 
-            SEXP attr_name ;
+            Symbol attr_name ;
                 
             SEXP get() const {
               return Rf_getAttrib( parent, attr_name ) ;
@@ -46,8 +46,8 @@ namespace Rcpp{
         
         class const_AttributeProxy : public GenericProxy<const_AttributeProxy> {
         public:
-            const_AttributeProxy( const CLASS& v, const std::string& name)
-              : parent(v), attr_name(Rf_install(name.c_str())){}
+            const_AttributeProxy( const CLASS& v, Symbol name)
+              : parent(v), attr_name(name){}
                   
             template <typename T> operator T() const {
               return as<T>(get());  
@@ -59,7 +59,7 @@ namespace Rcpp{
             
         private:
             const CLASS& parent; 
-            SEXP attr_name ;
+            Symbol attr_name ;
                 
             SEXP get() const {
               return Rf_getAttrib( parent, attr_name ) ;

@@ -9,7 +9,9 @@ public:
     
     class SlotProxy : public GenericProxy<SlotProxy> {
     public:
-        SlotProxy( CLASS& v, const std::string& name) : parent(v), slot_name(Rf_install(name.c_str())) {
+        SlotProxy( CLASS& v, Symbol name) : 
+            parent(v), slot_name(name) 
+        {
             if( !R_has_slot( v, slot_name) ){
                 throw no_such_slot() ; 
             }  
@@ -35,7 +37,7 @@ public:
         
     private:
         CLASS& parent; 
-        SEXP slot_name ;
+        Symbol slot_name ;
             
         SEXP get() const {
             return R_do_slot( parent, slot_name ) ;
@@ -47,8 +49,8 @@ public:
     
     class const_SlotProxy : public GenericProxy<const_SlotProxy> {
     public:
-        const_SlotProxy( const CLASS& v, const std::string& name) 
-          : parent(v), slot_name(Rf_install(name.c_str()))
+        const_SlotProxy( const CLASS& v, Symbol name) 
+          : parent(v), slot_name(name)
         {
             if( !R_has_slot( v, slot_name) ){
                 throw no_such_slot() ; 

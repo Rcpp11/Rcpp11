@@ -24,7 +24,7 @@ namespace Rcpp{
          * @param name name of the function
          */
         Function_Impl(const std::string& name) : 
-            data( Rf_findFun( Rf_install( name.c_str() ), R_GlobalEnv ) ){}
+            data( Rf_findFun( Symbol(name), R_GlobalEnv ) ){}
        
         /**
          * calls the function with the specified arguments

@@ -1,8 +1,6 @@
 #ifndef Rcpp_proxy_proxy_h
 #define Rcpp_proxy_proxy_h
 
-#include <Rcpp/proxy/GenericProxy.h>
-
 #include <Rcpp/proxy/RObjectMethods.h>
 #include <Rcpp/proxy/NodeProxy.h>
 #include <Rcpp/proxy/TagProxy.h>

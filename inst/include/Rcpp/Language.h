@@ -31,7 +31,7 @@ namespace Rcpp{
         
         template<typename... Args> 
         Language_Impl( const std::string& symbol, const Args&... args) : 
-            data( language( Rf_install( symbol.c_str() ), args...) ){}
+            data( language( Symbol(symbol), args...) ){}
             
         template<typename... Args> 
         Language_Impl( const Function& function, const Args&... args) : 

@@ -3,13 +3,12 @@
 
 namespace Rcpp{
     
-template <typename Proxy>
-struct GenericProxy {
-    inline SEXP get() const {
-        return static_cast<const Proxy&>(*this) ;    
-    }
-    
-} ;
+    template <typename Proxy>
+    struct GenericProxy {
+        inline SEXP get() const {
+            return static_cast<const Proxy&>(*this) ;    
+        }
+    } ;
 
 }
 

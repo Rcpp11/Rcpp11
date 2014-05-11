@@ -83,8 +83,7 @@ namespace Rcpp{
          * @return a SEXP (possibly R_NilValue)
          */
         SEXP get(const std::string& name) const {
-            SEXP nameSym = Rf_install(name.c_str());        
-            SEXP res = Rf_findVarInFrame( data, nameSym ) ;
+            SEXP res = Rf_findVarInFrame( data, Symbol(name) ) ;
             
             if( res == R_UnboundValue ) return R_NilValue ;
             
@@ -103,8 +102,7 @@ namespace Rcpp{
          *
          */
         SEXP find( const std::string& name) const {
-            SEXP nameSym = Rf_install(name.c_str());        
-            SEXP res = Rf_findVar( nameSym, data ) ;
+            SEXP res = Rf_findVar( Symbol(name), data ) ;
             
             if( res == R_UnboundValue ) throw binding_not_found(name) ;
             
@@ -124,8 +122,7 @@ namespace Rcpp{
          * @return true if the object exists in the environment
          */
         bool exists( const std::string& name ) const {
-            SEXP nameSym = Rf_install(name.c_str());        
-            SEXP res = Rf_findVarInFrame( data, nameSym  ) ;
+            SEXP res = Rf_findVarInFrame( data, Symbol(name)  ) ;
             return res != R_UnboundValue ;
         }
     
@@ -142,8 +139,7 @@ namespace Rcpp{
          */
         bool assign( const std::string& name, SEXP x ) const{
             if( exists( name) && bindingIsLocked(name) ) throw binding_is_locked(name) ;
-            SEXP nameSym = Rf_install(name.c_str());        
-            Rf_defineVar( nameSym, x, data );
+            Rf_defineVar( Symbol(name), x, data );
             return true ;
         }
     
@@ -210,8 +206,7 @@ namespace Rcpp{
          */
         void lockBinding(const std::string& name){
             if( !exists( name) ) throw no_such_binding(name) ;
-            SEXP nameSym = Rf_install(name.c_str());        
-            R_LockBinding( nameSym, data ); 
+            R_LockBinding( Symbol(name), data ); 
         }
     
         /**
@@ -222,8 +217,7 @@ namespace Rcpp{
          */
         void unlockBinding(const std::string& name){
             if( !exists( name) ) throw no_such_binding(name) ;
-            SEXP nameSym = Rf_install(name.c_str());        
-            R_unLockBinding( nameSym, data );
+            R_unLockBinding( Symbol(name), data );
         }
     
         /**
@@ -236,8 +230,7 @@ namespace Rcpp{
          */
         bool bindingIsLocked(const std::string& name) const {
             if( !exists( name) ) throw no_such_binding(name) ;
-            SEXP nameSym = Rf_install(name.c_str());        
-            return R_BindingIsLocked(nameSym, data) ;
+            return R_BindingIsLocked(Symbol(name), data) ;
         }
     
         /**
@@ -251,8 +244,7 @@ namespace Rcpp{
          */
         bool bindingIsActive(const std::string& name) const {
             if( !exists( name) ) throw no_such_binding(name) ;
-            SEXP nameSym = Rf_install(name.c_str());        
-            return R_BindingIsActive(nameSym, data) ;
+            return R_BindingIsActive(Symbol(name), data) ;
         }
     
         /** 
