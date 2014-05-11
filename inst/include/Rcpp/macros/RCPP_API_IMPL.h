@@ -16,7 +16,7 @@ public:                                                        \
         set(x) ;                                               \
         return *this ;                                         \
     }                                                          \
-    __CLASS__ operator SEXP() const {                          \
+    inline operator SEXP() const {                             \
         return data ;                                          \
     }                                                          \
     template <typename Proxy>                                  \
