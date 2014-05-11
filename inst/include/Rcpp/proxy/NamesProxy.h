@@ -31,19 +31,19 @@ public:
         CLASS& parent; 
     
         SEXP get() const {
-            return RCPP_GET_NAMES(parent.get__()) ;
+            return RCPP_GET_NAMES(parent) ;
         }
     
         void set(SEXP x) {
             /* check if we can use a fast version */
             if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
-                SEXP y = parent.get__() ; 
+                SEXP y = parent ; 
                 Rf_setAttrib( y, R_NamesSymbol, x ) ;
             } else {
                 /* use the slower and more flexible version (callback to R) */
                 SEXP namesSym = Rf_install( "names<-" );
-                Shield<SEXP> new_vec( Rcpp_eval(Rf_lang3( namesSym, parent, x ))) ;
-                parent.set__(new_vec); 
+                parent = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
+                 
             }
         
         }
@@ -62,7 +62,7 @@ public:
         const CLASS& parent; 
     
         SEXP get() const {
-            return RCPP_GET_NAMES(parent.get__()) ;
+            return RCPP_GET_NAMES(parent) ;
         }
     
     } ;

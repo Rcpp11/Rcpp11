@@ -10,9 +10,8 @@ namespace internal{
         
         typedef ::Rcpp::Vector<RTYPE> VECTOR ;
         generic_name_proxy( VECTOR& v, std::string  name_) :
-            parent(v), name(std::move(name_)){
-                RCPP_DEBUG( "generic_name_proxy( VECTOR& = %p, const string& = %s)", v.get__(), name_.c_str() );
-        }
+            parent(v), name(std::move(name_))
+        {}
         generic_name_proxy( const generic_name_proxy& other ) : 
             parent(other.parent), name(other.name){}
         ~generic_name_proxy(){}
