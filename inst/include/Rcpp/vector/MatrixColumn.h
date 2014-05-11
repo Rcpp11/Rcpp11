@@ -26,14 +26,7 @@ namespace Rcpp{
             expr.apply(*this) ;
             return *this;
         }
-        
-        // template <typename Storage>
-        // MatrixColumn& operator=( const Vector<RTYPE,Storage>& vec ){
-        //     if( vec.size() != size() ) throw incompatible_dimensions() ;
-        //     std::copy( vec.begin(), vec.end(), begin() );
-        //     return *this;
-        // }
-        
+         
         inline int size() const { return n ;}
         inline Proxy operator[]( int i){ return mat[ index*n + i] ; }
         inline const_Proxy operator[]( int i) const { return mat[ index*n + i] ; }
