@@ -1,7 +1,7 @@
 #ifndef Rcpp_RCPP_API_IMPL_h
 #define Rcpp_RCPP_API_IMPL_h
 
-#define RCPP_API_IMPL(__CLASS__)                               \
+#define RCPP_API_IMPL_NOCONV(__CLASS__)                        \
 private:                                                       \
     Storage data ;                                             \
 public:                                                        \
@@ -16,9 +16,6 @@ public:                                                        \
         set(x) ;                                               \
         return *this ;                                         \
     }                                                          \
-    inline operator SEXP() const {                             \
-        return data ;                                          \
-    }                                                          \
     template <typename Proxy>                                  \
     __CLASS__( const GenericProxy<Proxy>& proxy ){             \
         set(proxy.get()) ;                                     \
@@ -29,5 +26,11 @@ public:                                                        \
         return *this ;                                         \
     }                                                          \
 
-#endif    
+#define RCPP_API_IMPL(__CLASS__)                               \
+    RCPP_API_IMPL_NOCONV(__CLASS__)                            \
+    inline operator SEXP() const {                             \
+        return data ;                                          \
+    }                                                          \
     
+#endif    
+

@@ -15,7 +15,7 @@ namespace Rcpp{
         public DottedPairProxyPolicy<StretchyList_Impl<Storage> >, 
         public DottedPairMultipleNamedProxyPolicy<StretchyList_Impl<Storage>>
     {
-        RCPP_API_IMPL(StretchyList_Impl) 
+        RCPP_API_IMPL_NOCONV(StretchyList_Impl) 
         
         typedef typename DottedPairProxyPolicy<StretchyList_Impl>::DottedPairProxy Proxy ;
         typedef typename DottedPairProxyPolicy<StretchyList_Impl>::const_DottedPairProxy const_Proxy ;
@@ -49,6 +49,10 @@ namespace Rcpp{
         template <typename T>
         inline StretchyList_Impl& push_front(const T& obj ){
             return push_front__impl( obj, typename traits::is_named<T>::type() ) ;    
+        }
+        
+        inline operator SEXP() const {
+            return CDR(data) ;
         }
         
     private:
