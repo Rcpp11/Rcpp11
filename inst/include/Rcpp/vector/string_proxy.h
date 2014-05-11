@@ -141,14 +141,14 @@ namespace internal{
         }
     
     
-        private:
-            typedef const char* iterator ;
-            typedef const char& reference ;
-    
-            inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
-            inline iterator end() const { return begin() + size() ; }
-    
-            static std::string buffer ;
+    private:
+        typedef const char* iterator ;
+        typedef const char& reference ;
+        
+        inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
+        inline iterator end() const { return begin() + size() ; }
+        
+        static std::string buffer ;
     
     } ;
 

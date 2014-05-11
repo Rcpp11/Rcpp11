@@ -4,12 +4,11 @@
 namespace Rcpp{
 namespace internal{
 
-    template<int RTYPE> class const_string_proxy {
+    template <int RTYPE> 
+    class const_string_proxy {
     public:
     
         typedef typename Rcpp::Vector<RTYPE> VECTOR ;
-    
-        const_string_proxy() : parent(0), index(-1){};
     
         /**
          * Creates a proxy
@@ -45,7 +44,6 @@ namespace internal{
             return const_cast<char*>( CHAR(get()) );
         }
     
-    
         /**
          * Prints the element this proxy refers to to an 
          * output stream
@@ -80,14 +78,12 @@ namespace internal{
         }
     
     
-        private:
-            typedef const char* iterator ;
-            typedef const char& reference ;
+    private:
+        typedef const char* iterator ;
+        typedef const char& reference ;
     
-            inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
-            inline iterator end() const { return begin() + size() ; }
-    
-            static std::string buffer ;
+        inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
+        inline iterator end() const { return begin() + size() ; }
     
     } ;
 
@@ -123,8 +119,6 @@ namespace internal{
             ) <= 0 ;
     }
     
-    template<int RTYPE> std::string const_string_proxy<RTYPE>::buffer ;
-
     inline std::ostream& operator<<(std::ostream& os, const const_string_proxy<STRSXP>& proxy) {
         os << static_cast<char*>(proxy) ;
         return os;
