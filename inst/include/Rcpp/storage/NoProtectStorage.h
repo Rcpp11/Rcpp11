@@ -3,7 +3,6 @@
 
 namespace Rcpp{ 
 
-    template <typename CLASS>
     class NoProtectStorage {
     public:
         NoProtectStorage(): data(R_NilValue){}

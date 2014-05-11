@@ -110,7 +110,7 @@ namespace Rcpp{
     typedef Environment_Impl<PreserveStorage> Environment ;
     typedef Promise_Impl<PreserveStorage> Promise ;
     typedef WeakReference_Impl<PreserveStorage> WeakReference ;
-    typedef S4_Impl<PreserveStorage> WeakReference ;
+    typedef S4_Impl<PreserveStorage> S4 ;
     typedef Formula_Impl<PreserveStorage> Formula ;
     typedef Reference_Impl<PreserveStorage> Reference ;
     typedef Function_Impl<PreserveStorage> Function ;
