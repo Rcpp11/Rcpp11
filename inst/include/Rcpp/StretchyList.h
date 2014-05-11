@@ -41,10 +41,6 @@ namespace Rcpp{
             SETCAR(s, s);
         }
         
-        inline operator SEXP() const{
-            return CDR(data);    
-        }
-        
         template <typename T>
         inline StretchyList_Impl& push_back(const T& obj ){
             return push_back__impl( obj, typename traits::is_named<T>::type() ) ;
