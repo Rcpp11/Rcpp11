@@ -4,12 +4,11 @@
 namespace Rcpp{
 namespace internal{
 
-    template<int RTYPE> class string_proxy {
+    template <int RTYPE> 
+    class string_proxy {
     public:
     
         typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
-    
-        string_proxy() : parent(0), index(-1){};
     
         /**
          * Creates a proxy
@@ -70,12 +69,12 @@ namespace internal{
             index  = other.index ;
         }
     
-    /**
-     * lhs use. Adds the content of the rhs proxy to the 
-     * element this proxy refers to.
-     */
-    template <typename T>
-    string_proxy& operator+=(const T& rhs) ;
+        /**
+         * lhs use. Adds the content of the rhs proxy to the 
+         * element this proxy refers to.
+         */
+        template <typename T>
+        string_proxy& operator+=(const T& rhs) ;
     
         /**
          * rhs use. Retrieves the current value of the 
