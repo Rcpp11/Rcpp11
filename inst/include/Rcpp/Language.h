@@ -8,28 +8,18 @@ namespace Rcpp{
      *
      * This represents calls that can be evaluated
      */
-    RCPP_API_CLASS(Language_Impl)
-        , public DottedPairProxyPolicy<Language_Impl<StoragePolicy>>, 
-        public DottedPairImpl<Language_Impl<StoragePolicy>>
+    RCPP_API_CLASS(Language_Impl), 
+        public DottedPairProxyPolicy<Language_Impl<Storage>>, 
+        public DottedPairImpl<Language_Impl<Storage>>
     {
-    public:
-        typedef typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::DottedPairProxy Proxy;
-        typedef typename DottedPairProxyPolicy<Language_Impl<StoragePolicy>>::const_DottedPairProxy const_Proxy;
+        RCPP_API_IMPL(Language_Impl)
         
-        RCPP_GENERATE_CTOR_ASSIGN(Language_Impl) 
-
-        Language_Impl(){}
-        
-        
-        /**
-         * Attempts to convert the SEXP to a call
-         *
-         * @throw not_compatible if the SEXP could not be converted
-         * to a call using as.call
-         */
-        Language_Impl(SEXP lang){
-            Storage::set__( r_cast<LANGSXP>(lang) ) ;
+        inline void set(SEXP x){
+            data = r_cast<LANGSXP>(lang) ;    
         }
+        
+        typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::DottedPairProxy Proxy;
+        typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::const_DottedPairProxy const_Proxy;
         
         /**
          * Creates a call using the given symbol as the function name
@@ -40,9 +30,8 @@ namespace Rcpp{
          * > as.call( as.list( as.name( "rnorm") ) )
          * > call( "rnorm" )
          */
-        explicit Language_Impl( const std::string& symbol ){
-            Storage::set__( Rf_lang1( Rf_install(symbol.c_str()) ) ) ;
-        }
+        explicit Language_Impl( const std::string& symbol ): 
+            data( Rf_lang1( Rf_install(symbol.c_str()) ) ){}
 
         /**
          * Creates a call using the given symbol as the function name
@@ -52,27 +41,24 @@ namespace Rcpp{
          * Language( Symbol("rnorm") ) makes a SEXP similar to this: 
          * > call( "rnorm" )
          */
-        explicit Language_Impl( const Symbol& symbol ){
-            Storage::set__( Rf_lang1( symbol ) );    
-        }
+        explicit Language_Impl( const Symbol& symbol ) : 
+            data( Rf_lang1( symbol ) ) {}
 
         /**
          * Creates a call to the function
          * 
          * @param function function to call
          */
-        explicit Language_Impl( const Function& function) {
-            Storage::set__( Rf_lang1( function ) ) ;
-        }
+        explicit Language_Impl( const Function& function) : 
+            data( Rf_lang1( function ) ){}
         
         template<typename... Args> 
-        Language_Impl( const std::string& symbol, const Args&... args) {
-            Storage::set__( language( Rf_install( symbol.c_str() ), args...) ) ;
-        }
+        Language_Impl( const std::string& symbol, const Args&... args) : 
+            data( language( Rf_install( symbol.c_str() ), args...) ){}
+            
         template<typename... Args> 
-        Language_Impl( const Function& function, const Args&... args) {
-            Storage::set__( language( function, args...) ) ;
-        }
+        Language_Impl( const Function& function, const Args&... args) : 
+            data(language( function, args...)){}
         
         /**
          * sets the symbol of the call
@@ -85,7 +71,6 @@ namespace Rcpp{
          * sets the symbol of the call
          */
         void setSymbol( const Symbol& symbol ){
-            SEXP data = Storage::get__() ;
             SETCAR( data, symbol ) ;
             SET_TAG(data, R_NilValue);  
         }

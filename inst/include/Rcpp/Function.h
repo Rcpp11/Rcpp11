@@ -4,27 +4,18 @@
 namespace Rcpp{ 
 
     RCPP_API_CLASS(Function_Impl){
-    public:
-
-        RCPP_GENERATE_CTOR_ASSIGN(Function_Impl) 
-
-        /**
-         * Attempts to convert the SEXP to a pair list
-         *
-         * @throw not_compatible if the SEXP could not be converted
-         * to a pair list using as.pairlist
-         */
-        Function_Impl(SEXP x = R_NilValue){
-            RCPP_DEBUG( "Function::Function(SEXP = <%p>)", x)
+        RCPP_API_IMPL(Function_Impl)
+        
+        inline void set(SEXP x){
             switch( TYPEOF(x) ){
             case CLOSXP:
             case SPECIALSXP:
             case BUILTINSXP:
-                Storage::set__(x) ;
+                data = x ;
                 break; 
             default:
                 throw not_compatible("cannot convert to function") ;
-            }    
+            }       
         }
         
         /**
@@ -32,10 +23,8 @@ namespace Rcpp{
          *
          * @param name name of the function
          */
-        Function_Impl(const std::string& name){
-            SEXP nameSym = Rf_install( name.c_str() );
-            Storage::set__( Rf_findFun( nameSym, R_GlobalEnv ) ) ;
-        }
+        Function_Impl(const std::string& name) : 
+            data( Rf_findFun( Rf_install( name.c_str() ), R_GlobalEnv ) ){}
        
         /**
          * calls the function with the specified arguments
@@ -47,25 +36,25 @@ namespace Rcpp{
          */
         template<typename... Args> 
         SEXP operator()( const Args&... args) const {
-            Shield<SEXP> call = language( Storage::get__() , args... ) ;
-            return Rcpp_eval( call ) ;
+            Shield<SEXP> call = language( data , args... ) ;
+            return Rcpp_eval(call) ;
         }
         
         /**
          * Returns the environment of this function
          */
         SEXP environment() const {
-            if( TYPEOF(Storage::get__()) != CLOSXP ) {
+            if( TYPEOF(data) != CLOSXP ) {
                 throw not_a_closure() ;
             }
-            return CLOENV(Storage::get__()) ;    
+            return CLOENV(data) ;    
         }
         
         /**
          * Returns the body of the function
          */
         SEXP body() const {
-            return BODY( Storage::get__() ) ;    
+            return BODY(data) ;    
         }
         
     };

@@ -4,14 +4,12 @@
 namespace Rcpp{
         
     #undef VEC
-    #define VEC Vector<EXPRSXP,StoragePolicy>
-    template <
-        template <class> class StoragePolicy
-    >
-    class Vector<EXPRSXP,StoragePolicy> :
+    #define VEC Vector<EXPRSXP,Storage>
+    
+    template <typename Storage>
+    class Vector<EXPRSXP,Storage> :
         public VectorOf<EXPRSXP>,
         public SugarVectorExpression< EXPRSXP, true, VEC>,
-        public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
@@ -19,11 +17,14 @@ namespace Rcpp{
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>
     {
-    public:
+        RCPP_API_IMPL(Vector)
+        
+        inline void set(SEXP x){
+            data = r_cast<EXPRSXP>( x ) ;        
+        }
         
         typedef SEXP value_type  ;
         typedef SEXP stored_type ;
-        typedef SEXP init_type   ;
         typedef internal::generic_proxy<EXPRSXP>            Proxy           ;
         typedef internal::const_generic_proxy<EXPRSXP>      const_Proxy     ;
         typedef internal::Proxy_Iterator<Proxy>             iterator        ; 
@@ -32,12 +33,6 @@ namespace Rcpp{
         typedef internal::generic_const_name_proxy<EXPRSXP> const_NameProxy ;
         
         using VectorOffset<Vector>::size ;
-        
-        RCPP_GENERATE_CTOR_ASSIGN(Vector)
-    
-        Vector( SEXP x ) {
-            Storage::set__( r_cast<EXPRSXP>( x ) ) ;
-        }
         
         Vector( int n ) {
             reset(n) ;
@@ -64,7 +59,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void import_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;   
         }
         
         template <bool NA, typename Expr>
@@ -75,7 +70,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void assign_expression( const SugarVectorExpression<EXPRSXP,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;    
         }
         
         template <bool NA, typename Expr>
@@ -94,18 +89,18 @@ namespace Rcpp{
             if( status != PARSE_OK ){
                 throw parse_error() ;
             }
-            Storage::set__(res) ;
+            data = res ;
         }
         
         inline void reset(int n){
-            Storage::set__(Rf_allocVector(EXPRSXP, n) ) ;        
+            data = Rf_allocVector(EXPRSXP, n) ;        
         }
         
-        inline stored_type* data(){
-            return reinterpret_cast<stored_type*>( DATAPTR(Storage::get__()) );    
+        inline stored_type* dataptr(){
+            return reinterpret_cast<stored_type*>( DATAPTR(data) );    
         }
-        inline const stored_type* data() const{
-            return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
+        inline const stored_type* dataptr() const{
+            return reinterpret_cast<const stored_type*>( DATAPTR(data) );    
         }
         
     public:

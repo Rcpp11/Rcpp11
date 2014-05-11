@@ -3,11 +3,11 @@
 
 namespace Rcpp{ 
     
-    template < template <class> class StoragePolicy>
+    template <typename Storage>
     class NamedDots_Impl {
     public:
-        typedef Environment_Impl<StoragePolicy> Environment ;
-        typedef Promise_Impl<StoragePolicy> Promise ;
+        typedef Environment_Impl<Storage> Environment ;
+        typedef Promise_Impl<Storage> Promise ;
         
         NamedDots_Impl( Environment env ){
             SEXP dots = env.find("...") ;
@@ -42,8 +42,7 @@ namespace Rcpp{
         std::vector<Symbol> symbols ;
     } ;
     
-    // typedef NamedDots_Impl<NoProtectStorage> NamedDots ; 
-    typedef NamedDots_Impl<PreserveStorage> NamedDots ;
+    typedef NamedDots_Impl<NoProtectStorage> NamedDots ; 
     
 }
 

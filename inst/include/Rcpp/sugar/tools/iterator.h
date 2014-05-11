@@ -91,9 +91,9 @@ namespace sugar {
         typedef SugarIterator<Expr> type;
     } ;
     
-    template <int RTYPE, template <class> class StoragePolicy>
-    struct sugar_const_iterator_type< RTYPE, true, Vector<RTYPE,StoragePolicy> > {
-        typedef typename Vector<RTYPE,StoragePolicy>::const_iterator type;
+    template <int RTYPE, typename Storage>
+    struct sugar_const_iterator_type< RTYPE, true, Vector<RTYPE,Storage> > {
+        typedef typename Vector<RTYPE,Storage>::const_iterator type;
     } ;
     
     template <int RTYPE, bool NA, typename Expr>

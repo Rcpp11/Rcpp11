@@ -3,15 +3,12 @@
 
 namespace Rcpp{
         
-    #define VEC Vector<STRSXP,StoragePolicy>
+    #define VEC Vector<STRSXP,Storage>
     
-    template <
-        template <class> class StoragePolicy
-    >
-    class Vector<STRSXP,StoragePolicy> :
+    template <typename Storage>
+    class Vector<STRSXP,Storage> :
         public VectorOf<STRSXP>,
         public SugarVectorExpression< STRSXP, true, VEC>,
-        public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
@@ -19,11 +16,14 @@ namespace Rcpp{
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>
     {
-    public:
+        RCPP_API_IMPL(Vector)
+        
+        inline void set(SEXP x){
+            data =  r_cast<STRSXP>(x);   
+        }
         
         typedef  SEXP value_type ;
         typedef  SEXP stored_type ;
-        typedef  const char* init_type  ;
         typedef  internal::string_proxy<STRSXP>              Proxy           ;
         typedef  internal::const_string_proxy<STRSXP>        const_Proxy     ;
         typedef  internal::Proxy_Iterator<Proxy>             iterator        ; 
@@ -33,13 +33,7 @@ namespace Rcpp{
         
         using VectorOffset<Vector>::size ;
         
-        RCPP_GENERATE_CTOR_ASSIGN(Vector)
-    
-        Vector( SEXP x ) {
-            Storage::set__( r_cast<STRSXP>( x ) ) ;
-        }
-        
-        Vector( int n ) {
+        Vector(int n) {
             reset(n); 
         }
         Vector() {
@@ -107,10 +101,10 @@ namespace Rcpp{
             Storage::set__(Rf_allocVector(STRSXP, n) ) ;        
         }
         
-        inline stored_type* data(){
+        inline stored_type* dataptr(){
             return reinterpret_cast<stored_type*>( DATAPTR(Storage::get__()) );    
         }
-        inline const stored_type* data() const{
+        inline const stored_type* dataptr() const{
             return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
         }
         

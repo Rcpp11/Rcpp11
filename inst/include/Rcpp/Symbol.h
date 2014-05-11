@@ -3,55 +3,38 @@
 
 namespace Rcpp{ 
 
-    template < template <class> class StoragePolicy >
-    class Symbol_Impl : 
-        public StoragePolicy<Symbol_Impl<StoragePolicy>>, 
-        public RObjectMethods<Symbol_Impl<StoragePolicy>>
-    {
-    public:
-    
-        RCPP_GENERATE_CTOR_ASSIGN(Symbol_Impl) 
+    template <typename Storage>
+    class Symbol_Impl {
+        RCPP_API_IMPL(Symbol_Impl) 
         
-        /**
-         * wraps the SEXP into a Symbol object. 
-         * 
-         * @param m_sexp Accepted SEXP types are SYMSXP, CHARSXP and STRSXP
-         * in the last case, the first element of the character vector 
-         * is silently used
-         */
-        Symbol_Impl(SEXP x){
-            if( x != R_NilValue ){
-                int type = TYPEOF(x) ;
-                switch( type ){
-                case SYMSXP:
-                    Storage::set__( x ) ;
-                    break; /* nothing to do */
-                case CHARSXP: {
-                    SEXP charSym = Rf_install(CHAR(x));     
-                    Storage::set__( charSym ) ;
-                    break ;
-                }
-                case STRSXP: {
-                    /* FIXME: check that there is at least one element */
-                    SEXP charSym = Rf_install( CHAR(STRING_ELT(x, 0 )) ); 
-                    Storage::set__( charSym );
-                    break ;
-                }
-                default:
-                    throw not_compatible("cannot convert to symbol (SYMSXP)") ;
-                }
-            } 
+        inline void set(SEXP x){
+            int type = TYPEOF(x) ;
+            switch( type ){
+            case SYMSXP:
+                data = x ;
+                break; /* nothing to do */
+            case CHARSXP: {
+                data = Rf_install(CHAR(x));     
+                break ;
+            }
+            case STRSXP: {
+                /* FIXME: check that there is at least one element */
+                data = Rf_install( CHAR(STRING_ELT(x, 0 )) ); 
+                break ;
+            }
+            default:
+                throw not_compatible("cannot convert to symbol (SYMSXP)") ;
+            }       
         }
+        
+        Symbol_Impl(const std::string& symbol) :    
+            data(Rf_install(symbol.c_str())) {}
     
-        /**
-         *
-         */
-        Symbol_Impl(const std::string& symbol){
-            Storage::set__(Rf_install(symbol.c_str()));
-        }
+        Symbol_Impl(const char* symbol) :    
+            data(Rf_install(symbol)) {}
     
         inline const char* c_str() const { 
-            return CHAR(PRINTNAME(Storage::get__())) ;
+            return CHAR(PRINTNAME(data)) ;
         }
         
         inline bool operator==(const char* other) const { 

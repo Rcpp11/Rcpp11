@@ -21,7 +21,7 @@
 #include <Rcpp/protection/protection.h>
 
 #include <cstdint>
-#include <array>
+#include <array>             
 #include <type_traits>
 #include <iterator>
 #include <exception>
@@ -62,36 +62,60 @@ namespace Rcpp{
         std::string f(file) ;
         return f.substr( f.find_last_of("/") + 1 ).c_str() ;
     }
+    
+    inline bool derives_from( SEXP cl, const std::string& clazz ){
+        if(cl == R_NilValue) return false ;
+        
+        // simple test for exact match
+        if( ! clazz.compare( CHAR(STRING_ELT(cl, 0)) ) ) return true ;
+                
+        SEXP containsSym = Rf_install("contains");
+        Shield<SEXP> contains = R_do_slot(R_getClassDef(CHAR(Rf_asChar(cl))),containsSym); 
+        SEXP res = Rf_getAttrib(contains,R_NamesSymbol );
+        if(res == R_NilValue) return false ;
+        
+        return std::any_of( 
+            VECTOR_PTR(res), VECTOR_PTR(res) + LENGTH(res), 
+            [&](SEXP s){ return clazz == CHAR(s) ; } 
+        ) ;    
+    }
 
     class String ;
     class PreserveStorage ;
-    // class NoProtectStorage ;
+    class NoProtectStorage ;
     
-    template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
-    class Vector ;                      
-    
-    template <int RTYPE, template <class> class StoragePolicy = PreserveStorage> 
-    class Matrix ;
+    template <int RTYPE, typename Storage = PreserveStorage> class Vector ;                      
+    template <int RTYPE, typename Storage = PreserveStorage> class Matrix ;
     
     typedef Vector<STRSXP> CharacterVector ;
     typedef Vector<VECSXP> List ; 
     typedef Vector<EXPRSXP> ExpressionVector ; 
+   
+    template <typename Storage> class RObject_Impl ; 
+    template <typename Storage> class Language_Impl ; 
+    template <typename Storage> class Pairlist_Impl ;
+    template <typename Storage> class Environment_Impl ;
+    template <typename Storage> class Promise_Impl ;
+    template <typename Storage> class WeakReference_Impl ;
+    template <typename Storage> class S4_Impl ;
+    template <typename Storage> class Formula_Impl ;
+    template <typename Storage> class Reference_Impl ;
+    template <typename Storage> class Function_Impl ;
+    template <typename Storage> class DataFrame_Impl ;
+    template <typename Storage> class Symbol_Impl ;
     
-    RCPP_API_CLASS_DECL(RObject) 
-    RCPP_API_CLASS_DECL(Language) 
-    RCPP_API_CLASS_DECL(Pairlist)
-    RCPP_API_CLASS_DECL(Environment)
-    RCPP_API_CLASS_DECL(Promise)
-    RCPP_API_CLASS_DECL(WeakReference)
-    RCPP_API_CLASS_DECL(S4)
-    RCPP_API_CLASS_DECL(Formula)
-    RCPP_API_CLASS_DECL(Reference)
-    RCPP_API_CLASS_DECL(Function)
-    
-    template < template <class> class StoragePolicy > class Symbol_Impl ;
+    typedef RObject_Impl<PreserveStorage> RObject ; 
+    typedef Language_Impl<PreserveStorage> Language ; 
+    typedef Pairlist_Impl<PreserveStorage> Pairlist ;
+    typedef Environment_Impl<PreserveStorage> Environment ;
+    typedef Promise_Impl<PreserveStorage> Promise ;
+    typedef WeakReference_Impl<PreserveStorage> WeakReference ;
+    typedef S4_Impl<PreserveStorage> WeakReference ;
+    typedef Formula_Impl<PreserveStorage> Formula ;
+    typedef Reference_Impl<PreserveStorage> Reference ;
+    typedef Function_Impl<PreserveStorage> Function ;
+    typedef DataFrame_Impl<PreserveStorage> DataFrame ;
     typedef Symbol_Impl<NoProtectStorage> Symbol ;
-    
-    template < template <class> class StoragePolicy > class DataFrame_Impl ;
     typedef DataFrame_Impl<PreserveStorage> DataFrame ;
     
 }

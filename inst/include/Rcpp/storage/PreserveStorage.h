@@ -46,7 +46,6 @@ namespace Rcpp{
             return *this ;
         }
         
-        
     private:
         SEXP data ;
         

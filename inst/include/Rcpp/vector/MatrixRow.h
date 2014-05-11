@@ -29,12 +29,12 @@ namespace Rcpp{
             return *this;    
         }
         
-        template < template <class> class StoragePolicy >
-        MatrixRow& operator=( const Vector<RTYPE,StoragePolicy>& vec ){
-            if( vec.size() != size() ) throw incompatible_dimensions() ;
-            std::copy( vec.begin(), vec.end(), begin() );
-            return *this;
-        }
+        // template < typename Storage >
+        // MatrixRow& operator=( const Vector<RTYPE,Storage>& vec ){
+        //     if( vec.size() != size() ) throw incompatible_dimensions() ;
+        //     std::copy( vec.begin(), vec.end(), begin() );
+        //     return *this;
+        // }
         
         inline int size() const { return n ;}
         

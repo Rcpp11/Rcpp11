@@ -3,13 +3,13 @@
 
 namespace Rcpp{
      
-    template < template <class> class StoragePolicy>
+    template <typename Storage>
     class DataFrame_Impl : 
-        public RObjectMethods<DataFrame_Impl<StoragePolicy>>, 
-        public AttributeProxyPolicy<DataFrame_Impl<StoragePolicy>>
+        public RObjectMethods<DataFrame_Impl<Storage>>, 
+        public AttributeProxyPolicy<DataFrame_Impl<Storage>>
         {
     public:
-        typedef Vector<VECSXP, StoragePolicy> List ; 
+        typedef Vector<VECSXP, Storage> List ; 
         
         DataFrame_Impl() : data(empty_data_frame()){}
         DataFrame_Impl(SEXP x) {

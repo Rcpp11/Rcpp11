@@ -3,22 +3,13 @@
 
 namespace Rcpp{ 
 
-    RCPP_API_CLASS(RObject_Impl) {
-    public:
+    RCPP_API_CLASS(RObject_Impl){
+        RCPP_API_IMPL(RObject_Impl)
         
-        RObject_Impl() {}
-
-        RCPP_GENERATE_CTOR_ASSIGN(RObject_Impl) 
-        
-        RObject_Impl(SEXP x) {
-            Storage::set__(x) ;    
+        inline void set(SEXP x){
+            data = x ;    
         }
-
-        RObject_Impl& operator=( SEXP other ){
-            Storage::set__(other) ;
-        }
-        
-   };
+    };
     
 } // namespace Rcpp
 

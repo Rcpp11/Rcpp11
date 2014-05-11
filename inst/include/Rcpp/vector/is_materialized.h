@@ -4,13 +4,13 @@
 namespace Rcpp{
 namespace traits{
 
-    template <int RTYPE, template <class> class StoragePolicy>
-    struct is_materialized< Vector<RTYPE,StoragePolicy> >{
+    template <int RTYPE, typename Storage>
+    struct is_materialized< Vector<RTYPE,Storage> >{
         typedef std::true_type type ;
     } ;
     
-    template <int RTYPE, template <class> class StoragePolicy>
-    struct is_materialized< Matrix<RTYPE,StoragePolicy> >{
+    template <int RTYPE, typename Storage>
+    struct is_materialized< Matrix<RTYPE,Storage> >{
         typedef std::true_type type ;
     } ;
     

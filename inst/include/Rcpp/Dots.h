@@ -3,11 +3,11 @@
 
 namespace Rcpp{ 
     
-    template < template <class> class StoragePolicy>
+    template <typename Storage>
     class Dots_Impl {
     public:
-        typedef Environment_Impl<StoragePolicy> Environment ;
-        typedef Promise_Impl<StoragePolicy> Promise ;
+        typedef Environment_Impl<Storage> Environment ;
+        typedef Promise_Impl<Storage> Promise ;
         
         Dots_Impl( Environment env){
             SEXP dots = env.find("...") ;
@@ -34,8 +34,7 @@ namespace Rcpp{
         std::vector<Promise> promises ;
     } ;
     
-    // typedef Dots_Impl<NoProtectStorage> Dots ;
-    typedef Dots_Impl<PreserveStorage> Dots ;
+    typedef Dots_Impl<NoProtectStorage> Dots ;
     
 }
 

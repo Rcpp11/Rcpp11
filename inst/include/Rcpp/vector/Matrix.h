@@ -3,17 +3,17 @@
 
 namespace Rcpp{
 
-    template <int RTYPE, template <class> class StoragePolicy>
-    class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,StoragePolicy> >{
+    template <int RTYPE, typename Storage>
+    class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,Storage> >{
     private:
-        Vector<RTYPE,StoragePolicy> vec ;
+        Vector<RTYPE,Storage> vec ;
         int* dims ;
         
     public:
-        typedef typename Vector<RTYPE,StoragePolicy>::Proxy Proxy;
-        typedef typename Vector<RTYPE,StoragePolicy>::const_Proxy const_Proxy;
-        typedef typename Vector<RTYPE,StoragePolicy>::iterator iterator;
-        typedef typename Vector<RTYPE,StoragePolicy>::const_iterator const_iterator;
+        typedef typename Vector<RTYPE,Storage>::Proxy Proxy;
+        typedef typename Vector<RTYPE,Storage>::const_Proxy const_Proxy;
+        typedef typename Vector<RTYPE,Storage>::iterator iterator;
+        typedef typename Vector<RTYPE,Storage>::const_iterator const_iterator;
         
         typedef MatrixColumn<RTYPE, Matrix> Column;
         typedef MatrixRow<RTYPE, Matrix> Row;

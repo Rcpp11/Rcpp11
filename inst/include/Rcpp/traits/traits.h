@@ -21,7 +21,6 @@
 #include <Rcpp/traits/or_.h>
 #include <Rcpp/traits/get_na.h>
 #include <Rcpp/traits/is_trivial.h>
-#include <Rcpp/traits/init_type.h>
 #include <Rcpp/traits/any_named.h>
 #include <Rcpp/traits/remove_const_and_reference.h>
 #include <Rcpp/traits/is_primitive.h>

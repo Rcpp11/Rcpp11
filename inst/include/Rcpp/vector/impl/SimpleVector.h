@@ -4,16 +4,12 @@
 namespace Rcpp{
        
     #undef VEC
-    #define VEC Vector<RTYPE,StoragePolicy>
+    #define VEC Vector<RTYPE,Storage>
     
-    template <
-        int RTYPE, 
-        template <class> class StoragePolicy
-    >
+    template <int RTYPE, typename Storage>
     class Vector :
         public VectorOf<RTYPE>,
         public SugarVectorExpression< RTYPE, true, VEC >,
-        public StoragePolicy<VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
@@ -21,7 +17,11 @@ namespace Rcpp{
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>
     {
-    public:
+        RCPP_API_IMPL(Vector)
+        
+        inline void set(SEXP x){
+            data =  r_cast<RTYPE>(x);   
+        }
         
         typedef typename traits::storage_type<RTYPE>::type value_type ;
         typedef value_type stored_type  ;
@@ -37,12 +37,6 @@ namespace Rcpp{
         typedef internal::simple_const_name_proxy<RTYPE>   const_NameProxy ;
         
         using VectorOffset<Vector>::size ;
-        
-        RCPP_GENERATE_CTOR_ASSIGN(Vector)
-    
-        Vector( SEXP x ) {
-            Storage::set__( r_cast<RTYPE>( x ) ) ;
-        }
         
         Vector(int n) {
             reset(n) ;
@@ -77,7 +71,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;    
         }
         
         template <bool NA, typename Expr>
@@ -88,7 +82,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;    
         }
         
         template <bool NA, typename Expr>
@@ -101,25 +95,25 @@ namespace Rcpp{
         }
         
         inline void reset(int n){
-            Storage::set__(Rf_allocVector(RTYPE, n) ) ;        
+            data = Rf_allocVector(RTYPE, n) ;        
         }
         
-        inline stored_type* data(){
-            return reinterpret_cast<stored_type*>( DATAPTR(Storage::get__()) );    
+        inline stored_type* dataptr(){
+            return reinterpret_cast<stored_type*>( DATAPTR(data) );    
         }
-        inline const stored_type* data() const{
-            return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
+        inline const stored_type* dataptr() const{
+            return reinterpret_cast<const stored_type*>( DATAPTR(data) );    
         }
         
     public:
-        inline iterator begin() { return data() ; }
-        inline iterator end() { return data() + size() ; }
+        inline iterator begin() { return dataptr() ; }
+        inline iterator end() { return dataptr() + size() ; }
         
-        inline const_iterator begin() const{ return data() ; }
-        inline const_iterator end() const{ return data() + size() ; }
+        inline const_iterator begin() const{ return dataptr() ; }
+        inline const_iterator end() const{ return dataptr() + size() ; }
         
-        inline Proxy operator[](int i){ return *( data() + i ) ;}
-        inline const_Proxy operator[](int i) const { return *( data() + i ); }
+        inline Proxy operator[](int i){ return *( dataptr() + i ) ;}
+        inline const_Proxy operator[](int i) const { return *( dataptr() + i ); }
         
         template <typename... Args> static Vector create(Args... args) {
             return typename create_type<RTYPE, Args...>::type( args... ) ;    
