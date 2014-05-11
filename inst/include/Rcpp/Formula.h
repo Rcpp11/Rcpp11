@@ -18,7 +18,7 @@ namespace Rcpp{
                 if( ::Rf_inherits( x, "formula") ){
                     data = x ;
                 } else{
-                    Storage::set__( internal::convert_using_rfunction( x, "as.formula") ) ;
+                    data = internal::convert_using_rfunction( x, "as.formula") ;
                 }
                 break;
             case EXPRSXP:

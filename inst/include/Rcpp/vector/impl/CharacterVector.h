@@ -74,7 +74,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void import_expression( const SugarVectorExpression<STRSXP,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;    
         }
         
         template <bool NA, typename Expr>
@@ -85,7 +85,7 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void assign_expression( const SugarVectorExpression<STRSXP,NA,Expr>& other,  std::true_type ){
-            Storage::set__( other.get_ref().get__() ) ;    
+            data = other.get_ref() ;    
         }
         
         template <bool NA, typename Expr>
@@ -98,14 +98,14 @@ namespace Rcpp{
         }
         
         inline void reset(int n){
-            Storage::set__(Rf_allocVector(STRSXP, n) ) ;        
+            data = Rf_allocVector(STRSXP, n) ;        
         }
         
         inline stored_type* dataptr(){
-            return reinterpret_cast<stored_type*>( DATAPTR(Storage::get__()) );    
+            return reinterpret_cast<stored_type*>( DATAPTR(data) );    
         }
         inline const stored_type* dataptr() const{
-            return reinterpret_cast<const stored_type*>( DATAPTR(Storage::get__()) );    
+            return reinterpret_cast<const stored_type*>( DATAPTR(data) );    
         }
         
     public:

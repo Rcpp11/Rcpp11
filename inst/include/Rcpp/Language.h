@@ -86,7 +86,7 @@ namespace Rcpp{
          * eval this call in the requested environment
          */
         SEXP eval(SEXP env) const {
-            return Rcpp_eval( Storage::get__(), env ) ;
+            return Rcpp_eval( data, env ) ;
         }
 
     };
