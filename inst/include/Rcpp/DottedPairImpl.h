@@ -78,12 +78,12 @@ namespace Rcpp{
         }
         
         void remove( const size_t& index ){
-            CLASS& ref = static_cast<CLASS&>(*this) ;
+            CLASS& ref = get_ref() ;
+            SEXP x = ref ;
             if( static_cast<R_len_t>(index) >= Rf_length(ref) ) throw index_out_of_bounds() ;
             if( index == 0 ){
-                ref = CDR( ref ) ;
+                ref = CDR(x) ;
             } else{
-                SEXP x = ref ;
                 size_t i=1;
                 while( i<index ){ x = CDR(x) ; i++; }
                 SETCDR( x, CDDR(x) ) ;
