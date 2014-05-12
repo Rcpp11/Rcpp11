@@ -14,7 +14,8 @@ namespace Rcpp{
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public VectorOffset<VEC>
+        public VectorOffset<VEC>, 
+        public NameProxyPolicy<VEC>
     {
         RCPP_API_IMPL(Vector)
         
@@ -26,7 +27,6 @@ namespace Rcpp{
         typedef  SEXP stored_type ;
         typedef  internal::string_proxy<STRSXP>              Proxy           ;
         typedef  internal::Proxy_Iterator<Proxy>             iterator        ; 
-        typedef  internal::string_name_proxy<STRSXP>         NameProxy       ;
         
         using VectorOffset<Vector>::size ;
         
@@ -132,14 +132,10 @@ namespace Rcpp{
             return typename create_type<STRSXP, Args...>::type( args... ) ;    
         }
     
-        inline NameProxy operator[]( const std::string& name ){
-            return NameProxy( *this, name ) ;
-        }
-        inline const NameProxy operator[]( const std::string& name ) const {
-            return NameProxy( const_cast<Vector&>(*this), name ) ;
-        }
+        using NameProxyPolicy<VEC>::operator[] ; 
         
     } ;
+    
     
     #undef VEC
   

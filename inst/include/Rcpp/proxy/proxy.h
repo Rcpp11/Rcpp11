@@ -5,6 +5,7 @@
 #include <Rcpp/proxy/NodeProxy.h>
 #include <Rcpp/proxy/TagProxy.h>
 #include <Rcpp/proxy/ProtectedProxy.h>
+#include <Rcpp/proxy/NameProxyPolicy.h>
 #include <Rcpp/proxy/NamesProxy.h>
 #include <Rcpp/proxy/Binding.h>
 #include <Rcpp/proxy/SlotProxy.h>

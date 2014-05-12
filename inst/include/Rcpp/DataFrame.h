@@ -96,6 +96,7 @@ namespace Rcpp{
             int n = obj.size() ;
             CharacterVector names = obj.attr( "names" ) ;
             if( !names.isNULL() ){
+                std::string name ;
                 for( int i=0; i<n; i++){
                     if( names[i] == "stringsAsFactors" ){
                         use_default_strings_as_factors = false ;        
@@ -103,7 +104,8 @@ namespace Rcpp{
                         break ;         
                     } else {
                         columns.push_back( obj[i] ) ;
-                        out_names.push_back( std::string(names[i]) ) ;
+                        name = names[i] ;
+                        out_names.push_back( name ) ;
                     }
                 }
             }

@@ -15,7 +15,8 @@ namespace Rcpp{
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public VectorOffset<VEC>
+        public VectorOffset<VEC>, 
+        public NameProxyPolicy<VEC>
     {
         RCPP_API_IMPL(Vector)
         
@@ -32,8 +33,6 @@ namespace Rcpp{
         typedef const_reference    const_Proxy     ;
         typedef value_type*        iterator        ; 
         typedef const value_type*  const_iterator  ;
-        
-        typedef internal::simple_name_proxy<RTYPE>         NameProxy  ;
         
         using VectorOffset<Vector>::size ;
         
@@ -117,13 +116,9 @@ namespace Rcpp{
         template <typename... Args> static Vector create(Args... args) {
             return typename create_type<RTYPE, Args...>::type( args... ) ;    
         }
-    
-        inline NameProxy operator[]( const std::string& name ){
-            return NameProxy( *this, name ) ;
-        }
-        inline const NameProxy operator[]( const std::string& name ) const {
-            return NameProxy( const_cast<Vector&>(*this), name ) ;
-        }
+         
+        using NameProxyPolicy<VEC>::operator[] ; 
+        
     } ;
 
     #undef VEC

@@ -10,11 +10,6 @@
 #include <Rcpp/vector/concat.h>
 #include <Rcpp/vector/create.h>
 
-#include <Rcpp/vector/name_proxy.h>
-#include <Rcpp/vector/simple_name_proxy.h>
-#include <Rcpp/vector/string_name_proxy.h>
-#include <Rcpp/vector/generic_name_proxy.h>
-
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/generic_proxy.h>
 

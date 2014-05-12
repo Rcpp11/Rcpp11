@@ -79,16 +79,27 @@ namespace internal{
             return get() ;
         }
     
-        /**
-         * rhs use. Retrieves the current value of the 
-         * element this proxy refers to and convert it to a 
-         * C string
-         */
-        operator /* const */ char*() const {
-            return const_cast<char*>( CHAR(get()) );
+        // /**
+        //  * rhs use. Retrieves the current value of the 
+        //  * element this proxy refers to and convert it to a 
+        //  * C string
+        //  */
+        // inline operator char*() const {
+        //     return const_cast<char*>( CHAR(get()) );
+        // }
+        // 
+        // inline operator char*() {
+        //     return const_cast<char*>( CHAR(get()) );
+        // }
+        // 
+        inline operator std::string() const {
+            return std::string( CHAR(get()) );
         }
-    
-    
+        
+        inline operator std::string() {
+            return std::string( CHAR(get()) );
+        }
+        
         /**
          * Prints the element this proxy refers to to an 
          * output stream
@@ -181,12 +192,12 @@ namespace internal{
     template<int RTYPE> std::string string_proxy<RTYPE>::buffer ;
 
     inline std::ostream& operator<<(std::ostream& os, const string_proxy<STRSXP>& proxy) {
-        os << static_cast<const char*>(proxy) ;
+        os << std::string(proxy) ;
         return os;
     }
 
     inline std::string operator+( const std::string& x, const string_proxy<STRSXP>& y ){
-        return x + static_cast<const char*>(y) ;
+        return x + std::string(y) ;
     }
     
 }
