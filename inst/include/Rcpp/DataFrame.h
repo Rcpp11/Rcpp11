@@ -59,12 +59,12 @@ namespace Rcpp{
         }
            
         inline typename List::Proxy operator[](int i){ return data[i] ; }
-        inline typename List::const_Proxy operator[](int i) const { return data[i] ; }
+        inline const typename List::Proxy operator[](int i) const { return data[i] ; }
         
         inline typename List::NameProxy operator[]( const std::string& name ){
             return data[name] ;
         }
-        inline typename List::const_NameProxy operator[]( const std::string& name ) const {
+        inline const typename List::NameProxy operator[]( const std::string& name ) const {
             return data[name] ;
         }
              

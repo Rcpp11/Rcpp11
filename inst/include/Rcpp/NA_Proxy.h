@@ -14,9 +14,6 @@ namespace Rcpp{
         friend inline bool operator==(Rcpp::internal::string_proxy<STRSXP> x, Rcpp::Na_Proxy){ 
             return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
         }
-        friend inline bool operator==(Rcpp::internal::const_string_proxy<STRSXP> x, Rcpp::Na_Proxy){ 
-            return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
-        }
         
         friend inline bool operator==(Rcpp::Na_Proxy, double x       ){ return Rcpp::traits::is_na<REALSXP>(x) ; }
         friend inline bool operator==(Rcpp::Na_Proxy, int x          ){ return Rcpp::traits::is_na<INTSXP>(x) ; }
@@ -28,10 +25,7 @@ namespace Rcpp{
         friend inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::string_proxy<STRSXP> x){ 
             return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
         }
-        friend inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::const_string_proxy<STRSXP> x){ 
-            return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
-        }
-     
+        
     public:
         
         inline operator int() const { return NA_INTEGER ; }

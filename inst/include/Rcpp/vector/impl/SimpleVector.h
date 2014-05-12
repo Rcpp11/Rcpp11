@@ -112,8 +112,8 @@ namespace Rcpp{
         inline const_iterator begin() const{ return dataptr() ; }
         inline const_iterator end() const{ return dataptr() + size() ; }
         
-        inline Proxy operator[](int i){ return *( dataptr() + i ) ;}
-        inline const_Proxy operator[](int i) const { return *( dataptr() + i ); }
+        inline reference operator[](int i){ return *( dataptr() + i ) ;}
+        inline const_reference operator[](int i) const { return *( dataptr() + i ); }
         
         template <typename... Args> static Vector create(Args... args) {
             return typename create_type<RTYPE, Args...>::type( args... ) ;    
@@ -122,8 +122,8 @@ namespace Rcpp{
         inline NameProxy operator[]( const std::string& name ){
             return NameProxy( *this, name ) ;
         }
-        inline const_NameProxy operator[]( const std::string& name ) const {
-            return const_NameProxy( *this, name ) ;
+        inline const NameProxy operator[]( const std::string& name ) const {
+            return const_NameProxy( const_cast<Vector&>(*this), name ) ;
         }
     } ;
 

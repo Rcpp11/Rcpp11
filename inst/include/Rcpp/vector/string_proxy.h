@@ -34,7 +34,6 @@ namespace internal{
             return *this ;
         }
     
-        string_proxy& operator=( const const_string_proxy<RTYPE>& other) ;
         string_proxy& operator=( const String& s) ;
     
         /**
@@ -63,11 +62,6 @@ namespace internal{
         string_proxy& operator=(SEXP rhs){
             set( rhs ) ;
             return *this ;
-        }
-    
-        void import( const string_proxy& other){
-            parent = other.parent ;
-            index  = other.index ;
         }
     
         /**

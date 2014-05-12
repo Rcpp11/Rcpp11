@@ -6,14 +6,13 @@ namespace Rcpp{
     template <int RTYPE, typename Storage>
     class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,Storage> >{
     private:
-        Vector<RTYPE,Storage> vec ;
+        typedef Vector<RTYPE,Storage> Vec ;
+        Vec vec ;
         int* dims ;
         
     public:
         typedef typename Vector<RTYPE,Storage>::Proxy Proxy;
-        typedef typename Vector<RTYPE,Storage>::const_Proxy const_Proxy;
         typedef typename Vector<RTYPE,Storage>::iterator iterator;
-        typedef typename Vector<RTYPE,Storage>::const_iterator const_iterator;
         
         typedef MatrixColumn<RTYPE, Matrix> Column;
         typedef MatrixRow<RTYPE, Matrix> Row;
@@ -63,14 +62,18 @@ namespace Rcpp{
         inline iterator begin(){ return vec.begin() ; }
         inline iterator end(){ return vec.end(); }
                    
-        inline const_iterator begin() const { return vec.begin() ; }
-        inline const_iterator end() const { return vec.end(); }
+        inline const iterator begin() const { return vec.begin() ; }
+        inline const iterator end() const { return vec.end(); }
               
         inline Proxy operator[](int i){ return vec[i] ; }
-        inline const_Proxy operator[](int i) const{ return vec[i] ; }
+        inline const Proxy operator[](int i) const{ return vec[i] ; }
         
-        inline Proxy operator()(int i, int j) { return vec[offset(i,j)] ; }
-        inline const_Proxy operator()(int i, int j) const { return vec[offset(i,j)] ; }
+        inline Proxy operator()(int i, int j) { 
+            return vec[offset(i,j)] ; 
+        }
+        inline const Proxy operator()(int i, int j) const { 
+            return const_cast<Vec&>(vec)[offset(i,j)] ;
+        }
         
         inline Column column(int i){ return Column(*this, i) ; }
         inline Column operator()(internal::NamedPlaceHolder, int i){ return column(i); }

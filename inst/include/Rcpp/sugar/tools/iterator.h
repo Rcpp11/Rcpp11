@@ -12,6 +12,7 @@ namespace sugar {
         typedef stored_type value_type  ;
         typedef int difference_type  ;
         typedef stored_type reference ;
+        typedef const stored_type const_reference ;
         typedef stored_type* pointer ;
         typedef std::random_access_iterator_tag iterator_category ;
         typedef SugarIterator iterator ;
@@ -49,10 +50,17 @@ namespace sugar {
         inline reference operator[](int i){
             return ref[index+i] ;
         }
+        inline const_reference operator[](int i) const {
+            return ref[index+i] ;
+        }
     
         inline reference operator*() {
             return ref[index] ;
         }
+        inline const_reference operator*() const {
+            return ref[index] ;
+        }
+        
         inline pointer operator->(){
             return &ref[index] ;
         }
@@ -87,33 +95,22 @@ namespace sugar {
     } ;
     
     template <int RTYPE, bool NA, typename Expr>
-    struct sugar_const_iterator_type {
-        typedef SugarIterator<Expr> type;
-    } ;
-    
-    template <int RTYPE, typename Storage>
-    struct sugar_const_iterator_type< RTYPE, true, Vector<RTYPE,Storage> > {
-        typedef typename Vector<RTYPE,Storage>::const_iterator type;
-    } ;
-    
-    template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ){
+    inline auto sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ) -> decltype( obj.get_ref().begin() ){
         return obj.get_ref().begin() ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
-        typedef typename sugar_const_iterator_type<RTYPE,NA,Expr>::type const_iterator ; 
-        return const_iterator( obj.get_ref() ) ;
+    inline const SugarIterator<Expr> sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
+        return SugarIterator<Expr>( obj.get_ref() ) ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_begin(const SugarVectorExpression<RTYPE,NA,Expr>& obj){
+    inline auto sugar_begin(const SugarVectorExpression<RTYPE,NA,Expr>& obj) -> decltype( sugar_begin__impl( obj, typename traits::is_materialized<Expr>::type() ) ) {
         return sugar_begin__impl( obj, typename traits::is_materialized<Expr>::type() ) ;
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_const_iterator_type<RTYPE,NA,Expr>::type sugar_end(const SugarVectorExpression<RTYPE,NA,Expr>& obj){
+    inline auto sugar_end(const SugarVectorExpression<RTYPE,NA,Expr>& obj) -> decltype( sugar_begin<RTYPE,NA,Expr>(obj) ){
         return sugar_begin<RTYPE,NA,Expr>(obj) + obj.size() ;
     }
     

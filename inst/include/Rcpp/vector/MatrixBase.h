@@ -9,7 +9,10 @@ namespace Rcpp{
         using CRTP<Matrix>::get_ref ;
         typedef typename traits::storage_type<RTYPE>::type stored_type;
         
-        inline stored_type operator()(int i, int j) const { 
+        inline const stored_type operator()(int i, int j) const { 
+            return get_ref()(i,j) ; 
+        }
+        inline stored_type operator()(int i, int j) { 
             return get_ref()(i,j) ; 
         }
         inline int nrow() const { 

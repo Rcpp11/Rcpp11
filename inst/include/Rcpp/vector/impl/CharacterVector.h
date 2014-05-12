@@ -25,11 +25,8 @@ namespace Rcpp{
         typedef  SEXP value_type ;
         typedef  SEXP stored_type ;
         typedef  internal::string_proxy<STRSXP>              Proxy           ;
-        typedef  internal::const_string_proxy<STRSXP>        const_Proxy     ;
         typedef  internal::Proxy_Iterator<Proxy>             iterator        ; 
-        typedef  internal::const_Proxy_Iterator<const_Proxy> const_iterator  ;
         typedef  internal::string_name_proxy<STRSXP>         NameProxy       ;
-        typedef  internal::string_const_name_proxy<STRSXP>   const_NameProxy ;
         
         using VectorOffset<Vector>::size ;
         
@@ -117,18 +114,18 @@ namespace Rcpp{
             return iterator( Proxy(*this, size() ) ); 
         }
         
-        inline const_iterator begin() const{ 
-            return const_iterator( const_Proxy(*this, 0) );
+        inline const iterator begin() const{ 
+            return iterator( Proxy(const_cast<Vector&>(*this), 0) );
         }
-        inline const_iterator end() const{ 
-            return const_iterator( const_Proxy(*this, size()) );
+        inline iterator end() const{ 
+            return iterator( Proxy(const_cast<Vector&>(*this), size()) );
         }
         
         inline Proxy operator[](int i){ 
             return Proxy(*this, i ) ;
         }
-        inline const_Proxy operator[](int i) const { 
-            return const_Proxy(*this, i ) ; 
+        inline const Proxy operator[](int i) const { 
+            return Proxy(const_cast<Vector&>(*this), i ) ; 
         }
         
         template <typename... Args> static Vector create(Args... args) {
@@ -138,8 +135,8 @@ namespace Rcpp{
         inline NameProxy operator[]( const std::string& name ){
             return NameProxy( *this, name ) ;
         }
-        inline const_NameProxy operator[]( const std::string& name ) const {
-            return const_NameProxy( *this, name ) ;
+        inline const NameProxy operator[]( const std::string& name ) const {
+            return NameProxy( const_cast<Vector&>(*this), name ) ;
         }
         
     } ;
