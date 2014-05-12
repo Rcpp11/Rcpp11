@@ -11,12 +11,7 @@ namespace Rcpp{
             
             typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
         
-            generic_proxy(): parent(0), index(-1){}
-        
-            generic_proxy( const generic_proxy& other ) : 
-                parent(other.parent), index(other.index){}
-        
-            generic_proxy( VECTOR& v, int i ) : parent(&v), index(i){}
+            generic_proxy( VECTOR& v, int i ) : parent(v), index(i){}
     
             generic_proxy& operator=(SEXP rhs) { 
                 set(rhs) ;
@@ -52,18 +47,13 @@ namespace Rcpp{
                 other.set(tmp) ;
             }
         
-            void import( const generic_proxy& other){
-                parent = other.parent ;
-                index  = other.index ;
-            }
-        
         private:
             
-            VECTOR* parent; 
+            VECTOR& parent; 
             int index ;
             
-            inline void set(SEXP x) { SET_VECTOR_ELT( *parent, index, x ) ;} 
-            inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
+            inline void set(SEXP x) { SET_VECTOR_ELT( parent, index, x ) ;} 
+            inline SEXP get() const { return VECTOR_ELT(parent, index ); } 
         
         }  ;
     
