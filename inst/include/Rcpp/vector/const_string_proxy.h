@@ -17,9 +17,11 @@ namespace internal{
          * @param v reference to the associated character vector
          * @param index index 
          */
-        const_string_proxy( const VECTOR& v, int index_ ) : parent(&v), index(index_) {}
+        const_string_proxy( const VECTOR& v, int index_ ) : 
+            parent(&v), index(index_) {}
         
-        const_string_proxy( const const_string_proxy& other ) : parent(other.parent), index(other.index){} ;
+        const_string_proxy( const const_string_proxy& other ) : 
+            parent(other.parent), index(other.index){} ;
     
         const_string_proxy& operator=( const const_string_proxy& ) = delete ; 
     

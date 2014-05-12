@@ -13,14 +13,7 @@ namespace Rcpp{
         typedef PROXY value_type;
         typedef std::random_access_iterator_tag iterator_category ;
     
-        Proxy_Iterator( ): proxy(){}
-        Proxy_Iterator( const Proxy_Iterator& other) : proxy( other.proxy){}
         Proxy_Iterator( const PROXY& proxy_ ) : proxy( proxy_ ){}
-    
-        Proxy_Iterator& operator=( const Proxy_Iterator& other ){
-            proxy.import( other.proxy ) ;
-            return *this ;
-        }
     
         inline Proxy_Iterator& operator++(){
             proxy.index++ ;
