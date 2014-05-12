@@ -4,23 +4,21 @@
 namespace Rcpp{
 namespace internal{
 
-    template <int RTYPE> 
+    template <typename Vec> 
     class string_proxy {
     public:
         friend class Proxy_Iterator<string_proxy> ;
         
-        typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
-    
         /**
          * Creates a proxy
          *
          * @param v reference to the associated character vector
          * @param index index 
          */
-        string_proxy( VECTOR& v, int index_ ) : parent(&v), index(index_){}
+        string_proxy( Vec& v, int index_ ) : 
+            parent(v), index(index_){}
         
-        string_proxy( const string_proxy& other ) : 
-            parent(other.parent), index(other.index){} ;
+        string_proxy( const string_proxy& other ) = default ;
     
         /**
          * lhs use. Assign the value of the referred element to 
@@ -58,7 +56,6 @@ namespace internal{
             return *this ;
         }
     
-    
         string_proxy& operator=(SEXP rhs){
             set( rhs ) ;
             return *this ;
@@ -79,19 +76,6 @@ namespace internal{
             return get() ;
         }
     
-        // /**
-        //  * rhs use. Retrieves the current value of the 
-        //  * element this proxy refers to and convert it to a 
-        //  * C string
-        //  */
-        // inline operator char*() const {
-        //     return const_cast<char*>( CHAR(get()) );
-        // }
-        // 
-        // inline operator char*() {
-        //     return const_cast<char*>( CHAR(get()) );
-        // }
-        // 
         inline operator std::string() const {
             return std::string( CHAR(get()) );
         }
@@ -100,34 +84,30 @@ namespace internal{
             return std::string( CHAR(get()) );
         }
         
-        /**
-         * Prints the element this proxy refers to to an 
-         * output stream
-         */
-        template <int RT>
-        friend std::ostream& operator<<(std::ostream& os, const string_proxy<RT>& proxy);
-    
-        template <int RT>
-        friend std::string operator+( const std::string& x, const string_proxy<RT>& proxy);
-    
-        void swap( string_proxy& other ){
-            SEXP tmp = STRING_ELT(*parent, index) ;
-            SET_STRING_ELT( *parent, index, STRING_ELT( *(other.parent), other.index) ) ;
-            SET_STRING_ELT( *(other.parent), other.index, tmp ) ;
+        friend inline std::ostream& operator<<(std::ostream& os, const string_proxy& proxy) {
+            os << std::string(proxy) ;
+            return os;
+        }
+        
+        friend inline std::string operator+( const std::string& x, const string_proxy& y ){
+            return x + std::string(y) ;
         }
     
-        VECTOR* parent; 
-        int index ;
-        
+        void swap( string_proxy& other ){
+            SEXP tmp = STRING_ELT(parent, index) ;
+            SET_STRING_ELT( parent, index, STRING_ELT( other.parent, other.index) ) ;
+            SET_STRING_ELT( other.parent, other.index, tmp ) ;
+        }
+    
         inline SEXP get() const {
-            return STRING_ELT( *parent, index ) ;
+            return STRING_ELT( parent, index ) ;
         }
         template <typename T>
         inline void set( const T& x ){
             set( internal::make_charsexp(x) ) ;
         }
         inline void set(SEXP x){
-            SET_STRING_ELT( *parent, index, x ) ;
+            SET_STRING_ELT( parent, index, x ) ;
         }
     
         inline int size() const { return strlen( begin() ) ; }
@@ -144,60 +124,55 @@ namespace internal{
         bool operator!=( const string_proxy& other){
             return strcmp( begin(), other.begin() ) != 0 ;
         }
-    
-    
+      
     private:
+        Vec& parent; 
+        int index ;
+        
         typedef const char* iterator ;
         typedef const char& reference ;
         
-        inline iterator begin() const { return CHAR( STRING_ELT( *parent, index ) ) ; }
+        inline iterator begin() const { return CHAR( STRING_ELT( parent, index ) ) ; }
         inline iterator end() const { return begin() + size() ; }
         
-        static std::string buffer ;
-    
     } ;
+    
+    template <typename Vec> 
+    inline void swap( string_proxy<Vec>& a, string_proxy<Vec>& b){      
+        a.swap(b) ;                                        
+    }
 
-    template <int RT>
-    bool operator<( const string_proxy<RT>& lhs, const string_proxy<RT>& rhs) {
+
+    template <typename Vec1, typename Vec2>
+    bool operator<( const string_proxy<Vec1>& lhs, const string_proxy<Vec2>& rhs) {
         return strcmp( 
             const_cast<char *>(lhs.begin() ), 
             const_cast<char *>(rhs.begin())
             ) < 0 ;
     }
 
-    template <int RT>
-    bool operator>( const string_proxy<RT>& lhs, const string_proxy<RT>& rhs) {
+    template <typename Vec1, typename Vec2>
+    bool operator>( const string_proxy<Vec1>& lhs, const string_proxy<Vec2>& rhs) {
         return strcmp( 
             const_cast<char *>(lhs.begin() ), 
             const_cast<char *>(rhs.begin())
             ) > 0 ;
     }
 
-    template <int RT>
-    bool operator>=( const string_proxy<RT>& lhs, const string_proxy<RT>& rhs) {
+    template <typename Vec1, typename Vec2>
+    bool operator>=( const string_proxy<Vec1>& lhs, const string_proxy<Vec2>& rhs) {
         return strcmp( 
             const_cast<char *>(lhs.begin() ), 
             const_cast<char *>(rhs.begin())
             ) >= 0 ;
     }
 
-    template <int RT>
-    bool operator<=( const string_proxy<RT>& lhs, const string_proxy<RT>& rhs) {
+    template <typename Vec1, typename Vec2>
+    bool operator<=( const string_proxy<Vec1>& lhs, const string_proxy<Vec2>& rhs) {
         return strcmp( 
             const_cast<char *>(lhs.begin() ), 
             const_cast<char *>(rhs.begin())
             ) <= 0 ;
-    }
-    
-    template<int RTYPE> std::string string_proxy<RTYPE>::buffer ;
-
-    inline std::ostream& operator<<(std::ostream& os, const string_proxy<STRSXP>& proxy) {
-        os << std::string(proxy) ;
-        return os;
-    }
-
-    inline std::string operator+( const std::string& x, const string_proxy<STRSXP>& y ){
-        return x + std::string(y) ;
     }
     
 }

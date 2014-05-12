@@ -36,10 +36,10 @@ namespace Rcpp{
         }
     
         inline Proxy_Iterator operator+(difference_type n) const {
-            return Proxy_Iterator( PROXY(*proxy.parent, proxy.index + n) ) ;
+            return Proxy_Iterator( PROXY(proxy.parent, proxy.index + n) ) ;
         }
         inline Proxy_Iterator operator-(difference_type n) const {
-            return Proxy_Iterator( PROXY(*proxy.parent, proxy.index - n) ) ;
+            return Proxy_Iterator( PROXY(proxy.parent, proxy.index - n) ) ;
         }
     
         inline Proxy_Iterator& operator+=(difference_type n) {
@@ -59,10 +59,10 @@ namespace Rcpp{
         }
     
         inline bool operator==( const Proxy_Iterator& y) const {
-            return ( this->proxy.index == y.proxy.index ) && ( (SEXP)(this->proxy.parent) == (SEXP)(y.proxy.parent) );
+            return ( this->proxy.index == y.proxy.index ) ;
         }
         inline bool operator!=( const Proxy_Iterator& y) const {
-            return ( this->proxy.index != y.proxy.index ) || ( (SEXP)(this->proxy.parent) != (SEXP)(y.proxy.parent) );
+            return ( this->proxy.index != y.proxy.index ) ;
         }
         inline bool operator<( const Proxy_Iterator& other ) const {
             return proxy.index < other.proxy.index ;
@@ -83,7 +83,7 @@ namespace Rcpp{
 
         inline int index() const { return proxy.index ; }
 
-        inline PROXY operator[](int i){ return PROXY(*proxy.parent, proxy.index + i) ; } 
+        inline PROXY operator[](int i){ return PROXY(proxy.parent, proxy.index + i) ; } 
     
     private:
         PROXY proxy ;

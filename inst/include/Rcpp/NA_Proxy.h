@@ -11,9 +11,6 @@ namespace Rcpp{
         friend inline bool operator==(SEXP x        , Rcpp::Na_Proxy){ return TYPEOF(x)==CHARSXP && Rcpp::traits::is_na<STRSXP>(x) ; }
         friend inline bool operator==(std::string   , Rcpp::Na_Proxy){ return false ; }
         friend inline bool operator==(const char*   , Rcpp::Na_Proxy){ return false ; }
-        friend inline bool operator==(Rcpp::internal::string_proxy<STRSXP> x, Rcpp::Na_Proxy){ 
-            return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
-        }
         
         friend inline bool operator==(Rcpp::Na_Proxy, double x       ){ return Rcpp::traits::is_na<REALSXP>(x) ; }
         friend inline bool operator==(Rcpp::Na_Proxy, int x          ){ return Rcpp::traits::is_na<INTSXP>(x) ; }
@@ -22,7 +19,13 @@ namespace Rcpp{
         friend inline bool operator==(Rcpp::Na_Proxy, Rcomplex x     ){ return Rcpp::traits::is_na<CPLXSXP>(x) ; }
         friend inline bool operator==(Rcpp::Na_Proxy, std::string    ){ return false ; }
         friend inline bool operator==(Rcpp::Na_Proxy, const char*    ){ return false ; }
-        friend inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::string_proxy<STRSXP> x){ 
+        
+        template <typename Vec>
+        friend inline bool operator==(Rcpp::internal::string_proxy<Vec> x, Rcpp::Na_Proxy){ 
+            return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
+        }  
+        template <typename Vec>
+        friend inline bool operator==(Rcpp::Na_Proxy, Rcpp::internal::string_proxy<Vec> x){ 
             return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
         }
         

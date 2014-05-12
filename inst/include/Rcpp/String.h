@@ -28,7 +28,6 @@ namespace Rcpp {
      */
     class String {
     public:
-        typedef internal::string_proxy<STRSXP> StringProxy;
         
         /** default constructor */
         String( ): data( Rf_mkChar("") ), buffer(), valid(true), buffer_ready(true) {
@@ -46,9 +45,8 @@ namespace Rcpp {
         }
         
         /** from string proxy */
-        String( const StringProxy& proxy ): data( proxy.get() ), valid(true), buffer_ready(false){
-            RCPP_STRING_DEBUG( "String( const StringProxy&)" ) ; 
-        }
+        template <typename Vec>
+        String( const internal::string_proxy<Vec>& proxy ): data( proxy.get() ), valid(true), buffer_ready(false){}
         
         /** from a std::string */
         String( std::string  s) : buffer(std::move(s)), valid(false), buffer_ready(true) {
@@ -84,7 +82,11 @@ namespace Rcpp {
         inline String& operator=( bool x    ){ data = internal::r_coerce<LGLSXP ,STRSXP>( x ) ; valid = true ; buffer_ready = false ; return *this ; }
         inline String& operator=( Rcomplex x){ data = internal::r_coerce<CPLXSXP,STRSXP>( x ) ; valid = true ; buffer_ready = false ; return *this ; }
         inline String& operator=( SEXP x){ data = x ; valid = true ; buffer_ready = false ; return *this ; }                              
-        inline String& operator=( const StringProxy& proxy){ data = proxy.get() ; valid = true ; buffer_ready=false ; return *this ; }  
+        
+        template <typename Vec>
+        inline String& operator=( const internal::string_proxy<Vec>& proxy){ 
+            data = proxy.get() ; valid = true ; buffer_ready=false ; return *this ; 
+        }  
         inline String& operator=( const String& other ){ data = other.get_sexp() ; valid = true ; buffer_ready = false ; return *this ; }       
         inline String& operator=( const std::string& s){  buffer = s ; valid = false ; buffer_ready = true ; return *this ; }                     
         inline String& operator=( const char* s){ buffer = s ; valid = false ; buffer_ready = true ; return *this ; }                             
@@ -143,8 +145,8 @@ namespace Rcpp {
             setBuffer() ; buffer += other ; valid = false ;
             return *this ;
         }       
-        inline String& operator+=( const StringProxy& proxy){ 
-            RCPP_STRING_DEBUG( "String::operator+=( const StringProxy& )" ) ;
+        template <typename Vec>
+        inline String& operator+=( const internal::string_proxy<Vec>& proxy){ 
             if( is_na() ) return *this ;
             SEXP proxy_sexp = proxy ;
             if( proxy_sexp == NA_STRING ) { data = NA_STRING ; valid = true; buffer_ready = false ; return *this ;}
@@ -357,8 +359,8 @@ namespace Rcpp {
     
     namespace internal {
       
-        template <int RTYPE>
-        string_proxy<RTYPE>& string_proxy<RTYPE>::operator=( const String& s){
+        template <typename Vec>
+        string_proxy<Vec>& string_proxy<Vec>::operator=( const String& s){
             set( s.get_sexp() );
             return *this ;
         }
@@ -374,9 +376,9 @@ namespace Rcpp {
             return s.get_sexp() ;    
         }
         
-        template <int RTYPE>
+        template <typename Vec>
         template <typename T>
-        string_proxy<RTYPE>& string_proxy<RTYPE>::operator+=(const T& rhs) {
+        string_proxy<Vec>& string_proxy<Vec>::operator+=(const T& rhs) {
             String tmp = get() ;
             tmp += rhs ;
             set( tmp ) ;

@@ -25,8 +25,8 @@ namespace Rcpp{
         
         typedef  SEXP value_type ;
         typedef  SEXP stored_type ;
-        typedef  internal::string_proxy<STRSXP>              Proxy           ;
-        typedef  internal::Proxy_Iterator<Proxy>             iterator        ; 
+        typedef  internal::string_proxy<Vector>  Proxy    ;
+        typedef  internal::Proxy_Iterator<Proxy> iterator ; 
         
         using VectorOffset<Vector>::size ;
         
