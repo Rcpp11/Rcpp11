@@ -8,7 +8,6 @@ namespace Rcpp{
     public:
         typedef Vector<RTYPE,Storage> Vec; 
         typedef typename Vec::Proxy Proxy; 
-        typedef typename Vec::const_Proxy const_Proxy ; 
         
         Array( SEXP x ) : index(), data(x) {
           IntegerVector dim = data.attr("dim") ;
@@ -40,7 +39,7 @@ namespace Rcpp{
             typename... Args, 
             typename = typename std::enable_if< ValidIndexArgs<N,Args...>() >::type
         >
-        const_Proxy operator()( Args... args) const {
+        const Proxy operator()( Args... args) const {
             return data[ index.get_index( args... ) ];    
         }
         

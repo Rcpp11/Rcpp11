@@ -10,7 +10,6 @@ namespace Rcpp{
         RCPP_API_IMPL(Formula_Impl)
         
         typedef typename DottedPairProxyPolicy<Formula_Impl<Storage>>::DottedPairProxy Proxy;
-        typedef typename DottedPairProxyPolicy<Formula_Impl<Storage>>::const_DottedPairProxy const_Proxy;
         
         inline void set(SEXP x){
             switch( TYPEOF( x ) ){

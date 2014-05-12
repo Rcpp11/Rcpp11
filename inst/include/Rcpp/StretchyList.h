@@ -18,7 +18,6 @@ namespace Rcpp{
         RCPP_API_IMPL_NOCONV(StretchyList_Impl) 
         
         typedef typename DottedPairProxyPolicy<StretchyList_Impl>::DottedPairProxy Proxy ;
-        typedef typename DottedPairProxyPolicy<StretchyList_Impl>::const_DottedPairProxy const_Proxy ;
         
         inline void set(SEXP x){
             Shield<SEXP> s = Rf_cons(R_NilValue, R_NilValue) ;

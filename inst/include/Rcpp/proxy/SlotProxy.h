@@ -47,41 +47,15 @@ public:
         }
     } ;
     
-    class const_SlotProxy : public GenericProxy<const_SlotProxy> {
-    public:
-        const_SlotProxy( const CLASS& v, Symbol name) 
-          : parent(v), slot_name(name)
-        {
-            if( !R_has_slot( v, slot_name) ){
-                throw no_such_slot() ; 
-            }        
-        }
-        
-        template <typename T> operator T() const {
-            return as<T>(get()) ;  
-        }
-        inline operator SEXP() const { 
-            return get() ; 
-        }
-        
-    private:
-        const CLASS& parent; 
-        SEXP slot_name ;
-            
-        SEXP get() const {
-            return R_do_slot( parent, slot_name ) ;  
-        }
-    } ;
-    
     SlotProxy slot(const std::string& name) {
         SEXP x = ref() ;
         if( !Rf_isS4(x) ) throw not_s4() ;
         return SlotProxy( static_cast<CLASS&>(*this) , name ) ;
     }
-    const_SlotProxy slot(const std::string& name) const {
+    const SlotProxy slot(const std::string& name) const {
         SEXP x = ref() ;
         if( !Rf_isS4(x) ) throw not_s4() ;
-        return const_SlotProxy( static_cast<const CLASS&>(*this) , name ) ; 
+        return SlotProxy( const_cast<CLASS&>(static_cast<const CLASS&>(*this)) , name ) ; 
     }
     
     bool hasSlot(const std::string& name) const {

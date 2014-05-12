@@ -40,30 +40,12 @@ namespace Rcpp{
           
         } ;
         
-        class const_ValueProxy{
-        public:
-          const_ValueProxy(SEXP node_) : node(node_){}
-          
-          template <typename T>
-          operator T() const {
-              return as<T>(get());  
-          }
-          
-        private:
-          SEXP node ;
-          
-          inline SEXP get() const {
-              return CAR(node) ; 
-          }
-          
-        } ;
-        
         inline ValueProxy value() {
             return ValueProxy( static_cast<NodeClass&>(*this).get() ) ;  
         }
         
-        inline const_ValueProxy value() const {
-            return const_ValueProxy( static_cast<const NodeClass&>(*this).get() ) ;  
+        inline const ValueProxy value() const {
+            return ValueProxy( const_cast<NodeClass&>(static_cast<const NodeClass&>(*this)).get() ) ;  
         }
         
         
@@ -99,30 +81,12 @@ namespace Rcpp{
           
         } ;
         
-        class const_TagProxy {
-        public:
-          const_TagProxy( SEXP node_ ) : node(node_){}
-          
-          inline operator SEXP() const {
-              return get() ;  
-          }
-          
-        private:
-          SEXP node ;
-          
-          inline SEXP get() const {
-              return TAG(node) ; 
-          }
-          
-        } ;
-        
-        
         inline TagProxy tag() {
             return TagProxy( static_cast<NodeClass&>(*this).get() ) ;  
         }
         
-        inline const_TagProxy tag() const {
-            return const_TagProxy( static_cast<const NodeClass&>(*this).get() ) ;  
+        inline const TagProxy tag() const {
+            return TagProxy( const_cast<NodeClass&>(static_cast<const NodeClass&>(*this)).get() ) ;  
         }
       
     } ;

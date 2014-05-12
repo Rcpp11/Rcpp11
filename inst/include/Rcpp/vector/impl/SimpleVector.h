@@ -33,8 +33,7 @@ namespace Rcpp{
         typedef value_type*        iterator        ; 
         typedef const value_type*  const_iterator  ;
         
-        typedef internal::simple_name_proxy<RTYPE>         NameProxy       ;
-        typedef internal::simple_const_name_proxy<RTYPE>   const_NameProxy ;
+        typedef internal::simple_name_proxy<RTYPE>         NameProxy  ;
         
         using VectorOffset<Vector>::size ;
         
@@ -123,7 +122,7 @@ namespace Rcpp{
             return NameProxy( *this, name ) ;
         }
         inline const NameProxy operator[]( const std::string& name ) const {
-            return const_NameProxy( const_cast<Vector&>(*this), name ) ;
+            return NameProxy( const_cast<Vector&>(*this), name ) ;
         }
     } ;
 

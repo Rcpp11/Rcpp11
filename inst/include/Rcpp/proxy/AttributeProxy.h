@@ -44,33 +44,11 @@ namespace Rcpp{
             }
         } ;
         
-        class const_AttributeProxy : public GenericProxy<const_AttributeProxy> {
-        public:
-            const_AttributeProxy( const CLASS& v, Symbol name)
-              : parent(v), attr_name(name){}
-                  
-            template <typename T> operator T() const {
-              return as<T>(get());  
-            }
-            
-            inline operator SEXP() const { 
-                return get() ; 
-            }
-            
-        private:
-            const CLASS& parent; 
-            Symbol attr_name ;
-                
-            SEXP get() const {
-              return Rf_getAttrib( parent, attr_name ) ;
-            }
-        } ;
-        
         AttributeProxy attr( const std::string& name) {
           return AttributeProxy( ref() , name ) ;
         }
-        const_AttributeProxy attr( const std::string& name) const {
-          return const_AttributeProxy( ref() , name ) ;  
+        const AttributeProxy attr( const std::string& name) const {
+          return AttributeProxy( const_cast<CLASS&>(ref()) , name ) ;  
         }
           
         bool hasAttribute( const std::string& attr) const {
@@ -92,10 +70,9 @@ namespace Rcpp{
             return static_cast<CLASS&>(*this) ;    
         }
         
-        const CLASS& ref() const{
+        const CLASS& ref() const {
             return static_cast<const CLASS&>(*this) ;    
         }
-    
         
     } ;
 

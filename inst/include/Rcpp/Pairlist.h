@@ -9,7 +9,6 @@ namespace Rcpp{
     {
     public:         
         typedef typename DottedPairProxyPolicy<Pairlist_Impl<Storage>>::DottedPairProxy Proxy ;
-        typedef typename DottedPairProxyPolicy<Pairlist_Impl<Storage>>::const_DottedPairProxy const_Proxy;
         
         RCPP_API_IMPL(Pairlist_Impl) 
         

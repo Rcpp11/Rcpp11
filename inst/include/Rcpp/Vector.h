@@ -15,10 +15,6 @@
 #include <Rcpp/vector/string_name_proxy.h>
 #include <Rcpp/vector/generic_name_proxy.h>
 
-#include <Rcpp/vector/simple_const_name_proxy.h>
-#include <Rcpp/vector/string_const_name_proxy.h>
-#include <Rcpp/vector/generic_const_name_proxy.h>
-
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/generic_proxy.h>
 

@@ -19,7 +19,6 @@ namespace Rcpp{
         }
         
         typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::DottedPairProxy Proxy;
-        typedef typename DottedPairProxyPolicy<Language_Impl<Storage>>::const_DottedPairProxy const_Proxy;
         
         /**
          * Creates a call to the function

@@ -55,40 +55,11 @@ public:
         }
     } ;
     
-    class const_FieldProxy : GenericProxy<const_FieldProxy> {
-    public:
-        const_FieldProxy( const CLASS& v, const std::string& name) 
-          : parent(v), field_name(Rf_mkChar(name.c_str())){}
-              
-        template <typename T> operator T() const {
-            return as<T>( get() );  
-        }
-        inline operator SEXP() const { 
-            return get() ; 
-        }
-        
-    private:
-        const CLASS& parent; 
-        SEXP field_name ;
-            
-        SEXP get() const {
-            Shield<SEXP> call = Rf_lang3( 
-                R_DollarSymbol, 
-                parent, 
-                Rf_ScalarString(field_name) 
-            );
-            return Rcpp_eval( call ) ;    
-        }
-        
-    } ;
-    
     FieldProxy field(const std::string& name) {
         return FieldProxy( static_cast<CLASS&>(*this) , name ) ;  
     }
-    const_FieldProxy field(const std::string& name) const {
-        SEXP x = static_cast<const CLASS&>(*this) ;
-        if( !Rf_isS4(x) ) throw not_s4() ;
-        return const_FieldProxy( static_cast<const CLASS&>(*this) , name ) ;
+    const FieldProxy field(const std::string& name) const {
+        return FieldProxy( const_cast<CLASS&>(static_cast<const CLASS&>(*this)) , name ) ;
     }
     
 } ;

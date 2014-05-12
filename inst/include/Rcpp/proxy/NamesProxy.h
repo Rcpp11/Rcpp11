@@ -50,29 +50,12 @@ public:
         
     } ;
 
-    class const_NamesProxy : public GenericProxy<const_NamesProxy>{
-    public:
-        const_NamesProxy( const CLASS& v) : parent(v){} ;
-
-        template <typename T> operator T() const {
-            return as<T>( get() ) ;  
-        }
-    
-    private:
-        const CLASS& parent; 
-    
-        SEXP get() const {
-            return RCPP_GET_NAMES(parent) ;
-        }
-    
-    } ;
-
     NamesProxy names() {
         return NamesProxy( static_cast<CLASS&>(*this) ) ;
     }
     
-    const_NamesProxy names() const {
-        return const_NamesProxy(static_cast<const CLASS&>(*this) ) ;
+    const NamesProxy names() const {
+        return NamesProxy(const_cast<CLASS&>(static_cast<const CLASS&>(*this)) ) ;
     }
     
     
