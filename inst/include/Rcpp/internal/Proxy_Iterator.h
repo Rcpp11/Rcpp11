@@ -59,10 +59,10 @@ namespace Rcpp{
         }
     
         inline bool operator==( const Proxy_Iterator& y) const {
-            return ( this->proxy.index == y.proxy.index ) && ( this->proxy.parent == y.proxy.parent );
+            return ( this->proxy.index == y.proxy.index ) && ( (SEXP)(this->proxy.parent) == (SEXP)(y.proxy.parent) );
         }
         inline bool operator!=( const Proxy_Iterator& y) const {
-            return ( this->proxy.index != y.proxy.index ) || ( this->proxy.parent != y.proxy.parent );
+            return ( this->proxy.index != y.proxy.index ) || ( (SEXP)(this->proxy.parent) != (SEXP)(y.proxy.parent) );
         }
         inline bool operator<( const Proxy_Iterator& other ) const {
             return proxy.index < other.proxy.index ;
