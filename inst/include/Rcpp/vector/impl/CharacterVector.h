@@ -121,10 +121,12 @@ namespace Rcpp{
             return iterator( Proxy(const_cast<Vector&>(*this), size()) );
         }
         
-        inline Proxy operator[](int i){ 
+        inline Proxy operator[](int i){
+            RCPP_CHECK_BOUNDS(i)
             return Proxy(*this, i ) ;
         }
-        inline const Proxy operator[](int i) const { 
+        inline const Proxy operator[](int i) const {
+            RCPP_CHECK_BOUNDS(i)
             return Proxy(const_cast<Vector&>(*this), i ) ; 
         }
         

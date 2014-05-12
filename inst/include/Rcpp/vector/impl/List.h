@@ -110,9 +110,11 @@ namespace Rcpp{
         }
         
         inline Proxy operator[](int i){ 
+            RCPP_CHECK_BOUNDS(i)
             return Proxy(*this, i ) ;
         }
         inline const Proxy operator[](int i) const { 
+            RCPP_CHECK_BOUNDS(i)
             return Proxy(const_cast<Vector&>(*this), size() ) ; 
         }
         

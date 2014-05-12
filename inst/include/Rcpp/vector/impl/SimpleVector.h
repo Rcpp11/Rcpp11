@@ -110,8 +110,14 @@ namespace Rcpp{
         inline const_iterator begin() const{ return dataptr() ; }
         inline const_iterator end() const{ return dataptr() + size() ; }
         
-        inline reference operator[](int i){ return *( dataptr() + i ) ;}
-        inline const_reference operator[](int i) const { return *( dataptr() + i ); }
+        inline reference operator[](int i){ 
+            RCPP_CHECK_BOUNDS(i)
+            return *( dataptr() + i ) ;
+        }
+        inline const_reference operator[](int i) const { 
+            RCPP_CHECK_BOUNDS(i)
+            return *( dataptr() + i ); 
+        }
         
         template <typename... Args> static Vector create(Args... args) {
             return typename create_type<RTYPE, Args...>::type( args... ) ;    

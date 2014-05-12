@@ -14,7 +14,10 @@
   as before. 
   
 * `Dots` and `NamedDots` handle the border case when `...` is missing (#123)
-     
+
+* If the macro `RCPP_DO_BOUNDS_CHECKS` is defined, vector classes will perform
+  bounds checks. This is turned of by default because it kills performance. #141
+  
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore
