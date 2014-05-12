@@ -2,11 +2,11 @@
 #define Rcpp__internal__Proxy_Iterator__h
 
 namespace Rcpp{
-namespace internal{
-
-template <typename PROXY>
-class Proxy_Iterator {
-public:
+    namespace internal{
+    
+    template <typename PROXY>
+    class Proxy_Iterator {
+    public:
         typedef PROXY& reference ;
         typedef PROXY* pointer ;
         typedef int difference_type ;
@@ -23,7 +23,7 @@ public:
         }
     
         inline Proxy_Iterator& operator++(){
-            proxy.move(1) ;
+            proxy.index++ ;
             return *this ;
         }
         inline Proxy_Iterator operator++(int){
@@ -33,7 +33,7 @@ public:
         }
     
         inline Proxy_Iterator& operator--(){
-            proxy.move(-1) ;
+            proxy.index-- ;
             return *this ;
         }
         inline Proxy_Iterator operator--(int){
@@ -50,11 +50,11 @@ public:
         }
     
         inline Proxy_Iterator& operator+=(difference_type n) {
-            proxy.move( n ) ;
+            proxy.index += n ;
             return *this ;
         }
         inline Proxy_Iterator& operator-=(difference_type n) {
-            proxy.move( -n ) ;
+            proxy.index -= n ;
             return *this ;
         }
 
@@ -92,9 +92,9 @@ public:
 
         inline PROXY operator[](int i){ return PROXY(*proxy.parent, proxy.index + i) ; } 
     
-private:
-    PROXY proxy ;
-} ;
+    private:
+        PROXY proxy ;
+    } ;
 
 }
 }

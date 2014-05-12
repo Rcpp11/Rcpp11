@@ -2,11 +2,13 @@
 #define Rcpp__vector__generic_proxy_h
  
 namespace Rcpp{
-namespace internal{
-    
-    template <int RTYPE> 
-    class generic_proxy : public GenericProxy<generic_proxy<RTYPE>>{
+    namespace internal{
+        
+        template <int RTYPE> 
+        class generic_proxy : public GenericProxy<generic_proxy<RTYPE>>{
         public:
+            friend class Proxy_Iterator<generic_proxy> ;
+            
             typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
         
             generic_proxy(): parent(0), index(-1){}
@@ -25,7 +27,7 @@ namespace internal{
                 set(rhs.get());
                 return *this ;
             }
-
+    
             template <typename T>
             generic_proxy& operator=( const T& rhs){
                 set(wrap(rhs)) ;
@@ -50,22 +52,22 @@ namespace internal{
                 other.set(tmp) ;
             }
         
-            VECTOR* parent; 
-            int index ;
-            inline void move(int n) { index += n ; }
-        
             void import( const generic_proxy& other){
                 parent = other.parent ;
                 index  = other.index ;
             }
         
         private:
+            
+            VECTOR* parent; 
+            int index ;
+            
             inline void set(SEXP x) { SET_VECTOR_ELT( *parent, index, x ) ;} 
             inline SEXP get() const { return VECTOR_ELT(*parent, index ); } 
+        
+        }  ;
     
-    }  ;
-
-}
+    }
 }
 
 #endif

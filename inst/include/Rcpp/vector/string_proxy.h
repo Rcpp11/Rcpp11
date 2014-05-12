@@ -7,7 +7,8 @@ namespace internal{
     template <int RTYPE> 
     class string_proxy {
     public:
-    
+        friend class Proxy_Iterator<string_proxy> ;
+        
         typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
     
         /**
@@ -112,8 +113,7 @@ namespace internal{
     
         VECTOR* parent; 
         int index ;
-        inline void move( int n ){ index += n ;}
-    
+        
         inline SEXP get() const {
             return STRING_ELT( *parent, index ) ;
         }

@@ -7,6 +7,7 @@ namespace internal{
     template <int RTYPE> 
     class const_string_proxy {
     public:
+        friend class const_Proxy_Iterator<const_string_proxy> ;
     
         typedef typename Rcpp::Vector<RTYPE> VECTOR ;
     
@@ -54,10 +55,6 @@ namespace internal{
         template <int RT>
         friend std::string operator+( const std::string& x, const const_string_proxy<RT>& proxy);
     
-        const VECTOR* parent; 
-        int index ;
-        inline void move( int n ){ index += n ;}
-    
         inline SEXP get() const {
             return STRING_ELT( *parent, index ) ;
         }
@@ -79,6 +76,9 @@ namespace internal{
     
     
     private:
+        const VECTOR* parent; 
+        int index ;
+        
         typedef const char* iterator ;
         typedef const char& reference ;
     
