@@ -3,19 +3,18 @@
 
 namespace Rcpp{
     
-    inline SEXP Rcpp_protect(SEXP x){
-        if( x != R_NilValue ) PROTECT(x) ; 
-        return x ; 
-    }
-    
     template <typename T>
     class Shield{
     public:
-        Shield( SEXP t_) : t(Rcpp_protect(t_)){}
+        Shield( SEXP t_) : t(t_){
+            if( t != R_NilValue ) PROTECT(t); 
+        }
         ~Shield(){
             if( t != R_NilValue ) UNPROTECT(1) ;    
         }
-        Shield( const Shield& ) = delete ;
+        Shield( const Shield& other ) : t(other.t_){
+            if( t != R_NilValue ) PROTECT(t);
+        }
         Shield& operator=( const Shield& ) = delete ;
         
         Shield( Shield&& other ) : t(other.t) {
@@ -33,6 +32,7 @@ namespace Rcpp{
         }
         inline operator SEXP() const { return t; }
         
+    private:
         SEXP t ;
     } ;
     
