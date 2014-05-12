@@ -27,7 +27,6 @@
 
 #include <Rcpp/vector/concat_free.h>
 
-#include <Rcpp/vector/swap.h>
 #include <Rcpp/vector/Demangler.h>
 
 #include <Rcpp/vector/StrideIterator.h>

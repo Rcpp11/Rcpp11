@@ -93,12 +93,12 @@ namespace internal{
             return x + std::string(y) ;
         }
     
-        void swap( string_proxy& other ){
-            SEXP tmp = STRING_ELT(parent, index) ;
-            SET_STRING_ELT( parent, index, STRING_ELT( other.parent, other.index) ) ;
-            SET_STRING_ELT( other.parent, other.index, tmp ) ;
+        friend inline void swap( string_proxy<Vec>& a, string_proxy<Vec>& b){      
+            SEXP tmp = STRING_ELT(a.parent, a.index) ;
+            SET_STRING_ELT( a.parent, a.index, STRING_ELT( b.parent, b.index) ) ;
+            SET_STRING_ELT( b.parent, b.index, tmp ) ;                                       
         }
-    
+
         inline SEXP get() const {
             return STRING_ELT( parent, index ) ;
         }
@@ -137,11 +137,6 @@ namespace internal{
         
     } ;
     
-    template <typename Vec> 
-    inline void swap( string_proxy<Vec>& a, string_proxy<Vec>& b){      
-        a.swap(b) ;                                        
-    }
-
 
     template <typename Vec1, typename Vec2>
     bool operator<( const string_proxy<Vec1>& lhs, const string_proxy<Vec2>& rhs) {

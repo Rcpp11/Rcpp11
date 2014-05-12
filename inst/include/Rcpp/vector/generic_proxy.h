@@ -4,14 +4,12 @@
 namespace Rcpp{
     namespace internal{
         
-        template <int RTYPE> 
-        class generic_proxy : public GenericProxy<generic_proxy<RTYPE>>{
+        template <typename Vec> 
+        class generic_proxy : public GenericProxy<generic_proxy<Vec>>{
         public:
             friend class Proxy_Iterator<generic_proxy> ;
             
-            typedef typename ::Rcpp::Vector<RTYPE> VECTOR ;
-        
-            generic_proxy( VECTOR& v, int i ) : parent(v), index(i){}
+            generic_proxy( Vec& v, int i ) : parent(v), index(i){}
     
             generic_proxy& operator=(SEXP rhs) { 
                 set(rhs) ;
@@ -29,27 +27,30 @@ namespace Rcpp{
                 return *this; 
             }
         
-            operator SEXP() const { 
+            inline operator SEXP() const { 
                 return get() ;
             }
+            inline operator bool() const { 
+                return ::Rcpp::as<bool>(get()) ; 
+            }
+            inline operator int() const { 
+                return ::Rcpp::as<int>(get()) ; 
+            }
         
-            template <typename U> operator U() const {
+            template <typename U> 
+            inline operator U() const {
                 return ::Rcpp::as<U>(get()) ;
             }
-        
-            // helping the compiler (not sure why it can't help itself)
-            operator bool() const { return ::Rcpp::as<bool>(get()) ; }
-            operator int() const { return ::Rcpp::as<int>(get()) ; }
-        
-            void swap(generic_proxy& other){
-                Shield<SEXP> tmp = get() ;
-                set( other.get() ) ;
-                other.set(tmp) ;
+            
+            friend inline void swap( generic_proxy& a, generic_proxy& b){
+                Shield<SEXP> tmp = a.get() ;
+                a.set( b.get() ) ;
+                b.set(tmp) ;    
             }
-        
+            
         private:
             
-            VECTOR& parent; 
+            Vec& parent; 
             int index ;
             
             inline void set(SEXP x) { SET_VECTOR_ELT( parent, index, x ) ;} 

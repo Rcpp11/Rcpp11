@@ -6,7 +6,7 @@ namespace Rcpp{
     
     namespace internal{
         template <typename Vec> class string_proxy ;
-        template <int RTYPE> class generic_proxy ;
+        template <typename Vec> class generic_proxy ;
     }
     
 }
