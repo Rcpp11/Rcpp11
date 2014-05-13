@@ -21,7 +21,7 @@
 #include <Rcpp/protection/protection.h>
 
 #include <cstdint>
-#include <array>             
+#include <array>
 #include <type_traits>
 #include <iterator>
 #include <exception>
@@ -54,45 +54,46 @@
 #include <Rcpp/complex.h>
 
 #include <Rcpp/exceptions.h>
+#include <Rcpp/internal/interrupt.h>
 #include <Rcpp/Demangler.h>
 
 namespace Rcpp{
-    
+
     inline const char* short_file_name(const char* file) {
         std::string f(file) ;
         return f.substr( f.find_last_of("/") + 1 ).c_str() ;
     }
-    
+
     inline bool derives_from( SEXP cl, const std::string& clazz ){
         if(cl == R_NilValue) return false ;
-        
+
         // simple test for exact match
         if( ! clazz.compare( CHAR(STRING_ELT(cl, 0)) ) ) return true ;
-                
+
         SEXP containsSym = Rf_install("contains");
-        Shield<SEXP> contains = R_do_slot(R_getClassDef(CHAR(Rf_asChar(cl))),containsSym); 
+        Shield<SEXP> contains = R_do_slot(R_getClassDef(CHAR(Rf_asChar(cl))),containsSym);
         SEXP res = Rf_getAttrib(contains,R_NamesSymbol );
         if(res == R_NilValue) return false ;
-        
-        return std::any_of( 
-            VECTOR_PTR(res), VECTOR_PTR(res) + LENGTH(res), 
-            [&](SEXP s){ return clazz == CHAR(s) ; } 
-        ) ;    
+
+        return std::any_of(
+            VECTOR_PTR(res), VECTOR_PTR(res) + LENGTH(res),
+            [&](SEXP s){ return clazz == CHAR(s) ; }
+        ) ;
     }
 
     class String ;
     class PreserveStorage ;
     class NoProtectStorage ;
-    
-    template <int RTYPE, typename Storage = PreserveStorage> class Vector ;                      
+
+    template <int RTYPE, typename Storage = PreserveStorage> class Vector ;
     template <int RTYPE, typename Storage = PreserveStorage> class Matrix ;
-    
+
     typedef Vector<STRSXP> CharacterVector ;
-    typedef Vector<VECSXP> List ; 
-    typedef Vector<EXPRSXP> ExpressionVector ; 
-   
-    template <typename Storage> class RObject_Impl ; 
-    template <typename Storage> class Language_Impl ; 
+    typedef Vector<VECSXP> List ;
+    typedef Vector<EXPRSXP> ExpressionVector ;
+
+    template <typename Storage> class RObject_Impl ;
+    template <typename Storage> class Language_Impl ;
     template <typename Storage> class Pairlist_Impl ;
     template <typename Storage> class Environment_Impl ;
     template <typename Storage> class Promise_Impl ;
@@ -103,9 +104,9 @@ namespace Rcpp{
     template <typename Storage> class Function_Impl ;
     template <typename Storage> class DataFrame_Impl ;
     template <typename Storage> class Symbol_Impl ;
-    
-    typedef RObject_Impl<PreserveStorage> RObject ; 
-    typedef Language_Impl<PreserveStorage> Language ; 
+
+    typedef RObject_Impl<PreserveStorage> RObject ;
+    typedef Language_Impl<PreserveStorage> Language ;
     typedef Pairlist_Impl<PreserveStorage> Pairlist ;
     typedef Environment_Impl<PreserveStorage> Environment ;
     typedef Promise_Impl<PreserveStorage> Promise ;
@@ -117,41 +118,41 @@ namespace Rcpp{
     typedef DataFrame_Impl<PreserveStorage> DataFrame ;
     typedef Symbol_Impl<NoProtectStorage> Symbol ;
     typedef DataFrame_Impl<PreserveStorage> DataFrame ;
-    
+
 }
 namespace Rcpp{
-    inline SEXP Rcpp_PreserveObject(SEXP x){ 
+    inline SEXP Rcpp_PreserveObject(SEXP x){
         if( x != R_NilValue ) {
-            R_PreserveObject(x); 
+            R_PreserveObject(x);
         }
         return x ;
     }
 
     inline void Rcpp_ReleaseObject(SEXP x){
         if (x != R_NilValue) {
-            R_ReleaseObject(x); 
+            R_ReleaseObject(x);
         }
     }
 
     inline SEXP Rcpp_ReplaceObject(SEXP x, SEXP y){
         if( x == R_NilValue ){
-            Rcpp_PreserveObject( y ) ;    
+            Rcpp_PreserveObject( y ) ;
         } else if( y == R_NilValue ){
             Rcpp_ReleaseObject( x ) ;
         } else {
-            // if we are setting to the same SEXP as we already have, do nothing 
+            // if we are setting to the same SEXP as we already have, do nothing
             if (x != y) {
-                
-                // the previous SEXP was not NULL, so release it 
+
+                // the previous SEXP was not NULL, so release it
                 Rcpp_ReleaseObject(x);
-                
-                // the new SEXP is not NULL, so preserve it 
+
+                // the new SEXP is not NULL, so preserve it
                 Rcpp_PreserveObject(y);
             }
         }
         return y ;
-    } 
-    
+    }
+
     template <typename T> T as( SEXP ) ;
 }
 
