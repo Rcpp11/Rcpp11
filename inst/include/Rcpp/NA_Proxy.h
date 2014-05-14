@@ -39,14 +39,6 @@ namespace Rcpp{
     } ;
     static Na_Proxy NA ;    
 
-    inline LogicalVector shush_about_NA(){
-        return LogicalVector::create( 
-            _["int"]    = NA == NA_INTEGER, 
-            _["double"] = NA == NA_REAL, 
-            _["string"] = NA == NA_STRING 
-        ) ;
-    }
-    
     inline String::String( Na_Proxy ) : data(NA_STRING), valid(true), buffer_ready(false) {}
     
     inline String& String::operator=( Na_Proxy ) {
