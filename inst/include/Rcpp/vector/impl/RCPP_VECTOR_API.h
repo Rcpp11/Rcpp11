@@ -36,13 +36,15 @@
         return *this ;                                                                        
     }                                                                                         
                                                                                               
-    template <typename Expr>                                                                  
-    Vector( const LazyVector<RTYPE,Expr>& other ) {                                           
+    template <int RT, typename Expr>                                                                  
+    Vector( const LazyVector<RT,Expr>& other ) {                                           
+        static_assert( RT == RTYPE, "incompatible lazy vector" ) ;
         import_applyable(other) ;                                                             
     }                                                                                         
                                                                                               
-    template <typename Expr>                                                                  
-    Vector& operator=( const LazyVector<RTYPE,Expr>& other ) {                                
+    template <int RT, typename Expr>                                                                  
+    Vector& operator=( const LazyVector<RT,Expr>& other ) {                                
+        static_assert( RT == RTYPE, "incompatible lazy vector" ) ;
         assign_applyable(other) ;                                                             
         return *this ;                                                                        
     }                                                                                         
