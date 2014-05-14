@@ -3,7 +3,7 @@
 
 namespace Rcpp{
     namespace traits{
-        template <unsigned int N> struct number_to_type { };
+        template <unsigned int N> struct number_to_type {};
     }
 }
 #endif

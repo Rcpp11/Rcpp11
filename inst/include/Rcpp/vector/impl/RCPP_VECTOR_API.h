@@ -56,7 +56,9 @@
 
     template <typename... Args> 
     static Vector create(Args... args) {
-        return typename create_type<RTYPE, Args...>::type( args... ) ;
+        typedef typename create_type<RTYPE, Args...>::type creator;
+        Vector res = creator( args... ) ;
+        return res ;
     }
         
 private:
