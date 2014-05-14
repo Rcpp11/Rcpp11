@@ -20,6 +20,17 @@
   
 * `Array` no longer generates spurious warnings. #154
   
+* Added the concept of lazy vectors. A lazy vector is similar to a sugar 
+  expression, but it only knows how to apply itself, i.e. we cannot 
+  call `operator[](int)` on it. This is used for implementation of 
+  `create` and `fuse`
+
+* `create` can now also be used as a free function. For example: 
+  `IntegerVector x = create(1,2,3) ;`. When used as a free function, `create` 
+  chooses to create a lazy vector of the highest type. For example, 
+  `create(1,2.0)` makes a lazy vector of type `REALSXP` (what makes sense for 
+  `double`). 
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore
