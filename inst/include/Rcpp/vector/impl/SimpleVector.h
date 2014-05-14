@@ -16,8 +16,17 @@ namespace Rcpp{
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>, 
-        public NameProxyPolicy<VEC>
+        public NameProxyPolicy<VEC>, 
+        private CommonVectorMethods<RTYPE,VEC>
     {
+        friend class CommonVectorMethods<RTYPE,Vector> ; 
+        
+        using CommonVectorMethods<RTYPE,Vector>::reset ;
+        using CommonVectorMethods<RTYPE,Vector>::import_expression ;
+        using CommonVectorMethods<RTYPE,Vector>::import_applyable ;
+        using CommonVectorMethods<RTYPE,Vector>::assign_expression ;
+        using CommonVectorMethods<RTYPE,Vector>::assign_applyable ;
+        
         RCPP_API_IMPL(Vector)
         
         inline void set(SEXP x){
@@ -77,45 +86,6 @@ namespace Rcpp{
         }
         
     private:
-        
-        template <bool NA, typename Expr>
-        inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-            data = other.get_ref() ;    
-        }
-        
-        template <bool NA, typename Expr>
-        inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
-            import_applyable(other) ;
-        }
-        
-        template <typename T>
-        inline void import_applyable( const T& other ){
-            reset(other.size());
-            other.apply(*this) ;
-        }
-        
-        template <bool NA, typename Expr>
-        inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-            data = other.get_ref() ;    
-        }
-        
-        template <bool NA, typename Expr>
-        inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
-            assign_applyable(other) ;    
-        }
-        
-        template <typename T>
-        inline void assign_applyable( const T& other ){
-            int n = other.size() ;
-            if( n != size() ){
-                reset(n) ;    
-            }
-            other.apply(*this) ;
-        }
-        
-        inline void reset(int n){
-            data = Rf_allocVector(RTYPE, n) ;        
-        }
         
         inline stored_type* dataptr(){
             return reinterpret_cast<stored_type*>( DATAPTR(data) );    

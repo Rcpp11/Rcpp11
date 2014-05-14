@@ -16,8 +16,17 @@ namespace Rcpp{
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>, 
-        public NameProxyPolicy<VEC>
+        public NameProxyPolicy<VEC>, 
+        private CommonVectorMethods<VECSXP,VEC>
     {
+        friend class CommonVectorMethods<VECSXP,Vector> ; 
+        
+        using CommonVectorMethods<VECSXP,Vector>::reset ;
+        using CommonVectorMethods<VECSXP,Vector>::import_expression ;
+        using CommonVectorMethods<VECSXP,Vector>::import_applyable ;
+        using CommonVectorMethods<VECSXP,Vector>::assign_expression ;
+        using CommonVectorMethods<VECSXP,Vector>::assign_applyable ;
+        
         RCPP_API_IMPL(Vector)
         
         inline void set(SEXP x){
@@ -56,36 +65,7 @@ namespace Rcpp{
         }
         
     private:
-        
-        template <bool NA, typename Expr>
-        inline void import_expression( const SugarVectorExpression<VECSXP,NA,Expr>& other,  std::true_type ){
-            data = other.get_ref() ;    
-        }
-        
-        template <bool NA, typename Expr>
-        inline void import_expression( const SugarVectorExpression<VECSXP,NA,Expr>& other, std::false_type ){
-            reset(other.size());
-            other.apply(*this) ;
-        }
-        
-        template <bool NA, typename Expr>
-        inline void assign_expression( const SugarVectorExpression<VECSXP,NA,Expr>& other,  std::true_type ){
-            data = other.get_ref() ;    
-        }
-        
-        template <bool NA, typename Expr>
-        inline void assign_expression( const SugarVectorExpression<VECSXP,NA,Expr>& other, std::false_type ){
-            int n = other.size() ;
-            if( n != size() ){
-                reset(n) ;    
-            }
-            other.apply(*this) ;
-        }
-        
-        inline void reset(int n){
-            data = Rf_allocVector(VECSXP, n) ;        
-        }
-        
+    
         inline stored_type* dataptr(){
             return reinterpret_cast<stored_type*>( DATAPTR(data) );    
         }
