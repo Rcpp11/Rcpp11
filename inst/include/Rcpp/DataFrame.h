@@ -3,45 +3,100 @@
 
 namespace Rcpp{
      
+    namespace internal{
+        
+        template <typename Data> 
+        class DataFrameProxy : public GenericProxy<DataFrameProxy<Data>>{
+        public:
+            friend class Proxy_Iterator<DataFrameProxy> ;
+            
+            DataFrameProxy( Data& v, int i ) : parent(v), index(i){}
+    
+            DataFrameProxy& operator=(SEXP rhs) { 
+                set(rhs) ;
+                return *this ;
+            }
+        
+            DataFrameProxy& operator=(const DataFrameProxy& rhs) {
+                set(rhs.get());
+                return *this ;
+            }
+    
+            template <typename T>
+            DataFrameProxy& operator=( const T& rhs){
+                set(wrap(rhs)) ;
+                return *this; 
+            }
+        
+            inline operator SEXP() const { 
+                return get() ;
+            }
+            inline operator bool() const { 
+                return ::Rcpp::as<bool>(get()) ; 
+            }
+            inline operator int() const { 
+                return ::Rcpp::as<int>(get()) ; 
+            }
+        
+            template <typename U> 
+            inline operator U() const {
+                return ::Rcpp::as<U>(get()) ;
+            }
+            
+            friend inline void swap( DataFrameProxy& a, DataFrameProxy& b){
+                Shield<SEXP> tmp = a.get() ;
+                a.set( b.get() ) ;
+                b.set(tmp) ;    
+            }
+            
+        private:
+            
+            Data& parent; 
+            int index ;
+            
+            inline void set(SEXP x) {
+                if( Rf_length(x) == parent.nrows() ){
+                    SET_VECTOR_ELT( parent, index, x ) ;
+                } else {
+                    List v = (SEXP)parent ;
+                    v[index] = x ;
+                    parent = Data::from_list(v) ;
+                }
+            } 
+            inline SEXP get() const { 
+                return VECTOR_ELT(parent, index ); 
+            } 
+        
+        }  ;
+    
+    }
+    
     template <typename Storage>
     class DataFrame_Impl : 
         public RObjectMethods<DataFrame_Impl<Storage>>, 
-        public AttributeProxyPolicy<DataFrame_Impl<Storage>>
+        public AttributeProxyPolicy<DataFrame_Impl<Storage>>, 
+        public NamesProxyPolicy<DataFrame_Impl<Storage>>
         {
-    public:
-        typedef Vector<VECSXP, Storage> List ; 
+        public:
+            friend class internal::DataFrameProxy<DataFrame_Impl> ;
+            
+            typedef internal::DataFrameProxy<DataFrame_Impl> Proxy ;
+            typedef internal::Proxy_Iterator<Proxy> iterator  ; 
+        
+        RCPP_API_IMPL(DataFrame_Impl)    
+            
+        inline void set(SEXP x){
+            if( ::Rf_inherits( x, "data.frame" )){
+                data = x ;
+            } else{
+                data = internal::convert_using_rfunction( x, "as.data.frame" ) ;
+            }          
+        }
         
         DataFrame_Impl() : data(empty_data_frame()){}
-        DataFrame_Impl(SEXP x) {
-            set_sexp(x) ;        
-        }
-        DataFrame_Impl( const DataFrame_Impl& other) : data(other.data){}
-                
-        template <typename T> 
-        DataFrame_Impl( const T& obj) {
-            set_sexp(wrap(obj));
-        }
-                
-        template <typename Proxy>                     
-        DataFrame_Impl( const GenericProxy<Proxy>& proxy ) {
-            set_sexp( proxy.get() ); 
-        }
-        
-        DataFrame_Impl& 
-        operator=( DataFrame_Impl& other) {
-            data = other.data ;
-            return *this ;    
-        }
-        DataFrame_Impl& operator=( SEXP x) {
-            set_sexp(x) ;    
-        }
-               
-        inline int size() const {
-            return data.size() ;    
-        }
         
         int nrows() const {
-            SEXP att = ATTRIB( get() ); 
+            SEXP att = ATTRIB( data ); 
             while( att != R_NilValue ){
                 if( TAG(att) == R_RowNamesSymbol ){
                     SEXP rn = CAR(att) ; 
@@ -57,41 +112,83 @@ namespace Rcpp{
         static DataFrame_Impl create(const Args&... args){
             return from_list( List::create( args...) ) ;
         }
-           
-        inline typename List::Proxy operator[](int i){ return data[i] ; }
-        inline const typename List::Proxy operator[](int i) const { return data[i] ; }
+          
+        #define Vector DataFrame
+        #include <Rcpp/vector/impl/RCPP_VECTOR_PROXY_BASED_API.h>
+        #undef Vector
         
-        inline typename List::NameProxy operator[]( const std::string& name ){
-            return data[name] ;
+        inline R_len_t length() const { return ::Rf_length(data) ; }
+        inline R_len_t size() const { return length() ; }
+        
+        R_len_t offset(const std::string& name) const {
+            SEXP names = RCPP_GET_NAMES(data) ;
+            if( names == R_NilValue ) throw index_out_of_bounds();
+            int n = size() ;
+        
+            SEXP* data = internal::r_vector_start<STRSXP>(names) ;
+            int index = std::find( data, data+n, Rf_mkChar(name.c_str()) ) - data ;
+            if( index == n ) throw index_out_of_bounds() ;
+            return index ;
         }
-        inline const typename List::NameProxy operator[]( const std::string& name ) const {
-            return data[name] ;
+    
+        class NameProxy {
+        public:
+            NameProxy(DataFrame& parent_, const std::string& name_): parent(parent_), name(name_){}
+            
+            template <typename T>
+            inline operator T() const {
+                auto res = parent[ parent.offset(name) ] ;
+                return res ;
+            }
+            
+            template <typename T>
+            inline DataFrame& operator=( const T& rhs ){
+                int index = 0 ;
+                try{
+                    index = parent.offset(name) ;
+                    parent[ index ] = rhs ;
+                } catch( const index_out_of_bounds& /* ex */ ){
+                    int n = parent.size() ;
+                    List v( n + 1 ) ;
+                    
+                    std::copy( parent.begin(), parent.end(), v.begin() );
+                    v[n] = rhs ;
+                    
+                    Shield<SEXP> names = Rf_allocVector(STRSXP, n+1) ;
+                    SEXP parent_names = parent.names() ;
+                    if( parent_names != R_NilValue ){
+                        for( int i=0; i<n; i++){
+                            SET_STRING_ELT( names, i, STRING_ELT( parent_names, i ) ); 
+                        }
+                    }
+                    SET_STRING_ELT( names, n, Rf_mkChar(name.c_str()) );
+                    v.names() = names ;
+                    parent = DataFrame::from_list( v ) ;
+                }
+                return parent ;
+            }
+            
+        private:
+            DataFrame& parent; 
+            const std::string& name ;
+        };
+        
+        inline NameProxy operator[]( const std::string& name){
+            return NameProxy( *this, name ) ;
         }
-             
-        inline operator SEXP() const {
-            return get() ;
+        
+        inline const NameProxy operator[]( const std::string& name) const {
+            return NameProxy( const_cast<DataFrame&>(*this), name ) ;
         }
+        
+        
         
     private:
-        List data ;
-        
-        void set_sexp(SEXP x) {
-            if( ::Rf_inherits( x, "data.frame" )){
-                data = x ;
-            } else{
-                data = internal::convert_using_rfunction( x, "as.data.frame" ) ;
-            }    
-        }
-        
-        inline SEXP get() const {
-            return data ;    
-        }
         
         static DataFrame_Impl from_list( Rcpp::List obj ) {
             std::vector<SEXP> columns ;
             std::vector<std::string> out_names ;
             
-            bool use_default_strings_as_factors = true ;
             bool strings_as_factors = true ;
             int n = obj.size() ;
             CharacterVector names = obj.attr( "names" ) ;
@@ -99,7 +196,6 @@ namespace Rcpp{
                 std::string name ;
                 for( int i=0; i<n; i++){
                     if( names[i] == "stringsAsFactors" ){
-                        use_default_strings_as_factors = false ;        
                         if( !as<bool>(obj[i]) ) strings_as_factors = false ;
                         break ;         
                     } else {
@@ -109,8 +205,6 @@ namespace Rcpp{
                     }
                 }
             }
-            if( use_default_strings_as_factors ) 
-                return DataFrame(obj) ;
             
             obj = wrap(columns) ;
             obj.names() = wrap(out_names) ;
@@ -120,10 +214,7 @@ namespace Rcpp{
             
             Shield<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
             SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-            Shield<SEXP> res = Rcpp_eval( call ) ; 
-            DataFrame out( res ) ;
-            return out ;
-        
+            return Rcpp_eval( call ) ; 
         }
         
         inline SEXP empty_data_frame(){
