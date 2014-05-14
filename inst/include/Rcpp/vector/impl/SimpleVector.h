@@ -19,20 +19,7 @@ namespace Rcpp{
         public NameProxyPolicy<VEC>, 
         private CommonVectorMethods<RTYPE,VEC>
     {
-        friend class CommonVectorMethods<RTYPE,Vector> ; 
-        
-        using CommonVectorMethods<RTYPE,Vector>::reset ;
-        using CommonVectorMethods<RTYPE,Vector>::import_expression ;
-        using CommonVectorMethods<RTYPE,Vector>::import_applyable ;
-        using CommonVectorMethods<RTYPE,Vector>::assign_expression ;
-        using CommonVectorMethods<RTYPE,Vector>::assign_applyable ;
-        
-        RCPP_API_IMPL(Vector)
-        
-        inline void set(SEXP x){
-            data =  r_cast<RTYPE>(x);   
-        }
-        
+    public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;
         typedef value_type stored_type  ;
         typedef typename std::conditional<RTYPE==LGLSXP,bool,stored_type>::type init_type ;
@@ -43,16 +30,8 @@ namespace Rcpp{
         typedef value_type*        iterator        ; 
         typedef const value_type*  const_iterator  ;
         
-        using VectorOffset<Vector>::size ;
+        RCPP_VECTOR_API(RTYPE)
         
-        Vector(int n) {
-            reset(n) ;
-        }
-        
-        Vector(){
-            reset(0);
-        }
-    
         Vector( int n, init_type x ) {
             reset(n);
             std::fill( begin(), end(), x) ;
@@ -63,38 +42,6 @@ namespace Rcpp{
             std::copy( list.begin(), list.end(), begin() ) ;
         }
     
-        template <bool NA, typename Expr>
-        Vector( const SugarVectorExpression<RTYPE,NA,Expr>& other ) {
-            import_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
-        }
-        
-        template <bool NA, typename Expr>
-        Vector& operator=( const SugarVectorExpression<RTYPE, NA, Expr>& other ){
-            assign_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
-            return *this ;
-        }
-        
-        template <typename Expr>
-        Vector( const LazyVector<RTYPE,Expr>& other ) {
-            import_applyable(other) ;
-        }
-        
-        template <typename Expr>
-        Vector& operator=( const LazyVector<RTYPE,Expr>& other ) {
-            assign_applyable(other) ;
-            return *this ;
-        }
-        
-    private:
-        
-        inline stored_type* dataptr(){
-            return reinterpret_cast<stored_type*>( DATAPTR(data) );    
-        }
-        inline const stored_type* dataptr() const{
-            return reinterpret_cast<const stored_type*>( DATAPTR(data) );    
-        }
-        
-    public:
         inline iterator begin() { return dataptr() ; }
         inline iterator end() { return dataptr() + size() ; }
         
@@ -113,8 +60,6 @@ namespace Rcpp{
         template <typename... Args> static Vector create(Args... args) {
             return typename create_type<RTYPE, Args...>::type( args... ) ;    
         }
-         
-        using NameProxyPolicy<VEC>::operator[] ; 
         
     } ;
 

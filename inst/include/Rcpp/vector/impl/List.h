@@ -19,62 +19,21 @@ namespace Rcpp{
         public NameProxyPolicy<VEC>, 
         private CommonVectorMethods<VECSXP,VEC>
     {
-        friend class CommonVectorMethods<VECSXP,Vector> ; 
-        
-        using CommonVectorMethods<VECSXP,Vector>::reset ;
-        using CommonVectorMethods<VECSXP,Vector>::import_expression ;
-        using CommonVectorMethods<VECSXP,Vector>::import_applyable ;
-        using CommonVectorMethods<VECSXP,Vector>::assign_expression ;
-        using CommonVectorMethods<VECSXP,Vector>::assign_applyable ;
-        
-        RCPP_API_IMPL(Vector)
-        
-        inline void set(SEXP x){
-            data = r_cast<VECSXP>( x ) ;    
-        }
-        
+    public:
         typedef SEXP value_type  ;
         typedef SEXP stored_type ;
         typedef internal::generic_proxy<Vector> Proxy     ;
         typedef internal::Proxy_Iterator<Proxy> iterator  ; 
         
-        using VectorOffset<Vector>::size ;
+        RCPP_VECTOR_API(VECSXP)
         
-        Vector( int n ) {
-            reset(n);
-        }
-        Vector() {
-            reset(0) ;
-        }
-    
+        
         template <typename U>
         Vector( int n, const U& obj ) {
             reset(n) ;
             std::fill( begin(), end(), wrap(obj) ) ;
         }
-        
-        template <bool NA, typename Expr>
-        Vector( const SugarVectorExpression<VECSXP,NA,Expr>& other ) {
-            import_expression( other, typename std::is_base_of< VectorOf<VECSXP>, Expr>::type() ) ;
-        }
-        
-        template <bool NA, typename Expr>
-        Vector& operator=( const SugarVectorExpression<VECSXP, NA, Expr>& other ){
-            assign_expression( other, typename std::is_base_of< VectorOf<VECSXP>, Expr>::type() ) ;
-            return *this ;
-        }
-        
-    private:
     
-        inline stored_type* dataptr(){
-            return reinterpret_cast<stored_type*>( DATAPTR(data) );    
-        }
-        inline const stored_type* dataptr() const{
-            return reinterpret_cast<const stored_type*>( DATAPTR(data) );    
-        }
-        
-    public:
-        
         inline iterator begin() { 
             return iterator( Proxy(*this, 0) ); 
         }
@@ -102,8 +61,6 @@ namespace Rcpp{
             return typename create_type<VECSXP, Args...>::type( args... ) ;    
         }
     
-        using NameProxyPolicy<VEC>::operator[] ; 
-        
     } ;
     
     #undef VEC  
