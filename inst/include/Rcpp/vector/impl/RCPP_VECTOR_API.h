@@ -54,8 +54,9 @@
     }                                                                                         
     using NameProxyPolicy<VEC>::operator[] ;
 
-    template <typename... Args> static Vector create(Args... args) {
-        return typename create_type<RTYPE, Args...>::type( args... ) ;    
+    template <typename... Args> 
+    static Vector create(Args... args) {
+        return typename create_type<RTYPE, Args...>::type( args... ) ;
     }
         
 private:

@@ -57,4 +57,6 @@
 #include <Rcpp/sugar/functions/import.h>
 #include <Rcpp/sugar/functions/transform.h>
 
+#include <Rcpp/vector/create.h>
+
 #endif
