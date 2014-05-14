@@ -6,7 +6,6 @@
 #include <Rcpp/vector/SugarVectorExpression.h>
 #include <Rcpp/vector/SugarMatrixExpression.h>
 
-#include <Rcpp/vector/VectorOffset.h>
 #include <Rcpp/vector/converter.h>
 #include <Rcpp/vector/concat.h>
 #include <Rcpp/vector/create.h>

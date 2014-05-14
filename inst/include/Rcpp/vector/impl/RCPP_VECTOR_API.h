@@ -1,9 +1,22 @@
     RCPP_API_IMPL(Vector)                                                                     
-                                                                                              
+         
+    inline R_len_t length() const { return ::Rf_length(data) ; }
+    inline R_len_t size() const { return length() ; }
+    
+    R_len_t offset(const std::string& name) const {
+        SEXP names = RCPP_GET_NAMES(data) ;
+        if( names == R_NilValue ) throw index_out_of_bounds();
+        int n = size() ;
+    
+        SEXP* data = internal::r_vector_start<STRSXP>(names) ;
+        int index = std::find( data, data+n, Rf_mkChar(name.c_str()) ) - data ;
+        if( index == n ) throw index_out_of_bounds() ;
+        return index ;
+    }
+        
     inline void set(SEXP x){                                                                  
         data = r_cast<RTYPE>( x ) ;                                                           
     }                                                                                         
-    using VectorOffset<Vector>::size ;                                                        
                                                                                               
     Vector(int n) {                                                                           
         reset(n) ;                                                                            

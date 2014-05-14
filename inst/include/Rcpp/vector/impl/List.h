@@ -15,7 +15,6 @@ namespace Rcpp{
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public VectorOffset<VEC>, 
         public NameProxyPolicy<VEC>
     {
     public:
@@ -29,6 +28,7 @@ namespace Rcpp{
         #undef RTYPE
         
     public:
+        
         template <typename U>
         Vector( int n, const U& obj ) {
             reset(n) ;
