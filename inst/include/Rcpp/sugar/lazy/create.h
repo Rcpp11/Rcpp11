@@ -97,6 +97,35 @@ namespace Rcpp{
             >::type
         >::type type ;
     } ;
-
+    
+    template <typename... Args> struct create_r_type ;
+    
+    template <typename First, typename... Args>
+    struct create_r_type<First,Args...> {
+        const static int first_r_type = traits::get_compatible_r_vector_type<First>::rtype ; 
+        const static int second_r_type = create_r_type<Args...>::type::value ; 
+        
+        typedef typename std::conditional<
+            (first_r_type<second_r_type), 
+            std::integral_constant<int,second_r_type>, 
+            std::integral_constant<int,first_r_type>
+        >::type type ;
+    } ;
+    
+    template <typename First>
+    struct create_r_type<First> {
+        typedef typename std::integral_constant<int, traits::get_compatible_r_vector_type<First>::rtype>::type type ;
+    } ;
+    
+    template <typename First, typename... Args>
+    typename create_type< create_r_type<First,Args...>::type::value , First, Args...>::type
+    create( const First& first, Args... args ){
+        // static_assert(
+        //     traits::all_compatible< traits::get_compatible_r_vector_type<First>::rtype, Args...>::type::value, 
+        //     "subsequent types are not compatible with first type"
+        //     ) ;
+        return typename create_type< create_r_type<First,Args...>::type::value, First, Args...>::type( first, args...) ;
+    }
+    
 }
 #endif
