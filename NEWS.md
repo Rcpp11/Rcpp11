@@ -30,6 +30,10 @@
   chooses to create a lazy vector of the highest type. For example, 
   `create(1,2.0)` makes a lazy vector of type `REALSXP` (what makes sense for 
   `double`). 
+  
+* Added the `list` function. It takes a variadic list of arguments and makes an
+  R list from it. This uses the same underlying implementation as `List::create`
+  but is nicer to use. 
 
 # Rcpp11 3.1.0.1
 

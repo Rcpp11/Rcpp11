@@ -120,11 +120,13 @@ namespace Rcpp{
     template <typename First, typename... Args>
     typename create_type< create_r_type<First,Args...>::type::value , First, Args...>::type
     create( const First& first, Args... args ){
-        // static_assert(
-        //     traits::all_compatible< traits::get_compatible_r_vector_type<First>::rtype, Args...>::type::value, 
-        //     "subsequent types are not compatible with first type"
-        //     ) ;
         return typename create_type< create_r_type<First,Args...>::type::value, First, Args...>::type( first, args...) ;
+    }
+    
+    template <typename First, typename... Args>
+    typename create_type< VECSXP , First, Args...>::type
+    list( const First& first, Args... args){
+        return typename create_type< VECSXP , First, Args...>::type(first, args...) ;
     }
     
 }
