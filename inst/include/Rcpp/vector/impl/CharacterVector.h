@@ -15,8 +15,7 @@ namespace Rcpp{
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>, 
-        public NameProxyPolicy<VEC>, 
-        private CommonVectorMethods<STRSXP,VEC>
+        public NameProxyPolicy<VEC>
     {
     public:
         typedef  SEXP value_type ;
@@ -24,8 +23,11 @@ namespace Rcpp{
         typedef  internal::string_proxy<Vector>  Proxy    ;
         typedef  internal::Proxy_Iterator<Proxy> iterator ; 
         
-        RCPP_VECTOR_API(STRSXP)
-        
+        #define RTYPE STRSXP
+        #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
+        #undef RTYPE
+    
+    public:
         Vector( int n, const char* s ) {
             reset(n) ;
             std::fill( begin(), end(), Rf_mkChar(s) ) ;
@@ -45,33 +47,8 @@ namespace Rcpp{
             std::copy( list.begin(), list.end(), begin() ) ;
         }
         
-        inline iterator begin() { 
-            return iterator( Proxy(*this, 0) ); 
-        }
-        inline iterator end() { 
-            return iterator( Proxy(*this, size() ) ); 
-        }
+        #include <Rcpp/vector/impl/RCPP_VECTOR_PROXY_BASED_API.h>
         
-        inline const iterator begin() const{ 
-            return iterator( Proxy(const_cast<Vector&>(*this), 0) );
-        }
-        inline iterator end() const{ 
-            return iterator( Proxy(const_cast<Vector&>(*this), size()) );
-        }
-        
-        inline Proxy operator[](int i){
-            RCPP_CHECK_BOUNDS(i)
-            return Proxy(*this, i ) ;
-        }
-        inline const Proxy operator[](int i) const {
-            RCPP_CHECK_BOUNDS(i)
-            return Proxy(const_cast<Vector&>(*this), i ) ; 
-        }
-        
-        template <typename... Args> static Vector create(Args... args) {
-            return typename create_type<STRSXP, Args...>::type( args... ) ;    
-        }
-    
     } ;
     
     

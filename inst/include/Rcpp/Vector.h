@@ -15,8 +15,6 @@
 #include <Rcpp/vector/generic_proxy.h>
 
 #include <Rcpp/vector/VectorOf.h>
-#include <Rcpp/vector/CommonVectorMethods.h>
-#include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
 #include <Rcpp/vector/impl/SimpleVector.h>
 #include <Rcpp/vector/impl/CharacterVector.h>
 #include <Rcpp/vector/impl/List.h>

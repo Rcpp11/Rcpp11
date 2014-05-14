@@ -16,8 +16,7 @@ namespace Rcpp{
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
         public VectorOffset<VEC>, 
-        public NameProxyPolicy<VEC>, 
-        private CommonVectorMethods<RTYPE,VEC>
+        public NameProxyPolicy<VEC>
     {
     public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;
@@ -30,8 +29,9 @@ namespace Rcpp{
         typedef value_type*        iterator        ; 
         typedef const value_type*  const_iterator  ;
         
-        RCPP_VECTOR_API(RTYPE)
-        
+        #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
+    
+    public:
         Vector( int n, init_type x ) {
             reset(n);
             std::fill( begin(), end(), x) ;
@@ -55,10 +55,6 @@ namespace Rcpp{
         inline const_reference operator[](int i) const { 
             RCPP_CHECK_BOUNDS(i)
             return *( dataptr() + i ); 
-        }
-        
-        template <typename... Args> static Vector create(Args... args) {
-            return typename create_type<RTYPE, Args...>::type( args... ) ;    
         }
         
     } ;
