@@ -2,6 +2,7 @@
 #define Rcpp__Vector_h
 
 #include <Rcpp/vector/00_forward.h>
+#include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/SugarVectorExpression.h>
 #include <Rcpp/vector/SugarMatrixExpression.h>
 

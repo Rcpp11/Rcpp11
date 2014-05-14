@@ -65,6 +65,17 @@ namespace Rcpp{
             return *this ;
         }
         
+        template <typename Expr>
+        Vector( const LazyVector<RTYPE,Expr>& other ) {
+            import_applyable(other) ;
+        }
+        
+        template <typename Expr>
+        Vector& operator=( const LazyVector<RTYPE,Expr>& other ) {
+            assign_applyable(other) ;
+            return *this ;
+        }
+        
     private:
         
         template <bool NA, typename Expr>
@@ -74,6 +85,11 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+            import_applyable(other) ;
+        }
+        
+        template <typename T>
+        inline void import_applyable( const T& other ){
             reset(other.size());
             other.apply(*this) ;
         }
@@ -85,6 +101,11 @@ namespace Rcpp{
         
         template <bool NA, typename Expr>
         inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+            assign_applyable(other) ;    
+        }
+        
+        template <typename T>
+        inline void assign_applyable( const T& other ){
             int n = other.size() ;
             if( n != size() ){
                 reset(n) ;    
