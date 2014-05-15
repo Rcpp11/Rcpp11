@@ -13,36 +13,36 @@ namespace traits{
         const static bool is_enum      = std::is_enum<T>::value  ;
         const static bool is_sexp_convertible = std::is_convertible<T,SEXP>::value ;
         const static bool is_sugar = is_vector_expression<T>::type::value ;
-        const static bool is_lazy_vector = is_lazy_vector<T>::type::value ; 
-        
+        const static bool is_lazy = is_lazy_vector<T>::type::value ; 
+                
         typedef typename std::conditional< 
             is_sexp_convertible, 
             typename Rcpp::SexpConvertibleWrapper<T>,
             typename std::conditional<
-                    is_primitive, 
-                    typename Rcpp::PrimitiveWrapper<T>,
+                is_primitive, 
+                typename Rcpp::PrimitiveWrapper<T>,
+                typename std::conditional<
+                    is_enum,
+                    Rcpp::EnumWrapper<T>,
                     typename std::conditional<
-                        is_enum,
-                        Rcpp::EnumWrapper<T>,
+                        is_sugar,
+                        typename Rcpp::SugarExpressionWrapper<T>,
                         typename std::conditional<
-                            is_sugar,
-                            typename Rcpp::SugarExpressionWrapper<T>,
+                            is_lazy,
+                            typename Rcpp::LazyVectorWrapper<T>,
                             typename std::conditional<
-                                is_lazy_vector,
-                                typename LazyVectorWrapper<T>,
+                                has_matrix_interface,
+                                typename Rcpp::MatrixWrapper<T>,
                                 typename std::conditional<
-                                    has_matrix_interface,
-                                    typename Rcpp::MatrixWrapper<T>,
-                                    typename std::conditional<
-                                        has_iterator, 
-                                        typename Rcpp::ContainerWrapper<T>, 
-                                        typename Rcpp::Wrapper<T>
-                                        >::type
+                                    has_iterator, 
+                                    typename Rcpp::ContainerWrapper<T>, 
+                                    typename Rcpp::Wrapper<T>
                                     >::type
                                 >::type
                             >::type
                         >::type
                     >::type
+                >::type
             >::type type ;
     } ;
     

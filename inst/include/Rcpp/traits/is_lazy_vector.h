@@ -8,7 +8,9 @@ namespace Rcpp {
     namespace traits {
                            
         template <typename T>
-        struct is_lazy_vector : public std::is_base_of<LazyVectorBase, T> {};
+        struct is_lazy_vector {
+            typedef typename std::is_base_of<LazyVectorBase, T>::type type;
+        };
         
     }
 }

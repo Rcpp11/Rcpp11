@@ -33,6 +33,7 @@
 #include <Rcpp/traits/all_named.h>
 #include <Rcpp/traits/is_matrix_expression.h>
 #include <Rcpp/traits/is_vector_expression.h>
+#include <Rcpp/traits/is_lazy_vector.h>
 #include <Rcpp/traits/get_compatible_r_vector_type.h>
 
 #endif
