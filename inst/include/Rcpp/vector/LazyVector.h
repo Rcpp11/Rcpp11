@@ -9,6 +9,7 @@ namespace Rcpp{
     template <int RTYPE, typename Expr>
     struct LazyVector : public LazyVectorOf<RTYPE>, public CRTP<Expr> {
         using CRTP<Expr>::get_ref ;
+        typedef typename std::integral_constant<int,RTYPE>::type r_type ; 
     
         inline int size() const { 
             return get_ref().size() ;

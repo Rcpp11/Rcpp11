@@ -16,6 +16,7 @@
 #include <Rcpp/wrap/ContainerWrapper.h>
 #include <Rcpp/wrap/SexpConvertibleWrapper.h>
 #include <Rcpp/wrap/SugarExpressionWrapper.h>
+#include <Rcpp/wrap/LazyVectorWrapper.h>
 
 #include <Rcpp/wrap/wrap_type.h>     
 
