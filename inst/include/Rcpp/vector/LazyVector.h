@@ -4,7 +4,7 @@
 namespace Rcpp{
             
     template <int RTYPE>
-    struct LazyVectorOf {};
+    struct LazyVectorOf : public LazyVectorBase {};
     
     template <int RTYPE, typename Expr>
     struct LazyVector : public LazyVectorOf<RTYPE>, public CRTP<Expr> {
