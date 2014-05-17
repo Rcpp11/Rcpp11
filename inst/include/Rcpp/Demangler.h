@@ -7,6 +7,18 @@ namespace Rcpp{
     struct Demangler {
         static std::string get(){ return demangle( typeid(T).name() ) ; }
     } ;
+    template <int N>
+    struct Demangler< char[N] > {
+        static std::string get(){ 
+          std::stringstream ss  ;
+          ss << "char[" 
+             << N 
+             << "]" ;
+          return ss.str() ;
+        }
+    } ;
+    
+    
     #define DEMANGLE_ECHO(__TYPE__)                                 \
     template <>                                                     \
     struct Demangler<__TYPE__>{                                     \

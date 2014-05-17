@@ -26,6 +26,13 @@ namespace Rcpp{
                rtype = get_compatible_r_vector_type__dispatch<T, is_primitive<T>::value >::rtype  
             } ;
         } ;
+        
+        template <int N>
+        struct get_compatible_r_vector_type< char[N] >{
+            enum{
+              rtype = STRSXP    
+            } ;
+        } ;
 
     }
 }
