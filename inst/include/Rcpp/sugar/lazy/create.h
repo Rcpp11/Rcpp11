@@ -3,12 +3,22 @@
 
 namespace Rcpp{
     
+    template <typename T>
+    struct create_proxy_class {
+        typedef T type ;    
+    } ;
+    
+    template <int N>
+    struct create_proxy_class<const char[N]> {
+        typedef String type ;    
+    } ;
+    
     template <int RTYPE, typename... Args>
     class Create : public LazyVector<RTYPE, Create<RTYPE,Args...>> {
         typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
-        
+        typedef std::tuple<Args...> Tuple ;
         public:
-            Create( Args... args ) : data(args...) {}
+            Create( Args... args ) : data( args... ) {}
             
             inline int size() const {
                 return sizeof...(Args) ;    
@@ -33,7 +43,7 @@ namespace Rcpp{
             template <int INDEX, typename Iterator>
             inline void set_value( Iterator& it, std::false_type ) const {}
             
-            std::tuple<Args...> data ;
+            Tuple data ;
     } ;  
     
     template <int RTYPE, typename... Args>
@@ -117,10 +127,14 @@ namespace Rcpp{
         typedef typename std::integral_constant<int, traits::get_compatible_r_vector_type<First>::rtype>::type type ;
     } ;
     
-    template <typename First, typename... Args>
-    typename create_type< create_r_type<First,Args...>::type::value , First, Args...>::type
-    create( const First& first, Args... args ){
-        return typename create_type< create_r_type<First,Args...>::type::value, First, Args...>::type( first, args...) ;
+    template <typename... Args>
+    typename create_type< create_r_type<Args...>::type::value , typename create_proxy_class<Args>::type ... >::type
+    create( Args... args ){
+        typedef typename create_type<
+            create_r_type<Args...>::type::value,
+            typename create_proxy_class<Args>::type ...
+        >::type Creator ;
+        return Creator( typename create_proxy_class<Args>::type(args) ...) ;
     }
     
     template <typename First, typename... Args>

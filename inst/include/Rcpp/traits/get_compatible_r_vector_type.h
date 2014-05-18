@@ -33,6 +33,14 @@ namespace Rcpp{
               rtype = STRSXP    
             } ;
         } ;
+        
+        template <>
+        struct get_compatible_r_vector_type< const char* >{
+            enum{
+              rtype = STRSXP    
+            } ;
+        } ;
+        
 
     }
 }
