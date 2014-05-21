@@ -17,7 +17,7 @@ namespace Rcpp {
     
     }
 
-    #define FUSE_CASE(RTYPE) wrap( fuse( as<Vector<RTYPE>>(args)... ) ); 
+    #define FUSE_CASE(RTYPE) wrap( fuse( Vector<RTYPE>(args)... ) ); 
 
     template <typename... Args>
     typename std::enable_if<traits::all_convertible<SEXP,Args...>::type::value, SEXP>::type c(Args... args) {
