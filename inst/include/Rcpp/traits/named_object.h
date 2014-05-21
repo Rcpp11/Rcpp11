@@ -10,10 +10,18 @@ namespace Rcpp{
         class named_object {
         public:
             typedef T object_type ;
+            named_object( SEXP name_, const T& o_) : 
+                name(name_), object(o_){}
             named_object( const std::string& name_, const T& o_) : 
                 name(Rf_install(name_.c_str())), object(o_){}
             SEXP name ;
             const T& object ;
+            
+            template <typename U>
+            inline operator named_object<U>() {
+                return named_object<U>( CHAR(PRINTNAME(name)), static_cast<U>(object) ) ;   
+            }
+            
         } ;
         
         template <> 

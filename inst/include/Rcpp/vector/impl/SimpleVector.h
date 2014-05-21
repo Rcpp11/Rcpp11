@@ -40,6 +40,21 @@ namespace Rcpp{
             reset(list.size());
             std::copy( list.begin(), list.end(), begin() ) ;
         }
+        
+        Vector( std::initializer_list<traits::named_object<init_type>> list ){
+            int n = list.size() ;
+            reset(n);
+            auto input_it = list.begin() ;
+            auto it = begin() ;
+            SEXP nams = PROTECT(Rf_allocVector(STRSXP, n) ) ;
+            for( int i=0; i<n; i++, ++it, ++input_it){
+                SET_STRING_ELT(nams, i, PRINTNAME(input_it->name) ) ;
+                *it = input_it->object ;
+            }
+            UNPROTECT(1) ;
+            NamesProxyPolicy<Vector>::names() = nams ;
+        }
+    
     
         inline iterator begin() { return dataptr() ; }
         inline iterator end() { return dataptr() + size() ; }
