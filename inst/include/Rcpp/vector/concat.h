@@ -85,15 +85,6 @@ namespace Rcpp{
         do_concatenate_one(x, idx, curr, typename traits::is_primitive<Current>::type(), typename std::is_same<Current, SEXP>::type() );
     }
 
-    // template <typename First, typename... Args>
-    // typename std::enable_if< 
-    //     traits::all_compatible< traits::get_compatible_r_vector_type<First>::rtype, Args...>::type::value,
-    //     Vector< traits::get_compatible_r_vector_type<First>::rtype >
-    // >::type
-    // fuse( const First& first, Args... args ){
-    //     return concatenate< traits::get_compatible_r_vector_type<First>::rtype, First, Args...>( first, args... ) ;  
-    // }
-    
 }
 
 #endif
