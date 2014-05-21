@@ -34,6 +34,9 @@
 * Added the `list` function. It takes a variadic list of arguments and makes an
   R list from it. This uses the same underlying implementation as `List::create`
   but is nicer to use. 
+  
+* `mapply` was reimplemented using variadic templates. `mapply` now accepts a 
+  function as first parameter, then a variable number of sugar expressions. 
 
 # Rcpp11 3.1.0.1
 
