@@ -1,5 +1,5 @@
-#ifndef Rcpp__vector_concat_free_h
-#define Rcpp__vector_concat_free_h
+#ifndef Rcpp__sugar_lazy_c_h
+#define Rcpp__sugar_lazy_c_h
 
 namespace Rcpp {
 
@@ -7,12 +7,12 @@ namespace Rcpp {
     
         template <typename Current>
         int max_type(Current x) {
-          return TYPEOF(x);
+            return TYPEOF(x);
         }
         
         template <typename Current, typename... Rest>
         int max_type(Current lhs, Rest... rest) {
-          return max_type(lhs) >= max_type(rest...) ? max_type(lhs) : max_type(rest...);
+            return std::max( max_type(lhs), max_type(rest...) );
         }
     
     }

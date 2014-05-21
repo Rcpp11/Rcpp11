@@ -24,8 +24,6 @@
 #include <Rcpp/String.h>
 #include <Rcpp/NA_Proxy.h>
 
-#include <Rcpp/vector/concat_free.h>
-
 #include <Rcpp/vector/Demangler.h>
 
 #include <Rcpp/vector/StrideIterator.h>

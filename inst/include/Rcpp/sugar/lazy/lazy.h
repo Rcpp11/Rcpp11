@@ -3,5 +3,6 @@
 
 #include <Rcpp/sugar/lazy/create.h>
 #include <Rcpp/sugar/lazy/fuse.h>
+#include <Rcpp/sugar/lazy/c.h>
 
 #endif
