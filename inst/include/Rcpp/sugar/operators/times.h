@@ -275,97 +275,6 @@ namespace sugar{
         double rhs ;
     } ;
 
-
-
-
-
-
-    // Vector * nona(primitive)
-    template <int RTYPE, bool NA, typename T>
-    class Times_Vector_Primitive_nona : public SugarVectorExpression<RTYPE,true, Times_Vector_Primitive_nona<RTYPE,NA,T> > {
-    public:
-        typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-        
-        Times_Vector_Primitive_nona( const VEC_TYPE& lhs_, STORAGE rhs_ ) : 
-            lhs(lhs_), rhs(rhs_)
-            {}
-    
-        inline STORAGE operator[]( int i ) const {
-            STORAGE x = lhs[i] ;
-            return Rcpp::traits::is_na<RTYPE>(x) ? x : (x * rhs) ;
-        }
-    
-        inline int size() const { return lhs.size() ; }
-    
-    private:
-        const VEC_TYPE& lhs ;
-        STORAGE rhs ;
-    
-    } ;
-    // RTYPE = REALSXP
-    template <bool NA, typename T>
-    class Times_Vector_Primitive_nona<REALSXP,NA,T> : 
-        public SugarVectorExpression<REALSXP,true, Times_Vector_Primitive_nona<REALSXP,NA,T> > {
-    public:
-        typedef typename Rcpp::SugarVectorExpression<REALSXP,NA,T> VEC_TYPE ;
-        
-        Times_Vector_Primitive_nona( const VEC_TYPE& lhs_, double rhs_ ) : 
-            lhs(lhs_), rhs(rhs_)
-            {}
-    
-        inline double operator[]( int i ) const {
-            return lhs[i] * rhs ;
-        }
-    
-        inline int size() const { return lhs.size() ; }
-    
-    private:
-        const VEC_TYPE& lhs ;
-        double rhs ;
-    } ;
-
-
-    template <int RTYPE, typename T>
-    class Times_Vector_Primitive_nona<RTYPE,false,T> : public SugarVectorExpression<RTYPE,false, Times_Vector_Primitive_nona<RTYPE,false,T> > {
-    public:
-        typedef typename Rcpp::SugarVectorExpression<RTYPE,false,T> VEC_TYPE ;
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-    
-        Times_Vector_Primitive_nona( const VEC_TYPE& lhs_, STORAGE rhs_ ) : 
-            lhs(lhs_), rhs(rhs_) {}
-    
-        inline STORAGE operator[]( int i ) const {
-            return rhs * lhs[i] ;
-        }
-    
-        inline int size() const { return lhs.size() ; }
-    
-    private:
-        const VEC_TYPE& lhs ;
-        STORAGE rhs ;
-    
-    } ;
-    template <typename T>
-    class Times_Vector_Primitive_nona<REALSXP,false,T> : 
-        public SugarVectorExpression<REALSXP,false, Times_Vector_Primitive_nona<REALSXP,false,T> > {
-    public:
-        typedef typename Rcpp::SugarVectorExpression<REALSXP,false,T> VEC_TYPE ;
-        
-        Times_Vector_Primitive_nona( const VEC_TYPE& lhs_, double rhs_ ) : 
-            lhs(lhs_), rhs(rhs_) {}
-    
-        inline double operator[]( int i ) const {
-            return rhs * lhs[i] ;
-        }
-    
-        inline int size() const { return lhs.size() ; }
-    
-    private:
-        const VEC_TYPE& lhs ;
-        double rhs ;
-    } ;
-
 }
 }
 
@@ -386,26 +295,6 @@ operator*(
     const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
 ) {
     return Rcpp::sugar::Times_Vector_Primitive<RTYPE,NA, T >( lhs, rhs ) ;
-}
-
-
-
-template <int RTYPE,bool NA, typename T>
-inline Rcpp::sugar::Times_Vector_Primitive_nona<RTYPE,NA,T>
-operator*( 
-    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs, 
-    typename Rcpp::sugar::NonaPrimitive< typename Rcpp::traits::storage_type<RTYPE>::type > rhs 
-) {
-    return Rcpp::sugar::Times_Vector_Primitive_nona<RTYPE,NA,T>( lhs, rhs ) ;
-}
-
-template <int RTYPE,bool NA, typename T>
-inline Rcpp::sugar::Times_Vector_Primitive_nona< RTYPE , NA , T >
-operator*( 
-    typename Rcpp::sugar::NonaPrimitive< typename Rcpp::traits::storage_type<RTYPE>::type > rhs, 
-    const Rcpp::SugarVectorExpression<RTYPE,NA,T>& lhs
-) {
-    return Rcpp::sugar::Times_Vector_Primitive_nona<RTYPE,NA, T >( lhs, rhs ) ;
 }
 
 
