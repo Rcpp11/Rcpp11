@@ -13,7 +13,7 @@ namespace Rcpp{
         } ;
         template <typename T>
         struct mapply_input_type<T,false> {
-            typedef typename T::stored_type type ;
+            typedef typename std::remove_reference<T>::type::stored_type type ;
         } ;
         
         
@@ -28,11 +28,16 @@ namespace Rcpp{
             true ,
             Mapply<Function,Args...>
         > {
-        public:  
+        public:                              
             typedef std::tuple<Args...> Tuple ;
+            typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
+            
             typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type result_type ;
         
-            Mapply( Function fun_, Args... args ) : data(args...), fun(fun_), n(std::get<0>(data).size()){}
+            Mapply( Function fun_, Args&&... args ) : 
+                data( std::forward<Args>(args)... ), 
+                fun(fun_), 
+                n(std::get<0>(data).size()){}
         
             inline result_type operator[]( int i ) const {
                 return eval(i, typename Rcpp::traits::index_sequence<Args...>::type() );
@@ -51,12 +56,12 @@ namespace Rcpp{
             }
             
             template <int INDEX>
-            inline typename std::tuple_element<INDEX,Tuple>::type get_ith( int , std::true_type ) const {
+            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( int , std::true_type ) const {
                 return std::get<INDEX>(data) ;
             }
             
             template <int INDEX>
-            inline typename std::tuple_element<INDEX,Tuple>::type::stored_type get_ith( int i, std::false_type ) const {
+            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( int i, std::false_type ) const {
                 return std::get<INDEX>(data)[i] ;
             }
             
@@ -69,8 +74,8 @@ namespace Rcpp{
     
     template <typename Function,typename... Args>
     typename sugar::Mapply<Function,Args...>
-    mapply( Function fun, Args... args ){   
-        return sugar::Mapply<Function,Args...>( fun, args... ) ;
+    mapply( Function fun, Args&&... args ){   
+        return sugar::Mapply<Function,Args...>( fun, std::forward<Args>(args) ... ) ;
     }
 
 } // Rcpp
