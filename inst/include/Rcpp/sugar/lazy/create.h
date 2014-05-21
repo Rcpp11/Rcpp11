@@ -137,10 +137,10 @@ namespace Rcpp{
         return Creator( typename create_proxy_class<Args>::type(args) ...) ;
     }
     
-    template <typename First, typename... Args>
-    typename create_type< VECSXP , First, Args...>::type
-    list( const First& first, Args... args){
-        return typename create_type< VECSXP , First, Args...>::type(first, args...) ;
+    template <typename... Args>
+    typename create_type< VECSXP , Args...>::type
+    list( Args... args){
+        return typename create_type< VECSXP , Args...>::type(args...) ;
     }
     
 }
