@@ -7,7 +7,6 @@
 #include <Rcpp/vector/SugarMatrixExpression.h>
 
 #include <Rcpp/vector/converter.h>
-#include <Rcpp/vector/concat.h>
 
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/generic_proxy.h>

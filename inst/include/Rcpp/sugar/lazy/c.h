@@ -21,7 +21,6 @@ namespace Rcpp {
 
     template <typename... Args>
     typename std::enable_if<traits::all_convertible<SEXP,Args...>::type::value, SEXP>::type c(Args... args) {
-        // static_assert( traits::all_convertible<SEXP,Args...>::type::value, "c(...) requires that all types are convertible to SEXP" ) ;  
         int maxtype = internal::max_type(args...);
         switch (maxtype) {
             case INTSXP : return FUSE_CASE(INTSXP );
