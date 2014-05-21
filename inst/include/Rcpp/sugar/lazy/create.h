@@ -15,7 +15,6 @@ namespace Rcpp{
     
     template <int RTYPE, typename... Args>
     class Create : public LazyVector<RTYPE, Create<RTYPE,Args...>> {
-        typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
         typedef std::tuple<Args...> Tuple ;
         public:
             Create( Args... args ) : data( args... ) {}
@@ -27,20 +26,22 @@ namespace Rcpp{
             template <typename Target>
             inline void apply( Target& target ) const {
                 auto it = target.begin() ;
-                set_value<0, typename Target::iterator >( it, std::true_type() ) ;            
+                set_value<0, typename Target::iterator, Target >( it, std::true_type() ) ;            
             }
             
         private:
-            template <int INDEX, typename Iterator>
+            template <int INDEX, typename Iterator, typename Target>
             inline void set_value( Iterator& it, std::true_type ) const {
+                typedef typename traits::r_vector_element_converter<Target::r_type::value>::type converter_type ;
+        
                 *it = converter_type::get( std::get<INDEX>(data) ) ; ++it ;
                 
-                set_value<INDEX+1, Iterator>( it, 
+                set_value<INDEX+1, Iterator, Target>( it, 
                     typename std::integral_constant<bool, (INDEX+1 < sizeof...(Args)) >::type()
                 ) ;
             }
             
-            template <int INDEX, typename Iterator>
+            template <int INDEX, typename Iterator, typename Target>
             inline void set_value( Iterator& it, std::false_type ) const {}
             
             Tuple data ;
@@ -65,7 +66,6 @@ namespace Rcpp{
     
     template <int RTYPE, typename... Args>
     class CreateWithNames : public LazyVector<RTYPE, CreateWithNames<RTYPE,Args...>>{
-        typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
         
         public:
             CreateWithNames( Args... args ) : data( args... ) {}
@@ -78,24 +78,26 @@ namespace Rcpp{
             inline void apply( Target& target ) const {
                 auto it = target.begin() ;
                 Shield<SEXP> names = Rf_allocVector( STRSXP, sizeof...(Args) ) ;
-                set_value<0, typename Target::iterator >( names, it, std::true_type() ) ;    
+                set_value<0, typename Target::iterator, Target >( names, it, std::true_type() ) ;    
                 target.names() = names ;
             }
             
         private:
             
-            template <int INDEX, typename Iterator>
+            template <int INDEX, typename Iterator, typename Target>
             inline void set_value( Shield<SEXP>& names, Iterator& it, std::true_type ) const {
+                typedef typename traits::r_vector_element_converter<Target::r_type::value>::type converter_type ;
+        
                 auto val = std::get<INDEX>(data) ;
                 *it = converter_type::get(val) ; ++it ;
                 SET_STRING_ELT(names, INDEX, Rf_mkChar( internal::get_object_name(val) ) );
                 
-                set_value<INDEX+1,Iterator>( names, it, 
+                set_value<INDEX+1,Iterator, Target>( names, it, 
                     typename std::integral_constant<bool, (INDEX+1 < sizeof...(Args)) >::type() 
                     ) ;
             }
             
-            template <int INDEX, typename Iterator>
+            template <int INDEX, typename Iterator, typename Target>
             inline void set_value( Shield<SEXP>& names, Iterator& it, std::false_type ) const {}
             
             std::tuple<Args...> data ;
