@@ -105,38 +105,22 @@ namespace Rcpp{
     template <typename... Args>
     class CreateWithNames<-1,Args...> : public LazyVector<-1, CreateWithNames<-1,Args...>>{
     public:
-        CreateWithNames( Args... args ) : data( args... ) {}
-        
+        CreateWithNames( Args... args ) : 
+            names({ CHAR(PRINTNAME(args.name)) ... }) {}
+                                                               
         inline int size() const {
             return sizeof...(Args) ;    
         }
         
         template <typename Target>
         inline void apply( Target& target ) const {
-            auto it = target.begin() ;
-            Shield<SEXP> names = Rf_allocVector( STRSXP, sizeof...(Args) ) ;
-            set_value<0, typename Target::iterator >( names, it, std::true_type() ) ;    
+            std::fill( target.begin(), target.end(), NA ) ;
             target.names() = names ;
         }
         
     private:
         
-        template <int INDEX, typename Iterator>
-        inline void set_value( Shield<SEXP>& names, Iterator& it, std::true_type ) const {
-            auto val = std::get<INDEX>(data) ;
-            *it = NA ; ++it ;
-            SET_STRING_ELT(names, INDEX, Rf_mkChar( internal::get_object_name(val) ) );
-            
-            set_value<INDEX+1,Iterator>( names, it, 
-                typename std::integral_constant<bool, (INDEX+1 < sizeof...(Args)) >::type() 
-                ) ;
-        }
-        
-        template <int INDEX, typename Iterator>
-        inline void set_value( Shield<SEXP>& names, Iterator& it, std::false_type ) const {}
-            
-        std::tuple<Args...> data ;
-            
+        CharacterVector names ;    
     } ;
     
        
