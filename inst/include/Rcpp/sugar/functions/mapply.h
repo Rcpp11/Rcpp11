@@ -4,20 +4,33 @@
 namespace Rcpp{
     namespace sugar{
     
+        template <typename T, bool>
+        struct mapply_input_type ;
+        
+        template <typename T>
+        struct mapply_input_type<T,true> {
+            typedef T type ;
+        } ;
+        template <typename T>
+        struct mapply_input_type<T,false> {
+            typedef typename T::stored_type type ;
+        } ;
+        
+        
         template <
             typename Function,
             typename... Args
         >
         class Mapply : public SugarVectorExpression< 
             Rcpp::traits::r_sexptype_traits<
-                typename std::result_of<Function(typename Args::stored_type ...)>::type
+                typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type
             >::rtype , 
             true ,
             Mapply<Function,Args...>
         > {
         public:  
             typedef std::tuple<Args...> Tuple ;
-            typedef typename std::result_of<Function(typename Args::stored_type ...)>::type result_type ;
+            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type result_type ;
         
             Mapply( Function fun_, Args... args ) : data(args...), fun(fun_), n(std::get<0>(data).size()){}
         
@@ -32,7 +45,19 @@ namespace Rcpp{
             
             template <int... S>
             inline result_type eval( int i, Rcpp::traits::sequence<S...> ) const {
-                return fun( std::get<S>(data)[i] ... );    
+                return fun( 
+                    get_ith<S>(i, typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type  >::type() ) ... 
+                );    
+            }
+            
+            template <int INDEX>
+            inline typename std::tuple_element<INDEX,Tuple>::type get_ith( int , std::true_type ) const {
+                return std::get<INDEX>(data) ;
+            }
+            
+            template <int INDEX>
+            inline typename std::tuple_element<INDEX,Tuple>::type::stored_type get_ith( int i, std::false_type ) const {
+                return std::get<INDEX>(data)[i] ;
             }
             
             Tuple data ;
@@ -43,10 +68,7 @@ namespace Rcpp{
     } // sugar
     
     template <typename Function,typename... Args>
-    inline typename std::enable_if<
-        traits::and_< typename traits::is_vector_expression<Args>::type ... >::type::value,
-        typename sugar::Mapply<Function,Args...>
-    >::type
+    typename sugar::Mapply<Function,Args...>
     mapply( Function fun, Args... args ){   
         return sugar::Mapply<Function,Args...>( fun, args... ) ;
     }
