@@ -41,7 +41,20 @@ namespace Rcpp{
             } ;
         } ;
         
-
+        template <>
+        struct get_compatible_r_vector_type< Rcpp::Na_Proxy >{
+            enum{
+              rtype = -1    
+            } ;
+        } ;
+        
+        template <>
+        struct get_compatible_r_vector_type< traits::named_object<Rcpp::Na_Proxy> >{
+            enum{
+              rtype = -1    
+            } ;
+        } ;
+        
     }
 }
 

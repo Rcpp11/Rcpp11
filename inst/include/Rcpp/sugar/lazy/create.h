@@ -46,6 +46,23 @@ namespace Rcpp{
             Tuple data ;
     } ;  
     
+    template <typename... Args>
+    class Create<-1,Args...> : public LazyVector<-1,Create<-1,Args...>> {
+        public:
+            Create( Args... args ){} 
+            
+            inline int size() const {
+                return sizeof...(Args) ;    
+            }
+            
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                auto it = target.begin() ;
+                for( int i=0; i<size(); i++, ++it) *it = NA ;
+            }
+    } ;
+    
+    
     template <int RTYPE, typename... Args>
     class CreateWithNames : public LazyVector<RTYPE, CreateWithNames<RTYPE,Args...>>{
         typedef typename traits::r_vector_element_converter<RTYPE>::type converter_type ;
@@ -84,6 +101,44 @@ namespace Rcpp{
             std::tuple<Args...> data ;
             
     } ;  
+    
+    template <typename... Args>
+    class CreateWithNames<-1,Args...> : public LazyVector<-1, CreateWithNames<-1,Args...>>{
+    public:
+        CreateWithNames( Args... args ) : data( args... ) {}
+        
+        inline int size() const {
+            return sizeof...(Args) ;    
+        }
+        
+        template <typename Target>
+        inline void apply( Target& target ) const {
+            auto it = target.begin() ;
+            Shield<SEXP> names = Rf_allocVector( STRSXP, sizeof...(Args) ) ;
+            set_value<0, typename Target::iterator >( names, it, std::true_type() ) ;    
+            target.names() = names ;
+        }
+        
+    private:
+        
+        template <int INDEX, typename Iterator>
+        inline void set_value( Shield<SEXP>& names, Iterator& it, std::true_type ) const {
+            auto val = std::get<INDEX>(data) ;
+            *it = NA ; ++it ;
+            SET_STRING_ELT(names, INDEX, Rf_mkChar( internal::get_object_name(val) ) );
+            
+            set_value<INDEX+1,Iterator>( names, it, 
+                typename std::integral_constant<bool, (INDEX+1 < sizeof...(Args)) >::type() 
+                ) ;
+        }
+        
+        template <int INDEX, typename Iterator>
+        inline void set_value( Shield<SEXP>& names, Iterator& it, std::false_type ) const {}
+            
+        std::tuple<Args...> data ;
+            
+    } ;
+    
        
     template <int RTYPE>
     class EmptyCreate : public LazyVector<RTYPE, EmptyCreate<RTYPE> >{

@@ -121,6 +121,8 @@ namespace Rcpp{
 
 }
 namespace Rcpp{
+    class Na_Proxy ;
+    
     inline SEXP Rcpp_PreserveObject(SEXP x){
         if( x != R_NilValue ) {
             R_PreserveObject(x);
