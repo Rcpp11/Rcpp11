@@ -27,8 +27,7 @@ namespace Rcpp{
         
         class Proxy : public GenericProxy<Proxy> {
         public:
-            Proxy( ListOf& parent_, int i_ ) : 
-                parent(parent_), i(i_){}
+            Proxy( int i_ ) : i(i_){}
             
             inline operator T() const {
                 return as<T>( data[i] ) ;    
@@ -39,16 +38,15 @@ namespace Rcpp{
             }
             
         private:
-            List& parent ;
             int i ;
         } ;
         
         Proxy operator[](int i){
-            return Proxy( *this, i ) ;    
+            return Proxy( i ) ;    
         }
         
         const Proxy operator[]( int i) const {
-            return Proxy( const_cast<ListOf&>(*this), i );    
+            return Proxy( i );    
         }
         
         inline int size() const { return data.size(); }

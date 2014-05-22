@@ -42,6 +42,11 @@
   
 * `is<>` was broken. 
 
+* Initial implementation of `ListOf`. `ListOf<T>` is similar to `List` but 
+  it only exposes constructors that take `T` objects and methods that maintain 
+  this requirement. The implementation differs from Kevin Ushey's implementation 
+  in Rcpp, which IMHO tries to do too much. 
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore
