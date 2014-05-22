@@ -12,8 +12,8 @@ namespace Rcpp{
       AttributesProxy( CLASS& obj_ ) : obj(obj_){}
       
       template <typename... Args>
-      void set( Args... args){
-        obj = structure( obj, args... ) ;    
+      void set( Args&&... args){
+        obj = structure( obj, std::forward<Args>(args)... ) ;    
       }
       
     private:

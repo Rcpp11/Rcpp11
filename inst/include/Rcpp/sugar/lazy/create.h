@@ -7,7 +7,7 @@ namespace Rcpp{
     class Create : public LazyVector<RTYPE, Create<RTYPE,Args...>> {
         typedef std::tuple<Args...> Tuple ;
         public:
-            Create( Args... args ) : data( std::forward<Args>(args)... ) {}
+            Create( Args&&... args ) : data( std::forward<Args>(args)... ) {}
             
             inline int size() const {
                 return sizeof...(Args) ;    
@@ -59,7 +59,7 @@ namespace Rcpp{
     class CreateWithNames : public LazyVector<RTYPE, CreateWithNames<RTYPE,Args...>>{
         
         public:
-            CreateWithNames( Args... args ) : data( std::forward<Args>(args)... ) {}
+            CreateWithNames( Args&&... args ) : data( std::forward<Args>(args)... ) {}
             
             inline int size() const {
                 return sizeof...(Args) ;    

@@ -85,11 +85,6 @@ namespace Rcpp{
         return internal::check_single_string(m_sexp)[0] ;    
     }
     
-    template <typename T> 
-    inline typename traits::remove_const_and_reference<T>::type bare_as( SEXP m_sexp ){
-        return as< typename traits::remove_const_and_reference<T>::type >( m_sexp ) ;
-    }
-    
     template<> inline SEXP as(SEXP m_sexp) { return m_sexp ; }
 
 } // Rcpp 

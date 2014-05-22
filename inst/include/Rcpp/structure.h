@@ -4,7 +4,7 @@
 namespace Rcpp{
  
   template <typename... Args>
-  SEXP structure( SEXP obj, Args... args ) ;
+  SEXP structure( SEXP obj, Args&&... args ) ;
 
 }
 #endif

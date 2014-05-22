@@ -17,8 +17,8 @@ namespace Rcpp{
         }
         
         template<typename... Args> 
-        Pairlist_Impl( const Args&... args) : 
-            data(pairlist(args...)){}
+        Pairlist_Impl( Args&&... args) : 
+            data(pairlist(std::forward<Args>(args)...)){}
        
     } ;
         

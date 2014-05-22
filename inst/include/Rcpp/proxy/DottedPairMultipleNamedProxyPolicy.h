@@ -17,9 +17,9 @@ namespace Rcpp {
             }      
           
             template <typename... Args>
-            void set( Args... args){
+            void set( Args&&... args){
                 static_assert( traits::all_named<Args...>::type::value, "all parameters must be named" ) ;
-                set__impl(args...) ;
+                set__impl( std::forward<Args>(args)...) ;
             }
             
             void set(){}
@@ -29,9 +29,9 @@ namespace Rcpp {
             std::unordered_map<SEXP, SEXP> map ;
             
             template <typename T, typename... Args>
-            void set__impl( traits::named_object<T> first, Args... args){
+            void set__impl( traits::named_object<T> first, Args&&... args){
                 set__one( first ) ;
-                set__impl( args... ) ;
+                set__impl( std::forward<Args>(args)... ) ;
             }
             
             template <typename T>
@@ -55,8 +55,8 @@ namespace Rcpp {
     public:
         
         template <typename... Args>
-        void set( Args... args){         
-            Proxy( static_cast<CLASS&>(*this) ).set( args... ) ;
+        void set( Args&&... args){         
+            Proxy( static_cast<CLASS&>(*this) ).set( std::forward<Args>(args)... ) ;
         }
         
     } ;
