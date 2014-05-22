@@ -5,7 +5,7 @@ namespace Rcpp{
 namespace traits{
 
     template <typename T> struct is_primitive : public std::is_same<
-        typename r_type_traits<T>::r_category , 
+        typename r_type_traits<typename std::decay<T>::type >::r_category , 
         r_type_primitive_tag
     >{} ;
 
