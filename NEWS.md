@@ -40,6 +40,8 @@
 
 * `Array` gains a `fill` method to initialize all its data to the same value.    
   
+* `is<>` was broken. 
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

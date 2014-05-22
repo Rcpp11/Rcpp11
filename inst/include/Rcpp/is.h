@@ -54,8 +54,8 @@ namespace Rcpp{
         struct is_type{
             typedef typename std::conditional<
                 Rcpp::traits::is_primitive<T>::value, 
-                typename PrimitiveIs<T>::type,
-                typename Is<T>::type
+                PrimitiveIs<T>,
+                Is<T>
             >::type type ;
         } ;
         
