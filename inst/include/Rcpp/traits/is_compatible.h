@@ -15,7 +15,7 @@ namespace Rcpp{
 
         template <int RTYPE, typename T>
         struct is_compatible {
-            typedef typename is_compatible_type<RTYPE,T,traits::is_primitive<T>::value>::type type ;
+            typedef typename is_compatible_type<RTYPE,T,traits::is_primitive<typename std::decay<T>::type >::value>::type type ;
         } ;
         
         

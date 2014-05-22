@@ -55,9 +55,9 @@
     using NameProxyPolicy<VEC>::operator[] ;
 
     template <typename... Args> 
-    static Vector create(Args... args) {
+    static Vector create(Args&&... args) {
         typedef typename create_type<RTYPE, Args...>::type creator;
-        Vector res = creator( args... ) ;
+        Vector res = creator( std::forward<Args>(args)... ) ;
         return res ;
     }
         

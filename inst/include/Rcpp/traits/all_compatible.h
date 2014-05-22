@@ -6,7 +6,7 @@ namespace Rcpp{
 
         template <int RTYPE, typename... Args>
         struct all_compatible {
-            typedef typename and_< typename is_compatible<RTYPE,typename std::decay<Args>::type >::type ... >::type type;
+            typedef typename and_< typename is_compatible<RTYPE,Args>::type ... >::type type;
         } ;
         
     }
