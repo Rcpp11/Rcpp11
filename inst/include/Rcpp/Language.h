@@ -29,12 +29,12 @@ namespace Rcpp{
             data( Rf_lang1( function ) ){}
         
         template<typename... Args> 
-        Language_Impl( const std::string& symbol, const Args&... args) : 
-            data( language( Symbol(symbol), args...) ){}
+        Language_Impl( const std::string& symbol, Args&&... args) : 
+            data( language( Symbol(symbol), std::forward<Args>(args)...) ){}
             
         template<typename... Args> 
-        Language_Impl( const Function& function, const Args&... args) : 
-            data( language( function, args...)){}
+        Language_Impl( const Function& function, Args&&... args) : 
+            data( language( function, std::forward<Args>(args)...)){}
         
         /**
          * sets the symbol of the call
@@ -72,15 +72,15 @@ namespace Rcpp{
     class typed_call {
     public:
         typedef Language::Proxy Proxy ;
-        
-        typed_call( Language call_) : call(call_){
+            
+        typed_call( Language call_ ) : call(call_){
             for( int i=0; i<n; i++){
                 proxies.emplace_back( call, i+1 ) ;
             }
         }
         
-        inline OUT operator()( const Args&... args ){
-            set__impl( traits::number_to_type<n>(), args... ) ;
+        inline OUT operator()( Args&&... args ){
+            set__impl( traits::number_to_type<n>(), std::forward<Args>(args)... ) ;
             return as<OUT>( call.eval() ) ;
         }
         
@@ -90,15 +90,12 @@ namespace Rcpp{
         std::vector<Proxy> proxies ;
         
         template <int N, typename First, typename... Types>
-        inline void set__impl( traits::number_to_type<N>, const First& first, const Types&... args ){
+        inline void set__impl( traits::number_to_type<N>, const First& first, Types&&... args ){
             proxies[n-N] = first ;
-            set_impl( traits::number_to_type<N-1>(), args...) ;
+            set_impl( traits::number_to_type<N-1>(), std::forward<Args>(args)...) ;
         }
         
-        template <typename First>
-        inline void set_impl( traits::number_to_type<1>, const First& first ){
-            proxies[n-1] = first ;
-        }
+        inline void set_impl( traits::number_to_type<0> ){}
         
     } ;
     

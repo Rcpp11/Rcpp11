@@ -7,13 +7,12 @@ namespace Rcpp{
     class Array {
     public:
         typedef Vector<RTYPE,Storage> Vec; 
-        typedef typename Vec::Proxy Proxy; 
+        typedef typename Vec::Proxy Proxy;
         
         Array( SEXP x ) : index(), data(x) {
-          IntegerVector dim = data.attr("dim") ;
-          if( dim.size() != N ) stop("incompatible dimensions") ;
-          for( int i=0; i<N; i++)
-            index[i] = dim[i] ;
+            IntegerVector dim = data.attr("dim") ;
+            if( dim.size() != N ) stop("incompatible dimensions") ;
+            std::copy( dim.begin(), dim.end(), index.begin() ) ;
         }
         
         template <
@@ -26,7 +25,7 @@ namespace Rcpp{
         {
             data.attr("dim") = index ;    
         }
-    
+        
         template < 
             typename... Args, 
             typename = typename std::enable_if< ValidIndexArgs<N,Args...>() >::type
@@ -46,9 +45,16 @@ namespace Rcpp{
         inline operator SEXP() const { return data ; }
         inline operator SEXP(){ return data ; }
         
+        template <typename T>
+        Array& fill( T value ){
+            std::fill( data.begin(), data.end(), value ) ;
+            return *this ;
+        }
+        
     private:
         Index<N> index ;
         Vec data ;
+        
     } ;
     
     // template <int N, typename Storage = PreserveStorage> using NumericArray   = Array<N, REALSXP, Storage> ;

@@ -29,7 +29,7 @@ namespace Rcpp{
         }
     
         inline size_t prod(){
-            return std::accumulate( begin(dimensions), end(dimensions), 1, std::multiplies<double>() ) ;     
+            return std::accumulate( dimensions.begin(), dimensions.end(), 1, std::multiplies<double>() ) ;     
         }
         inline size_t size(){ 
             return N ;
@@ -41,6 +41,8 @@ namespace Rcpp{
         inline size_t& operator[](int i){
             return dimensions[i] ;
         }
+        
+        inline typename std::array<size_t,N>::iterator begin(){ return dimensions.begin() ; }
         
     private:
         
