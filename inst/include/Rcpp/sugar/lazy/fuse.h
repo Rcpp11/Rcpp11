@@ -34,7 +34,7 @@ namespace Rcpp{
             void inplace_apply( Iterator& it, std::true_type ) const {
                 typedef typename std::tuple_element<INDEX, Tuple>::type T ;
                 inplace_apply_one<INDEX, Iterator, T>( it, 
-                    typename Rcpp::traits::is_primitive<typename std::decay<T>::type >::type()
+                    typename Rcpp::traits::is_primitive<T>::type()
                     );
                 
                 inplace_apply<INDEX+1,Iterator>( it,

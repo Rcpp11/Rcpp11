@@ -37,7 +37,7 @@ namespace Rcpp{
         class Mapply : 
             public SugarVectorExpression< 
                 Rcpp::traits::r_sexptype_traits<
-                    typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive< typename std::decay<Args>::type >::type::value >::type ...)>::type
+                    typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type
                 >::rtype , 
                 true ,
                 Mapply<Function,Args...>
@@ -47,9 +47,9 @@ namespace Rcpp{
         public:   
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
-            typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive< typename std::remove_reference<Args>::type >::type::value >::type ... > ETuple ;
+            typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
             
-            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive< typename std::decay<Args>::type >::type::value >::type ...)>::type result_type ;
+            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type result_type ;
         
             Mapply( Function fun_, Args&&... args ) : 
                 data( std::forward<Args>(args)... ), 
@@ -79,7 +79,7 @@ namespace Rcpp{
             template <int... S>
             inline result_type eval( int i, Rcpp::traits::sequence<S...> ) const {
                 return fun( 
-                    get_ith<S>(i, typename Rcpp::traits::is_primitive< typename std::decay<typename std::tuple_element<S,Tuple>::type >::type >::type() ) ... 
+                    get_ith<S>(i, typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type() ) ... 
                 );    
             }
             
@@ -120,9 +120,9 @@ namespace Rcpp{
             }
             
             template <int... S>
-            inline auto get_iterators( Rcpp::traits::sequence<S...>  ) const -> decltype( std::make_tuple( get_iterator<S>( typename Rcpp::traits::is_primitive< typename std::decay<typename std::tuple_element<S,Tuple>::type >::type >::type()) ... ) ) {
+            inline auto get_iterators( Rcpp::traits::sequence<S...>  ) const -> decltype( std::make_tuple( get_iterator<S>( typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()) ... ) ) {
                 return std::make_tuple( get_iterator<S>( 
-                    typename Rcpp::traits::is_primitive< typename std::decay<typename std::tuple_element<S,Tuple>::type >::type >::type()
+                    typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()
                     ) ... ) ;        
             }
             

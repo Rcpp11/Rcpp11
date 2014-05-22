@@ -27,7 +27,7 @@ namespace Rcpp{
         template <typename T>
         inline int get_size_one_impl(const T& obj){
             return get_size_one( obj, 
-                typename traits::is_primitive<typename std::decay<T>::type>::type(), 
+                typename traits::is_primitive<T>::type(), 
                 typename std::is_same< typename std::decay<T>::type, SEXP>::type()
             ) ;
         }

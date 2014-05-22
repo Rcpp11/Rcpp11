@@ -23,7 +23,7 @@ namespace Rcpp{
         template <typename T>
         struct get_compatible_r_vector_type {
             enum{
-               rtype = get_compatible_r_vector_type__dispatch<T, is_primitive<typename std::decay<T>::type >::value >::rtype  
+               rtype = get_compatible_r_vector_type__dispatch<T, is_primitive<T>::value >::rtype  
             } ;
         } ;
         
