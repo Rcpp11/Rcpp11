@@ -35,8 +35,8 @@ namespace Rcpp{
          *
          */
         template<typename... Args> 
-        SEXP operator()( const Args&... args) const {
-            Shield<SEXP> call = language( data , args... ) ;
+        SEXP operator()( Args&&... args) const {
+            Shield<SEXP> call = language( data , std::forward<Args>(args)... ) ;
             return Rcpp_eval(call) ;
         }
         

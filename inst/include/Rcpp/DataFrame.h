@@ -109,8 +109,8 @@ namespace Rcpp{
         }
         
         template <typename... Args>
-        static DataFrame_Impl create(const Args&... args){
-            return from_list( List::create( args...) ) ;
+        static DataFrame_Impl create( Args&&... args){
+            return from_list( List::create( std::forward<Args>(args)... ) ) ;
         }
           
         #define Vector DataFrame

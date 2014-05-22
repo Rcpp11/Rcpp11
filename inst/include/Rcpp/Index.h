@@ -18,9 +18,7 @@ namespace Rcpp{
             typename... Args, 
             typename = typename std::enable_if< ValidIndexArgs<N,Args...>() >::type 
         >
-        Index( Args... args ) {
-            set_dim(args...) ;    
-        }
+        Index( Args... args ) : dimensions({{ static_cast<size_t>(args)... }}) {}
         
         template < 
             typename... Args, 
@@ -41,7 +39,7 @@ namespace Rcpp{
         inline operator SEXP() { return wrap( dimensions ); }
         
         inline size_t& operator[](int i){
-          return dimensions[i] ;
+            return dimensions[i] ;
         }
         
     private:
@@ -53,16 +51,6 @@ namespace Rcpp{
         
         size_t get_index( size_t first ){
             return first ;
-        }
-        
-        template <typename First, typename... Args>
-        void set_dim( First first, Args... args) {
-            dimensions[N-1-sizeof...(Args)] = static_cast<size_t>(first) ;
-            set_dim(args...) ;
-        }
-        
-        void set_dim( size_t first ){
-            dimensions[N-1] = first ;    
         }
         
         std::array<size_t,N> dimensions ;

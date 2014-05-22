@@ -40,8 +40,8 @@ namespace Rcpp {
     
     template <typename First, typename... Args>
     struct PairlistHelper<First, Args...>{
-        static inline SEXP get(const First& first, const Args&... pack){
-            return grow( first, PairlistHelper<Args...>::get( pack... ) ) ; 
+        static inline SEXP get(const First& first, Args&&... pack){
+            return grow( first, PairlistHelper<Args...>::get( std::forward<Args>(pack)... ) ) ; 
         }
     } ;
     
@@ -52,12 +52,12 @@ namespace Rcpp {
     
     
     template <typename... Args>
-    inline SEXP pairlist( const Args&... args ){
-        return PairlistHelper<Args...>::get( args... ) ;    
+    inline SEXP pairlist( Args&&... args ){
+        return PairlistHelper<Args...>::get( std::forward<Args>(args)... ) ;    
     }
     template <typename... Args>
-    inline SEXP language( const Args&... args ){
-        Shield<SEXP> call = pairlist( args... ) ;
+    inline SEXP language( Args&&... args ){
+        Shield<SEXP> call = pairlist( std::forward<Args>(args)... ) ;
         SET_TAG(call, R_NilValue);
         SET_TYPEOF(call, LANGSXP) ;
         return call ;
