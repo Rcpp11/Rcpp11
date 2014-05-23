@@ -97,12 +97,12 @@ namespace Rcpp{
             // in essence, set_values extract data by dereferencing and incrementing the iterators from the pack
             // then calls the function and store the result into the target iterator
             template <typename Iterator, typename Pack, int... S>
-            void set_values( Iterator& it, Pack& iterators, Rcpp::traits::sequence<S...> ) const {
-                *it = fun( extract<S, typename std::tuple_element<S,Pack>::type >( std::get<S>(iterators) ) ... ) ;
+            inline void set_values( Iterator& it, Pack& iterators, Rcpp::traits::sequence<S...> ) const {
+                *it = fun( extract( std::get<S>(iterators) ) ... ) ;
                 ++it ;
             }
             
-            template <int INDEX, typename It>
+            template <typename It>
             auto extract( It& it) const -> decltype(*it){
                 decltype(*it) val = *it ;
                 ++it ;
@@ -136,6 +136,12 @@ namespace Rcpp{
         return sugar::Mapply<Function,Args...>( fun, std::forward<Args>(args) ... ) ;
     }
 
+    template <typename Function,typename... Args>
+    typename sugar::Mapply<Function,Args...>
+    map( Function fun, Args&&... args ){   
+        return sugar::Mapply<Function,Args...>( fun, std::forward<Args>(args) ... ) ;
+    }
+    
 } // Rcpp
 
 #endif
