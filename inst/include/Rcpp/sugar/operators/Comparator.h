@@ -31,6 +31,31 @@ namespace Rcpp{
         } ;
         
     
+        template <int RTYPE, bool LHS_NA, typename T, template <class> class Op>
+        class Comparator_With_One_Value : public SugarVectorExpression< LGLSXP, true, Comparator_With_One_Value<RTYPE,LHS_NA,T,Op> > {
+        public:
+            typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,T> VEC_TYPE ;
+            typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+            
+            typedef typename Rcpp::comp_op_type<RTYPE,LHS_NA,true,Op>::type Operator ;
+            
+            Comparator_With_One_Value( const VEC_TYPE& lhs_, STORAGE rhs_ ) : lhs(lhs_), rhs(rhs_){}
+        
+            inline int operator[]( int i ) const {
+                return op( lhs[i], rhs ) ;
+            }
+        
+            inline int size() const { return lhs.size() ; }
+        
+        private:
+            const VEC_TYPE& lhs ;
+            STORAGE rhs ;
+            Operator op ;
+        
+        } ;
+
+        
+        
     }
 }
 
