@@ -180,8 +180,6 @@ namespace Rcpp{
 #include <Rcpp/internal/Proxy_Iterator.h>
 #include <Rcpp/internal/converter.h>
 
-#include <Rcpp/sugar/sugar_forward.h>
-
 #include <Rcpp/longlong.h>
 #include <Rcpp/transient_vector.h>
 
