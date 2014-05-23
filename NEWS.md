@@ -47,9 +47,10 @@
   this requirement. The implementation differs from Kevin Ushey's implementation 
   in Rcpp, which IMHO tries to do too much. 
 
-* New sugar function `filter` #140. 
+* New sugar functions `filter`, `reduce` and `map` (synonym of `mapply`) #140. 
 
-* New function `negate` #140. 
+* New function `negate`, `compose` for intial attempt at functional programming 
+  and function composition #140. 
   
 # Rcpp11 3.1.0.1
 
