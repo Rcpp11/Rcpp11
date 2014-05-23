@@ -18,6 +18,8 @@ namespace Rcpp {
         
         public:    
             Reduce( const Expr& expr_, Callable f_ ) : expr(expr_), f(f_) {
+                if( expr.size() < 2 ) 
+                    stop( "need at least two data points in reduce" ) ;
                 auto it = sugar_begin(expr) ;
                 auto init = *it ;
                 ++it ;
