@@ -160,6 +160,7 @@ namespace Rcpp{
 
 #include <Rcpp/internal/na.h>
 #include <Rcpp/traits/traits.h>
+#include <Rcpp/sugar/functional/functional.h>
 #include <Rcpp/Named.h>
 
 #include <Rcpp/internal/caster.h>

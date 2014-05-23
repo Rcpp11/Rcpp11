@@ -2,10 +2,10 @@
 #define Rcpp__sugar__functional__negate_h
 
 namespace Rcpp {
-    namespace sugar {
+    namespace functional {
         
         template <typename Callable>
-        class Negate {
+        class Negate : public Functoid<Negate<Callable>> {
         private:
             Callable f ;
         
@@ -22,8 +22,13 @@ namespace Rcpp {
     }
     
     template <typename Callable>
-    sugar::Negate<Callable> negate( Callable f ){
-        return sugar::Negate<Callable>(f) ;
+    functional::Negate<Callable> negate( Callable f ){
+        return functional::Negate<Callable>(f) ;
+    }
+    
+    template <typename T>
+    functional::Negate<T> operator!( const functional::Functoid<T>& fun){
+        return functional::Negate<T>( fun.get_ref() ) ;    
     }
     
 } // end namespace Rcpp
