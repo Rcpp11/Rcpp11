@@ -48,6 +48,8 @@
   in Rcpp, which IMHO tries to do too much. 
 
 * New sugar function `filter` #140. 
+
+* New function `negate` #140. 
   
 # Rcpp11 3.1.0.1
 
