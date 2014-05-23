@@ -9,11 +9,8 @@
 // arith operators
 #include <Rcpp/sugar/operators/Arith.h>
 #include <Rcpp/sugar/operators/arith_Vector_Vector.h>
-
-#include <Rcpp/sugar/operators/plus.h>
-#include <Rcpp/sugar/operators/minus.h>
-#include <Rcpp/sugar/operators/times.h>
-#include <Rcpp/sugar/operators/divides.h>
+#include <Rcpp/sugar/operators/arith_Vector_Primitive.h>
+#include <Rcpp/sugar/operators/arith_Primitive_Vector.h>
 
 // unary operators
 #include <Rcpp/sugar/operators/not.h>

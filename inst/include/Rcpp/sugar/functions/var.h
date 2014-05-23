@@ -14,7 +14,7 @@ public:
 
     STORAGE get() const{
         STORAGE m = mean(object).get() ;
-        Minus_Vector_Primitive<RTYPE,NA,T> mm( object, m) ;
+        Arith_Vector_Primitive<RTYPE,NA,T,std::minus> mm( object, m) ;
         STORAGE ssq  = sum( pow(mm,2.0) ).get() ;
         return ssq / (object.size() - 1 ) ;    
     }
