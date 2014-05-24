@@ -1,6 +1,10 @@
 #ifndef Rcpp__sugar__operators__operators_h
 #define Rcpp__sugar__operators__operators_h
 
+#include <Rcpp/sugar/operators/r_binary_op.h>
+#include <Rcpp/sugar/operators/r_arith_op.h>
+#include <Rcpp/sugar/operators/unary_op_type.h>
+
 // binary operators
 #include <Rcpp/sugar/operators/Comparator.h>
 #include <Rcpp/sugar/operators/logical_operators__Vector__Vector.h> 
@@ -13,7 +17,7 @@
 #include <Rcpp/sugar/operators/arith_Primitive_Vector.h>
 
 // unary operators
+#include <Rcpp/sugar/operators/Unary.h>
 #include <Rcpp/sugar/operators/not.h>
-#include <Rcpp/sugar/operators/unary_minus.h>
 
 #endif
