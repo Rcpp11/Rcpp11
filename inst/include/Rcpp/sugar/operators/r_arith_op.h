@@ -5,16 +5,6 @@ namespace Rcpp{
     namespace internal{  
         
         template <typename T, typename Op>
-        struct arith_op_no_check {
-            Op op ;
-            
-            inline auto operator()(T x, T y) const -> decltype( op(x,y) ) {
-                return op(x,y) ;    
-            }
-            
-        } ;
-        
-        template <typename T, typename Op>
         struct arith_op_check_lhs {
             Op op ;
             
@@ -55,7 +45,7 @@ namespace Rcpp{
           
         typedef typename std::conditional<
             RTYPE == REALSXP,
-            internal::arith_op_no_check<T,Op>,
+            Op,
             typename std::conditional<
                 LHS_NA,
                 typename std::conditional<
@@ -66,7 +56,7 @@ namespace Rcpp{
                 typename std::conditional<
                     RHS_NA, 
                     internal::arith_op_check_rhs<T,Op>, 
-                    internal::arith_op_no_check<T,Op>
+                    Op
                 >::type
             >::type
         >::type type ;
