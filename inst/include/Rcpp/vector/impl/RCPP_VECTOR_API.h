@@ -15,7 +15,7 @@
     }
         
     inline void set(SEXP x){                                                                  
-        data = r_cast<RTYPE>( x ) ;                                                           
+        set_data(r_cast<RTYPE>(x)) ;                                                           
     }                                                                                         
                                                                                               
     Vector(int n) {                                                                           
@@ -47,10 +47,10 @@
         return *this ;                                                                        
     }                                                                                         
     inline stored_type* dataptr(){                                                            
-        return reinterpret_cast<stored_type*>( DATAPTR(data) );                               
+        return cache ;
     }                                                                                         
     inline const stored_type* dataptr() const{                                                
-        return reinterpret_cast<const stored_type*>( DATAPTR(data) );                         
+        return const_cast<const value_type*>(cache) ;
     }                                                                                         
     using NameProxyPolicy<VEC>::operator[] ;
 
@@ -62,13 +62,20 @@
     }
         
 private:
+    value_type* cache ;
+    
+    inline void set_data( SEXP x){
+        data = x ;
+        cache = reinterpret_cast<value_type*>(DATAPTR(x)) ;
+    }
+    
     inline void reset(int n){
-        data = Rf_allocVector(RTYPE, n) ;        
+        set_data(Rf_allocVector(RTYPE, n)) ;
     }
     
     template <bool NA, typename Expr>
     inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-        data = other.get_ref() ;    
+        set_data( other.get_ref() );    
     }
     
     template <bool NA, typename Expr>
@@ -84,7 +91,7 @@ private:
     
     template <bool NA, typename Expr>
     inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
-        data = other.get_ref() ;    
+        set_data( other.get_ref() );    
     }
     
     template <bool NA, typename Expr>

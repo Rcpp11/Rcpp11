@@ -64,11 +64,11 @@ namespace Rcpp{
         
         inline reference operator[](int i){ 
             RCPP_CHECK_BOUNDS(i)
-            return *( dataptr() + i ) ;
+            return dataptr()[i] ;
         }
         inline const_reference operator[](int i) const { 
             RCPP_CHECK_BOUNDS(i)
-            return *( dataptr() + i ); 
+            return dataptr()[i] ; 
         }
         
     } ;

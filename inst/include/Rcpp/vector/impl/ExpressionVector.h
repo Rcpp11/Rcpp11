@@ -41,7 +41,7 @@ namespace Rcpp{
             if( status != PARSE_OK ){
                 throw parse_error() ;
             }
-            data = res ;
+            set_data(res) ;
         }
      
     } ;
