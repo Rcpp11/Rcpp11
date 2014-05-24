@@ -33,6 +33,10 @@ inline Rcomplex operator-( const Rcomplex& lhs ){
     return Rcomplex{ -lhs.r, -lhs.i } ;    
 }
 
+inline int operator!( const Rcomplex& lhs ){
+    return lhs.r != 0.0 || lhs.i != 0.0 ;    
+}
+
 inline Rcomplex operator/( const Rcomplex& a, const Rcomplex& b){
     Rcomplex c ;
     double ratio, den;

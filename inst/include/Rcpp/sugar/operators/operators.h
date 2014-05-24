@@ -18,6 +18,5 @@
 
 // unary operators
 #include <Rcpp/sugar/operators/Unary.h>
-#include <Rcpp/sugar/operators/not.h>
 
 #endif

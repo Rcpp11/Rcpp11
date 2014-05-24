@@ -37,5 +37,11 @@ operator-( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& x ) {
     return Rcpp::sugar::Unary<RTYPE,(RTYPE==LGLSXP?INTSXP:RTYPE),NA,T,std::negate>( x ) ;
 }
 
+template <int RTYPE,bool NA, typename T>
+inline Rcpp::sugar::Unary<RTYPE, LGLSXP, NA,T,std::logical_not>
+operator!( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& x ) {
+    return Rcpp::sugar::Unary<RTYPE,LGLSXP,NA,T,std::logical_not>( x ) ;
+}
+
 
 #endif
