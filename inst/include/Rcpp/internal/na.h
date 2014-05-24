@@ -51,14 +51,16 @@ inline bool is_NA(double x) {
 // expect that software using Rcpp might encode the type of
 // NaN in their output.
 //
+// To modify the above -- actually, we see that 0/0 and NaN
+// are different values on 64bit architectures. Regardless,
+// we should assume that people might encode different types
+// of NaN values within R and capture those.
+//
 // One can test this with pryr; try using the 'bytes' and
 // 'bits' functions to see what you get for NA_real_,
 // NA_real_ + 1, NaN, NaN + 1, 0/0...
-//
-// Can we use std::isnan or should we always delegate to R
-// here?
 inline bool is_NaN(double x) {
-  return R_IsNaN(x);
+  return std::isnan(x) && !is_NA(x);
 }
 
 }
