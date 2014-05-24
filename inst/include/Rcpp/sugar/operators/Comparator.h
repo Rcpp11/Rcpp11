@@ -6,7 +6,8 @@ namespace Rcpp{
     
         template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T, template <class> class Op >
         class Comparator : 
-            public SugarVectorExpression< LGLSXP, LHS_NA || RHS_NA , Comparator<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, Op> > {
+            public SugarVectorExpression< LGLSXP, LHS_NA || RHS_NA , Comparator<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, Op> >, 
+            public custom_sugar_vector_expression {
         
         public:
             typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
@@ -23,6 +24,11 @@ namespace Rcpp{
         
             inline int size() const { return lhs.size() ; }
         
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(lhs), sugar_end(lhs), sugar_begin(rhs), target.begin(), op ) ;        
+            }
+            
         private:
             const LHS_TYPE& lhs ;
             const RHS_TYPE& rhs ;
@@ -32,7 +38,10 @@ namespace Rcpp{
         
     
         template <int RTYPE, bool LHS_NA, typename T, template <class> class Op>
-        class Comparator_With_One_Value : public SugarVectorExpression< LGLSXP, true, Comparator_With_One_Value<RTYPE,LHS_NA,T,Op> > {
+        class Comparator_With_One_Value : 
+            public SugarVectorExpression< LGLSXP, true, Comparator_With_One_Value<RTYPE,LHS_NA,T,Op> >, 
+            public custom_sugar_vector_expression 
+        {
         public:
             typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,T> VEC_TYPE ;
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -47,6 +56,17 @@ namespace Rcpp{
         
             inline int size() const { return lhs.size() ; }
         
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                if( rhs == NA ) {
+                    std::fill( target.begin(), target.end(), NA_INTEGER ) ;
+                } else {
+                    std::transform( sugar_begin(lhs), sugar_end(lhs), target.begin(), [this]( STORAGE x){
+                        return typename Rcpp::arith_op_type<RTYPE,LHS_NA,false,Op>::type()( x, rhs ) ;            
+                    }) ; 
+                }
+            }
+            
         private:
             const VEC_TYPE& lhs ;
             STORAGE rhs ;

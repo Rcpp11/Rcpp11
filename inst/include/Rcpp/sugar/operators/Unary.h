@@ -6,8 +6,9 @@ namespace Rcpp{
         
         template <int RTYPE, int OUT_RTYPE, bool LHS_NA, typename LHS_T, template <class> class Op >
         class Unary : 
-            public SugarVectorExpression<RTYPE, LHS_NA , Unary<RTYPE,OUT_RTYPE,LHS_NA,LHS_T, Op> >
-            {
+            public SugarVectorExpression<RTYPE, LHS_NA , Unary<RTYPE,OUT_RTYPE,LHS_NA,LHS_T, Op> >,
+            public custom_sugar_vector_expression
+        {
         public:
             typedef typename traits::storage_type<OUT_RTYPE>::type STORAGE ;
             typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
@@ -21,6 +22,10 @@ namespace Rcpp{
         
             inline int size() const { return lhs.size() ; }
               
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(lhs), sugar_end(lhs), target.begin(), op ) ;        
+            }
             
         private:     
             

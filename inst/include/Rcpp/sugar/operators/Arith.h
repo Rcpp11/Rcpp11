@@ -6,7 +6,8 @@ namespace Rcpp{
         
         template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T, template <class> class Op >
         class Arith_Vector_Vector : 
-            public SugarVectorExpression<RTYPE, LHS_NA || RHS_NA , Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, Op> >
+            public SugarVectorExpression<RTYPE, LHS_NA || RHS_NA , Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, Op> >,
+            public custom_sugar_vector_expression
             {
         public:
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -23,6 +24,10 @@ namespace Rcpp{
         
             inline int size() const { return lhs.size() ; }
               
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::transform( sugar_begin(lhs), sugar_end(lhs), sugar_begin(rhs), target.begin(), op ) ;       
+            }
             
         private:     
             
@@ -33,7 +38,8 @@ namespace Rcpp{
         
         template <int RTYPE, bool LHS_NA, typename LHS_T, template <class> class Op >
         class Arith_Vector_Primitive : 
-            public SugarVectorExpression<RTYPE, true , Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, Op> >
+            public SugarVectorExpression<RTYPE, true , Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, Op> >, 
+            public custom_sugar_vector_expression
             {
         public:
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -49,6 +55,16 @@ namespace Rcpp{
         
             inline int size() const { return lhs.size() ; }
               
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                if( rhs == NA ) {
+                    std::fill( target.begin(), target.end(), rhs ) ;
+                } else {
+                    std::transform( sugar_begin(lhs), sugar_end(lhs), target.begin(), [this]( STORAGE x){
+                        return typename Rcpp::arith_op_type<RTYPE,LHS_NA,false,Op>::type()( x, rhs ) ;            
+                    }) ;    
+                }
+            }
             
         private:     
             
@@ -59,7 +75,8 @@ namespace Rcpp{
         
         template <int RTYPE, bool RHS_NA, typename RHS_T, template <class> class Op >
         class Arith_Primitive_Vector : 
-            public SugarVectorExpression<RTYPE, true , Arith_Primitive_Vector<RTYPE,RHS_NA,RHS_T, Op> >
+            public SugarVectorExpression<RTYPE, true , Arith_Primitive_Vector<RTYPE,RHS_NA,RHS_T, Op> >, 
+            public custom_sugar_vector_expression
             {
         public:
             typedef typename traits::storage_type<RTYPE>::type STORAGE ;
@@ -75,7 +92,17 @@ namespace Rcpp{
         
             inline int size() const { return rhs.size() ; }
               
-            
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                if( lhs == NA ) {
+                    std::fill( target.begin(), target.end(), lhs ) ;
+                } else {
+                    std::transform( sugar_begin(rhs), sugar_end(rhs), target.begin(), [this]( STORAGE x){
+                        return typename Rcpp::arith_op_type<RTYPE,false,RHS_NA,Op>::type()( lhs, x ) ;            
+                    }) ;    
+                }
+                       
+            }
         private:     
             
             STORAGE lhs ;
