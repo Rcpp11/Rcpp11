@@ -28,7 +28,11 @@ inline Rcomplex operator-( const Rcomplex& lhs, const Rcomplex& rhs){
     y.i = lhs.i - rhs.i ;
     return y ;
 }
-   
+ 
+inline Rcomplex operator-( const Rcomplex& lhs ){
+    return Rcomplex{ -lhs.r, -lhs.i } ;    
+}
+
 inline Rcomplex operator/( const Rcomplex& a, const Rcomplex& b){
     Rcomplex c ;
     double ratio, den;
