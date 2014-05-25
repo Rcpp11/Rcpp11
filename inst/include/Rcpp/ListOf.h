@@ -19,7 +19,7 @@ namespace Rcpp{
             return data ;    
         }
         
-        ListOf( int n, const T& obj ) : data(n, obj) {}
+        ListOf( R_xlen_t n, const T& obj ) : data(n, obj) {}
         
         ListOf( std::initializer_list<T> list ) : data(list.size()) {
             std::copy( list.begin(), list.end(), data.begin() );    
@@ -27,7 +27,7 @@ namespace Rcpp{
         
         class Proxy : public GenericProxy<Proxy> {
         public:
-            Proxy( int i_ ) : i(i_){}
+            Proxy( R_xlen_t i_ ) : i(i_){}
             
             inline operator T() const {
                 return as<T>( data[i] ) ;    
@@ -38,18 +38,18 @@ namespace Rcpp{
             }
             
         private:
-            int i ;
+            R_xlen_t i ;
         } ;
         
-        Proxy operator[](int i){
+        Proxy operator[](R_xlen_t i){
             return Proxy( i ) ;    
         }
         
-        const Proxy operator[]( int i) const {
+        const Proxy operator[]( R_xlen_t i) const {
             return Proxy( i );    
         }
         
-        inline int size() const { return data.size(); }
+        inline R_xlen_t size() const { return data.size(); }
         
         std::vector<T> force() const {
             std::vector<T> v ;

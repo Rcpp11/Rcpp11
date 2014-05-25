@@ -10,7 +10,7 @@ namespace Rcpp{
         public:
             SeqLen( int len_ ) : len(len_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return 1 + i ;
             }
             inline int size() const { return len ; }

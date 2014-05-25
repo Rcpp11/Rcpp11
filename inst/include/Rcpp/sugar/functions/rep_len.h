@@ -16,7 +16,7 @@ public:
     Rep_len( const VEC_TYPE& object_, int len_ ) :
         object(object_.get_ref()), len(len_), n(object_.size()){}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return object[ i % n ] ;
     }
     inline int size() const { return len ; }

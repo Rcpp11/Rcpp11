@@ -17,7 +17,7 @@ namespace Rcpp{
             Lapply( const VEC& vec_, Function fun_ ) : 
                 vec(vec_), fun(fun_){}
         
-            inline SEXP operator[]( int i ) const {
+            inline SEXP operator[]( R_xlen_t i ) const {
                 return Rcpp::wrap( fun( vec[i] ) );
             }
             inline int size() const { return vec.size() ; }

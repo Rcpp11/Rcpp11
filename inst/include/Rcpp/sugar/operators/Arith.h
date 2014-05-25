@@ -18,7 +18,7 @@ namespace Rcpp{
             Arith_Vector_Vector( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
                 lhs(lhs_), rhs(rhs_) {}
         
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return op(lhs[i], rhs[i]) ;
             }
         
@@ -49,7 +49,7 @@ namespace Rcpp{
             Arith_Vector_Primitive( const LHS_TYPE& lhs_, STORAGE rhs_ ) : 
                 lhs(lhs_), rhs(rhs_) {}
         
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return op(lhs[i], rhs) ;
             }
         
@@ -86,7 +86,7 @@ namespace Rcpp{
             Arith_Primitive_Vector( STORAGE lhs_, const RHS_TYPE& rhs_ ) : 
                 lhs(lhs_), rhs(rhs_) {}
         
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return op(lhs, rhs[i]) ;
             }
         

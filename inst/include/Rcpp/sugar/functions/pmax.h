@@ -86,7 +86,7 @@ public:
 
     Pmax_Vector_Vector( const LHS_T& lhs_, const RHS_T& rhs_ ) : lhs(lhs_), rhs(rhs_), op() {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return op( lhs[i], rhs[i] ) ;
     }
     inline int size() const { return lhs.size() ; }
@@ -114,7 +114,7 @@ public:
 
     Pmax_Vector_Primitive( const LHS_T& lhs_, STORAGE rhs_ ) : lhs(lhs_), op(rhs_) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return op( lhs[i] ) ;
     }
     inline int size() const { return lhs.size() ; }

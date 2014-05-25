@@ -26,7 +26,7 @@ public:
             /* FIXME : cond, lhs and rhs must all have the same size */
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         int x = cond[i] ;
         if( Rcpp::traits::is_na<LGLSXP>(x) ) return x ;
         if( x ) return lhs[i] ;
@@ -62,7 +62,7 @@ public:
     IfElse( const COND_TYPE& cond_, const LHS_TYPE& lhs_, const RHS_TYPE& rhs_ ) : 
         cond(cond_), lhs(lhs_), rhs(rhs_) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         if( cond[i] ) return lhs[i] ;
         return rhs[i] ;
     }
@@ -98,7 +98,7 @@ public:
     IfElse_Primitive_Vector( const COND_TYPE& cond_, STORAGE lhs_, const RHS_TYPE& rhs_ ) : 
         cond(cond_), lhs(lhs_), rhs(rhs_) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         int x = cond[i] ;
         if( Rcpp::traits::is_na<LGLSXP>(x) ) return x ;
         if( x ) return lhs ;
@@ -132,7 +132,7 @@ public:
     IfElse_Primitive_Vector( const COND_TYPE& cond_, STORAGE lhs_, const RHS_TYPE& rhs_ ) : 
         cond(cond_), lhs(lhs_), rhs(rhs_) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         if( cond[i] ) return lhs ;
         return rhs[i] ;
     }
@@ -170,7 +170,7 @@ public:
             /* FIXME : cond, lhs and rhs must all have the same size */
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         int x = cond[i] ;
         if( x == NA ) return NA ;
         if( x ) return lhs[i] ;
@@ -204,7 +204,7 @@ public:
     IfElse_Vector_Primitive( const COND_TYPE& cond_, const LHS_TYPE& lhs_, STORAGE rhs_ ) : 
         cond(cond_), lhs(lhs_), rhs(rhs_) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         if( cond[i] ) return lhs[i] ;
         return rhs ;
     }
@@ -242,7 +242,7 @@ public:
             /* FIXME : cond, lhs and rhs must all have the same size */
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         int x = cond[i] ;
         if( x == NA ) return NA ;
         return x ? lhs : rhs ;
@@ -275,7 +275,7 @@ public:
             /* FIXME : cond, lhs and rhs must all have the same size */
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return cond[i] ? lhs : rhs ;
     }
 

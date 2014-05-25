@@ -19,7 +19,7 @@ public:
         }
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return object[ i ] ;
     }
     inline int size() const { return n; }

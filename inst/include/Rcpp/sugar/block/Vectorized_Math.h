@@ -14,7 +14,7 @@ namespace Rcpp{
             typedef typename Rcpp::SugarVectorExpression<REALSXP,HAS_NA,VEC> VEC_TYPE ;
                 
             Vectorized( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-            inline double operator[]( int i) const {
+            inline double operator[]( R_xlen_t i) const {
                 return Func( object[i] ) ;
             }
             inline int size() const { return object.size(); }
@@ -36,7 +36,7 @@ namespace Rcpp{
             typedef typename Rcpp::SugarVectorExpression<INTSXP,HAS_NA,VEC> VEC_TYPE ;
                 
             Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-            inline double operator[]( int i) const {
+            inline double operator[]( R_xlen_t i) const {
                 int x = object[i] ;
                 if( x == NA_INTEGER ) return NA_REAL ;
                 return Func( x ) ;
@@ -62,7 +62,7 @@ namespace Rcpp{
             typedef typename Rcpp::SugarVectorExpression<INTSXP,false,VEC> VEC_TYPE ;
                 
             Vectorized_INTSXP( const VEC_TYPE& object_) : object( object_.get_ref() ){}
-            inline double operator[]( int i) const {
+            inline double operator[]( R_xlen_t i) const {
                 return Func( object[i] ) ;
             }
             inline int size() const { return object.size(); }

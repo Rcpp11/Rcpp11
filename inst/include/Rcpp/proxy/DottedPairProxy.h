@@ -9,7 +9,7 @@ namespace Rcpp {
         
         class DottedPairProxy : public GenericProxy<DottedPairProxy> {
         public:
-            DottedPairProxy( CLASS& v, int index_ ) : node(R_NilValue){
+            DottedPairProxy( CLASS& v, R_xlen_t index_ ) : node(R_NilValue){
                 if( index_ >= v.length() ) throw index_out_of_bounds() ;
                 SEXP x = v ; /* implicit conversion */
                 for( int i = 0; i<index_; i++, x = CDR(x) ) ;
@@ -58,10 +58,10 @@ namespace Rcpp {
             SEXP node ;
         } ;
     
-        DottedPairProxy operator[]( int i){
+        DottedPairProxy operator[]( R_xlen_t i){
             return DottedPairProxy( static_cast<CLASS&>(*this), i ) ;    
         }
-        const DottedPairProxy operator[](int i) const{
+        const DottedPairProxy operator[](R_xlen_t i) const{
             return DottedPairProxy( const_cast<CLASS&>(static_cast<const CLASS&>(*this)), i ) ;
         }
         

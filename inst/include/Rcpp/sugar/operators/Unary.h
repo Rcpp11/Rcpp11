@@ -16,7 +16,7 @@ namespace Rcpp{
         
             Unary( const LHS_TYPE& lhs_) : lhs(lhs_){}
         
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return op(lhs[i]) ;
             }
         

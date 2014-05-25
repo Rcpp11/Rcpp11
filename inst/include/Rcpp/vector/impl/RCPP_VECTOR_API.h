@@ -75,7 +75,6 @@ private:
         len = n ; 
     }
     
-    
     inline R_xlen_t get_length(SEXP x){
         #if defined(LONG_VECTOR_SUPPORT)
             R_xlen_t n = SHORT_VEC_LENGTH(x) ;

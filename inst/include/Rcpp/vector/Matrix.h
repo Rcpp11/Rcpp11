@@ -65,8 +65,8 @@ namespace Rcpp{
         inline const iterator begin() const { return vec.begin() ; }
         inline const iterator end() const { return vec.end(); }
               
-        inline Proxy operator[](int i){ return vec[i] ; }
-        inline const Proxy operator[](int i) const{ return vec[i] ; }
+        inline Proxy operator[](R_xlen_t i){ return vec[i] ; }
+        inline const Proxy operator[](R_xlen_t i) const{ return vec[i] ; }
         
         inline Proxy operator()(int i, int j) { 
             return vec[offset(i,j)] ; 

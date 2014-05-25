@@ -15,7 +15,7 @@ namespace Rcpp{
             return end_ - start + 1;
         }
                 
-        inline int operator[]( int i) const {
+        inline int operator[]( R_xlen_t i) const {
             return start + i ;
         }
                 

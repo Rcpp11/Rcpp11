@@ -25,7 +25,7 @@ public:
 
     Sapply( const VEC& vec_, Function fun_ ) : vec(vec_), fun(fun_){}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return converter_type::get( fun( vec[i] ) );
     }
     inline int size() const { return vec.size() ; }
@@ -64,7 +64,7 @@ public:
         RCPP_DEBUG( "Sapply  = %s", DEMANGLE(Sapply) )
     }
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return fun( vec[i] ) ;
     }
     inline int size() const { return vec.size() ; }

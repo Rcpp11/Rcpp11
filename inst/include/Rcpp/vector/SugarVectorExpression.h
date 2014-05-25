@@ -18,7 +18,7 @@ namespace Rcpp{
         typedef typename traits::storage_type<RTYPE>::type stored_type ; 
         typedef typename traits::storage_type<RTYPE>::type elem_type   ;
         
-        inline stored_type operator[]( int i) const {
+        inline stored_type operator[]( R_xlen_t i) const {
             return get_ref()[i] ;
         }
         

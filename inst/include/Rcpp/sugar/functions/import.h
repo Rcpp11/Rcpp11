@@ -12,7 +12,7 @@ namespace sugar{
     public:
         Import( InputIterator begin_, InputIterator end_ ): begin(begin_), end(end_), n( std::distance(begin, end) ){}
         
-        inline storage_type operator[]( int i ) const {
+        inline storage_type operator[]( R_xlen_t i ) const {
             return *(begin + i) ;
         }
         inline int size() const { return n ; }
@@ -36,7 +36,7 @@ namespace sugar{
     public:
         Import( InputIterator begin_, InputIterator end_ ): begin(begin_), end(end_), n( std::distance(begin, end) ){}
         
-        inline storage_type operator[]( int i ) const {
+        inline storage_type operator[]( R_xlen_t i ) const {
             return Rcpp::internal::caster<value_type,storage_type>( *(begin + i) ) ;
         }
         inline int size() const { return n ; }

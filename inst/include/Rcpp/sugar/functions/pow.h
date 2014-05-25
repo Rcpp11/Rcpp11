@@ -11,7 +11,7 @@ public:
 
     Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
 
-    inline double operator[]( int i ) const {
+    inline double operator[]( R_xlen_t i ) const {
         return ::pow( object[i], op );
     }
     inline int size() const { return object.size() ; }
@@ -26,7 +26,7 @@ class Pow<INTSXP,NA,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP ,NA
 public:
     Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
 
-    inline double operator[]( int i ) const {
+    inline double operator[]( R_xlen_t i ) const {
         int x = object[i] ;
         return x == NA_INTEGER ? NA_INTEGER : ::pow( x, op );
     }
@@ -41,7 +41,7 @@ class Pow<INTSXP,false,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP 
 public:
     Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
 
-    inline double operator[]( int i ) const {
+    inline double operator[]( R_xlen_t i ) const {
         return ::pow( object[i], op );
     }
     inline int size() const { return object.size() ; }

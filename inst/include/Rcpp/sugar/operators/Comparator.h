@@ -18,7 +18,7 @@ namespace Rcpp{
             Comparator( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) : 
                 lhs(lhs_), rhs(rhs_) {}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return op( lhs[i], rhs[i] );
             }
         
@@ -50,7 +50,7 @@ namespace Rcpp{
             
             Comparator_With_One_Value( const VEC_TYPE& lhs_, STORAGE rhs_ ) : lhs(lhs_), rhs(rhs_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return op( lhs[i], rhs ) ;
             }
         

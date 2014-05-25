@@ -16,7 +16,7 @@ namespace Rcpp{
             Rep( const VEC_TYPE& object_, int times_ ) : 
                 object(object_.get_ref()), times(times_), n(object_.size()){}
             
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return object[ i % n ] ;
             }
             inline int size() const { return times * n ; }
@@ -50,7 +50,7 @@ namespace Rcpp{
         public:
             Rep_Single( T x_, int n_) : x(x_), n(n_){}
             
-            inline T operator[]( int i ) const {
+            inline T operator[]( R_xlen_t i ) const {
                 return x;
             }
             inline int size() const { return n ; }

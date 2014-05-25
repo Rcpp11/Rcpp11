@@ -10,7 +10,7 @@ namespace sugar {
     public:
         typedef typename T::stored_type  stored_type  ;
         typedef stored_type value_type  ;
-        typedef int difference_type  ;
+        typedef R_xlen_t difference_type  ;
         typedef stored_type reference ;
         typedef const stored_type const_reference ;
         typedef stored_type* pointer ;
@@ -47,10 +47,10 @@ namespace sugar {
             index -= n; 
             return *this ;
         }
-        inline reference operator[](int i){
+        inline reference operator[](R_xlen_t i){
             return ref[index+i] ;
         }
-        inline const_reference operator[](int i) const {
+        inline const_reference operator[](R_xlen_t i) const {
             return ref[index+i] ;
         }
     
@@ -91,7 +91,7 @@ namespace sugar {
         
     private:   
         const T& ref ;
-        int index ;
+        R_xlen_t index ;
     } ;
     
     template <int RTYPE, bool NA, typename Expr>

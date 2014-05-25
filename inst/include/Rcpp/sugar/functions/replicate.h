@@ -11,7 +11,7 @@ namespace Rcpp{
         public:
             Replicate( size_t n_, CallType call_ ): n(n_), call(std::move(call_)) {}
             
-            inline OUT operator[]( int i ) const {
+            inline OUT operator[]( R_xlen_t i ) const {
                 return call() ;
             }
             inline int size() const { return n ; }

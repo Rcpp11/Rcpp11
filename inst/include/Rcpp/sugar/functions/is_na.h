@@ -14,7 +14,7 @@ namespace Rcpp{
         
             IsNa( const BASE& obj_) : obj(obj_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return ::Rcpp::traits::is_na<RTYPE>( obj[i] ) ;
             }
         
@@ -43,7 +43,7 @@ namespace Rcpp{
         
             IsNa( const BASE& obj_) : obj(obj_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return FALSE ;
             }
         

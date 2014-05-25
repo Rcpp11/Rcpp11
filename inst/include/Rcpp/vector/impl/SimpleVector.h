@@ -31,7 +31,7 @@ namespace Rcpp{
         #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
     
     public:
-        Vector( int n, init_type x ) {
+        Vector( R_xlen_t n, init_type x ) {
             reset(n);
             std::fill( begin(), end(), x) ;
         }
@@ -62,11 +62,11 @@ namespace Rcpp{
         inline const_iterator begin() const{ return dataptr() ; }
         inline const_iterator end() const{ return dataptr() + size() ; }
         
-        inline reference operator[](int i){ 
+        inline reference operator[](R_xlen_t i){ 
             RCPP_CHECK_BOUNDS(i)
             return dataptr()[i] ;
         }
-        inline const_reference operator[](int i) const { 
+        inline const_reference operator[](R_xlen_t i) const { 
             RCPP_CHECK_BOUNDS(i)
             return dataptr()[i] ; 
         }

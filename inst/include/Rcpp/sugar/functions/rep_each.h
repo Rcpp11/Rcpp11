@@ -17,7 +17,7 @@ public:
     Rep_each( const VEC_TYPE& object_, int times_ ) :
         object(object_.get_ref()), times(times_), n(object_.size()) {}
 
-    inline STORAGE operator[]( int i ) const {
+    inline STORAGE operator[]( R_xlen_t i ) const {
         return object[ i / times ] ;
     }
     inline int size() const { return n * times ; }

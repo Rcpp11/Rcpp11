@@ -5,7 +5,7 @@ namespace Rcpp{
     
     template <int N, typename... Args>
     constexpr bool ValidIndexArgs() {
-        return traits::and_<std::is_convertible<Args, size_t>...>::value && (N == sizeof...(Args) ) ;   
+        return traits::and_<std::is_convertible<Args, int>...>::value && (N == sizeof...(Args) ) ;   
     }
     
     template <int N>
@@ -55,7 +55,7 @@ namespace Rcpp{
             return first ;
         }
         
-        std::array<size_t,N> dimensions ;
+        std::array<int,N> dimensions ;
         
     } ;
      

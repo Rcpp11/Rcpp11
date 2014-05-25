@@ -13,7 +13,7 @@ namespace Rcpp{
             
             IsNaN( const Base& obj_) : obj(obj_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return ::Rcpp::traits::is_nan<RTYPE>( obj[i] ) ;
             }
         

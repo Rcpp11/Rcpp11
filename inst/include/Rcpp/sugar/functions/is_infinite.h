@@ -12,7 +12,7 @@ namespace Rcpp{
         
             IsInfinite( const SugarVectorExpression<RTYPE,NA,VEC_TYPE>& obj_) : obj(obj_){}
         
-            inline int operator[]( int i ) const {
+            inline int operator[]( R_xlen_t i ) const {
                 return ::Rcpp::traits::is_infinite<RTYPE>( obj[i] ) ;
             }
         

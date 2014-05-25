@@ -17,7 +17,7 @@ namespace stats {
         D0( FunPtr ptr_, const VEC_TYPE& vec_, bool log_ ) : 
             ptr(ptr_), vec(vec_), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], log );
         }
     
@@ -38,7 +38,7 @@ namespace stats {
         D1( FunPtr ptr_, const VEC_TYPE& vec_, double p0_ , bool log_) : 
             ptr(ptr_), vec(vec_), p0(p0_), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, log );
         }
     
@@ -60,7 +60,7 @@ namespace stats {
         D2( FunPtr ptr_, const VEC_TYPE& vec_, double p0_, double p1_ , bool log_) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, log );
         }
     
@@ -82,7 +82,7 @@ namespace stats {
         D3( FunPtr ptr_, const VEC_TYPE& vec_, double p0_, double p1_, double p2_ , bool log_ ) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), p2(p2_), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, p2, log );
         }
     
@@ -108,7 +108,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], lower, log );
         }
     
@@ -132,7 +132,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, lower, log );
         }
     
@@ -157,7 +157,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, lower, log );
         }
     
@@ -181,7 +181,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), p2(p2_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, p2, lower, log );
         }
     
@@ -208,7 +208,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], lower, log );
         }
     
@@ -231,7 +231,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, lower, log );
         }
     
@@ -255,7 +255,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, lower, log );
         }
     
@@ -279,7 +279,7 @@ namespace stats {
                bool lower_tail = true, bool log_ = false ) : 
             ptr(ptr_), vec(vec_), p0(p0_), p1(p1_), p2(p2_), lower(lower_tail), log(log_) {}
     
-        inline double operator[]( int i) const {
+        inline double operator[]( R_xlen_t i ) const {
             return ptr( vec[i], p0, p1, p2, lower, log );
         }
     

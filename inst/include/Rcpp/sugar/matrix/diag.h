@@ -16,7 +16,7 @@ namespace Rcpp{
                 n = (nc < nr ) ? nc : nr ;
             }
         
-            inline const STORAGE operator[]( int i ) const {
+            inline const STORAGE operator[]( R_xlen_t i ) const {
                 return object( i, i ) ;
             }
             inline int size() const { return n; }

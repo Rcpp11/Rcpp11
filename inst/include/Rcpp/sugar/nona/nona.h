@@ -13,7 +13,7 @@ namespace Rcpp{
             Nona( const SUGAR_TYPE& expr) : data(expr.get_ref()){} 
             
             inline int size() const { return data.size() ; }
-            inline STORAGE operator[](int i) const { return data[i] ; }
+            inline STORAGE operator[](R_xlen_t i) const { return data[i] ; }
             
         private:
             const VECTOR& data ;    
@@ -30,7 +30,7 @@ namespace Rcpp{
             Nona( const SUGAR_TYPE& expr) : data(expr.get_ref().begin()), n(expr.size()){} 
             
             inline int size() const { return n ; }
-            inline STORAGE operator[](int i) const { return data[i] ; }
+            inline STORAGE operator[](R_xlen_t i) const { return data[i] ; }
             
         private:
             const_iterator data ;

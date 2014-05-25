@@ -83,7 +83,7 @@ namespace Rcpp{
 
         inline int index() const { return proxy.index ; }
 
-        inline PROXY operator[](int i){ return PROXY(proxy.parent, proxy.index + i) ; } 
+        inline PROXY operator[](R_xlen_t i){ return PROXY(proxy.parent, proxy.index + i) ; } 
     
     private:
         PROXY proxy ;

@@ -31,7 +31,7 @@ public:
 
     Sign( const VEC_TYPE& object_ ) : object(object_){}
 
-    inline int operator[]( int i ) const {
+    inline int operator[]( R_xlen_t i ) const {
         return get(i) ;
     }
     inline int size() const { return object.size() ; }

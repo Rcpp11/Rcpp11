@@ -15,7 +15,7 @@ namespace Rcpp{
             Rev( const VEC_TYPE& object_ ) : 
                 object(object_), n(object_.size()) {}
         
-            inline STORAGE operator[]( int i ) const {
+            inline STORAGE operator[]( R_xlen_t i ) const {
                 return object[n - i - 1] ;
             }
             inline int size() const { return n ; }
@@ -31,7 +31,7 @@ namespace Rcpp{
             
         private:
             const VEC_TYPE& object ;
-            int n ;
+            R_xlen_t n ;
         } ;
     
     } // sugar

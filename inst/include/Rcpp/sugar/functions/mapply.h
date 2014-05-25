@@ -56,7 +56,7 @@ namespace Rcpp{
                 fun(fun_),
                 n(std::get<0>(data).size()){}
 
-            inline result_type operator[]( int i ) const {
+            inline result_type operator[]( R_xlen_t i ) const {
                 return eval(i, Sequence() );
             }
             inline int size() const {

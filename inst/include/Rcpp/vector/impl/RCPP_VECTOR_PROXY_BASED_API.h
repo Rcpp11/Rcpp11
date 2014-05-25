@@ -14,11 +14,11 @@
         return iterator( Proxy(const_cast<Vector&>(*this), size()) );
     }
     
-    inline Proxy operator[](int i){
+    inline Proxy operator[](R_xlen_t i){
         RCPP_CHECK_BOUNDS(i)
         return Proxy(*this, i ) ;
     }
-    inline const Proxy operator[](int i) const {
+    inline const Proxy operator[](R_xlen_t i) const {
         RCPP_CHECK_BOUNDS(i)
         return Proxy(const_cast<Vector&>(*this), i ) ; 
     }

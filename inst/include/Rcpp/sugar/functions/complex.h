@@ -197,7 +197,7 @@ namespace Rcpp{
         
             SugarComplex( const VEC_TYPE & vec_) : vec(vec_){}
         
-            inline OUT operator[]( int i) const { 
+            inline OUT operator[]( R_xlen_t i) const { 
                 Rcomplex x = vec[i] ;
                 if( x == NA ) return NA ;
                 return Fun::func( x ); 
