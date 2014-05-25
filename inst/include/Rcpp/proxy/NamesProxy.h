@@ -36,14 +36,13 @@ public:
     
         void set(SEXP x) {
             /* check if we can use a fast version */
-            if( TYPEOF(x) == STRSXP && parent.size() == Rf_length(x) ){
+            if( TYPEOF(x) == STRSXP && parent.size() == Rf_xlength(x) ){
                 SEXP y = parent ; 
                 Rf_setAttrib( y, R_NamesSymbol, x ) ;
             } else {
                 /* use the slower and more flexible version (callback to R) */
                 SEXP namesSym = Rf_install( "names<-" );
                 parent = Rcpp_eval(Rf_lang3( namesSym, parent, x )) ;
-                 
             }
         
         }

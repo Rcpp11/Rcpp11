@@ -8,7 +8,7 @@ namespace internal{
         if( ! Rf_isString(x) ){
             throw ::Rcpp::not_compatible( "expecting a string" ) ;
         }
-        if (Rf_length(x) != 1) {
+        if (Rf_xlength(x) != 1) {
             throw ::Rcpp::not_compatible( "expecting a single value");
         }
         return STRING_ELT( x, 0 ) ;

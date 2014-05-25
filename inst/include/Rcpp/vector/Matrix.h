@@ -32,7 +32,7 @@ namespace Rcpp{
         
         Matrix( SEXP x ){
             SEXP d = Rf_getAttrib(x,R_DimSymbol) ;
-            if( d == R_NilValue || Rf_length(d) != 2)
+            if( d == R_NilValue || Rf_xlength(d) != 2)
                 throw not_a_matrix() ;
             vec = x ;
             dims = INTEGER(d) ;

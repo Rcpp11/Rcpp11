@@ -23,7 +23,7 @@ namespace Rcpp{
             case EXPRSXP:
             case VECSXP:
                 /* lists or expression, try the first one */
-                if( ::Rf_length(x) > 0 ){
+                if( ::Rf_xlength(x) > 0 ){
                     SEXP y = VECTOR_ELT( x, 0 ) ;
                     if( ::Rf_inherits( y, "formula" ) ){
                         data = y ;  

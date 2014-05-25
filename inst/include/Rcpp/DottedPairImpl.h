@@ -33,14 +33,14 @@ namespace Rcpp{
         }
         
         template <typename T>
-        Node insert( const size_t& index, const T& object) {
+        Node insert( R_xlen_t index, const T& object) {
             CLASS& ref = get_ref() ;
             if( index == 0 ) {
                 return push_front( object ) ;
             } else {
                 if( ref.isNULL( ) ) throw index_out_of_bounds() ;
                 
-                if( static_cast<R_len_t>(index) > ::Rf_length(ref) ) throw index_out_of_bounds() ;
+                if( index > Rf_xlength(ref) ) throw index_out_of_bounds() ;
                 
                 size_t i=1;
                 SEXP x = ref ;
@@ -56,9 +56,9 @@ namespace Rcpp{
         }
         
         template <typename T>
-        Node replace( const int& index, const T& object ) {
+        Node replace( R_xlen_t index, const T& object ) {
             CLASS& ref = get_ref() ;
-            if( static_cast<R_len_t>(index) >= ::Rf_length(ref) ) throw index_out_of_bounds() ;
+            if( index >= ::Rf_xlength(ref) ) throw index_out_of_bounds() ;
               
             Shield<SEXP> x = pairlist( object );
             SEXP y = ref ;
@@ -70,17 +70,17 @@ namespace Rcpp{
             return Node(y) ;
         }
         
-        inline R_len_t length() const { 
-            return ::Rf_length(get_ref()) ; 
+        inline R_xlen_t length() const { 
+            return ::Rf_xlength(get_ref()) ; 
         }
-        inline R_len_t size() const { 
+        inline R_xlen_t size() const { 
             return length() ;
         }
         
-        void remove( const size_t& index ){
+        void remove( R_xlen_t index ){
             CLASS& ref = get_ref() ;
             SEXP x = ref ;
-            if( static_cast<R_len_t>(index) >= Rf_length(ref) ) throw index_out_of_bounds() ;
+            if( index >= Rf_xlength(ref) ) throw index_out_of_bounds() ;
             if( index == 0 ){
                 ref = CDR(x) ;
             } else{

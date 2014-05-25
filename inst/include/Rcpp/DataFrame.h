@@ -55,7 +55,7 @@ namespace Rcpp{
             int index ;
             
             inline void set(SEXP x) {
-                if( Rf_length(x) == parent.nrows() ){
+                if( XLENGTH(x) == parent.nrows() ){
                     SET_VECTOR_ELT( parent, index, x ) ;
                 } else {
                     List v = (SEXP)parent ;
@@ -117,8 +117,8 @@ namespace Rcpp{
         #include <Rcpp/vector/impl/RCPP_VECTOR_PROXY_BASED_API.h>
         #undef Vector
         
-        inline R_len_t length() const { return ::Rf_length(data) ; }
-        inline R_len_t size() const { return length() ; }
+        inline R_xlen_t length() const { return XLENGTH((SEXP)data) ; }
+        inline R_xlen_t size() const { return length() ; }
         
         R_len_t offset(const std::string& name) const {
             SEXP names = RCPP_GET_NAMES(data) ;

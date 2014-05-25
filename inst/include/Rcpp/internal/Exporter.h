@@ -21,7 +21,7 @@ namespace Rcpp{
             ~RangeExporter(){}
     
             T get(){ 
-                T vec( ::Rf_length(object) );
+                T vec( ::Rf_xlength(object) );
                 ::Rcpp::internal::export_range( object, vec.begin() ) ;
                 return vec ;
             }
@@ -38,7 +38,7 @@ namespace Rcpp{
             ~IndexingExporter(){}
         
             T get(){
-                T result( ::Rf_length(object) ) ;
+                T result( ::Rf_xlength(object) ) ;
                 ::Rcpp::internal::export_indexing<T,value_type>( object, result ) ;
                 return result ;
             }
@@ -56,7 +56,7 @@ namespace Rcpp{
         
             T get() {
                 SEXP dims = ::Rf_getAttrib( object, R_DimSymbol ) ;
-                if( dims == R_NilValue || ::Rf_length(dims) != 2 ){
+                if( dims == R_NilValue || ::Rf_xlength(dims) != 2 ){
                     throw ::Rcpp::not_a_matrix() ;
                 }
                 int* dims_ = INTEGER(dims) ;
@@ -85,9 +85,9 @@ namespace Rcpp{
             Container get(){
                 if( TYPEOF(object) == RTYPE ){
                    T* start = Rcpp::internal::r_vector_start<RTYPE>(object) ;
-                   return Container( start, start + Rf_length(object) ) ;
+                   return Container( start, start + Rf_xlength(object) ) ;
                 }
-                Container vec( ::Rf_length(object) );
+                Container vec( ::Rf_xlength(object) );
                 ::Rcpp::internal::export_range( object, vec.begin() ) ;
                 return vec ;
             }
