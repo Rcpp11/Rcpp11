@@ -78,10 +78,10 @@ private:
     
     inline R_xlen_t get_length(SEXP x){
         #if defined(LONG_VECTOR_SUPPORT)
-            len = SHORT_VEC_LENGTH(x) ;
-            if( len == R_LONG_VEC_TOKEN ) len = LONG_VEC_LENGTH(x) ;
+            R_xlen_t n = SHORT_VEC_LENGTH(x) ;
+            return ( n == R_LONG_VEC_TOKEN ) ? LONG_VEC_LENGTH(x) : n ;
         #else
-            len = LENGTH(x) ;
+            return LENGTH(x) ;
         #endif
     }
     
