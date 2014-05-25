@@ -29,13 +29,13 @@ public:
 
 private:
     const T& object ;
-    int times;
-    int n ;
+    R_xlen_t times;
+    R_xlen_t n ;
 
     template <typename Target>
     inline void apply_impl(Target& target, std::true_type) const {
         auto it = target.begin();
-        for (int i=0; i < n; ++i, it += times) {
+        for (R_xlen_t i=0; i < n; ++i, it += times) {
             std::fill(it, it + times, object[i]);
         }
         it += times ;
@@ -44,7 +44,7 @@ private:
     template <typename Target>
     inline void apply_impl(Target& target, std::false_type) const {
         auto it = target.begin();
-        for (int i=0; i < n; ++i, it += times) {
+        for (R_xlen_t i=0; i < n; ++i, it += times) {
             std::fill(it, it + times, object[i]);
         }
     }

@@ -74,7 +74,7 @@ namespace Rcpp{
         typedef Language::Proxy Proxy ;
             
         typed_call( Language call_ ) : call(call_){
-            for( int i=0; i<n; i++){
+            for( R_xlen_t i=0; i<n; i++){
                 proxies.emplace_back( call, i+1 ) ;
             }
         }

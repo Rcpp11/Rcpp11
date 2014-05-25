@@ -24,11 +24,11 @@ namespace Rcpp {
         }
         
         operator SEXP() const {
-            int n = data.size() ;
+            size_t n = data.size() ;
             NumericVector res(n) ;
             CharacterVector names(n) ;
             auto it = data.begin() ;
-            for( int i=0; i<n; i++, ++it){ 
+            for( size_t i=0; i<n; i++, ++it){ 
                 res[i] = std::chrono::duration_cast<microseconds>( it->second - origin ).count() ;
                 names[i] = it->first ;
             }

@@ -33,7 +33,7 @@ namespace Rcpp{
                     Shield<SEXP> names = Rf_allocVector(STRSXP, n+1) ;
                     SEXP parent_names = parent.names() ;
                     if( parent_names != R_NilValue ){
-                        for( int i=0; i<n; i++){
+                        for( R_xlen_t i=0; i<n; i++){
                             SET_STRING_ELT( names, i, STRING_ELT( parent_names, i ) ); 
                         }
                     }

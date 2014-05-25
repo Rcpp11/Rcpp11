@@ -20,7 +20,7 @@ namespace Rcpp{
                 if( current == NA ) 
                     return result ;
                 result[0] = current ;
-                for( int i=1; i<n; i++){
+                for( R_xlen_t i=1; i<n; i++){
                     current = object[i] ;
                     if( Rcpp::traits::is_na<RTYPE>(current) ) 
                         return result ;

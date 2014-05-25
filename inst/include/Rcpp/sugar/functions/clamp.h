@@ -64,7 +64,7 @@ namespace Rcpp{
             inline void apply_impl(Target& target, std::false_type) const {
                 int n=size();
                 auto it = target.begin() ;
-                for(int i=0; i<n; i++, ++it){
+                for(R_xlen_t i=0; i<n; i++, ++it){
                     *it = op(vec[i]) ;
                 }
             }

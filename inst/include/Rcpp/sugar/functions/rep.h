@@ -13,7 +13,7 @@ namespace Rcpp{
             typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
             typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
             
-            Rep( const VEC_TYPE& object_, int times_ ) : 
+            Rep( const VEC_TYPE& object_, R_xlen_t times_ ) : 
                 object(object_.get_ref()), times(times_), n(object_.size()){}
             
             inline STORAGE operator[]( R_xlen_t i ) const {
@@ -29,7 +29,7 @@ namespace Rcpp{
                 std::copy_n( sugar_begin(*this), n, it );
                 
                 // then copy
-                for( int i=1; i<times; i++){
+                for( R_xlen_t i=1; i<times; i++){
                     it += n ;
                     std::copy_n( target.begin(), n, it ) ;
                 }   
@@ -37,7 +37,7 @@ namespace Rcpp{
             
         private:
             const T& object ;
-            int times, n ;
+            R_xlen_t times, n ;
             
         } ;
         

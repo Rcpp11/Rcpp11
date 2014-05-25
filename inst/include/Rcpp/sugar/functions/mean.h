@@ -80,9 +80,9 @@ namespace Rcpp{
             
             double get() const {
                 IntegerVector input = object ;
-                int n = input.size() ;
+                R_xlen_t n = input.size() ;
                 long double s = 0.0L ;
-                for( int i=0; i<n; i++){
+                for( R_xlen_t i=0; i<n; i++){
                     if( input[i] == NA ) return NA ;
                     s += input[i] ;
                 }

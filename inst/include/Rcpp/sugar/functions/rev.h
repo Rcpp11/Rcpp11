@@ -24,7 +24,7 @@ namespace Rcpp{
             inline void apply( Target& target ) const {
                 auto source_it=sugar_begin(object) ;
                 auto it = target.end() ;
-                for( int i=0; i<n; i++, ++source_it) { 
+                for( R_xlen_t i=0; i<n; i++, ++source_it) { 
                     *(--it) = *source_it ;
                 }
             }

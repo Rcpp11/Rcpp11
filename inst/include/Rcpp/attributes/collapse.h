@@ -2,7 +2,6 @@
 #define RCPP_ATTRIBUTES_COLLAPSE_H
 
 
-
 namespace Rcpp{
     
     template <typename T>

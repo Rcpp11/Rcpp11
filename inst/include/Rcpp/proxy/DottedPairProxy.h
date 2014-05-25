@@ -12,7 +12,7 @@ namespace Rcpp {
             DottedPairProxy( CLASS& v, R_xlen_t index_ ) : node(R_NilValue){
                 if( index_ >= v.length() ) throw index_out_of_bounds() ;
                 SEXP x = v ; /* implicit conversion */
-                for( int i = 0; i<index_; i++, x = CDR(x) ) ;
+                for( R_xlen_t i = 0; i<index_; i++, x = CDR(x) ) ;
                 node = x ;
             }
             

@@ -25,10 +25,10 @@ namespace Rcpp{
     
         STORAGE get() const {
             STORAGE result = get_zero<STORAGE>() ;
-            int n = object.size() ;
+            R_xlen_t n = object.size() ;
             STORAGE current ;
             auto it = sugar_begin(object) ;
-            for( int i=0; i<n; i++, ++it){
+            for( R_xlen_t i=0; i<n; i++, ++it){
                 current = *it ;
                 if( current == NA ) 
                     return NA ;

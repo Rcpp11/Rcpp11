@@ -37,7 +37,7 @@ public:
         it += n;
                 
         // then copy the materialized part into the rest of the output
-        for (int i=1; i < timesToFullCopy; ++i) {
+        for (R_xlen_t i=1; i < timesToFullCopy; ++i) {
             std::copy_n(target.begin(), n, it);
             it += n;
             

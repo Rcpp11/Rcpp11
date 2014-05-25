@@ -67,7 +67,7 @@ namespace Rcpp{
             inline void apply( Target& target ) const {
                 auto iterators = get_iterators( Sequence() ) ;
                 auto it = target.begin() ;
-                for( int i=0; i<n; i++) set_values( it, iterators, Sequence() ) ;
+                for( R_xlen_t i=0; i<n; i++) set_values( it, iterators, Sequence() ) ;
             }
 
         private:

@@ -43,7 +43,7 @@ namespace Rcpp{
         public:
             Create( Args... args ){} 
             
-            inline R_xlen_t size() const {
+            inline constexpr R_xlen_t size() const {
                 return sizeof...(Args) ;    
             }
             

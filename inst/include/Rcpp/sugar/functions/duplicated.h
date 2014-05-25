@@ -10,7 +10,7 @@ inline LogicalVector duplicated( const SugarVectorExpression<RTYPE,NA,T>& x ){
     
     typedef typename traits::storage_type<RTYPE>::type STORAGE ;
     std::unordered_set<STORAGE> set ;
-    for( int i=0; i<n; i++){
+    for( R_xlen_t i=0; i<n; i++){
         res[i] = !set.insert(x[i]).second ;    
     }
     return res ;

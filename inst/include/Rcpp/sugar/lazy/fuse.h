@@ -46,8 +46,8 @@ namespace Rcpp{
             void inplace_apply_one( Iterator& it, std::false_type ) const {
                 typedef typename std::tuple_element<INDEX,Tuple>::type cur ;
                 auto current = std::get<INDEX>(data) ;
-                int n = current.size() ;
-                for( int i=0; i<n; i++, ++it){
+                R_xlen_t n = current.size() ;
+                for( R_xlen_t i=0; i<n; i++, ++it){
                     *it = current[i] ;    
                 }
             }
@@ -59,7 +59,7 @@ namespace Rcpp{
             }
             
             Tuple data ;
-            int n ;
+            R_xlen_t n ;
         } ;
         
         

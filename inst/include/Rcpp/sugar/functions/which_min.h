@@ -14,10 +14,10 @@ public:
     int get() const {
         STORAGE current = obj[0] ;
         STORAGE min = current ;
-        int index = 0 ;
+        R_xlen_t index = 0 ;
         if( Rcpp::traits::is_na<RTYPE>(current) ) return NA_INTEGER ;
-        int n = obj.size() ;
-        for( int i=1; i<n; i++){
+        R_xlen_t n = obj.size() ;
+        for( R_xlen_t i=1; i<n; i++){
             current = obj[i] ;
             if( Rcpp::traits::is_na<RTYPE>(current) ) return NA_INTEGER ;
             if( current < min ){
@@ -43,9 +43,9 @@ public:
     int get() const {
         STORAGE current = obj[0] ;
         STORAGE min = current ;
-        int index = 0 ;
-        int n = obj.size() ;
-        for( int i=1; i<n; i++){
+        R_xlen_t index = 0 ;
+        R_xlen_t n = obj.size() ;
+        for( R_xlen_t i=1; i<n; i++){
             current = obj[i] ;
             if( current < min ){
                 min = current ;
