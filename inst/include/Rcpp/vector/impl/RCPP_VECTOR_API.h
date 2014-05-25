@@ -58,15 +58,17 @@
         return res ;
     }
         
-    inline R_len_t length() const { return SHORT_VEC_LENGTH((SEXP)data); }
+    inline R_len_t length() const { return len ; }
     inline R_len_t size() const { return SHORT_VEC_LENGTH((SEXP)data) ; }
     
 private:
     value_type* cache ;
+    R_len_t len ;
     
     inline void set_data( SEXP x){
         data = x ;
         cache = reinterpret_cast<value_type*>(DATAPTR(x)) ;
+        len = SHORT_VEC_LENGTH((SEXP)data) ;
     }
     
     inline void reset(int n){
