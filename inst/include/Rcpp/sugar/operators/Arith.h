@@ -22,7 +22,7 @@ namespace Rcpp{
                 return op(lhs[i], rhs[i]) ;
             }
         
-            inline int size() const { return lhs.size() ; }
+            inline R_xlen_t size() const { return lhs.size() ; }
               
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -53,7 +53,7 @@ namespace Rcpp{
                 return op(lhs[i], rhs) ;
             }
         
-            inline int size() const { return lhs.size() ; }
+            inline R_xlen_t size() const { return lhs.size() ; }
               
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -90,7 +90,7 @@ namespace Rcpp{
                 return op(lhs, rhs[i]) ;
             }
         
-            inline int size() const { return rhs.size() ; }
+            inline R_xlen_t size() const { return rhs.size() ; }
               
             template <typename Target>
             inline void apply( Target& target ) const {

@@ -14,7 +14,7 @@ namespace Rcpp{
                 return i + 1 ;
             }
             
-            inline int size() const { return nr * nc ; }
+            inline R_xlen_t size() const { return nr * nc ; }
             inline int nrow() const { return nr; }
             inline int ncol() const { return nc; }
         

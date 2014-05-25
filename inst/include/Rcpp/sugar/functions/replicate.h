@@ -9,12 +9,12 @@ namespace Rcpp{
             public SugarVectorExpression< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> >, 
             public custom_sugar_vector_expression {
         public:
-            Replicate( size_t n_, CallType call_ ): n(n_), call(std::move(call_)) {}
+            Replicate( R_xlen_t n_, CallType call_ ): n(n_), call(call_) {}
             
             inline OUT operator[]( R_xlen_t i ) const {
                 return call() ;
             }
-            inline int size() const { return n ; }
+            inline R_xlen_t size() const { return n ; }
             
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -31,7 +31,7 @@ namespace Rcpp{
     
     template <typename CallType>
     inline sugar::Replicate<typename std::result_of<CallType()>::type, CallType> 
-    replicate( size_t n, CallType call){
+    replicate( R_xlen_t n, CallType call){
         return sugar::Replicate<typename std::result_of<CallType()>::type, CallType>( n, call ) ;    
     }
 

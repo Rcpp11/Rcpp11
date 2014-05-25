@@ -13,7 +13,7 @@ public:
     typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
 
-    Head( const VEC_TYPE& object_, int n_ ) : object(object_), n(n_) {
+    Head( const VEC_TYPE& object_, R_xlen_t n_ ) : object(object_), n(n_) {
         if( n < 0 ){
             n = object.size() + n ;
         }
@@ -22,7 +22,7 @@ public:
     inline STORAGE operator[]( R_xlen_t i ) const {
         return object[ i ] ;
     }
-    inline int size() const { return n; }
+    inline R_xlen_t size() const { return n; }
 
     template <typename Target>
     inline void apply( Target& target ) const {
@@ -31,7 +31,7 @@ public:
     
 private:
     const VEC_TYPE& object ;
-    int n ;
+    R_xlen_t n ;
 } ;
 
 } // sugar
@@ -39,7 +39,7 @@ private:
 template <int RTYPE,bool NA, typename T>
 inline sugar::Head<RTYPE,NA,T> head( 
     const SugarVectorExpression<RTYPE,NA,T>& t, 
-    int n 
+    R_xlen_t n 
     ){
     return sugar::Head<RTYPE,NA,T>( t, n ) ;
 }

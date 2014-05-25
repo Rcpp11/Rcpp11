@@ -57,7 +57,7 @@ namespace Rcpp{
             
         inline int nrow() const { return dims[0] ; }
         inline int ncol() const { return dims[1] ; }
-        inline int size() const { return vec.size() ; }
+        inline R_xlen_t size() const { return vec.size() ; }
         
         inline iterator begin(){ return vec.begin() ; }
         inline iterator end(){ return vec.end(); }
@@ -83,7 +83,7 @@ namespace Rcpp{
         
     private:
         
-        inline int offset(int i, int j) const {
+        inline R_xlen_t offset(int i, int j) const {
             return i + nrow()*j ;
         }
         

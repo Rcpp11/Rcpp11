@@ -34,7 +34,7 @@ public:
     inline int operator[]( R_xlen_t i ) const {
         return get(i) ;
     }
-    inline int size() const { return object.size() ; }
+    inline R_xlen_t size() const { return object.size() ; }
 
     inline int get(int i) const { return sign__impl<NA,RTYPE>::get( object[i] ); }
 private:

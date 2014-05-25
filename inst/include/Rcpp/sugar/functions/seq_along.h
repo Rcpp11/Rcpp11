@@ -8,12 +8,12 @@ namespace Rcpp{
             public SugarVectorExpression< INTSXP,false,SeqLen >, 
             public custom_sugar_vector_expression {
         public:
-            SeqLen( int len_ ) : len(len_){}
+            SeqLen( R_xlen_t len_ ) : len(len_){}
         
             inline int operator[]( R_xlen_t i ) const {
                 return 1 + i ;
             }
-            inline int size() const { return len ; }
+            inline R_xlen_t size() const { return len ; }
              
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -21,7 +21,7 @@ namespace Rcpp{
             }
         
         private:
-            int len ;
+            R_xlen_t len ;
         } ;
     
     } // sugar
@@ -31,11 +31,11 @@ namespace Rcpp{
         return sugar::SeqLen( t.size() ) ;
     }
     
-    inline sugar::SeqLen seq_len( const size_t& n){
+    inline sugar::SeqLen seq_len( R_xlen_t n){
         return sugar::SeqLen( n ) ;
     }
     
-    inline Range seq(int start, int end){
+    inline Range seq(R_xlen_t start, R_xlen_t end){
         return Range( start, end ) ;
     }
 

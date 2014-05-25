@@ -17,7 +17,7 @@ namespace Rcpp{
             inline double operator[]( R_xlen_t i) const {
                 return Func( object[i] ) ;
             }
-            inline int size() const { return object.size(); }
+            inline R_xlen_t size() const { return object.size(); }
                
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -41,7 +41,7 @@ namespace Rcpp{
                 if( x == NA_INTEGER ) return NA_REAL ;
                 return Func( x ) ;
             }
-            inline int size() const { return object.size(); }
+            inline R_xlen_t size() const { return object.size(); }
                 
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -65,7 +65,7 @@ namespace Rcpp{
             inline double operator[]( R_xlen_t i) const {
                 return Func( object[i] ) ;
             }
-            inline int size() const { return object.size(); }
+            inline R_xlen_t size() const { return object.size(); }
               
             template <typename Target>
             inline void apply( Target& target ) const {

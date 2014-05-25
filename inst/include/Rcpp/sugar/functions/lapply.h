@@ -20,7 +20,7 @@ namespace Rcpp{
             inline SEXP operator[]( R_xlen_t i ) const {
                 return Rcpp::wrap( fun( vec[i] ) );
             }
-            inline int size() const { return vec.size() ; }
+            inline R_xlen_t size() const { return vec.size() ; }
         
         private:
             const VEC& vec ;

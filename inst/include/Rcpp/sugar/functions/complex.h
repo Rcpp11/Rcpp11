@@ -202,7 +202,7 @@ namespace Rcpp{
                 if( x == NA ) return NA ;
                 return Fun::func( x ); 
             }
-            inline int size() const { 
+            inline R_xlen_t size() const { 
                 return vec.size() ; 
             }
         

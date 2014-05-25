@@ -33,7 +33,7 @@ public:
         return rhs[i] ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -67,7 +67,7 @@ public:
         return rhs[i] ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
 
@@ -105,7 +105,7 @@ public:
         return rhs[i] ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -137,7 +137,7 @@ public:
         return rhs[i] ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -177,7 +177,7 @@ public:
         return rhs ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -209,7 +209,7 @@ public:
         return rhs ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -248,7 +248,7 @@ public:
         return x ? lhs : rhs ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;
@@ -279,7 +279,7 @@ public:
         return cond[i] ? lhs : rhs ;
     }
 
-    inline int size() const { return cond.size() ; }
+    inline R_xlen_t size() const { return cond.size() ; }
 
 private:
     const COND_TYPE& cond ;

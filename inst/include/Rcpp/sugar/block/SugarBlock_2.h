@@ -16,7 +16,7 @@ public:
     inline OUT operator[]( R_xlen_t i) const { 
         return ptr( x[i], y[i] ) ;
     }
-    inline int size() const { return x.size() ; }
+    inline R_xlen_t size() const { return x.size() ; }
         
 private:
     FunPtr ptr ;
@@ -35,7 +35,7 @@ public:
     inline OUT operator[]( R_xlen_t i) const { 
         return ptr( x[i], y ) ;
     }
-    inline int size() const { return x.size() ; }
+    inline R_xlen_t size() const { return x.size() ; }
         
 private:
     FunPtr ptr ;
@@ -53,7 +53,7 @@ public:
     inline OUT operator[]( R_xlen_t i) const { 
         return ptr( x, y[i] ) ;
     }
-    inline int size() const { return y.size() ; }
+    inline R_xlen_t size() const { return y.size() ; }
         
 private:
     FunPtr ptr ;

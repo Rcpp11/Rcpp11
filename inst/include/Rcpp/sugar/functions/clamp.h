@@ -44,7 +44,7 @@ namespace Rcpp{
             inline STORAGE operator[]( R_xlen_t i ) const {
                 return op( vec[i] ) ;
             }
-            inline int size() const { return vec.size() ; }
+            inline R_xlen_t size() const { return vec.size() ; }
         
             template <typename Target>
             inline void apply(Target& target) const {

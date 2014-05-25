@@ -28,7 +28,7 @@ public:
     inline STORAGE operator[]( R_xlen_t i ) const {
         return converter_type::get( fun( vec[i] ) );
     }
-    inline int size() const { return vec.size() ; }
+    inline R_xlen_t size() const { return vec.size() ; }
 
     template <typename Target>
     inline void apply( Target& target ) const {
@@ -67,7 +67,7 @@ public:
     inline STORAGE operator[]( R_xlen_t i ) const {
         return fun( vec[i] ) ;
     }
-    inline int size() const { return vec.size() ; }
+    inline R_xlen_t size() const { return vec.size() ; }
 
     template <typename Target>
     inline void apply( Target& target ) const {

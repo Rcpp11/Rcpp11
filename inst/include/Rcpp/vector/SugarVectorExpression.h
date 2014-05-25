@@ -22,7 +22,7 @@ namespace Rcpp{
             return get_ref()[i] ;
         }
         
-        inline int size() const { 
+        inline R_xlen_t size() const { 
             return get_ref().size() ;
         }
     

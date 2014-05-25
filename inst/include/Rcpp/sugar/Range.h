@@ -5,13 +5,13 @@ namespace Rcpp{
 
     class Range : public SugarVectorExpression<INTSXP,false, Range >{
     public:
-        Range( int start_, int end__ ) : start(start_), end_(end__){
+        Range( R_xlen_t start_, R_xlen_t end__ ) : start(start_), end_(end__){
             if( start_ > end__ ){
                 throw std::range_error( "upper value must be greater than lower value" ) ;
             }
         }
                 
-        inline int size() const{
+        inline R_xlen_t size() const{
             return end_ - start + 1;
         }
                 
@@ -56,12 +56,8 @@ namespace Rcpp{
             return Range( start - n, end_ - n ) ;
         }
                 
-        inline int get_start() const { return start ; }
-        inline int get_end() const { return end_ ; }
-                
     private:
-        int start ;
-        int end_ ;
+        R_xlen_t start, end_ ;
     } ;
         
 } 

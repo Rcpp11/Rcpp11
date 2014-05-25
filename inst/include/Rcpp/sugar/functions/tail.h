@@ -24,7 +24,7 @@ public:
     inline STORAGE operator[]( R_xlen_t i ) const {
         return object[ start + i ] ;
     }
-    inline int size() const { return n; }
+    inline R_xlen_t size() const { return n; }
 
     template <typename Target>
     inline void apply( Target& target ) const {

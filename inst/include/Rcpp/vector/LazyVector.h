@@ -12,7 +12,7 @@ namespace Rcpp{
     struct LazyVector : public LazyVectorOf<RTYPE>, public CRTP<Expr> {
         using CRTP<Expr>::get_ref ;
         
-        inline int size() const { 
+        inline R_xlen_t size() const { 
             return get_ref().size() ;
         }
     

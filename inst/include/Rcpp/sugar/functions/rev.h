@@ -18,7 +18,7 @@ namespace Rcpp{
             inline STORAGE operator[]( R_xlen_t i ) const {
                 return object[n - i - 1] ;
             }
-            inline int size() const { return n ; }
+            inline R_xlen_t size() const { return n ; }
                
             template <typename Target>
             inline void apply( Target& target ) const {

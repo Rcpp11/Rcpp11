@@ -89,7 +89,7 @@ public:
     inline STORAGE operator[]( R_xlen_t i ) const {
         return op( lhs[i], rhs[i] ) ;
     }
-    inline int size() const { return lhs.size() ; }
+    inline R_xlen_t size() const { return lhs.size() ; }
 
 private:
     const LHS_T& lhs ;
@@ -115,7 +115,7 @@ public:
     Pmin_Vector_Primitive( const LHS_T& lhs_, STORAGE rhs_ ) : lhs(lhs_), op(rhs_) {}
 
     inline STORAGE operator[]( R_xlen_t i ) const { return op( lhs[i] ) ; }
-    inline int size() const { return lhs.size() ; }
+    inline R_xlen_t size() const { return lhs.size() ; }
 
 private:
     const LHS_T& lhs ;

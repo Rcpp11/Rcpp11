@@ -9,7 +9,7 @@ namespace Rcpp{
         public:
             Create( Args&&... args ) : data( std::forward<Args>(args)... ) {}
             
-            inline int size() const {
+            inline R_xlen_t size() const {
                 return sizeof...(Args) ;    
             }
             
@@ -43,7 +43,7 @@ namespace Rcpp{
         public:
             Create( Args... args ){} 
             
-            inline int size() const {
+            inline R_xlen_t size() const {
                 return sizeof...(Args) ;    
             }
             
@@ -61,7 +61,7 @@ namespace Rcpp{
         public:
             CreateWithNames( Args&&... args ) : data( std::forward<Args>(args)... ) {}
             
-            inline int size() const {
+            inline R_xlen_t size() const {
                 return sizeof...(Args) ;    
             }
             
@@ -101,7 +101,7 @@ namespace Rcpp{
         CreateWithNames( Args... args ) : 
             names({ CHAR(PRINTNAME(args.name)) ... }) {}
                                                                
-        inline int size() const {
+        inline R_xlen_t size() const {
             return sizeof...(Args) ;    
         }
         
@@ -120,7 +120,7 @@ namespace Rcpp{
     template <int RTYPE>
     class EmptyCreate : public LazyVector<RTYPE, EmptyCreate<RTYPE> >{
     public:
-        inline int size() const { return 0; }
+        inline R_xlen_t size() const { return 0; }
           
         template <typename Target>
         inline void apply( Target& target ) const {}

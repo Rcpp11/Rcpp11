@@ -15,7 +15,7 @@ namespace sugar{
         inline storage_type operator[]( R_xlen_t i ) const {
             return func( *(begin + i) ) ;
         }
-        inline int size() const { return n ; }
+        inline R_xlen_t size() const { return n ; }
         
         template <typename Target>
         inline void apply( Target& target ) const {
@@ -40,7 +40,7 @@ namespace sugar{
         inline storage_type operator[]( R_xlen_t i ) const {
             return Rcpp::internal::caster<result_type,storage_type>( func( *(begin + i) ) ) ;
         }
-        inline int size() const { return n ; }
+        inline R_xlen_t size() const { return n ; }
         
         template <typename Target>
         inline void apply( Target& target ) const {

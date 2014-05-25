@@ -18,7 +18,7 @@ namespace Rcpp {
 
             }
 
-            inline int size() const { return data.size(); }
+            inline R_xlen_t size() const { return data.size(); }
             inline value_type operator[](R_xlen_t i) const { return data[i]; }
 
             template <typename Target>

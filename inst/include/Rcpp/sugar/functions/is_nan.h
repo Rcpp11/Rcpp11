@@ -17,7 +17,7 @@ namespace Rcpp{
                 return ::Rcpp::traits::is_nan<RTYPE>( obj[i] ) ;
             }
         
-            inline int size() const { return obj.size() ; }
+            inline R_xlen_t size() const { return obj.size() ; }
         
             template <typename Target>
             inline void apply( Target& target ) const {            

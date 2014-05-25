@@ -59,7 +59,7 @@ namespace Rcpp{
             inline result_type operator[]( R_xlen_t i ) const {
                 return eval(i, Sequence() );
             }
-            inline int size() const {
+            inline R_xlen_t size() const {
                 return n ;
             }
 

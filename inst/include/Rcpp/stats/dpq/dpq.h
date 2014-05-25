@@ -21,7 +21,7 @@ namespace stats {
             return ptr( vec[i], log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -42,7 +42,7 @@ namespace stats {
             return ptr( vec[i], p0, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -64,7 +64,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -86,7 +86,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, p2, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -112,7 +112,7 @@ namespace stats {
             return ptr( vec[i], lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -136,7 +136,7 @@ namespace stats {
             return ptr( vec[i], p0, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -161,7 +161,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -185,7 +185,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, p2, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -212,7 +212,7 @@ namespace stats {
             return ptr( vec[i], lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -235,7 +235,7 @@ namespace stats {
             return ptr( vec[i], p0, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -259,7 +259,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;
@@ -283,7 +283,7 @@ namespace stats {
             return ptr( vec[i], p0, p1, p2, lower, log );
         }
     
-        inline int size() const { return vec.size(); }
+        inline R_xlen_t size() const { return vec.size(); }
     
     private:
         FunPtr ptr ;

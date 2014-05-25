@@ -15,7 +15,7 @@ namespace Rcpp{
                 data(std::forward<Args>(args)...), 
                 n(get_size(data)){}
              
-            inline int size() const {
+            inline R_xlen_t size() const {
                 return n ;    
             }
                 

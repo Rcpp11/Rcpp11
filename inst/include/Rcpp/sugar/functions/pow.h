@@ -14,7 +14,7 @@ public:
     inline double operator[]( R_xlen_t i ) const {
         return ::pow( object[i], op );
     }
-    inline int size() const { return object.size() ; }
+    inline R_xlen_t size() const { return object.size() ; }
 
 private:
     const T& object ;
@@ -30,7 +30,7 @@ public:
         int x = object[i] ;
         return x == NA_INTEGER ? NA_INTEGER : ::pow( x, op );
     }
-    inline int size() const { return object.size() ; }
+    inline R_xlen_t size() const { return object.size() ; }
 
 private:
     const T& object ;
@@ -44,7 +44,7 @@ public:
     inline double operator[]( R_xlen_t i ) const {
         return ::pow( object[i], op );
     }
-    inline int size() const { return object.size() ; }
+    inline R_xlen_t size() const { return object.size() ; }
 
 private:
     const T& object ;

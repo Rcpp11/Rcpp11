@@ -23,11 +23,11 @@ namespace Rcpp{
             }
         }
         
-        inline int size() const {
+        inline size_t size() const {
             return promises.size() ;    
         }
         
-        inline Promise& promise(int i) {
+        inline Promise& promise(size_t i) {
             return promises[i] ;
         }
         
@@ -35,7 +35,7 @@ namespace Rcpp{
             return promises[i].environment() ;    
         }
         
-        inline Symbol& symbol(int i){
+        inline Symbol& symbol(size_t i){
             return symbols[i] ;
         }
         

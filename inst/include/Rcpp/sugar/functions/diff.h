@@ -65,7 +65,7 @@ public:
         previous_index = i+1 ;
         return res ;
     }
-    inline int size() const { return lhs.size() - 1 ; }
+    inline R_xlen_t size() const { return lhs.size() - 1 ; }
 
 private:
     const LHS_TYPE& lhs ;
@@ -89,7 +89,7 @@ public:
         previous_index = i+1 ;
         return y - previous ;
     }
-    inline int size() const { return lhs.size() - 1 ; }
+    inline R_xlen_t size() const { return lhs.size() - 1 ; }
 
 private:
     const LHS_TYPE& lhs ;

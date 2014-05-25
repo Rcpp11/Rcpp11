@@ -15,7 +15,7 @@ namespace sugar{
         inline storage_type operator[]( R_xlen_t i ) const {
             return *(begin + i) ;
         }
-        inline int size() const { return n ; }
+        inline R_xlen_t size() const { return n ; }
         
         template <typename Target>
         inline void apply( Target& target ) const {
@@ -25,7 +25,7 @@ namespace sugar{
     private:
         
         InputIterator begin, end ;
-        size_t n ; 
+        R_xlen_t n ; 
     } ;
 
     template <int RTYPE, typename storage_type, typename value_type, typename InputIterator >
@@ -39,7 +39,7 @@ namespace sugar{
         inline storage_type operator[]( R_xlen_t i ) const {
             return Rcpp::internal::caster<value_type,storage_type>( *(begin + i) ) ;
         }
-        inline int size() const { return n ; }
+        inline R_xlen_t size() const { return n ; }
         
         template <typename Target>
         inline void apply( Target& target ) const {
@@ -48,7 +48,7 @@ namespace sugar{
         
     private:
         InputIterator begin, end ;
-        size_t n ;
+        R_xlen_t n ;
          
     } ;
 

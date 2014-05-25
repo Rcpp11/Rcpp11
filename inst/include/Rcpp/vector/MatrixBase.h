@@ -21,7 +21,7 @@ namespace Rcpp{
         inline int ncol() const { 
             return get_ref().ncol() ; 
         }
-        inline int size() const { 
+        inline R_xlen_t size() const { 
             return get_ref().size() ; 
         }
         
