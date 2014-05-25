@@ -58,17 +58,31 @@
         return res ;
     }
         
-    inline R_len_t length() const { return len ; }
-    inline R_len_t size() const { return SHORT_VEC_LENGTH((SEXP)data) ; }
+    inline R_xlen_t length() const { return len ; }
+    inline R_xlen_t size() const { return len ; }
     
 private:
     value_type* cache ;
-    R_len_t len ;
+    R_xlen_t len ;
     
-    inline void set_data( SEXP x){
+    inline void set_data(SEXP x){
+        set_data(x, get_length(x) ) ; 
+    }
+    
+    inline void set_data(SEXP x, R_xlen_t n){
         data = x ;
         cache = reinterpret_cast<value_type*>(DATAPTR(x)) ;
-        len = SHORT_VEC_LENGTH((SEXP)data) ;
+        len = n ; 
+    }
+    
+    
+    inline R_xlen_t get_length(SEXP x){
+        #if defined(LONG_VECTOR_SUPPORT)
+            len = SHORT_VEC_LENGTH(x) ;
+            if( len == R_LONG_VEC_TOKEN ) len = LONG_VEC_LENGTH(x) ;
+        #else
+            len = LENGTH(x) ;
+        #endif
     }
     
     inline void reset(int n){
