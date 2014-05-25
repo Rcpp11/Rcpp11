@@ -20,8 +20,8 @@ namespace Rcpp{
             inline void apply( Target& target, const SugarMatrixExpression<RTYPE,NA,Expr>& expr ){
                 int nc = target.ncol(), nr = target.nrow() ;
                 auto it = target.begin() ;
-                for( R_len_t j=0; j<nc; j++) 
-                    for( R_len_t i=0; i<nr; i++, ++it) 
+                for( int j=0; j<nc; j++) 
+                    for( int i=0; i<nr; i++, ++it) 
                         *it = expr(i,j) ;
             }
         } ;

@@ -120,7 +120,7 @@ namespace Rcpp{
         inline R_xlen_t length() const { return XLENGTH((SEXP)data) ; }
         inline R_xlen_t size() const { return length() ; }
         
-        R_len_t offset(const std::string& name) const {
+        R_xlen_t offset(const std::string& name) const {
             SEXP names = RCPP_GET_NAMES(data) ;
             if( names == R_NilValue ) throw index_out_of_bounds();
             int n = size() ;

@@ -6,19 +6,19 @@ namespace Rcpp{
 
     
         template <typename T>
-        std::wstring as_string_elt__impl( SEXP x, R_len_t i, std::true_type ){
+        std::wstring as_string_elt__impl( SEXP x, R_xlen_t i, std::true_type ){
             const char* y = CHAR(STRING_ELT(x, i)) ;
             return std::wstring(y, y+strlen(y) ) ;
         }
     
         template <typename T>
-        std::string as_string_elt__impl( SEXP x, R_len_t i, std::false_type ){
+        std::string as_string_elt__impl( SEXP x, R_xlen_t i, std::false_type ){
             return CHAR(STRING_ELT( x, i )) ;
         }
     
         template <typename T>
         const std::basic_string< typename Rcpp::traits::char_type<T>::type > 
-        as_string_elt( SEXP x, R_len_t i ){
+        as_string_elt( SEXP x, R_xlen_t i ){
             return as_string_elt__impl<T>( x, i, typename Rcpp::traits::is_wide_string<T>::type() ) ;
         }
     
