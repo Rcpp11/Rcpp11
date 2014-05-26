@@ -13,7 +13,7 @@ namespace Rcpp {                                                                
     }                                                                                                       \
 }
 
-namespace Rcpp{
+namespace Rcpp{                     
     namespace internal{
         inline double factorial( double x ){ return ::Rf_gammafn( x + 1.0 ) ; }
         inline double lfactorial( double x ){ return ::Rf_lgammafn( x + 1.0 ) ; }
@@ -47,15 +47,24 @@ VECTORIZED_MATH_1(expm1      , ::expm1          )
 VECTORIZED_MATH_1(log1p      , ::log1p          )
 VECTORIZED_MATH_1(factorial  , ::Rcpp::internal::factorial   )
 VECTORIZED_MATH_1(lfactorial , ::Rcpp::internal::lfactorial  )
+VECTORIZED_MATH_1(trunc, ::Rf_ftrunc)
 
-SUGAR_BLOCK_2(choose    , ::Rf_choose   )
-SUGAR_BLOCK_2(lchoose   , ::Rf_lchoose  )
-SUGAR_BLOCK_2(beta      , ::Rf_beta     )
-SUGAR_BLOCK_2(lbeta     , ::Rf_lbeta    )
-SUGAR_BLOCK_2(psigamma  , ::Rf_psigamma )
+#define VECTORIZED_MATH_2(__NAME__,__SYMBOL__)                                      \
+namespace Rcpp {                                                                    \
+    template <typename T1, typename T2>                                             \
+    auto __NAME__( T1&& x, T2&& y )                                                 \
+        -> decltype(mapply(__SYMBOL__, std::forward<T1>(x), std::forward<T2>(y) ))  \
+    {                                                                               \
+        return mapply(__SYMBOL__, std::forward<T1>(x), std::forward<T2>(y) ) ;      \
+    }                                                                               \
+}
 
-VECTORIZED_MATH_1(trunc, ::Rf_ftrunc)         // truncates to zero (cf Writing R Extension, 6.7.3 Numerical Utilities)
-SUGAR_BLOCK_2(round,     ::Rf_fround)           // rounds 'x' to 'digits' decimals digits (used by R's round())
-SUGAR_BLOCK_2(signif,    ::Rf_fprec)            // rounds 'x' to 'digits' significant digits (used by R's signif())
+VECTORIZED_MATH_2(choose  , ::Rf_choose   )
+VECTORIZED_MATH_2(lchoose , ::Rf_lchoose  )
+VECTORIZED_MATH_2(beta    , ::Rf_beta     )
+VECTORIZED_MATH_2(lbeta   , ::Rf_lbeta    )
+VECTORIZED_MATH_2(psigamma, ::Rf_psigamma )
+VECTORIZED_MATH_2(round   , ::Rf_fround   )     // rounds 'x' to 'digits' decimals digits (used by R's round())
+VECTORIZED_MATH_2(signif  , ::Rf_fprec    )     // rounds 'x' to 'digits' significant digits (used by R's signif())
 
 #endif

@@ -45,6 +45,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
+            const static int N = sizeof...(Args);
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
             typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
@@ -54,7 +55,7 @@ namespace Rcpp{
             Mapply( Function fun_, Args&&... args ) :
                 data( std::forward<Args>(args)... ),
                 fun(fun_),
-                n(std::get<0>(data).size()){}
+                n(get_size()){}
 
             inline result_type operator[]( R_xlen_t i ) const {
                 return eval(i, Sequence() );
@@ -73,23 +74,48 @@ namespace Rcpp{
         private:
             Tuple data ;
             Function fun ;
-            int n ;
+            R_xlen_t n ;
 
+            inline int get_size() const {
+                return get_size_impl( Sequence() ) ;    
+            }
+            
+            template <int... S>
+            R_xlen_t get_size_impl(Rcpp::traits::sequence<S...>) const {
+                auto sizes = { 
+                    get_ith_size<S>(
+                        typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()
+                    ) ... 
+                } ;
+                return *std::max_element( begin(sizes), end(sizes) ) ;
+            }
+            
+            template <int INDEX>
+            constexpr R_xlen_t get_ith_size( std::true_type ) const {
+                return 1 ;     
+            }
+            
+            template <int INDEX>
+            R_xlen_t get_ith_size( std::false_type ) const {
+                return std::get<INDEX>(data).size() ;     
+            }
+            
+            
             // methods used for the implementation of operator[]
             template <int... S>
-            inline result_type eval( int i, Rcpp::traits::sequence<S...> ) const {
+            inline result_type eval( R_xlen_t i, Rcpp::traits::sequence<S...> ) const {
                 return fun(
                     get_ith<S>(i, typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type() ) ...
                 );
             }
 
             template <int INDEX>
-            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( int , std::true_type ) const {
+            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( R_xlen_t , std::true_type ) const {
                 return std::get<INDEX>(data) ;
             }
 
             template <int INDEX>
-            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( int i, std::false_type ) const {
+            inline typename std::tuple_element<INDEX,ETuple>::type get_ith( R_xlen_t i, std::false_type ) const {
                 return std::get<INDEX>(data)[i] ;
             }
 
@@ -120,7 +146,7 @@ namespace Rcpp{
             }
 
             template <int... S>
-            inline auto get_iterators( Rcpp::traits::sequence<S...>  ) const -> decltype( std::make_tuple( get_iterator<S>( typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()) ... ) ) {
+            inline auto get_iterators( Rcpp::traits::sequence<S...> ) const -> decltype( std::make_tuple( get_iterator<S>( typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()) ... ) ) {
                 return std::make_tuple( get_iterator<S>(
                     typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()
                     ) ... ) ;
