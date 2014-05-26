@@ -29,7 +29,7 @@ namespace Rcpp{
         private:
             T value ;
         } ;
-
+        
         template <
             typename Function,
             typename... Args
@@ -49,9 +49,23 @@ namespace Rcpp{
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
             typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
-
             typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type result_type ;
 
+        private:
+            Tuple data ;
+            Function fun ;
+            R_xlen_t n ;
+
+            typedef std::tuple< 
+                typename std::conditional< 
+                    Rcpp::traits::is_primitive<Args>::type::value, 
+                    typename fake_iterator< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type >::type, 
+                    decltype(sugar_begin( typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type() ))
+                >::type 
+                ... 
+            > IteratorsTuple ;
+            
+        public:
             Mapply( Function fun_, Args&&... args ) :
                 data( std::forward<Args>(args)... ),
                 fun(fun_),
@@ -72,10 +86,6 @@ namespace Rcpp{
             }
 
         private:
-            Tuple data ;
-            Function fun ;
-            R_xlen_t n ;
-
             inline int get_size() const {
                 return get_size_impl( Sequence() ) ;    
             }
@@ -136,22 +146,23 @@ namespace Rcpp{
             }
 
             template <int INDEX>
-            inline fake_iterator< typename std::tuple_element<INDEX,Tuple>::type > get_iterator( std::true_type ) const {
-                return fake_iterator< typename std::tuple_element<INDEX,Tuple>::type >( std::get<INDEX>(data) ) ;
+            inline typename std::tuple_element<INDEX,IteratorsTuple>::type get_iterator( std::true_type ) const {
+                return typename std::tuple_element<INDEX,IteratorsTuple>::type( std::get<INDEX>(data) ) ;
             }
 
             template <int INDEX>
-            inline auto get_iterator( std::false_type ) const -> decltype( sugar_begin( std::get<INDEX>(data) ) ) {
+            inline typename std::tuple_element<INDEX,IteratorsTuple>::type get_iterator( std::false_type ) const {
                 return sugar_begin( std::get<INDEX>(data) ) ;
             }
 
             template <int... S>
-            inline auto get_iterators( Rcpp::traits::sequence<S...> ) const -> decltype( std::make_tuple( get_iterator<S>( typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()) ... ) ) {
+            inline IteratorsTuple get_iterators( Rcpp::traits::sequence<S...> ) const {
                 return std::make_tuple( get_iterator<S>(
                     typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type()
                     ) ... ) ;
             }
-
+            
+            
         } ;
 
     } // sugar
