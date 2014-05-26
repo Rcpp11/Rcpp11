@@ -62,7 +62,6 @@ namespace Rcpp{
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;
             }
             
-        private:
             const input_type& vec ;
             function_type fun ;
         
@@ -81,9 +80,11 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
-            typedef Rcpp::SugarVectorExpression<RTYPE2,HAS_NA2,T2> input_type ;
+            typedef Sapply<RTYPE2, HAS_NA2, T2, Function2> inner ;
+            typedef typename inner::input_type input_type ;
             typedef Rcpp::SugarVectorExpression<RTYPE1,HAS_NA1,Sapply<RTYPE2, HAS_NA2, T2, Function2>> outer_input_type ;
-            typedef Rcpp::functional::Compose<Function2,Function1> Function ;
+            
+            typedef Rcpp::functional::Compose<typename inner::function_type,Function1> Function ;
             typedef typename Rcpp::traits::storage_type<RTYPE2>::type VEC_STORAGE ;
             typedef typename std::result_of<Function(VEC_STORAGE)>::type fun_result_type ;
             const static int RESULT_R_TYPE = 
@@ -107,7 +108,6 @@ namespace Rcpp{
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;     
             }
             
-        private:
             const input_type& vec ;
             function_type fun ;
         } ;
