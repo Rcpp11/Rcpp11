@@ -53,7 +53,6 @@
 #include <Rcpp/sugar/functions/setdiff.h>
 
 #include <Rcpp/sugar/functions/strings/strings.h>
-#include <Rcpp/sugar/functions/DelayedCall.h>
 #include <Rcpp/sugar/functions/replicate.h>
 #include <Rcpp/sugar/functions/import.h>
 #include <Rcpp/sugar/functions/transform.h>
