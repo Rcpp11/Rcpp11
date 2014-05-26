@@ -22,6 +22,7 @@ namespace Rcpp{
         typedef SEXP stored_type ;
         typedef internal::generic_proxy<Vector> Proxy     ;
         typedef internal::Proxy_Iterator<Proxy> iterator  ; 
+        typedef internal::Proxy_Iterator<Proxy> const_iterator ;
         
         #define RTYPE VECSXP
         #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>

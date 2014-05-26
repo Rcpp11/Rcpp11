@@ -20,7 +20,8 @@ namespace Rcpp{
         typedef  SEXP value_type ;
         typedef  SEXP stored_type ;
         typedef  internal::string_proxy<Vector>  Proxy    ;
-        typedef  internal::Proxy_Iterator<Proxy> iterator ; 
+        typedef  internal::Proxy_Iterator<Proxy> iterator ;
+        typedef  internal::Proxy_Iterator<Proxy> const_iterator ;
         
         #define RTYPE STRSXP
         #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>

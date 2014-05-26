@@ -93,8 +93,33 @@ namespace sugar {
         R_xlen_t index ;
     } ;
     
+    template <int RTYPE, typename Expr, bool>
+    struct sugar_iterator_type_dispatch ;
+    
+    template <int RTYPE, typename Expr>
+    struct sugar_iterator_type_dispatch<RTYPE,Expr,true>{
+        typedef typename Expr::const_iterator type ;
+    } ;
+    
+    template <int RTYPE, typename Expr>
+    struct sugar_iterator_type_dispatch<RTYPE,Expr,false>{
+        typedef SugarIterator<RTYPE,Expr> type ;
+    } ;
+    
+    template <typename T>
+    struct sugar_iterator_type {
+        typedef typename T::expr_type expr_type ;
+        typedef typename sugar_iterator_type_dispatch< 
+            T::r_type::value,
+            expr_type,
+            traits::is_materialized<expr_type>::type::value
+        >::type type ;
+    } ;
+    
+    
     template <int RTYPE, bool NA, typename Expr>
-    inline auto sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ) -> decltype( obj.get_ref().begin() ){
+    inline typename sugar_iterator_type<SugarVectorExpression<RTYPE,NA,Expr>>::type
+    sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ) {
         return obj.get_ref().begin() ;
     }
     

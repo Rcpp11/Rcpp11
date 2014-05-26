@@ -30,6 +30,19 @@ namespace Rcpp{
             T value ;
         } ;
         
+        template <typename input_type, bool>
+        struct mapply_iterator ;
+        
+        template <typename input_type>
+        struct mapply_iterator<input_type, true> {
+            typedef fake_iterator<input_type> type ;
+        } ;
+        
+        template <typename input_type>
+        struct mapply_iterator<input_type, false> {
+            typedef typename Rcpp::sugar::sugar_iterator_type<input_type>::type type ;
+        } ;
+        
         template <
             typename Function,
             typename... Args
@@ -57,12 +70,10 @@ namespace Rcpp{
             R_xlen_t n ;
 
             typedef std::tuple< 
-                typename std::conditional< 
-                    Rcpp::traits::is_primitive<Args>::type::value, 
-                    typename fake_iterator< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type >::type, 
-                    decltype(sugar_begin( typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type() ))
-                >::type 
-                ... 
+                typename mapply_iterator<
+                    typename std::decay<Args>::type, 
+                    Rcpp::traits::is_primitive<Args>::type::value
+                >::type ...
             > IteratorsTuple ;
             
         public:
