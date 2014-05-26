@@ -11,10 +11,8 @@
 
 #include <Rcpp/sugar/functions/complex.h>
 
-#include <Rcpp/sugar/functions/is_na.h>
-#include <Rcpp/sugar/functions/is_finite.h>
-#include <Rcpp/sugar/functions/is_infinite.h>
-#include <Rcpp/sugar/functions/is_nan.h>
+#include <Rcpp/sugar/functions/is.h>
+
 #include <Rcpp/sugar/functions/na_omit.h>
 #include <Rcpp/sugar/functions/seq_along.h>
 #include <Rcpp/sugar/functions/sapply.h>
