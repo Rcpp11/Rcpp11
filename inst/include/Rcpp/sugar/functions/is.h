@@ -19,11 +19,6 @@ namespace Rcpp{
     }
 
     template <int RTYPE, bool NA, typename T>
-    inline auto is_na( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_na<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_na<RTYPE> ) ;
-    }
-
-    template <int RTYPE, bool NA, typename T>
     inline auto is_nan( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_nan<RTYPE> ) ) {
         return sapply(t, Rcpp::traits::is_nan<RTYPE> ) ;
     }

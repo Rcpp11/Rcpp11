@@ -44,6 +44,9 @@
 #include <Rcpp/sugar/functions/which_min.h>
 #include <Rcpp/sugar/functions/which_max.h>
 
+#include <Rcpp/sugar/functions/import.h>
+#include <Rcpp/sugar/functions/transform.h>
+
 #include <Rcpp/sugar/functions/unique.h>
 #include <Rcpp/sugar/functions/match.h>
 #include <Rcpp/sugar/functions/table.h>
@@ -52,7 +55,5 @@
 
 #include <Rcpp/sugar/functions/strings/strings.h>
 #include <Rcpp/sugar/functions/replicate.h>
-#include <Rcpp/sugar/functions/import.h>
-#include <Rcpp/sugar/functions/transform.h>
 
 #endif
