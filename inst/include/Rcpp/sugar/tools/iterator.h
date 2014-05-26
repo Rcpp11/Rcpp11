@@ -5,7 +5,7 @@ namespace Rcpp {
 namespace sugar { 
 
     /* generic sugar iterator type */
-    template <typename T>
+    template <int RTYPE, typename T>
     class SugarIterator {
     public:
         typedef typename T::stored_type  stored_type  ;
@@ -17,7 +17,7 @@ namespace sugar {
         typedef std::random_access_iterator_tag iterator_category ;
         typedef SugarIterator iterator ;
         
-        SugarIterator( const T& ref_ ) :ref(ref_), index(0) {}
+        SugarIterator( const T& ref_ ) : ref(ref_), index(0) {}
         SugarIterator( const T& ref_, int index_) : ref(ref_), index(index_) {}
         SugarIterator( const SugarIterator& other) : ref(other.ref), index(other.index){}
         
@@ -87,7 +87,6 @@ namespace sugar {
         inline difference_type operator-(const iterator& other) const {
             return index - other.index ;
         }
-
         
     private:   
         const T& ref ;
@@ -100,8 +99,8 @@ namespace sugar {
     }
     
     template <int RTYPE, bool NA, typename Expr>
-    inline const SugarIterator<Expr> sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
-        return SugarIterator<Expr>( obj.get_ref() ) ;
+    inline const SugarIterator<RTYPE,Expr> sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
+        return SugarIterator<RTYPE,Expr>( obj.get_ref() ) ;
     }
     
     template <int RTYPE, bool NA, typename Expr>

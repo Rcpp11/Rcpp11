@@ -13,6 +13,21 @@ namespace Rcpp{
             }
         } ;
         
+        template <typename Target, bool NA, typename Expr>
+        struct sugar_vector_expression_op<Target,VECSXP,NA,Expr> {
+            inline void apply( Target& target, const SugarVectorExpression<VECSXP,NA,Expr>& expr ){
+                typedef decltype( *sugar_begin(expr) ) storage ;
+                if( std::is_convertible<storage,SEXP>::value ) {
+                    std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
+                } else {
+                    std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](storage x){
+                            return wrap(x) ;
+                    });    
+                }
+            }
+        } ;
+        
+        
         // default applyer for when Expression does not know how to 
         // apply itself to Target
         template <typename Target, int RTYPE, bool NA, typename Expr>

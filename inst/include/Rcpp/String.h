@@ -66,8 +66,6 @@ namespace Rcpp {
             RCPP_STRING_DEBUG( "String(const wchar_t* s)" ) ;
         }
         
-        
-        
         /** constructors from R primitives */
         String( int x ) : data( internal::r_coerce<INTSXP,STRSXP>(x) ), valid(true), buffer_ready(false) {}
         String( double x ) : data( internal::r_coerce<REALSXP,STRSXP>(x) ), valid(true), buffer_ready(false){}
@@ -300,7 +298,6 @@ namespace Rcpp {
             const char* s = get_cstring() ;
             return std::wstring( s, s + strlen(s) );
         }
-        
         
         inline const char* get_cstring() const {
             return buffer_ready ? buffer.c_str() : CHAR(data) ;    
