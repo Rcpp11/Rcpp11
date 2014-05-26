@@ -183,65 +183,34 @@ namespace Rcpp{
         }
     
     } // internal
-
-    namespace sugar{
-                
-        template <bool HAS_NA, typename T, typename Fun, typename OUT>
-        class SugarComplex : public SugarVectorExpression< 
-            Rcpp::traits::r_sexptype_traits<OUT>::rtype , 
-            HAS_NA, 
-            SugarComplex<HAS_NA,T,Fun,OUT>
-            > {
-        public:
-            typedef Rcpp::SugarVectorExpression<CPLXSXP,HAS_NA,T> VEC_TYPE ;
         
-            SugarComplex( const VEC_TYPE & vec_) : vec(vec_){}
-        
-            inline OUT operator[]( R_xlen_t i) const { 
-                Rcomplex x = vec[i] ;
-                if( x == NA ) return NA ;
-                return Fun::func( x ); 
-            }
-            inline R_xlen_t size() const { 
-                return vec.size() ; 
-            }
-        
-        private:
-            const VEC_TYPE& vec ;
-        };
-    } // sugar
-        
-#define RCPP_SUGAR_COMPLEX(__NAME__,__OUT__)                                                            \
-    namespace sugar {                                                                                   \
-        struct Complex_op__##__NAME__ {                                                                 \
-            static inline __OUT__ func( Rcomplex x) { return Rcpp::internal::complex__##__NAME__(x) ; } \
-        } ;                                                                                             \
-    }                                                                                                   \
-    template <bool NA, typename T>                                                                      \
-    inline sugar::SugarComplex<NA,T, sugar::Complex_op__##__NAME__,__OUT__ >                            \
-    __NAME__( const SugarVectorExpression<CPLXSXP,NA,T>& t ){                                                      \
-        return sugar::SugarComplex<NA,T, sugar::Complex_op__##__NAME__,__OUT__ >(t) ;                   \
+#define RCPP_SUGAR_COMPLEX(__NAME__)                                         \
+    template <bool NA, typename T>                                           \
+    inline auto __NAME__( const SugarVectorExpression<CPLXSXP,NA,T>& t ) ->  \
+        decltype( sapply(t, Rcpp::internal::complex__##__NAME__ ) )          \
+    {                                                                        \
+        return sapply(t, Rcpp::internal::complex__##__NAME__ ) ;             \
     }
 
-RCPP_SUGAR_COMPLEX( Re, double )
-RCPP_SUGAR_COMPLEX( Im, double )
-RCPP_SUGAR_COMPLEX( Mod, double )
-RCPP_SUGAR_COMPLEX( Conj, Rcomplex )
-RCPP_SUGAR_COMPLEX( exp, Rcomplex )
-RCPP_SUGAR_COMPLEX( log, Rcomplex )
-RCPP_SUGAR_COMPLEX( sqrt, Rcomplex )
-RCPP_SUGAR_COMPLEX( cos, Rcomplex ) 
-RCPP_SUGAR_COMPLEX( sin, Rcomplex )
-RCPP_SUGAR_COMPLEX( tan, Rcomplex )
-RCPP_SUGAR_COMPLEX( acos, Rcomplex ) 
-RCPP_SUGAR_COMPLEX( asin, Rcomplex )
-RCPP_SUGAR_COMPLEX( atan, Rcomplex )
-RCPP_SUGAR_COMPLEX( acosh, Rcomplex ) 
-RCPP_SUGAR_COMPLEX( asinh, Rcomplex )
-RCPP_SUGAR_COMPLEX( atanh, Rcomplex )
-RCPP_SUGAR_COMPLEX( cosh, Rcomplex )
-RCPP_SUGAR_COMPLEX( sinh, Rcomplex )
-RCPP_SUGAR_COMPLEX( tanh, Rcomplex )
+RCPP_SUGAR_COMPLEX(Re)
+RCPP_SUGAR_COMPLEX(Im)
+RCPP_SUGAR_COMPLEX(Mod)
+RCPP_SUGAR_COMPLEX(Conj)
+RCPP_SUGAR_COMPLEX(exp)
+RCPP_SUGAR_COMPLEX(log)
+RCPP_SUGAR_COMPLEX(sqrt )
+RCPP_SUGAR_COMPLEX(cos) 
+RCPP_SUGAR_COMPLEX(sin)
+RCPP_SUGAR_COMPLEX(tan)
+RCPP_SUGAR_COMPLEX(acos) 
+RCPP_SUGAR_COMPLEX(asin)
+RCPP_SUGAR_COMPLEX(atan)
+RCPP_SUGAR_COMPLEX(acosh) 
+RCPP_SUGAR_COMPLEX(asinh)
+RCPP_SUGAR_COMPLEX(atanh)
+RCPP_SUGAR_COMPLEX(cosh)
+RCPP_SUGAR_COMPLEX(sinh)
+RCPP_SUGAR_COMPLEX(tanh)
 
 #undef RCPP_SUGAR_COMPLEX
 
