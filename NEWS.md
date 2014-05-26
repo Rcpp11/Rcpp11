@@ -52,6 +52,9 @@
 * New function `Negate`, `Compose` for intial attempt at functional programming 
   and function composition #140. 
   
+* Support for long vector has been added. Vectors are now indexed by the `R_xlen_t`
+  type (64 bit on 64 bit platforms). 
+  
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore
