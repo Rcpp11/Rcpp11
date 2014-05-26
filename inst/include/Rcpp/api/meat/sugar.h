@@ -4,6 +4,7 @@
 namespace Rcpp{
     
     namespace sugar {
+        
         // default applyer for when Expression does not know how to 
         // apply itself to Target
         template <typename Target, int RTYPE, bool NA, typename Expr>
