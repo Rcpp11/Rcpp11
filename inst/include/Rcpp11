@@ -1,0 +1,6 @@
+#ifndef RCPP11_includes
+#define RCPP11_includes
+
+#include <Rcpp.h>
+
+#endif

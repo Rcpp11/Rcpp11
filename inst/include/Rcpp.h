@@ -243,4 +243,6 @@ namespace Rcpp{
 
 #include <Rcpp/Timer.h>
 
+namespace Rcpp11 = Rcpp ;
+
 #endif

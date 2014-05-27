@@ -55,6 +55,12 @@
 * Support for long vector has been added. Vectors are now indexed by the `R_xlen_t`
   type (64 bit on 64 bit platforms). 
   
+* The header `<Rcpp11>` has been added. It just includes `<Rcpp.h>`, but I like it 
+  better to have `#include <Rcpp11>`
+  
+* The `Rcpp11` namespace has been added as an alias to `Rcpp`. So that we can 
+  type `using namespace Rcpp11 ;`
+  
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

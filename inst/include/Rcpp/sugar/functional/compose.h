@@ -9,15 +9,15 @@ namespace Rcpp {
         private:
             F1 f1 ;
             F2 f2 ;
-
+        
         public:
             Compose( F1 f1_, F2 f2_ ) : f1(f1_), f2(f2_){}
-
+        
             template <typename... Args>
             inline auto operator()( Args&&... args ) const -> decltype( f2( f1( std::forward<Args>(args)... ) ) ) {
                 return f2( f1( std::forward<Args>(args)... ) );
             }
-
+        
         } ;
 
     }
