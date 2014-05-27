@@ -16,7 +16,7 @@
 * `Dots` and `NamedDots` handle the border case when `...` is missing (#123)
 
 * If the macro `RCPP_DO_BOUNDS_CHECKS` is defined, vector classes will perform
-  bounds checks. This is turned of by default because it kills performance. #141
+  bounds checks. This is turned off by default because it kills performance. #141
   
 * `Array` no longer generates spurious warnings. #154
   
