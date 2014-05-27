@@ -65,5 +65,6 @@ RCPP_DPQ_0(unif, Rcpp::stats::dunif_0, Rcpp::stats::punif_0, Rcpp::stats::qunif_
 RCPP_DPQ_1(unif, Rcpp::stats::dunif_1, Rcpp::stats::punif_1, Rcpp::stats::qunif_1 )   
 RCPP_DPQ_2(unif, ::Rf_dunif, ::Rf_punif, ::Rf_qunif )
 
+
 #endif
 

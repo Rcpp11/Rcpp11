@@ -124,7 +124,7 @@ namespace Rcpp{
             SapplyFunctionBinder( Function fun_, Args&&... args) : 
                 fun(fun_), tuple(std::forward<Args>(args)...){}
                 
-            inline fun_result_type operator()( storage_type x ){
+            inline fun_result_type operator()( storage_type x ) const {
                 return apply( x, Sequence() ) ;        
             }
                 
@@ -133,7 +133,7 @@ namespace Rcpp{
             Tuple tuple ;
             
             template <int... S>
-            inline fun_result_type apply( storage_type x, Rcpp::traits::sequence<S...> ){
+            inline fun_result_type apply( storage_type x, Rcpp::traits::sequence<S...> ) const {
                 return fun( x, std::get<S>(tuple)... );  
             }
             
