@@ -111,13 +111,51 @@ namespace Rcpp{
             const input_type& vec ;
             function_type fun ;
         } ;
+    
         
+        template <int RTYPE, typename Function, typename... Args >
+        class SapplyFunctionBinder {
+        public:
+            typedef typename Rcpp::traits::storage_type<RTYPE>::type storage_type ;
+            typedef typename std::tuple<Args...> Tuple ;
+            typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
+            typedef typename std::result_of<Function(storage_type,Args...)>::type fun_result_type ;
+            
+            SapplyFunctionBinder( Function fun_, Args&&... args) : 
+                fun(fun_), tuple(std::forward<Args>(args)...){}
+                
+            inline fun_result_type operator()( storage_type x ){
+                return apply( x, Sequence() ) ;        
+            }
+                
+        private:
+            Function fun ; 
+            Tuple tuple ;
+            
+            template <int... S>
+            inline fun_result_type apply( storage_type x, Rcpp::traits::sequence<S...> ){
+                return fun( x, std::get<S>(tuple)... );  
+            }
+            
+        } ;
+        
+        template <int RTYPE, typename Function, typename... Args>
+        struct sugar_dispatch_function_type {
+            typedef SapplyFunctionBinder<RTYPE,Function,Args...> type ;
+        } ;
+        
+        template <int RTYPE, typename Function>
+        struct sugar_dispatch_function_type<RTYPE,Function> {
+            typedef Function type ;
+        } ;
         
     } // sugar
     
-    template <int RTYPE, bool HAS_NA, typename T, typename Function >
-    inline sugar::Sapply<RTYPE,HAS_NA,T,Function> sapply( const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& t, Function fun ){
-        return sugar::Sapply<RTYPE,HAS_NA,T,Function>( t, fun ) ;
+    template <int RTYPE, bool HAS_NA, typename T, typename Function, typename... Args >
+    inline auto sapply( const SugarVectorExpression<RTYPE,HAS_NA,T>& t, Function fun, Args&&... args ) -> sugar::Sapply<RTYPE,HAS_NA,T,typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type> {
+        return sugar::Sapply<RTYPE,HAS_NA,T,typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type>( t, 
+            typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type( fun, std::forward<Args>(args)... )
+        ) ;
     }
 
 } // Rcpp
