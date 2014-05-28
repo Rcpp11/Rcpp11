@@ -117,12 +117,12 @@ namespace Rcpp{
         class SapplyFunctionBinder {
         public:
             typedef typename Rcpp::traits::storage_type<RTYPE>::type storage_type ;
-            typedef typename std::tuple<Args...> Tuple ;
+            typedef typename std::tuple< typename std::decay<Args>::type ...> Tuple ;
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef typename std::result_of<Function(storage_type,Args...)>::type fun_result_type ;
             
             SapplyFunctionBinder( Function fun_, Args&&... args) : 
-                fun(fun_), tuple(std::forward<Args>(args)...){}
+                fun(fun_), tuple( std::forward<Args>(args)...){}
                 
             inline fun_result_type operator()( storage_type x ) const {
                 return apply( x, Sequence() ) ;        
