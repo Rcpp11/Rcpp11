@@ -33,6 +33,5 @@ RCPP_DPQ_0(cauchy,Rcpp::stats::dcauchy_0,Rcpp::stats::pcauchy_0,Rcpp::stats::qca
 RCPP_DPQ_1(cauchy,Rcpp::stats::dcauchy_1,Rcpp::stats::pcauchy_1,Rcpp::stats::qcauchy_1)
 RCPP_DPQ_2(cauchy,::Rf_dcauchy,::Rf_pcauchy,::Rf_qcauchy)
 
-
 #endif
 
