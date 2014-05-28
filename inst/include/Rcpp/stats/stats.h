@@ -3,20 +3,20 @@
 
 #define RCPP_DPQ(__NAME__,PAR,VAL)                                                                      \
 namespace Rcpp{                                                                                         \
-    template <bool HAS_NA, typename T>                                                                  \
-    auto d##__NAME__( const SugarVectorExpression<REALSXP,HAS_NA,T>& x, PAR, int give_log = false ) ->  \
+    template <int RTYPE,bool HAS_NA, typename T>                                                                  \
+    auto d##__NAME__( const SugarVectorExpression<RTYPE,HAS_NA,T>& x, PAR, int give_log = false ) ->  \
         decltype(sapply( x, ::Rf_d##__NAME__, VAL, give_log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_d##__NAME__, VAL, give_log ) ;                                                      \
     }                                                                                                   \
-    template <bool HAS_NA, typename T>                                                                  \
-    auto p##__NAME__( const SugarVectorExpression<REALSXP,HAS_NA,T>& x, PAR, bool lower = true, bool log = false ) ->  \
+    template <int RTYPE, bool HAS_NA, typename T>                                                                  \
+    auto p##__NAME__( const SugarVectorExpression<RTYPE,HAS_NA,T>& x, PAR, bool lower = true, bool log = false ) ->  \
         decltype(sapply( x, ::Rf_p##__NAME__, VAL, lower, log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_p##__NAME__, VAL, lower, log ) ;                                                      \
     }                                                                                                   \
-    template <bool HAS_NA, typename T>                                                                  \
-    auto q##__NAME__( const SugarVectorExpression<REALSXP,HAS_NA,T>& x, PAR, bool lower = true, bool log = false ) ->  \
+    template <int RTYPE, bool HAS_NA, typename T>                                                                  \
+    auto q##__NAME__( const SugarVectorExpression<RTYPE,HAS_NA,T>& x, PAR, bool lower = true, bool log = false ) ->  \
         decltype(sapply( x, ::Rf_q##__NAME__, VAL, lower, log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_q##__NAME__, VAL, lower, log ) ;                                                      \
