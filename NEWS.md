@@ -61,6 +61,8 @@
 * The `Rcpp11` namespace has been added as an alias to `Rcpp`. So that we can 
   type `using namespace Rcpp11 ;`
   
+* variadic trailing arguments can now be used in `sapply` (#189)
+  
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

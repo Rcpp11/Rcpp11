@@ -28,44 +28,33 @@ namespace Rcpp{                                                                 
 
 #define RCPP_DPQ__1 RCPP_DPQ
 #define RCPP_DPQ__2(__NAME__,PAR1,PAR2,VAL1,VAL2) RCPP_DPQ(__NAME__,RCPP_ECHO(RCPP_CONCAT(PAR1,PAR2)), RCPP_ECHO(RCPP_CONCAT(VAL1,VAL2)) )
+#define RCPP_DPQ__3(__NAME__,PAR1,PAR2,PAR3,VAL1,VAL2,VAL3) RCPP_DPQ(__NAME__,RCPP_ECHO(RCPP_CONCAT(PAR1,PAR2,PAR3)), RCPP_ECHO(RCPP_CONCAT(VAL1,VAL2,VAL3)) )
 
 RCPP_DPQ__1(chisq,double df = 1, df )
-RCPP_DPQ__2(beta,double a, double b,a,b)
+RCPP_DPQ__2(beta ,double a, double b,a,b)
 RCPP_DPQ__2(binom,double n, double p, n, p)
+RCPP_DPQ__2(f,double m, double n, m, n)
+RCPP_DPQ__1(geom,double p, p)
+RCPP_DPQ__3(hyper,double r, double b, double n, r, b, n)
+RCPP_DPQ__3(nbeta,double a, double b, double nc, a, b, ncp)
+RCPP_DPQ__2(nbinom,double size, double prob, size, prob)
+RCPP_DPQ__3(nbinom_mu,double size, double prob, double mu, size, prob, mu)
+RCPP_DPQ__2(nchisq,double df, double ncp, df, ncp)
+RCPP_DPQ__3(nf,double df1, double df2, double ncp, df1, df2, ncp)
+RCPP_DPQ__2(nt,double df, double df, double ncp)
+RCPP_DPQ__1(pois,double lambda, lambda)
+RCPP_DPQ__1(t,double n, n)
+RCPP_DPQ__2(cauchy,double location = 0, double rate = 1, location, scale)
+RCPP_DPQ__1(exp,double shape, 1.0 / rate )
+RCPP_DPQ__2(gamma,double shape = 0, double rate = 1, location, 1.0/rate )
+RCPP_DPQ__2(logis,double location = 0, double scale = 1, location, scale )
+RCPP_DPQ__2(norm,double mean = 0, double sd = 1, mean, sd )
+RCPP_DPQ__2(lnorm,double meanlog = 0, double sdlog = 1, meanlog, sdlog )
+RCPP_DPQ__2(unif,double a = 0, double b = 1, a, b )
+RCPP_DPQ__2(weibull,double shape, double scale = 1, shape, scale )
 
 #undef RCPP_CONCAT
 #undef RCPP_ECHO
-
-
-#include <Rcpp/stats/dpq/dpq.h>
-
-#define ML_POSINF    R_PosInf
-#define ML_NEGINF    R_NegInf
-#define ML_NAN        R_NaN
-
-// RCPP_DPQ_2(beta,::Rf_dbeta,::Rf_pbeta,::Rf_qbeta)
-// RCPP_DPQ_2(binom,::Rf_dbinom,::Rf_pbinom,::Rf_qbinom)
-// RCPP_DPQ_1(chisq,::Rf_dchisq,::Rf_pchisq,::Rf_qchisq)
-RCPP_DPQ_2(f,::Rf_df,::Rf_pf,::Rf_qf)
-RCPP_DPQ_1(geom, ::Rf_dgeom, ::Rf_pgeom, ::Rf_qgeom )
-RCPP_DPQ_3(hyper,::Rf_dhyper,::Rf_phyper,::Rf_qhyper)
-RCPP_DPQ_3(nbeta,::Rf_dnbeta,::Rf_pnbeta,::Rf_qnbeta)
-RCPP_DPQ_2(nbinom, ::Rf_dnbinom, ::Rf_pnbinom, ::Rf_qnbinom )
-RCPP_DPQ_2(nbinom_mu,::dnbinom_mu, ::pnbinom_mu, ::qnbinom_mu )
-RCPP_DPQ_2( nchisq, ::Rf_dnchisq, ::Rf_pnchisq, ::Rf_qnchisq )
-RCPP_DPQ_3(nf,::Rf_dnf,::Rf_pnf,::Rf_qnf)
-RCPP_DPQ_2(nt,::Rf_dnt,::Rf_pnt,::Rf_qnt)
-RCPP_DPQ_1(pois,::Rf_dpois,::Rf_ppois,::Rf_qpois)
-RCPP_DPQ_1(t, ::Rf_dt, ::Rf_pt, ::Rf_qt)
-
-#include <Rcpp/stats/cauchy.h>
-#include <Rcpp/stats/exp.h>
-#include <Rcpp/stats/gamma.h>
-#include <Rcpp/stats/logis.h>
-#include <Rcpp/stats/norm.h>
-#include <Rcpp/stats/lnorm.h>
-#include <Rcpp/stats/unif.h>
-#include <Rcpp/stats/weibull.h>
 
 #include <Rcpp/stats/random/random.h>
 
