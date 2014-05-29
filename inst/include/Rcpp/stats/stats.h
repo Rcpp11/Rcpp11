@@ -45,10 +45,16 @@ RCPP_DPQ__2(nt,double df, double ncp, df, ncp)
 RCPP_DPQ__1(pois,double lambda, lambda)
 RCPP_DPQ__1(t,double n, n)
 RCPP_DPQ__2(cauchy,double location = 0, double scale = 1, location, scale)
-RCPP_DPQ__1(exp,double shape, 1.0 / rate )
-RCPP_DPQ__2(gamma,double shape = 0, double rate = 1, location, 1.0/rate )
+RCPP_DPQ__1(exp,double rate, 1.0 / rate )
+RCPP_DPQ__2(gamma,double shape = 0, double rate = 1, shape, 1.0/rate )
 RCPP_DPQ__2(logis,double location = 0, double scale = 1, location, scale )
+#define Rf_dnorm Rf_dnorm4
+#define Rf_pnorm5 pnorm5
+#define Rf_qnorm5 qnorm5
 RCPP_DPQ__2(norm,double mean = 0, double sd = 1, mean, sd )
+#undef Rf_dnorm
+#undef Rf_pnorm5
+#undef Rf_qnorm5
 RCPP_DPQ__2(lnorm,double meanlog = 0, double sdlog = 1, meanlog, sdlog )
 RCPP_DPQ__2(unif,double a = 0, double b = 1, a, b )
 RCPP_DPQ__2(weibull,double shape, double scale = 1, shape, scale )
