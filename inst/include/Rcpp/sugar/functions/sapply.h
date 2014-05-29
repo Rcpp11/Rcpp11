@@ -4,21 +4,6 @@
 namespace Rcpp{
     namespace sugar{
              
-        template <typename Function, typename input, int RTYPE, typename storage_output_type>
-        class FunctionWithConversion {
-        public:
-            typedef typename Rcpp::traits::r_vector_element_converter<RTYPE>::type converter_type ;
-            
-            FunctionWithConversion( Function fun_ ) : fun(fun_){}
-            
-            storage_output_type operator()( input x ) const {
-                return converter_type::get( fun(x) ) ;    
-            }
-            
-        private:
-            Function fun ;
-        } ;
-        
         template <typename Function, typename input, int RESULT_R_TYPE>
         struct sapply_function_type {
             typedef typename std::result_of<Function(input)>::type fun_result_type ;
