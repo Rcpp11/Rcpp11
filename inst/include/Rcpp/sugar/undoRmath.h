@@ -33,6 +33,7 @@
 #undef dnbinom
 #undef dnchisq
 #undef dnf    
+#undef dnorm
 #undef dnorm4
 #undef dnt    
 #undef dpois
@@ -77,6 +78,7 @@
 #undef pnbinom    
 #undef pnchisq    
 #undef pnf    
+#undef pnorm    
 #undef pnorm5    
 #undef pnorm_both
 #undef pnt    
@@ -106,6 +108,7 @@
 #undef qnchisq    
 #undef qnf    
 #undef qnorm5    
+#undef qnorm    
 #undef qnt    
 #undef qpois    
 #undef qsignrank
