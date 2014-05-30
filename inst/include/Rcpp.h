@@ -11,6 +11,7 @@
 #include <initializer_list>
 #include <unordered_map>
 #include <unordered_set>
+#include <climits>
 
 #include <Rcpp/macros/macros.h>
 #include <Rcpp/R.h>
@@ -49,7 +50,6 @@
 #include <utility>
 #include <future>
 #include <chrono>
-#include <climits>
 
 #include <Rcpp/api/CRTP.h>
 #include <Rcpp/complex.h>

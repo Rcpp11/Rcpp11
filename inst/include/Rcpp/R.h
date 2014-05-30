@@ -5,11 +5,7 @@
 #undef FALSE
 #undef TRUE
 extern "C" {
-#if defined(INT32_MIN)    
-    typedef enum { FALSE = 0, TRUE = 1, NA_VALUE = INT32_MIN } Rboolean;
-#else 
     typedef enum { FALSE = 0, TRUE = 1, NA_VALUE = INT_MIN } Rboolean;
-#endif
 }
 
 #define R_EXT_BOOLEAN_H_
