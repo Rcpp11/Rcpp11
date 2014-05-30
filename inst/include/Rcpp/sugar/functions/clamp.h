@@ -15,18 +15,6 @@ namespace Rcpp{
             }
             STORAGE lhs, rhs ;    
         } ;
-        
-        // need to write this special version
-        template <>
-        struct clamp_operator<REALSXP,true> {
-            clamp_operator(double lhs_, double rhs_ ) : lhs(lhs_), rhs(rhs_){}
-            
-            inline double operator()(double x) const {
-                if( Rcpp::traits::is_na<REALSXP>(x) )  return x ;
-                return x < lhs ? lhs : (x > rhs ? rhs : x ) ;
-            }
-            double lhs, rhs ;    
-        } ;
 
     } // sugar
 
