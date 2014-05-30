@@ -18,7 +18,7 @@ namespace Rcpp{
             Comparator( const LHS_TYPE& lhs_, const RHS_TYPE& rhs_) : 
                 lhs(lhs_), rhs(rhs_) {}
         
-            inline int operator[]( R_xlen_t i ) const {
+            inline Rboolean operator[]( R_xlen_t i ) const {
                 return op( lhs[i], rhs[i] );
             }
         
@@ -50,7 +50,7 @@ namespace Rcpp{
             
             Comparator_With_One_Value( const VEC_TYPE& lhs_, STORAGE rhs_ ) : lhs(lhs_), rhs(rhs_){}
         
-            inline int operator[]( R_xlen_t i ) const {
+            inline Rboolean operator[]( R_xlen_t i ) const {
                 return op( lhs[i], rhs ) ;
             }
         
@@ -59,10 +59,10 @@ namespace Rcpp{
             template <typename Target>
             inline void apply( Target& target ) const {
                 if( rhs == NA ) {
-                    std::fill( target.begin(), target.end(), NA_INTEGER ) ;
+                    std::fill( target.begin(), target.end(), NA_VALUE ) ;
                 } else {
                     std::transform( sugar_begin(lhs), sugar_end(lhs), target.begin(), [this]( STORAGE x){
-                        return typename Rcpp::arith_op_type<RTYPE,LHS_NA,false,Op>::type()( x, rhs ) ;            
+                        return typename Rcpp::arith_op_type<RTYPE,LHS_NA,false,Op>::type()( x, rhs ) ? TRUE : FALSE ;            
                     }) ; 
                 }
             }

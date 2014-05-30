@@ -64,15 +64,18 @@ namespace Rcpp{
          *
          * @param all same meaning as in ?ls
          */ 
-        SEXP ls(bool all) const{
+        SEXP ls(Rboolean all) const{
             if( is_user_database() ){
                 R_ObjectTable *tb = (R_ObjectTable*)R_ExternalPtrAddr(HASHTAB(data));
                 return tb->objects(tb) ;
             } else{
-                return R_lsInternal( data, static_cast<Rboolean>(all) ) ;
+                return R_lsInternal( data, all) ;
             }
             return R_NilValue ;
         
+        }
+        SEXP ls(bool all) const{
+            return ls( all ? TRUE : FALSE );    
         }
     
         /**

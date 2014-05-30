@@ -29,7 +29,7 @@ namespace traits{
     inline bool is_na<STRSXP>( SEXP x ){ return x == NA_STRING ; }
 
     template <>
-    inline bool is_na<LGLSXP>( int x ){ return x == NA_LOGICAL ; }
+    inline bool is_na<LGLSXP>( Rboolean x ){ return x == NA_VALUE ; }
 
 }
 }

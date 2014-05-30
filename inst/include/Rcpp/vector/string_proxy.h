@@ -111,18 +111,18 @@ namespace internal{
         }
     
         inline int size() const { return strlen( begin() ) ; }
-        bool operator==( const char* other){
-            return strcmp( begin(), other ) == 0 ;
+        Rboolean operator==( const char* other){
+            return strcmp( begin(), other ) == 0 ? TRUE : FALSE ;
         }
-        bool operator!=( const char* other){
-            return strcmp( begin(), other ) != 0 ;
+        Rboolean operator!=( const char* other){
+            return strcmp( begin(), other ) != 0 ? TRUE : FALSE ;
         }
     
-        bool operator==( const string_proxy& other){
-            return strcmp( begin(), other.begin() ) == 0 ;
+        Rboolean operator==( const string_proxy& other){
+            return strcmp( begin(), other.begin() ) == 0 ? TRUE : FALSE ;
         }
-        bool operator!=( const string_proxy& other){
-            return strcmp( begin(), other.begin() ) != 0 ;
+        Rboolean operator!=( const string_proxy& other){
+            return strcmp( begin(), other.begin() ) != 0 ? TRUE : FALSE;
         }
       
     private:

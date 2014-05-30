@@ -27,7 +27,7 @@ namespace Rcpp{
             }
         
             inline STORAGE operator[]( R_xlen_t i ) const {
-                int x = cond[i] ;
+                Rboolean x = cond[i] ;
                 if( Rcpp::traits::is_na<LGLSXP>(x) ) return x ;
                 if( x ) return lhs[i] ;
                 return rhs[i] ;
@@ -99,7 +99,7 @@ namespace Rcpp{
                 cond(cond_), lhs(lhs_), rhs(rhs_) {}
         
             inline STORAGE operator[]( R_xlen_t i ) const {
-                int x = cond[i] ;
+                Rboolean x = cond[i] ;
                 if( Rcpp::traits::is_na<LGLSXP>(x) ) return x ;
                 if( x ) return lhs ;
                 return rhs[i] ;

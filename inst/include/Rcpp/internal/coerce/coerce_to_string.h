@@ -14,7 +14,7 @@ namespace internal{
         snprintf( buffer, NB, "%*d", integer_width(from), from );
         return buffer ;
     }
-    template <> inline const char* coerce_to_string<LGLSXP>(int from){
+    template <> inline const char* coerce_to_string<LGLSXP>(Rboolean from){
         return from == 0 ? "FALSE" : "TRUE" ;    
     }
     template <> inline const char* coerce_to_string<RAWSXP>(Rbyte from){

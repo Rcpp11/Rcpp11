@@ -12,8 +12,8 @@ typename Rcpp::traits::storage_type<RTYPE>::type* r_vector_start(SEXP x){
 template<> inline int* r_vector_start<INTSXP>(SEXP x){ 
     return INTEGER(x) ; 
 }
-template<> inline int* r_vector_start<LGLSXP>(SEXP x){ 
-    return LOGICAL(x) ;
+template<> inline Rboolean* r_vector_start<LGLSXP>(SEXP x){ 
+    return reinterpret_cast<Rboolean*>(DATAPTR(x)) ;
 }
 template<> inline double* r_vector_start<REALSXP>(SEXP x){ 
     return REAL(x) ;

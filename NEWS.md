@@ -63,6 +63,8 @@
   
 * variadic trailing arguments can now be used in `sapply` (#189)
   
+* Logical vectors internally use the `Rboolean` type instead of `int`. 
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

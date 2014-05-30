@@ -7,8 +7,8 @@ namespace Rcpp{
         struct comp_op_no_check {
             Op op ;
             
-            inline int operator()(T x, T y) const {
-                return op(x,y) ;    
+            inline Rboolean operator()(T x, T y) const {
+                return op(x,y) ? TRUE : FALSE ;    
             }
             
         } ;
@@ -17,9 +17,9 @@ namespace Rcpp{
         struct comp_op_check_lhs {
             Op op ;
             
-            inline int operator()(T x, T y) const {
-                if ( x == NA ) return NA ; 
-                return op(x,y) ;    
+            inline Rboolean operator()(T x, T y) const {
+                if ( x == NA ) return NA_VALUE ; 
+                return op(x,y) ? TRUE : FALSE ;    
             }
             
         } ;
@@ -39,9 +39,9 @@ namespace Rcpp{
         struct comp_op_check_both {
             Op op ;
             
-            inline int operator()(T x, T y) const {
-                if( y == NA || x == NA ) return NA ;
-                return op(x,y) ;    
+            inline Rboolean operator()(T x, T y) const {
+                if( y == NA || x == NA ) return NA_VALUE ;
+                return op(x,y) ? TRUE : FALSE ;    
             }
             
         } ;

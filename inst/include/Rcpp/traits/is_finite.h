@@ -27,7 +27,7 @@ namespace traits{
     inline bool is_finite<STRSXP>( SEXP x ){ return x != NA_STRING ; }
 
     template <>
-    inline bool is_finite<LGLSXP>( int x ){ return x != NA_LOGICAL ; }
+    inline bool is_finite<LGLSXP>( Rboolean x ){ return x != NA_VALUE ; }
 
 }
 }

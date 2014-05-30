@@ -7,6 +7,7 @@
 extern "C" {
     typedef enum { FALSE = 0, TRUE = 1, NA_VALUE = INT32_MIN } Rboolean;
 }
+
 #define R_EXT_BOOLEAN_H_
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes

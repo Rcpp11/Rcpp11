@@ -51,7 +51,7 @@ template<> struct storage_type<RAWSXP>{
  * typedef to int
  */
 template<> struct storage_type<LGLSXP>{ 
-    typedef int type ;
+    typedef Rboolean type ;
 } ;
 
 } // traits
