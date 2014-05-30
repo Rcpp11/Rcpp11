@@ -43,12 +43,13 @@
 #include <numeric>
 #include <algorithm>
 #include <complex>
-#include <limits>
+#include <climits>
 #include <typeinfo>
 #include <tuple>
 #include <utility>
 #include <future>
 #include <chrono>
+#include <climits>
 
 #include <Rcpp/api/CRTP.h>
 #include <Rcpp/complex.h>
