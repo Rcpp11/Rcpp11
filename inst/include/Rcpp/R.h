@@ -8,6 +8,7 @@ extern "C" {
     typedef enum { FALSE = 0, TRUE = 1, NA_VALUE = INT_MIN } Rboolean;
 }
 
+// forbid inclusion of R's Boolean.h file
 #define R_EXT_BOOLEAN_H_
 
 // include R headers, but set R_NO_REMAP and access everything via Rf_ prefixes
