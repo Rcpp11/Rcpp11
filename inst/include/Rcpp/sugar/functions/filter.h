@@ -4,11 +4,15 @@
 namespace Rcpp {
     namespace sugar {
 
-        template <int RTYPE, typename Expr, typename Callable>
-        class Filter : public SugarVectorExpression<RTYPE,true,Filter<RTYPE,Expr,Callable>> {
+        template <typename Expr, typename Callable>
+        class Filter : 
+            public SugarVectorExpression<Filter<Expr,Callable>>, 
+            public custom_sugar_vector_expression
+        {
         public:
             typedef typename Rcpp::traits::storage_type<RTYPE>::type value_type ;
-
+            typedef std::vector<value_type>::const_iterator const_iterator ;
+            
             Filter( const Expr& expr, Callable f_ ) : f(f_), data(){
                 data.reserve(expr.size()) ;
 
@@ -25,6 +29,13 @@ namespace Rcpp {
             inline void apply( Target& target ) const {
                 std::copy( data.begin(), data.end(), target.begin() ) ;
             }
+            
+            inline const_iterator begin() const {
+                return data.begin();
+            }
+            inline const_iterator end() const {
+                return data.end();
+            }
 
         private:
             Callable f ;
@@ -33,10 +44,10 @@ namespace Rcpp {
 
     }
 
-    template <int RTYPE, bool NA, typename T, typename Callable>
-    sugar::Filter<RTYPE, SugarVectorExpression<RTYPE, NA, T>, Callable>
-    Filter(Callable f, const SugarVectorExpression<RTYPE, NA, T>& data){
-        return sugar::Filter<RTYPE, SugarVectorExpression<RTYPE, NA, T>, Callable>( data, f ) ;
+    template <typename Expr, typename Callable>
+    sugar::Filter<Expr, Callable>
+    Filter(Callable f, const SugarVectorExpression<Expr>& data){
+        return sugar::Filter<Expr, Callable>( data, f ) ;
     }
 
 
