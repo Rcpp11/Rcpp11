@@ -4,8 +4,9 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Mat>
-    class MatrixColumn : public SugarVectorExpression<RTYPE,true,MatrixColumn<RTYPE,Mat>> {
+    class MatrixColumn : public SugarVectorExpression< MatrixColumn<RTYPE,Mat> > {
     public:
+        typedef typename traits::storage_type<RTYPE>::type value_type ;
         typedef typename Mat::iterator iterator;
         typedef typename Mat::Proxy Proxy ;
         
@@ -18,8 +19,8 @@ namespace Rcpp{
             return *this ;    
         }
         
-        template <bool NA, typename Vec>
-        MatrixColumn& operator=( const SugarVectorExpression<RTYPE,NA,Vec>& expr ){
+        template <typename Expr>
+        MatrixColumn& operator=( const SugarVectorExpression<Expr>& expr ){
             if( expr.size() != size() ) throw incompatible_dimensions() ;
             expr.apply(*this) ;
             return *this;

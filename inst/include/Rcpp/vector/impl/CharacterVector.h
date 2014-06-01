@@ -8,7 +8,7 @@ namespace Rcpp{
     template <typename Storage>
     class Vector<STRSXP,Storage> :
         public VectorOf<STRSXP>,
-        public SugarVectorExpression< STRSXP, true, VEC>,
+        public SugarVectorExpression<VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,

@@ -7,19 +7,17 @@ namespace Rcpp{
         struct custom_sugar_vector_expression{} ;
     }
     
-    template <int RTYPE, bool NA, typename Expr>
+    template <typename Expr>
     struct SugarVectorExpression : 
         public SugarVectorExpressionBase, 
         public CRTP<Expr>
     {
         using CRTP<Expr>::get_ref ;
     
-        struct r_type : std::integral_constant<int,RTYPE>{} ;
-        typedef typename traits::storage_type<RTYPE>::type stored_type ; 
-        typedef typename traits::storage_type<RTYPE>::type elem_type   ;
         typedef Expr expr_type ;
+        typedef typename Expr::value_type value_type ;
         
-        inline stored_type operator[]( R_xlen_t i) const {
+        inline value_type operator[]( R_xlen_t i) const {
             return get_ref()[i] ;
         }
         
