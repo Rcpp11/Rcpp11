@@ -19,6 +19,10 @@ namespace Rcpp{
     
     template <typename Cond, typename Expr1, typename Expr2>
     inline typename std::enable_if<
+        traits::is_mapply_compatible<Expr1>::value &&
+        traits::is_mapply_compatible<Expr2>::value &&
+        std::is_same< typename sugar::mapply_input_type<T1>::type, typename sugar::mapply_input_type<T2>::type >::value, 
+        
         std::is_same<typename Cond::value_type, Rboolean>, 
         typename Mapply< 
             sugar::ifelse_op<typename sugar::mapply_input_type<Expr1>::type>, 

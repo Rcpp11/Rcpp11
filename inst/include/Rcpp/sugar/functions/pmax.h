@@ -23,8 +23,8 @@ namespace Rcpp{
     
     template <typename T1, typename T2>
     inline typename std::enable_if<
-        ( traits::is_primitive<T1>::value || traits::is_vector_expression<T1>::value ) &&
-        ( traits::is_primitive<T2>::value || traits::is_vector_expression<T2>::value ) &&
+        traits::is_mapply_compatible<T1>::value &&
+        traits::is_mapply_compatible<T2>::value &&
         std::is_same< typename sugar::mapply_input_type<T1>::type, typename sugar::mapply_input_type<T2>::type >::value, 
         Mapply< sugar::pmax_op<typename sugar::mapply_input_type<T1>::type>, T1, T2 >
     >
@@ -34,8 +34,8 @@ namespace Rcpp{
     
     template <typename T1, typename T2>
     inline typename std::enable_if<
-        ( traits::is_primitive<T1>::value || traits::is_vector_expression<T1>::value ) &&
-        ( traits::is_primitive<T2>::value || traits::is_vector_expression<T2>::value ) &&
+        traits::is_mapply_compatible<T1>::value &&
+        traits::is_mapply_compatible<T2>::value &&
         std::is_same< typename sugar::mapply_input_type<T1>::type, typename sugar::mapply_input_type<T2>::type >::value, 
         Mapply< sugar::pmax_op<typename sugar::mapply_input_type<T1>::type>, T1, T2 >
     >
