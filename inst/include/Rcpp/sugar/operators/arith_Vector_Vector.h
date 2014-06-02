@@ -1,40 +1,52 @@
 #ifndef Rcpp__sugar__Arith_Vector_Vector_h
 #define Rcpp__sugar__Arith_Vector_Vector_h
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::plus >
+template <typename Expr1, typename Expr2>
+inline typename std::enable_if<
+    Rcpp::traits::same_mapply_scalar_type<Expr1,Expr2>::value, 
+    Rcpp::sugar::Mapply< std::plus<typename Expr1::value>, Expr1, Expr2 >    
+>::type
 operator+( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<Expr2>& rhs
 ) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::plus >( lhs, rhs ) ;
+    return mapply( std::plus< typename Expr1::value >(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::minus >
+template <typename Expr1, typename Expr2>
+inline typename std::enable_if<
+    Rcpp::traits::same_mapply_scalar_type<Expr1,Expr2>::value, 
+    Rcpp::sugar::Mapply< std::minus<typename Expr1::value>, Expr1, Expr2 >    
+>::type
 operator-( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<Expr2>& rhs
 ) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::minus >( lhs, rhs ) ;
+    return mapply( std::minus< typename Expr1::value >(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::multiplies >
+template <typename Expr1, typename Expr2>
+inline typename std::enable_if<
+    Rcpp::traits::same_mapply_scalar_type<Expr1,Expr2>::value, 
+    Rcpp::sugar::Mapply< std::multiplies<typename Expr1::value>, Expr1, Expr2 >    
+>::type
 operator*( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<Expr2>& rhs
 ) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::multiplies >( lhs, rhs ) ;
+    return mapply( std::multiplies< typename Expr1::value >(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::divides >
+template <typename Expr1, typename Expr2>
+inline typename std::enable_if<
+    Rcpp::traits::same_mapply_scalar_type<Expr1,Expr2>::value, 
+    Rcpp::sugar::Mapply< std::divides<typename Expr1::value>, Expr1, Expr2 >    
+>::type
 operator/( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
+    const Rcpp::SugarVectorExpression<Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<Expr2>& rhs
 ) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::divides >( lhs, rhs ) ;
+    return mapply( std::divides< typename Expr1::value >(), lhs, rhs ) ;
 }
 
 #endif

@@ -13,7 +13,7 @@ namespace Rcpp{
             // TODO: do something to mark for the no NA property
             typedef typename Expr::value_type value_type ;
     
-            Nona( const Expr& expr) : data(expr.get_ref()){} 
+            Nona( const SugarVectorExpression<Expr>& expr) : data(expr.get_ref()){} 
             
             inline R_xlen_t size() const { return data.size() ; }
             inline value_type operator[](R_xlen_t i) const { return data[i] ; }
@@ -24,7 +24,7 @@ namespace Rcpp{
             }
             
         private:
-            const Expr& data ;    
+            const SugarVectorExpression<Expr>& data ;    
         } ;
         
     }
