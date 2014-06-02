@@ -50,7 +50,7 @@ namespace Rcpp {
         return sugar::Filter<Expr, Callable>( data, f ) ;
     }
 
-
+    
 } // end namespace Rcpp
 
 

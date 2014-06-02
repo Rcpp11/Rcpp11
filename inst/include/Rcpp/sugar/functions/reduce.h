@@ -4,20 +4,13 @@
 namespace Rcpp {
     namespace sugar {
 
-        template <int RTYPE, typename Expr, typename Callable>
+        template <typename Expr, typename Callable>
         class Reduce {
-        private:
-            const Expr& expr ;
-            Callable f ;
-
         public:
-            typedef decltype( f(expr[0], expr[0]) ) result_type ;
-
-        private:
-            result_type value ;
-
-        public:
-            Reduce( const Expr& expr_, Callable f_ ) : expr(expr_), f(f_) {
+            typedef typename Expr::value_type value_type ;
+            typedef std::result_of<Callable(value_type,value_type)>::type result_type ;
+        
+            Reduce( const SugarVectorExpression<Expr>& expr_, Callable f_ ) : expr(expr_), f(f_) {
                 if( expr.size() < 2 )
                     stop( "need at least two data points in reduce" ) ;
                 auto it = sugar_begin(expr) ;
@@ -31,14 +24,18 @@ namespace Rcpp {
                 return value ;
             }
 
+        private:
+            const SugarVectorExpression<Expr>& expr ;
+            Callable f ;
+            result_type value ;
 
         } ;
 
     }
 
-    template <int RTYPE, bool NA, typename T, typename Callable>
-    auto Reduce(Callable f, const SugarVectorExpression<RTYPE, NA, T>& data) -> decltype( sugar::Reduce<RTYPE, SugarVectorExpression<RTYPE, NA, T>, Callable>(data, f).get() ) {
-        return sugar::Reduce<RTYPE, SugarVectorExpression<RTYPE, NA, T>, Callable>(data, f).get() ;
+    template <typename Expr, typename Callable>
+    auto Reduce(Callable f, const SugarVectorExpression<Expr>& data) -> decltype( sugar::Reduce<Expr,Callable>(data, f).get() ) {
+        return sugar::Reduce<Expr, Callable>(data, f).get() ;
     }
 
 

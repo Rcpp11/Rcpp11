@@ -72,9 +72,9 @@ namespace Rcpp{
     } // sugar
 
     
-    template <int RTYPE, bool NA, typename T>
-    inline sugar::Rep<RTYPE,NA,T> rep( const SugarVectorExpression<RTYPE,NA,T>& t, R_xlen_t n ){
-        return sugar::Rep<RTYPE,NA,T>( t, n ) ;
+    template <typename Expr>
+    inline sugar::Rep<Expr> rep( const SugarVectorExpression<Expr>& t, R_xlen_t n ){
+        return sugar::Rep<Expr>( t, n ) ;
     }
     
     inline sugar::Rep_Single<double> rep( double x, R_xlen_t n ){
