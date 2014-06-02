@@ -18,7 +18,7 @@ namespace Rcpp{
     }
     
     template <typename Cond, typename Expr1, typename Expr2>
-    typename std::enable_if<
+    inline typename std::enable_if<
         std::is_same<typename Cond::value_type, Rboolean>, 
         typename Mapply< 
             sugar::ifelse_op<typename sugar::mapply_input_type<Expr1>::type>, 
