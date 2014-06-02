@@ -4,18 +4,6 @@
 namespace Rcpp{
     namespace sugar{
 
-        template <typename T, bool>
-        struct mapply_input_type ;
-
-        template <typename T>
-        struct mapply_input_type<T,true> {
-            typedef typename std::decay<T>::type type ;
-        } ;
-        template <typename T>
-        struct mapply_input_type<T,false> {
-            typedef typename std::decay<T>::type::stored_type type ;
-        } ;
-
         template <typename T>
         class fake_iterator{
         public:
@@ -55,8 +43,8 @@ namespace Rcpp{
             const static int N = sizeof...(Args);
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
-            typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
-            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type value_type ;
+            typedef std::tuple< typename mapply_scalar_type<Args>::type ... > ETuple ;
+            typedef typename std::result_of<Function(typename mapply_scalar_type<Args>::type ...)>::type value_type ;
 
         private:
             Tuple data ;

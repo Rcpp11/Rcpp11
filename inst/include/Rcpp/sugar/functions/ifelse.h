@@ -21,16 +21,15 @@ namespace Rcpp{
     inline typename std::enable_if<
         traits::is_mapply_compatible<Expr1>::value &&
         traits::is_mapply_compatible<Expr2>::value &&
-        std::is_same< typename sugar::mapply_input_type<T1>::type, typename sugar::mapply_input_type<T2>::type >::value, 
-        
+        traits::same_maply_scalar_type<Expr1,Expr2>::value &&
         std::is_same<typename Cond::value_type, Rboolean>, 
         typename Mapply< 
-            sugar::ifelse_op<typename sugar::mapply_input_type<Expr1>::type>, 
+            sugar::ifelse_op<typename sugar::mapply_scalar_type<Expr1>::type>, 
             Cond, Expr1, Expr2
         > 
     >::type 
     ifelse( const SugarVectorExpression<Cond>& cond, const Expr1& expr1, const Expr2& expr2 ){
-        typedef sugar::ifelse_op< typename sugar::mapply_input_type<Expr1>::type > op ; 
+        typedef sugar::ifelse_op< typename sugar::mapply_scalar_type<Expr1>::type > op ; 
         return mapply( op(), cond, expr1, expr2) ;
     }
     
