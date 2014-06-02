@@ -10,7 +10,7 @@ namespace Rcpp{
             typedef typename Expr::value_type STORAGE ;
             const static int RTYPE = traits::r_sexptype_traits<STORAGE>::rtype ; 
             
-            Range( const T& obj_) : obj(obj_) {}
+            Range( const SugarVectorExpression<Expr>& obj_) : obj(obj_) {}
             
             operator Vector<RTYPE>(){
                 auto it = sugar_begin(obj) ;
@@ -30,7 +30,7 @@ namespace Rcpp{
             
             
         private:
-            const T& obj ;
+            const SugarVectorExpression<Expr>& obj ;
             STORAGE min_, max_, current ;
         } ;
          

@@ -8,7 +8,7 @@ namespace Rcpp{
         struct clamp_operator{
             clamp_operator(T lhs_, T rhs_ ) : lhs(lhs_), rhs(rhs_){}
             
-            inline STORAGE operator()(STORAGE x) const {
+            inline T operator()(T x) const {
                 return x < lhs ? lhs : (x > rhs ? rhs : x ) ;
             }
             T lhs, rhs ;    

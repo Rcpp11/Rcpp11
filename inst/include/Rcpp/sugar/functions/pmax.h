@@ -25,7 +25,7 @@ namespace Rcpp{
     inline typename std::enable_if<
         traits::is_mapply_compatible<T1>::value &&
         traits::is_mapply_compatible<T2>::value &&
-        traits::same_mapply_scalar_type<T1,T2>::value && 
+        traits::same_mapply_scalar_type<T1,T2>::value,
         sugar::Mapply< sugar::pmax_op<typename traits::mapply_scalar_type<T1>::type>, T1, T2 >
     >::type
     pmax( const T1& lhs, const T2& rhs ){
@@ -36,7 +36,7 @@ namespace Rcpp{
     inline typename std::enable_if<
         traits::is_mapply_compatible<T1>::value &&
         traits::is_mapply_compatible<T2>::value &&
-        traits::same_mapply_scalar_type<T1,T2>::value && 
+        traits::same_mapply_scalar_type<T1,T2>::value,
         sugar::Mapply< sugar::pmax_op<typename traits::mapply_scalar_type<T1>::type>, T1, T2 >
     >::type
     pmin( const T1& lhs, const T2& rhs ){

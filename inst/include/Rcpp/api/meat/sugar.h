@@ -33,7 +33,7 @@ namespace Rcpp{
         // apply itself to Target
         template <typename Target, typename Expr>
         struct sugar_matrix_expression_op {
-            inline void apply( Target& target, const SugarMatrixExpression<Expr>& expr ){
+            inline void apply( Target& target, const SugarMatrixExpression<RTYPE,NA,Expr>& expr ){
                 int nc = target.ncol(), nr = target.nrow() ;
                 auto it = target.begin() ;
                 for( int j=0; j<nc; j++) 

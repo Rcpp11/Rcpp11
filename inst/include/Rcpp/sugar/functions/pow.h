@@ -14,11 +14,7 @@ namespace Rcpp{
     }
     
     template <typename Expr, typename T>
-    inline typename std::enable_if<
-        is_mapply_compatible<T>::value, 
-        Mapply< sugar::pow_op< typename Expr::value_type, typename traits::mapply_scalar_type<T>::type >, Expr, T>
-    >::type
-    pow( const SugarVectorExpression<Expr>& expr, const T& exponent ){
+    auto pow( const SugarVectorExpression<Expr>& expr, const T& exponent ) -> decltype( mapply( sugar::pow_op< typename Expr::value_type, typename traits::mapply_scalar_type<T>::type >(), expr, exponent ) ){
         return mapply( sugar::pow_op< typename Expr::value_type, typename traits::mapply_scalar_type<T>::type >(), expr, exponent );  
     }
     

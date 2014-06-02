@@ -24,11 +24,9 @@ namespace Rcpp{
         class Diff : public SugarVectorExpression<Diff<Expr>> {
         public:
             typedef typename Expr::value_type value_type ;
-            typedef Vector< r_sexptype_traits<value_type>::rtype > Vec ;
+            typedef Vector< traits::r_sexptype_traits<value_type>::rtype > Vec ;
             
-            Diff( const SugarVectorExpression<Expr>& lhs ) : 
-                data(lhs.size()-1) ;
-            {
+            Diff( const SugarVectorExpression<Expr>& lhs ) : data(lhs.size()-1) {
                 int n = lhs.size()-1 ;
                 value_type previous = lhs[0] ;
                 auto it = data.begin() ;

@@ -107,7 +107,7 @@ namespace sugar {
     
     template <typename T>
     struct sugar_iterator_type {
-        typedef typename sugar_iterator_type_dispatch<T,traits::is_materialized<expr_type>::type::value>::type type ;
+        typedef typename sugar_iterator_type_dispatch<T,traits::is_materialized<T>::type::value>::type type ;
     } ;
     
     
@@ -129,7 +129,7 @@ namespace sugar {
     
     template <typename Expr>
     inline auto sugar_end(const SugarVectorExpression<Expr>& obj) -> decltype( sugar_begin(obj) ){
-        return sugar_begin<RTYPE,NA,Expr>(obj) + obj.size() ;
+        return sugar_begin<Expr>(obj) + obj.size() ;
     }
     
     
