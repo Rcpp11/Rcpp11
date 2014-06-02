@@ -6,8 +6,9 @@ namespace Rcpp{
 
         template <typename T>
         struct vector_of {
-            typedef typename Vector< r_sexptype_traits<T>::rtype > type ;
+            typedef Vector< r_sexptype_traits<T>::rtype > type ;
         } ;
+        
     }
 }
 #endif
