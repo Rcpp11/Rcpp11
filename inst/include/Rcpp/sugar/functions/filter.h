@@ -10,7 +10,7 @@ namespace Rcpp {
             public custom_sugar_vector_expression
         {
         public:
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type value_type ;
+            typedef typename Expr::value_type value_type ;
             typedef std::vector<value_type>::const_iterator const_iterator ;
             
             Filter( const Expr& expr, Callable f_ ) : f(f_), data(){
