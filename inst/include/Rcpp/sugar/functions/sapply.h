@@ -11,7 +11,6 @@ namespace Rcpp{
         {
         public:
             typedef Function function_type ;
-            typedef 
             typedef typename Expr::value_type vec_storage ;
             typedef typename std::result_of<Function(vec_storage)>::type value_type ; 
             
@@ -45,7 +44,7 @@ namespace Rcpp{
             
             typedef Rcpp::functional::Compose<Function2,Function1> function_type ;
             typedef SugarVectorExpression< Sapply<Expr, Function2> > outer_input_type ;
-            typedef std::result_of<function_type(typename Expr::value_type)>::type value_type ;
+            typedef typename std::result_of<function_type(typename Expr::value_type)>::type value_type ;
             
             Sapply( const SugarVectorExpression< Sapply<Expr, Function2> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 
@@ -62,7 +61,7 @@ namespace Rcpp{
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;     
             }
             
-            const input_type& vec ;
+            const SugarVectorExpression<Expr>& vec ;
             function_type fun ;
         } ;
     
@@ -77,7 +76,7 @@ namespace Rcpp{
             SapplyFunctionBinder( Function fun_, Args&&... args) : 
                 fun(fun_), tuple( std::forward<Args>(args)...){}
                 
-            inline value_type operator()( storage_type x ) const {
+            inline value_type operator()( T x ) const {
                 return apply( x, Sequence() ) ;        
             }
                 
@@ -86,7 +85,7 @@ namespace Rcpp{
             Tuple tuple ;
             
             template <int... S>
-            inline fun_result_type apply( storage_type x, Rcpp::traits::sequence<S...> ) const {
+            inline value_type apply( T x, Rcpp::traits::sequence<S...> ) const {
                 return fun( x, std::get<S>(tuple)... );  
             }
             
@@ -109,7 +108,6 @@ namespace Rcpp{
     sapply( const SugarVectorExpression<Expr>& expr, Function fun, Args&&... args ) {
         typedef typename sugar::sugar_dispatch_function_type<Function,typename Expr::value_type, Args...>::type op ; 
         return sugar::Sapply<Expr,op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
-        ) ;
     }
 
 } // Rcpp

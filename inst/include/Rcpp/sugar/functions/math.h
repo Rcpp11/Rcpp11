@@ -1,16 +1,12 @@
 #ifndef RCPP_SUGAR_MATH_H
 #define RCPP_SUGAR_MATH_H
 
-#define VECTORIZED_MATH_1(__NAME__,__SYMBOL__)                                                              \
-namespace Rcpp {                                                                                            \
-    template <bool HAS_NA, typename T>                                                                      \
-    auto __NAME__( const SugarVectorExpression<REALSXP,HAS_NA,T>& x ) -> decltype(sapply(x, __SYMBOL__)) {  \
-        return sapply( x, __SYMBOL__ ) ;                                                                    \
-    }                                                                                                       \
-    template <bool HAS_NA, typename T>                                                                      \
-    auto __NAME__( const SugarVectorExpression<INTSXP,HAS_NA,T>& x ) -> decltype(sapply(x, __SYMBOL__)) {   \
-        return sapply( x, __SYMBOL__ ) ;                                                                    \
-    }                                                                                                       \
+#define VECTORIZED_MATH_1(__NAME__,__SYMBOL__)                                                    \
+namespace Rcpp {                                                                                  \
+    template <typename Expr>                                                                      \
+    auto __NAME__( const SugarVectorExpression<Expr>& x ) -> decltype(sapply(x, __SYMBOL__)) {    \
+        return sapply( x, __SYMBOL__ ) ;                                                          \
+    }                                                                                             \
 }
 
 namespace Rcpp{                     

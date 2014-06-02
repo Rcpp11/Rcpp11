@@ -8,9 +8,9 @@ namespace Rcpp{
         struct ifelse_op {
             inline T operator()(Rboolean cond, T lhs, T rhs ){
                 switch( cond ){ 
-                    TRUE: return lhs ;
-                    FALSE: return rhs ;
-                    NA_VALUE: return NA ;
+                    case TRUE: return lhs ;
+                    case FALSE: return rhs ;
+                    case NA_VALUE: return NA ;
                 } ;
             }
         } ;
@@ -21,15 +21,15 @@ namespace Rcpp{
     inline typename std::enable_if<
         traits::is_mapply_compatible<Expr1>::value &&
         traits::is_mapply_compatible<Expr2>::value &&
-        traits::same_maply_scalar_type<Expr1,Expr2>::value &&
-        std::is_same<typename Cond::value_type, Rboolean>, 
-        typename Mapply< 
-            sugar::ifelse_op<typename sugar::mapply_scalar_type<Expr1>::type>, 
+        traits::same_mapply_scalar_type<Expr1,Expr2>::value &&
+        std::is_same<typename Cond::value_type, Rboolean>::value, 
+        sugar::Mapply< 
+            sugar::ifelse_op<typename traits::mapply_scalar_type<Expr1>::type>, 
             Cond, Expr1, Expr2
         > 
     >::type 
     ifelse( const SugarVectorExpression<Cond>& cond, const Expr1& expr1, const Expr2& expr2 ){
-        typedef sugar::ifelse_op< typename sugar::mapply_scalar_type<Expr1>::type > op ; 
+        typedef sugar::ifelse_op< typename traits::mapply_scalar_type<Expr1>::type > op ; 
         return mapply( op(), cond, expr1, expr2) ;
     }
     

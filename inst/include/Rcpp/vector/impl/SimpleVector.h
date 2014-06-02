@@ -19,10 +19,9 @@ namespace Rcpp{
     {
     public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;
-        typedef value_type stored_type  ;
-        typedef typename std::conditional<RTYPE==LGLSXP,bool,stored_type>::type init_type ;
-        typedef stored_type&       reference       ;
-        typedef const stored_type& const_reference ;
+        typedef typename std::conditional<RTYPE==LGLSXP,bool,value_type>::type init_type ;
+        typedef value_type&        reference       ;
+        typedef const value_type&  const_reference ;
         typedef reference          Proxy           ;
         typedef const_reference    const_Proxy     ;
         typedef value_type*        iterator        ; 

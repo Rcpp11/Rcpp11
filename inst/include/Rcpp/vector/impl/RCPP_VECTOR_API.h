@@ -43,10 +43,10 @@
         assign_applyable(other) ;                                                             
         return *this ;                                                                        
     }                                                                                         
-    inline stored_type* dataptr(){                                                            
+    inline value_type* dataptr(){                                                            
         return cache ;
     }                                                                                         
-    inline const stored_type* dataptr() const{                                                
+    inline const value_type* dataptr() const{                                                
         return const_cast<const value_type*>(cache) ;
     }                                                                                         
     using NameProxyPolicy<VEC>::operator[] ;

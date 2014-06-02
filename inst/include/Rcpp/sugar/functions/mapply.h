@@ -43,8 +43,8 @@ namespace Rcpp{
             const static int N = sizeof...(Args);
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
-            typedef std::tuple< typename mapply_scalar_type<Args>::type ... > ETuple ;
-            typedef typename std::result_of<Function(typename mapply_scalar_type<Args>::type ...)>::type value_type ;
+            typedef std::tuple< typename traits::mapply_scalar_type<Args>::type ... > ETuple ;
+            typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type value_type ;
 
         private:
             Tuple data ;
