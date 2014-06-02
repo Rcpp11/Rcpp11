@@ -48,13 +48,7 @@ namespace Rcpp{
             typename... Args
         >
         class Mapply :
-            public SugarVectorExpression<
-                Rcpp::traits::r_sexptype_traits<
-                    typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type
-                >::rtype ,
-                true ,
-                Mapply<Function,Args...>
-            >,
+            public SugarVectorExpression<Mapply<Function,Args...>>,
             public custom_sugar_vector_expression
         {
         public:
@@ -62,7 +56,7 @@ namespace Rcpp{
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
             typedef std::tuple< typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ... > ETuple ;
-            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type result_type ;
+            typedef typename std::result_of<Function(typename mapply_input_type<Args, Rcpp::traits::is_primitive<Args>::type::value >::type ...)>::type value_type ;
 
         private:
             Tuple data ;
@@ -82,7 +76,7 @@ namespace Rcpp{
                 fun(fun_),
                 n(get_size()){}
 
-            inline result_type operator[]( R_xlen_t i ) const {
+            inline value_type operator[]( R_xlen_t i ) const {
                 return eval(i, Sequence() );
             }
             inline R_xlen_t size() const {
@@ -124,7 +118,7 @@ namespace Rcpp{
             
             // methods used for the implementation of operator[]
             template <int... S>
-            inline result_type eval( R_xlen_t i, Rcpp::traits::sequence<S...> ) const {
+            inline value_type eval( R_xlen_t i, Rcpp::traits::sequence<S...> ) const {
                 return fun(
                     get_ith<S>(i, typename Rcpp::traits::is_primitive< typename std::tuple_element<S,Tuple>::type >::type() ) ...
                 );
