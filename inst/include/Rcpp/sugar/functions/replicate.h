@@ -4,14 +4,15 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename OUT, typename CallType >
+        template <typename CallType>
         class Replicate : 
-            public SugarVectorExpression< Rcpp::traits::r_sexptype_traits<OUT>::rtype , true, Replicate<OUT,CallType> >, 
+            public SugarVectorExpression<Replicate<CallType> >, 
             public custom_sugar_vector_expression {
         public:
+            typedef typename std::result_of<CallType()>::type value_type ;
             Replicate( R_xlen_t n_, CallType call_ ): n(n_), call(call_) {}
             
-            inline OUT operator[]( R_xlen_t i ) const {
+            inline value_type operator[]( R_xlen_t i ) const {
                 return call() ;
             }
             inline R_xlen_t size() const { return n ; }
@@ -22,7 +23,7 @@ namespace Rcpp{
             }
             
         private:
-            size_t n ;
+            R_xlen_t n ;
             CallType call ; 
         } ;
     
@@ -30,9 +31,9 @@ namespace Rcpp{
     } // sugar
     
     template <typename CallType>
-    inline sugar::Replicate<typename std::result_of<CallType()>::type, CallType> 
+    inline sugar::Replicate<CallType> 
     replicate( R_xlen_t n, CallType call){
-        return sugar::Replicate<typename std::result_of<CallType()>::type, CallType>( n, call ) ;    
+        return sugar::Replicate<CallType>( n, call ) ;    
     }
 
 
