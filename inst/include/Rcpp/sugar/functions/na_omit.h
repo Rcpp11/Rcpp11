@@ -2,56 +2,20 @@
 #define Rcpp__sugar__na_omit_h
 
 namespace Rcpp{
-namespace sugar{
-     
-    template <int RTYPE, bool NA, typename T>
-    Vector<RTYPE> na_omit_impl(const T& x, std::false_type ) {
-        R_xlen_t n = x.size() ;
-        R_xlen_t n_out = n - sum( is_na(x) ) ;
     
-        Vector<RTYPE> out(n_out) ;
-        for( R_xlen_t i=0, j=0; i<n; i++){
-            if( Vector<RTYPE>::is_na( x[i] ) ) continue ;
-            out[j++] = x[i];
-        }
-        return out ;
-    }  
-
-    template <int RTYPE, bool NA, typename T>
-    Vector<RTYPE> na_omit_impl(const T& x, std::true_type ) {
-        R_xlen_t n = x.size() ;
-        R_xlen_t n_out = n - sum( is_na(x) ) ;
-    
-        Vector<RTYPE> out(n_out) ;
-        bool has_name = x.attr("names") != R_NilValue ;
-        if( has_name ){
-            CharacterVector names = x.attr("names") ;
-            CharacterVector onames( n_out ) ;
-            
-            for( R_xlen_t i=0, j=0; i<n; i++){
-                if( Vector<RTYPE>::is_na( x[i] ) ) continue ;
-                onames[j] = names[i] ;
-                out[j++] = x[i];
+    namespace sugar {
+        struct not_na_op {
+            template <typename T>
+            bool operator()( T x ){
+                return ! ( x == NA ) ;    
             }
-            out.attr("names") = onames ;
-        } else {
-            for( R_xlen_t i=0, j=0; i<n; i++){
-                if( Vector<RTYPE>::is_na( x[i] ) ) continue ;
-                out[j++] = x[i];
-            }
-        }
-        return out ;
-    }  
+        } ;
+    }
     
-} // sugar
-
-template <int RTYPE, bool NA, typename T>
-inline Vector<RTYPE> na_omit( const SugarVectorExpression<RTYPE,NA,T>& t){
-    return sugar::na_omit_impl<RTYPE,NA,T>( 
-        t.get_ref(), 
-        typename std::is_same<T,Vector<RTYPE> >::type()
-    ) ;
-}
+    template <typename Expr>
+    inline auto na_omit( const SugarVectorExpression<Expr>& t) -> decltype( filter( sugar::not_na_op(), t) ) {
+        return filter( sugar::not_na_op(), t) ; 
+    }
 
 } // Rcpp
 #endif

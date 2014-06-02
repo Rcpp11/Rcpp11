@@ -37,5 +37,6 @@
 #include <Rcpp/traits/mapply_scalar_type.h>
 #include <Rcpp/traits/is_mapply_compatible.h>
 #include <Rcpp/traits/same_mapply_scalar_type.h>
+#include <Rcpp/traits/vector_of.h>
 
 #endif

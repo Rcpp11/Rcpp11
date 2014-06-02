@@ -3,9 +3,13 @@
           
 namespace Rcpp{
 
-    template <int RTYPE, bool X_NA, typename T, bool RHS_NA, typename RHS_T>
-    inline IntegerVector match( const SugarVectorExpression<RTYPE,X_NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table_ ){
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+    template <typename Expr1, typename Expr2>
+    inline typename std::enable_if<
+        traits::same_mapply_scalar_type<Expr1, Expr2>::value,
+        IntegerVector
+    >::type match( const SugarVectorExpression<Expr1>& x, const SugarVectorExpression<Expr2>& table_ ){
+        
+        typedef typename Expr1::value_type STORAGE ;
         
         std::unordered_map<STORAGE,int> map ;
         int i=0; 

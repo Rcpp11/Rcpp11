@@ -3,24 +3,24 @@
 
 namespace Rcpp{
     
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_finite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_finite<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_finite<RTYPE> ) ;
+    template <typename Expr>
+    inline auto is_finite( const SugarVectorExpression<Expr>& t) -> decltype( sapply(t, traits::is_finite<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ) {
+        return sapply(t, traits::is_finite<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_infinite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_infinite<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_infinite<RTYPE> ) ;
+    template <typename Expr>
+    inline auto is_infinite( const SugarVectorExpression<Expr>& t) -> decltype( sapply(t, traits::is_infinite<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ) {
+        return sapply(t, traits::is_infinite<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_na( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_na<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_na<RTYPE> ) ;
+    template <typename Expr>
+    inline auto is_na( const SugarVectorExpression<Expr>& t) -> decltype( sapply(t, traits::is_na<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ) {
+        return sapply(t, traits::is_na<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_nan( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_nan<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_nan<RTYPE> ) ;
+    template <typename Expr>
+    inline auto is_nan( const SugarVectorExpression<Expr>& t) -> decltype( sapply(t, traits::is_nan<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ) {
+        return sapply(t, traits::is_nan<trait::r_sexptype_traits<typename Expr::value_type>::rtype> ) ;
     }
 
     
