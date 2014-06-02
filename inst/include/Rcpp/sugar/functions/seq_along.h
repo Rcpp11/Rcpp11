@@ -5,9 +5,11 @@ namespace Rcpp{
     namespace sugar{
     
         class SeqLen : 
-            public SugarVectorExpression< INTSXP,false,SeqLen >, 
+            public SugarVectorExpression<SeqLen>, 
             public custom_sugar_vector_expression {
         public:
+            typedef int value_type ;
+            
             SeqLen( R_xlen_t len_ ) : len(len_){}
         
             inline int operator[]( R_xlen_t i ) const {
@@ -23,11 +25,33 @@ namespace Rcpp{
         private:
             R_xlen_t len ;
         } ;
+        
+        class Seq : 
+            public SugarVectorExpression<Seq>, 
+            public custom_sugar_vector_expression {
+        public:
+            typedef int value_type ;
+            
+            Seq( R_xlen_t start_, R_xlen_t end_ ) : start(start_), end(end_) {}
+        
+            inline int operator[]( R_xlen_t i ) const {
+                return start + i ;
+            }
+            inline R_xlen_t size() const { return end-start+1 ; }
+             
+            template <typename Target>
+            inline void apply( Target& target ) const {
+                std::iota( target.begin(), target.end(), start ) ;     
+            }
+        
+        private:
+            R_xlen_t start, end ;
+        } ;
     
     } // sugar
     
-    template <int RTYPE, bool NA, typename T>
-    inline sugar::SeqLen seq_along( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t){
+    template <typename Expr>
+    inline sugar::SeqLen seq_along( const SugarVectorExpression<Expr>& t){
         return sugar::SeqLen( t.size() ) ;
     }
     
@@ -35,7 +59,7 @@ namespace Rcpp{
         return sugar::SeqLen( n ) ;
     }
     
-    inline Range seq(R_xlen_t start, R_xlen_t end){
+    inline sugar::Seq seq(R_xlen_t start, R_xlen_t end){
         return Range( start, end ) ;
     }
 

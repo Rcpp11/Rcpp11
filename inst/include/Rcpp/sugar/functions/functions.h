@@ -6,7 +6,6 @@
 
 #include <Rcpp/sugar/functions/FunctionWithConversion.h>
 
-#include <Rcpp/sugar/Range.h>
 #include <Rcpp/sugar/functions/Lazy.h>
 
 #include <Rcpp/sugar/functions/math.h>
