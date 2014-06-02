@@ -11,7 +11,7 @@
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/generic_proxy.h>
 
-#include <Rcpp/vector/VectorOf.h>
+#include <Rcpp/vector/VectorOfRTYPE.h>
 #include <Rcpp/vector/impl/SimpleVector.h>
 #include <Rcpp/vector/impl/CharacterVector.h>
 #include <Rcpp/vector/impl/List.h>

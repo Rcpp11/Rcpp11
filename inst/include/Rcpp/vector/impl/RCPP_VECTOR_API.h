@@ -24,12 +24,12 @@
     }                                                                                         
     template <typename Expr>                                                         
     Vector( const SugarVectorExpression<Expr>& other ) {                             
-        import_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
+        import_expression( other, typename std::is_base_of< VectorOfRTYPE<RTYPE>, Expr>::type() ) ;
     }                                                                                         
                                                                                               
     template <typename Expr>                                                         
     Vector& operator=( const SugarVectorExpression<Expr>& other ){                 
-        assign_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
+        assign_expression( other, typename std::is_base_of< VectorOfRTYPE<RTYPE>, Expr>::type() ) ;
         return *this ;                                                                        
     }                                                                                         
                                                                                               

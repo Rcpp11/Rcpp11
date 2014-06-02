@@ -8,7 +8,7 @@ namespace Rcpp{
     
     template <int RTYPE, typename Storage>
     class Vector :
-        public VectorOf<RTYPE>,
+        public VectorOfRTYPE<RTYPE>,
         public SugarVectorExpression<VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
