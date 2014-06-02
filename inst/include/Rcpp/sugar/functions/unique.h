@@ -3,25 +3,26 @@
           
 namespace Rcpp{
 
-template <int RTYPE, bool NA, typename T>
-inline Vector<RTYPE> unique( const SugarVectorExpression<RTYPE,NA,T>& t ){
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
-    return wrap( std::unordered_set<STORAGE>( t.begin(), t.end() ) ) ;
-}
-
-template <int RTYPE, bool NA, typename T, bool RHS_NA, typename RHS_T>
-inline LogicalVector in( const SugarVectorExpression<RTYPE,NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table ){
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
+    template <typename Expr>
+    inline typename traits::vector_of<typename Expr::value_type>::type unique( const SugarVectorExpression<Expr>& t ){
+        typedef typename Expr::value_type value_type;
+        std::unordered_set<value_type> set( t.begin(), t.end() ) ;
+        return import( set.begin(), set.end() ) ;
+    }
     
-    std::unordered_set<STORAGE> set( table.begin(), table.end() );
-    LogicalVector res(x.size());
-    std::transform( x.begin(), x.end(), res.begin(), [&set](STORAGE y){
-            return set.count(y) ;
-    }) ;
-    return res ;
-    
-}
-
+    template <typename Expr1, typename Expr2>
+    inline typename std::enable_if<
+        std::is_same< typename Expr1::value_type, typename Expr2::value_type >::value, 
+        LogicalVector
+    >::type in( const SugarVectorExpression<Expr1>& x, const SugarVectorExpression<Expr2>& table ){
+        typedef typename Expr::value_type value_type ;
+        
+        std::unordered_set<value_type> set( table.begin(), table.end() );
+        LogicalVector res = transform( x.begin(), x.end(), res.begin(), [&set](STORAGE y){
+                return set.count(y) ;
+        }) ;
+        return res ;
+    }
 
 } // Rcpp
 #endif

@@ -2,24 +2,23 @@
 #define Rcpp__traits__comparator_type__h
 
 namespace Rcpp{
-namespace traits{
-   
-class StringCompare {
-public:
-    inline bool operator()( SEXP x, SEXP y) const {
-        return strcmp( CHAR(x), CHAR(y) ) < 0 ; 
+    namespace traits{
+       
+        class StringCompare {
+        public:
+            inline bool operator()( SEXP x, SEXP y) const {
+                return strcmp( CHAR(x), CHAR(y) ) < 0 ; 
+            }
+        } ;
+        
+        template <int RTYPE> struct comparator_type {
+            typedef std::less< typename storage_type<RTYPE>::type > type ;
+        } ;
+        template <> struct comparator_type<STRSXP>{
+            typedef StringCompare type ;
+        } ;
+       
     }
-} ;
-
-template <int RTYPE> struct comparator_type {
-    typedef std::less< typename storage_type<RTYPE>::type > type ;
-} ;
-template <> struct comparator_type<STRSXP>{
-    typedef StringCompare type ;
-} ;
-   
-
-}
 }     
 
 #endif
