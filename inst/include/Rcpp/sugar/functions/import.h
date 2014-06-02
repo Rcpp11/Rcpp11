@@ -10,7 +10,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
-            typename std::iterator_traits<InputIterator>::value_type value_type ;
+            typedef typename std::iterator_traits<InputIterator>::value_type value_type ;
             
             Import( InputIterator begin_, InputIterator end_ ) : begin(begin_), end(end_){}
             
