@@ -4,86 +4,55 @@
 namespace Rcpp{
     namespace sugar{
              
-        template <typename Function, typename input, int RESULT_R_TYPE>
-        struct sapply_function_type {
-            typedef typename std::result_of<Function(input)>::type fun_result_type ;
-            typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type storage_output_type ;
-            
-            typedef typename std::conditional< 
-                std::is_same<fun_result_type, storage_output_type>::value, 
-                Function,
-                FunctionWithConversion<Function,input,RESULT_R_TYPE,storage_output_type>
-            >::type type ;
-        } ;
-        
-        template <int RTYPE, bool HAS_NA, typename T, typename Function>
-        class Sapply : public SugarVectorExpression< 
-                Rcpp::traits::r_sexptype_traits<
-                    typename std::result_of<Function(typename Rcpp::traits::storage_type<RTYPE>::type)>::type
-                >::rtype , 
-                true ,
-                Sapply<RTYPE,HAS_NA,T,Function>
-            >, 
+        template <typename Expr, typename Function>
+        class Sapply : 
+            public SugarVectorExpression<Sapply<Expr,Function>>, 
             public custom_sugar_vector_expression
         {
         public:
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type VEC_STORAGE ;
-            typedef typename std::result_of<Function(VEC_STORAGE)>::type fun_result_type ; 
-            const static int RESULT_R_TYPE = 
-                Rcpp::traits::r_sexptype_traits<fun_result_type>::rtype ;
-            typedef typename sapply_function_type<Function,VEC_STORAGE,RESULT_R_TYPE>::type function_type ;
-            typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type result_type ;
+            typedef Function function_type ;
+            typedef 
+            typedef typename Expr::value_type vec_storage ;
+            typedef typename std::result_of<Function(vec_storage)>::type value_type ; 
             
-            typedef Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T> input_type ;
-            Sapply( const input_type& vec_, Function fun_ ) : vec(vec_), fun(fun_){}
+            Sapply( const SugarVectorExpression<Expr>& vec_, Function fun_ ) : 
+                vec(vec_), fun(fun_){}
         
-            inline result_type operator[]( R_xlen_t i ) const {
+            inline value_type operator[]( R_xlen_t i ) const {
                 return fun( vec[i] ) ;
             }
-            inline R_xlen_t size() const { return vec.size() ; }
+            inline R_xlen_t size() const { 
+                return vec.size() ; 
+            }
         
             template <typename Target>
             inline void apply( Target& target ) const {
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;
             }
             
-            const input_type& vec ;
+            const SugarVectorExpression<Expr>& vec ;
             function_type fun ;
         
         } ;
         
         
-        template <int RTYPE1, bool HAS_NA1, int RTYPE2, bool HAS_NA2, typename Function1, typename Function2, typename T2>
-        class Sapply< RTYPE1, HAS_NA1, Sapply<RTYPE2, HAS_NA2, T2, Function2>, Function1> : 
-            public SugarVectorExpression<
-                Rcpp::traits::r_sexptype_traits<
-                    typename std::result_of< Function1(typename std::result_of< Function2(typename Rcpp::traits::storage_type<RTYPE2>::type) >::type) >::type
-                >::rtype,
-                HAS_NA2 || HAS_NA1, 
-                Sapply< RTYPE1, HAS_NA1, Sapply<RTYPE2, HAS_NA2, T2, Function2>, Function1>   
-            >, 
+        template <typename Expr, typename Function1, typename Function2>
+        class Sapply< Sapply<Expr, Function2>, Function1> : 
+            public SugarVectorExpression< Sapply< Sapply<Expr, Function2>, Function1> >, 
             public custom_sugar_vector_expression
         {
         public:
-            typedef Sapply<RTYPE2, HAS_NA2, T2, Function2> inner ;
-            typedef typename inner::input_type input_type ;
-            typedef Rcpp::SugarVectorExpression<RTYPE1,HAS_NA1,Sapply<RTYPE2, HAS_NA2, T2, Function2>> outer_input_type ;
             
-            typedef Rcpp::functional::Compose<typename inner::function_type,Function1> Function ;
-            typedef typename Rcpp::traits::storage_type<RTYPE2>::type VEC_STORAGE ;
-            typedef typename std::result_of<Function(VEC_STORAGE)>::type fun_result_type ;
-            const static int RESULT_R_TYPE = 
-                Rcpp::traits::r_sexptype_traits<fun_result_type>::rtype ;
-            typedef typename Rcpp::traits::storage_type<RESULT_R_TYPE>::type result_type ;
+            typedef Rcpp::functional::Compose<Function2,Function1> function_type ;
+            typedef SugarVectorExpression< Sapply<Expr, Function2> > outer_input_type ;
+            typedef std::result_of<function_type(typename Expr::value_type)>::type value_type ;
             
-            typedef typename sapply_function_type<Function,VEC_STORAGE,RESULT_R_TYPE>::type function_type ;
-            
-            Sapply( const outer_input_type& v, Function1 f1 ) : 
+            Sapply( const SugarVectorExpression< Sapply<Expr, Function2> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 
                 fun( v.get_ref().fun, f1 )
             {}
             
-            inline result_type operator[]( R_xlen_t i ) const {
+            inline value_type operator[]( R_xlen_t i ) const {
                 return fun( vec[i] ) ;
             }
             inline R_xlen_t size() const { return vec.size() ; }
@@ -98,18 +67,17 @@ namespace Rcpp{
         } ;
     
         
-        template <int RTYPE, typename Function, typename... Args >
+        template <typename Function, typename T, typename... Args >
         class SapplyFunctionBinder {
         public:
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type storage_type ;
             typedef typename std::tuple< typename std::decay<Args>::type ...> Tuple ;
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
-            typedef typename std::result_of<Function(storage_type,Args...)>::type fun_result_type ;
+            typedef typename std::result_of<Function(T,Args...)>::type value_type ;
             
             SapplyFunctionBinder( Function fun_, Args&&... args) : 
                 fun(fun_), tuple( std::forward<Args>(args)...){}
                 
-            inline fun_result_type operator()( storage_type x ) const {
+            inline value_type operator()( storage_type x ) const {
                 return apply( x, Sequence() ) ;        
             }
                 
@@ -124,22 +92,23 @@ namespace Rcpp{
             
         } ;
         
-        template <int RTYPE, typename Function, typename... Args>
+        template <typename Function, typename T, typename... Args>
         struct sugar_dispatch_function_type {
-            typedef SapplyFunctionBinder<RTYPE,Function,Args...> type ;
+            typedef SapplyFunctionBinder<Function,Args...> type ;
         } ;
         
-        template <int RTYPE, typename Function>
-        struct sugar_dispatch_function_type<RTYPE,Function> {
+        template <typename Function, typename T>
+        struct sugar_dispatch_function_type<Function,T> {
             typedef Function type ;
         } ;
         
     } // sugar
     
-    template <int RTYPE, bool HAS_NA, typename T, typename Function, typename... Args >
-    inline auto sapply( const SugarVectorExpression<RTYPE,HAS_NA,T>& t, Function fun, Args&&... args ) -> sugar::Sapply<RTYPE,HAS_NA,T,typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type> {
-        return sugar::Sapply<RTYPE,HAS_NA,T,typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type>( t, 
-            typename sugar::sugar_dispatch_function_type<RTYPE,Function,Args...>::type( fun, std::forward<Args>(args)... )
+    template <typename Expr, typename Function, typename... Args >
+    inline sugar::Sapply<Expr,typename sugar::sugar_dispatch_function_type<Function,typename Expr::value_type, Args...>::type >
+    sapply( const SugarVectorExpression<Expr>& expr, Function fun, Args&&... args ) {
+        typedef typename sugar::sugar_dispatch_function_type<Function,typename Expr::value_type, Args...>::type op ; 
+        return sugar::Sapply<Expr,op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
         ) ;
     }
 
