@@ -4,113 +4,66 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <int RTYPE, bool LHS_NA, typename LHS_T>
-        class Diff : public SugarVectorExpression< RTYPE, LHS_NA , Diff<RTYPE,LHS_NA,LHS_T> > {
+        template <typename T>
+        struct diff_op {
+            inline T operator()(T x, T y){ 
+                if( x == NA || y == NA ) return NA ;
+                return x - y ;
+            }        
+        } ;
+        
+        template <>
+        struct diff_op<double>{
+            inline double operator()(double x, double y){ 
+                return x - y ; 
+            }    
+        } ;
+        
+        
+        template <typename Expr>
+        class Diff : public SugarVectorExpression<Diff<Expr>> {
         public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T> LHS_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-            Diff( const LHS_TYPE& lhs_ ) : 
-                lhs(lhs_), 
-                previous(lhs_[0]),
-                previous_index(0),
-                was_na(traits::is_na<RTYPE>(previous)) 
-            {}
-        
-            inline STORAGE operator[]( R_xlen_t i ) const {
+            typedef typename Expr::value_type value_type ;
+            typedef Vector< r_sexptype_traits<value_type>::rtype > Vec ;
+            
+            Diff( const SugarVectorExpression<Expr>& lhs ) : 
+                data(lhs.size()-1) ;
+            {
+                int n = lhs.size()-1 ;
+                value_type previous = lhs[0] ;
+                auto it = data.begin() ;
+                for( int i=0; i<n; i++, ++it){
+                    value_type current = lhs[i+1] ;
+                    *it      =  diff_op<value_type>(current, previous);
+                    previous = current ;
+                }
                 
-                STORAGE y = lhs[i+1] ;
-                if( previous_index != i ){
-                    // we don't know the previous value, we need to get it. 
-                    set_previous(i, lhs[i] ) ; // record the current value
-                }
-                if( was_na || traits::is_na<RTYPE>(y) ) {
-                    set_previous(i+1, y ) ;
-                    return NA; 
-                }
-                STORAGE res = y - previous ;
-                set_previous( i+1, y) ;
-                return res ;
+            }
+        
+            inline value_type operator[]( R_xlen_t i ) const {
+                return data[i] ;
             }     
         
-            inline void set_previous(R_xlen_t i, STORAGE value) const {
-                previous = value ;
-                was_na = traits::is_na<RTYPE>(previous) ;
-                previous_index = i ;
+            inline R_xlen_t size() const {
+                return data.size() ; 
+            }
+            
+            template <typename Target>
+            void apply( Target& target ){
+                target = data ;        
             }
         
-            inline R_xlen_t size() const { return lhs.size() - 1 ; }
-        
         private:
-            const LHS_TYPE& lhs ;
-            mutable STORAGE previous ;
-            mutable R_xlen_t previous_index ;
-            mutable bool was_na ;
+            Vec data ;
         } ;
         
-        template <typename LHS_T, bool LHS_NA>
-        class Diff<REALSXP, LHS_NA, LHS_T> : public SugarVectorExpression< REALSXP, LHS_NA, Diff<REALSXP,LHS_NA,LHS_T> >{
-        public:
-            typedef typename Rcpp::SugarVectorExpression<REALSXP,LHS_NA,LHS_T> LHS_TYPE ;
-        
-            Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs_[0]), previous_index(0) {}
-        
-            inline double operator[]( int i ) const {
-                double y = lhs[i+1] ;
-                if( previous_index != i ) previous = lhs[i] ;
-                double res = y - previous ;
-                previous = y ;
-                previous_index = i+1 ;
-                return res ;
-            }
-            inline R_xlen_t size() const { return lhs.size() - 1 ; }
-        
-        private:
-            const LHS_TYPE& lhs ;
-            mutable double previous ;
-            mutable int previous_index ;
-        } ;
-        
-        template <int RTYPE, typename LHS_T>
-        class Diff<RTYPE,false,LHS_T> : public SugarVectorExpression< RTYPE, false , Diff<RTYPE,false,LHS_T> > {
-        public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,false,LHS_T> LHS_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-            Diff( const LHS_TYPE& lhs_ ) : lhs(lhs_), previous(lhs[0]), previous_index(0) {}
-        
-            inline STORAGE operator[]( R_xlen_t i ) const {
-                STORAGE y = lhs[i+1] ;
-                if( previous_index != i ) previous = lhs[i] ;
-                STORAGE diff = y - previous ;
-                previous = y ;
-                previous_index = i+1 ;
-                return y - previous ;
-            }
-            inline R_xlen_t size() const { return lhs.size() - 1 ; }
-        
-        private:
-            const LHS_TYPE& lhs ;
-            mutable STORAGE previous ;
-            mutable int previous_index ;
-        } ;
-    
     } // sugar
     
-    template <bool LHS_NA, typename LHS_T>
-    inline sugar::Diff<INTSXP,LHS_NA,LHS_T> diff( 
-        const SugarVectorExpression<INTSXP,LHS_NA,LHS_T>& lhs
-        ){
-        return sugar::Diff<INTSXP,LHS_NA,LHS_T>( lhs ) ;
+    template <typename Expr>
+    inline sugar::Diff<Expr> diff( const SugarVectorExpression<Expr>& lhs ){
+        return sugar::Diff<Expr>( lhs ) ;
     }
     
-    template <bool LHS_NA, typename LHS_T>
-    inline sugar::Diff<REALSXP,LHS_NA,LHS_T> diff( 
-        const SugarVectorExpression<REALSXP,LHS_NA,LHS_T>& lhs
-        ){
-        return sugar::Diff<REALSXP,LHS_NA,LHS_T>( lhs ) ;
-    }
-
 } // Rcpp
 #endif
 
