@@ -60,7 +60,7 @@ namespace Rcpp{
     }
     
     inline sugar::Seq seq(R_xlen_t start, R_xlen_t end){
-        return Range( start, end ) ;
+        return sugar::Seq( start, end ) ;
     }
 
 
