@@ -11,7 +11,6 @@
 #include <Rcpp/sugar/operators/logical_operators__Vector__primitive.h> 
 
 // arith operators
-#include <Rcpp/sugar/operators/Arith.h>
 #include <Rcpp/sugar/operators/arith_Vector_Vector.h>
 #include <Rcpp/sugar/operators/arith_Vector_Primitive.h>
 #include <Rcpp/sugar/operators/arith_Primitive_Vector.h>
