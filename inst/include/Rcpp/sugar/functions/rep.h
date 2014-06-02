@@ -4,22 +4,23 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <int RTYPE, bool NA, typename T>
+        template <typename Expr>
         class Rep : 
-            public SugarVectorExpression< RTYPE ,NA, Rep<RTYPE,NA,T> >, 
+            public SugarVectorExpression<Rep<Expr>>, 
             public custom_sugar_vector_expression
         {
         public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,T> VEC_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
+            typedef typename Expr::value_type value_type ;
             
-            Rep( const VEC_TYPE& object_, R_xlen_t times_ ) : 
-                object(object_.get_ref()), times(times_), n(object_.size()){}
+            Rep( const Expr& object_, R_xlen_t times_ ) : 
+                object(object_), times(times_), n(object_.size()){}
             
-            inline STORAGE operator[]( R_xlen_t i ) const {
+            inline value_type operator[]( R_xlen_t i ) const {
                 return object[ i % n ] ;
             }
-            inline R_xlen_t size() const { return times * n ; }
+            inline R_xlen_t size() const { 
+                return times * n ; 
+            }
         
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -36,24 +37,27 @@ namespace Rcpp{
             }
             
         private:
-            const T& object ;
+            const Expr& object ;
             R_xlen_t times, n ;
             
         } ;
         
         template <typename T>
-        class Rep_Single : public SugarVectorExpression< 
-            Rcpp::traits::r_sexptype_traits<T>::rtype, 
-            true, 
-            Rep_Single<T>
-        >, public custom_sugar_vector_expression {
+        class Rep_Single : 
+            public SugarVectorExpression<Rep_Single<T>>, 
+            public custom_sugar_vector_expression 
+        {
         public:
-            Rep_Single( T x_, int n_) : x(x_), n(n_){}
+            typedef T value_type ;
+            
+            Rep_Single( T x_, R_xlen_t n_) : x(x_), n(n_){}
             
             inline T operator[]( R_xlen_t i ) const {
                 return x;
             }
-            inline R_xlen_t size() const { return n ; }
+            inline R_xlen_t size() const { 
+                return n ; 
+            }
         
             template <typename Target>
             inline void apply( Target& target ) const {
@@ -62,29 +66,30 @@ namespace Rcpp{
             
         private:
             T x ;
-            int n ;
+            R_xlen_t n ;
         } ;
         
     } // sugar
 
+    
     template <int RTYPE, bool NA, typename T>
-    inline sugar::Rep<RTYPE,NA,T> rep( const SugarVectorExpression<RTYPE,NA,T>& t, int n ){
+    inline sugar::Rep<RTYPE,NA,T> rep( const SugarVectorExpression<RTYPE,NA,T>& t, R_xlen_t n ){
         return sugar::Rep<RTYPE,NA,T>( t, n ) ;
     }
     
-    inline sugar::Rep_Single<double> rep( double x, int n ){
+    inline sugar::Rep_Single<double> rep( double x, R_xlen_t n ){
         return sugar::Rep_Single<double>( x, n ) ;
     }
-    inline sugar::Rep_Single<int> rep( int x, int n ){
+    inline sugar::Rep_Single<int> rep( int x, R_xlen_t n ){
         return sugar::Rep_Single<int>( x, n ) ;
     }
-    inline sugar::Rep_Single<Rbyte> rep( Rbyte x, int n ){
+    inline sugar::Rep_Single<Rbyte> rep( Rbyte x, R_xlen_t n ){
         return sugar::Rep_Single<Rbyte>( x, n ) ;
     }
-    inline sugar::Rep_Single<Rcomplex> rep( Rcomplex x, int n ){
+    inline sugar::Rep_Single<Rcomplex> rep( Rcomplex x, R_xlen_t n ){
         return sugar::Rep_Single<Rcomplex>( x, n ) ;
     }
-    inline sugar::Rep_Single<bool> rep( bool x, int n ){
+    inline sugar::Rep_Single<bool> rep( bool x, R_xlen_t n ){
         return sugar::Rep_Single<bool>( x, n ) ;
     }
 
