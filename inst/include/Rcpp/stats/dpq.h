@@ -4,19 +4,19 @@
 #define RCPP_DPQ(__NAME__,PAR,VAL)                                                                      \
 namespace Rcpp{                                                                                         \
     template <typename Expr>                                                                  \
-    auto d##__NAME__( const SugarVectorExpression<Expr>& x, PAR, int give_log = false ) ->  \
+    auto d##__NAME__( const SugarVectorExpression<double,Expr>& x, PAR, int give_log = false ) ->  \
         decltype(sapply( x, ::Rf_d##__NAME__, VAL, give_log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_d##__NAME__, VAL, give_log ) ;                                                      \
     }                                                                                                   \
     template <typename Expr>                                                                  \
-    auto p##__NAME__( const SugarVectorExpression<Expr>& x, PAR, bool lower = true, bool log = false ) ->  \
+    auto p##__NAME__( const SugarVectorExpression<double,Expr>& x, PAR, bool lower = true, bool log = false ) ->  \
         decltype(sapply( x, ::Rf_p##__NAME__, VAL, lower, log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_p##__NAME__, VAL, lower, log ) ;                                                      \
     }                                                                                                   \
     template <typename Expr>                                                                  \
-    auto q##__NAME__( const SugarVectorExpression<Expr>& x, PAR, bool lower = true, bool log = false ) ->  \
+    auto q##__NAME__( const SugarVectorExpression<double,Expr>& x, PAR, bool lower = true, bool log = false ) ->  \
         decltype(sapply( x, ::Rf_q##__NAME__, VAL, lower, log ))                                          \
     {                                                                                                   \
         return sapply( x, ::Rf_q##__NAME__, VAL, lower, log ) ;                                                      \

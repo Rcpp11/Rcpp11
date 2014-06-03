@@ -13,9 +13,9 @@ namespace Rcpp{
         
     } // sugar
     
-    template <typename Expr>
-    inline auto sign( const SugarVectorExpression<Expr>& t) -> decltype( sapply( t, sugar::sign_op<typename Expr::value_type>() )){
-        return sapply( t, sugar::sign_op<typename Expr::value_type>() )  ;
+    template <typename eT, typename Expr>
+    inline auto sign( const SugarVectorExpression<eT, Expr>& t) -> decltype( sapply( t, sugar::sign_op<eT>() )){
+        return sapply( t, sugar::sign_op<eT>() )  ;
     }
 
 

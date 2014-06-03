@@ -4,14 +4,13 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>        
+        template <typename eT, typename Expr>        
         class Table {
         public:
-            typedef typename Expr::value_type value_type ;
-            const static int RTYPE = traits::r_sexptype_traits<value_type>::rtype ; 
+            const static int RTYPE = traits::r_sexptype_traits<eT>::rtype ; 
             
-            Table( const SugarVectorExpression<Expr>& table ): hash(), map() {
-                std::for_each( sugar_begin(table), sugar_end(table), [this](value_type x){
+            Table( const SugarVectorExpression<eT, Expr>& table ): hash(), map() {
+                std::for_each( sugar_begin(table), sugar_end(table), [this](eT x){
                     map[x]++ ;            
                 }) ;
             }
@@ -30,16 +29,15 @@ namespace Rcpp{
             }
             
         private:
-            typedef typename Rcpp::traits::comparator_type<RTYPE>::type Comp ;
-            typedef std::map<STORAGE, int, Comp > MAP ;
+            typedef std::map<eT, int> MAP ;
             MAP map ;
         }; 
         
     } // sugar
     
-    template <typename Expr>
-    inline IntegerVector table( const SugarVectorExpression<Expr>& x ){
-        return sugar::Table<Expr>(x).get() ;
+    template <typename eT, typename Expr>
+    inline IntegerVector table( const SugarVectorExpression<eT, Expr>& x ){
+        return sugar::Table<eT, Expr>(x).get() ;
     }
 
 

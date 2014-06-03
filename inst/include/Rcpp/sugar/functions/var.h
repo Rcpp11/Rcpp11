@@ -3,15 +3,15 @@
 
 namespace Rcpp{
 
-    template <typename Expr>
-    inline double var( const SugarVectorExpression<Expr>& t){
+    template <typename eT, typename Expr>
+    inline double var( const SugarVectorExpression<eT, Expr>& object){
         double ssq  = sum( pow(object-mean(object),2.0) ) ;
         return ssq / (object.size() - 1 ) ;
     }
 
-    template <typename Expr>
-    inline double sd( const SugarVectorExpression<Expr>& t) {
-        return sqrt(var(t)) ;
+    template <typename eT, typename Expr>
+    inline double sd( const SugarVectorExpression<eT, Expr>& object) {
+        return sqrt(var(object)) ;
     }
 
     

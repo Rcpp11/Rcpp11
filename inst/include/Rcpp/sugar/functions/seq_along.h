@@ -5,11 +5,10 @@ namespace Rcpp{
     namespace sugar{
     
         class SeqLen : 
-            public SugarVectorExpression<SeqLen>, 
-            public custom_sugar_vector_expression {
+            public SugarVectorExpression<int,SeqLen>, 
+            public custom_sugar_vector_expression 
+        {
         public:
-            typedef int value_type ;
-            
             SeqLen( R_xlen_t len_ ) : len(len_){}
         
             inline int operator[]( R_xlen_t i ) const {
@@ -27,7 +26,7 @@ namespace Rcpp{
         } ;
         
         class Seq : 
-            public SugarVectorExpression<Seq>, 
+            public SugarVectorExpression<int,Seq>, 
             public custom_sugar_vector_expression {
         public:
             typedef int value_type ;
@@ -50,8 +49,8 @@ namespace Rcpp{
     
     } // sugar
     
-    template <typename Expr>
-    inline sugar::SeqLen seq_along( const SugarVectorExpression<Expr>& t){
+    template <typename eT, typename Expr>
+    inline sugar::SeqLen seq_along( const SugarVectorExpression<eT, Expr>& t){
         return sugar::SeqLen( t.size() ) ;
     }
     

@@ -4,16 +4,14 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class WhichMin {
         public:
-            typedef typename Expr::value_type STORAGE ;
-            
-            WhichMin(const SugarVectorExpression<Expr>& obj_ ) : obj(obj_){}
+            WhichMin(const SugarVectorExpression<eT, Expr>& obj_ ) : obj(obj_){}
         
             int get() const {
-                STORAGE current = obj[0] ;
-                STORAGE min = current ;
+                eT current = obj[0] ;
+                eT min = current ;
                 R_xlen_t index = 0 ;
                 if( current == NA ) return NA ;
                 R_xlen_t n = obj.size() ;
@@ -29,15 +27,15 @@ namespace Rcpp{
             }
         
         private:
-            const SugarVectorExpression<Expr>& obj ;
+            const SugarVectorExpression<eT, Expr>& obj ;
         
         } ;
         
     } // sugar
     
-    template <typename Expr>
-    int which_min( const SugarVectorExpression<Expr>& t ){
-        return sugar::WhichMin<Expr>(t).get() ; 
+    template <typename eT, typename Expr>
+    int which_min( const SugarVectorExpression<eT, Expr>& t ){
+        return sugar::WhichMin<eT, Expr>(t).get() ; 
     }
   
 } // Rcpp

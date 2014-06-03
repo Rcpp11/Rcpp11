@@ -22,13 +22,12 @@ namespace Rcpp{
         traits::is_mapply_compatible<Expr1>::value &&
         traits::is_mapply_compatible<Expr2>::value &&
         traits::same_mapply_scalar_type<Expr1,Expr2>::value &&
-        std::is_same<typename Cond::value_type, Rboolean>::value, 
         sugar::Mapply< 
             sugar::ifelse_op<typename traits::mapply_scalar_type<Expr1>::type>, 
             Cond, Expr1, Expr2
         > 
     >::type 
-    ifelse( const SugarVectorExpression<Cond>& cond, const Expr1& expr1, const Expr2& expr2 ){
+    ifelse( const SugarVectorExpression<Rboolean,Cond>& cond, const Expr1& expr1, const Expr2& expr2 ){
         typedef sugar::ifelse_op< typename traits::mapply_scalar_type<Expr1>::type > op ; 
         return mapply( op(), cond, expr1, expr2) ;
     }

@@ -4,14 +4,13 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class Tail : 
-            public SugarVectorExpression<Tail<Expr>>, 
-            public custom_sugar_vector_expression {
+            public SugarVectorExpression<eT,Tail<eT,Expr>>, 
+            public custom_sugar_vector_expression 
+        {
         public:
-            typedef typename Expr::value_type value_type ;
-            
-            Tail( const SugarVectorExpression<Expr>& object_, R_xlen_t n_ ) : object(object_), start(0), n(n_) {
+            Tail( const SugarVectorExpression<eT,Expr>& object_, R_xlen_t n_ ) : object(object_), start(0), n(n_) {
                 if( n > 0 ){
                     start = object.size() - n ;
                 } else {
@@ -20,7 +19,7 @@ namespace Rcpp{
                 }
             }
         
-            inline value_type operator[]( R_xlen_t i ) const {
+            inline eT operator[]( R_xlen_t i ) const {
                 return object[ start + i ] ;
             }
             inline R_xlen_t size() const { return n; }
@@ -31,15 +30,15 @@ namespace Rcpp{
             }
             
         private:
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<eT,Expr>& object ;
             R_xlen_t start, n ;
         } ;
     
     } // sugar
     
-    template <typename Expr>
-    inline sugar::Tail<Expr> tail( const SugarVectorExpression<Expr>& t, R_xlen_t n ){
-        return sugar::Tail<Expr>( t, n ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Tail<eT, Expr> tail( const SugarVectorExpression<eT, Expr>& t, R_xlen_t n ){
+        return sugar::Tail<eT, Expr>( t, n ) ;
     }
 
 } // Rcpp

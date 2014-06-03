@@ -19,16 +19,24 @@ namespace Rcpp{
         } ;
         
         template <typename input_type, bool>
-        struct mapply_iterator ;
+        struct mapply_iterator_dispatch ;
         
         template <typename input_type>
-        struct mapply_iterator<input_type, true> {
+        struct mapply_iterator_dispatch<input_type, true> {
             typedef fake_iterator<input_type> type ;
         } ;
         
         template <typename input_type>
-        struct mapply_iterator<input_type, false> {
+        struct mapply_iterator_dispatch<input_type, false> {
             typedef typename Rcpp::sugar::sugar_iterator_type<input_type>::type type ;
+        } ;
+        
+        template <typename input_type>
+        struct mapply_iterator {
+            typedef typename mapply_iterator_dispatch< 
+                typename std::decay<input_type>::type, 
+                Rcpp::traits::is_primitive<input_type>::type 
+            >::type type ;
         } ;
         
         template <
@@ -36,7 +44,10 @@ namespace Rcpp{
             typename... Args
         >
         class Mapply :
-            public SugarVectorExpression<Mapply<Function,Args...>>,
+            public SugarVectorExpression<
+                typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type, 
+                Mapply<Function,Args...>
+            >,
             public custom_sugar_vector_expression
         {
         public:
@@ -52,10 +63,7 @@ namespace Rcpp{
             R_xlen_t n ;
 
             typedef std::tuple< 
-                typename mapply_iterator<
-                    typename std::decay<Args>::type, 
-                    Rcpp::traits::is_primitive<Args>::type::value
-                >::type ...
+                typename mapply_iterator<Args>::type ...
             > IteratorsTuple ;
             
         public:

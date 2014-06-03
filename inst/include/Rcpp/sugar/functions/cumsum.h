@@ -4,16 +4,15 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class Cumsum : 
-            public SugarVectorExpression<Cumsum<Expr>>, 
+            public SugarVectorExpression<eT,Cumsum<eT,Expr>>, 
             public custom_sugar_vector_expression 
         {
         public:
-            typedef typename Expr::value_type value_type ;
-            typedef Rcpp::Vector<Rcpp::traits::r_sexptype_traits<value_type>::rtype> VECTOR ;
+            typedef typename traits::vector_of<eT>::type VECTOR ;
         
-            Cumsum( const VEC_TYPE& object ) : data(object.size(), NA){
+            Cumsum( const SugarVectorExpression<eT, Expr>& object ) : data(object.size(), NA){
                 int n = object.size() ;
                 STORAGE current = object[0] ;
                 if( current != NA ){
@@ -30,7 +29,7 @@ namespace Rcpp{
                 return data.size() ;    
             }
             
-            inline value_type operator[]( R_xlen_t i) const {
+            inline eT operator[]( R_xlen_t i) const {
                 return data[i] ;    
             }
             
@@ -45,9 +44,9 @@ namespace Rcpp{
     
     } // sugar
     
-    template <typename Expr>
-    inline sugar::Cumsum<Expr> cumsum( const SugarVectorExpression<Expr>& t){
-        return sugar::Cumsum<Expr>( t ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Cumsum<eT,Expr> cumsum( const SugarVectorExpression<eT, Expr>& t){
+        return sugar::Cumsum<eT, Expr>( t ) ;
     }
     
 } // Rcpp

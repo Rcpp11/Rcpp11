@@ -6,15 +6,18 @@ namespace Rcpp{
     
         template <typename InputIterator>
         class Import : 
-            public SugarVectorExpression<Import<InputIterator>>, 
+            public SugarVectorExpression<
+                typename std::iterator_traits<InputIterator>::value_type, 
+                Import<InputIterator>
+            >, 
             public custom_sugar_vector_expression
         {
         public:
-            typedef typename std::iterator_traits<InputIterator>::value_type value_type ;
+            typedef typename std::iterator_traits<InputIterator>::value_type eT ;
             
             Import( InputIterator begin_, InputIterator end_ ) : begin(begin_), end(end_){}
             
-            inline value_type operator[]( R_xlen_t i) const {
+            inline eT operator[]( R_xlen_t i) const {
                 return * (begin+i)    
             }
             
@@ -37,7 +40,7 @@ namespace Rcpp{
     template <typename InputIterator>
     inline sugar::Import<InputIterator> 
     import( InputIterator begin, InputIterator end ){
-        return sugar::Import<InputIterator>( begin, std::distance(begin, end) ) ;    
+        return sugar::Import<InputIterator>( begin, end ) ;    
     }
 
 } // Rcpp

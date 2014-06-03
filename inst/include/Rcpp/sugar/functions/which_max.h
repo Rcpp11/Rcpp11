@@ -4,16 +4,14 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class WhichMax {
         public:
-            typedef typename Expr::value_type STORAGE ;
-            
-            WhichMax(const SugarVectorExpression<Expr>& obj_ ) : obj(obj_){}
+            WhichMax(const SugarVectorExpression<eT, Expr>& obj_ ) : obj(obj_){}
         
             int get() const {
-                STORAGE current = obj[0] ;
-                STORAGE max = current ;
+                eT current = obj[0] ;
+                eT max = current ;
                 R_xlen_t index = 0 ;
                 if( current == NA ) return NA ;
                 R_xlen_t n = obj.size() ;
@@ -29,15 +27,15 @@ namespace Rcpp{
             }
         
         private:
-            const SugarVectorExpression<Expr>& obj ;
+            const SugarVectorExpression<eT, Expr>& obj ;
         
         } ;
         
     } // sugar
     
-    template <typename Expr>
-    int which_max( const SugarVectorExpression<Expr>& t ){
-        return sugar::WhichMax<Expr>(t).get() ; 
+    template <typename eT, typename Expr>
+    int which_max( const SugarVectorExpression<eT, Expr>& t ){
+        return sugar::WhichMax<eT, Expr>(t).get() ; 
     }
   
 } // Rcpp

@@ -6,7 +6,10 @@ namespace Rcpp{
     
         template <typename InputIterator, typename Function>
         class Transform : 
-            public SugarVectorExpression<Transform<InputIterator, Function>>, 
+            public SugarVectorExpression<
+                typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type, 
+                Transform<InputIterator, Function>
+            >, 
             public custom_sugar_vector_expression
         {
         public:

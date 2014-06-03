@@ -14,17 +14,15 @@ namespace Rcpp{
             return cx ;
         }
         
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class Sum {
         public:
-            typedef typename Expr::value_type value_type ;
-            
-            Sum( const SugarVectorExpression<Expr>& object_ ) : object(object_){}
+            Sum( const SugarVectorExpression<eT,Expr>& object_ ) : object(object_){}
         
-            value_type get() const {
-                value_type result = get_zero<value_type>() ;
+            eT get() const {
+                eT result = get_zero<eT>() ;
                 R_xlen_t n = object.size() ;
-                value_type current ;
+                eT current ;
                 auto it = sugar_begin(object) ;
                 for( R_xlen_t i=0; i<n; i++, ++it){
                     current = *it ;
@@ -35,14 +33,14 @@ namespace Rcpp{
                 return result ;
             }         
         private:
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<eT,Expr>& object ;
         } ;
        
     } // sugar
     
-    template <typename Expr>
-    inline sugar::Sum<Expr> sum( const SugarVectorExpression<Expr>& t){
-        return sugar::Sum<Expr>( t ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Sum<eT, Expr> sum( const SugarVectorExpression<eT, Expr>& t){
+        return sugar::Sum<eT, Expr>( t ) ;
     }
     
 } // Rcpp

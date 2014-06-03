@@ -4,15 +4,15 @@
 namespace Rcpp{
     namespace sugar{
     
-        // REALSXP
-        template <typename Expr, typename T>
+        template <typename eT, typename Expr>
         class Mean ;
         
+        // REALSXP
         template <typename Expr>
-        class Mean<Expr,double> {
+        class Mean<double,Expr> {
         public:
             
-            Mean( const SugarVectorExpression<Expr>& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<double,Expr>& object_ ) : object(object_){}
             
             double get() const {
                 NumericVector input = object ;
@@ -31,14 +31,14 @@ namespace Rcpp{
             }
             
         private:
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<double,Expr>& object ;
         };
           
         // CPLXSXP
         template <typename Expr> 
-        class Mean<Expr, Rcomplex>{
+        class Mean<Rcomplex,Expr>{
         public:
-            Mean_Complex( const SugarVectorExpression<Expr>& object_ ) : object(object_){}
+            Mean_Complex( const SugarVectorExpression<Rcomplex,Expr>& object_ ) : object(object_){}
             
             Rcomplex get() const {
                 ComplexVector input = object ;
@@ -67,15 +67,15 @@ namespace Rcpp{
             
         private:
             // we resolve the data since we need to make two passes
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<Rcomplex,Expr>& object ;
         };
         
         // INTSXP
         template <typename Expr> 
-        class Mean<Expr, int>{
+        class Mean<int, Expr>{
         public:
             
-            Mean( const SugarVectorExpression<Expr>& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<int,Expr>& object_ ) : object(object_){}
             
             double get() const {
                 IntegerVector input = object ;
@@ -91,15 +91,15 @@ namespace Rcpp{
             
         private:
             // we resolve the data since we need to make two passes
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<int,Expr>& object ;
         };
         
         // LGLSXP
         template <typename Expr> 
-        class Mean<Expr, Rboolean>{
+        class Mean<Rboolean, Expr>{
         public:
             
-            Mean( const SugarVectorExpression<Expr>& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<Rboolean, Expr>& object_ ) : object(object_){}
             
             double get() const {
                 LogicalVector input = object ;
@@ -115,15 +115,15 @@ namespace Rcpp{
             
         private:
             // we resolve the data since we need to make two passes
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<Rboolean,Expr>& object ;
         };
         
         
     } // sugar
     
-    template <typename Expr>
-    inline auto mean( const SugarVectorExpression<Expr>& t) -> decltype(sugar::Mean<Expr,typename Expr::value_type>(t).get()) {
-        return sugar::Mean<Expr,typename Expr::value_type>(t).get() ;
+    template <typename eT, typename Expr>
+    inline auto mean( const SugarVectorExpression<eT,Expr>& t) -> decltype(sugar::Mean<eT,Expr>(t).get()) {
+        return sugar::Mean<eT,Expr>(t).get() ;
     }
     
 } // Rcpp

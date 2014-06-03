@@ -7,15 +7,15 @@ namespace Rcpp{
         struct custom_sugar_vector_expression{} ;
     }
     
-    template <int RTYPE, typename Expr>
+    template <typename eT, typename Expr>
     struct SugarVectorExpression : 
         public SugarVectorExpressionBase, 
         public CRTP<Expr>
     {
         using CRTP<Expr>::get_ref ;
-        typedef typename traits::storage_type<RTYPE>::type value_type ;
+        typedef eT value_type ;
         
-        inline value_type operator[]( R_xlen_t i) const {
+        inline eT operator[]( R_xlen_t i) const {
             return get_ref()[i] ;
         }
         

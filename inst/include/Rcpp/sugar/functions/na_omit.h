@@ -4,17 +4,18 @@
 namespace Rcpp{
     
     namespace sugar {
+        
+        template <typename T>
         struct not_na_op {
-            template <typename T>
             bool operator()( T x ){
                 return ! ( x == NA ) ;    
             }
         } ;
     }
     
-    template <typename Expr>
-    inline auto na_omit( const SugarVectorExpression<Expr>& t) -> decltype( filter( sugar::not_na_op(), t) ) {
-        return filter( sugar::not_na_op(), t) ; 
+    template <typename eT, typename Expr>
+    inline auto na_omit( const SugarVectorExpression<eT,Expr>& t) -> decltype( filter( sugar::not_na_op<eT>(), t) ) {
+        return filter( sugar::not_na_op<eT>(), t) ; 
     }
 
 } // Rcpp

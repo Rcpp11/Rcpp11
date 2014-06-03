@@ -53,7 +53,6 @@
 #include <Rcpp/sugar/functions/duplicated.h>
 #include <Rcpp/sugar/functions/setdiff.h>
 
-#include <Rcpp/sugar/functions/strings/strings.h>
 #include <Rcpp/sugar/functions/replicate.h>
 
 #endif

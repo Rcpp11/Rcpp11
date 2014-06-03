@@ -6,7 +6,10 @@ namespace Rcpp{
     
         template <typename CallType>
         class Replicate : 
-            public SugarVectorExpression<Replicate<CallType> >, 
+            public SugarVectorExpression<
+                typename std::result_of<CallType()>::type, 
+                Replicate<CallType> 
+            >, 
             public custom_sugar_vector_expression {
         public:
             typedef typename std::result_of<CallType()>::type value_type ;

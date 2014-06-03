@@ -11,7 +11,6 @@
 #include <Rcpp/traits/storage_type.h>
 #include <Rcpp/traits/r_sexptype_traits.h>
 #include <Rcpp/traits/storage_type.h>
-#include <Rcpp/traits/comparator_type.h>
 #include <Rcpp/traits/r_type_traits.h>
 #include <Rcpp/traits/wrap_type_traits.h>
 #include <Rcpp/traits/is_na.h>

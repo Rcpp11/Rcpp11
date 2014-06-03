@@ -4,17 +4,19 @@
 namespace Rcpp{
     namespace sugar{
              
-        template <typename Expr, typename Function>
+        template <typename eT, typename Expr, typename Function>
         class Sapply : 
-            public SugarVectorExpression<Sapply<Expr,Function>>, 
+            public SugarVectorExpression<
+                typename std::result_of<Function(eT)>::type,
+                Sapply<eT,Expr,Function>
+            >, 
             public custom_sugar_vector_expression
         {
         public:
             typedef Function function_type ;
-            typedef typename Expr::value_type vec_storage ;
-            typedef typename std::result_of<Function(vec_storage)>::type value_type ; 
+            typedef typename std::result_of<Function(eT)>::type value_type ; 
             
-            Sapply( const SugarVectorExpression<Expr>& vec_, Function fun_ ) : 
+            Sapply( const SugarVectorExpression<eT, Expr>& vec_, Function fun_ ) : 
                 vec(vec_), fun(fun_){}
         
             inline value_type operator[]( R_xlen_t i ) const {
@@ -29,24 +31,24 @@ namespace Rcpp{
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;
             }
             
-            const SugarVectorExpression<Expr>& vec ;
+            const SugarVectorExpression<eT, Expr>& vec ;
             function_type fun ;
         
         } ;
         
         
-        template <typename Expr, typename Function1, typename Function2>
-        class Sapply< Sapply<Expr, Function2>, Function1> : 
-            public SugarVectorExpression< Sapply< Sapply<Expr, Function2>, Function1> >, 
+        template <typename T1, typename T2, typename Expr, typename Function1, typename Function2>
+        class Sapply< T1, Sapply<T2, Expr, Function2>, Function1> : 
+            public SugarVectorExpression< T1, Sapply< T1, Sapply<T2, Expr, Function2>, Function1> >, 
             public custom_sugar_vector_expression
         {
         public:
             
             typedef Rcpp::functional::Compose<Function2,Function1> function_type ;
-            typedef SugarVectorExpression< Sapply<Expr, Function2> > outer_input_type ;
-            typedef typename std::result_of<function_type(typename Expr::value_type)>::type value_type ;
+            typedef SugarVectorExpression< T2, Sapply<T2, Expr, Function2> > outer_input_type ;
+            typedef typename std::result_of<function_type(T2)>::type value_type ;
             
-            Sapply( const SugarVectorExpression< Sapply<Expr, Function2> >& v, Function1 f1 ) : 
+            Sapply( const SugarVectorExpression< T1, Sapply< T1, Sapply<T2, Expr, Function2>, Function1> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 
                 fun( v.get_ref().fun, f1 )
             {}
@@ -61,7 +63,7 @@ namespace Rcpp{
                 std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;     
             }
             
-            const SugarVectorExpression<Expr>& vec ;
+            const SugarVectorExpression<T2, Expr>& vec ;
             function_type fun ;
         } ;
     
@@ -103,11 +105,11 @@ namespace Rcpp{
         
     } // sugar
     
-    template <typename Expr, typename Function, typename... Args >
-    inline sugar::Sapply<Expr,typename sugar::sugar_dispatch_function_type<Function,typename Expr::value_type, Args...>::type >
+    template <typename eT, typename Expr, typename Function, typename... Args >
+    inline sugar::Sapply<eT, Expr,typename sugar::sugar_dispatch_function_type<Function, eT, Args...>::type >
     sapply( const SugarVectorExpression<Expr>& expr, Function fun, Args&&... args ) {
-        typedef typename sugar::sugar_dispatch_function_type<Function,typename Expr::value_type, Args...>::type op ; 
-        return sugar::Sapply<Expr,op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
+        typedef typename sugar::sugar_dispatch_function_type<Function, eT, Args...>::type op ; 
+        return sugar::Sapply<eT, Expr,op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
     }
 
 } // Rcpp

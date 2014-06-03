@@ -4,20 +4,20 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr, typename STORAGE>
+        template <typename eT, typename Expr>
         class Max {
         public:
-            Max( const SugarVectorExpression<Expr>& obj_) : obj(obj_) {}
+            Max( const SugarVectorExpression<eT, Expr>& obj_) : obj(obj_) {}
             
-            operator STORAGE() {
+            inline eT get() {
                 auto it = sugar_begin(obj) ;
-                STORAGE max_ = *it ;
+                eT max_ = *it ;
                 if( max_ == NA ) return max_ ;
                 ++it ;
                 
                 R_xlen_t n = obj.size() ;
                 for( R_xlen_t i=1; i<n; i++, ++it ){
-                    STORAGE current = *it ;
+                    eT current = *it ;
                     if( current == NA ) return current;
                     if( current > max_ ) max_ = current ;
                 }
@@ -25,14 +25,14 @@ namespace Rcpp{
             }
             
         private:
-            const SugarVectorExpression<Expr>& obj ;
+            const SugarVectorExpression<eT, Expr>& obj ;
         } ;
         
     } // sugar
     
-    template <typename Expr>
-    typename Expr::value_type max( const SugarVectorExpression<Expr>& x){
-        return sugar::Max<Expr, typename Expr::value_type>(x.get_ref()) ;
+    template <eT, typename Expr>
+    eT max( const SugarVectorExpression<RTYPE, Expr>& x){
+        return sugar::Max<RTYPE, Expr>(x).get() ;
     }
 
 } // Rcpp

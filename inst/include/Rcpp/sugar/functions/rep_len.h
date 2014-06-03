@@ -4,18 +4,16 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <typename Expr>
+        template <typename eT, typename Expr>
         class Rep_len :
-            public SugarVectorExpression<Rep_len<Expr>>,
-            public custom_sugar_vector_expression {
-        
+            public SugarVectorExpression<eT,Rep_len<eT,Expr>>,
+            public custom_sugar_vector_expression 
+        {
         public:
-            typedef typename Expr::value_type value_type ;
-            
-            Rep_len( const VEC_TYPE& object_, R_xlen_t len_ ) :
+            Rep_len( const SugarVectorExpression<eT,Expr>& object_, R_xlen_t len_ ) :
                 object(object_), len(len_), n(object_.size()){}
         
-            inline value_type operator[]( R_xlen_t i ) const {
+            inline eT operator[]( R_xlen_t i ) const {
                 return object[ i % n ] ;
             }
             inline R_xlen_t size() const { return len ; }
@@ -48,16 +46,16 @@ namespace Rcpp{
             }
         
         private:
-            const SugarVectorExpression<Expr>& object ;
+            const SugarVectorExpression<eT,Expr>& object ;
             R_xlen_t len, n ;
         
         } ;
     
     } // sugar
     
-    template <typename Expr>
-    inline sugar::Rep_len<Expr> rep_len( const SugarVectorExpression<Expr>& t, R_xlen_t len ){
-        return sugar::Rep_len<Expr>( t, len ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Rep_len<eT,Expr> rep_len( const SugarVectorExpression<eT,Expr>& t, R_xlen_t len ){
+        return sugar::Rep_len<eT,Expr>( t, len ) ;
     }
 
 

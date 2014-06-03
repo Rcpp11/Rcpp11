@@ -1,40 +1,28 @@
 #ifndef Rcpp__sugar__Arith_Vector_Primitive_h
 #define Rcpp__sugar__Arith_Vector_Primitive_h
 
-template <typename Expr>
+template <typename eT, typename Expr>
 inline auto
-operator+( 
-    const Rcpp::SugarVectorExpression<Expr>& lhs,
-    typename Expr::value_type rhs
-) -> decltype( mapply( std::plus<typename Expr::value_type>(), lhs, rhs ) ) {
-    return mapply( std::plus<typename Expr::value_type>(), lhs, rhs ) ;
+operator+(const Rcpp::SugarVectorExpression<eT,Expr>& lhs,eT rhs) -> decltype( mapply( std::plus<eT>(), lhs, rhs ) ) {
+    return mapply( std::plus<eT>(), lhs, rhs ) ;
 }
 
-template <typename Expr>
+template <typename eT, typename Expr>
 inline auto
-operator-( 
-    const Rcpp::SugarVectorExpression<Expr>& lhs,
-    typename Expr::value_type rhs
-) -> decltype( mapply( std::minus<typename Expr::value_type>(), lhs, rhs ) ) {
-    return mapply( std::minus<typename Expr::value_type>(), lhs, rhs ) ;
+operator-( const Rcpp::SugarVectorExpression<eT,Expr>& lhs,eT rhs) -> decltype( mapply( std::minus<eT>(), lhs, rhs ) ) {
+    return mapply( std::minus<eT>(), lhs, rhs ) ;
 }
 
-template <typename Expr>
+template <typename eT, typename Expr>
 inline auto
-operator*( 
-    const Rcpp::SugarVectorExpression<Expr>& lhs,
-    typename Expr::value_type rhs
-) -> decltype( mapply( std::multiplies<typename Expr::value_type>(), lhs, rhs ) ) {
-    return mapply( std::multiplies<typename Expr::value_type>(), lhs, rhs ) ;
+operator*( const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::multiplies<eT>(), lhs, rhs ) ) {
+    return mapply( std::multiplies<eT>(), lhs, rhs ) ;
 }
 
-template <typename Expr>
+template <typename eT, typename Expr>
 inline auto
-operator/( 
-    const Rcpp::SugarVectorExpression<Expr>& lhs,
-    typename Expr::value_type rhs
-) -> decltype( mapply( std::divides<typename Expr::value_type>(), lhs, rhs ) ) {
-    return mapply( std::divides<typename Expr::value_type>(), lhs, rhs ) ;
+operator/( const Rcpp::SugarVectorExpression<eT,Expr>& lhs,eT rhs) -> decltype( mapply( std::divides<eT>(), lhs, rhs ) ) {
+    return mapply( std::divides<eT>(), lhs, rhs ) ;
 }
 
 #endif
