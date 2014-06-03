@@ -38,7 +38,7 @@ namespace Rcpp{
         struct mapply_iterator {
             typedef typename mapply_iterator_dispatch< 
                 typename std::decay<input_type>::type, 
-                Rcpp::traits::is_primitive<input_type>::type 
+                Rcpp::traits::is_primitive<input_type>::value 
             >::type type ;
         } ;
         
@@ -65,9 +65,7 @@ namespace Rcpp{
             Function fun ;
             R_xlen_t n ;
 
-            typedef std::tuple< 
-                typename mapply_iterator<Args>::type ...
-            > IteratorsTuple ;
+            typedef std::tuple< typename mapply_iterator<Args>::type ... > IteratorsTuple ;
             
         public:
             Mapply( Function fun_, Args&&... args ) :

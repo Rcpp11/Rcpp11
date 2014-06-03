@@ -5,25 +5,25 @@ namespace Rcpp{
     
     namespace sugar {
         
+        template <typename Target, typename eT, typename Expr, bool>
+        struct sugar_vector_expression_op ;
+        
         // default applyer for when Expression does not know how to 
         // apply itself to Target
-        template <typename Target, int RTYPE, typename eT, typename Expr>
-        struct sugar_vector_expression_op {
+        template <typename Target, typename eT, typename Expr>
+        struct sugar_vector_expression_op<Target,eT,Expr,true> {
             inline void apply( Target& target, const SugarVectorExpression<eT, Expr>& expr ){
                 std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
             }
         } ;
         
         template <typename Target, typename eT, typename Expr>
-        struct sugar_vector_expression_op<Target, VECSXP, eT, Expr> {
+        struct sugar_vector_expression_op<Target,eT,Expr,false> {
             inline void apply( Target& target, const SugarVectorExpression<eT,Expr>& expr ){
-                if( std::is_convertible<eT,SEXP>::value ) {
-                    std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
-                } else {
-                    std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
-                            return wrap(x) ;
-                    });    
-                }
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
+                        return converter::get(x) ;
+                });    
             }
         } ;
         
@@ -48,7 +48,7 @@ namespace Rcpp{
         if( std::is_base_of<sugar::custom_sugar_vector_expression, Expr>::value )
             get_ref().apply(target) ;
         else 
-            sugar::sugar_vector_expression_op<Target, traits::r_sexptype_traits<eT>::rtype, eT, Expr>().apply( target, *this ) ;  
+            sugar::sugar_vector_expression_op<Target, eT, Expr, std::is_same<eT, typename Target::value_type >::value >().apply( target, *this ) ;  
     }
     
     template <typename eT, typename Expr>
