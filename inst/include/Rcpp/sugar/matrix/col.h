@@ -5,7 +5,7 @@ namespace Rcpp{
     namespace sugar{
     
         class Col : 
-            public SugarMatrixExpression<INTSXP,false,Col>, 
+            public SugarMatrixExpression<int,Col>, 
             public custom_sugar_matrix_expression {
         public:
             Col( int nr_, int nc_) : nr(nr_), nc(nc_) {}
@@ -33,8 +33,8 @@ namespace Rcpp{
     
     } // sugar
     
-    template <int RTYPE, bool LHS_NA, typename LHS_T>
-    inline sugar::Col col( const Rcpp::MatrixBase<RTYPE,LHS_NA,LHS_T>& lhs){
+    template <typename eT, typename Expr>
+    inline sugar::Col col( const Rcpp::MatrixBase<eT,Expr>& lhs){
        return sugar::Col( lhs.nrow(), lhs.ncol() ) ;
     }
 

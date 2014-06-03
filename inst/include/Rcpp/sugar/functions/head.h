@@ -36,7 +36,7 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr>
-    inline sugar::Head<eT, Expr> head( const SugarVectorExpression<RTYPE,Expr>& t,R_xlen_t n ){
+    inline sugar::Head<eT, Expr> head( const SugarVectorExpression<eT,Expr>& t,R_xlen_t n ){
         return sugar::Head<eT, Expr>( t, n ) ;
     }
 

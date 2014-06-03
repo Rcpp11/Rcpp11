@@ -12,7 +12,7 @@ namespace Rcpp{
     template <typename eT, typename Expr1, typename Expr2>
     inline LogicalVector in( const SugarVectorExpression<eT, Expr1>& x, const SugarVectorExpression<eT, Expr2>& table ){
         std::unordered_set<eT> set( table.begin(), table.end() );
-        return transform( x.begin(), x.end(), [&set](STORAGE y) -> Rboolean {
+        return transform( x.begin(), x.end(), [&set](eT y) -> Rboolean {
                 return set.count(y) ? TRUE : FALSE ;
         }) ;
     }

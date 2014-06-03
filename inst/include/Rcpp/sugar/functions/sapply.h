@@ -107,9 +107,9 @@ namespace Rcpp{
     
     template <typename eT, typename Expr, typename Function, typename... Args >
     inline sugar::Sapply<eT, Expr,typename sugar::sugar_dispatch_function_type<Function, eT, Args...>::type >
-    sapply( const SugarVectorExpression<Expr>& expr, Function fun, Args&&... args ) {
+    sapply( const SugarVectorExpression<eT,Expr>& expr, Function fun, Args&&... args ) {
         typedef typename sugar::sugar_dispatch_function_type<Function, eT, Args...>::type op ; 
-        return sugar::Sapply<eT, Expr,op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
+        return sugar::Sapply<eT, Expr, op>( expr, op( fun, std::forward<Args>(args)... ) ) ;
     }
 
 } // Rcpp

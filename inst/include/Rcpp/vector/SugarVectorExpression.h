@@ -14,6 +14,7 @@ namespace Rcpp{
     {
         using CRTP<Expr>::get_ref ;
         typedef eT value_type ;
+        typedef typename std::integral_constant<int, traits::r_sexptype_traits<eT>::rtype >::type r_type ;
         
         inline eT operator[]( R_xlen_t i) const {
             return get_ref()[i] ;

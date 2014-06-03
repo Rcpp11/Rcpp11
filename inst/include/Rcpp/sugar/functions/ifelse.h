@@ -21,7 +21,7 @@ namespace Rcpp{
     inline typename std::enable_if<
         traits::is_mapply_compatible<Expr1>::value &&
         traits::is_mapply_compatible<Expr2>::value &&
-        traits::same_mapply_scalar_type<Expr1,Expr2>::value &&
+        traits::same_mapply_scalar_type<Expr1,Expr2>::value,
         sugar::Mapply< 
             sugar::ifelse_op<typename traits::mapply_scalar_type<Expr1>::type>, 
             Cond, Expr1, Expr2

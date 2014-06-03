@@ -28,7 +28,10 @@ namespace Rcpp{
         
         template <typename input_type>
         struct mapply_iterator_dispatch<input_type, false> {
-            typedef typename Rcpp::sugar::sugar_iterator_type<input_type>::type type ;
+            typedef typename Rcpp::sugar::sugar_iterator_type<
+                typename traits::mapply_scalar_type<input_type>::type, 
+                input_type
+            >::type type ;
         } ;
         
         template <typename input_type>

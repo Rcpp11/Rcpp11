@@ -30,7 +30,7 @@ namespace Rcpp {
             
         private:
             Callable f ;
-            std::vector<value_type> data ;
+            std::vector<eT> data ;
         } ;
 
     }

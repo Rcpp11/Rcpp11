@@ -92,33 +92,33 @@ namespace sugar {
         R_xlen_t index ;
     } ;
     
-    template <typename Expr, bool>
+    template <typename eT, typename Expr, bool>
     struct sugar_iterator_type_dispatch ;
     
-    template <typename Expr>
-    struct sugar_iterator_type_dispatch<Expr,true>{
+    template <typename eT, typename Expr>
+    struct sugar_iterator_type_dispatch<eT,Expr,true>{
         typedef typename Expr::const_iterator type ;
     } ;
     
-    template <typename Expr>
-    struct sugar_iterator_type_dispatch<Expr,false>{
-        typedef SugarIterator<Expr> type ;
+    template <typename eT, typename Expr>
+    struct sugar_iterator_type_dispatch<eT,Expr,false>{
+        typedef SugarIterator<eT,Expr> type ;
     } ;
     
-    template <typename T>
+    template <typename eT, typename Expr>
     struct sugar_iterator_type {
-        typedef typename sugar_iterator_type_dispatch<T,traits::is_materialized<T>::type::value>::type type ;
+        typedef typename sugar_iterator_type_dispatch<eT, Expr, traits::is_materialized<Expr>::type::value>::type type ;
     } ;
     
     
     template <typename eT, typename Expr>
-    inline typename sugar_iterator_type<Expr>::type
+    inline typename sugar_iterator_type<eT,Expr>::type
     sugar_begin__impl(const SugarVectorExpression<eT, Expr>& obj, std::true_type ) {
         return obj.get_ref().begin() ;
     }
     
     template <typename eT, typename Expr>
-    inline const SugarIterator<Expr> sugar_begin__impl(const SugarVectorExpression<eT,Expr>& obj, std::false_type ){
+    inline const SugarIterator<eT,Expr> sugar_begin__impl(const SugarVectorExpression<eT,Expr>& obj, std::false_type ){
         return SugarIterator<eT,Expr>( obj.get_ref() ) ;
     }
     

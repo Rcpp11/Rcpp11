@@ -10,7 +10,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
-            typedef traits::vector_of<eT>::type Vector ;
+            typedef typename traits::vector_of<eT>::type Vector ;
             
             SetDiff( const SugarVectorExpression<eT,Expr1>& lhs, const SugarVectorExpression<eT,Expr2>& rhs) : 
                 lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
@@ -42,7 +42,7 @@ namespace Rcpp{
             bool get() const {
                 if( lhs_set.size() != rhs_set.size() ) return false ;
                 
-                return std::all_of( lhs_set.begin(), lhs_set.end(), [this](value_type x){
+                return std::all_of( lhs_set.begin(), lhs_set.end(), [this](eT x){
                         return rhs_set.count(x) ;
                 }) ;
             }
@@ -56,14 +56,14 @@ namespace Rcpp{
         template <typename eT,typename Expr1, typename Expr2>
         class Intersect {
         public:
-            typedef traits::vector_of<eT>::type Vector ;
+            typedef typename traits::vector_of<eT>::type Vector ;
             
             Intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) :
                 intersect(), 
                 lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
                 rhs_set( sugar_begin(rhs), sugar_end(rhs) )
             {
-                std::for_each( lhs_set.begin(), lhs_set.end(), [this]( value_type x){
+                std::for_each( lhs_set.begin(), lhs_set.end(), [this]( eT x){
                         if( rhs_set.count(x) ) intersect.insert(x) ;
                 }) ;
             }
@@ -81,7 +81,7 @@ namespace Rcpp{
         template <typename eT, typename Expr1, typename Expr2>
         class Union {
         public:
-            typedef traits::vector_of<eT>::type Vector ;
+            typedef typename traits::vector_of<eT>::type Vector ;
             
             Union( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) : 
                 result( sugar_begin(lhs), sugar_end(lhs) )

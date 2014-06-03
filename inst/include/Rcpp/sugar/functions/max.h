@@ -30,9 +30,9 @@ namespace Rcpp{
         
     } // sugar
     
-    template <eT, typename Expr>
-    eT max( const SugarVectorExpression<RTYPE, Expr>& x){
-        return sugar::Max<RTYPE, Expr>(x).get() ;
+    template <typename eT, typename Expr>
+    eT max( const SugarVectorExpression<eT, Expr>& x){
+        return sugar::Max<eT, Expr>(x).get() ;
     }
 
 } // Rcpp

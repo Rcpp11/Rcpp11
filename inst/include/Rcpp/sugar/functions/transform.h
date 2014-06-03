@@ -15,7 +15,7 @@ namespace Rcpp{
         public:
             typedef typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type value_type ;
             
-            Import( InputIterator begin_, InputIterator end_, Function fun_ ) : begin(begin_), end(end_), fun(fun_){}
+            Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : begin(begin_), end(end_), fun(fun_){}
             
             inline value_type operator[]( R_xlen_t i) const {
                 return fun( * (begin+i) ) ;    
@@ -38,9 +38,9 @@ namespace Rcpp{
     } // sugar
     
     template <typename InputIterator, typename Function>
-    inline Transform<InputIterator, Function>
+    inline sugar::Transform<InputIterator, Function>
     transform( InputIterator begin, InputIterator end, Function fun ){
-        return sugar::Transform<InputIteratot, Function>( begin, end, fun ) ;    
+        return sugar::Transform<InputIterator, Function>( begin, end, fun ) ;    
     }
 
 

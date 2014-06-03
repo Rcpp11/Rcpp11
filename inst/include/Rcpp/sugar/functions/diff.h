@@ -23,6 +23,7 @@ namespace Rcpp{
         template <typename eT, typename Expr>
         class Diff : public SugarVectorExpression<eT, Diff<eT, Expr>> {
         public:
+            typedef typename traits::vector_of<eT>::type Vec ;
             
             Diff( const SugarVectorExpression<eT,Expr>& lhs ) : data(lhs.size()-1) {
                 int n = lhs.size()-1 ;

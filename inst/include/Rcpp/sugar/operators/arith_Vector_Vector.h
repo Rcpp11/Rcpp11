@@ -7,7 +7,7 @@ operator+(
     const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
     const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
 ) {
-    return mapply( std::plus<eT>(), lhs, rhs ) ;
+    return Rcpp::mapply( std::plus<eT>(), lhs, rhs ) ;
 }
 
 template <typename eT, typename Expr1, typename Expr2>
@@ -16,17 +16,16 @@ operator-(
     const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
     const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
 ) {
-    return mapply( std::minus<eT>(), lhs, rhs ) ;
+    return Rcpp::mapply( std::minus<eT>(), lhs, rhs ) ;
 }
 
 template <typename eT, typename Expr1, typename Expr2>
 inline Rcpp::sugar::Mapply< std::multiplies<eT>, Expr1, Expr2 >    
->::type
 operator*( 
     const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
     const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
 ) {
-    return mapply( std::multiplies<eT>(), lhs, rhs ) ;
+    return Rcpp::mapply( std::multiplies<eT>(), lhs, rhs ) ;
 }
 
 template <typename eT, typename Expr1, typename Expr2>
@@ -35,7 +34,7 @@ operator/(
     const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
     const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
 ) {
-    return mapply( std::divides<eT>(), lhs, rhs ) ;
+    return Rcpp::mapply( std::divides<eT>(), lhs, rhs ) ;
 }
 
 #endif

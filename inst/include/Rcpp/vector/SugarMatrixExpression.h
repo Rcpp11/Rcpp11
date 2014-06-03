@@ -7,12 +7,12 @@ namespace Rcpp{
         struct custom_sugar_matrix_expression{} ;
     }
     
-    template <int RTYPE, bool NA, typename Expr>
+    template <typename eT, typename Expr>
     struct SugarMatrixExpression : 
-        public MatrixBase<RTYPE, NA, Expr>, 
+        public MatrixBase<eT, Expr>, 
         public SugarMatrixExpressionBase
     {
-        using MatrixBase<RTYPE, NA, Expr>::get_ref ;
+        using MatrixBase<eT, Expr>::get_ref ;
         
         template <typename Target>
         void apply( Target& target ) const ;

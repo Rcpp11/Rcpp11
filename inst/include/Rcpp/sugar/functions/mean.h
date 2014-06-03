@@ -38,7 +38,7 @@ namespace Rcpp{
         template <typename Expr> 
         class Mean<Rcomplex,Expr>{
         public:
-            Mean_Complex( const SugarVectorExpression<Rcomplex,Expr>& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<Rcomplex,Expr>& object_ ) : object(object_){}
             
             Rcomplex get() const {
                 ComplexVector input = object ;

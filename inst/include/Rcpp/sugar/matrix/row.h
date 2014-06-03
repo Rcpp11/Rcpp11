@@ -5,8 +5,9 @@ namespace Rcpp{
     namespace sugar{
     
         class Row : 
-            public SugarMatrixExpression<INTSXP,false,Row>, 
-            public custom_sugar_matrix_expression{
+            public SugarMatrixExpression<int,Row>, 
+            public custom_sugar_matrix_expression
+        {
         public:
             Row( int nr_, int nc_) : nr(nr_), nc(nc_) {}
             
@@ -32,8 +33,8 @@ namespace Rcpp{
     
     } // sugar
     
-    template <int RTYPE, bool LHS_NA, typename LHS_T>
-    inline sugar::Row row( const Rcpp::MatrixBase<RTYPE,LHS_NA,LHS_T>& lhs){
+    template <typename eT, typename Expr>
+    inline sugar::Row row( const Rcpp::MatrixBase<eT, Expr>& lhs){
        return sugar::Row( lhs.nrow(), lhs.ncol() ) ;
     }
 

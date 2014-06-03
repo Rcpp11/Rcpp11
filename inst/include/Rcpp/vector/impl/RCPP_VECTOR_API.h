@@ -88,13 +88,13 @@ private:
         set_data(Rf_allocVector(RTYPE, n)) ;
     }
     
-    template <typename Expr>
-    inline void import_expression( const SugarVectorExpression<Expr>& other,  std::true_type ){
+    template <typename eT, typename Expr>
+    inline void import_expression( const SugarVectorExpression<eT,Expr>& other,  std::true_type ){
         set_data( other.get_ref() );    
     }
     
-    template <bool NA, typename Expr>
-    inline void import_expression( const SugarVectorExpression<Expr>& other, std::false_type ){
+    template <typename eT, typename Expr>
+    inline void import_expression( const SugarVectorExpression<eT,Expr>& other, std::false_type ){
         import_applyable(other) ;
     }
     

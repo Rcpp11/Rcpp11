@@ -9,7 +9,7 @@ namespace Rcpp{
         public:
             const static int RTYPE = traits::r_sexptype_traits<eT>::rtype ; 
             
-            Table( const SugarVectorExpression<eT, Expr>& table ): hash(), map() {
+            Table( const SugarVectorExpression<eT, Expr>& table ): map() {
                 std::for_each( sugar_begin(table), sugar_end(table), [this](eT x){
                     map[x]++ ;            
                 }) ;
@@ -20,7 +20,7 @@ namespace Rcpp{
                 IntegerVector result(n) ;
                 CharacterVector names(n) ;
                 R_xlen_t index=0 ;
-                std::for_each( map.begin(), map.end(), [&]( const std::pair<value_type,int>& p){
+                std::for_each( map.begin(), map.end(), [&]( const std::pair<eT,int>& p){
                     result[index] = p.second ;
                     names[index] = p.first ;
                 }) ;

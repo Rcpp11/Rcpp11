@@ -3,16 +3,15 @@
 
 namespace Rcpp{
 
-    template <int RTYPE, bool NA, typename Matrix>
+    template <typename eT, typename Matrix>
     class MatrixBase : public CRTP<Matrix> {
     public:
         using CRTP<Matrix>::get_ref ;
-        typedef typename traits::storage_type<RTYPE>::type stored_type;
         
-        inline const stored_type operator()(int i, int j) const { 
+        inline const eT operator()(int i, int j) const { 
             return get_ref()(i,j) ; 
         }
-        inline stored_type operator()(int i, int j) { 
+        inline eT operator()(int i, int j) { 
             return get_ref()(i,j) ; 
         }
         inline int nrow() const { 

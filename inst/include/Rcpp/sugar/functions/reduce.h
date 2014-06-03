@@ -33,7 +33,7 @@ namespace Rcpp {
     }
 
     template <typename eT, typename Expr, typename Callable>
-    auto Reduce(Callable f, const SugarVectorExpression<RTYPE,Expr>& data) -> decltype( sugar::Reduce<eT,Expr,Callable>(data, f).get() ) {
+    auto Reduce(Callable f, const SugarVectorExpression<eT,Expr>& data) -> decltype( sugar::Reduce<eT,Expr,Callable>(data, f).get() ) {
         return sugar::Reduce<eT, Expr, Callable>(data, f).get() ;
     }
 

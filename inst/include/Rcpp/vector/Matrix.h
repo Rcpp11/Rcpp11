@@ -4,7 +4,7 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Storage>
-    class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,Storage> >{
+    class Matrix : public MatrixBase< typename traits::storage_type<RTYPE>::type, Matrix<RTYPE,Storage> >{
     private:
         typedef Vector<RTYPE,Storage> Vec ;
         Vec vec ;
@@ -41,13 +41,14 @@ namespace Rcpp{
         Matrix( const Matrix& other ) = default ;
         Matrix& operator=( const Matrix& ) = default ;
             
-        template <bool NA, typename Expr>
-        Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
+        template <typename eT, typename Expr>
+        Matrix( const SugarMatrixExpression<eT,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
             set_dimensions( expr.nrow(), expr.ncol() ) ;
             expr.apply(*this) ;
         }
-        template <bool NA, typename Expr>
-        Matrix& operator=( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) {
+        
+        template <typename eT, typename Expr>
+        Matrix& operator=( const SugarMatrixExpression<eT,Expr>& expr ) {
             if( nrow() != expr.nrow() || ncol() != expr.ncol() ) throw incompatible_dimensions() ;
             expr.apply(*this) ;
             return *this ;

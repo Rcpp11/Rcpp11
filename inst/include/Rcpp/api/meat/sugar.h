@@ -20,7 +20,7 @@ namespace Rcpp{
                 if( std::is_convertible<eT,SEXP>::value ) {
                     std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
                 } else {
-                    std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](storage x){
+                    std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
                             return wrap(x) ;
                     });    
                 }
