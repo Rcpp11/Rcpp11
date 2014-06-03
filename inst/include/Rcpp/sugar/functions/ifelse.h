@@ -29,7 +29,7 @@ namespace Rcpp{
     >::type 
     ifelse( const SugarVectorExpression<Rboolean,Cond>& cond, const Expr1& expr1, const Expr2& expr2 ){
         typedef sugar::ifelse_op< typename traits::mapply_scalar_type<Expr1>::type > op ; 
-        return mapply( op(), cond, expr1, expr2) ;
+        return mapply( op(), cond.get_ref(), expr1, expr2) ;
     }
     
 } // Rcpp

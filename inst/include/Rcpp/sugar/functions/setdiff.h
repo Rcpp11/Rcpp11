@@ -113,14 +113,14 @@ namespace Rcpp{
     }
     
     template <typename eT, typename Expr1, typename Expr2>
-    sugar::Intersect<eT, Expr1, Expr2> intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ){
-        return sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ) ;
+    auto intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) -> decltype(sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ).get()) {
+        return sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ).get() ;
     }
     
     // we cannot use "union" because it is a keyword
     template <typename eT, typename Expr1, typename Expr2>
-    sugar::Union<eT, Expr1, Expr2> union_( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ){
-        return sugar::Union<eT, Expr1, Expr2>( lhs, rhs ) ;
+    auto union_( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) -> decltype( sugar::Union<eT, Expr1, Expr2>( lhs, rhs ).get() ){
+        return sugar::Union<eT, Expr1, Expr2>( lhs, rhs ).get() ;
     }
 
 

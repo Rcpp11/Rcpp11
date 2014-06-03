@@ -95,7 +95,7 @@ namespace Rcpp{
         
         template <typename Function, typename T, typename... Args>
         struct sugar_dispatch_function_type {
-            typedef SapplyFunctionBinder<Function,Args...> type ;
+            typedef SapplyFunctionBinder<Function,T,Args...> type ;
         } ;
         
         template <typename Function, typename T>
