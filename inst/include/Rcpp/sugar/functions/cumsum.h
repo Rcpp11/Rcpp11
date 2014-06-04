@@ -34,7 +34,7 @@ namespace Rcpp{
             }
             
             template <typename Target>
-            void apply( Target& target ){ 
+            void apply( Target& target ) const { 
                 target = data ;    
             }
             
