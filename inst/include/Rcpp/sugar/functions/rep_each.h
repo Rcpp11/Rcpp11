@@ -16,7 +16,7 @@ namespace Rcpp{
                 object(object_), times(times_), n(object_.size()) {}
         
             inline eT operator[]( R_xlen_t i ) const {
-                return object[ i / times ] ;
+                return object.get_ref().begin()[ i / times ] ;
             }
             inline R_xlen_t size() const { return n * times ; }
         

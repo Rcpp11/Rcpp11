@@ -17,7 +17,7 @@ namespace Rcpp{
                 typedef typename Rep_len::Vec Vec ;
                 
                 const_iterator( const Rep_len& data_, R_xlen_t index_ ) :
-                    data(data_.vec), n(data_.n), index(index_), src_index(index % n ) {}
+                    data(data_.data), n(data_.n), index(index_), src_index(index % n ) {}
                 
                 inline const_iterator& operator++(){ 
                     index++;

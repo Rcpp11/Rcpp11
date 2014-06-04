@@ -33,7 +33,7 @@ namespace Rcpp{
                 const Vec& data ;
                 R_xlen_t n, index, src_index;
                 
-                inline void set_set_index( R_xlen_t i ){
+                inline void set_src_index( R_xlen_t i ){
                     src_index = ( i == data.n ) ? 0 : i ;    
                 }
                 

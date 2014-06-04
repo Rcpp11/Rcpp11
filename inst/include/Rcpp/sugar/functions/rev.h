@@ -9,14 +9,31 @@ namespace Rcpp{
             public SugarVectorExpression<eT, Rev<eT,Expr>>, 
             public custom_sugar_vector_expression {
         public:
-            typedef SugarIterator<eT, Rev> const_iterator ;
+            
+            class const_iterator {
+            public:
+                typedef typename Expr::const_iterator source_iterator ;
+                const_iterator( source_iterator iter_ ) : iter(iter_){}
+                
+                inline const_iterator& operator++(){
+                    iter-- ;
+                    return *this ;    
+                }
+                
+                inline eT operator*(){
+                    return *(iter-1) ;  
+                }
+                
+                inline bool operator==( const const_iterator& other ){ return iter == other.iter ; }
+                inline bool operator!=( const const_iterator& other ){ return iter != other.iter ; }
+                
+            private:
+                source_iterator iter ;
+            } ;
             
             Rev( const SugarVectorExpression<eT,Expr>& object_ ) : 
                 object(object_), n(object_.size()) {}
         
-            inline eT operator[]( R_xlen_t i ) const {
-                return object[n - i - 1] ;
-            }
             inline R_xlen_t size() const { 
                 return n ; 
             }
@@ -30,8 +47,8 @@ namespace Rcpp{
                 }
             }
             
-            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
-            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            inline const_iterator begin() const { return const_iterator( sugar_end(object) ) ; }
+            inline const_iterator end() const { return const_iterator( sugar_begin(object) ) ; }
             
         private:
             const SugarVectorExpression<eT,Expr>& object ;

@@ -15,11 +15,12 @@ namespace Rcpp{
         
             Cumsum( const SugarVectorExpression<eT, Expr>& object ) : data(object.size(), NA){
                 int n = object.size() ;
-                eT current = object[0] ;
+                auto it = sugar_begin(object) ;
+                eT current = *it ; ++it ;
                 if( current != NA ){
                     data[0] = current ;
-                    for( R_xlen_t i=1; i<n ; i++){
-                        current = object[i] ;
+                    for( R_xlen_t i=1; i<n ; i++, ++it){
+                        current = *it ;
                         if( current == NA ) break ;
                         data[i] = data[i-1] + current ;
                     }
