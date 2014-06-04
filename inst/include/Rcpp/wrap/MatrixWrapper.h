@@ -24,7 +24,7 @@ namespace Rcpp{
         
         template <typename T>
         inline SEXP wrap_dispatch_matrix_not_logical( const T& object, ::Rcpp::traits::r_type_primitive_tag ){
-            return wrap_dispatch_matrix_primitive<T, typename T::stored_type>( object ) ;
+            return wrap_dispatch_matrix_primitive<T, typename T::value_type>( object ) ;
         }
         
         template <typename T>
@@ -64,7 +64,7 @@ namespace Rcpp{
     template <typename T> struct MatrixWrapper {
         static inline SEXP wrap(const T& object) {
             return internal::wrap_dispatch_matrix_not_logical<T>( object, 
-                typename ::Rcpp::traits::r_type_traits<typename T::stored_type>::r_category() ) ;    
+                typename ::Rcpp::traits::r_type_traits<typename T::value_type>::r_category() ) ;    
         }
     } ;
     

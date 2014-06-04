@@ -7,7 +7,7 @@ namespace Rcpp{
         template <typename eT, typename Expr1, typename Expr2, typename Function>
         class Outer : public SugarMatrixExpression<eT, Outer<eT, Expr1, Expr2, Function>> {
         public:
-            typedef typename traits::vector_of<eT> Vec ;
+            typedef typename traits::vector_of<eT>::type Vec ;
             typedef typename std::result_of<Function(eT,eT)>::type value_type ;
             
             Outer( Vec lhs_, Vec rhs_, Function fun_ ) : 

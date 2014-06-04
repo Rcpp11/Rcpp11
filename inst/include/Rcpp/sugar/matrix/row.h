@@ -9,6 +9,7 @@ namespace Rcpp{
             public custom_sugar_matrix_expression
         {
         public:
+            typedef int value_type ;
             Row( int nr_, int nc_) : nr(nr_), nc(nc_) {}
             
             inline int operator()( int i, int ) const {

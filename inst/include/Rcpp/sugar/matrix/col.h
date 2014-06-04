@@ -8,6 +8,8 @@ namespace Rcpp{
             public SugarMatrixExpression<int,Col>, 
             public custom_sugar_matrix_expression {
         public:
+            typedef int value_type ;
+            
             Col( int nr_, int nc_) : nr(nr_), nc(nc_) {}
             
             inline int operator()( int , int j ) const {

@@ -18,7 +18,6 @@ namespace Rcpp{
     {
     public:
         typedef  SEXP value_type ;
-        typedef  SEXP stored_type ;
         typedef  internal::string_proxy<Vector>  Proxy    ;
         typedef  internal::Proxy_Iterator<Proxy> iterator ;
         typedef  internal::Proxy_Iterator<Proxy> const_iterator ;

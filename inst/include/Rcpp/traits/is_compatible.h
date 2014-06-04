@@ -6,7 +6,7 @@ namespace Rcpp{
 
         template <int RTYPE, typename T, bool prim>
         struct is_compatible_type {
-            typedef typename std::is_same<typename T::stored_type, typename storage_type<RTYPE>::type >::type type ;
+            typedef typename std::is_same<typename T::value_type, typename storage_type<RTYPE>::type >::type type ;
         } ;
         template <int RTYPE, typename T>
         struct is_compatible_type<RTYPE,T,true> {
