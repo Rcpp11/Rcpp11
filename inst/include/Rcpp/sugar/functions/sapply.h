@@ -24,10 +24,6 @@ namespace Rcpp{
                 return vec.size() ; 
             }
         
-            inline value_type operator[](R_xlen_t i) const {
-                return fun(vec[i]) ;    
-            }
-            
             template <typename Target>
             inline void apply( Target& target ) const {
                 typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
@@ -66,10 +62,6 @@ namespace Rcpp{
             
             inline R_xlen_t size() const { return vec.size() ; }
         
-            inline value_type operator[](R_xlen_t i) const {
-                return fun(vec[i]) ;    
-            }
-            
             template <typename Target>
             inline void apply( Target& target ) const {
                 typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;

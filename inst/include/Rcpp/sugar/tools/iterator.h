@@ -118,14 +118,18 @@ namespace sugar {
             return *this ;
         }
         
-        value_type operator*() const {
+        TransformIterator operator+( int n ){
+            return TransformIterator(fun, source + n ) ;       
+        }
+        
+        value_type operator*() {
             return fun(*source) ;
         }
         
         inline bool operator==( const TransformIterator& other ){ return source == other.source ; }
         inline bool operator!=( const TransformIterator& other ){ return source != other.source ; }
         
-    private:
+    // private:
         const function_type& fun ;
         source_iterator source ;
     } ;

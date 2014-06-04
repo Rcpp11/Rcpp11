@@ -62,6 +62,12 @@ namespace Rcpp{
                     return *this ;
                 }
                 
+                MapplyIterator operator+( int n){
+                    MapplyIterator copy(*this) ;
+                    for(int i=0; i<n; i++) ++copy ;
+                    return copy;
+                }
+                
                 inline value_type operator*() {
                     return apply( Sequence() ) ;
                 }

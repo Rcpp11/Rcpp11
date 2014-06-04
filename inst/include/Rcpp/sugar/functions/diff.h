@@ -28,13 +28,15 @@ namespace Rcpp{
             
             Diff( const SugarVectorExpression<eT,Expr>& lhs ) : data(lhs.size()-1) {
                 int n = lhs.size()-1 ;
-                eT previous = lhs[0] ;
+                auto source = sugar_begin(lhs) ;
+                eT previous = *source ;
                 auto it = data.begin() ;
                 diff_op<eT> op ;
-                for( int i=0; i<n; i++, ++it){
-                    eT current = lhs[i+1] ;
-                    *it      =  op(current, previous);
-                    previous = current ;
+                ++source ;
+                for( int i=0; i<n; i++, ++it, ++source){
+                    eT current = *source ;
+                    *it        = op(current, previous);
+                    previous   = current ;
                 }
                 
             }
