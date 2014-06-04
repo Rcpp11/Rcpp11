@@ -13,6 +13,7 @@ namespace Rcpp{
         public CRTP<Expr>
     {
         using CRTP<Expr>::get_ref ;
+        typedef Expr expr_type ;
         typedef eT value_type ;
         typedef typename std::integral_constant<int, traits::r_sexptype_traits<eT>::rtype >::type r_type ;
         

@@ -6,7 +6,7 @@ namespace Rcpp{
     
         template <typename T, typename E>
         struct pow_op {
-            inline auto operator()(T x, E e) -> decltype(::pow(x,e)){
+            inline auto operator()(T x, E e) const -> decltype(::pow(x,e)){
                 return ::pow(x, e) ;    
             }
         } ;

@@ -7,7 +7,7 @@ namespace Rcpp{
         template <typename T>
         class fake_iterator{
         public:
-            fake_iterator( const T& value_) : value(value_){}
+            fake_iterator( T value_) : value(value_){}
             fake_iterator& operator++(){ return *this ; }
 
             inline T operator*() {
@@ -30,7 +30,7 @@ namespace Rcpp{
         struct mapply_iterator_dispatch<input_type, false> {
             typedef typename Rcpp::sugar::sugar_iterator_type<
                 typename traits::mapply_scalar_type<input_type>::type, 
-                input_type
+                typename input_type::expr_type
             >::type type ;
         } ;
         
@@ -59,14 +59,13 @@ namespace Rcpp{
             typedef std::tuple<Args...> Tuple ;
             typedef std::tuple< typename traits::mapply_scalar_type<Args>::type ... > ETuple ;
             typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type value_type ;
-
+            typedef std::tuple< typename mapply_iterator<Args>::type ... > IteratorsTuple ;
+            
         private:
             Tuple data ;
             Function fun ;
             R_xlen_t n ;
 
-            typedef std::tuple< typename mapply_iterator<Args>::type ... > IteratorsTuple ;
-            
         public:
             Mapply( Function fun_, Args&&... args ) :
                 data( std::forward<Args>(args)... ),

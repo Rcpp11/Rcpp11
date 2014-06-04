@@ -1,46 +1,51 @@
-#ifndef Rcpp__sugar__pmax_h
-#define Rcpp__sugar__pmax_h
+#ifndef Rcpp__sugar__pmin_h
+#define Rcpp__sugar__pmin_h
 
 namespace Rcpp{
     namespace sugar{
     
         template <typename T>
         struct pmax_op {
-            inline T operator()( T lhs, T rhs ){
+            inline T operator()( T lhs, T rhs ) const {
                 return std::max( lhs, rhs ) ;    
             }
         } ;
     
         template <typename T>
         struct pmin_op {
-            inline T operator()( T lhs, T rhs ){
-                return std::min( lhs, rhs ) ;    
+            inline T operator()( T lhs, T rhs ) const {
+                return std::min( lhs, rhs ) ;
             }
         } ;
     
     } // sugar
     
     
-    template <typename T1, typename T2>
-    inline typename std::enable_if<
-        traits::is_mapply_compatible<T1>::value &&
-        traits::is_mapply_compatible<T2>::value &&
-        traits::same_mapply_scalar_type<T1,T2>::value,
-        sugar::Mapply< sugar::pmax_op<typename traits::mapply_scalar_type<T1>::type>, T1, T2 >
-    >::type
-    pmax( const T1& lhs, const T2& rhs ){
-        return mapply( sugar::pmax_op<typename traits::mapply_scalar_type<T1>::type>(), lhs, rhs ) ;  
+    template <typename eT, typename Expr1, typename Expr2>
+    auto pmax( const SugarVectorExpression<eT, Expr1>& x, const SugarVectorExpression<eT,Expr2>& y ) -> decltype(mapply( sugar::pmax_op<eT>(), x, y )) {
+        return mapply( sugar::pmax_op<eT>(), x, y ) ;  
+    }
+    template <typename eT, typename Expr1>
+    auto pmax( const SugarVectorExpression<eT, Expr1>& x, eT y ) -> decltype(mapply( sugar::pmax_op<eT>(), x, y )) {
+        return mapply( sugar::pmax_op<eT>(), x, y ) ;  
+    }
+    template <typename eT, typename Expr2>
+    auto pmax( eT x, const SugarVectorExpression<eT, Expr2>& y ) -> decltype(mapply( sugar::pmax_op<eT>(), x, y )) {
+        return mapply( sugar::pmax_op<eT>(), x, y ) ;  
     }
     
-    template <typename T1, typename T2>
-    inline typename std::enable_if<
-        traits::is_mapply_compatible<T1>::value &&
-        traits::is_mapply_compatible<T2>::value &&
-        traits::same_mapply_scalar_type<T1,T2>::value,
-        sugar::Mapply< sugar::pmax_op<typename traits::mapply_scalar_type<T1>::type>, T1, T2 >
-    >::type
-    pmin( const T1& lhs, const T2& rhs ){
-        return mapply( sugar::pmin_op<typename traits::mapply_scalar_type<T1>::type>(), lhs, rhs ) ;  
+    
+    template <typename eT, typename Expr1, typename Expr2>
+    auto pmin( const SugarVectorExpression<eT, Expr1>& x, const SugarVectorExpression<eT,Expr2>& y ) -> decltype(mapply( sugar::pmin_op<eT>(), x, y )) {
+        return mapply( sugar::pmin_op<eT>(), x, y ) ;  
+    }
+    template <typename eT, typename Expr1>
+    auto pmin( const SugarVectorExpression<eT, Expr1>& x, eT y ) -> decltype(mapply( sugar::pmin_op<eT>(), x, y )) {
+        return mapply( sugar::pmin_op<eT>(), x, y ) ;  
+    }
+    template <typename eT, typename Expr2>
+    auto pmin( eT x, const SugarVectorExpression<eT, Expr2>& y ) -> decltype(mapply( sugar::pmin_op<eT>(), x, y )) {
+        return mapply( sugar::pmin_op<eT>(), x, y ) ;  
     }
     
     
