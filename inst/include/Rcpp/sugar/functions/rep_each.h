@@ -10,6 +10,8 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
+            typedef SugarIterator<eT, Rep_each> const_iterator ;
+            
             Rep_each( const SugarVectorExpression<eT,Expr>& object_, int times_ ) :
                 object(object_), times(times_), n(object_.size()) {}
         
@@ -27,6 +29,9 @@ namespace Rcpp{
                 }
             }
         
+            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            
         private:
             const SugarVectorExpression<eT,Expr>& object ;
             R_xlen_t times, n ;

@@ -5,6 +5,12 @@ namespace Rcpp{
     
     namespace sugar{
         struct custom_sugar_vector_expression{} ;
+        struct iterable_vector_expression{} ;
+    }
+    
+    namespace traits{
+        template <typename T>
+        struct is_iterable : public std::is_base_of<sugar::iterable_vector_expression, T> {} ;
     }
     
     template <typename eT, typename Expr>
@@ -16,10 +22,6 @@ namespace Rcpp{
         typedef Expr expr_type ;
         typedef eT value_type ;
         typedef typename std::integral_constant<int, traits::r_sexptype_traits<eT>::rtype >::type r_type ;
-        
-        inline eT operator[]( R_xlen_t i) const {
-            return get_ref()[i] ;
-        }
         
         inline R_xlen_t size() const { 
             return get_ref().size() ;

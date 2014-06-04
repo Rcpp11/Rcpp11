@@ -9,6 +9,8 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
+            typedef SugarIterator<int, SeqLen> const_iterator ;
+            
             SeqLen( R_xlen_t len_ ) : len(len_){}
         
             inline int operator[]( R_xlen_t i ) const {
@@ -20,7 +22,10 @@ namespace Rcpp{
             inline void apply( Target& target ) const {
                 std::iota( target.begin(), target.end(), 1 ) ;     
             }
-        
+            
+            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            
         private:
             R_xlen_t len ;
         } ;
@@ -30,21 +35,25 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
             typedef int value_type ;
+            typedef SugarIterator<int, Seq> const_iterator ;
             
-            Seq( R_xlen_t start_, R_xlen_t end_ ) : start(start_), end(end_) {}
+            Seq( R_xlen_t start_, R_xlen_t end_ ) : index_start(start_), index_end(end_) {}
         
             inline int operator[]( R_xlen_t i ) const {
-                return start + i ;
+                return index_start + i ;
             }
-            inline R_xlen_t size() const { return end-start+1 ; }
+            inline R_xlen_t size() const { return index_end-index_start+1 ; }
              
             template <typename Target>
             inline void apply( Target& target ) const {
-                std::iota( target.begin(), target.end(), start ) ;     
+                std::iota( target.begin(), target.end(), index_start ) ;     
             }
         
+            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            
         private:
-            R_xlen_t start, end ;
+            R_xlen_t index_start, index_end ;
         } ;
     
     } // sugar

@@ -11,6 +11,7 @@ namespace Rcpp{
         {
         public:
             typedef typename traits::vector_of<eT>::type VECTOR ;
+            typedef typename VECTOR::const_iterator const_iterator ;
         
             Cumsum( const SugarVectorExpression<eT, Expr>& object ) : data(object.size(), NA){
                 int n = object.size() ;
@@ -29,14 +30,13 @@ namespace Rcpp{
                 return data.size() ;    
             }
             
-            inline eT operator[]( R_xlen_t i) const {
-                return data[i] ;    
-            }
-            
             template <typename Target>
             void apply( Target& target ) const { 
                 target = data ;    
             }
+            
+            inline const_iterator begin() const { return data.begin() ; }
+            inline const_iterator end() const { return data.end() ; }
             
         private:
             VECTOR data ;

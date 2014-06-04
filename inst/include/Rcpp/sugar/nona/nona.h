@@ -10,6 +10,8 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
+            typedef typename Expr::const_iterator const_iterator ; 
+            
             Nona( const SugarVectorExpression<eT, Expr>& expr) : data(expr){} 
             
             inline R_xlen_t size() const { return data.size() ; }
@@ -19,6 +21,9 @@ namespace Rcpp{
             void apply( Target& target ){
                 data.get_ref().apply(target) ;  
             }
+            
+            inline const_iterator begin() const { return sugar_begin(data) ; }
+            inline const_iterator end() const { return sugar_end(data) ; }
             
         private:
             const SugarVectorExpression<eT, Expr>& data ;    

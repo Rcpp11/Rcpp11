@@ -10,6 +10,7 @@ namespace Rcpp {
             public custom_sugar_vector_expression
         {
         public:
+            typedef typename std::vector<eT>::const_iterator const_iterator ;
             
             Filter( const SugarVectorExpression<eT,Expr>& expr, Callable f_ ) : f(f_), data(){
                 data.reserve(expr.size()) ;
@@ -21,12 +22,14 @@ namespace Rcpp {
             }
 
             inline R_xlen_t size() const { return data.size(); }
-            inline eT operator[](R_xlen_t i) const { return data[i]; }
-
+            
             template <typename Target>
             inline void apply( Target& target ) const {
                 std::copy( data.begin(), data.end(), target.begin() ) ;
             }
+            
+            inline const_iterator begin() const { return data.begin() ; }
+            inline const_iterator end() const { return data.end() ; }
             
         private:
             Callable f ;

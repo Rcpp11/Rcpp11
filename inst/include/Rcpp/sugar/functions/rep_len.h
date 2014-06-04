@@ -10,18 +10,48 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
+            typedef typename traits::vector_of<eT>::type Vec ;
+            
+            class const_iterator {
+            public:
+                typedef typename Rep_len::Vec Vec ;
+                
+                const_iterator( const Rep_len& data_, R_xlen_t index_ ) :
+                    data(data_.vec), n(data_.n), index(index_), src_index(index % n ) {}
+                
+                inline const_iterator& operator++(){ 
+                    index++;
+                    set_src_index(src_index+1) ;
+                    return *this ;
+                }
+        
+                inline eT operator*() const {
+                    return data[src_index] ;
+                }
+        
+            private:
+                const Vec& data ;
+                R_xlen_t n, index, src_index;
+                
+                inline void set_set_index( R_xlen_t i ){
+                    src_index = ( i == data.n ) ? 0 : i ;    
+                }
+                
+            } ;
+            
+            
             Rep_len( const SugarVectorExpression<eT,Expr>& object_, R_xlen_t len_ ) :
-                object(object_), len(len_), n(object_.size()){}
+                data(object_), len(len_), n(object_.size()){}
         
             inline eT operator[]( R_xlen_t i ) const {
-                return object[ i % n ] ;
+                return data[ i % n ] ;
             }
             inline R_xlen_t size() const { return len ; }
         
             template <typename Target>
             inline void apply(Target& target) const {
                 if (n >= len) {
-                    std::copy_n(sugar_begin(*this), len, target.begin() );
+                    std::copy_n(data.begin(), len, target.begin() );
                     return;
                 }
         
@@ -30,14 +60,9 @@ namespace Rcpp{
                 
                 // first copy data from the sugar expression
                 auto it = target.begin();
-                std::copy_n(sugar_begin(*this), n, it);
-                it += n;
-                        
-                // then copy the materialized part into the rest of the output
-                for (R_xlen_t i=1; i < timesToFullCopy; ++i) {
-                    std::copy_n(target.begin(), n, it);
+                for (R_xlen_t i=0; i < timesToFullCopy; ++i) {
+                    std::copy_n(data.begin(), n, it);
                     it += n;
-                    
                 }
                 if (leftoverElems) {
                     std::copy_n(target.begin(), leftoverElems, it);
@@ -45,8 +70,11 @@ namespace Rcpp{
                 
             }
         
+            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            
         private:
-            const SugarVectorExpression<eT,Expr>& object ;
+            Vec data ;
             R_xlen_t len, n ;
         
         } ;

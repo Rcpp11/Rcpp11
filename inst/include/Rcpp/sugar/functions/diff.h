@@ -24,6 +24,7 @@ namespace Rcpp{
         class Diff : public SugarVectorExpression<eT, Diff<eT, Expr>> {
         public:
             typedef typename traits::vector_of<eT>::type Vec ;
+            typedef typename Vec::const_iterator const_iterator ;
             
             Diff( const SugarVectorExpression<eT,Expr>& lhs ) : data(lhs.size()-1) {
                 int n = lhs.size()-1 ;
@@ -38,10 +39,6 @@ namespace Rcpp{
                 
             }
         
-            inline eT operator[]( R_xlen_t i ) const {
-                return data[i] ;
-            }     
-        
             inline R_xlen_t size() const {
                 return data.size() ; 
             }
@@ -51,6 +48,9 @@ namespace Rcpp{
                 target = data ;        
             }
         
+            inline const_iterator begin() const { return data.begin() ; }
+            inline const_iterator end() const { return data.end() ; }
+            
         private:
             Vec data ;
         } ;

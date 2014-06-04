@@ -13,6 +13,7 @@ namespace Rcpp{
     public:
         typedef typename Vector<RTYPE,Storage>::Proxy Proxy;
         typedef typename Vector<RTYPE,Storage>::iterator iterator;
+        typedef typename Vector<RTYPE,Storage>::const_iterator const_iterator;
         
         typedef MatrixColumn<RTYPE, Matrix> Column;
         typedef MatrixRow<RTYPE, Matrix> Row;

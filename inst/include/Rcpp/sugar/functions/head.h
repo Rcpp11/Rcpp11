@@ -6,27 +6,23 @@ namespace Rcpp{
     
         template <typename eT, typename Expr>
         class Head : 
-            public SugarVectorExpression<eT, Head<eT,Expr>>, 
-            public custom_sugar_vector_expression 
+            public SugarVectorExpression<eT, Head<eT,Expr>>
         {
         public:
+            typedef typename Expr::const_iterator const_iterator ;
+            
             Head( const SugarVectorExpression<eT,Expr>& object_, R_xlen_t n_ ) : object(object_), n(n_) {
                 if( n < 0 ){
                     n = object.size() + n ;
                 }
             }
         
-            inline eT operator[]( R_xlen_t i ) const {
-                return object[ i ] ;
-            }
             inline R_xlen_t size() const { 
                 return n; 
             }
         
-            template <typename Target>
-            inline void apply( Target& target ) const {
-                std::copy_n( sugar_begin(object), n, target.begin() ) ;   
-            }
+            inline const_iterator begin() const { return sugar_begin(object) ; }
+            inline const_iterator end() const { return begin() + n ; }
             
         private:
             const SugarVectorExpression<eT,Expr>& object ;

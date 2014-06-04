@@ -9,29 +9,23 @@ namespace Rcpp{
             public SugarVectorExpression<
                 typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type, 
                 Transform<InputIterator, Function>
-            >, 
-            public custom_sugar_vector_expression
+            >
         {
         public:
             typedef typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type value_type ;
+            typedef TransformIterator<value_type,Function,InputIterator> const_iterator ;
             
-            Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : begin(begin_), end(end_), fun(fun_){}
-            
-            inline value_type operator[]( R_xlen_t i) const {
-                return fun( * (begin+i) ) ;    
-            }
+            Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : src_begin(begin_), src_end(end_), fun(fun_){}
             
             inline R_xlen_t size() const {
-                return std::distance(begin, end) ;    
+                return std::distance(src_begin, src_end) ;    
             }
             
-            template <typename Target>
-            void apply( Target& target ) const {
-                std::transform( begin, end, target.begin(), fun ) ;        
-            }
+            inline const_iterator begin() const { return const_iterator(fun, src_begin) ; }
+            inline const_iterator end() const { return const_iterator(fun, src_end) ; }
             
         private:
-            InputIterator begin, end ;
+            InputIterator src_begin, src_end ;
             Function fun ;
         } ;
         

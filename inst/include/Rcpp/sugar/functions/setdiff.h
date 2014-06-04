@@ -6,11 +6,11 @@ namespace Rcpp{
            
         template <typename eT, typename Expr1, typename Expr2>
         class SetDiff : 
-            public SugarVectorExpression<eT, SetDiff<eT, Expr1, Expr2>>, 
-            public custom_sugar_vector_expression
+            public SugarVectorExpression<eT, SetDiff<eT, Expr1, Expr2>>
         {
         public:
-            typedef typename traits::vector_of<eT>::type Vector ;
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
             
             SetDiff( const SugarVectorExpression<eT,Expr1>& lhs, const SugarVectorExpression<eT,Expr2>& rhs) : 
                 lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
@@ -19,12 +19,11 @@ namespace Rcpp{
                 lhs_set.erase( rhs_set.begin(), rhs_set.end() ) ;
             }
             
-            Vector get() const {
-                return import( lhs_set.begin(), lhs_set.end() ) ;
-            }
+            inline R_xlen_t size() const { return lhs_set.size(); }
+            inline const_iterator begin() const { return lhs_set.begin() ; }
+            inline const_iterator end() const { return lhs_set.end() ; }
             
         private:
-            typedef std::unordered_set<eT> SET ;
             SET lhs_set, rhs_set ;
             
         } ;
@@ -54,9 +53,10 @@ namespace Rcpp{
         } ;
         
         template <typename eT,typename Expr1, typename Expr2>
-        class Intersect {
+        class Intersect : public SugarVectorExpression<eT, Intersect<eT, Expr1, Expr2>>{
         public:
-            typedef typename traits::vector_of<eT>::type Vector ;
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
             
             Intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) :
                 intersect(), 
@@ -68,33 +68,31 @@ namespace Rcpp{
                 }) ;
             }
             
-            Vector get() const {
-                return import( intersect.begin(), intersect.end() ) ;
-            }
+            inline R_xlen_t size() const { return intersect.size(); }
+            inline const_iterator begin() const { return intersect.begin() ; }
+            inline const_iterator end() const { return intersect.end() ; }
             
         private:
-            typedef std::unordered_set<eT> SET ;
             SET intersect, lhs_set, rhs_set ;
             
         } ;
         
         template <typename eT, typename Expr1, typename Expr2>
-        class Union {
+        class Union : public SugarVectorExpression<eT, Union<eT, Expr1, Expr2>>{
         public:
-            typedef typename traits::vector_of<eT>::type Vector ;
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
             
             Union( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) : 
                 result( sugar_begin(lhs), sugar_end(lhs) )
             {
                 result.insert( sugar_begin(rhs), sugar_end(rhs) ) ;
             }
-            
-            Vector get() const {
-                return import( result.begin(), result.end() ) ;
-            }
+            inline R_xlen_t size() const { return result.size(); }
+            inline const_iterator begin() const { return result.begin() ; }
+            inline const_iterator end() const { return result.end() ; }
             
         private:
-            typedef std::unordered_set<eT> SET ;
             SET result ;
             
         } ;
@@ -103,8 +101,8 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr1, typename Expr2>
-    auto setdiff( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) -> decltype( sugar::SetDiff<eT, Expr1, Expr2>( lhs, rhs ).get() ) {
-        return sugar::SetDiff<eT, Expr1, Expr2>( lhs, rhs ).get() ;
+    inline sugar::SetDiff<eT, Expr1, Expr2> setdiff( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::SetDiff<eT, Expr1, Expr2>( lhs, rhs );
     }
     
     template <typename eT, typename Expr1, typename Expr2>
@@ -113,14 +111,14 @@ namespace Rcpp{
     }
     
     template <typename eT, typename Expr1, typename Expr2>
-    auto intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) -> decltype(sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ).get()) {
-        return sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ).get() ;
+    sugar::Intersect<eT, Expr1, Expr2> intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ) ;
     }
     
     // we cannot use "union" because it is a keyword
     template <typename eT, typename Expr1, typename Expr2>
-    auto union_( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) -> decltype( sugar::Union<eT, Expr1, Expr2>( lhs, rhs ).get() ){
-        return sugar::Union<eT, Expr1, Expr2>( lhs, rhs ).get() ;
+    sugar::Union<eT, Expr1, Expr2> union_( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::Union<eT, Expr1, Expr2>( lhs, rhs ) ;
     }
 
 

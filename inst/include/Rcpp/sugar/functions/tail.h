@@ -10,6 +10,8 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
+            typedef typename Expr::const_iterator const_iterator ;
+            
             Tail( const SugarVectorExpression<eT,Expr>& object_, R_xlen_t n_ ) : object(object_), start(0), n(n_) {
                 if( n > 0 ){
                     start = object.size() - n ;
@@ -19,15 +21,15 @@ namespace Rcpp{
                 }
             }
         
-            inline eT operator[]( R_xlen_t i ) const {
-                return object[ start + i ] ;
-            }
             inline R_xlen_t size() const { return n; }
         
             template <typename Target>
             inline void apply( Target& target ) const {
                 std::copy_n( sugar_begin(object) + start, n, target.begin() ) ; 
             }
+            
+            inline const_iterator begin() const { return sugar_begin(object) + start ; }
+            inline const_iterator end() const { return begin() + size() ; }
             
         private:
             const SugarVectorExpression<eT,Expr>& object ;

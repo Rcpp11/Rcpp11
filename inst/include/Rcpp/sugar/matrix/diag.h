@@ -7,6 +7,8 @@ namespace Rcpp{
         template <typename eT, typename Expr>
         class Diag_Extractor : public SugarVectorExpression<eT, Diag_Extractor<eT, Expr>> {
         public:
+            typedef SugarIterator<eT, Diag_Extractor> const_iterator ;
+            
             Diag_Extractor( const SugarMatrixExpression<eT, Expr>& object_ ) : object(object_), n(0) {
                 int nr = object.nrow() ;
                 int nc = object.ncol() ;
@@ -18,6 +20,9 @@ namespace Rcpp{
             }
             inline R_xlen_t size() const { return n; }
         
+            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            
         private:
             const SugarMatrixExpression<eT, Expr>& object ;
             int n ;

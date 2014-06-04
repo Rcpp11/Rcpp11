@@ -9,29 +9,22 @@ namespace Rcpp{
             public SugarVectorExpression<
                 typename std::iterator_traits<InputIterator>::value_type, 
                 Import<InputIterator>
-            >, 
-            public custom_sugar_vector_expression
+            >
         {
         public:
-            typedef typename std::iterator_traits<InputIterator>::value_type eT ;
+            typedef InputIterator const_iterator ;
             
-            Import( InputIterator begin_, InputIterator end_ ) : begin(begin_), end(end_){}
-            
-            // inline eT operator[]( R_xlen_t i) const {
-            //     return begin[i] ;  
-            // }
+            Import( InputIterator src_begin_, InputIterator src_end_ ) : src_begin(src_begin_), src_end(src_end_){}
             
             inline R_xlen_t size() const {
-                return std::distance(begin, end) ;    
+                return std::distance(src_begin, src_end) ;    
             }
             
-            template <typename Target>
-            void apply( Target& target ) const {
-                std::copy( begin, end, target.begin() ) ;        
-            }
+            inline const_iterator begin() const { return src_begin ; }
+            inline const_iterator end() const { return src_end ; }
             
         private:
-            InputIterator begin, end ;    
+            InputIterator src_begin, src_end ;    
         } ;
         
         

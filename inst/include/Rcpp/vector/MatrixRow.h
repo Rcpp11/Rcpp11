@@ -9,6 +9,7 @@ namespace Rcpp{
         typedef typename traits::storage_type<RTYPE>::type value_type ;
         typedef typename Mat::Proxy Proxy;
         typedef StrideIterator<typename Mat::iterator> iterator;
+        typedef StrideIterator<typename Mat::const_iterator> const_iterator ;
         
         MatrixRow( Mat& mat_, int i) : 
             mat(mat_), index(i), n(mat.ncol()), nr(mat.nrow()){}
@@ -36,11 +37,11 @@ namespace Rcpp{
         inline iterator begin() { return iterator( mat.begin() + index, nr ) ; }
         inline iterator end()   { return iterator( mat.begin() + index + n*nr , nr ) ; }
         
-        inline const iterator begin() const { 
-            return iterator( mat.begin() + index, nr ) ; 
+        inline const_iterator begin() const { 
+            return const_iterator( mat.begin() + index, nr ) ; 
         }
-        inline const iterator end() const { 
-            return iterator( mat.begin() + index + n*nr , nr ) ; 
+        inline const_iterator end() const { 
+            return const_iterator( mat.begin() + index + n*nr , nr ) ; 
         }
         
     private:
