@@ -6,7 +6,7 @@ namespace Rcpp{
     
         template <typename T>
         struct sign_op {
-            inline int operator()( T x ){
+            inline int operator()( T x ) const {
                 return ( x > 0 ? 1 : (x==0 ? 0 : -1) ) ;       
             }
         } ;

@@ -6,7 +6,7 @@ namespace Rcpp{
     
         template <typename T>
         struct diff_op {
-            inline T operator()(T x, T y){ 
+            inline T operator()(T x, T y) const { 
                 if( x == NA || y == NA ) return NA ;
                 return x - y ;
             }        
@@ -14,7 +14,7 @@ namespace Rcpp{
         
         template <>
         struct diff_op<double>{
-            inline double operator()(double x, double y){ 
+            inline double operator()(double x, double y) const { 
                 return x - y ; 
             }    
         } ;
@@ -46,7 +46,7 @@ namespace Rcpp{
             }
             
             template <typename Target>
-            void apply( Target& target ){
+            void apply( Target& target ) const {
                 target = data ;        
             }
         

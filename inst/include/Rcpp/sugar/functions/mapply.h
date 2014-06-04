@@ -83,7 +83,12 @@ namespace Rcpp{
             inline void apply( Target& target ) const {
                 auto iterators = get_iterators( Sequence() ) ;
                 auto it = target.begin() ;
-                for( R_xlen_t i=0; i<n; i++) set_values( it, iterators, Sequence() ) ;
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                
+                for( R_xlen_t i=0; i<n; i++) {
+                    *it = converter::get( get_value( it, iterators, Sequence() ) );
+                    ++it ;
+                }
             }
 
         private:
@@ -134,11 +139,10 @@ namespace Rcpp{
             // in essence, set_values extract data by dereferencing and incrementing the iterators from the pack
             // then calls the function and store the result into the target iterator
             template <typename Iterator, typename Pack, int... S>
-            inline void set_values( Iterator& it, Pack& iterators, Rcpp::traits::sequence<S...> ) const {
-                *it = fun( extract( std::get<S>(iterators) ) ... ) ;
-                ++it ;
+            inline value_type get_value( Iterator& it, Pack& iterators, Rcpp::traits::sequence<S...> ) const {
+                return fun( extract( std::get<S>(iterators) ) ... ) ;
             }
-
+            
             template <typename It>
             auto extract( It& it) const -> decltype(*it){
                 decltype(*it) val = *it ;

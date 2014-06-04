@@ -29,6 +29,12 @@ namespace Rcpp{
             return Rcpp::traits::is_na<STRSXP>(x.get()) ; 
         }
         
+        template <typename T>
+        friend inline bool operator!=( Na_Proxy na, T x){ return !(x==na) ; }
+        
+        template <typename T>
+        friend inline bool operator!=( T x, Na_Proxy na){ return !(x==na) ; }
+        
     public:
         
         inline operator int() const { return NA_INTEGER ; }
