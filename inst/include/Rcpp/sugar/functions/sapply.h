@@ -28,7 +28,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                
+                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](eT x){
+                        return converter::get(fun(x)) ;
+                });
             }
             
             const SugarVectorExpression<eT, Expr>& vec ;
@@ -60,7 +64,10 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), fun ) ;     
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](T2 x){
+                        return converter::get(fun(x)) ;
+                });
             }
             
             const SugarVectorExpression<T2, Expr>& vec ;

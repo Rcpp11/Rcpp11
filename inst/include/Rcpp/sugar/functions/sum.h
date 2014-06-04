@@ -39,8 +39,8 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr>
-    inline sugar::Sum<eT, Expr> sum( const SugarVectorExpression<eT, Expr>& t){
-        return sugar::Sum<eT, Expr>( t ) ;
+    inline eT sum( const SugarVectorExpression<eT, Expr>& t){
+        return sugar::Sum<eT, Expr>( t ).get() ;
     }
     
 } // Rcpp

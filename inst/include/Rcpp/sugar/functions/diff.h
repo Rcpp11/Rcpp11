@@ -29,9 +29,10 @@ namespace Rcpp{
                 int n = lhs.size()-1 ;
                 eT previous = lhs[0] ;
                 auto it = data.begin() ;
+                diff_op<eT> op ;
                 for( int i=0; i<n; i++, ++it){
                     eT current = lhs[i+1] ;
-                    *it      =  diff_op<eT>(current, previous);
+                    *it      =  op(current, previous);
                     previous = current ;
                 }
                 
