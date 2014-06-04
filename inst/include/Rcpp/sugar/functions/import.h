@@ -17,9 +17,9 @@ namespace Rcpp{
             
             Import( InputIterator begin_, InputIterator end_ ) : begin(begin_), end(end_){}
             
-            inline eT operator[]( R_xlen_t i) const {
-                return * (begin+i) ;  
-            }
+            // inline eT operator[]( R_xlen_t i) const {
+            //     return begin[i] ;  
+            // }
             
             inline R_xlen_t size() const {
                 return std::distance(begin, end) ;    
