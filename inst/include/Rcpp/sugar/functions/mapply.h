@@ -53,7 +53,6 @@ namespace Rcpp{
             class MapplyIterator {
             public:
                 typedef std::bidirectional_iterator_tag iterator_category ;
-                typedef value_type value_type ;
                 typedef int difference_type ;
                 typedef value_type reference ;
                 
