@@ -56,6 +56,7 @@ namespace Rcpp{
                 typedef int difference_type ;
                 typedef typename Mapply::value_type value_type ;
                 typedef value_type reference ;
+                typedef value_type* pointer ;
                 
                 MapplyIterator( const Tuple& data, const Function& fun_, int pos = 0 ) : 
                     iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos)
