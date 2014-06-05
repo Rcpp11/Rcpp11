@@ -15,7 +15,8 @@ namespace Rcpp{
             typedef typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type value_type ;
             typedef TransformIterator<value_type,Function,InputIterator> const_iterator ;
             
-            Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : src_begin(begin_), src_end(end_), fun(fun_){}
+            Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : 
+                src_begin(begin_), src_end(end_), fun(fun_){}
             
             inline R_xlen_t size() const {
                 return std::distance(src_begin, src_end) ;    

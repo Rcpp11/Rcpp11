@@ -12,7 +12,7 @@ namespace Rcpp{
         public:
             typedef typename traits::vector_of<eT>::type Vec ;
             
-            class const_iterator {
+            class const_iterator : public std::iterator_traits<eT*> {
             public:
                 typedef typename Rep_len::Vec Vec ;
                 
@@ -32,6 +32,10 @@ namespace Rcpp{
         
                 inline eT operator*() {
                     return data[src_index] ;
+                }
+                
+                inline int operator-( const const_iterator& other ){
+                    return index - other.index ;    
                 }
                 
                 inline bool operator==( const const_iterator& other ){ return index == other.index; }

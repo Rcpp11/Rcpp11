@@ -392,7 +392,7 @@ namespace Rcpp {
 
 namespace std {
     template <> struct hash<Rcpp::String>{
-        inline size_t operator()(const Rcpp::String& s) noexcept {
+        inline size_t operator()(const Rcpp::String& s) const noexcept {
             return std::hash<SEXP>()(s.get_sexp()) ;
         }
     } ;

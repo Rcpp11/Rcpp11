@@ -6,8 +6,9 @@ namespace Rcpp{
     template <typename eT, typename Expr>
     inline LogicalVector duplicated( const SugarVectorExpression<eT, Expr>& x ){
         std::unordered_set<eT> set ;
-        LogicalVector res = transform( sugar_begin(x), sugar_end(x), [&set](eT y){
-                return ! set.insert(y).second ? TRUE : FALSE ;
+        LogicalVector res( x.size() );
+        std::transform( sugar_begin(x), sugar_end(x), res.begin(), [&](eT y){
+                return set.insert(y).second ? FALSE : TRUE ;
         });
         return res ;
     }
