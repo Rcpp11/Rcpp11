@@ -26,7 +26,6 @@
 #include <Rcpp/vector/Demangler.h>
 
 #include <Rcpp/vector/StrideIterator.h>
-#include <Rcpp/vector/MatrixBase.h>
 #include <Rcpp/vector/MatrixColumn.h>
 #include <Rcpp/vector/MatrixRow.h>
 #include <Rcpp/vector/Matrix.h>

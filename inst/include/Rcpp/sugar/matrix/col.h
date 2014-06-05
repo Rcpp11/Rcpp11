@@ -36,7 +36,7 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr>
-    inline sugar::Col col( const Rcpp::MatrixBase<eT,Expr>& lhs){
+    inline sugar::Col col( const SugarMatrixExpression<eT,Expr>& lhs){
        return sugar::Col( lhs.nrow(), lhs.ncol() ) ;
     }
 

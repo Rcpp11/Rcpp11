@@ -4,7 +4,9 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Storage>
-    class Matrix : public MatrixBase< typename traits::storage_type<RTYPE>::type, Matrix<RTYPE,Storage> >{
+    class Matrix : 
+        public SugarMatrixExpression< typename traits::storage_type<RTYPE>::type, Matrix<RTYPE,Storage> >
+    {
     private:
         typedef Vector<RTYPE,Storage> Vec ;
         Vec vec ;

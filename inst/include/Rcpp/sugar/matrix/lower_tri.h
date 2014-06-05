@@ -46,7 +46,7 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr>
-    inline sugar::LowerTri lower_tri( const Rcpp::MatrixBase<eT,Expr>& lhs, bool diag = false){
+    inline sugar::LowerTri lower_tri( const SugarMatrixExpression<eT,Expr>& lhs, bool diag = false){
         return sugar::LowerTri( lhs.nrow(), lhs.ncol(), diag ) ;
     }
 

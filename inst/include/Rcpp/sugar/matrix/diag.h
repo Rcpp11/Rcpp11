@@ -35,10 +35,10 @@ namespace Rcpp{
             public custom_sugar_matrix_expression {
         public:
             Diag_Maker( const SugarVectorExpression<eT, Expr>& object_ ) : 
-                object(object_), n(object_.size()) {}
+                object(object_), start(object.get_ref().begin()), n(object_.size()) {}
         
             inline eT operator()( int i, int j ) const {
-                return (i==j) ? object[i] : 0 ;
+                return (i==j) ? start[i] : 0 ;
             }
             inline R_xlen_t size() const { return n * n; }
             inline int ncol() const { return n; }
@@ -57,6 +57,7 @@ namespace Rcpp{
             
         private:
             const SugarVectorExpression<eT, Expr>& object ;
+            typename Expr::const_iterator start ;
             int n ;
         } ;
     

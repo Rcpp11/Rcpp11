@@ -35,7 +35,7 @@ namespace Rcpp{
     } // sugar
     
     template <typename eT, typename Expr>
-    inline sugar::Row row( const Rcpp::MatrixBase<eT, Expr>& lhs){
+    inline sugar::Row row( const SugarMatrixExpression<eT, Expr>& lhs){
        return sugar::Row( lhs.nrow(), lhs.ncol() ) ;
     }
 

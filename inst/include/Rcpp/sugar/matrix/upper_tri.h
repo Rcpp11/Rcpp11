@@ -47,7 +47,7 @@ namespace Rcpp{
     
     template <typename eT, typename Expr>
     inline sugar::UpperTri
-    upper_tri( const Rcpp::MatrixBase<eT, Expr>& lhs, bool diag = false){
+    upper_tri( const SugarMatrixExpression<eT, Expr>& lhs, bool diag = false){
         return sugar::UpperTri( lhs.nrow(), lhs.ncol(), diag ) ;
     }
 
