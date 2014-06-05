@@ -75,7 +75,7 @@ private:
 
       message += "\n\nTraceback (most recent call first):\n";
 
-      for (int i=0; i < stack_depth-2; ++i) {
+      for (size_t i=0; i < stack_depth-2; ++i) {
         message += demangled[i];
         message += "\n";
       }
