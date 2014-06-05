@@ -61,8 +61,9 @@
 namespace Rcpp{
 
     inline const char* short_file_name(const char* file) {
-        std::string f(file) ;
-        return f.substr( f.find_last_of("/") + 1 ).c_str() ;
+        // std::string f(file) ;
+        // return f.substr( f.find_last_of("/") + 1 ).c_str() ;
+        return file ;
     }
 
     inline bool derives_from( SEXP cl, const std::string& clazz ){

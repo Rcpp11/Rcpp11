@@ -23,6 +23,7 @@ namespace Rcpp{
                 std::for_each( map.begin(), map.end(), [&]( const std::pair<eT,int>& p){
                     result[index] = p.second ;
                     names[index] = p.first ;
+                    index++ ;
                 }) ;
                 result.names() = names ;
                 return result ;

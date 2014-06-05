@@ -95,14 +95,17 @@ namespace sugar {
     template <typename T>
     class constant_iterator {
     public:
-        constant_iterator( T value_) : value(value_){}
+        constant_iterator( T value_) : value(value_){
+            RCPP_DEBUG( "constant_iterator<%s> %d", DEMANGLE(T), value )
+        }
         
         constant_iterator& operator++(){ return *this ; }
         inline T operator*() {
+            RCPP_DEBUG( "constant_iterator<%s>, value = %d", DEMANGLE(T), value)
             return value ;
         }
         
-        constant_iterator operator+(int n){ return *this ; }
+        constant_iterator operator+(int n){ return constant_iterator(*this) ; }
     
     private:
         T value ;

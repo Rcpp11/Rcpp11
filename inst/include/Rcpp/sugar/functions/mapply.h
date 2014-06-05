@@ -9,7 +9,7 @@ namespace Rcpp{
         
         template <typename input_type>
         struct mapply_iterator_dispatch<input_type, true> {
-            typedef constant_iterator<input_type> type ;
+            typedef constant_iterator<typename std::decay<input_type>::type > type ;
         } ;
         
         template <typename input_type>
@@ -39,7 +39,7 @@ namespace Rcpp{
         public:
             const static int N = sizeof...(Args);
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
-            typedef std::tuple<Args...> Tuple ;
+            typedef std::tuple< typename std::conditional<traits::is_primitive<Args>::value, typename std::decay<Args>::type, Args>::type ...> Tuple ;
             typedef std::tuple< typename traits::mapply_scalar_type<Args>::type ... > ETuple ;
             typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type real_value_type ;
             typedef typename std::conditional< std::is_same<bool,real_value_type>::value, Rboolean, real_value_type>::type value_type ;
@@ -177,8 +177,7 @@ namespace Rcpp{
                    
                 template <int INDEX>
                 inline typename std::tuple_element<INDEX,IteratorsTuple>::type get_iterator( const Tuple& data, int pos, std::true_type ) const {
-                    typedef typename std::tuple_element<INDEX,IteratorsTuple>::type Iter ; 
-                    return Iter( std::get<INDEX>(data) ) + pos; 
+                    return typename std::tuple_element<INDEX,IteratorsTuple>::type( std::get<INDEX>(data) ) ; 
                 }
                 
                 template <int INDEX>
@@ -191,9 +190,15 @@ namespace Rcpp{
             typedef MapplyIterator const_iterator ;
             
             Mapply( Function fun_, Args&&... args ) :
-                data( std::forward<Args>(args)... ),
+                data( args... ),
                 fun(fun_),
-                n(get_size()){}
+                n(get_size())
+            {
+                RCPP_DEBUG( "Mapply = %s\n", DEMANGLE(Mapply) )
+                RCPP_DEBUG( "Tuple  = %s\n", DEMANGLE(Tuple) )
+                RCPP_DEBUG( "ETuple = %s\n", DEMANGLE(ETuple) ) 
+                RCPP_DEBUG( "ITuple = %s\n", DEMANGLE(IteratorsTuple) )
+            }
 
             inline R_xlen_t size() const {
                 return n ;
