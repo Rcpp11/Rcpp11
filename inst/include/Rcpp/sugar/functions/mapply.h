@@ -52,6 +52,11 @@ namespace Rcpp{
             
             class MapplyIterator {
             public:
+                typedef std::bidirectional_iterator_tag iterator_category ;
+                typedef value_type value_type ;
+                typedef int difference_type ;
+                typedef value_type reference ;
+                
                 MapplyIterator( const Tuple& data, const Function& fun_, int pos = 0 ) : 
                     iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos)
                 {}
