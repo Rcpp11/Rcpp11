@@ -54,6 +54,7 @@ namespace Rcpp{
             public:
                 typedef std::bidirectional_iterator_tag iterator_category ;
                 typedef int difference_type ;
+                typedef typename Mapply::value_type value_type ;
                 typedef value_type reference ;
                 
                 MapplyIterator( const Tuple& data, const Function& fun_, int pos = 0 ) : 
