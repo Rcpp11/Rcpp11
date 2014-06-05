@@ -109,8 +109,9 @@ namespace sugar {
     } ;
         
     template <typename value_type, typename function_type, typename source_iterator>
-    class TransformIterator {
+    class TransformIterator : public std::iterator_traits<value_type*> {
     public:
+        
         TransformIterator( const function_type& fun_, source_iterator source_ ) : fun(fun_), source(source_) {}
         
         TransformIterator& operator++(){
