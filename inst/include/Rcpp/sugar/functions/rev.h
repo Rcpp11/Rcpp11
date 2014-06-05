@@ -16,7 +16,7 @@ namespace Rcpp{
                 const_iterator( source_iterator iter_ ) : iter(iter_){}
                 
                 inline const_iterator& operator++(){
-                    iter-- ;
+                    --iter ;
                     return *this ;    
                 }
                 

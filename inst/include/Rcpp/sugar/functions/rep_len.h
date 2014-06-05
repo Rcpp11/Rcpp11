@@ -21,21 +21,25 @@ namespace Rcpp{
                 
                 inline const_iterator& operator++(){ 
                     index++;
-                    set_src_index(src_index+1) ;
+                    src_index++ ; if( src_index == n ) src_index = 0 ;
+                    return *this ;
+                }
+                inline const_iterator& operator--(){ 
+                    index--;
+                    src_index-- ; if( src_index == -1 ) src_index = n-1 ;
                     return *this ;
                 }
         
-                inline eT operator*() const {
+                inline eT operator*() {
                     return data[src_index] ;
                 }
-        
+                
+                inline bool operator==( const const_iterator& other ){ return index == other.index; }
+                inline bool operator!=( const const_iterator& other ){ return index != other.index; }
+                
             private:
                 const Vec& data ;
                 R_xlen_t n, index, src_index;
-                
-                inline void set_set_index( R_xlen_t i ){
-                    src_index = ( i == data.n ) ? 0 : i ;    
-                }
                 
             } ;
             

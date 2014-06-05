@@ -62,10 +62,34 @@ namespace Rcpp{
                     return *this ;
                 }
                 
+                inline MapplyIterator& operator--(){
+                    decrement_all( Sequence() ) ;
+                    --index ;
+                    return *this ;
+                }
+                
+                inline MapplyIterator& operator+=(int n){
+                    increment_all( n, Sequence() ) ;
+                    index += n ;
+                    return *this ;
+                }
+                
+                inline MapplyIterator& operator-=(int n){
+                    decrement_all( n, Sequence() ) ;
+                    index -= n ;
+                    return *this ;
+                }
+                
                 MapplyIterator operator+( int n){
                     MapplyIterator copy(*this) ;
-                    for(int i=0; i<n; i++) ++copy ;
-                    return copy;
+                    copy += n;
+                    return copy ;
+                }
+                
+                MapplyIterator operator-( int n){
+                    MapplyIterator copy(*this) ;
+                    copy -= n;
+                    return copy ;
                 }
                 
                 inline value_type operator*() {
@@ -80,17 +104,50 @@ namespace Rcpp{
                 const Function& fun ;
                 int index ;
                 
+                template <typename... Pack>
+                void nothing( Pack... pack ){}
+                
                 template <int... S>
                 void increment_all(Rcpp::traits::sequence<S...>) {
                     nothing( increment<S>()... ) ;    
                 }
                 
-                template <typename... Pack>
-                void nothing( Pack... pack ){}
+                template <int... S>
+                void increment_all(int n, Rcpp::traits::sequence<S...>) {
+                    nothing( increment<S>(n)... ) ;    
+                }
+                
+                template <int... S>
+                void decrement_all(Rcpp::traits::sequence<S...>) {
+                    nothing( decrement<S>()... ) ;    
+                }
+                
+                template <int... S>
+                void decrement_all(int n, Rcpp::traits::sequence<S...>) {
+                    nothing( decrement<S>(n)... ) ;    
+                }
                 
                 template <int S>
                 int increment(){
                     ++std::get<S>(iterators) ;
+                    return 0  ;
+                }
+                
+                template <int S>
+                int increment(int n){
+                    std::get<S>(iterators) += n;
+                    return 0  ;
+                }
+                
+                template <int S>
+                int decrement(){
+                    --std::get<S>(iterators) ;
+                    return 0  ;
+                }
+                
+                template <int S>
+                int decrement(int n){
+                    std::get<S>(iterators) -= n;
                     return 0  ;
                 }
                 
