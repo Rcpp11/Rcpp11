@@ -116,7 +116,7 @@ extern void* R_GlobalContext;
             Fun& fun = *reinterpret_cast<Fun*>(pair->first) ;
             fun() ;
 
-        } ;
+        }
 
     }
 
