@@ -127,6 +127,10 @@ namespace sugar {
             return fun(*source) ;
         }
         
+        R_xlen_t operator-( const TransformIterator& other ){
+            return source - other.source ;    
+        }
+        
         inline bool operator==( const TransformIterator& other ){ return source == other.source ; }
         inline bool operator!=( const TransformIterator& other ){ return source != other.source ; }
         
