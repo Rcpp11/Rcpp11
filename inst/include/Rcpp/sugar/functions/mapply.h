@@ -33,14 +33,16 @@ namespace Rcpp{
             public SugarVectorExpression<
                 typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type, 
                 Mapply<Function,Args...>
-            > // , public custom_sugar_vector_expression
+            >, 
+            public custom_sugar_vector_expression
         {
         public:
             const static int N = sizeof...(Args);
             typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
             typedef std::tuple<Args...> Tuple ;
             typedef std::tuple< typename traits::mapply_scalar_type<Args>::type ... > ETuple ;
-            typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type value_type ;
+            typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type real_value_type ;
+            typedef typename std::conditional< std::is_same<bool,real_value_type>::value, Rboolean, real_value_type>::type value_type ;
             typedef std::tuple< typename mapply_iterator<Args>::type ... > IteratorsTuple ;
             
         private:
@@ -49,7 +51,7 @@ namespace Rcpp{
             R_xlen_t n ;
 
         public:
-            
+                 
             class MapplyIterator {
             public:
                 typedef std::bidirectional_iterator_tag iterator_category ;
@@ -159,7 +161,11 @@ namespace Rcpp{
                 
                 template <int... S>
                 value_type apply(Rcpp::traits::sequence<S...>) {
-                    return fun( *std::get<S>(iterators) ... ) ;
+                    ETuple values( *std::get<S>(iterators) ... ) ;
+                    auto tests = { (std::get<S>(values) == NA) ... } ;
+                    if( std::any_of(tests.begin(), tests.end(), [](bool b){ return b ; } ) ) 
+                        return NA ;
+                    return internal::caster<real_value_type,value_type>(fun( std::get<S>(values)... )) ;
                 } 
                  
                 template <int... S>
@@ -194,6 +200,14 @@ namespace Rcpp{
             }
             inline const_iterator begin() const { return const_iterator( data, fun, 0 ) ; }
             inline const_iterator end() const { return const_iterator( data, fun, size() ) ; }
+               
+            template <typename Target>
+            void apply( Target& target ) const {
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                std::transform( begin(), end(), target.begin(), [](value_type x){
+                        return converter::get(x) ;
+                });  
+            }
             
         private: 
             inline int get_size() const {
