@@ -21,7 +21,7 @@ namespace Rcpp{
         }
         return real_class ;
     }
-    
+
 class exception : public std::exception {
 public:
     explicit exception(const char* message_) : message(message_) {
@@ -38,7 +38,7 @@ public:
 
 private:
     std::string message ;
-    
+
     // A private function for adding backtrace information if possible
     #if ( defined(__GNUC__) || defined(__clang__) ) &&  !defined(_WIN32)
     void add_backtrace_information(std::string& message) {
@@ -53,7 +53,7 @@ private:
       demangled.reserve(stack_depth);
 
       // demangle the lines and add back in
-      for (int i=0; i < stack_depth-2; ++i) {
+      for (size_t i=0; i < stack_depth-2; ++i) {
 
         std::string buffer( stack_strings[i] );
         std::string buffer2(stack_strings[i] );
@@ -101,28 +101,28 @@ std::string NumberToString( T Number ){
 
 class no_such_env : public exception {
 public:
-    no_such_env( const std::string& name ) noexcept: 
+    no_such_env( const std::string& name ) noexcept:
       exception( std::string("No such environment: '") + name + "'" ){}
-      
+
     no_such_env( int pos ) noexcept:
-      exception( "No environment in given position '" + NumberToString(pos) + "'") {}  
-      
-    virtual ~no_such_env() noexcept {}  
+      exception( "No environment in given position '" + NumberToString(pos) + "'") {}
+
+    virtual ~no_such_env() noexcept {}
 } ;
 
 class file_io_error : public exception {
 public:
     file_io_error(const std::string& file_) noexcept:
       exception( std::string("File IO error: '") + file_ + "'" ), file(file_) {}
-      
+
     file_io_error(int code, const std::string& file_) noexcept:
       exception( "File IO error " + NumberToString(code) + ": '" + file_ + "'"), file(file_) {}
-      
+
     file_io_error(const std::string& msg, const std::string& file_) noexcept:
       exception( msg + ": '" + file_ + "'"), file(file_) {}
-      
-    std::string filePath() const noexcept{ return file ; }  
-    
+
+    std::string filePath() const noexcept{ return file ; }
+
     virtual ~file_io_error() noexcept {}
 private:
     std::string file;
@@ -130,15 +130,15 @@ private:
 
 class file_not_found : public file_io_error {
 public:
-    file_not_found(const std::string& file) noexcept: 
+    file_not_found(const std::string& file) noexcept:
       file_io_error("File not found", file) {}
-      
+
     virtual ~file_not_found() noexcept {}
 };
 
 class file_exists : public file_io_error {
 public:
-    file_exists(const std::string& file) noexcept: 
+    file_exists(const std::string& file) noexcept:
       file_io_error("File already exists", file) {}
     virtual ~file_exists() noexcept {}
 };
@@ -150,14 +150,14 @@ public:                                                                        \
   {}                                                                           \
   explicit __CLASS__( const char* msg ) noexcept: exception( __WHAT__ ){}      \
   virtual ~__CLASS__() noexcept {}                                             \
-};                                                                             
+};
 
 #define RCPP_SIMPLE_EXCEPTION_CLASS(__CLASS__,__MESSAGE__)                     \
 class __CLASS__ : public exception{                                            \
 public:                                                                        \
     __CLASS__() noexcept: exception(__MESSAGE__) {}                            \
     virtual ~__CLASS__() noexcept{}                                            \
-};                                                                             
+};
 
 RCPP_SIMPLE_EXCEPTION_CLASS(incompatible_dimensions, "incompatible dimensions")
 RCPP_SIMPLE_EXCEPTION_CLASS(not_a_matrix, "not a matrix")
