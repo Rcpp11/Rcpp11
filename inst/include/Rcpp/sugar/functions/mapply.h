@@ -64,6 +64,9 @@ namespace Rcpp{
                     iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos)
                 {}
                 
+                MapplyIterator( const MapplyIterator& other ) : 
+                    iterators(other.iterators), fun(other.fun), index(other.index){}
+                
                 inline MapplyIterator& operator++(){
                     increment_all( Sequence() ) ;
                     ++index ;

@@ -10,7 +10,36 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
             
-            typedef std::reverse_iterator<typename Expr::const_iterator> const_iterator ;
+            class RevIterator : public std::iterator_traits<eT*> {
+            public:
+                typedef typename Expr::const_iterator source_iterator ;
+                
+                RevIterator( source_iterator source_ ) : source(source_){}
+                
+                inline bool operator==( const RevIterator& other ){ return source == other.source ; }
+                inline bool operator!=( const RevIterator& other ){ return source != other.source ; }
+                
+                inline int operator-( const RevIterator& other ){
+                    return other.source - source ;    
+                }
+                
+                inline RevIterator& operator++(){
+                    --source ;
+                    return *this ;
+                }
+                inline RevIterator& operator--(){
+                    ++source ;
+                    return *this ;
+                }
+                
+                inline eT operator*(){
+                    return *(source-1) ;    
+                }
+                
+            private:
+                source_iterator source ;
+            } ;
+            typedef RevIterator const_iterator ;
             
             Rev( const SugarVectorExpression<eT,Expr>& object_ ) : 
                 object(object_), n(object_.size()) {}
