@@ -16,7 +16,10 @@ namespace Rcpp{
                 lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
                 rhs_set( sugar_begin(rhs), sugar_end(rhs) )
             {
-                lhs_set.erase( rhs_set.begin(), rhs_set.end() ) ;
+                std::for_each( rhs_set.begin(), rhs_set.end(), [this](eT value){
+                    lhs_set.erase(value) ;    
+                }) ;
+                
             }
             
             inline R_xlen_t size() const { return lhs_set.size(); }
@@ -34,9 +37,7 @@ namespace Rcpp{
             SetEqual( const SugarVectorExpression<eT,Expr1>& lhs, const SugarVectorExpression<eT,Expr2>& rhs ) : 
                 lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
                 rhs_set( sugar_begin(rhs), sugar_end(rhs) )
-            {
-                lhs_set.erase( rhs_set.begin(), rhs_set.end() ) ;
-            }
+            {}
             
             bool get() const {
                 if( lhs_set.size() != rhs_set.size() ) return false ;

@@ -9,8 +9,7 @@ namespace Rcpp{
             public SugarVectorExpression<
                 typename std::result_of<Function(eT)>::type,
                 Sapply<eT,Expr,Function>
-            >, 
-            public custom_sugar_vector_expression
+            > //, public custom_sugar_vector_expression
         {
         public:
             typedef Function function_type ;
@@ -24,14 +23,14 @@ namespace Rcpp{
                 return vec.size() ; 
             }
         
-            template <typename Target>
-            inline void apply( Target& target ) const {
-                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
-                
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](eT x){
-                        return converter::get(fun(x)) ;
-                });
-            }
+            // template <typename Target>
+            // inline void apply( Target& target ) const {
+            //     typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+            //     
+            //     std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](eT x){
+            //             return converter::get(fun(x)) ;
+            //     });
+            // }
             
             inline const_iterator begin() const { return const_iterator( fun, sugar_begin(vec) ) ; }
             inline const_iterator end() const { return const_iterator( fun, sugar_end(vec) ) ; }

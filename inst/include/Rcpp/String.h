@@ -390,4 +390,12 @@ namespace Rcpp {
     
 } // Rcpp 
 
+namespace std {
+    template <> struct hash<Rcpp::String>{
+        inline size_t operator()(const Rcpp::String& s){
+            return std::hash<SEXP>()(s.get_sexp()) ;    
+        }
+    } ;
+}
+
 #endif 
