@@ -16,8 +16,12 @@ namespace Rcpp{
                 
                 RevIterator( source_iterator source_ ) : source(source_){}
                 
-                inline bool operator==( const RevIterator& other ){ return source == other.source ; }
-                inline bool operator!=( const RevIterator& other ){ return source != other.source ; }
+                inline bool operator==( const RevIterator& other ){
+                    return source == other.source ; 
+                }
+                inline bool operator!=( const RevIterator& other ){
+                    return source != other.source ; 
+                }
                 
                 inline int operator-( const RevIterator& other ) const {
                     return other.source - source ;    

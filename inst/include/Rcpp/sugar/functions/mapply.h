@@ -97,10 +97,14 @@ namespace Rcpp{
                     return copy ;
                 }
                 
-                MapplyIterator operator-( int n){
+                MapplyIterator operator-( int n) const {
                     MapplyIterator copy(*this) ;
                     copy -= n;
                     return copy ;
+                }
+                
+                int operator-( const MapplyIterator& other) const {
+                    return index - other.index ;
                 }
                 
                 inline value_type operator*() {
