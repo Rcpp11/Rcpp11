@@ -5,15 +5,14 @@ namespace Rcpp {
 namespace sugar { 
 
     /* generic sugar iterator type */
-    template <int RTYPE, typename T>
+    template <typename eT, typename T>
     class SugarIterator {
     public:
-        typedef typename T::stored_type  stored_type  ;
-        typedef stored_type value_type  ;
+        typedef eT value_type  ;
         typedef R_xlen_t difference_type  ;
-        typedef stored_type reference ;
-        typedef const stored_type const_reference ;
-        typedef stored_type* pointer ;
+        typedef value_type reference ;
+        typedef const value_type const_reference ;
+        typedef value_type* pointer ;
         typedef std::random_access_iterator_tag iterator_category ;
         typedef SugarIterator iterator ;
         
@@ -93,49 +92,64 @@ namespace sugar {
         R_xlen_t index ;
     } ;
     
-    template <int RTYPE, typename Expr, bool>
-    struct sugar_iterator_type_dispatch ;
-    
-    template <int RTYPE, typename Expr>
-    struct sugar_iterator_type_dispatch<RTYPE,Expr,true>{
-        typedef typename Expr::const_iterator type ;
-    } ;
-    
-    template <int RTYPE, typename Expr>
-    struct sugar_iterator_type_dispatch<RTYPE,Expr,false>{
-        typedef SugarIterator<RTYPE,Expr> type ;
-    } ;
-    
     template <typename T>
-    struct sugar_iterator_type {
-        typedef typename T::expr_type expr_type ;
-        typedef typename sugar_iterator_type_dispatch< 
-            T::r_type::value,
-            expr_type,
-            traits::is_materialized<expr_type>::type::value
-        >::type type ;
+    class constant_iterator {
+    public:
+        constant_iterator( T value_) : value(value_){
+            RCPP_DEBUG( "constant_iterator<%s> %d", DEMANGLE(T), value )
+        }
+        
+        constant_iterator& operator++(){ return *this ; }
+        inline T operator*() {
+            RCPP_DEBUG( "constant_iterator<%s>, value = %d", DEMANGLE(T), value)
+            return value ;
+        }
+        
+        constant_iterator operator+(int n){ return constant_iterator(*this) ; }
+    
+    private:
+        T value ;
+    } ;
+        
+    template <typename value_type, typename function_type, typename source_iterator>
+    class TransformIterator : public std::iterator_traits<value_type*> {
+    public:
+        
+        TransformIterator( const function_type& fun_, source_iterator source_ ) : fun(fun_), source(source_) {}
+        
+        TransformIterator& operator++(){
+            ++source ;
+            return *this ;
+        }
+        
+        TransformIterator operator+( int n ){
+            return TransformIterator(fun, source + n ) ;       
+        }
+        
+        value_type operator*() {
+            return fun(*source) ;
+        }
+        
+        R_xlen_t operator-( const TransformIterator& other ){
+            return source - other.source ;    
+        }
+        
+        inline bool operator==( const TransformIterator& other ){ return source == other.source ; }
+        inline bool operator!=( const TransformIterator& other ){ return source != other.source ; }
+        
+    // private:
+        const function_type& fun ;
+        source_iterator source ;
     } ;
     
-    
-    template <int RTYPE, bool NA, typename Expr>
-    inline typename sugar_iterator_type<SugarVectorExpression<RTYPE,NA,Expr>>::type
-    sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::true_type ) {
+    template <typename eT, typename Expr>
+    inline typename Expr::const_iterator sugar_begin(const SugarVectorExpression<eT,Expr>& obj) {
         return obj.get_ref().begin() ;
     }
     
-    template <int RTYPE, bool NA, typename Expr>
-    inline const SugarIterator<RTYPE,Expr> sugar_begin__impl(const SugarVectorExpression<RTYPE,NA,Expr>& obj, std::false_type ){
-        return SugarIterator<RTYPE,Expr>( obj.get_ref() ) ;
-    }
-    
-    template <int RTYPE, bool NA, typename Expr>
-    inline auto sugar_begin(const SugarVectorExpression<RTYPE,NA,Expr>& obj) -> decltype( sugar_begin__impl( obj, typename traits::is_materialized<Expr>::type() ) ) {
-        return sugar_begin__impl( obj, typename traits::is_materialized<Expr>::type() ) ;
-    }
-    
-    template <int RTYPE, bool NA, typename Expr>
-    inline auto sugar_end(const SugarVectorExpression<RTYPE,NA,Expr>& obj) -> decltype( sugar_begin<RTYPE,NA,Expr>(obj) ){
-        return sugar_begin<RTYPE,NA,Expr>(obj) + obj.size() ;
+    template <typename eT, typename Expr>
+    inline typename Expr::const_iterator sugar_end(const SugarVectorExpression<eT,Expr>& obj) {
+        return obj.get_ref().end() ; ;
     }
     
     

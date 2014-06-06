@@ -2,162 +2,125 @@
 #define Rcpp__sugar__setdiff_h
           
 namespace Rcpp{
-namespace sugar{
-       
-    template <typename SET>
-    class RemoveFromSet {
-    public:
-        RemoveFromSet( SET& set_) : set(set_){}
-        
-        template <typename T>
-        void operator()(T value){
-            set.erase( value );    
-        }
-        
-    private:
-        SET& set ;
-    } ;
-    
-    template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-    class SetDiff {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        SetDiff( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs) : 
-            lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
-            rhs_set( sugar_begin(rhs), sugar_end(rhs) )
+    namespace sugar{
+           
+        template <typename eT, typename Expr1, typename Expr2>
+        class SetDiff : 
+            public SugarVectorExpression<eT, SetDiff<eT, Expr1, Expr2>>
         {
+        public:
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
             
-            std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
-        }
-        
-        Vector<RTYPE> get() const {
-            int n = lhs_set.size() ;
-            Vector<RTYPE> out(n) ;
-            std::copy( lhs_set.begin(), lhs_set.end(), out.begin() ) ;
-            return out ;
-        }
-        
-    private:
-        typedef std::unordered_set<STORAGE> SET ;
-        typedef typename SET::const_iterator ITERATOR ;
-        SET lhs_set ;
-        SET rhs_set ;
-        
-    } ;
-
-    template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-    class SetEqual {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        SetEqual( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
-            lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
-            rhs_set( sugar_begin(rhs), sugar_end(rhs) )
-        {
-            
-            std::for_each( rhs_set.begin(), rhs_set.end(), RemoveFromSet<SET>(lhs_set) ) ;
-        }
-        
-        bool get() const {
-            if( lhs_set.size() != rhs_set.size() ) return false ;
-            
-            ITERATOR it = lhs_set.begin(), end = lhs_set.end(), rhs_end = rhs_set.end() ;
-            for( ; it != end; ){
-                if( rhs_set.find(*it++) == rhs_end ) return false ;
+            SetDiff( const SugarVectorExpression<eT,Expr1>& lhs, const SugarVectorExpression<eT,Expr2>& rhs) : 
+                lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
+                rhs_set( sugar_begin(rhs), sugar_end(rhs) )
+            {
+                std::for_each( rhs_set.begin(), rhs_set.end(), [this](eT value){
+                    lhs_set.erase(value) ;    
+                }) ;
+                
             }
-            return true ;
-        }
-        
-    private:
-        typedef std::unordered_set<STORAGE> SET ;
-        typedef typename SET::const_iterator ITERATOR ;
-        SET lhs_set ;
-        SET rhs_set ;
-        
-    } ;
+            
+            inline R_xlen_t size() const { return lhs_set.size(); }
+            inline const_iterator begin() const { return lhs_set.begin() ; }
+            inline const_iterator end() const { return lhs_set.end() ; }
+            
+        private:
+            SET lhs_set, rhs_set ;
+            
+        } ;
     
-    template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-    class Intersect {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        Intersect( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
-            intersect()
-        {
+        template <typename eT, typename Expr1, typename Expr2>
+        class SetEqual {
+        public:
+            SetEqual( const SugarVectorExpression<eT,Expr1>& lhs, const SugarVectorExpression<eT,Expr2>& rhs ) : 
+                lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
+                rhs_set( sugar_begin(rhs), sugar_end(rhs) )
+            {}
             
-            SET lhs_set( sugar_begin(lhs), sugar_end(lhs) ) ; 
-            SET rhs_set( sugar_begin(rhs), sugar_end(rhs) ) ; 
-            
-            ITERATOR end = lhs_set.end() ;
-            ITERATOR rhs_end = rhs_set.end() ;
-            for( ITERATOR it=lhs_set.begin(); it != end; it++){
-                if( rhs_set.find(*it) != rhs_end ) intersect.insert(*it) ;
+            bool get() const {
+                if( lhs_set.size() != rhs_set.size() ) return false ;
+                
+                return std::all_of( lhs_set.begin(), lhs_set.end(), [this](eT x){
+                        return rhs_set.count(x) ;
+                }) ;
             }
-        }
+            
+        private:
+            typedef std::unordered_set<eT> SET ;
+            SET lhs_set, rhs_set ;
+            
+        } ;
         
-        Vector<RTYPE> get() const {
-            int n = intersect.size() ;
-            Vector<RTYPE> out(n) ;
-            std::copy( intersect.begin(), intersect.end(), out.begin() ) ;
-            return out ;
-        }
+        template <typename eT,typename Expr1, typename Expr2>
+        class Intersect : public SugarVectorExpression<eT, Intersect<eT, Expr1, Expr2>>{
+        public:
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
+            
+            Intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) :
+                intersect(), 
+                lhs_set( sugar_begin(lhs), sugar_end(lhs) ), 
+                rhs_set( sugar_begin(rhs), sugar_end(rhs) )
+            {
+                std::for_each( lhs_set.begin(), lhs_set.end(), [this]( eT x){
+                        if( rhs_set.count(x) ) intersect.insert(x) ;
+                }) ;
+            }
+            
+            inline R_xlen_t size() const { return intersect.size(); }
+            inline const_iterator begin() const { return intersect.begin() ; }
+            inline const_iterator end() const { return intersect.end() ; }
+            
+        private:
+            SET intersect, lhs_set, rhs_set ;
+            
+        } ;
         
-    private:
-        typedef std::unordered_set<STORAGE> SET ;
-        typedef typename SET::const_iterator ITERATOR ;
-        SET intersect ;
+        template <typename eT, typename Expr1, typename Expr2>
+        class Union : public SugarVectorExpression<eT, Union<eT, Expr1, Expr2>>{
+        public:
+            typedef std::unordered_set<eT> SET ;
+            typedef typename SET::const_iterator const_iterator ;
+            
+            Union( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) : 
+                result( sugar_begin(lhs), sugar_end(lhs) )
+            {
+                result.insert( sugar_begin(rhs), sugar_end(rhs) ) ;
+            }
+            inline R_xlen_t size() const { return result.size(); }
+            inline const_iterator begin() const { return result.begin() ; }
+            inline const_iterator end() const { return result.end() ; }
+            
+        private:
+            SET result ;
+            
+        } ;
         
-    } ;
+        
+    } // sugar
     
-    template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-    class Union {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        Union( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ) : 
-            result( sugar_begin(lhs), sugar_end(lhs) )
-        {
-            result.insert( sugar_begin(rhs), sugar_end(rhs) ) ;
-        }
-        
-        Vector<RTYPE> get() const {
-            int n = result.size() ;
-            Vector<RTYPE> out(n) ;
-            std::copy( result.begin(), result.end(), out.begin() ) ;
-            return out ;
-        }
-        
-    private:
-        typedef std::unordered_set<STORAGE> SET ;
-        typedef typename SET::const_iterator ITERATOR ;
-        SET result ;
-        
-    } ;
+    template <typename eT, typename Expr1, typename Expr2>
+    inline sugar::SetDiff<eT, Expr1, Expr2> setdiff( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::SetDiff<eT, Expr1, Expr2>( lhs, rhs );
+    }
     
+    template <typename eT, typename Expr1, typename Expr2>
+    bool setequal( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ){
+        return sugar::SetEqual<eT, Expr1, Expr2>( lhs, rhs ).get() ;
+    }
     
-} // sugar
-
-template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> setdiff( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
-    return sugar::SetDiff<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
-}
-
-template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline bool setequal( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
-    return sugar::SetEqual<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
-}
-
-template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> intersect( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
-    return sugar::Intersect<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
-}
-
-// we cannot use "union" because it is a keyword
-template <int RTYPE, bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Vector<RTYPE> union_( const SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs ){
-    return sugar::Union<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T>( lhs, rhs ).get() ;
-}
+    template <typename eT, typename Expr1, typename Expr2>
+    sugar::Intersect<eT, Expr1, Expr2> intersect( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::Intersect<eT, Expr1, Expr2>( lhs, rhs ) ;
+    }
+    
+    // we cannot use "union" because it is a keyword
+    template <typename eT, typename Expr1, typename Expr2>
+    sugar::Union<eT, Expr1, Expr2> union_( const SugarVectorExpression<eT, Expr1>& lhs, const SugarVectorExpression<eT, Expr2>& rhs ) {
+        return sugar::Union<eT, Expr1, Expr2>( lhs, rhs ) ;
+    }
 
 
 

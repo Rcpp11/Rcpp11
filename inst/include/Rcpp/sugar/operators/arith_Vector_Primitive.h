@@ -1,40 +1,29 @@
 #ifndef Rcpp__sugar__Arith_Vector_Primitive_h
 #define Rcpp__sugar__Arith_Vector_Primitive_h
 
-template <int RTYPE,bool LHS_NA, typename LHS_T>
-inline Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::plus >
-operator+( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::plus >( lhs, rhs ) ;
+template <typename eT, typename Expr>
+inline auto
+operator+(const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::plus<eT>(), lhs, rhs ) ) {
+    return mapply( std::plus<eT>(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T>
-inline Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::minus >
-operator-( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::minus >( lhs, rhs ) ;
+template <typename eT, typename Expr>
+inline auto
+operator-( const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::minus<eT>(), lhs, rhs ) ) {
+    RCPP_DEBUG( "%s - %s (%d)\n", DEMANGLE(Expr), DEMANGLE(eT), rhs )
+    return mapply( std::minus<eT>(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T>
-inline Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::multiplies >
-operator*( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::multiplies >( lhs, rhs ) ;
+template <typename eT, typename Expr>
+inline auto
+operator*( const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::multiplies<eT>(), lhs, rhs ) ) {
+    return mapply( std::multiplies<eT>(), lhs, rhs ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T>
-inline Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::divides >
-operator/( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Primitive<RTYPE,LHS_NA,LHS_T, std::divides >( lhs, rhs ) ;
+template <typename eT, typename Expr>
+inline auto
+operator/( const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::divides<eT>(), lhs, rhs ) ) {
+    return mapply( std::divides<eT>(), lhs, rhs ) ;
 }
 
 #endif

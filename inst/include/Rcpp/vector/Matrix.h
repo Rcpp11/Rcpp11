@@ -4,7 +4,9 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Storage>
-    class Matrix : public MatrixBase<RTYPE, true, Matrix<RTYPE,Storage> >{
+    class Matrix : 
+        public SugarMatrixExpression< typename Vector<RTYPE>::value_type, Matrix<RTYPE,Storage> >
+    {
     private:
         typedef Vector<RTYPE,Storage> Vec ;
         Vec vec ;
@@ -13,6 +15,7 @@ namespace Rcpp{
     public:
         typedef typename Vector<RTYPE,Storage>::Proxy Proxy;
         typedef typename Vector<RTYPE,Storage>::iterator iterator;
+        typedef typename Vector<RTYPE,Storage>::const_iterator const_iterator;
         
         typedef MatrixColumn<RTYPE, Matrix> Column;
         typedef MatrixRow<RTYPE, Matrix> Row;
@@ -41,13 +44,14 @@ namespace Rcpp{
         Matrix( const Matrix& other ) = default ;
         Matrix& operator=( const Matrix& ) = default ;
             
-        template <bool NA, typename Expr>
-        Matrix( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
+        template <typename eT, typename Expr>
+        Matrix( const SugarMatrixExpression<eT,Expr>& expr ) : vec(expr.nrow() * expr.ncol()) {
             set_dimensions( expr.nrow(), expr.ncol() ) ;
             expr.apply(*this) ;
         }
-        template <bool NA, typename Expr>
-        Matrix& operator=( const SugarMatrixExpression<RTYPE,NA,Expr>& expr ) {
+        
+        template <typename eT, typename Expr>
+        Matrix& operator=( const SugarMatrixExpression<eT,Expr>& expr ) {
             if( nrow() != expr.nrow() || ncol() != expr.ncol() ) throw incompatible_dimensions() ;
             expr.apply(*this) ;
             return *this ;
@@ -59,10 +63,16 @@ namespace Rcpp{
         inline int ncol() const { return dims[1] ; }
         inline R_xlen_t size() const { return vec.size() ; }
         
-        inline iterator begin(){ return vec.begin() ; }
+        inline iterator begin(){ 
+            RCPP_DEBUG( "Matrix::begin() = %p", vec.begin() ) ;
+            return vec.begin() ; 
+        }
         inline iterator end(){ return vec.end(); }
                    
-        inline const iterator begin() const { return vec.begin() ; }
+        inline const iterator begin() const {
+            RCPP_DEBUG( "Matrix::begin() const = %p", vec.begin() ) ;
+            return vec.begin() ; 
+        }
         inline const iterator end() const { return vec.end(); }
               
         inline Proxy operator[](R_xlen_t i){ return vec[i] ; }

@@ -4,44 +4,36 @@
 namespace Rcpp{
     namespace sugar {     
     
-        template <int RTYPE, bool NA, typename VECTOR>
-        class Nona : public SugarVectorExpression<RTYPE,false, Nona<RTYPE,NA,VECTOR> > {
+        template <typename eT, typename Expr>
+        class Nona : 
+            public SugarVectorExpression<eT, Nona<eT, Expr>>, 
+            public custom_sugar_vector_expression 
+        {
         public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,NA,VECTOR> SUGAR_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-    
-            Nona( const SUGAR_TYPE& expr) : data(expr.get_ref()){} 
+            typedef typename Expr::const_iterator const_iterator ; 
+            
+            Nona( const SugarVectorExpression<eT, Expr>& expr) : data(expr){} 
             
             inline R_xlen_t size() const { return data.size() ; }
-            inline STORAGE operator[](R_xlen_t i) const { return data[i] ; }
+            inline eT operator[](R_xlen_t i) const { return data[i] ; }
+            
+            template <typename Target>
+            void apply( Target& target ){
+                data.get_ref().apply(target) ;  
+            }
+            
+            inline const_iterator begin() const { return sugar_begin(data) ; }
+            inline const_iterator end() const { return sugar_end(data) ; }
             
         private:
-            const VECTOR& data ;    
-        } ;
-        
-        // specialization when the expression is actually a vector expression
-        template <int RTYPE, bool NA>
-        class Nona< RTYPE,NA,Rcpp::Vector<RTYPE> > : public SugarVectorExpression<RTYPE,false, Nona<RTYPE,NA,Rcpp::Vector<RTYPE> > > {
-        public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,NA, Rcpp::Vector<RTYPE> > SUGAR_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-            typedef typename Rcpp::Vector<RTYPE>::const_iterator const_iterator ;
-    
-            Nona( const SUGAR_TYPE& expr) : data(expr.get_ref().begin()), n(expr.size()){} 
-            
-            inline R_xlen_t size() const { return n ; }
-            inline STORAGE operator[](R_xlen_t i) const { return data[i] ; }
-            
-        private:
-            const_iterator data ;
-            int n ;
+            const SugarVectorExpression<eT, Expr>& data ;    
         } ;
         
     }
     
-    template <int RTYPE, bool NA, typename VECTOR>
-    inline sugar::Nona<RTYPE,NA,VECTOR> noNA( const Rcpp::SugarVectorExpression<RTYPE,NA,VECTOR>& vec ){
-        return sugar::Nona<RTYPE,NA,VECTOR>( vec ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Nona<eT, Expr> noNA( const SugarVectorExpression<eT, Expr>& vec ){
+        return sugar::Nona<eT, Expr>( vec ) ;
     }
 
 }

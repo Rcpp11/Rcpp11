@@ -22,14 +22,14 @@
     Vector(){                                                                                 
         reset(0);                                                                             
     }                                                                                         
-    template <bool NA, typename Expr>                                                         
-    Vector( const SugarVectorExpression<RTYPE,NA,Expr>& other ) {                             
-        import_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
+    template <typename eT, typename Expr>                                                         
+    Vector( const SugarVectorExpression<eT, Expr>& other ) { 
+        import_expression( other, typename std::is_base_of< VectorOfRTYPE<RTYPE>, Expr>::type() ) ;
     }                                                                                         
                                                                                               
-    template <bool NA, typename Expr>                                                         
-    Vector& operator=( const SugarVectorExpression<RTYPE, NA, Expr>& other ){                 
-        assign_expression( other, typename std::is_base_of< VectorOf<RTYPE>, Expr>::type() ) ;
+    template <typename eT, typename Expr>                                                         
+    Vector& operator=( const SugarVectorExpression<eT, Expr>& other ){    
+        assign_expression( other, typename std::is_base_of< VectorOfRTYPE<RTYPE>, Expr>::type() ) ;
         return *this ;                                                                        
     }                                                                                         
                                                                                               
@@ -43,10 +43,10 @@
         assign_applyable(other) ;                                                             
         return *this ;                                                                        
     }                                                                                         
-    inline stored_type* dataptr(){                                                            
+    inline value_type* dataptr(){                                                            
         return cache ;
     }                                                                                         
-    inline const stored_type* dataptr() const{                                                
+    inline const value_type* dataptr() const{                                                
         return const_cast<const value_type*>(cache) ;
     }                                                                                         
     using NameProxyPolicy<VEC>::operator[] ;
@@ -88,13 +88,13 @@ private:
         set_data(Rf_allocVector(RTYPE, n)) ;
     }
     
-    template <bool NA, typename Expr>
-    inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
+    template <typename eT, typename Expr>
+    inline void import_expression( const SugarVectorExpression<eT,Expr>& other,  std::true_type ){
         set_data( other.get_ref() );    
     }
     
-    template <bool NA, typename Expr>
-    inline void import_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+    template <typename eT, typename Expr>
+    inline void import_expression( const SugarVectorExpression<eT,Expr>& other, std::false_type ){
         import_applyable(other) ;
     }
     
@@ -104,13 +104,13 @@ private:
         other.apply(*this) ;
     }
     
-    template <bool NA, typename Expr>
-    inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other,  std::true_type ){
+    template <typename eT, typename Expr>
+    inline void assign_expression( const SugarVectorExpression<eT, Expr>& other,  std::true_type ){
         set_data( other.get_ref() );    
     }
     
-    template <bool NA, typename Expr>
-    inline void assign_expression( const SugarVectorExpression<RTYPE,NA,Expr>& other, std::false_type ){
+    template <typename eT, typename Expr>
+    inline void assign_expression( const SugarVectorExpression<eT, Expr>& other, std::false_type ){
         assign_applyable(other) ;    
     }
     

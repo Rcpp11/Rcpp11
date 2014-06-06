@@ -2,67 +2,25 @@
 #define Rcpp__sugar__pow_h
 
 namespace Rcpp{
-namespace sugar{
-
-template <int RTYPE, bool NA, typename T, typename EXPONENT_TYPE>
-class Pow : public SugarVectorExpression< REALSXP ,NA, Pow<RTYPE,NA,T,EXPONENT_TYPE> > {
-public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-
-    Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
-
-    inline double operator[]( R_xlen_t i ) const {
-        return ::pow( object[i], op );
+    namespace sugar{
+    
+        template <typename T, typename E>
+        struct pow_op {
+            inline auto operator()(T x, E e) const -> decltype(::pow(x,e)){
+                return ::pow(x, e) ;    
+            }
+        } ;
+        
     }
-    inline R_xlen_t size() const { return object.size() ; }
-
-private:
-    const T& object ;
-    EXPONENT_TYPE op ;
-} ;
-
-template <bool NA, typename T, typename EXPONENT_TYPE>
-class Pow<INTSXP,NA,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP ,NA, Pow<INTSXP,NA,T,EXPONENT_TYPE> > {
-public:
-    Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
-
-    inline double operator[]( R_xlen_t i ) const {
-        int x = object[i] ;
-        return x == NA_INTEGER ? NA_INTEGER : ::pow( x, op );
+    
+    template <typename eT, typename Expr, typename T>
+    auto pow( const SugarVectorExpression<eT, Expr>& expr, const T& exponent ) -> 
+        decltype( mapply( sugar::pow_op<eT, typename traits::mapply_scalar_type<T>::type >(), expr, exponent ) )
+    {
+        return mapply( sugar::pow_op<eT, typename traits::mapply_scalar_type<T>::type >(), expr, exponent );  
     }
-    inline R_xlen_t size() const { return object.size() ; }
+    
 
-private:
-    const T& object ;
-    EXPONENT_TYPE op ;
-} ;
-template <typename T, typename EXPONENT_TYPE>
-class Pow<INTSXP,false,T,EXPONENT_TYPE> : public SugarVectorExpression< REALSXP ,false, Pow<INTSXP,false,T,EXPONENT_TYPE> > {
-public:
-    Pow( const T& object_, EXPONENT_TYPE exponent ) : object(object_), op(exponent) {}
-
-    inline double operator[]( R_xlen_t i ) const {
-        return ::pow( object[i], op );
-    }
-    inline R_xlen_t size() const { return object.size() ; }
-
-private:
-    const T& object ;
-    EXPONENT_TYPE op ;
-} ;
-
-
-} // sugar
-
-template <int RTYPE, bool NA, typename T, typename EXPONENT_TYPE>
-inline sugar::Pow<RTYPE,NA,T,EXPONENT_TYPE> pow( 
-    const SugarVectorExpression<RTYPE,NA,T>& t, 
-    EXPONENT_TYPE exponent
-){
-    return sugar::Pow<RTYPE,NA,T,EXPONENT_TYPE>( t.get_ref() , exponent ) ;
-}
-
-
-} // Rcpp
+} 
 #endif
 

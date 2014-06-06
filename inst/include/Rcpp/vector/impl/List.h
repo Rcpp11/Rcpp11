@@ -8,18 +8,18 @@ namespace Rcpp{
     
     template <typename Storage>
     class Vector<VECSXP,Storage> :
-        public VectorOf<VECSXP>,
-        public SugarVectorExpression< VECSXP, true, VEC>,
+        public VectorOfRTYPE<VECSXP>,
+        public SugarVectorExpression<SEXP,VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public NameProxyPolicy<VEC>
+        public NameProxyPolicy<VEC>,
+        public sugar::iterable_vector_expression
     {
     public:
         typedef SEXP value_type  ;
-        typedef SEXP stored_type ;
         typedef internal::generic_proxy<Vector> Proxy     ;
         typedef internal::Proxy_Iterator<Proxy> iterator  ; 
         typedef internal::Proxy_Iterator<Proxy> const_iterator ;

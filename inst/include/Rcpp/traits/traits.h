@@ -11,7 +11,6 @@
 #include <Rcpp/traits/storage_type.h>
 #include <Rcpp/traits/r_sexptype_traits.h>
 #include <Rcpp/traits/storage_type.h>
-#include <Rcpp/traits/comparator_type.h>
 #include <Rcpp/traits/r_type_traits.h>
 #include <Rcpp/traits/wrap_type_traits.h>
 #include <Rcpp/traits/is_na.h>
@@ -34,5 +33,9 @@
 #include <Rcpp/traits/is_vector_expression.h>
 #include <Rcpp/traits/is_lazy_vector.h>
 #include <Rcpp/traits/get_compatible_r_vector_type.h>
+#include <Rcpp/traits/mapply_scalar_type.h>
+#include <Rcpp/traits/is_mapply_compatible.h>
+#include <Rcpp/traits/same_mapply_scalar_type.h>
+#include <Rcpp/traits/vector_of.h>
 
 #endif

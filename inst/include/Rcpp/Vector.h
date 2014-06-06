@@ -11,7 +11,7 @@
 #include <Rcpp/vector/string_proxy.h>
 #include <Rcpp/vector/generic_proxy.h>
 
-#include <Rcpp/vector/VectorOf.h>
+#include <Rcpp/vector/VectorOfRTYPE.h>
 #include <Rcpp/vector/impl/SimpleVector.h>
 #include <Rcpp/vector/impl/CharacterVector.h>
 #include <Rcpp/vector/impl/List.h>
@@ -26,7 +26,6 @@
 #include <Rcpp/vector/Demangler.h>
 
 #include <Rcpp/vector/StrideIterator.h>
-#include <Rcpp/vector/MatrixBase.h>
 #include <Rcpp/vector/MatrixColumn.h>
 #include <Rcpp/vector/MatrixRow.h>
 #include <Rcpp/vector/Matrix.h>

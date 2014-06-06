@@ -1,40 +1,40 @@
 #ifndef Rcpp__sugar__Arith_Vector_Vector_h
 #define Rcpp__sugar__Arith_Vector_Vector_h
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::plus >
+template <typename eT, typename Expr1, typename Expr2>
+inline auto    
 operator+( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::plus >( lhs, rhs ) ;
+    const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
+) -> decltype( Rcpp::mapply( std::plus<eT>(), lhs.get_ref(), rhs.get_ref() ) ) {
+    return Rcpp::mapply( std::plus<eT>(), lhs.get_ref(), rhs.get_ref() ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::minus >
+template <typename eT, typename Expr1, typename Expr2>
+inline auto    
 operator-( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::minus >( lhs, rhs ) ;
+    const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
+) -> decltype( Rcpp::mapply( std::minus<eT>(), lhs.get_ref(), rhs.get_ref() ) ){
+    return Rcpp::mapply( std::minus<eT>(), lhs.get_ref(), rhs.get_ref() ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::multiplies >
+template <typename eT, typename Expr1, typename Expr2>
+inline auto    
 operator*( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::multiplies >( lhs, rhs ) ;
+    const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
+) -> decltype( Rcpp::mapply( std::multiplies<eT>(), lhs.get_ref(), rhs.get_ref() ) ){
+    return Rcpp::mapply( std::multiplies<eT>(), lhs.get_ref(), rhs.get_ref() ) ;
 }
 
-template <int RTYPE,bool LHS_NA, typename LHS_T, bool RHS_NA, typename RHS_T>
-inline Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::divides >
+template <typename eT, typename Expr1, typename Expr2>
+inline auto
 operator/( 
-    const Rcpp::SugarVectorExpression<RTYPE,LHS_NA,LHS_T>& lhs,
-    const Rcpp::SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& rhs
-) {
-    return Rcpp::sugar::Arith_Vector_Vector<RTYPE,LHS_NA,LHS_T,RHS_NA,RHS_T, std::divides >( lhs, rhs ) ;
+    const Rcpp::SugarVectorExpression<eT, Expr1>& lhs,
+    const Rcpp::SugarVectorExpression<eT, Expr2>& rhs
+) -> decltype( Rcpp::mapply( std::divides<eT>(), lhs.get_ref(), rhs.get_ref() ) ){
+    return Rcpp::mapply( std::divides<eT>(), lhs.get_ref(), rhs.get_ref() ) ;
 }
 
 #endif

@@ -8,7 +8,7 @@ namespace Rcpp{
         template <typename T, bool prim>
         struct get_compatible_r_vector_type__dispatch {
             enum { 
-                rtype = r_sexptype_traits<typename std::decay<T>::type::stored_type>::rtype 
+                rtype = r_sexptype_traits<typename std::decay<T>::type::value_type>::rtype 
             } ; 
         } ;
         

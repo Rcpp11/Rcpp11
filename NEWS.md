@@ -65,6 +65,8 @@
   
 * Logical vectors internally use the `Rboolean` type instead of `int`. 
 
+* Added the syntax `x != NA` to test if something is not the missing value. 
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

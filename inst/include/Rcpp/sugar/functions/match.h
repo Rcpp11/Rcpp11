@@ -3,18 +3,16 @@
           
 namespace Rcpp{
 
-    template <int RTYPE, bool X_NA, typename T, bool RHS_NA, typename RHS_T>
-    inline IntegerVector match( const SugarVectorExpression<RTYPE,X_NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table_ ){
-        typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-        
-        std::unordered_map<STORAGE,int> map ;
+    template <typename eT, typename Expr1, typename Expr2>
+    inline IntegerVector match( const SugarVectorExpression<eT, Expr1>& x, const SugarVectorExpression<eT, Expr2>& table_ ){
+        std::unordered_map<eT,int> map ;
         int i=0; 
-        std::for_each( sugar_begin(table_), sugar_end(table_), [&]( STORAGE x ){
+        std::for_each( sugar_begin(table_), sugar_end(table_), [&]( eT x ){
                 ++i ;
                 if( !map.count(x) ) map[x] = i ;
         }) ;
         
-        IntegerVector res = transform( x.begin(), x.end(), [&map]( STORAGE x) -> int {
+        IntegerVector res = transform( x.begin(), x.end(), [&map]( eT x) -> int {
                 if( map.count(x) ) return map.at(x) ;
                 return NA ;
         }) ;

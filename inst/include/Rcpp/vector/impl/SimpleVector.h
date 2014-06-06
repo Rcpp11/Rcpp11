@@ -8,21 +8,21 @@ namespace Rcpp{
     
     template <int RTYPE, typename Storage>
     class Vector :
-        public VectorOf<RTYPE>,
-        public SugarVectorExpression< RTYPE, true, VEC >,
+        public VectorOfRTYPE<RTYPE>,
+        public SugarVectorExpression<typename traits::storage_type<RTYPE>::type, VEC>,
         public SlotProxyPolicy<VEC>,
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public NameProxyPolicy<VEC>
+        public NameProxyPolicy<VEC>, 
+        public sugar::iterable_vector_expression
     {
     public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;
-        typedef value_type stored_type  ;
-        typedef typename std::conditional<RTYPE==LGLSXP,bool,stored_type>::type init_type ;
-        typedef stored_type&       reference       ;
-        typedef const stored_type& const_reference ;
+        typedef typename std::conditional<RTYPE==LGLSXP,bool,value_type>::type init_type ;
+        typedef value_type&        reference       ;
+        typedef const value_type&  const_reference ;
         typedef reference          Proxy           ;
         typedef const_reference    const_Proxy     ;
         typedef value_type*        iterator        ; 

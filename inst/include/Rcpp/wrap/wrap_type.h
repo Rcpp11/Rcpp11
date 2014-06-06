@@ -12,7 +12,7 @@ namespace traits{
         const static bool is_primitive = std::is_same< wrap_category , Rcpp::traits::wrap_type_primitive_tag>::value ;
         const static bool is_enum      = std::is_enum<T>::value  ;
         const static bool is_sexp_convertible = std::is_convertible<T,SEXP>::value ;
-        const static bool is_sugar = is_vector_expression<T>::type::value ;
+        const static bool is_sugar = is_vector_expression<T>::value ;
         const static bool is_lazy = is_lazy_vector<T>::type::value ; 
                 
         typedef typename std::conditional< 

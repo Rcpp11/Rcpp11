@@ -5,23 +5,23 @@ namespace Rcpp{
     
     namespace sugar{
         struct custom_sugar_vector_expression{} ;
+        struct iterable_vector_expression{} ;
     }
     
-    template <int RTYPE, bool NA, typename Expr>
+    namespace traits{
+        template <typename T>
+        struct is_iterable : public std::is_base_of<sugar::iterable_vector_expression, T> {} ;
+    }
+    
+    template <typename eT, typename Expr>
     struct SugarVectorExpression : 
         public SugarVectorExpressionBase, 
         public CRTP<Expr>
     {
         using CRTP<Expr>::get_ref ;
-    
-        struct r_type : std::integral_constant<int,RTYPE>{} ;
-        typedef typename traits::storage_type<RTYPE>::type stored_type ; 
-        typedef typename traits::storage_type<RTYPE>::type elem_type   ;
         typedef Expr expr_type ;
-        
-        inline stored_type operator[]( R_xlen_t i) const {
-            return get_ref()[i] ;
-        }
+        typedef eT value_type ;
+        typedef typename std::integral_constant<int, traits::r_sexptype_traits<eT>::rtype >::type r_type ;
         
         inline R_xlen_t size() const { 
             return get_ref().size() ;

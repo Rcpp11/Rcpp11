@@ -4,16 +4,19 @@
 namespace Rcpp{
     namespace sugar{
     
+        template <typename eT, typename Expr>
+        class Mean ;
+        
         // REALSXP
-        template <bool NA, typename T> 
-        class Mean_Numeric : Lazy<double, Mean_Numeric<NA,T> >{
+        template <typename Expr>
+        class Mean<double,Expr> {
         public:
-            typedef SugarVectorExpression<REALSXP,NA,T> VEC_TYPE ;
             
-            Mean_Numeric( const VEC_TYPE& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<double,Expr>& object_ ) : object(object_){}
             
             double get() const {
                 NumericVector input = object ;
+                
                 // double pass (as in summary.c)
                 int n = input.size() ;
                 long double s = std::accumulate( input.begin(), input.end(), 0.0L ) ;
@@ -28,17 +31,14 @@ namespace Rcpp{
             }
             
         private:
-            // we resolve the data since we need to make two passes
-            const VEC_TYPE& object ;
+            const SugarVectorExpression<double,Expr>& object ;
         };
           
         // CPLXSXP
-        template <bool NA, typename T> 
-        class Mean_Complex : public Lazy< Rcomplex, Mean_Complex<NA,T> >{
+        template <typename Expr> 
+        class Mean<Rcomplex,Expr>{
         public:
-            typedef SugarVectorExpression<CPLXSXP,NA,T> VEC_TYPE ;
-            
-            Mean_Complex( const VEC_TYPE& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<Rcomplex,Expr>& object_ ) : object(object_){}
             
             Rcomplex get() const {
                 ComplexVector input = object ;
@@ -67,16 +67,15 @@ namespace Rcpp{
             
         private:
             // we resolve the data since we need to make two passes
-            const VEC_TYPE& object ;
+            const SugarVectorExpression<Rcomplex,Expr>& object ;
         };
         
         // INTSXP
-        template <int RTYPE, bool HAS_NA, typename T> 
-        class Mean_Integer : Lazy<double, Mean_Integer<RTYPE,HAS_NA,T> >{
+        template <typename Expr> 
+        class Mean<int, Expr>{
         public:
-            typedef SugarVectorExpression<INTSXP,HAS_NA,T> VEC_TYPE ;
             
-            Mean_Integer( const VEC_TYPE& object_ ) : object(object_){}
+            Mean( const SugarVectorExpression<int,Expr>& object_ ) : object(object_){}
             
             double get() const {
                 IntegerVector input = object ;
@@ -92,32 +91,40 @@ namespace Rcpp{
             
         private:
             // we resolve the data since we need to make two passes
-            const VEC_TYPE& object ;
+            const SugarVectorExpression<int,Expr>& object ;
+        };
+        
+        // LGLSXP
+        template <typename Expr> 
+        class Mean<Rboolean, Expr>{
+        public:
+            
+            Mean( const SugarVectorExpression<Rboolean, Expr>& object_ ) : object(object_){}
+            
+            double get() const {
+                LogicalVector input = object ;
+                R_xlen_t n = input.size() ;
+                long double s = 0.0L ;
+                for( R_xlen_t i=0; i<n; i++){
+                    if( input[i] == NA ) return NA ;
+                    s += input[i] ;
+                }
+                s /= n ;
+                return (double)s ;
+            }
+            
+        private:
+            // we resolve the data since we need to make two passes
+            const SugarVectorExpression<Rboolean,Expr>& object ;
         };
         
         
     } // sugar
     
-    template <bool NA, typename T>
-    inline sugar::Mean_Numeric<NA,T> mean( const SugarVectorExpression<REALSXP,NA,T>& t){
-        return sugar::Mean_Numeric<NA,T>( t ) ;
+    template <typename eT, typename Expr>
+    inline auto mean( const SugarVectorExpression<eT,Expr>& t) -> decltype(sugar::Mean<eT,Expr>(t).get()) {
+        return sugar::Mean<eT,Expr>(t).get() ;
     }
-
-    template <bool NA, typename T>
-    inline sugar::Mean_Complex<NA,T> mean( const SugarVectorExpression<CPLXSXP,NA,T>& t){
-        return sugar::Mean_Complex<NA,T>( t ) ;
-    }
-
-    template <bool NA, typename T>
-    inline sugar::Mean_Integer<INTSXP,NA,T> mean( const SugarVectorExpression<INTSXP,NA,T>& t){
-        return sugar::Mean_Integer<INTSXP,NA,T>( t ) ;
-    }
-
-    template <bool NA, typename T>
-    inline sugar::Mean_Integer<LGLSXP,NA,T> mean( const SugarVectorExpression<LGLSXP,NA,T>& t){
-        return sugar::Mean_Integer<LGLSXP,NA,T>( t ) ;
-    }
-
     
 } // Rcpp
 #endif

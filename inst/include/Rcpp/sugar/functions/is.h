@@ -3,24 +3,24 @@
 
 namespace Rcpp{
     
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_finite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_finite<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_finite<RTYPE> ) ;
+    template <typename eT, typename Expr>
+    inline auto is_finite( const SugarVectorExpression<eT,Expr>& t) -> decltype( sapply(t, traits::is_finite< traits::r_sexptype_traits<eT>::rtype > ) ) {
+        return sapply(t, traits::is_finite< traits::r_sexptype_traits<eT>::rtype > ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_infinite( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_infinite<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_infinite<RTYPE> ) ;
+    template <typename eT, typename Expr>
+    inline auto is_infinite( const SugarVectorExpression<eT,Expr>& t) -> decltype( sapply(t, traits::is_infinite< traits::r_sexptype_traits<eT>::rtype > ) ) {
+        return sapply(t, traits::is_infinite< traits::r_sexptype_traits<eT>::rtype > ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_na( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_na<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_na<RTYPE> ) ;
+    template <typename eT, typename Expr>
+    inline auto is_na( const SugarVectorExpression<eT,Expr>& t) -> decltype( sapply(t, traits::is_na< traits::r_sexptype_traits<eT>::rtype > ) ) {
+        return sapply(t, traits::is_na< traits::r_sexptype_traits<eT>::rtype > ) ;
     }
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto is_nan( const Rcpp::SugarVectorExpression<RTYPE,NA,T>& t) -> decltype( sapply(t, Rcpp::traits::is_nan<RTYPE> ) ) {
-        return sapply(t, Rcpp::traits::is_nan<RTYPE> ) ;
+    template <typename eT, typename Expr>
+    inline auto is_nan( const SugarVectorExpression<eT,Expr>& t) -> decltype( sapply(t, traits::is_nan< traits::r_sexptype_traits<eT>::rtype > ) ) {
+        return sapply(t, traits::is_nan< traits::r_sexptype_traits<eT>::rtype > ) ;
     }
 
     

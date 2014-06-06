@@ -4,47 +4,52 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <int RTYPE, bool HAS_NA, typename T>
-        class Cumsum : public Lazy< Rcpp::Vector<RTYPE> , Cumsum<RTYPE,HAS_NA,T> > {
+        template <typename eT, typename Expr>
+        class Cumsum : 
+            public SugarVectorExpression<eT,Cumsum<eT,Expr>>, 
+            public custom_sugar_vector_expression 
+        {
         public:
-            typedef typename Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T> VEC_TYPE ;
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-            typedef Rcpp::Vector<RTYPE> VECTOR ;
+            typedef typename traits::vector_of<eT>::type VECTOR ;
+            typedef typename VECTOR::const_iterator const_iterator ;
         
-            Cumsum( const VEC_TYPE& object_ ) : object(object_){}
-        
-            VECTOR get() const {
+            Cumsum( const SugarVectorExpression<eT, Expr>& object ) : data(object.size(), NA){
                 int n = object.size() ;
-                VECTOR result( n, NA ) ; 
-                STORAGE current = object[0] ;
-                if( current == NA ) 
-                    return result ;
-                result[0] = current ;
-                for( R_xlen_t i=1; i<n; i++){
-                    current = object[i] ;
-                    if( Rcpp::traits::is_na<RTYPE>(current) ) 
-                        return result ;
-                    result[i] = result[i-1] + current ;
+                auto it = sugar_begin(object) ;
+                eT current = *it ; ++it ;
+                if( current != NA ){
+                    data[0] = current ;
+                    for( R_xlen_t i=1; i<n ; i++, ++it){
+                        current = *it ;
+                        if( current == NA ) break ;
+                        data[i] = data[i-1] + current ;
+                    }
                 }
-                return result ;
-            }         
+            }
+        
+            inline R_xlen_t size() const {
+                return data.size() ;    
+            }
+            
+            template <typename Target>
+            void apply( Target& target ) const { 
+                target = data ;    
+            }
+            
+            inline const_iterator begin() const { return data.begin() ; }
+            inline const_iterator end() const { return data.end() ; }
+            
         private:
-            const VEC_TYPE& object ;
+            VECTOR data ;
         } ;
     
     } // sugar
     
-    template <bool NA, typename T>
-    inline sugar::Cumsum<INTSXP,NA,T> cumsum( const SugarVectorExpression<INTSXP,NA,T>& t){
-        return sugar::Cumsum<INTSXP,NA,T>( t ) ;
+    template <typename eT, typename Expr>
+    inline sugar::Cumsum<eT,Expr> cumsum( const SugarVectorExpression<eT, Expr>& t){
+        return sugar::Cumsum<eT, Expr>( t ) ;
     }
     
-    template <bool NA, typename T>
-    inline sugar::Cumsum<REALSXP,NA,T> cumsum( const SugarVectorExpression<REALSXP,NA,T>& t){
-        return sugar::Cumsum<REALSXP,NA,T>( t ) ;
-    }
-
-
 } // Rcpp
 #endif
 

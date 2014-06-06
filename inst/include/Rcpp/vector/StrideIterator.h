@@ -12,7 +12,9 @@ namespace Rcpp{
         typedef typename std::iterator_traits<iterator>::difference_type difference_type;
         typedef typename std::iterator_traits<iterator>::iterator_category iterator_category;
         
-        StrideIterator( iterator it_, difference_type n_ ) : it(it_), n(n_){}
+        StrideIterator( iterator it_, difference_type n_ ) : it(it_), n(n_){
+            RCPP_DEBUG( "StrideIterator(%s = <%p>, n = %d)\n", DEMANGLE(iterator), it, n ) ;
+        }
         
         StrideIterator& operator++(){
             it += n ;
@@ -47,7 +49,7 @@ namespace Rcpp{
             return *this ;
         }
         int operator-( const StrideIterator& other){
-            return (other.it - it) / n ;
+            return (it - other.it) / n ;
         }
         
         bool operator==( const StrideIterator& other)  { return it == other.it ; } 

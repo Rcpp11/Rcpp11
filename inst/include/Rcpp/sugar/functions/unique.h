@@ -3,25 +3,19 @@
           
 namespace Rcpp{
 
-template <int RTYPE, bool NA, typename T>
-inline Vector<RTYPE> unique( const SugarVectorExpression<RTYPE,NA,T>& t ){
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
-    return wrap( std::unordered_set<STORAGE>( t.begin(), t.end() ) ) ;
-}
-
-template <int RTYPE, bool NA, typename T, bool RHS_NA, typename RHS_T>
-inline LogicalVector in( const SugarVectorExpression<RTYPE,NA,T>& x, const SugarVectorExpression<RTYPE,RHS_NA,RHS_T>& table ){
-    typedef typename traits::storage_type<RTYPE>::type STORAGE;
+    template <typename eT, typename Expr>
+    inline typename traits::vector_of<eT>::type unique( const SugarVectorExpression<eT, Expr>& t ){
+        std::unordered_set<eT> set( t.begin(), t.end() ) ;
+        return import( set.begin(), set.end() ) ;
+    }
     
-    std::unordered_set<STORAGE> set( table.begin(), table.end() );
-    LogicalVector res(x.size());
-    std::transform( x.begin(), x.end(), res.begin(), [&set](STORAGE y){
-            return set.count(y) ;
-    }) ;
-    return res ;
-    
-}
-
+    template <typename eT, typename Expr1, typename Expr2>
+    inline LogicalVector in( const SugarVectorExpression<eT, Expr1>& x, const SugarVectorExpression<eT, Expr2>& table ){
+        std::unordered_set<eT> set( table.begin(), table.end() );
+        return transform( x.begin(), x.end(), [&set](eT y) -> Rboolean {
+                return set.count(y) ? TRUE : FALSE ;
+        }) ;
+    }
 
 } // Rcpp
 #endif

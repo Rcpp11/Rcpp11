@@ -4,27 +4,23 @@
 namespace Rcpp{
     namespace sugar{
     
-        template <int RTYPE, bool NA>
+        template <typename T>
         struct clamp_operator{
-            typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-            clamp_operator(STORAGE lhs_, STORAGE rhs_ ) : lhs(lhs_), rhs(rhs_){}
+            clamp_operator(T lhs_, T rhs_ ) : lhs(lhs_), rhs(rhs_){}
             
-            inline STORAGE operator()(STORAGE x) const {
+            inline T operator()(T x) const {
                 return x < lhs ? lhs : (x > rhs ? rhs : x ) ;
             }
-            STORAGE lhs, rhs ;    
+            T lhs, rhs ;    
         } ;
 
     } // sugar
 
-    template <int RTYPE, bool NA, typename T>
-    inline auto clamp( 
-        typename Rcpp::traits::storage_type<RTYPE>::type lhs,
-        const Rcpp::SugarVectorExpression<RTYPE,NA,T>& vec,  
-        typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ) -> decltype( sapply( vec, sugar::clamp_operator<RTYPE,NA>(lhs, rhs) ) ) {
-        return sapply( vec, sugar::clamp_operator<RTYPE,NA>(lhs, rhs) ) ;
+    template <typename eT, typename Expr>
+    inline auto clamp( eT lhs, const Rcpp::SugarVectorExpression<eT,Expr>& vec, eT rhs) -> 
+        decltype( sapply( vec, sugar::clamp_operator<eT>(lhs, rhs) ) ) 
+    {
+        return sapply( vec, sugar::clamp_operator<eT>(lhs, rhs) ) ;
     }
 
 

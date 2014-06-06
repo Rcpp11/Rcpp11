@@ -2,63 +2,38 @@
 #define Rcpp__sugar__min_h
 
 namespace Rcpp{
-namespace sugar{
+    namespace sugar{
 
-    template <int RTYPE, bool NA, typename T>
-    class Min {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        Min( const T& obj_) : obj(obj_) {}
-        
-        operator STORAGE() {
-            min_ = obj[0] ;
-            if( Rcpp::traits::is_na<RTYPE>( min_ ) ) return min_ ;
+        template <typename eT, typename Expr>
+        class Min {
+        public:
+            Min( const SugarVectorExpression<eT,Expr>& obj_) : obj(obj_) {}
             
-            R_xlen_t n = obj.size() ;
-            for( R_xlen_t i=1; i<n; i++){
-                current = obj[i] ;
-                if( Rcpp::traits::is_na<RTYPE>( current ) ) return current;
-                if( current < min_ ) min_ = current ;
+            inline eT get() const {
+                auto it = sugar_begin(obj) ;
+                eT min_ = *it ;
+                if( min_ == NA ) return min_ ;
+                ++it ;
+                
+                R_xlen_t n = obj.size() ;
+                for( R_xlen_t i=1; i<n; i++, ++it ){
+                    eT current = *it ;
+                    if( current == NA ) return current;
+                    if( current < min_ ) min_ = current ;
+                }
+                return min_ ;
             }
-            return min_ ;
-        }
-    
-        const T& obj ;
-        STORAGE min_, max_, current ;
-    } ;
-
-    // version for NA = false
-    template <int RTYPE, typename T>
-    class Min<RTYPE,false,T> {
-    public:
-        typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE ;
-        
-        Min( const T& obj_) : obj(obj_) {}
-        
-        operator STORAGE() {
-            min_ = obj[0] ;
             
-            R_xlen_t n = obj.size() ;
-            for( R_xlen_t i=1; i<n; i++){
-                current = obj[i] ;
-                if( current < min_ ) min_ = current ;
-            }
-            return min_ ;
-        }
+        private:
+            const SugarVectorExpression<eT,Expr>& obj ;
+        } ;
+        
+    } // sugar
     
-        const T& obj ;
-        STORAGE min_, current ;
-    } ;
-
-    
-} // sugar
-
-
-template <int RTYPE, bool NA, typename T>
-sugar::Min<RTYPE,NA,T> min( const SugarVectorExpression<RTYPE,NA,T>& x){
-    return sugar::Min<RTYPE,NA,T>(x.get_ref()) ;
-}
+    template <typename eT, typename Expr>
+    eT min( const SugarVectorExpression<eT,Expr>& x){
+        return sugar::Min<eT, Expr>(x) ;
+    }
 
 } // Rcpp
 

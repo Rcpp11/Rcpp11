@@ -5,13 +5,14 @@ namespace Rcpp{
     namespace sugar{
     
         class LowerTri : 
-            public SugarMatrixExpression<LGLSXP,false,LowerTri>, 
-            public custom_sugar_matrix_expression {
+            public SugarMatrixExpression<Rboolean,LowerTri>, 
+            public custom_sugar_matrix_expression
+        {
         public:
             LowerTri( int nr_, int nc_, bool diag) : nr(nr_), nc(nc_), keep_diag(diag){}
             
-            inline int operator()( int i, int j ) const {
-               return keep_diag ? (i<=j) : (i<j) ;
+            inline Rboolean operator()( int i, int j ) const {
+                return ( keep_diag ? (i<=j) : (i<j) ) ? TRUE : FALSE ;
             }
             
             inline R_xlen_t size() const { return nr * nc ; }
@@ -24,13 +25,13 @@ namespace Rcpp{
                 if( keep_diag ){
                     for( int j=0; j<nc; j++){
                         for( int i=0; i<nr; i++, ++it ){
-                            *it = (i<=j) ;
+                            *it = (i<=j) ? TRUE : FALSE;
                         }
                     }
                 } else {
                     for( int j=0; j<nc; j++){
                         for( int i=0; i<nr; i++, ++it ){
-                            *it = (i<j) ;
+                            *it = (i<j) ? TRUE : FALSE;
                         }
                     }
                 }
@@ -44,8 +45,8 @@ namespace Rcpp{
     
     } // sugar
     
-    template <int RTYPE, bool LHS_NA, typename LHS_T>
-    inline sugar::LowerTri lower_tri( const Rcpp::MatrixBase<RTYPE,LHS_NA,LHS_T>& lhs, bool diag = false){
+    template <typename eT, typename Expr>
+    inline sugar::LowerTri lower_tri( const SugarMatrixExpression<eT,Expr>& lhs, bool diag = false){
         return sugar::LowerTri( lhs.nrow(), lhs.ncol(), diag ) ;
     }
 

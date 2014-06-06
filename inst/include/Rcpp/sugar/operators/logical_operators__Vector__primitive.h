@@ -2,114 +2,103 @@
 #define Rcpp__sugar__logical_operators__Vector__primitive_h
 
 /* Vector < primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less> 
-operator<( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator<( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::less<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::less<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less> 
-operator>( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator>( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::less<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::less<eT>(), lhs, rhs ) ;
 }
 
 
 /* Vector > primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater> 
-operator>( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator>( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::greater<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::greater<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater> 
-operator<( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator<( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::greater<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::greater<eT>(), lhs, rhs ) ;
 }
+
+
 
 
 /* Vector <= primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less_equal>
-operator<=( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less_equal>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator<=( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::less_equal<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::less_equal<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less_equal>
-operator>=( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs 
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::less_equal>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator>=( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::less_equal<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::less_equal<eT>(), lhs, rhs ) ;
 }
-
 
 /* Vector >= primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater_equal>
-operator>=( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater_equal>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator>=( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::greater_equal<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::greater_equal<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater_equal> 
-operator<=( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::greater_equal>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator<=( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::greater_equal<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::greater_equal<eT>(), lhs, rhs ) ;
 }
 
 /* Vector == primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::equal_to>
-operator==( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::equal_to>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator==( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::equal_to<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::equal_to<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::equal_to>
-operator==( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::equal_to>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator==( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::equal_to<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::equal_to<eT>(), lhs, rhs ) ;
 }
 
 /* Vector != primitive */
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::not_equal_to> 
-operator!=( 
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs , 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::not_equal_to>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator!=( 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs , 
+    eT rhs
+) -> decltype( Rcpp::mapply( std::not_equal_to<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::not_equal_to<eT>(), lhs, rhs ) ;
 }
-template <int RTYPE, bool HAS_NA, typename T>
-inline Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::not_equal_to>
-operator!=( 
-    typename Rcpp::traits::storage_type<RTYPE>::type rhs,
-    const Rcpp::SugarVectorExpression<RTYPE,HAS_NA,T>& lhs 
-    ){
-    return Rcpp::sugar::Comparator_With_One_Value<RTYPE,HAS_NA,T,std::not_equal_to>(lhs, rhs) ;
+template <typename eT, typename Expr>
+inline auto operator!=( 
+    eT rhs, 
+    const Rcpp::SugarVectorExpression<eT,Expr>& lhs 
+) -> decltype( Rcpp::mapply( std::not_equal_to<eT>(), lhs, rhs ) ) {
+    return Rcpp::mapply( std::not_equal_to<eT>(), lhs, rhs ) ;
 }
 
 
