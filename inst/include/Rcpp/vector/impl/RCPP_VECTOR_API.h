@@ -54,6 +54,7 @@
     template <typename... Args> 
     static Vector create(Args&&... args) {
         typedef typename create_type<RTYPE, Args...>::type creator;
+        RCPP_DEBUG( "%s::create. creator type =%s\n", DEMANGLE(Vector), DEMANGLE(creator) ) ;
         Vector res = creator( std::forward<Args>(args)... ) ;
         return res ;
     }

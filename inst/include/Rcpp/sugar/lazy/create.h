@@ -133,7 +133,7 @@ namespace Rcpp{
             sizeof...(Args) == 0, 
             EmptyCreate<RTYPE>,
             typename std::conditional<
-                traits::any_named<Args...>::type::value, 
+                traits::any_named< typename std::decay<Args>::type ...>::type::value, 
                 CreateWithNames<RTYPE, Args...>,
                 Create<RTYPE, Args...>
             >::type
