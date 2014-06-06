@@ -67,6 +67,9 @@
 
 * Added the syntax `x != NA` to test if something is not the missing value. 
 
+* New sugar function `import_n` so that we can do `import_n( iterator, n )` 
+  instead of `import( iterator, iterator + n) ;`
+
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

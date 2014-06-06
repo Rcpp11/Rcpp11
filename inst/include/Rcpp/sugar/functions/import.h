@@ -35,7 +35,13 @@ namespace Rcpp{
     import( InputIterator begin, InputIterator end ){
         return sugar::Import<InputIterator>( begin, end ) ;    
     }
-
+    
+    template <typename InputIterator>
+    inline sugar::Import<InputIterator> 
+    import_n( InputIterator begin, R_xlen_t n ){
+        return sugar::Import<InputIterator>( begin, begin + n ) ;    
+    }
+    
 } // Rcpp
 #endif
 

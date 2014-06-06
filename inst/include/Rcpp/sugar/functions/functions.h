@@ -32,8 +32,6 @@
 #include <Rcpp/sugar/functions/rep_len.h>
 #include <Rcpp/sugar/functions/rep_each.h>
 #include <Rcpp/sugar/functions/rev.h>
-#include <Rcpp/sugar/functions/head.h>
-#include <Rcpp/sugar/functions/tail.h>
 #include <Rcpp/sugar/functions/filter.h>
 #include <Rcpp/sugar/functions/reduce.h>
 #include <Rcpp/sugar/functions/sum.h>
@@ -45,6 +43,9 @@
 
 #include <Rcpp/sugar/functions/import.h>
 #include <Rcpp/sugar/functions/transform.h>
+
+#include <Rcpp/sugar/functions/head.h>
+#include <Rcpp/sugar/functions/tail.h>
 
 #include <Rcpp/sugar/functions/unique.h>
 #include <Rcpp/sugar/functions/match.h>
