@@ -5,7 +5,7 @@ namespace Rcpp{
 
     template <int RTYPE, typename Storage>
     class Matrix : 
-        public SugarMatrixExpression< typename traits::storage_type<RTYPE>::type, Matrix<RTYPE,Storage> >
+        public SugarMatrixExpression< typename Vector<RTYPE>::value_type, Matrix<RTYPE,Storage> >
     {
     private:
         typedef Vector<RTYPE,Storage> Vec ;
@@ -63,10 +63,16 @@ namespace Rcpp{
         inline int ncol() const { return dims[1] ; }
         inline R_xlen_t size() const { return vec.size() ; }
         
-        inline iterator begin(){ return vec.begin() ; }
+        inline iterator begin(){ 
+            RCPP_DEBUG( "Matrix::begin() = %p", vec.begin() ) ;
+            return vec.begin() ; 
+        }
         inline iterator end(){ return vec.end(); }
                    
-        inline const iterator begin() const { return vec.begin() ; }
+        inline const iterator begin() const {
+            RCPP_DEBUG( "Matrix::begin() const = %p", vec.begin() ) ;
+            return vec.begin() ; 
+        }
         inline const iterator end() const { return vec.end(); }
               
         inline Proxy operator[](R_xlen_t i){ return vec[i] ; }

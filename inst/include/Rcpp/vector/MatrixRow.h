@@ -4,9 +4,10 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Mat>
-    class MatrixRow : public SugarVectorExpression<typename traits::storage_type<RTYPE>::type, MatrixRow<RTYPE,Mat>> {
+    class MatrixRow : 
+        public SugarVectorExpression<typename Mat::value_type, MatrixRow<RTYPE,Mat>> 
+    {
     public:
-        typedef typename traits::storage_type<RTYPE>::type value_type ;
         typedef typename Mat::Proxy Proxy;
         typedef StrideIterator<typename Mat::iterator> iterator;
         typedef StrideIterator<typename Mat::const_iterator> const_iterator ;
@@ -37,10 +38,12 @@ namespace Rcpp{
         inline iterator begin() { return iterator( mat.begin() + index, nr ) ; }
         inline iterator end()   { return iterator( mat.begin() + index + n*nr , nr ) ; }
         
-        inline const_iterator begin() const { 
+        inline const_iterator begin() const {
+            RCPP_DEBUG( "MatrixRow::begin( mat.begin() = %p, index=%d, nr = %d )", mat.begin(), index, nr ) ;
             return const_iterator( mat.begin() + index, nr ) ; 
         }
         inline const_iterator end() const { 
+            RCPP_DEBUG( "MatrixRow::end( mat.begin() = %p, index=%d, nr = %d )", mat.begin(), index, nr ) ;
             return const_iterator( mat.begin() + index + n*nr , nr ) ; 
         }
         
