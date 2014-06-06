@@ -7,7 +7,10 @@ namespace Rcpp {                                                                
     auto __NAME__( const SugarVectorExpression<double,Expr>& x ) -> decltype(sapply(x, __SYMBOL__)) { \
         return sapply( x, __SYMBOL__ ) ;                                                             \
     }                                                                                                \
-}
+    template <typename Expr>                                                              \
+    auto __NAME__( const SugarVectorExpression<int,Expr>& x ) -> decltype(sapply(x, __SYMBOL__)) { \
+        return sapply( x, __SYMBOL__ ) ;                                                             \
+    } }
 
 namespace Rcpp{                     
     namespace internal{
