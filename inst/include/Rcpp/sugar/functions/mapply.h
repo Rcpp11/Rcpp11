@@ -60,7 +60,7 @@ namespace Rcpp{
                 typedef value_type reference ;
                 typedef value_type* pointer ;
                 
-                MapplyIterator( const Tuple& data, const Function& fun_, int pos = 0 ) : 
+                MapplyIterator( const Tuple& data, Function fun_, int pos = 0 ) : 
                     iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos)
                 {}
                 
@@ -116,7 +116,7 @@ namespace Rcpp{
                 
             private:
                 IteratorsTuple iterators ;
-                const Function& fun ;
+                Function fun ;
                 int index ;
                 
                 template <typename... Pack>
