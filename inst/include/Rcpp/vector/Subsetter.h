@@ -3,11 +3,16 @@
 
 namespace Rcpp {
 
+    namespace traits {
+        template <typename T>
+        struct identity { typedef T type; };
+    }
+
 // Subset proxy that can handle y[x], y[x] = b
 // y[x] == SubsetProxy(y, x), so y == LHS, x == RHS
 template <
     int RTYPE, typename Storage, // y
-    typename eT, typename Expr, // x
+    typename eT, typename Expr // x
 >
 class SubsetProxy {
 
@@ -19,7 +24,7 @@ public:
     SubsetProxy(LHS_t& lhs_, const RHS_t& rhs_):
         lhs(lhs_), rhs(rhs_), lhs_n(lhs.size()), rhs_n(rhs.size())
     {
-        get_indices(traits::identity< traits::int2type<eT> >());
+        materialize_indices(typename traits::is_materialized<Expr>::type());
     }
 
     SubsetProxy(const SubsetProxy& other):
@@ -32,13 +37,7 @@ public:
 
     // Enable e.g. x[y] = z
     template <typename RHS_eT, typename RHS_Expr>
-    std::enable_if<
-        std::is_convertible<
-            SugarVectorExpression<RHS_et, RHS_Expr>,
-            Vector<RTYPE, Storage>
-        >::type
-    >::type
-    SubsetProxy& operator=(const SugarVectorExpression<RHS_eT, RHS_Expr>& other) {
+    SubsetProxy operator=(const SugarVectorExpression<RHS_eT, RHS_Expr>& other) {
         int n = other.size();
         auto it = sugar_begin(other);
         for (R_xlen_t i = 0; i < indices_n; ++i, ++it) {
@@ -48,8 +47,7 @@ public:
     }
 
     template <typename T>
-    std::enable_if<std::is_primitive<T>::value, T>::type
-    SubsetProxy& operator=(T other) {
+    SubsetProxy& operator=(typename std::enable_if<traits::is_primitive<T>::value, T>::type other) {
         for (int i=0; i < indices_n; ++i) {
             lhs[ indices[i] ] = other;
         }
@@ -78,13 +76,27 @@ private:
     void check_indices(int* x, int n, int size) {}
     #endif
 
-    void get_indices( traits::identity< traits::int2type<INTSXP> > t ) {
+    // for materialized types, ie, vectors
+    void materialize_indices(std::true_type) {
+        return get_indices(traits::number_to_type<Expr::r_type>());
+    }
+
+    // sugar expressions
+    void materialize_indices(std::false_type) {
+        indices.reserve(rhs_n);
+        auto it = sugar_begin(rhs);
+        for (int i = 0; i < rhs_n; ++i, ++it) {
+            indices.emplace_back(*it);
+        }
+    }
+
+    void get_indices(traits::number_to_type<INTSXP> t) {
         indices = INTEGER(rhs);
         indices_n = rhs_n;
         check_indices(indices, rhs_n, lhs_n);
     }
 
-    void get_indices( traits::identity< traits::int2type<REALSXP> > t ) {
+    void get_indices(traits::number_to_type<REALSXP> t ) {
         indices.reserve(rhs_n);
         Vector<INTSXP, Storage> tmp =
             as< Vector<INTSXP, Storage> >(rhs);
@@ -96,7 +108,7 @@ private:
         indices_n = rhs_n;
     }
 
-    void get_indices( traits::identity< traits::int2type<STRSXP> > t ) {
+    void get_indices(traits::number_to_type<STRSXP> t) {
         indices.reserve(rhs_n);
         SEXP names = Rf_getAttrib(lhs, R_NamesSymbol);
         if (Rf_isNull(names)) stop("names is null");
@@ -114,7 +126,7 @@ private:
         return -1;
     }
 
-    void get_indices( traits::identity< traits::int2type<LGLSXP> > t ) {
+    void get_indices(traits::number_to_type<LGLSXP> t) {
         indices.reserve(rhs_n);
         if (lhs_n != rhs_n) {
             stop("logical subsetting requires vectors of identical size");
@@ -132,7 +144,7 @@ private:
     }
 
     Vector<RTYPE, Storage> get_vec() const {
-        Vector<RTYPE, Storage> output = no_init(indices_n);
+        Vector<RTYPE, Storage> output(indices_n);
         for (int i=0; i < indices_n; ++i) {
             output[i] = lhs[ indices[i] ];
         }
@@ -155,9 +167,13 @@ private:
 
     // we want to reuse the indices if an IntegerVector is passed in; otherwise,
     // we construct a std::vector<int> to hold the indices
-    typename traits::if_<
-        RHS_RTYPE == INTSXP,
-        int*,
+    typename std::conditional<
+        traits::r_sexptype_traits<eT>::rtype == INTSXP,
+        typename std::conditional<
+            traits::is_materialized<Expr>::type::value,
+            int*,
+            std::vector<int>
+        >::type,
         std::vector<int>
     >::type indices;
 
