@@ -59,6 +59,18 @@ namespace Rcpp{
         private:
             const SugarVectorExpression<Rboolean,Expr>& object ;
         } ;
+        
+        template <typename Expr>
+        class Sum<bool,Expr> {
+        public:
+            Sum( const SugarVectorExpression<bool,Expr>& object_ ) : object(object_){}
+        
+            int get() const {
+                return std::count( sugar_begin(object), sugar_end(object), true ) ;
+            }         
+        private:
+            const SugarVectorExpression<bool,Expr>& object ;
+        } ;
        
     } // sugar
     
