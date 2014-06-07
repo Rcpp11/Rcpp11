@@ -36,6 +36,14 @@ namespace Rcpp {
             }
             return *this ;
         }
+        
+        SubsetProxy& operator=( value_type value ){
+            auto target_it = source.begin() ;
+            for( int idx : index.get_ref() ){
+                target_it[idx] = value ;
+            }
+            return *this ;
+        }
             
         class RhsUseIterator : public std::iterator_traits<value_type*> {
         public:
