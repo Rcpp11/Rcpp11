@@ -5,6 +5,7 @@
 #include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/SugarVectorExpression.h>
 #include <Rcpp/vector/SugarMatrixExpression.h>
+#include <Rcpp/vector/Subsetter.h>
 
 #include <Rcpp/vector/converter.h>
 
@@ -22,6 +23,8 @@
 
 #include <Rcpp/String.h>
 #include <Rcpp/NA_Proxy.h>
+
+#include <Rcpp/vector/make_subsetter_proxy.h>
 
 #include <Rcpp/vector/Demangler.h>
 
