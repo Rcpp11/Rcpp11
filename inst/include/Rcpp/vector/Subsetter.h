@@ -20,7 +20,7 @@ namespace Rcpp {
         typedef SugarVectorExpression<int, Expr> INDEX_T ;
         
         SubsetProxy( Source& source_, const SugarVectorExpression<int, Expr>& index_ ) :
-            source(source_), index(index_){}
+            source(source_), index(index_.get_ref() ){}
             
         template <typename RHS_eT, typename RHS_Expr>
         SubsetProxy& operator=( const SugarVectorExpression<RHS_eT,RHS_Expr>& rhs ){
@@ -41,7 +41,7 @@ namespace Rcpp {
         public:
             RhsUseIterator( const SubsetProxy& proxy, int index ) : 
                 index_it( sugar_begin(proxy.index) + index), 
-                source_it( proxy.source.begin() + index )
+                source_it( proxy.source.begin() )
                 {}
             
             RhsUseIterator& operator++() {
@@ -93,7 +93,7 @@ namespace Rcpp {
         
     private:
         Source& source ; 
-        const INDEX_T& index ;
+        Expr index ;
         friend class  RhsUseIterator ;   
     } ;
 
