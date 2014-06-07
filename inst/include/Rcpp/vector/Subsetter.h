@@ -38,7 +38,6 @@ namespace Rcpp {
         // Enable e.g. x[y] = z
         template <typename RHS_eT, typename RHS_Expr>
         SubsetProxy operator=(const SugarVectorExpression<RHS_eT, RHS_Expr>& other) {
-            int n = other.size();
             auto it = sugar_begin(other);
             for (R_xlen_t i = 0; i < indices_n; ++i, ++it) {
                 lhs[indices[i]] = *it;
