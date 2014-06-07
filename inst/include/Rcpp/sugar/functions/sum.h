@@ -35,11 +35,35 @@ namespace Rcpp{
         private:
             const SugarVectorExpression<eT,Expr>& object ;
         } ;
+        
+        template <typename Expr>
+        class Sum<Rboolean,Expr> {
+        public:
+            Sum( const SugarVectorExpression<Rboolean,Expr>& object_ ) : object(object_){}
+        
+            int get() const {
+                int result = 0 ;
+                for( Rboolean current: object.get_ref() ){
+                    switch( current ){
+                        case TRUE: 
+                            {
+                                result++; 
+                                break ;
+                            }
+                        case NA_VALUE: return NA ;
+                        default: break ;
+                    }
+                }
+                return result ;
+            }         
+        private:
+            const SugarVectorExpression<Rboolean,Expr>& object ;
+        } ;
        
     } // sugar
     
     template <typename eT, typename Expr>
-    inline eT sum( const SugarVectorExpression<eT, Expr>& t){
+    inline auto sum( const SugarVectorExpression<eT, Expr>& t) -> decltype(sugar::Sum<eT, Expr>( t ).get()){
         return sugar::Sum<eT, Expr>( t ).get() ;
     }
     
