@@ -83,7 +83,8 @@ private:
 
     // sugar expressions
     void materialize_indices(std::false_type) {
-        indices.reserve(rhs_n);
+        indices_n = rhs_n;
+        indices.reserve(indices_n);
         auto it = sugar_begin(rhs);
         for (int i = 0; i < rhs_n; ++i, ++it) {
             indices.emplace_back(*it);

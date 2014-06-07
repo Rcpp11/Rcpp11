@@ -5,6 +5,7 @@
 #include <Rcpp/vector/LazyVector.h>
 #include <Rcpp/vector/SugarVectorExpression.h>
 #include <Rcpp/vector/SugarMatrixExpression.h>
+#include <Rcpp/vector/Subsetter.h>
 
 #include <Rcpp/vector/converter.h>
 
