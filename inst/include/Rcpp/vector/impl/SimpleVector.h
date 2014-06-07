@@ -72,9 +72,9 @@ namespace Rcpp{
         }
 
         template <typename eT, typename Expr>
-        inline SubsetProxy<Vector, eT, Expr> 
+        inline typename subset_proxy_type<Vector,eT,Expr>::type 
         operator[] ( const SugarVectorExpression<eT, Expr>& other) {
-            return SubsetProxy<Vector, eT, Expr>(*this, other);
+            return make_subset_proxy(*this, other);
         }
 
     } ;

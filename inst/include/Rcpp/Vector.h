@@ -24,6 +24,8 @@
 #include <Rcpp/String.h>
 #include <Rcpp/NA_Proxy.h>
 
+#include <Rcpp/vector/make_subsetter_proxy.h>
+
 #include <Rcpp/vector/Demangler.h>
 
 #include <Rcpp/vector/StrideIterator.h>

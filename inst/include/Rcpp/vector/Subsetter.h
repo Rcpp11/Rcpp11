@@ -97,6 +97,26 @@ namespace Rcpp {
         friend class  RhsUseIterator ;   
     } ;
 
+    
+    template <typename Source, typename eT, typename Expr>
+    struct subset_proxy_type ;
+    
+    template <
+        typename Source, // y
+        typename Expr // x
+    >
+    inline typename subset_proxy_type<Source,int,Expr>::type 
+    make_subset_proxy( Source& source, const SugarVectorExpression<int, Expr>& index ) ;
+    
+    
+    template <
+        typename Source, // y
+        typename Expr // x
+    >
+    inline typename subset_proxy_type<Source,String,Expr>::type 
+    make_subset_proxy( Source& source, const SugarVectorExpression<String, Expr>& index ) ;
+    
+    
 }
 
 #endif
