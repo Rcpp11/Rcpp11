@@ -5,12 +5,12 @@ namespace Rcpp {
     
     template <typename Source, typename eT, typename Expr>
     struct subset_proxy_type {
-        typedef SubsetProxy<Source,int,IntegerVector> type ;
+        typedef SubsetProxy<Source,int,IntegerVector,true> type ;
     } ;
 
     template <typename Source, typename Expr>
     struct subset_proxy_type<Source, int, Expr> {
-        typedef SubsetProxy<Source,int,Expr> type ;
+        typedef SubsetProxy<Source,int,Expr,false> type ;
     } ;
     
     template <
@@ -19,7 +19,7 @@ namespace Rcpp {
     >
     inline typename subset_proxy_type<Source,int,Expr>::type 
     make_subset_proxy( Source& source, const SugarVectorExpression<int, Expr>& index ){
-        return SubsetProxy<Source,int,Expr>( source, index ) ;   
+        return SubsetProxy<Source,int,Expr,false>( source, index ) ;   
     }
     
     template <
@@ -40,7 +40,7 @@ namespace Rcpp {
             if( ix == end ) stop( "name not found" ) ;
             ind[i] = (ix - names_it) ;
         }
-        return SubsetProxy<Source,int,IntegerVector>( source, ind ) ;   
+        return SubsetProxy<Source,int,IntegerVector,true>( source, ind ) ;   
     }
     
     template <
@@ -58,7 +58,7 @@ namespace Rcpp {
         for( int i=0, k=0; i<n ; i++, ++it){
             if( *it ) ind[k++] = i ;
         }
-        return SubsetProxy<Source,int,IntegerVector>( source, ind ) ;   
+        return SubsetProxy<Source,int,IntegerVector,true>( source, ind ) ;   
     }
     
     template <
@@ -76,7 +76,7 @@ namespace Rcpp {
         for( int i=0, k=0; i<n ; i++, ++it){
             if( *it ) ind[k++] = i ;
         }
-        return SubsetProxy<Source,int,IntegerVector>( source, ind ) ;   
+        return SubsetProxy<Source,int,IntegerVector,true>( source, ind ) ;   
     }
     
     

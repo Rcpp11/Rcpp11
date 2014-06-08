@@ -5,15 +5,18 @@ namespace Rcpp {
 
     template <
         typename Source, // y
-        typename eT, typename Expr // x
+        typename eT, typename Expr, // x
+        bool safe_bounds
     >
     class SubsetProxy ;
     
     template <
         typename Source, // y
-        typename Expr // x
+        typename Expr,   // x
+        bool safe_bounds
     >
-    class SubsetProxy< Source, int, Expr > : public SugarVectorExpression<typename Source::value_type, SubsetProxy< Source, int, Expr > > {
+    class SubsetProxy< Source, int, Expr, safe_bounds > : 
+        public SugarVectorExpression<typename Source::value_type, SubsetProxy< Source, int, Expr, safe_bounds > > {
     public:
         typedef typename Source::value_type value_type ;
         
@@ -109,9 +112,11 @@ namespace Rcpp {
         friend class  RhsUseIterator ;   
         
         void check_bounds() const {
-            for( R_xlen_t i : index ){
-                if( i < 0 || i>= source.size() ) 
-                    stop("out of bounds. %d not in [0,%d]", i, source.size()-1) ;
+            if( !safe_bounds ){
+                for( R_xlen_t i : index ){
+                    if( i < 0 || i>= source.size() ) 
+                        stop("out of bounds. %d not in [0,%d]", i, source.size()-1) ;
+                }
             }
         }
     } ;
