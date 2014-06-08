@@ -50,6 +50,8 @@ namespace Rcpp {
     inline typename subset_proxy_type<Source,Rboolean,Expr>::type 
     make_subset_proxy( Source& source, const SugarVectorExpression<Rboolean, Expr>& index ){
         auto n = index.size() ;
+        if( n != source.size() ) 
+            stop( "logical index size incompatible with source size (%d != %d)", n, source.size() ) ;
         auto m = sum(index) ;
         IntegerVector ind(m) ;
         auto it = sugar_begin(index) ;
@@ -66,6 +68,8 @@ namespace Rcpp {
     inline typename subset_proxy_type<Source,bool,Expr>::type 
     make_subset_proxy( Source& source, const SugarVectorExpression<bool, Expr>& index ){
         auto n = index.size() ;
+        if( n != source.size() ) 
+            stop( "logical index size incompatible with source size (%d != %d)", n, source.size() ) ;
         auto m = sum(index) ;
         IntegerVector ind(m) ;
         auto it = sugar_begin(index) ;
