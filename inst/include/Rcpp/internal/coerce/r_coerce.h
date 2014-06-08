@@ -77,43 +77,29 @@ namespace Rcpp{
         
         // -> CPLXSXP
         template <> inline Rcomplex r_coerce<REALSXP,CPLXSXP>(double from){
-            Rcomplex c ;
             if( from == NA_REAL ){
-                c.r = NA_REAL; 
-                c.i = NA_REAL;
+                return Rcomplex{ NA_REAL, NA_REAL };
             } else{
-                c.r = from ;
-                c.i = 0.0 ;
+                return Rcomplex{ from, 0.0 };
             }
-            return c ;
         }
         template <> inline Rcomplex r_coerce<INTSXP,CPLXSXP>(int from){
-            Rcomplex c ;
             if( from == NA_INTEGER ){
-                c.r = NA_REAL; 
-                c.i = NA_REAL;
+                return Rcomplex{ NA_REAL, NA_REAL };
             } else{
-                c.r = static_cast<double>(from) ;
-                c.i = 0.0 ;
+                return Rcomplex{ static_cast<double>(from), 0.0 };
             }
-            return c ;
         }
         template <> inline Rcomplex r_coerce<RAWSXP,CPLXSXP>(Rbyte from){
-            Rcomplex c ;
-            c.r = static_cast<double>(from);
-            c.i = 0.0 ;
-            return c ;
+            return Rcomplex { static_cast<double>(from), 0.0 };
         }
         template <> inline Rcomplex r_coerce<LGLSXP,CPLXSXP>(Rboolean from){
-            Rcomplex c ;
-            if( from == TRUE ){
-                c.r = 1.0 ; c.i = 0.0 ;
-            } else if( from == FALSE ){
-                c.r = c.i = 0.0 ;
-            } else { /* NA */
-                c.r = c.i = NA_REAL;
+            switch(from){
+                case TRUE: return Rcomplex{ 1.0, 0.0 } ;
+                case FALSE: return Rcomplex {0.0, 0.0 } ;
+                default: break;
             }
-            return c ;
+            return Rcomplex{ NA_REAL, NA_REAL } ;
         }
     
     }
