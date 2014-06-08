@@ -24,6 +24,7 @@ namespace Rcpp {
             
         template <typename RHS_eT, typename RHS_Expr>
         SubsetProxy& operator=( const SugarVectorExpression<RHS_eT,RHS_Expr>& rhs ){
+            check_bounds() ;
             auto n = index.size() ;
             if( n != rhs.size() )
                 stop( "incompatible sizes" ) ;
@@ -38,6 +39,7 @@ namespace Rcpp {
         }
         
         SubsetProxy& operator=( value_type value ){
+            check_bounds() ;
             auto target_it = source.begin() ;
             for( int idx : index.get_ref() ){
                 target_it[idx] = value ;
@@ -50,7 +52,9 @@ namespace Rcpp {
             RhsUseIterator( const SubsetProxy& proxy, int index ) : 
                 index_it( sugar_begin(proxy.index) + index), 
                 source_it( proxy.source.begin() )
-                {}
+            {
+                proxy.check_bounds() ;    
+            }
             
             RhsUseIterator& operator++() {
                 ++index_it ;
@@ -103,6 +107,13 @@ namespace Rcpp {
         Source& source ; 
         Expr index ;
         friend class  RhsUseIterator ;   
+        
+        void check_bounds() const {
+            for( R_xlen_t i : index ){
+                if( i < 0 || i>= source.size() ) 
+                    stop("out of bounds. %d not in [0,%d]", i, source.size()-1) ;
+            }
+        }
     } ;
 
     
