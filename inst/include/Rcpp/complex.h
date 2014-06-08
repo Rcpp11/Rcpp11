@@ -1,4 +1,3 @@
-
 #ifndef RCPP__complex_H
 #define RCPP__complex_H
 
@@ -8,37 +7,26 @@ inline Rcomplex& operator+=( Rcomplex& lhs, const Rcomplex& rhs ){
     return lhs ;
 }
 
-// Rcomplex support
 inline Rcomplex operator*( const Rcomplex& lhs, const Rcomplex& rhs){          
-    Rcomplex y ;
-    y.r = lhs.r * rhs.r - lhs.i * rhs.i ;
-    y.i = lhs.r * rhs.i + rhs.r * lhs.i ;
-    return y ;
+    return Rcomplex { lhs.r * rhs.r - lhs.i * rhs.i, lhs.r * rhs.i + rhs.r * lhs.i };
 }
 inline Rcomplex operator+( const Rcomplex& lhs, const Rcomplex& rhs){
-    Rcomplex y ;
-    y.r = lhs.r + rhs.r ;
-    y.i = lhs.i + rhs.i ;
-    return y ;
+    return Rcomplex { lhs.r + rhs.r, lhs.i + rhs.i } ;
 }
 
 inline Rcomplex operator-( const Rcomplex& lhs, const Rcomplex& rhs){
-    Rcomplex y ;
-    y.r = lhs.r - rhs.r ;
-    y.i = lhs.i - rhs.i ;
-    return y ;
+    return Rcomplex { lhs.r - rhs.r, lhs.i - rhs.i } ;
 }
  
 inline Rcomplex operator-( const Rcomplex& lhs ){
     return Rcomplex{ -lhs.r, -lhs.i } ;    
 }
 
-inline int operator!( const Rcomplex& lhs ){
-    return lhs.r != 0.0 || lhs.i != 0.0 ;    
+inline bool operator!( const Rcomplex& lhs ){
+    return ( lhs.r != 0.0 || lhs.i != 0.0 ) ;    
 }
 
 inline Rcomplex operator/( const Rcomplex& a, const Rcomplex& b){
-    Rcomplex c ;
     double ratio, den;
     double abr, abi;
 
@@ -47,15 +35,18 @@ inline Rcomplex operator/( const Rcomplex& a, const Rcomplex& b){
     if( abr <= abi ) {
         ratio = b.r / b.i ;
         den = b.i * (1 + ratio*ratio);
-        c.r = (a.r*ratio + a.i) / den;
-        c.i = (a.i*ratio - a.r) / den;
+        return Rcomplex{
+            (a.r*ratio + a.i) / den,
+            (a.i*ratio - a.r) / den
+        } ;
     } else {
         ratio = b.i / b.r ;
         den = b.r * (1 + ratio*ratio);
-        c.r = (a.r + a.i*ratio) / den;
-        c.i = (a.i - a.r*ratio) / den;
-    }
-    return c ;  
+        return Rcomplex {
+            (a.r + a.i*ratio) / den,
+            (a.i - a.r*ratio) / den
+        } ;
+    }  
 }
 inline Rcomplex operator/( Rcomplex a, double n){
     return Rcomplex{ a.r / n, a.i / n } ;
