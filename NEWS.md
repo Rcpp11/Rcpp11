@@ -70,6 +70,8 @@
 * New sugar function `import_n` so that we can do `import_n( iterator, n )` 
   instead of `import( iterator, iterator + n) ;`
 
+* New sugar function `enumerate` (#153).    
+  
 # Rcpp11 3.1.0.1
 
 * `Rcpp11` is now compatible with the gcc 4.6.3 as shipped by Rtools. Therefore

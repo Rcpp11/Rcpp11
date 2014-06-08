@@ -54,5 +54,6 @@
 #include <Rcpp/sugar/functions/setdiff.h>
 
 #include <Rcpp/sugar/functions/replicate.h>
+#include <Rcpp/sugar/functions/enumerate.h>
 
 #endif
