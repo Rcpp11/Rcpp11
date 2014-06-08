@@ -16,12 +16,6 @@ script:
   - Rscript -e "library('attributes'); compileAttributes('Rcpp-test')"
   - R CMD INSTALL --install-tests Rcpp-test
   - Rscript -e "require(methods); require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
-  - rm -frv Rcpp-test
-  - rm -frv attributes
-  - cd Rcpp11
-  
-after_script:
-  - ./travis-tool.sh dump_logs
   
 notifications:
   email:
