@@ -62,6 +62,12 @@
     inline R_xlen_t length() const { return len ; }
     inline R_xlen_t size() const { return len ; }
     
+    template <typename eT, typename Expr>
+    inline typename subset_proxy_type<Vector,eT,Expr>::type 
+    operator[] ( const SugarVectorExpression<eT, Expr>& other) {
+        return make_subset_proxy(*this, other);
+    }
+
 private:
     value_type* cache ;
     R_xlen_t len ;
