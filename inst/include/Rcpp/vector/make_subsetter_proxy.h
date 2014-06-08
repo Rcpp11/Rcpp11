@@ -32,7 +32,7 @@ namespace Rcpp {
         IntegerVector ind(n) ;
         SEXP names = Rf_getAttrib( source, R_NamesSymbol ) ;
         SEXP* names_it = reinterpret_cast<SEXP*>(DATAPTR(names)) ;
-        SEXP* end = names_it + n ;
+        SEXP* end = names_it + source.size() ;
         auto index_it = sugar_begin(index) ;
         for( int i=0; i<n; i++){
             SEXP s = index_it[i] ;
