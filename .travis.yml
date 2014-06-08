@@ -10,6 +10,10 @@ script:
   - R CMD INSTALL .
   - cd ..
   - git clone https://github.com/Rcpp11/Rcpp-test.git
+  - git clone https://github.com/Rcpp11/attributes.git
+  - R CMD INSTALL attributes
+  - rm Rcpp-test/R/RcppExports.R Rcpp-test/src/RcppExports.cpp
+  - Rscript -e "library('attributes'); compileAttributes('Rcpp-test')"
   - R CMD INSTALL --install-tests Rcpp-test
   - cd Rcpp11
   - Rscript -e "require(methods); require(RcppTest); require(testthat); require(devtools); test_package('RcppTest')"
