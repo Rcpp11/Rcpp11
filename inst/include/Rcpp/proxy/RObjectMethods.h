@@ -22,7 +22,7 @@ namespace Rcpp{
         const Class& ref() const{
             return static_cast<const Class&>(*this) ;    
         }
-       
+        
     } ;
     
 }
