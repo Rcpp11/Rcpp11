@@ -24,6 +24,7 @@
 #include <Rcpp/traits/is_primitive.h>
 #include <Rcpp/traits/sfinae.h>
 #include <Rcpp/traits/sequence.h>
+#include <Rcpp/traits/index_sequence_that.h>
 #include <Rcpp/traits/and_.h>
 #include <Rcpp/traits/is_compatible.h> 
 #include <Rcpp/traits/all_compatible.h>
