@@ -2,21 +2,13 @@
 #define Rcpp__String_h
 
 #ifndef RCPP_STRING_DEBUG_LEVEL
-#define RCPP_STRING_DEBUG_LEVEL 0
+    #define RCPP_STRING_DEBUG_LEVEL 0
 #endif
 
-
 #if RCPP_STRING_DEBUG_LEVEL > 0
-    #define RCPP_STRING_DEBUG_FORMAT "%40s:%4d "
-    #define RCPP_STRING_DEBUG( MSG ) Rprintf( RCPP_STRING_DEBUG_FORMAT "%s\n" , short_file_name(__FILE__), __LINE__, MSG ) ;
-    #define RCPP_STRING_DEBUG_1( fmt, MSG ) Rprintf( RCPP_STRING_DEBUG_FORMAT fmt "\n" , short_file_name(__FILE__), __LINE__, MSG ) ;
-    #define RCPP_STRING_DEBUG_2( fmt, M1, M2 ) Rprintf( RCPP_STRING_DEBUG_FORMAT fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2 ) ;
-    #define RCPP_STRING_DEBUG_3( fmt, M1, M2, M3 ) Rprintf( RCPP_STRING_DEBUG_FORMAT fmt "\n" , short_file_name(__FILE__), __LINE__, M1, M2, M3) ;
+    #define RCPP_STRING_DEBUG( fmt, ... ) Rprintf( "%40s:%4d             " fmt "\n" , Rcpp::short_file_name(__FILE__).c_str(), __LINE__, ##__VA_ARGS__ ) ; 
 #else
-    #define RCPP_STRING_DEBUG( MSG )
-    #define RCPP_STRING_DEBUG_1( fmt, MSG )
-    #define RCPP_STRING_DEBUG_2( fmt, M1, M2 )
-    #define RCPP_STRING_DEBUG_3( fmt, M1, M2, M3 )
+    #define RCPP_STRING_DEBUG( ... )
 #endif
 
 
@@ -119,7 +111,7 @@ namespace Rcpp {
      private:
          template <typename T>
          inline String& append_wide_string( const T& s){
-            RCPP_STRING_DEBUG_1( "String::operator+=( %s )", DEMANGLE(T) ) ;
+            RCPP_STRING_DEBUG( "String::operator+=( %s )", DEMANGLE(T) ) ;
             setData() ;
             if( is_na() ) return *this ;
             const char* buf = CHAR( data );
@@ -160,7 +152,7 @@ namespace Rcpp {
         }
 
         inline String& replace_first( const char* s, const char* news ){
-            RCPP_STRING_DEBUG_2( "String::replace_first( const char* = '%s' , const char* = '%s')", s, news ) ;
+            RCPP_STRING_DEBUG( "String::replace_first( const char* = '%s' , const char* = '%s')", s, news ) ;
             if( is_na() ) return *this ;
             setBuffer() ;
             size_t index = buffer.find_first_of( s ) ;
@@ -187,7 +179,7 @@ namespace Rcpp {
 
 
         inline String& replace_last( const char* s, const char* news ){
-            RCPP_STRING_DEBUG_2( "String::replace_last( const char* = '%s' , const char* = '%s')", s, news ) ;
+            RCPP_STRING_DEBUG( "String::replace_last( const char* = '%s' , const char* = '%s')", s, news ) ;
             if( is_na() ) return *this ;
             setBuffer() ;
             size_t index = buffer.find_last_of( s ) ;
@@ -213,7 +205,7 @@ namespace Rcpp {
 
 
         inline String& replace_all( const char* s, const char* news ){
-            RCPP_STRING_DEBUG_2( "String::replace_all( const char* = '%s' , const char* = '%s')", s, news ) ;
+            RCPP_STRING_DEBUG( "String::replace_all( const char* = '%s' , const char* = '%s')", s, news ) ;
             if( is_na() ) return *this ;
             setBuffer() ;
             size_t lens = strlen(s), len_news = strlen(news), index = buffer.find( s ) ;
@@ -281,12 +273,12 @@ namespace Rcpp {
 
 
         inline SEXP get_sexp() const {
-            RCPP_STRING_DEBUG_1( "String::get_sexp const ( valid = %d) ", valid ) ;
+            RCPP_STRING_DEBUG( "String::get_sexp const ( valid = %d) ", valid ) ;
             return valid ? data : Rf_mkChar( buffer.c_str() ) ;
         }
 
         inline SEXP get_sexp() {
-            RCPP_STRING_DEBUG_1( "String::get_sexp ( valid = %d) ", valid ) ;
+            RCPP_STRING_DEBUG( "String::get_sexp ( valid = %d) ", valid ) ;
             setData() ; return data ;
         }
 

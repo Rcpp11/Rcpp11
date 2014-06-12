@@ -257,8 +257,7 @@ namespace Rcpp{
     }
 
     template <typename Function,typename... Args>
-    typename sugar::Mapply<Function,Args...>
-    Map( Function fun, Args&&... args ) -> decltype(map(fun, std::forward<Args>(args)... )){
+    auto Map( Function fun, Args&&... args ) -> decltype(map(fun, std::forward<Args>(args)... )){
         return map(fun, std::forward<Args>(args)... ) ;
     }
 

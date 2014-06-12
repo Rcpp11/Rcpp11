@@ -1,9 +1,6 @@
 #ifndef Rcpp_Reference_h
 #define Rcpp_Reference_h                     
 
-#include <Rcpp/S4.h>
-#include <Rcpp/exceptions.h>
-
 namespace Rcpp{ 
 
     RCPP_API_CLASS(Reference_Impl), 
