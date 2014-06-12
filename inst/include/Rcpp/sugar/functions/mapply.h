@@ -28,7 +28,8 @@ namespace Rcpp{
         template <typename Tup, int... S>
         bool any_na( const Tup& tup, Rcpp::traits::sequence<S...> ){
             std::initializer_list<bool> tests = { (std::get<S>(tup) == NA)... } ;
-            return std::any_of( tests.begin(), tests.end(), [](bool b){ return b; } ) ;
+            bool res = std::any_of( tests.begin(), tests.end(), [](bool b){ return b; } ) ;
+            return res ;
         }
         
         template <
@@ -70,11 +71,11 @@ namespace Rcpp{
                 typedef value_type* pointer ;
                 
                 MapplyIterator( const Tuple& data, Function fun_, bool any_prim_na_, int pos = 0 ) : 
-                    iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), any_prim_na(any_prim_na_), index(pos)
+                    iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos), any_prim_na(any_prim_na_)
                 {}
                 
                 MapplyIterator( const MapplyIterator& other ) : 
-                    iterators(other.iterators), fun(other.fun), index(other.index){}
+                    iterators(other.iterators), fun(other.fun), index(other.index), any_prim_na(other.any_prim_na){}
                 
                 inline MapplyIterator& operator++(){
                     increment_all( Sequence() ) ;
