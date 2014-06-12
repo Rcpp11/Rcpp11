@@ -57,13 +57,15 @@
 #include <Rcpp/exceptions.h>
 #include <Rcpp/internal/interrupt.h>
 #include <Rcpp/Demangler.h>
+#include <Rcpp/utils/describe.h>
 
 namespace Rcpp{
 
-    inline const char* short_file_name(const char* file) {
-        // std::string f(file) ;
-        // return f.substr( f.find_last_of("/") + 1 ).c_str() ;
-        return file ;
+    inline std::string short_file_name(const char* file) {
+        std::string f(file) ;
+        size_t pos = f.find_last_of("/") ;
+        if( pos == std::string::npos ) return f ;
+        return f.substr( pos + 1 ) ;
     }
 
     inline bool derives_from( SEXP cl, const std::string& clazz ){
@@ -184,8 +186,6 @@ namespace Rcpp{
 #include <Rcpp/transient_vector.h>
 
 #include <Rcpp/registration/registration.h>
-
-#include <Rcpp/exceptions.h>
 
 #include <Rcpp/storage/storage.h>
 #include <Rcpp/proxy/GenericProxy.h>
