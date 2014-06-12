@@ -4,6 +4,46 @@
 namespace Rcpp{
     namespace sugar{
         
+        template <typename Function, typename Target, typename input_type>
+        struct function_wrapper {
+            const static int RTYPE = Target::r_type::value ;
+            typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
+            typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+                
+            function_wrapper( Function fun_ ) : fun(fun_){}
+            
+            inline STORAGE operator()( input_type x ) const {
+                if( x == NA ) return NA ;
+                return converter::get(fun(x)) ;    
+            }
+            
+            Function fun; 
+        } ;
+        
+        template <typename Function, typename Target, typename input_type>
+        struct function_wrapper_notest {
+            const static int RTYPE = Target::r_type::value ;
+            typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
+            typedef typename traits::storage_type<RTYPE>::type STORAGE ;
+                
+            function_wrapper_notest( Function fun_ ) : fun(fun_){}
+            
+            inline STORAGE operator()( input_type x ) const {
+                return converter::get(fun(x)) ;    
+            }
+            
+            Function fun; 
+        } ;
+        
+        template <typename Function, typename Target, typename input_type>
+        struct function_wrapper_type {
+            typedef typename std::conditional<
+                std::is_same<input_type,bool>::value || std::is_same<input_type,double>::value,
+                function_wrapper_notest<Function,Target,input_type>,
+                function_wrapper<Function,Target,input_type>
+            >::type type ;
+        } ;
+        
         template <typename eT, typename Expr, typename Function>
         class Sapply : 
             public SugarVectorExpression<
@@ -25,14 +65,9 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                const static int RTYPE =  Target::r_type::value ;
-                typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
-                typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-                
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](eT x) -> STORAGE {
-                        if( x == NA ) return NA ;
-                        return converter::get(fun(x)) ;
-                });
+                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), 
+                    typename function_wrapper_type<function_type, Target, eT>::type(fun)
+                );
             }
             
             inline const_iterator begin() const { return const_iterator( fun, sugar_begin(vec) ) ; }
@@ -66,14 +101,9 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                const static int RTYPE =  Target::r_type::value ;
-                typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
-                typedef typename traits::storage_type<RTYPE>::type STORAGE ;
-                
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), [this](T2 x) -> STORAGE {
-                        if( x == NA ) return NA ;
-                        return converter::get(fun(x)) ;
-                });
+                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), 
+                    typename function_wrapper_type<function_type, Target, T2>::type(fun)
+                );
             }
             
             inline const_iterator begin() const { return const_iterator( fun, sugar_begin(vec) ) ; }
