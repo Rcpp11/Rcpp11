@@ -25,6 +25,12 @@ namespace Rcpp{
             >::type type ;
         } ;
         
+        template <typename Tup, int... S>
+        bool any_na( const Tup& tup, Rcpp::traits::sequence<S...> ){
+            std::initializer_list<bool> tests = { (std::get<S>(tup) == NA)... } ;
+            return std::any_of( tests.begin(), tests.end(), [](bool b){ return b; } ) ;
+        }
+        
         template <
             typename Function,
             typename... Args
@@ -44,11 +50,14 @@ namespace Rcpp{
             typedef typename std::result_of<Function(typename traits::mapply_scalar_type<Args>::type ...)>::type real_value_type ;
             typedef typename std::conditional< std::is_same<bool,real_value_type>::value, Rboolean, real_value_type>::type value_type ;
             typedef std::tuple< typename mapply_iterator<Args>::type ... > IteratorsTuple ;
+            typedef typename Rcpp::traits::index_sequence_that<Rcpp::traits::is_primitive, Args...>::type prim_sequence ;
+            typedef typename Rcpp::traits::index_sequence_that<Rcpp::traits::is_not_primitive, Args...>::type not_prim_sequence ;
             
         private:
             Tuple data ;
             Function fun ;
             R_xlen_t n ;
+            bool any_prim_na ;
 
         public:
                  
@@ -60,8 +69,8 @@ namespace Rcpp{
                 typedef value_type reference ;
                 typedef value_type* pointer ;
                 
-                MapplyIterator( const Tuple& data, Function fun_, int pos = 0 ) : 
-                    iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), index(pos)
+                MapplyIterator( const Tuple& data, Function fun_, bool any_prim_na_, int pos = 0 ) : 
+                    iterators( get_iterators(data, pos, Sequence() ) ), fun(fun_), any_prim_na(any_prim_na_), index(pos)
                 {}
                 
                 MapplyIterator( const MapplyIterator& other ) : 
@@ -118,6 +127,7 @@ namespace Rcpp{
                 IteratorsTuple iterators ;
                 Function fun ;
                 int index ;
+                bool any_prim_na ;
                 
                 template <typename... Pack>
                 void nothing( Pack... pack ){}
@@ -169,9 +179,7 @@ namespace Rcpp{
                 template <int... S>
                 value_type apply(Rcpp::traits::sequence<S...>) {
                     ETuple values( *std::get<S>(iterators) ... ) ;
-                    auto tests = { (std::get<S>(values) == NA) ... } ;
-                    if( std::any_of(tests.begin(), tests.end(), [](bool b){ return b ; } ) ) 
-                        return NA ;
+                    if( any_prim_na || any_na( values, not_prim_sequence() ) ) return NA ;
                     return internal::caster<real_value_type,value_type>(fun( std::get<S>(values)... )) ;
                 } 
                  
@@ -199,7 +207,8 @@ namespace Rcpp{
             Mapply( Function fun_, Args&&... args ) :
                 data( args... ),
                 fun(fun_),
-                n(get_size())
+                n(get_size()), 
+                any_prim_na( any_na(data, prim_sequence() ) )
             {
                 RCPP_DEBUG( "Mapply = %s\n", DEMANGLE(Mapply) )
                 RCPP_DEBUG( "Tuple  = %s\n", DEMANGLE(Tuple) )
@@ -210,15 +219,19 @@ namespace Rcpp{
             inline R_xlen_t size() const {
                 return n ;
             }
-            inline const_iterator begin() const { return const_iterator( data, fun, 0 ) ; }
-            inline const_iterator end() const { return const_iterator( data, fun, size() ) ; }
+            inline const_iterator begin() const { return const_iterator( data, fun, 0, any_prim_na ) ; }
+            inline const_iterator end() const { return const_iterator( data, fun, any_prim_na, size() ) ; }
                
             template <typename Target>
             void apply( Target& target ) const {
-                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
-                std::transform( begin(), end(), target.begin(), [](value_type x){
-                        return converter::get(x) ;
-                });  
+                if(any_prim_na){
+                    std::fill( target.begin(), target.end(), static_cast<typename Target::value_type>(NA) ) ;
+                } else {
+                    typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                    std::transform( begin(), end(), target.begin(), [](value_type x){
+                            return converter::get(x) ;
+                    });  
+                }
             }
             
         private: 
