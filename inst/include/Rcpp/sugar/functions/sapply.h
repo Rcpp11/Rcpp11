@@ -92,7 +92,7 @@ namespace Rcpp{
             typedef Expr expr_type ;
             typedef TransformIterator<value_type, function_type, typename Expr::const_iterator > const_iterator ;
             
-            Sapply( const SugarVectorExpression< T1, Sapply< T1, Sapply<T2, Expr, Function2>, Function1> >& v, Function1 f1 ) : 
+            Sapply( const SugarVectorExpression<T1, Sapply<T2, Expr, Function2> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 
                 fun( v.get_ref().fun, f1 )
             {}
