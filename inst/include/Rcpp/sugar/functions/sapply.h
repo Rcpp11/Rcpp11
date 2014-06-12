@@ -49,15 +49,19 @@ namespace Rcpp{
             public SugarVectorExpression<
                 typename std::result_of<Function(eT)>::type,
                 Sapply<eT,Expr,Function>
-            >, public custom_sugar_vector_expression
+            >, 
+            public custom_sugar_vector_expression
         {
         public:
+            typedef Expr sapply_expr_type ;
             typedef Function function_type ;
+            typedef eT elem_type ;
+            
             typedef typename std::result_of<Function(eT)>::type value_type ; 
             typedef TransformIterator<value_type, function_type, typename Expr::const_iterator > const_iterator ;
             
             Sapply( const SugarVectorExpression<eT, Expr>& vec_, Function fun_ ) : 
-                vec(vec_), fun(fun_){}
+                vec(vec_.get_ref()), fun(fun_){}
         
             inline R_xlen_t size() const { 
                 return vec.size() ; 
@@ -65,15 +69,15 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), 
+                std::transform( vec.begin(), vec.end(), target.begin(), 
                     typename function_wrapper_type<function_type, Target, eT>::type(fun)
                 );
             }
             
-            inline const_iterator begin() const { return const_iterator( fun, sugar_begin(vec) ) ; }
-            inline const_iterator end() const { return const_iterator( fun, sugar_end(vec) ) ; }
+            inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
+            inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
             
-            const SugarVectorExpression<eT, Expr>& vec ;
+            Expr vec ;
             function_type fun ;
         
         } ;
@@ -85,12 +89,13 @@ namespace Rcpp{
             public custom_sugar_vector_expression
         {
         public:
+            typedef typename Sapply<T2, Expr, Function2>::sapply_expr_type sapply_expr_type ;
+            typedef typename Sapply<T2, Expr, Function2>::function_type function2_type ;
+            typedef Rcpp::functional::Compose<function2_type,Function1> function_type ;
+            typedef typename Sapply<T2, Expr, Function2>::elem_type elem_type ;
             
-            typedef Rcpp::functional::Compose<Function2,Function1> function_type ;
-            typedef SugarVectorExpression< T2, Sapply<T2, Expr, Function2> > outer_input_type ;
-            typedef typename std::result_of<function_type(T2)>::type value_type ;
-            typedef Expr expr_type ;
-            typedef TransformIterator<value_type, function_type, typename Expr::const_iterator > const_iterator ;
+            typedef typename std::result_of<function_type(elem_type)>::type value_type ;
+            typedef TransformIterator<value_type, function_type, typename sapply_expr_type::const_iterator > const_iterator ;
             
             Sapply( const SugarVectorExpression<T1, Sapply<T2, Expr, Function2> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 
@@ -101,15 +106,15 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                std::transform( sugar_begin(vec), sugar_end(vec), target.begin(), 
-                    typename function_wrapper_type<function_type, Target, T2>::type(fun)
+                std::transform( vec.begin(), vec.end(), target.begin(), 
+                    typename function_wrapper_type<function_type, Target, elem_type>::type(fun)
                 );
             }
             
-            inline const_iterator begin() const { return const_iterator( fun, sugar_begin(vec) ) ; }
-            inline const_iterator end() const { return const_iterator( fun, sugar_end(vec) ) ; }
+            inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
+            inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
             
-            const SugarVectorExpression<T2, Expr>& vec ;
+            sapply_expr_type vec ;
             function_type fun ;
         } ;
     

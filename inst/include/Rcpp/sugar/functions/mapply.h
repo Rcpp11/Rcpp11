@@ -54,7 +54,7 @@ namespace Rcpp{
             typedef typename Rcpp::traits::index_sequence_that<Rcpp::traits::is_primitive, Args...>::type prim_sequence ;
             typedef typename Rcpp::traits::index_sequence_that<Rcpp::traits::is_not_primitive, Args...>::type not_prim_sequence ;
             
-        private:
+        // private:
             Tuple data ;
             Function fun ;
             R_xlen_t n ;
@@ -220,7 +220,7 @@ namespace Rcpp{
             inline R_xlen_t size() const {
                 return n ;
             }
-            inline const_iterator begin() const { return const_iterator( data, fun, 0, any_prim_na ) ; }
+            inline const_iterator begin() const { return const_iterator( data, fun, any_prim_na, 0) ; }
             inline const_iterator end() const { return const_iterator( data, fun, any_prim_na, size() ) ; }
                
             template <typename Target>
