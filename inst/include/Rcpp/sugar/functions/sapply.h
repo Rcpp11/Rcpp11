@@ -13,8 +13,7 @@ namespace Rcpp{
             function_wrapper( Function fun_ ) : fun(fun_){}
             
             inline STORAGE operator()( input_type x ) const {
-                if( x == NA ) return NA ;
-                return converter::get(fun(x)) ;    
+                return (x==NA) ? (STORAGE)NA : converter::get(fun(x)) ;    
             }
             
             Function fun; 
@@ -77,7 +76,7 @@ namespace Rcpp{
             inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
             inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
             
-            Expr vec ;
+            const Expr& vec ;
             function_type fun ;
         
         } ;
@@ -114,7 +113,7 @@ namespace Rcpp{
             inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
             inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
             
-            sapply_expr_type vec ;
+            const sapply_expr_type& vec ;
             function_type fun ;
         } ;
     
