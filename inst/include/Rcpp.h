@@ -59,6 +59,14 @@
 #include <Rcpp/Demangler.h>
 #include <Rcpp/utils/describe.h>
 
+#if defined(RCPP11_EXPERIMENTAL_PARALLEL)
+#include <thread>
+#include <future>
+#endif
+
+#include <Rcpp/utils/transform_parallel.h>
+#include <Rcpp/utils/copy_parallel.h>
+
 namespace Rcpp{
 
     inline std::string short_file_name(const char* file) {
