@@ -3,5 +3,6 @@
 
 #include <Rcpp/utils/copy_parallel.h>
 #include <Rcpp/utils/transform_parallel.h>
+#include <Rcpp/utils/iota_parallel.h>
       
 #endif

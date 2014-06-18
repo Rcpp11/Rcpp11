@@ -7,8 +7,8 @@ namespace Rcpp{
     template <typename InputIterator, typename OutputIterator, typename Function>
     void transform_parallel( int nthreads, InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
         std::vector<std::thread> workers(nthreads-1) ;
-        int chunk_size = std::distance(begin, end) / nthreads ;
-        int start=0; 
+        R_xlen_t chunk_size = std::distance(begin, end) / nthreads ;
+        R_xlen_t start=0; 
         for( int i=0; i<nthreads-1; i++, start+=chunk_size){
             workers[i] = std::thread( std::transform<InputIterator, OutputIterator, Function>, 
                 begin + start, begin + start + chunk_size, 
