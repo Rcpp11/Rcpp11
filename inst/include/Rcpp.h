@@ -64,8 +64,7 @@
 #include <future>
 #endif
 
-#include <Rcpp/utils/transform_parallel.h>
-#include <Rcpp/utils/copy_parallel.h>
+#include <Rcpp/utils/parallel/parallel.h>
 
 namespace Rcpp{
 
