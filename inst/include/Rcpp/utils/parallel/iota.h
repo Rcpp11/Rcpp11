@@ -14,7 +14,7 @@ namespace Rcpp{
                 begin + pos, begin + pos + chunk_size, 
                 start + pos) ;   
         }
-        std::copy( begin + start, end, target + start ) ;
+        std::iota( begin + pos, end, start + pos ) ;
         for( int i=0; i<nthreads-1; i++) workers[i].join() ;
     }
     #else
