@@ -28,6 +28,11 @@ namespace Rcpp{
                     std::fill(it, it + times, *source_it);
                 }
             }
+            
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                apply(target) ;    
+            }
         
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
             inline const_iterator end() const { return const_iterator( *this, size() ) ; }

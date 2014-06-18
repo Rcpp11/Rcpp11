@@ -22,6 +22,12 @@ namespace Rcpp{
                 data.get_ref().apply(target) ;  
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                data.get_ref().apply_parallel(target, nthreads) ;    
+            }
+    
+            
             inline const_iterator begin() const { return sugar_begin(data) ; }
             inline const_iterator end() const { return sugar_end(data) ; }
             

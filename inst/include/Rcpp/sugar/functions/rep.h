@@ -63,6 +63,12 @@ namespace Rcpp{
                 }   
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                apply(target) ;
+            }
+            
+            
             inline const_iterator begin() const { return const_iterator(*this, n, 0) ; }
             inline const_iterator end() const { return const_iterator(*this, n, size() ) ; }
             
@@ -92,6 +98,11 @@ namespace Rcpp{
             template <typename Target>
             inline void apply( Target& target ) const {
                 std::fill( target.begin(), target.end(), x ) ;    
+            }
+            
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                apply(target) ;
             }
             
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }

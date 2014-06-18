@@ -235,6 +235,18 @@ namespace Rcpp{
                 }
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                if(any_prim_na){
+                    std::fill( target.begin(), target.end(), static_cast<typename Target::value_type>(NA) ) ;
+                } else {
+                    typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                    parallel::transform( nthreads, begin(), end(), target.begin(), [](value_type x){
+                            return converter::get(x) ;
+                    });  
+                }
+            }
+            
         private: 
             inline int get_size() const {
                 return get_size_impl( Sequence() ) ;    

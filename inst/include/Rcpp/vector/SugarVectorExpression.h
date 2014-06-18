@@ -29,6 +29,9 @@ namespace Rcpp{
     
         template <typename Target>
         void apply( Target& target ) const ;
+        
+        template <typename Target>
+        void apply_parallel( Target& target, int nthreads ) const ;
     
     } ;
     

@@ -23,6 +23,11 @@ namespace Rcpp{
                 std::iota( target.begin(), target.end(), 1 ) ;     
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                parallel::iota(nthreads, target.begin(), target.end(), 1 ) ;    
+            }
+            
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
             inline const_iterator end() const { return const_iterator( *this, size() ) ; }
             
@@ -47,6 +52,11 @@ namespace Rcpp{
             template <typename Target>
             inline void apply( Target& target ) const {
                 std::iota( target.begin(), target.end(), index_start ) ;     
+            }
+            
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                parallel::iota(nthreads, target.begin(), target.end(), index_start ) ;    
             }
         
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }

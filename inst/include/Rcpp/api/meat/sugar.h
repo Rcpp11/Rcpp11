@@ -15,6 +15,10 @@ namespace Rcpp{
             inline void apply( Target& target, const SugarVectorExpression<eT, Expr>& expr ){
                 std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
             }
+            
+            inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT, Expr>& expr ){
+                parallel::copy( nthreads, sugar_begin(expr), sugar_end(expr), target.begin() );
+            }
         } ;
         
         template <typename Target, typename eT, typename Expr>
@@ -22,6 +26,13 @@ namespace Rcpp{
             inline void apply( Target& target, const SugarVectorExpression<eT,Expr>& expr ){
                 typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
                 std::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
+                        return converter::get(x) ;
+                });    
+            }
+            
+            inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT,Expr>& expr ){
+                typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
+                parallel::transform( nthreads, sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
                         return converter::get(x) ;
                 });    
             }
@@ -49,6 +60,15 @@ namespace Rcpp{
             get_ref().apply(target) ;
         else 
             sugar::sugar_vector_expression_op<Target, eT, Expr, std::is_same<eT, typename Target::value_type >::value >().apply( target, *this ) ;  
+    }
+    
+    template <typename eT, typename Expr>
+    template <typename Target>
+    void SugarVectorExpression<eT,Expr>::apply_parallel( Target& target, int nthreads ) const {
+        if( std::is_base_of<sugar::custom_sugar_vector_expression, Expr>::value )
+            get_ref().apply_parallel(target, nthreads) ;
+        else 
+            sugar::sugar_vector_expression_op<Target, eT, Expr, std::is_same<eT, typename Target::value_type >::value >().apply_parallel( target, nthreads, *this ) ;  
     }
     
     template <typename eT, typename Expr>

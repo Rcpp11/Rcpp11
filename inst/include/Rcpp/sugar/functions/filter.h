@@ -28,6 +28,11 @@ namespace Rcpp {
                 std::copy( data.begin(), data.end(), target.begin() ) ;
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                apply(target) ;
+            }
+            
             inline const_iterator begin() const { return data.begin() ; }
             inline const_iterator end() const { return data.end() ; }
             

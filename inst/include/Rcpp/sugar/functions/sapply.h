@@ -73,6 +73,13 @@ namespace Rcpp{
                 );
             }
             
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                parallel::transform( nthreads, vec.begin(), vec.end(),  
+                    typename function_wrapper_type<function_type, Target, eT>::type(fun)
+                ) ;
+            }
+            
             inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
             inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
             
@@ -109,6 +116,14 @@ namespace Rcpp{
                     typename function_wrapper_type<function_type, Target, elem_type>::type(fun)
                 );
             }
+            
+            template <typename Target>
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                parallel::transform( nthreads, vec.begin(), vec.end(), target.begin(), 
+                    typename function_wrapper_type<function_type, Target, elem_type>::type(fun)
+                ) ;
+            }
+            
             
             inline const_iterator begin() const { return const_iterator( fun, vec.begin() ) ; }
             inline const_iterator end() const { return const_iterator( fun, vec.end() ) ; }
