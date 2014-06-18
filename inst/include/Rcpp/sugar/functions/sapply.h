@@ -75,7 +75,7 @@ namespace Rcpp{
             
             template <typename Target>
             inline void apply_parallel( Target& target, int nthreads ) const {
-                transform_parallel( nthreads, vec.begin(), vec.end(),  
+                parallel::transform( nthreads, vec.begin(), vec.end(),  
                     typename function_wrapper_type<function_type, Target, eT>::type(fun)
                 ) ;
             }
@@ -119,7 +119,7 @@ namespace Rcpp{
             
             template <typename Target>
             inline void apply_parallel( Target& target, int nthreads ) const {
-                transform_parallel( nthreads, vec.begin(), vec.end(), target.begin(), 
+                parallel::transform( nthreads, vec.begin(), vec.end(), target.begin(), 
                     typename function_wrapper_type<function_type, Target, elem_type>::type(fun)
                 ) ;
             }

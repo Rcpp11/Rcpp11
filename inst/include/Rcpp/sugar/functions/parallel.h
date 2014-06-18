@@ -48,13 +48,13 @@ namespace Rcpp{
     }
     
     template <typename eT, typename Expr>
-    inline sugar::Parallel<eT,Expr> parallel( const SugarVectorExpression<eT,Expr>& expr, int nthreads ){
+    inline sugar::Parallel<eT,Expr> threaded( const SugarVectorExpression<eT,Expr>& expr, int nthreads ){
         return sugar::Parallel<eT,Expr>( expr, nthreads );   
     }
     
     template <typename eT, typename Expr>
     inline sugar::Parallel<eT,Expr> operator>>( sugar::Threads threads, const SugarVectorExpression<eT,Expr>& expr ){
-        return parallel( expr, threads.n ) ;    
+        return threaded( expr, threads.n ) ;    
     }
         
     inline sugar::Threads threads(int n){ return sugar::Threads(n); }

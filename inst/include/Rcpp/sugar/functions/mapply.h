@@ -241,7 +241,7 @@ namespace Rcpp{
                     std::fill( target.begin(), target.end(), static_cast<typename Target::value_type>(NA) ) ;
                 } else {
                     typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
-                    transform_parallel( nthreads, begin(), end(), target.begin(), [](value_type x){
+                    parallel::transform( nthreads, begin(), end(), target.begin(), [](value_type x){
                             return converter::get(x) ;
                     });  
                 }

@@ -17,7 +17,7 @@ namespace Rcpp{
             }
             
             inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT, Expr>& expr ){
-                copy_parallel( nthreads, sugar_begin(expr), sugar_end(expr), target.begin() );
+                parallel::copy( nthreads, sugar_begin(expr), sugar_end(expr), target.begin() );
             }
         } ;
         
@@ -32,7 +32,7 @@ namespace Rcpp{
             
             inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT,Expr>& expr ){
                 typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
-                transform_parallel( nthreads, sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
+                parallel::transform( nthreads, sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
                         return converter::get(x) ;
                 });    
             }
