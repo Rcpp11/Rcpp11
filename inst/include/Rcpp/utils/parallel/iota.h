@@ -19,9 +19,9 @@ namespace Rcpp{
             for( int i=0; i<nthreads-1; i++) workers[i].join() ;
         }
         #else
-        template <typename OutputIterator>
-        inline void iota( int, InputIterator begin, InputIterator end, OutputIterator target ){ 
-            std::copy( begin, end, target ) ;
+        template <typename OutputIterator, typename T>
+        inline void iota( int, OutputIterator begin, OutputIterator end, T start ){ 
+            std::iota( begin, end, start ) ;
         }
         #endif
     
