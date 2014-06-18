@@ -100,6 +100,7 @@ namespace sugar {
         }
         
         constant_iterator& operator++(){ return *this ; }
+        constant_iterator& operator+=(int){ return *this; }
         inline T operator*() {
             RCPP_DEBUG( "constant_iterator<%s>, value = %d", DEMANGLE(T), value)
             return value ;
@@ -124,6 +125,11 @@ namespace sugar {
         
         TransformIterator operator+( int n ){
             return TransformIterator(fun, source + n ) ;       
+        }
+        
+        TransformIterator& operator+=( int n){
+            source += n ;
+            return *this ;
         }
         
         value_type operator*() {
