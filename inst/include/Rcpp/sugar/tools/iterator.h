@@ -105,8 +105,13 @@ namespace sugar {
             value(value_), i(i_){}
         
         constant_iterator& operator++(){ i++; return *this ; }
+        constant_iterator& operator--(){ i--; return *this ; }
         constant_iterator& operator+=(R_xlen_t n){ 
             i += n ; 
+            return *this; 
+        }
+        constant_iterator& operator-=(R_xlen_t n){ 
+            i -= n ; 
             return *this; 
         }
         inline T operator*() {
@@ -117,7 +122,10 @@ namespace sugar {
             return constant_iterator(*this, i + n) ; 
         }
         constant_iterator operator-(R_xlen_t n){ 
-            return constant_iterator(*this, i + n) ; 
+            return constant_iterator(*this, i - n) ; 
+        }
+        R_xlen_t operator-( const constant_iterator& other ) const {
+            return i - other.i ;
         }
     
         inline bool operator==( const constant_iterator& other ){ return i == other.i ; }
