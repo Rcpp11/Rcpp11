@@ -2,6 +2,9 @@
 #define RCPP11_includes
 
 #include <Rcpp.h>
+
+#ifndef (RCPP11_DISABLE_AUTOMATIC_USING_NAMESPACE)
 using namespace Rcpp11 ;
+#endif
 
 #endif
