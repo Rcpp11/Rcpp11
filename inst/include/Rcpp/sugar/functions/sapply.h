@@ -57,7 +57,7 @@ namespace Rcpp{
             typedef eT elem_type ;
             
             typedef typename std::result_of<Function(eT)>::type value_type ; 
-            typedef TransformIterator<value_type, function_type, typename Expr::const_iterator > const_iterator ;
+            typedef transform_iterator<value_type, function_type, typename Expr::const_iterator > const_iterator ;
             
             Sapply( const SugarVectorExpression<eT, Expr>& vec_, Function fun_ ) : 
                 vec(vec_.get_ref()), fun(fun_){}
@@ -101,7 +101,7 @@ namespace Rcpp{
             typedef typename Sapply<T2, Expr, Function2>::elem_type elem_type ;
             
             typedef typename std::result_of<function_type(elem_type)>::type value_type ;
-            typedef TransformIterator<value_type, function_type, typename sapply_expr_type::const_iterator > const_iterator ;
+            typedef transform_iterator<value_type, function_type, typename sapply_expr_type::const_iterator > const_iterator ;
             
             Sapply( const SugarVectorExpression<T1, Sapply<T2, Expr, Function2> >& v, Function1 f1 ) : 
                 vec( v.get_ref().vec ), 

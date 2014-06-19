@@ -9,7 +9,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
-            typedef SugarIterator<int, SeqLen> const_iterator ;
+            typedef indexing_iterator<int, SeqLen> const_iterator ;
             
             SeqLen( R_xlen_t len_ ) : len(len_){}
         
@@ -40,7 +40,7 @@ namespace Rcpp{
             public custom_sugar_vector_expression {
         public:
             typedef int value_type ;
-            typedef SugarIterator<int, Seq> const_iterator ;
+            typedef indexing_iterator<int, Seq> const_iterator ;
             
             Seq( R_xlen_t start_, R_xlen_t end_ ) : index_start(start_), index_end(end_) {}
         

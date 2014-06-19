@@ -13,7 +13,7 @@ namespace Rcpp{
         {
         public:
             typedef typename std::result_of<Function(typename std::iterator_traits<InputIterator>::value_type)>::type value_type ;
-            typedef TransformIterator<value_type,Function,InputIterator> const_iterator ;
+            typedef transform_iterator<value_type,Function,InputIterator> const_iterator ;
             
             Transform( InputIterator begin_, InputIterator end_, Function fun_ ) : 
                 src_begin(begin_), src_end(end_), fun(fun_){}

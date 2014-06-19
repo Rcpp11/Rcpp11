@@ -14,7 +14,7 @@ namespace Rcpp{
         {
         public:
             typedef typename std::result_of<CallType()>::type value_type ;
-            typedef SugarIterator<value_type, Replicate> const_iterator ;
+            typedef indexing_iterator<value_type, Replicate> const_iterator ;
             
             Replicate( R_xlen_t n_, CallType call_ ): n(n_), call(call_) {}
             
