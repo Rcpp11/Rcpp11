@@ -1,7 +1,7 @@
 #ifndef Rcpp_Internal_Interrupt_h
 #define Rcpp_Internal_Interrupt_h
 
-#include <Rinterface.h>
+#include <R_ext/GraphicsEngine.h>
 
 namespace Rcpp {
 
