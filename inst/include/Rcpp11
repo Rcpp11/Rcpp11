@@ -2,5 +2,6 @@
 #define RCPP11_includes
 
 #include <Rcpp.h>
+using namespace Rcpp11 ;
 
 #endif
