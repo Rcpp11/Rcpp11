@@ -95,21 +95,37 @@ namespace sugar {
     template <typename T>
     class constant_iterator {
     public:
-        constant_iterator( T value_) : value(value_){
-            RCPP_DEBUG( "constant_iterator<%s> %d", DEMANGLE(T), value )
-        }
+        typedef R_xlen_t difference_type ;
+        typedef T value_type ;
+        typedef T* pointer ;
+        typedef T reference ;
+        typedef std::random_access_iterator_tag iterator_category ;
         
-        constant_iterator& operator++(){ return *this ; }
-        constant_iterator& operator+=(int){ return *this; }
+        constant_iterator( T value_, R_xlen_t i_) : 
+            value(value_), i(i_){}
+        
+        constant_iterator& operator++(){ i++; return *this ; }
+        constant_iterator& operator+=(R_xlen_t n){ 
+            i += n ; 
+            return *this; 
+        }
         inline T operator*() {
-            RCPP_DEBUG( "constant_iterator<%s>, value = %d", DEMANGLE(T), value)
             return value ;
         }
         
-        constant_iterator operator+(int n){ return constant_iterator(*this) ; }
+        constant_iterator operator+(R_xlen_t n){ 
+            return constant_iterator(*this, i + n) ; 
+        }
+        constant_iterator operator-(R_xlen_t n){ 
+            return constant_iterator(*this, i + n) ; 
+        }
     
+        inline bool operator==( const constant_iterator& other ){ return i == other.i ; }
+        inline bool operator!=( const constant_iterator& other ){ return i != other.i ; }
+        
     private:
         T value ;
+        R_xlen_t i ;
     } ;
         
     template <typename value_type, typename function_type, typename source_iterator>

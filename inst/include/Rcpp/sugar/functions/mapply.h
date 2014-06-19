@@ -193,7 +193,7 @@ namespace Rcpp{
                    
                 template <int INDEX>
                 inline typename std::tuple_element<INDEX,IteratorsTuple>::type get_iterator( const Tuple& data, int pos, std::true_type ) const {
-                    return typename std::tuple_element<INDEX,IteratorsTuple>::type( std::get<INDEX>(data) ) ; 
+                    return typename std::tuple_element<INDEX,IteratorsTuple>::type( std::get<INDEX>(data), 0 ) ; 
                 }
                 
                 template <int INDEX>

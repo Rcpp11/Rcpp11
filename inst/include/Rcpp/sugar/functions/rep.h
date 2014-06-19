@@ -84,13 +84,10 @@ namespace Rcpp{
             public custom_sugar_vector_expression 
         {
         public:
-            typedef SugarIterator<eT, Rep_Single<eT> > const_iterator ;
+            typedef constant_iterator<eT> const_iterator ;
             
             Rep_Single( eT x_, R_xlen_t n_) : x(x_), n(n_){}
             
-            inline eT operator[]( R_xlen_t i ) const {
-                return x;
-            }
             inline R_xlen_t size() const { 
                 return n ; 
             }
@@ -105,8 +102,8 @@ namespace Rcpp{
                 apply(target) ;
             }
             
-            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
-            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            inline const_iterator begin() const { return const_iterator( x, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( x, size() ) ; }
             
         private:
             eT x ;
