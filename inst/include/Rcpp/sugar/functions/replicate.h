@@ -14,13 +14,10 @@ namespace Rcpp{
         {
         public:
             typedef typename std::result_of<CallType()>::type value_type ;
-            typedef indexing_iterator<value_type, Replicate> const_iterator ;
+            typedef replicate_iterator<value_type, CallType> const_iterator ;
             
             Replicate( R_xlen_t n_, CallType call_ ): n(n_), call(call_) {}
             
-            inline value_type operator[]( R_xlen_t i ) const {
-                return call() ;
-            }
             inline R_xlen_t size() const { return n ; }
             
             template <typename Target>

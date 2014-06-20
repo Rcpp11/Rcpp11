@@ -5,6 +5,7 @@
 #include <Rcpp/sugar/iterators/constant_iterator.h>
 #include <Rcpp/sugar/iterators/indexing_iterator.h>
 #include <Rcpp/sugar/iterators/each_iterator.h>
+#include <Rcpp/sugar/iterators/replicate_iterator.h>
 
 namespace Rcpp{
     namespace sugar {

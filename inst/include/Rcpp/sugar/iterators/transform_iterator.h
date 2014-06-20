@@ -4,10 +4,15 @@
 namespace Rcpp {
 namespace sugar { 
 
-    template <typename value_type, typename function_type, typename source_iterator>
-    class transform_iterator : public std::iterator_traits<value_type*> {
+    template <typename eT, typename function_type, typename source_iterator>
+    class transform_iterator {
     public:
-        
+        typedef R_xlen_t difference_type ;
+        typedef eT value_type ;
+        typedef eT* pointer ;
+        typedef eT reference ;
+        typedef std::random_access_iterator_tag iterator_category ;
+            
         transform_iterator( const function_type& fun_, source_iterator source_ ) : fun(fun_), source(source_) {}
         
         transform_iterator& operator++(){
