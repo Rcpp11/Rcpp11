@@ -7,7 +7,6 @@
 #include <Rcpp/wrap/primitive_wrap.h>
 
 #include <Rcpp/wrap/wrap_impl.h>
-#include <Rcpp/wrap/rowmajor.h>
 
 #include <Rcpp/wrap/Wrapper.h>     
 #include <Rcpp/wrap/PrimitiveWrapper.h>     

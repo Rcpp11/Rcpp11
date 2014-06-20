@@ -7,7 +7,6 @@ namespace Rcpp{
     
     namespace internal{
         template <typename InputIterator> SEXP range_wrap(InputIterator first, InputIterator last) ;
-        template <typename InputIterator> SEXP rowmajor_wrap(InputIterator first, int nrow, int ncol) ;
     }
 
 }
