@@ -14,9 +14,7 @@ namespace Rcpp{
          * This produces an unnamed vector of the appropriate type
          */
         template <typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag){
-            return primitive_range_wrap__impl<InputIterator,T>( first, last, typename ::Rcpp::traits::r_sexptype_needscast<T>() ) ;
-        }
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag) ;
 
         template<typename InputIterator, typename T>
         inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_enum_tag ){

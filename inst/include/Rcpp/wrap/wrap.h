@@ -2,7 +2,6 @@
 #define Rcpp_wrap_wrap_h
  
 #include <Rcpp/wrap/make_charsexp.h>
-#include <Rcpp/wrap/primitive_range_wrap.h>
 #include <Rcpp/wrap/range_wrap.h>
 #include <Rcpp/wrap/primitive_wrap.h>
 

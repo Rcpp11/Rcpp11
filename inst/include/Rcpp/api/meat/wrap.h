@@ -39,6 +39,10 @@ namespace Rcpp{
             return x ;
         }
   
+        template <typename InputIterator, typename T>
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag){
+            return materialize(import(first, last)) ;
+        }
 
     } // namespace internal
 
