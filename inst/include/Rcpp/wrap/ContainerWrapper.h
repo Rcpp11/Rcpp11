@@ -4,8 +4,8 @@
 namespace Rcpp{
   
     template <typename T> struct ContainerWrapper {
-        static inline SEXP wrap(const T& object) { 
-            RCPP_DEBUG( "ContainerWrapper<%s>::wrap() ", DEMANGLE(T) ) 
+        static inline SEXP wrap(const T& object) {
+            // return Vector< traits::r_sexptype_traits<typename T::value_type>::rtype >( import( object.begin(), object.end() ) ) ;
             return internal::range_wrap( object.begin(), object.end() ) ;    
         }
     } ;

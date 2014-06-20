@@ -15,8 +15,7 @@ namespace Rcpp{
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>, 
         public RObjectMethods<VEC>, 
-        public NameProxyPolicy<VEC>,
-        public sugar::iterable_vector_expression
+        public NameProxyPolicy<VEC>
     {
     public:
         typedef SEXP value_type  ;

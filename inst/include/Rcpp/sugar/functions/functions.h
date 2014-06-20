@@ -56,5 +56,6 @@
 #include <Rcpp/sugar/functions/replicate.h>
 #include <Rcpp/sugar/functions/enumerate.h>
 #include <Rcpp/sugar/functions/parallel.h>
+#include <Rcpp/sugar/functions/materialize.h>
 
 #endif

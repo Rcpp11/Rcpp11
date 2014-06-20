@@ -5,12 +5,6 @@ namespace Rcpp{
     
     namespace sugar{
         struct custom_sugar_vector_expression{} ;
-        struct iterable_vector_expression{} ;
-    }
-    
-    namespace traits{
-        template <typename T>
-        struct is_iterable : public std::is_base_of<sugar::iterable_vector_expression, T> {} ;
     }
     
     template <typename eT, typename Expr>
@@ -34,6 +28,9 @@ namespace Rcpp{
         void apply_parallel( Target& target, int nthreads ) const ;
     
     } ;
+    
+    template <typename eT, typename Expr>
+    inline SEXP materialize( const SugarVectorExpression<eT, Expr>& ) ;
     
 }
 
