@@ -1,8 +1,6 @@
 #ifndef Rcpp11_h
 #define Rcpp11_h
 
-// #define RCPP_DEBUG_LEVEL 1
-
 #include <Rcpp/platform.h>
 
 #include <cmath>
