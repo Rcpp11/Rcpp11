@@ -45,8 +45,15 @@ namespace Rcpp{
         }
   
 
-} // namespace internal
+    } // namespace internal
 
+    
+    template <typename T> 
+    inline SEXP ContainerWrapper<T>::wrap(const T& object) {
+        // return materialize( import( object.begin(), object.end() ) ) ;
+        return internal::range_wrap( object.begin(), object.end() ) ;    
+    }
+    
     
 } // namespace Rcpp
 
