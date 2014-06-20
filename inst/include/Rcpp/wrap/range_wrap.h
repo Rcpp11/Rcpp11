@@ -25,30 +25,8 @@ namespace Rcpp{
             #endif
         }
         
-        /**
-         * range based wrap implementation that deals with iterators over
-         * some type U. each U object is itself wrapped
-         *
-         * This produces an unnamed generic vector (list)
-         */
         template <typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___generic( InputIterator first, InputIterator last ){
-            size_t size = std::distance( first, last ) ;
-            Shield<SEXP> x = Rf_allocVector( VECSXP, (int)size );
-            size_t i =0 ;
-            while( i < size ){
-                SET_VECTOR_ELT( x, i, ::Rcpp::wrap(*first) ) ;
-                i++ ;
-                ++first ;
-            }
-            return x ;
-        }
-        
-        template <typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_generic_tag ){
-            return range_wrap_dispatch___generic<InputIterator, T>( first, last ) ;
-        }
-        
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_generic_tag ) ;
         
         /**
          * Range based wrap implementation for iterators over std::string
