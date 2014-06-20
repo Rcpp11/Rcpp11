@@ -29,8 +29,8 @@ namespace Rcpp{
             }
             
             template <typename Target>
-            inline void apply_parallel( Target& target, int /* nthreads */ ) const {
-                apply(target) ;    
+            inline void apply_parallel( Target& target, int nthreads ) const {
+                parallel::generate_n(nthreads, target.begin(), n, call) ;    
             }
             
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
