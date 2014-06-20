@@ -8,6 +8,10 @@ namespace Rcpp{
         return Vector< traits::r_sexptype_traits<eT>::rtype >(expr) ;
     }
 
+    template <typename eT, typename Expr>
+    inline SEXP materialize( const SugarMatrixExpression<eT, Expr>& expr ){
+        return Matrix< traits::r_sexptype_traits<eT>::rtype >(expr) ;
+    }
 
 
 } // Rcpp
