@@ -49,6 +49,11 @@ namespace Rcpp{
     }
     
     template <typename T> 
+    inline SEXP MatrixWrapper<T>::wrap(const T& object) {
+        return Matrix< traits::r_sexptype_traits<typename T::value_type>::rtype  >( object ) ;    
+    }
+    
+    template <typename T> 
     inline SEXP wrap(const T& object){
         return traits::wrap_type<T>::type::wrap(object) ; 
     }

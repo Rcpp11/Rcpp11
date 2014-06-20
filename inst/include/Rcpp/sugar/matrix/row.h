@@ -21,7 +21,7 @@ namespace Rcpp{
             inline int ncol() const { return nc; }
         
             template <typename Target>
-            inline void apply( Target& target ){
+            inline void apply( Target& target ) const {
                 auto it = target.begin() ;
                 for( int j=0; j<nc; j++, it += nr){
                     std::iota( it, it + nr, 1) ;

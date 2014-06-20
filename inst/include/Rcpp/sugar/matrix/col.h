@@ -21,10 +21,10 @@ namespace Rcpp{
             inline int ncol() const { return nc; }
         
             template <typename Target>
-            inline void apply( Target& target ){
+            inline void apply( Target& target ) const {
                 auto it = target.begin() ;
                 for( int j=0; j<nc; j++){
-                    std::fill_n( it, nr, j );
+                    std::fill_n( it, nr, j + 1 );
                     it += nr ;
                 }
             }

@@ -45,14 +45,14 @@ namespace Rcpp{
             inline int nrow() const { return n; }
                
             template <typename Target>
-            inline void apply( Target& target ){
+            inline void apply( Target& target ) const {
                 auto it = target.begin() ; 
                 auto source = sugar_begin(object) ;
-                for( int j=0; j<n; j++, ++source ){
-                    *it = *source ;
-                    ++it ;
-                    std::fill_n(it, it+n, 0 );
+                for( int j=0; j<n-1; j++, ++source ){
+                    *it = *source ; 
+                    it = std::fill_n(it + 1, n, 0 ); 
                 }
+                *it = *source ;
             }
             
         private:
