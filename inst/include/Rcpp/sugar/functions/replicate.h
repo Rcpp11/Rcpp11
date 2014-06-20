@@ -30,8 +30,8 @@ namespace Rcpp{
                 parallel::generate_n(nthreads, target.begin(), n, call) ;    
             }
             
-            inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }
-            inline const_iterator end() const { return const_iterator( *this, size() ) ; }
+            inline const_iterator begin() const { return const_iterator( call, 0 ) ; }
+            inline const_iterator end() const { return const_iterator( call, size() ) ; }
             
         private:
             R_xlen_t n ;
