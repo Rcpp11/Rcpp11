@@ -213,7 +213,7 @@ namespace Rcpp{
         
         
         /**
-         * Range wrap dispatch for iterators over std::pair<const int, T>
+         * Range wrap dispatch for iterators over std::pair<const KEY, VALUE>
          */
         template<typename InputIterator, typename T>
         inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pair_tag ){
