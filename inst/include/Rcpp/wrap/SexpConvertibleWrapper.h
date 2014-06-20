@@ -5,7 +5,7 @@ namespace Rcpp{
 
     template <typename T> struct SexpConvertibleWrapper{
         static inline SEXP wrap(const T& object) { 
-            return (SEXP)object ;    
+            return object ;    
         }
     } ;
     
