@@ -6,21 +6,6 @@
 #include <Rcpp/sugar/iterators/indexing_iterator.h>
 #include <Rcpp/sugar/iterators/each_iterator.h>
 #include <Rcpp/sugar/iterators/replicate_iterator.h>
-
-namespace Rcpp{
-    namespace sugar {
-        
-        template <typename eT, typename Expr>
-        inline typename Expr::const_iterator sugar_begin(const SugarVectorExpression<eT,Expr>& obj) {
-            return obj.get_ref().begin() ;
-        }
-        
-        template <typename eT, typename Expr>
-        inline typename Expr::const_iterator sugar_end(const SugarVectorExpression<eT,Expr>& obj) {
-            return obj.get_ref().end() ; ;
-        }
-
-    }
-}
+#include <Rcpp/sugar/iterators/sugar_begin.h>
 
 #endif
