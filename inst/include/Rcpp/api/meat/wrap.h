@@ -3,11 +3,6 @@
 
 namespace Rcpp{
     
-    template <typename T> 
-    inline SEXP wrap(const T& object){
-        return traits::wrap_type<T>::type::wrap(object) ; 
-    }
-
     namespace internal{
         
         template <typename InputIterator, typename KEY, typename VALUE, int RTYPE>
@@ -54,7 +49,11 @@ namespace Rcpp{
         return internal::range_wrap( object.begin(), object.end() ) ;    
     }
     
-    
+    template <typename T> 
+    inline SEXP wrap(const T& object){
+        return traits::wrap_type<T>::type::wrap(object) ; 
+    }
+
 } // namespace Rcpp
 
 #endif
