@@ -19,7 +19,6 @@ namespace Rcpp{
     {
     public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;
-        typedef typename std::conditional<RTYPE==LGLSXP,bool,value_type>::type init_type ;
         typedef value_type&        reference       ;
         typedef const value_type&  const_reference ;
         typedef reference          Proxy           ;
@@ -30,17 +29,17 @@ namespace Rcpp{
         #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
 
     public:
-        Vector( R_xlen_t n, init_type x ) {
+        Vector( R_xlen_t n, value_type x ) {
             reset(n);
             std::fill( begin(), end(), x) ;
         }
 
-        Vector( std::initializer_list<init_type> list ){
+        Vector( std::initializer_list<value_type> list ){
             reset(list.size());
             std::copy( list.begin(), list.end(), begin() ) ;
         }
 
-        Vector( std::initializer_list<traits::named_object<init_type>> list ){
+        Vector( std::initializer_list<traits::named_object<value_type>> list ){
             int n = list.size() ;
             reset(n);
             auto input_it = list.begin() ;

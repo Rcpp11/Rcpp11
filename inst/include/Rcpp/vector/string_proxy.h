@@ -32,8 +32,6 @@ namespace internal{
             return *this ;
         }
     
-        string_proxy& operator=( const String& s) ;
-    
         /**
          * lhs use. Assigns the value of the referred element
          * of the character vector
@@ -41,18 +39,8 @@ namespace internal{
          * @param rhs new content for the element referred by this proxy
          */
         template <typename T>
-        string_proxy& operator=(const std::basic_string<T>& rhs){
-            set( rhs ) ;
-            return *this ;
-        }
-    
-        string_proxy& operator=(const char* rhs){
-            set( Rf_mkChar( rhs ) ) ;
-            return *this ;
-        }
-    
-        string_proxy& operator=(const wchar_t* rhs){
-            set( internal::make_charsexp( rhs ) ) ;
+        string_proxy& operator=(const T& rhs) {
+            set(rhs) ;
             return *this ;
         }
     
@@ -103,9 +91,8 @@ namespace internal{
             return STRING_ELT( parent, index ) ;
         }
         template <typename T>
-        inline void set( const T& x ){
-            set( internal::make_charsexp(x) ) ;
-        }
+        inline void set( const T& x ); 
+        
         inline void set(SEXP x){
             SET_STRING_ELT( parent, index, x ) ;
         }

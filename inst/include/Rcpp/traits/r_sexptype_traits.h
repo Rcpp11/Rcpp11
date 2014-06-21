@@ -15,7 +15,11 @@ template<> struct r_sexptype_traits<double>{ enum{ rtype = REALSXP } ; } ;
 template<> struct r_sexptype_traits<const double>{ enum{ rtype = REALSXP } ; } ;
 template<> struct r_sexptype_traits<bool>{ enum{ rtype = LGLSXP } ; } ;
 template<> struct r_sexptype_traits<Rboolean>{ enum{ rtype = LGLSXP } ; } ;
-template<> struct r_sexptype_traits<std::string>{ enum{ rtype = STRSXP } ; } ;
+
+template<typename Char> 
+struct r_sexptype_traits< std::basic_string<Char> >{ 
+    enum{ rtype = STRSXP } ; 
+} ;
 template<> struct r_sexptype_traits<Rcomplex>{ enum{ rtype = CPLXSXP } ; } ;
 template<> struct r_sexptype_traits<Rbyte>{ enum{ rtype = RAWSXP } ; } ;
 

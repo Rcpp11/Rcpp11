@@ -349,11 +349,11 @@ namespace Rcpp {
     namespace internal {
 
         template <typename Vec>
-        string_proxy<Vec>& string_proxy<Vec>::operator=( const String& s){
-            set( s.get_sexp() );
-            return *this ;
+        template <typename T>
+        inline void string_proxy<Vec>::set( const T& x ) {
+            set( String(x).get_sexp() ) ;
         }
-
+        
         template <typename T>
         inline SEXP string_element_converter::get__impl( const T& input, std::true_type){
             return String(input.object).get_sexp() ;
@@ -364,11 +364,6 @@ namespace Rcpp {
             return String(input).get_sexp() ;
         }
     
-        template <>
-        inline SEXP make_charsexp<Rcpp::String>( const Rcpp::String& s){
-            return s.get_sexp() ;
-        }
-
         template <typename Vec>
         template <typename T>
         string_proxy<Vec>& string_proxy<Vec>::operator+=(const T& rhs) {

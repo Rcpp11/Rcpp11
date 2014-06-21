@@ -150,18 +150,7 @@ namespace Rcpp{
          * of the pair
          */
         template<typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_string_tag ){
-            size_t size = std::distance( first, last ) ;
-            Shield<SEXP> x = Rf_allocVector( STRSXP, size ) ;
-            Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
-            for( size_t i = 0; i < size ; i++, ++first){
-                SET_STRING_ELT( x, i, make_charsexp( first->second ) ) ;
-                SET_STRING_ELT( names, i, make_charsexp( first->first) ) ;
-            }
-            ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
-            return x ;
-        
-        }
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_string_tag ) ;
         
         /**
          * iterating over pair<const int, VALUE>

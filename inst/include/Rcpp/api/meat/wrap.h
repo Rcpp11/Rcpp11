@@ -53,7 +53,21 @@ namespace Rcpp{
         inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
             return CharacterVector(import(first,last)) ;
         }
+              
+        template<typename InputIterator, typename T>
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pairstring_string_tag ){
+            size_t size = std::distance( first, last ) ;
+            Shield<SEXP> x = Rf_allocVector( STRSXP, size ) ;
+            Shield<SEXP> names = Rf_allocVector( STRSXP, size ) ;
+            for( size_t i = 0; i < size ; i++, ++first){
+                SET_STRING_ELT( x, i, String( first->second ).get_sexp() ) ;
+                SET_STRING_ELT( names, i, String( first->first).get_sexp() ) ;
+            }
+            ::Rf_setAttrib( x, R_NamesSymbol, names ) ;
+            return x ;
         
+        }
+       
     } // namespace internal
 
     
@@ -65,6 +79,13 @@ namespace Rcpp{
     template <typename T> 
     inline SEXP MatrixWrapper<T>::wrap(const T& object) {
         return Matrix< traits::r_sexptype_traits<typename T::value_type>::rtype  >( object ) ;    
+    }
+    
+    template <typename T> 
+    inline SEXP PrimitiveWrapper<T>::wrap(const T& object) { 
+        return Vector< traits::r_sexptype_traits<T>::rtype >{ 
+            traits::r_vector_element_converter< traits::r_sexptype_traits<T>::rtype>::type::get(object)       
+        } ;
     }
     
     template <typename T> 
