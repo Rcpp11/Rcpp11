@@ -3,27 +3,18 @@
 
 namespace Rcpp{
     
-    namespace internal{
-        
-        template <typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_primitive_tag){
-            return materialize(import(first, last)) ;
+    template <typename Iterator, typename value_type> 
+    struct RangeWrapper {
+        static inline SEXP wrap(Iterator first, Iterator last) {
+            return materialize(import(first, last)) ;    
         }
-
-        template <typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_generic_tag ){
-            return List(import(first, last));
-        }
-        
-        template<typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
-            return CharacterVector(import(first,last)) ;
-        }
-              
-        template<typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_pair_tag ){
+    } ;
+    
+    template <typename Iterator, typename KEY, typename VALUE>
+    struct RangeWrapper<Iterator, std::pair<const KEY, VALUE> >{
+        static inline SEXP wrap(Iterator first, Iterator last) {
             R_xlen_t n = std::distance( first, last ) ;
-            const static int RTYPE = traits::r_sexptype_traits<typename T::second_type>::rtype ; 
+            const static int RTYPE = traits::r_sexptype_traits<VALUE>::rtype ; 
             typedef Vector<RTYPE> Vec ;
             typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
             
@@ -36,15 +27,20 @@ namespace Rcpp{
                 *vec_it   = converter::get(first->second) ;
             }
             vec.names() = names ;
-            return vec ;
-        }
-       
-    } // namespace internal
+            return vec ;       
+        }    
+    } ;
+    
+    template <typename InputIterator>
+    inline SEXP wrap_range(InputIterator first, InputIterator last){
+        typedef RangeWrapper<InputIterator, typename std::iterator_traits<InputIterator>::value_type > Wrapper ;
+        return Wrapper::wrap(first, last ) ;
+    }
 
     
     template <typename T> 
     inline SEXP ContainerWrapper<T>::wrap(const T& object) {
-        return internal::range_wrap( object.begin(), object.end() ) ;    
+        return wrap_range( object.begin(), object.end() ) ;    
     }
     
     template <typename T> 

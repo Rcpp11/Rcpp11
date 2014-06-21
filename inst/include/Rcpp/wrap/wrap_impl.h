@@ -5,7 +5,7 @@ namespace Rcpp{
 
     template <typename T>
     inline SEXP wrap( std::initializer_list<T> init ){ 
-        return internal::range_wrap( init.begin(), init.end() ) ; 
+        return wrap_range( init.begin(), init.end() ) ; 
     } 
     
     // this also handles char[] 
@@ -13,15 +13,6 @@ namespace Rcpp{
         return (v == nullptr) ? R_NilValue : Rf_mkString(v) ;
     }
     
-    /**
-     * Range based version of wrap
-     */
-    template <typename InputIterator>
-    inline SEXP wrap(InputIterator first, InputIterator last){ 
-        return internal::range_wrap( first, last ) ;
-    }
-
-
 } // Rcpp
 
 #endif

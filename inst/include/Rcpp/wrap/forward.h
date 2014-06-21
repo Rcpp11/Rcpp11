@@ -3,7 +3,11 @@
  
 namespace Rcpp{
 
-    template <typename T> SEXP wrap( const T& object ) ;
+    template <typename InputIterator>
+    inline SEXP wrap_range(InputIterator first, InputIterator last) ;
+        
+    template <typename T> 
+    inline SEXP wrap( const T& object ) ;
 
 }
 #endif
