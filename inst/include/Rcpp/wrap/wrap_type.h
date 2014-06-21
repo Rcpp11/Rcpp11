@@ -16,7 +16,7 @@ namespace Rcpp{
             is_lazy_vector<T>::type::value 
         >{} ;
         
-        template <typename T, typename = std::enable_if<is_wrappable<T>::value> >
+        template <typename T>
         struct wrap_type {
             const static bool has_explicit_wrapper = !std::is_base_of< DisabledWrapper, Wrapper<T> >::value ;
             const static bool has_matrix_interface = Rcpp::traits::is_matrix_expression<T>::type::value ;
@@ -51,7 +51,11 @@ namespace Rcpp{
                                     typename std::conditional<
                                         has_matrix_interface,
                                         typename Rcpp::MatrixWrapper<T>,
-                                        typename Rcpp::ContainerWrapper<T>
+                                        typename std::conditional<
+                                            has_iterator,
+                                            typename Rcpp::ContainerWrapper<T>,
+                                            DisabledWrapper
+                                        >::type    
                                     >::type
                                 >::type
                             >::type

@@ -57,6 +57,7 @@ namespace Rcpp{
     
     template <typename T> 
     inline SEXP wrap(const T& object){
+        static_assert( traits::is_wrappable<T>::value, "unwrappable type" ) ;
         return traits::wrap_type<T>::type::wrap(object) ; 
     }
 
