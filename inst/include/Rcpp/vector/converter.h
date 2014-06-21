@@ -4,7 +4,6 @@
 namespace Rcpp{
 namespace internal {
     
-    
     template <typename T>
     const char* get_object_name__impl( const T& object, std::true_type ){
         return CHAR(PRINTNAME(object.name)) ;    
@@ -50,24 +49,22 @@ namespace internal {
     
     } ;
 
-    template <int RTYPE>
     class string_element_converter {
     public:
-        typedef SEXP target ;
-    
-        template <typename T>
-        static target get__impl( const T& input, std::true_type) ;
-    
-        template <typename T>
-        static target get__impl( const T& input, std::false_type) ;
         
         template <typename T>
-        static SEXP get( const T& input){
+        static inline SEXP get__impl( const T& input, std::true_type) ;
+    
+        template <typename T>
+        static inline SEXP get__impl( const T& input, std::false_type) ;
+        
+        template <typename T>
+        static inline SEXP get( const T& input){
             return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
         }
     
         // assuming a CHARSXP
-        static SEXP get(SEXP x){ 
+        static inline SEXP get(SEXP x){ 
             return x;
         }
     
@@ -113,7 +110,7 @@ namespace traits{
         typedef typename ::Rcpp::internal::element_converter<RTYPE> type ;
     } ;
     template<> struct r_vector_element_converter<STRSXP>{
-        typedef ::Rcpp::internal::string_element_converter<STRSXP> type ;
+        typedef ::Rcpp::internal::string_element_converter type ;
     } ;
     template<> struct r_vector_element_converter<VECSXP>{
         typedef ::Rcpp::internal::generic_element_converter<VECSXP> type ;
