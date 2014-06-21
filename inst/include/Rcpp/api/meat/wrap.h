@@ -48,6 +48,12 @@ namespace Rcpp{
         inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_generic_tag ){
             return List(import(first, last));
         }
+        
+        template<typename InputIterator, typename T>
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
+            return CharacterVector(import(first,last)) ;
+        }
+        
     } // namespace internal
 
     

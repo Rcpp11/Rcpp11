@@ -355,10 +355,23 @@ namespace Rcpp {
         }
 
         template <int RTYPE>
-        SEXP string_element_converter<RTYPE>::get( const Rcpp::String& input) {
-            RCPP_DEBUG( "string_element_converter::get< Rcpp::String >()" )
-            return input.get_sexp() ;
+        template <typename T>
+        SEXP string_element_converter<RTYPE>::get__impl( const T& input, std::true_type){
+            return String(input.object).get_sexp() ;
         }
+        
+        template <int RTYPE>
+        template <typename T>
+        SEXP string_element_converter<RTYPE>::get__impl( const T& input, std::false_type){
+            return String(input).get_sexp() ;
+        }
+    
+        template <typename T>
+        SEXP get__impl( const T& input, std::false_type){
+            std::string out(input) ;
+            return Rf_mkChar( out.c_str() ) ;
+        }
+    
 
         template <>
         inline SEXP make_charsexp<Rcpp::String>( const Rcpp::String& s){

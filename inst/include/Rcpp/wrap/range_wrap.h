@@ -34,17 +34,7 @@ namespace Rcpp{
          * This produces an unnamed character vector
          */
         template<typename InputIterator, typename T>
-        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ){
-            size_t size = std::distance( first, last ) ;
-            Shield<SEXP> x = Rf_allocVector( STRSXP, (int)size ) ;
-            size_t i = 0 ;
-            while( i < size ){
-                SET_STRING_ELT( x, i, make_charsexp(*first) ) ;
-                i++ ;
-                ++first ;
-            }
-            return x ;
-        }
+        inline SEXP range_wrap_dispatch___impl( InputIterator first, InputIterator last, ::Rcpp::traits::r_type_string_tag ) ;
         
         /**
          * range based wrap implementation that deals with iterators over

@@ -56,48 +56,19 @@ namespace internal {
         typedef SEXP target ;
     
         template <typename T>
-        static target get__impl( const T& input, std::true_type){
-            std::string out(input.object) ;
-            RCPP_DEBUG( "string_element_converter::get__impl< T = %s >(., true)", DEMANGLE(T) )
-            return Rf_mkChar( out.c_str() ) ;
-        }
+        static target get__impl( const T& input, std::true_type) ;
     
         template <typename T>
-        static target get__impl( const T& input, std::false_type){
-            std::string out(input) ;
-            RCPP_DEBUG( "string_element_converter::get__impl< T = %s >(., false)", DEMANGLE(T) )
-            return Rf_mkChar( out.c_str() ) ;
-        }
-    
+        static target get__impl( const T& input, std::false_type) ;
+        
         template <typename T>
         static SEXP get( const T& input){
             return get__impl( input, typename Rcpp::traits::is_named<T>::type() ) ;
         }
     
-        static SEXP get(const std::string& input){
-            RCPP_DEBUG( "string_element_converter::get< std::string >()" )
-            return Rf_mkChar( input.c_str() ) ;
-        }
-    
-        static SEXP get(const char* input){
-            return Rf_mkChar( input );
-        }
-    
-        static SEXP get( const Rcpp::String& input) ;
-    
-        static SEXP get(const char& input){
-            RCPP_DEBUG( "string_element_converter::get< char >()" )
-            return Rf_mkChar( &input ) ;
-        }
-    
         // assuming a CHARSXP
         static SEXP get(SEXP x){ 
-            RCPP_DEBUG( "string_element_converter::get< SEXP >()" )
             return x;
-        }
-    
-        static target get( const Na_Proxy& /* input */ ){
-            return NA_STRING ;
         }
     
     } ;
