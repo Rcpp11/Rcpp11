@@ -6,7 +6,7 @@ namespace Rcpp{
          
         template <typename T>
         struct is_wrappable : public std::integral_constant<bool, 
-            std::is_default_constructible<Wrapper<T>>::value ||
+            !std::is_base_of< DisabledWrapper, Wrapper<T> >::value ||
             Rcpp::traits::is_matrix_expression<T>::type::value ||
             Rcpp::traits::has_iterator<T>::value ||
             std::is_same< typename Rcpp::traits::wrap_type_traits<T>::wrap_category , Rcpp::traits::wrap_type_primitive_tag>::value ||
@@ -16,9 +16,9 @@ namespace Rcpp{
             is_lazy_vector<T>::type::value 
         >{} ;
         
-        template <typename T, typename = typename std::enable_if< is_wrappable<T>::value > >
+        template <typename T, typename = std::enable_if<is_wrappable<T>::value> >
         struct wrap_type {
-            const static bool has_explicit_wrapper = std::is_default_constructible<Wrapper<T>>::value ;
+            const static bool has_explicit_wrapper = !std::is_base_of< DisabledWrapper, Wrapper<T> >::value ;
             const static bool has_matrix_interface = Rcpp::traits::is_matrix_expression<T>::type::value ;
             const static bool has_iterator = Rcpp::traits::has_iterator<T>::value ;
             const static bool is_enum      = std::is_enum<T>::value  ;

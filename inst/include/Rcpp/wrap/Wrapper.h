@@ -3,7 +3,8 @@
  
 namespace Rcpp{
 
-    template <typename T> struct Wrapper ;
+    struct DisabledWrapper{};
+    template <typename T> struct Wrapper : DisabledWrapper{} ;
     
 }
 
