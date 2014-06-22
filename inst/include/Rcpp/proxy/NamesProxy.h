@@ -20,6 +20,8 @@ namespace Rcpp{
             return *this ;  
         }
 
+        NamesProxy& operator=( std::initializer_list<const char*> ) ;
+        
         template <typename T> operator T() const {
             return as<T>( get() ) ;  
         }
