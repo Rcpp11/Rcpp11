@@ -17,7 +17,7 @@ namespace Rcpp{
         template <typename T>
         Node push_back( const T& object) {
             CLASS& ref = get_ref() ;
-            if( ref.isNULL() ){
+            if( is_null(ref) ){
                 ref = grow( object, ref ) ;
                 return Node( ref );
             } else {                                       
@@ -38,7 +38,7 @@ namespace Rcpp{
             if( index == 0 ) {
                 return push_front( object ) ;
             } else {
-                if( ref.isNULL() || index > Rf_xlength(ref) ) stop("index out of bounds") ;
+                if( is_null(ref) || index > Rf_xlength(ref) ) stop("index out of bounds") ;
                 
                 size_t i=1;
                 SEXP x = ref ;

@@ -178,7 +178,7 @@ namespace Rcpp{
             bool strings_as_factors = true ;
             int n = obj.size() ;
             CharacterVector names = obj.attr( "names" ) ;
-            if( !names.isNULL() ){
+            if( !is_null(names) ){
                 std::string name ;
                 for( R_xlen_t i=0; i<n; i++){
                     if( names[i] == "stringsAsFactors" ){

@@ -10,7 +10,6 @@ namespace Rcpp{
             return ::Rf_inherits( ref(), clazz) ;
         }
                                                    
-        inline bool isNULL() const{ return Rf_isNull(ref()) ; }
         inline bool isObject() const { return ::Rf_isObject(ref()) ;}
         
     private:
