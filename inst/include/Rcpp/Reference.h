@@ -4,9 +4,7 @@
 namespace Rcpp{ 
 
     template <typename Storage>
-    class Reference_Impl:
-        public FieldProxyPolicy<Reference_Impl<Storage>>
-    {
+    class Reference_Impl {
         RCPP_API_IMPL(Reference_Impl)    
     
         inline void set(SEXP x){
@@ -35,6 +33,14 @@ namespace Rcpp{
 
         bool is( const std::string& clazz) {
             return derives_from( Rf_getAttrib(data, R_ClassSymbol), clazz );
+        }
+        
+        inline FieldProxy<Reference_Impl> operator[](const std::string& s){
+            return field(*this,s) ;    
+        }
+        
+        inline const FieldProxy<Reference_Impl> operator[](const std::string& s) const{
+            return field(*this,s) ;    
         }
         
     private:

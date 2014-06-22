@@ -3,11 +3,8 @@
 
 namespace Rcpp{
     
-template <typename CLASS>
-class FieldProxyPolicy {
-public:
-    
-    class FieldProxy : GenericProxy<FieldProxy> {
+    template <typename CLASS>
+    class FieldProxy : GenericProxy<FieldProxy<CLASS>> {
     public:
         FieldProxy( CLASS& v, const std::string& name) : 
             parent(v), field_name( Rf_mkChar(name.c_str())) {}
@@ -55,14 +52,15 @@ public:
         }
     } ;
     
-    FieldProxy field(const std::string& name) {
-        return FieldProxy( static_cast<CLASS&>(*this) , name ) ;  
-    }
-    const FieldProxy field(const std::string& name) const {
-        return FieldProxy( const_cast<CLASS&>(static_cast<const CLASS&>(*this)) , name ) ;
+    template <typename CLASS>
+    FieldProxy<CLASS> field(CLASS& obj, const std::string& name) {
+        return FieldProxy<CLASS>( obj , name ) ;  
     }
     
-} ;
+    template <typename CLASS>
+    const FieldProxy<CLASS> field(const CLASS& obj, const std::string& name) {
+        return FieldProxy<CLASS>( const_cast<CLASS&>(obj), name ) ;
+    }
 
 }
 #endif
