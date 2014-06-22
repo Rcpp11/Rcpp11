@@ -18,14 +18,14 @@ namespace Rcpp{
             inline IntegerVector get() const { 
                 R_xlen_t n = map.size() ;
                 IntegerVector result(n) ;
-                CharacterVector names(n) ;
+                CharacterVector names_(n) ;
                 R_xlen_t index=0 ;
-                std::for_each( map.begin(), map.end(), [&]( const std::pair<eT,int>& p){
+                for( const auto& p : map ){
                     result[index] = p.second ;
-                    names[index] = p.first ;
+                    names_[index] = p.first ;
                     index++ ;
-                }) ;
-                result.names() = names ;
+                }
+                names(result) = names_ ;
                 return result ;
             }
             

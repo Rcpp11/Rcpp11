@@ -68,28 +68,28 @@ namespace Rcpp{
             template <typename Target>
             inline void apply( Target& target ) const {
                 auto it = target.begin() ;
-                Shield<SEXP> names = Rf_allocVector( STRSXP, sizeof...(Args) ) ;
-                set_value<0, typename Target::iterator, Target >( names, it, std::true_type() ) ;    
-                target.names() = names ;
+                Shield<SEXP> names_ = Rf_allocVector( STRSXP, sizeof...(Args) ) ;
+                set_value<0, typename Target::iterator, Target >( names_, it, std::true_type() ) ;    
+                names(target) = names_ ;
             }
             
         private:
             
             template <int INDEX, typename Iterator, typename Target>
-            inline void set_value( Shield<SEXP>& names, Iterator& it, std::true_type ) const {
+            inline void set_value( Shield<SEXP>& names_, Iterator& it, std::true_type ) const {
                 typedef typename traits::r_vector_element_converter<Target::r_type::value>::type converter_type ;
         
                 auto val = std::get<INDEX>(data) ;
                 *it = converter_type::get(val) ; ++it ;
-                SET_STRING_ELT(names, INDEX, Rf_mkChar( internal::get_object_name(val) ) );
+                SET_STRING_ELT(names_, INDEX, Rf_mkChar( internal::get_object_name(val) ) );
                 
-                set_value<INDEX+1,Iterator, Target>( names, it, 
+                set_value<INDEX+1,Iterator, Target>( names_, it, 
                     typename std::integral_constant<bool, (INDEX+1 < sizeof...(Args)) >::type() 
                     ) ;
             }
             
             template <int INDEX, typename Iterator, typename Target>
-            inline void set_value( Shield<SEXP>& names, Iterator& it, std::false_type ) const {}
+            inline void set_value( Shield<SEXP>& names_, Iterator& it, std::false_type ) const {}
             
             std::tuple<Args...> data ;
             
@@ -99,7 +99,7 @@ namespace Rcpp{
     class CreateWithNames<-1,Args...> : public LazyVector<-1, CreateWithNames<-1,Args...>>{
     public:
         CreateWithNames( Args... args ) : 
-            names({ CHAR(PRINTNAME(args.name)) ... }) {}
+            names_({ CHAR(PRINTNAME(args.name)) ... }) {}
                                                                
         inline R_xlen_t size() const {
             return sizeof...(Args) ;    
@@ -108,12 +108,12 @@ namespace Rcpp{
         template <typename Target>
         inline void apply( Target& target ) const {
             std::fill( target.begin(), target.end(), NA ) ;
-            target.names() = names ;
+            names(target) = names_ ;
         }
         
     private:
         
-        CharacterVector names ;    
+        CharacterVector names_ ;    
     } ;
     
        

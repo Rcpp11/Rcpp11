@@ -3,11 +3,8 @@
 
 namespace Rcpp{
     
-template <typename CLASS>
-class NamesProxyPolicy{
-public:
-    
-    class NamesProxy : public GenericProxy<NamesProxy> {
+    template <typename CLASS>
+    class NamesProxy : public GenericProxy<NamesProxy<CLASS>> {
     public:
         NamesProxy( CLASS& v) : parent(v){} ;
 
@@ -49,16 +46,15 @@ public:
         
     } ;
 
-    NamesProxy names() {
-        return NamesProxy( static_cast<CLASS&>(*this) ) ;
+    template <typename CLASS>
+    NamesProxy<CLASS> names(CLASS& obj) {
+        return NamesProxy<CLASS>(obj) ;
     }
     
-    const NamesProxy names() const {
-        return NamesProxy(const_cast<CLASS&>(static_cast<const CLASS&>(*this)) ) ;
+    template <typename CLASS>
+    const NamesProxy<CLASS> names(const CLASS& obj) {
+        return NamesProxy<CLASS>(const_cast<CLASS&>(obj) ) ;
     }
-    
-    
-} ;
 
 }
 

@@ -26,13 +26,13 @@ namespace Rcpp {
         operator SEXP() const {
             size_t n = data.size() ;
             NumericVector res(n) ;
-            CharacterVector names(n) ;
+            CharacterVector names_(n) ;
             auto it = data.begin() ;
             for( size_t i=0; i<n; i++, ++it){ 
                 res[i] = std::chrono::duration_cast<microseconds>( it->second - origin ).count() ;
-                names[i] = it->first ;
+                names_[i] = it->first ;
             }
-            res.names() = names ;
+            names(res) = names_ ;
             return res ;
         }
         

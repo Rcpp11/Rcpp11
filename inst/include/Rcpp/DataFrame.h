@@ -72,9 +72,7 @@ namespace Rcpp{
     }
     
     template <typename Storage>
-    class DataFrame_Impl : 
-        public NamesProxyPolicy<DataFrame_Impl<Storage>>
-        {
+    class DataFrame_Impl {
         public:
             friend class internal::DataFrameProxy<DataFrame_Impl> ;
             
@@ -175,23 +173,23 @@ namespace Rcpp{
             
             bool strings_as_factors = true ;
             int n = obj.size() ;
-            CharacterVector names = attr(obj, "names" ) ;
-            if( !is_null(names) ){
+            CharacterVector obj_names = attr(obj, "names" ) ;
+            if( !is_null(obj_names) ){
                 std::string name ;
                 for( R_xlen_t i=0; i<n; i++){
-                    if( names[i] == "stringsAsFactors" ){
+                    if( obj_names[i] == "stringsAsFactors" ){
                         if( !as<bool>(obj[i]) ) strings_as_factors = false ;
                         break ;         
                     } else {
                         columns.push_back( obj[i] ) ;
-                        name = names[i] ;
+                        name = obj_names[i] ;
                         out_names.push_back( name ) ;
                     }
                 }
             }
             
             obj = wrap(columns) ;
-            obj.names() = wrap(out_names) ;
+            names(obj) = out_names ;
             
             SEXP as_df_symb = Rf_install("as.data.frame");
             SEXP strings_as_factors_symb = Rf_install("stringsAsFactors");

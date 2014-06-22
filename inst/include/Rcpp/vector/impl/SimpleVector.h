@@ -10,7 +10,6 @@ namespace Rcpp{
     class Vector :
         public VectorOfRTYPE<RTYPE>,
         public SugarVectorExpression<typename traits::storage_type<RTYPE>::type, VEC>,
-        public NamesProxyPolicy<VEC>,
         public NameProxyPolicy<VEC>
     {
     public:
@@ -46,7 +45,7 @@ namespace Rcpp{
                 *it = input_it->object ;
             }
             UNPROTECT(1) ;
-            NamesProxyPolicy<Vector>::names() = nams ;
+            names(*this) = nams ;
         }
 
 

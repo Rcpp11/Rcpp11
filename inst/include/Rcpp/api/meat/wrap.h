@@ -19,14 +19,14 @@ namespace Rcpp{
             typedef typename traits::r_vector_element_converter<RTYPE>::type converter ;
             
             Vec vec(n);
-            CharacterVector names(n) ;
+            CharacterVector names_(n) ;
             auto vec_it = vec.begin() ;
-            auto names_it = names.begin() ;
+            auto names_it = names_.begin() ;
             for( R_xlen_t i = 0; i<n; i++, ++vec_it, ++names_it, ++first){
                 *names_it = first->first ;
                 *vec_it   = converter::get(first->second) ;
             }
-            vec.names() = names ;
+            names(vec) = names_ ;
             return vec ;       
         }    
     } ;

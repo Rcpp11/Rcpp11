@@ -13,8 +13,7 @@ namespace Rcpp{
             
             template <typename T>
             inline operator T() const {
-                auto res = parent[ parent.offset(name) ] ;
-                return res ;
+                return parent[ parent.offset(name) ] ;
             }
             
             template <typename T>
@@ -30,15 +29,15 @@ namespace Rcpp{
                     std::copy( parent.begin(), parent.end(), v.begin() );
                     v[n] = rhs ;
                     
-                    Shield<SEXP> names = Rf_allocVector(STRSXP, n+1) ;
-                    SEXP parent_names = parent.names() ;
+                    Shield<SEXP> names_ = Rf_allocVector(STRSXP, n+1) ;
+                    SEXP parent_names = names(parent) ;
                     if( parent_names != R_NilValue ){
                         for( R_xlen_t i=0; i<n; i++){
-                            SET_STRING_ELT( names, i, STRING_ELT( parent_names, i ) ); 
+                            SET_STRING_ELT( names_, i, STRING_ELT( parent_names, i ) ); 
                         }
                     }
-                    SET_STRING_ELT( names, n, Rf_mkChar(name.c_str()) );
-                    v.names() = names ;
+                    SET_STRING_ELT( names_, n, Rf_mkChar(name.c_str()) );
+                    names(v) = names_ ;
                     parent = std::move( v ) ;
                 }
                 return parent ;
