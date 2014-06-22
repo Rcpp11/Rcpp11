@@ -1,7 +1,6 @@
 #ifndef Rcpp_proxy_proxy_h
 #define Rcpp_proxy_proxy_h
 
-#include <Rcpp/proxy/NodeProxy.h>
 #include <Rcpp/proxy/TagProxy.h>
 #include <Rcpp/proxy/ProtectedProxy.h>
 #include <Rcpp/proxy/NameProxyPolicy.h>
