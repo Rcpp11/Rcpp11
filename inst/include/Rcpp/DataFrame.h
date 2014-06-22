@@ -60,7 +60,7 @@ namespace Rcpp{
                 } else {
                     List v = (SEXP)parent ;
                     v[index] = x ;
-                    parent = Data::from_list(v) ;
+                    parent = Data( (SEXP)v ) ;
                 }
             } 
             inline SEXP get() const { 
@@ -85,7 +85,7 @@ namespace Rcpp{
             if( inherits( x, "data.frame" )){
                 data = x ;
             } else{
-                data = internal::convert_using_rfunction( x, "as.data.frame" ) ;
+                data = as_data_frame(x) ;
             }          
         }
         
@@ -106,7 +106,8 @@ namespace Rcpp{
         
         template <typename... Args>
         static DataFrame_Impl create( Args&&... args){
-            return from_list( List::create( std::forward<Args>(args)... ) ) ;
+            List l = list( std::forward<Args>(args)... ) ;
+            return DataFrame_Impl( (SEXP)l ) ;
         }
           
         #define Vector DataFrame
@@ -145,7 +146,7 @@ namespace Rcpp{
                 } catch( ... ){
                     List v(parent) ;
                     v[name] = rhs ;
-                    parent = DataFrame::from_list( v ) ;
+                    parent = DataFrame( (SEXP)v ) ;
                 }
                 return parent ;
             }
@@ -163,40 +164,11 @@ namespace Rcpp{
             return NameProxy( const_cast<DataFrame&>(*this), name ) ;
         }
         
-        
-        
     private:
         
-        static DataFrame_Impl from_list( Rcpp::List obj ) {
-            std::vector<SEXP> columns ;
-            std::vector<std::string> out_names ;
-            
-            bool strings_as_factors = true ;
-            int n = obj.size() ;
-            CharacterVector obj_names = attr(obj, "names" ) ;
-            if( !is_null(obj_names) ){
-                std::string name ;
-                for( R_xlen_t i=0; i<n; i++){
-                    if( obj_names[i] == "stringsAsFactors" ){
-                        if( !as<bool>(obj[i]) ) strings_as_factors = false ;
-                        break ;         
-                    } else {
-                        columns.push_back( obj[i] ) ;
-                        name = obj_names[i] ;
-                        out_names.push_back( name ) ;
-                    }
-                }
-            }
-            
-            obj = wrap(columns) ;
-            names(obj) = out_names ;
-            
-            SEXP as_df_symb = Rf_install("as.data.frame");
-            SEXP strings_as_factors_symb = Rf_install("stringsAsFactors");
-            
-            Shield<SEXP> call  = Rf_lang3(as_df_symb, obj, wrap( strings_as_factors ) ) ;
-            SET_TAG( CDDR(call),  strings_as_factors_symb ) ;   
-            return Rcpp_eval( call ) ; 
+        inline SEXP as_data_frame(SEXP df){
+            Function asdf( "as.data.frame" ) ;
+            return asdf(df, _["stringsAsFactors"] = false );
         }
         
         inline SEXP empty_data_frame(){
