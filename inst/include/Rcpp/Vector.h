@@ -14,6 +14,7 @@
 
 #include <Rcpp/vector/VectorOfRTYPE.h>
 #include <Rcpp/vector/impl/SimpleVector.h>
+#include <Rcpp/vector/impl/LogicalVector.h>
 #include <Rcpp/vector/impl/CharacterVector.h>
 #include <Rcpp/vector/impl/List.h>
 #include <Rcpp/vector/impl/ExpressionVector.h>
