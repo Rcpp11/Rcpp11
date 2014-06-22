@@ -181,6 +181,13 @@ namespace Rcpp{
         
     } ;
         
+    
+    template <typename... Args>
+    DataFrame data_frame( Args&&... args){
+        return DataFrame::create( std::forward<Args>(args)... ) ;    
+    }
+    
+    
 }
 
 #endif

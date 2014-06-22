@@ -136,8 +136,7 @@ namespace Rcpp{
     typedef Function_Impl<PreserveStorage> Function ;
     typedef DataFrame_Impl<PreserveStorage> DataFrame ;
     typedef Symbol_Impl<NoProtectStorage> Symbol ;
-    typedef DataFrame_Impl<PreserveStorage> DataFrame ;
-
+    
 }
 namespace Rcpp{
     class Na_Proxy ;
