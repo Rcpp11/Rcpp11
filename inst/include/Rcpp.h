@@ -186,7 +186,7 @@ namespace Rcpp{
 #include <Rcpp/r_cast.h>
 
 #include <Rcpp/internal/r_coerce.h>
-#include <Rcpp/as.h>
+#include <Rcpp/as/forward.h>
 #include <Rcpp/InputParameter.h>
 #include <Rcpp/is.h>
 
