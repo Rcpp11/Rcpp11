@@ -10,10 +10,7 @@ namespace Rcpp{
     class Vector<EXPRSXP,Storage> :
         public VectorOfRTYPE<EXPRSXP>,
         public SugarVectorExpression<SEXP, VEC>,
-        public SlotProxyPolicy<VEC>,
-        public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
-        public AttributesProxyPolicy<VEC>, 
         public NameProxyPolicy<VEC>
     {
     public:

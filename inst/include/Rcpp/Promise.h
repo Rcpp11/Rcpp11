@@ -3,7 +3,8 @@
 
 namespace Rcpp{ 
     
-    RCPP_API_CLASS(Promise_Impl) {     
+    template <typename Storage>
+    class Promise_Impl {    
     public:
         RCPP_API_IMPL(Promise_Impl) 
         

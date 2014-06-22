@@ -3,7 +3,8 @@
 
 namespace Rcpp{ 
 
-    RCPP_API_CLASS(Function_Impl){
+    template <typename Storage>
+    class Function_Impl{
         RCPP_API_IMPL(Function_Impl)
         
         inline void set(SEXP x){

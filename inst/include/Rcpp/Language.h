@@ -8,7 +8,8 @@ namespace Rcpp{
      *
      * This represents calls that can be evaluated
      */
-    RCPP_API_CLASS(Language_Impl), 
+    template <typename Storage>
+    class Language_Impl: 
         public DottedPairProxyPolicy<Language_Impl<Storage>>, 
         public DottedPairImpl<Language_Impl<Storage>>
     {

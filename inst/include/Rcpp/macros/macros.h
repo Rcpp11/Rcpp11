@@ -43,7 +43,6 @@
 #include <Rcpp/macros/debug.h>
 #include <Rcpp/macros/RCPP_CHECK_BOUNDS.h>
 #include <Rcpp/macros/RCPP_API_IMPL.h>
-#include <Rcpp/macros/RCPP_API_CLASS.h>
 #include <Rcpp/macros/get_callable.h>
 
 #endif

@@ -3,7 +3,8 @@
 
 namespace Rcpp{ 
 
-    RCPP_API_CLASS(Reference_Impl), 
+    template <typename Storage>
+    class Reference_Impl:
         public FieldProxyPolicy<Reference_Impl<Storage>>
     {
         RCPP_API_IMPL(Reference_Impl)    

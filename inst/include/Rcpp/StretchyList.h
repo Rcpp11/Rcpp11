@@ -11,7 +11,8 @@ namespace Rcpp{
      * that are found in places where a pair list has to grow efficiently, e.g.
      * in the R parser (gram.y)
      */
-    RCPP_API_CLASS(StretchyList_Impl),
+    template <typename Storage>
+    class StretchyList_Impl :
         public DottedPairProxyPolicy<StretchyList_Impl<Storage> >, 
         public DottedPairMultipleNamedProxyPolicy<StretchyList_Impl<Storage>>
     {

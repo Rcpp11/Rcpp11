@@ -3,7 +3,8 @@
 
 namespace Rcpp{
 
-    RCPP_API_CLASS(WeakReference_Impl) {
+    template <typename Storage>
+    class WeakReference_Impl {
         RCPP_API_IMPL(WeakReference_Impl)
     
         inline void set( SEXP x ){

@@ -6,7 +6,8 @@ namespace Rcpp{
     /**
      * S4 object
      */
-    RCPP_API_CLASS(S4_Impl) {     
+    template <typename Storage>
+    class S4_Impl {     
         RCPP_API_IMPL(S4_Impl) 
         
         inline void set(SEXP x){

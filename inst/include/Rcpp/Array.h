@@ -10,7 +10,7 @@ namespace Rcpp{
         typedef typename Vec::Proxy Proxy;
         
         Array( SEXP x ) : index(), data(x) {
-            IntegerVector dim = data.attr("dim") ;
+            IntegerVector dim = attr(data, "dim") ;
             if( dim.size() != N ) stop("incompatible dimensions") ;
             std::copy( dim.begin(), dim.end(), index.begin() ) ;
         }
@@ -23,7 +23,7 @@ namespace Rcpp{
             index({ static_cast<size_t>(args)... }), 
             data(index.prod())
         {
-            data.attr("dim") = index ;    
+            attr(data, "dim") = index ;    
         }
         
         template < 

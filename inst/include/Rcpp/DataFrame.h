@@ -73,7 +73,6 @@ namespace Rcpp{
     
     template <typename Storage>
     class DataFrame_Impl : 
-        public AttributeProxyPolicy<DataFrame_Impl<Storage>>, 
         public NamesProxyPolicy<DataFrame_Impl<Storage>>
         {
         public:
@@ -176,7 +175,7 @@ namespace Rcpp{
             
             bool strings_as_factors = true ;
             int n = obj.size() ;
-            CharacterVector names = obj.attr( "names" ) ;
+            CharacterVector names = attr(obj, "names" ) ;
             if( !is_null(names) ){
                 std::string name ;
                 for( R_xlen_t i=0; i<n; i++){

@@ -3,7 +3,8 @@
 
 namespace Rcpp{ 
 
-    RCPP_API_CLASS(Environment_Impl), 
+    template <typename Storage>
+    class Environment_Impl :
         public BindingPolicy< Environment_Impl<Storage> >
     {
         RCPP_API_IMPL(Environment_Impl)

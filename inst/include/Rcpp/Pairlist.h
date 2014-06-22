@@ -3,7 +3,8 @@
 
 namespace Rcpp{
 
-    RCPP_API_CLASS(Pairlist_Impl), 
+    template <typename Storage>
+    class Pairlist_Impl:
         public DottedPairProxyPolicy<Pairlist_Impl<Storage>>, 
         public DottedPairImpl<Pairlist_Impl<Storage>>
     {

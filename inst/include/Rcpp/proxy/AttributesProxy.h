@@ -3,29 +3,34 @@
 
 namespace Rcpp{
 
-  template <typename CLASS>
-  class AttributesProxyPolicy {
-  public:
-    
+    template <typename CLASS>
     class AttributesProxy {
     public:
-      AttributesProxy( CLASS& obj_ ) : obj(obj_){}
+        AttributesProxy( CLASS& obj_ ) : obj(obj_){}
       
-      template <typename... Args>
-      void set( Args&&... args){
-        obj = structure( obj, std::forward<Args>(args)... ) ;    
-      }
+        template <typename... Args>
+        void set( Args&&... args){
+            obj = structure( obj, std::forward<Args>(args)... ) ;    
+        }
+        
+        inline operator SEXP() const {
+            return ATTRIB(obj) ;
+        }
       
     private:
-      CLASS& obj ;
+        CLASS& obj ;
     } ;
     
-    inline AttributesProxy attributes(){
-      return AttributesProxy(static_cast<CLASS&>(*this)) ;  
+    template <typename CLASS>
+    inline AttributesProxy<CLASS> attributes(CLASS& obj){
+        return AttributesProxy<CLASS>(obj) ;  
     }
     
-  } ;
-  
+    template <typename CLASS>
+    inline const AttributesProxy<CLASS> attributes(const CLASS& obj){
+        return AttributesProxy<CLASS>(const_cast<CLASS&>(obj)) ;  
+    }
+    
 }
 
 #endif

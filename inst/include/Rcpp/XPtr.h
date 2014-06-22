@@ -21,11 +21,8 @@ template <
     void Finalizer(T*) = standard_delete_finalizer<T> 
 >
 class XPtr :  
-    public SlotProxyPolicy<XPtr<T,Storage,Finalizer>>,    
-    public AttributeProxyPolicy<XPtr<T,Storage,Finalizer>>, 
     public ProtectedProxyPolicy<XPtr<T,Storage,Finalizer>>,
-    public TagProxyPolicy<XPtr<T,Storage,Finalizer>>, 
-    public AttributesProxyPolicy<XPtr<T,Storage,Finalizer>>
+    public TagProxyPolicy<XPtr<T,Storage,Finalizer>> 
 {
     RCPP_API_IMPL(XPtr)
     
