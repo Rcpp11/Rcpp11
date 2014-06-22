@@ -38,13 +38,49 @@ namespace Rcpp{
             CallType call ; 
         } ;
     
-    
+        template <typename Function, typename... Args >
+        class ReplicateFunctionBinder {
+        public:
+            typedef typename std::tuple< typename std::decay<Args>::type ...> Tuple ;
+            typedef typename Rcpp::traits::index_sequence<Args...>::type Sequence ;
+            typedef typename std::result_of<Function(Args...)>::type value_type ;
+            
+            ReplicateFunctionBinder( Function fun_, Args&&... args) : 
+                fun(fun_), tuple( std::forward<Args>(args)...){}
+                
+            inline value_type operator()() const {
+                return apply( Sequence() ) ;        
+            }
+                
+        private:
+            Function fun ; 
+            Tuple tuple ;
+            
+            template <int... S>
+            inline value_type apply( Rcpp::traits::sequence<S...> ) const {
+                return fun( std::get<S>(tuple)... );  
+            }
+            
+        } ;
+        
+        template <typename Function, typename... Args>
+        struct replicate_dispatch_function_type {
+            typedef ReplicateFunctionBinder<Function,Args...> type ;
+        } ;
+        
+        template <typename Function>
+        struct replicate_dispatch_function_type<Function> {
+            typedef Function type ;
+        } ;
+        
+        
+        
     } // sugar
     
-    template <typename CallType>
-    inline sugar::Replicate<CallType> 
-    replicate( R_xlen_t n, CallType call){
-        return sugar::Replicate<CallType>( n, call ) ;    
+    template <typename CallType, typename... Args>
+    inline auto replicate( R_xlen_t n, CallType call, Args&&... args) -> sugar::Replicate< typename sugar::replicate_dispatch_function_type<CallType,Args...>::type > {
+        typedef typename sugar::replicate_dispatch_function_type<CallType,Args...>::type function_type ;
+        return sugar::Replicate<function_type>( n, function_type(call,std::forward<Args>(args)...) ) ;    
     }
 
 
