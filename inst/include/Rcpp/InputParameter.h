@@ -10,7 +10,7 @@ namespace Rcpp {
     public:
         typedef T type ;
         InputParameter(SEXP x_) : x(x_){}
-        InputParameter() : x(R_NilValue){}
+        // InputParameter() : x(R_NilValue){}
         
         void set(SEXP x_){ x = x_ ; }
         inline operator T() { return as<T>(x) ; }
@@ -40,7 +40,6 @@ namespace Rcpp {
     class ReferenceInputParameter {
     public:
         typedef T& reference ;
-        ReferenceInputParameter() : x(R_NilValue), obj(){}
         ReferenceInputParameter(SEXP x_) : x(x_), obj( as<T>(x_) ) {}
         
         void set(SEXP x_){ x = x_ ; obj = as<T>(x); }
@@ -57,7 +56,6 @@ namespace Rcpp {
     public:
         typedef const T& const_reference ;
         ConstReferenceInputParameter(SEXP x_) : x(x_), obj( as<T>(x_) ){}
-        ConstReferenceInputParameter(): x(R_NilValue),obj(){}
         inline operator const_reference() { return obj ; }
         void set(SEXP x_){ x = x_ ; obj = as<T>(x); }
         
