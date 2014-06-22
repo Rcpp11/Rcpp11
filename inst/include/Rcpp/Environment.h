@@ -4,9 +4,7 @@
 namespace Rcpp{ 
 
     template <typename Storage>
-    class Environment_Impl :
-        public BindingPolicy< Environment_Impl<Storage> >
-    {
+    class Environment_Impl {
         RCPP_API_IMPL(Environment_Impl)
         
     private:
@@ -230,6 +228,14 @@ namespace Rcpp{
             SEXP newEnvSym = Rf_install("new.env");
             return Environment( Rcpp_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(hashed), data )) );    
         }
+        
+        Binding<Environment_Impl> operator[](const std::string& name){
+            return Binding<Environment_Impl>( *this, name ) ;  
+        }
+        const Binding<Environment_Impl> operator[]( const std::string& name) const {
+            return Binding<Environment_Impl>( const_cast<Environment_Impl&>(*this), name ) ;    
+        }
+    
         
     };
 
