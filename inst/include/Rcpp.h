@@ -69,7 +69,13 @@ namespace Rcpp{
     inline bool is_null(SEXP x){ 
         return Rf_isNull(x) ;   
     }
-
+    inline bool is_object(SEXP x){ 
+        return Rf_isObject(x) ;   
+    }
+    inline bool inherits(SEXP x, const char* klass){ 
+        return Rf_inherits(x, klass) ;   
+    }
+    
     inline std::string short_file_name(const char* file) {
         std::string f(file) ;
         size_t pos = f.find_last_of("/") ;

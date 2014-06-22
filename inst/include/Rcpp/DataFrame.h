@@ -73,7 +73,6 @@ namespace Rcpp{
     
     template <typename Storage>
     class DataFrame_Impl : 
-        public RObjectMethods<DataFrame_Impl<Storage>>, 
         public AttributeProxyPolicy<DataFrame_Impl<Storage>>, 
         public NamesProxyPolicy<DataFrame_Impl<Storage>>
         {

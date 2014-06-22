@@ -14,7 +14,6 @@ namespace Rcpp{
         public AttributeProxyPolicy<VEC>,
         public NamesProxyPolicy<VEC>,
         public AttributesProxyPolicy<VEC>,
-        public RObjectMethods<VEC>,
         public NameProxyPolicy<VEC>
     {
     public:

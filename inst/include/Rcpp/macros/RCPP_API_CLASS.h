@@ -5,7 +5,6 @@
 template < typename Storage > class __CLASS__ :            \
     public SlotProxyPolicy<__CLASS__<Storage>>,            \
     public AttributeProxyPolicy<__CLASS__<Storage>>,       \
-    public AttributesProxyPolicy<__CLASS__<Storage>>,      \
-    public RObjectMethods<__CLASS__<Storage>>              \
+    public AttributesProxyPolicy<__CLASS__<Storage>>       \
     
 #endif

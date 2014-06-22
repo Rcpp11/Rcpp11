@@ -25,8 +25,7 @@ class XPtr :
     public AttributeProxyPolicy<XPtr<T,Storage,Finalizer>>, 
     public ProtectedProxyPolicy<XPtr<T,Storage,Finalizer>>,
     public TagProxyPolicy<XPtr<T,Storage,Finalizer>>, 
-    public AttributesProxyPolicy<XPtr<T,Storage,Finalizer>>, 
-    public RObjectMethods<XPtr<T,Storage,Finalizer>>
+    public AttributesProxyPolicy<XPtr<T,Storage,Finalizer>>
 {
     RCPP_API_IMPL(XPtr)
     
