@@ -11,7 +11,7 @@ namespace internal{
     template <>
     struct Is<DataFrame> {
         inline bool test(SEXP x ){ 
-            return Rf_inherits( x, "data.frame" ) ; 
+            return inherits( x, "data.frame" ) ; 
         }    
     } ;
     template <>
@@ -23,13 +23,13 @@ namespace internal{
     template <>
     struct Is<Reference> {
         inline bool test(SEXP x ){ 
-            return ::Rf_inherits(x, "envRefClass" ) ; 
+            return inherits(x, "envRefClass" ) ; 
         }    
     } ;
     template <>
     struct Is<Formula> {
         inline bool test(SEXP x ){ 
-            return Rf_inherits( x, "formula" ) ; 
+            return inherits( x, "formula" ) ; 
         }    
     } ;
     template <>

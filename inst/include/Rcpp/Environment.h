@@ -166,7 +166,7 @@ namespace Rcpp{
          * Indicates if this is a user defined database.
          */
         bool is_user_database() const{
-            return OBJECT(data) && Rf_inherits(data, "UserDefinedDatabase") ;
+            return OBJECT(data) && inherits(data, "UserDefinedDatabase") ;
         }
     
         /**

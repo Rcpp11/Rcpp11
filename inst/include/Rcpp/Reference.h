@@ -38,7 +38,7 @@ namespace Rcpp{
         
     private:
         void check(const char* klass ){
-            if (!Rf_inherits(data, klass))
+            if (!inherits(data, klass))
                 stop("error creating S4 object") ;
         }
             

@@ -10,7 +10,7 @@ namespace Rcpp {
         Shield<SEXP> x = Rf_lang3( Rf_install("try"), expr, Rf_ScalarLogical(TRUE) );
         SET_TAG( CDDR(x), Rf_install("silent") );
         Shield<SEXP> res = Rf_eval( x, env) ;
-        if( Rf_inherits( res, "try-error" ) ){
+        if( inherits( res, "try-error" ) ){
             stop( CHAR(STRING_ELT(res, 0)) ) ;
         }
         return res ;

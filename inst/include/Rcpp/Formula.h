@@ -14,7 +14,7 @@ namespace Rcpp{
         inline void set(SEXP x){
             switch( TYPEOF( x ) ){
             case LANGSXP:
-                if( ::Rf_inherits( x, "formula") ){
+                if( inherits( x, "formula") ){
                     data = x ;
                 } else{
                     data = internal::convert_using_rfunction( x, "as.formula") ;
@@ -25,7 +25,7 @@ namespace Rcpp{
                 /* lists or expression, try the first one */
                 if( ::Rf_xlength(x) > 0 ){
                     SEXP y = VECTOR_ELT( x, 0 ) ;
-                    if( ::Rf_inherits( y, "formula" ) ){
+                    if( inherits( y, "formula" ) ){
                         data = y ;  
                     } else{
                         data = internal::convert_using_rfunction( y, "as.formula") ;

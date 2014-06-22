@@ -85,7 +85,7 @@ namespace Rcpp{
         RCPP_API_IMPL(DataFrame_Impl)    
             
         inline void set(SEXP x){
-            if( ::Rf_inherits( x, "data.frame" )){
+            if( inherits( x, "data.frame" )){
                 data = x ;
             } else{
                 data = internal::convert_using_rfunction( x, "as.data.frame" ) ;
