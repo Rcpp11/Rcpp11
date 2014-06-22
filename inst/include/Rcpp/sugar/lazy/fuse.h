@@ -45,10 +45,7 @@ namespace Rcpp{
             template <int INDEX, typename Iterator, typename T>
             void inplace_apply_one( Iterator& it, std::false_type ) const {
                 auto current = std::get<INDEX>(data) ;
-                R_xlen_t n = current.size() ;
-                for( R_xlen_t i=0; i<n; i++, ++it){
-                    *it = current[i] ;
-                }
+                it = std::copy( current.begin(), current.end(), it ) ; 
             }
 
             template <int INDEX, typename Iterator, typename T>

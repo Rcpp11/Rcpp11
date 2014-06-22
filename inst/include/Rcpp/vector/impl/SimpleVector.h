@@ -9,8 +9,7 @@ namespace Rcpp{
     template <int RTYPE, typename Storage>
     class Vector :
         public VectorOfRTYPE<RTYPE>,
-        public SugarVectorExpression<typename traits::storage_type<RTYPE>::type, VEC>,
-        public NameProxyPolicy<VEC>
+        public SugarVectorExpression<typename traits::storage_type<RTYPE>::type, VEC>
     {
     public:
         typedef typename traits::storage_type<RTYPE>::type value_type ;

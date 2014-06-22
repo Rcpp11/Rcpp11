@@ -34,7 +34,7 @@ namespace Rcpp{
             
         template <typename Tuple, int... S>
         R_xlen_t get_size_impl( const Tuple& tuple, Rcpp::traits::sequence<S...> ){
-            std::array<int, sizeof...(S)> data {{ get_size_one_impl( std::get<S>(tuple)  ) ... }} ;
+            std::array<R_xlen_t, sizeof...(S)> data {{ get_size_one_impl( std::get<S>(tuple)  ) ... }} ;
             return std::accumulate( data.begin(), data.end(), 0 ) ;
         }
         

@@ -9,8 +9,7 @@ namespace Rcpp{
     template <typename Storage>
     class Vector<EXPRSXP,Storage> :
         public VectorOfRTYPE<EXPRSXP>,
-        public SugarVectorExpression<SEXP, VEC>,
-        public NameProxyPolicy<VEC>
+        public SugarVectorExpression<SEXP, VEC>
     {
     public:
         typedef SEXP value_type  ;

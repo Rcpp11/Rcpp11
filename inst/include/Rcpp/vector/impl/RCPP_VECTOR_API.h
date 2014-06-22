@@ -49,8 +49,15 @@
     inline const value_type* dataptr() const{                                                
         return const_cast<const value_type*>(cache) ;
     }                                                                                         
-    using NameProxyPolicy<VEC>::operator[] ;
-
+    
+    inline NameProxy<Vector> operator[]( const std::string& name){
+        return NameProxy<Vector>( *this, name ) ;
+    }
+    
+    inline const NameProxy<Vector> operator[]( const std::string& name) const {
+        return NameProxy<Vector>( const_cast<const Vector&>(*this), name ) ;
+    }
+        
     template <typename... Args> 
     static Vector create(Args&&... args) {
         typedef typename create_type<RTYPE, Args...>::type creator;
