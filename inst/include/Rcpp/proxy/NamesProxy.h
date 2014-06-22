@@ -8,7 +8,6 @@ namespace Rcpp{
     public:
         NamesProxy( CLASS& v) : parent(v){} ;
 
-        /* lvalue uses */              
         NamesProxy& operator=(const NamesProxy& rhs) {
             if( this != &rhs) set( rhs.get() ) ;
             return *this ;

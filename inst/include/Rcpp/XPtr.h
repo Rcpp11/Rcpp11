@@ -20,10 +20,7 @@ template <
     typename Storage = PreserveStorage, 
     void Finalizer(T*) = standard_delete_finalizer<T> 
 >
-class XPtr :  
-    public ProtectedProxyPolicy<XPtr<T,Storage,Finalizer>>,
-    public TagProxyPolicy<XPtr<T,Storage,Finalizer>> 
-{
+class XPtr {
     RCPP_API_IMPL(XPtr)
     
     inline void set(SEXP x){
@@ -59,6 +56,22 @@ class XPtr :
   
     inline operator T*(){ 
         return reinterpret_cast<T*>(R_ExternalPtrAddr(data)) ;
+    }
+
+    TagProxy<XPtr> tag(){
+        return TagProxy<XPtr>( *this ) ;
+    }
+    
+    const TagProxy<XPtr> tag() const {
+        return TagProxy<XPtr>( const_cast<XPtr&>(*this) ) ;
+    }
+
+    ProtectedProxy<XPtr> prot(){
+        return ProtectedProxy<XPtr>(*this) ;
+    }
+    
+    const ProtectedProxy<XPtr> prot() const {
+        return ProtectedProxy<XPtr>( const_cast<XPtr&>(*this) ) ;
     }
 
 };
