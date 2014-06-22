@@ -98,12 +98,12 @@ private:
     }
     
     inline void reset(int n){
-        set_data(Rf_allocVector(RTYPE, n)) ;
+        set_data(Rf_allocVector(RTYPE, n), n) ;
     }
     
     template <typename eT, typename Expr>
     inline void import_expression( const SugarVectorExpression<eT,Expr>& other,  std::true_type ){
-        set_data( other.get_ref() );    
+        set_data( other.get_ref(), other.size() );    
     }
     
     template <typename eT, typename Expr>
@@ -119,7 +119,7 @@ private:
     
     template <typename eT, typename Expr>
     inline void assign_expression( const SugarVectorExpression<eT, Expr>& other,  std::true_type ){
-        set_data( other.get_ref() );    
+        set_data( other.get_ref(), other.size() );    
     }
     
     template <typename eT, typename Expr>
