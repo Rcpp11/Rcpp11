@@ -12,13 +12,7 @@ namespace Rcpp{
         
         inline SEXP as_environment(SEXP x){  
             if( Rf_isEnvironment(x) ) return x ;
-            SEXP asEnvironmentSym = Rf_install("as.environment");
-            try {
-                Shield<SEXP> res = Rcpp_eval( Rf_lang2( asEnvironmentSym, x ) );
-                return res ;
-            } catch( const eval_error& ex){
-                throw not_compatible( "cannot convert to environment"  ) ; 
-            }
+            return Rcpp_eval( Rf_lang2( Rf_install("as.environment"), x ) );
         }
     
     public:
@@ -40,8 +34,8 @@ namespace Rcpp{
                 try{
                     SEXP asEnvironmentSym = Rf_install("as.environment"); 
                     res = Rcpp_eval(Rf_lang2( asEnvironmentSym, Rf_mkString(name.c_str()) ) ) ;
-                } catch( const eval_error& ex){
-                    throw no_such_env(name) ;
+                } catch( ... ){
+                    stop("no such environment '%s'", name ) ;
                 }
                 data = res ;
             }
@@ -51,19 +45,11 @@ namespace Rcpp{
             try{
                 SEXP asEnvironmentSym = Rf_install("as.environment"); 
                 data = Rcpp_eval( Rf_lang2( asEnvironmentSym, Rf_ScalarInteger(pos) ) ) ;
-            } catch( const eval_error& ex){
-                throw no_such_env(pos) ;
+            } catch( ... ){
+                stop( "no such environment '%d'", pos );
             }    
         }
     
-        /**
-         * The list of objects in the environment
-         * 
-         * the same as calling this from R: 
-         * > ls( envir = this, all = all )
-         *
-         * @param all same meaning as in ?ls
-         */ 
         SEXP ls(Rboolean all) const{
             if( is_user_database() ){
                 R_ObjectTable *tb = (R_ObjectTable*)R_ExternalPtrAddr(HASHTAB(data));
@@ -78,13 +64,6 @@ namespace Rcpp{
             return ls( all ? TRUE : FALSE );    
         }
     
-        /**
-         * Get an object from the environment
-         *
-         * @param name name of the object
-         *
-         * @return a SEXP (possibly R_NilValue)
-         */
         SEXP get(const std::string& name) const {
             SEXP res = Rf_findVarInFrame( data, Symbol(name) ) ;
             
@@ -97,17 +76,10 @@ namespace Rcpp{
             return res ;
         }
     
-        /**
-         * Get an object from the environment or one of its
-         * parents
-         *
-         * @param name name of the object
-         *
-         */
         SEXP find( const std::string& name) const {
             SEXP res = Rf_findVar( Symbol(name), data ) ;
             
-            if( res == R_UnboundValue ) throw binding_not_found(name) ;
+            if( res == R_UnboundValue ) stop("binding not found: %s", name);  
             
             /* We need to evaluate if it is a promise */
             if( TYPEOF(res) == PROMSXP){
@@ -116,47 +88,16 @@ namespace Rcpp{
             return res ;
         }
     
-        /**
-         * Indicates if an object called name exists in the 
-         * environment
-         *
-         * @param name name of the object
-         *
-         * @return true if the object exists in the environment
-         */
         bool exists( const std::string& name ) const {
             SEXP res = Rf_findVarInFrame( data, Symbol(name)  ) ;
             return res != R_UnboundValue ;
         }
     
-        /**
-         * Attempts to assign x to name in this environment
-         *
-         * @param name name of the object to assign
-         * @param x object to assign
-         *
-         * @return true if the assign was successfull
-         * see ?bindingIsLocked
-         *
-         * @throw binding_is_locked if the binding is locked
-         */
-        bool assign( const std::string& name, SEXP x ) const{
-            if( exists( name) && bindingIsLocked(name) ) throw binding_is_locked(name) ;
-            Rf_defineVar( Symbol(name), x, data );
-            return true ;
-        }
-    
-        /**
-         * wrap and assign. If there is a wrap method taking an object 
-         * of WRAPPABLE type, then it is wrapped and the corresponding SEXP
-         * is assigned in the environment
-         *
-         * @param name name of the object to assign
-         * @param x wrappable object. anything that has a wrap( WRAPPABLE ) is fine
-         */
-        template <typename WRAPPABLE>
-        bool assign( const std::string& name, const WRAPPABLE& x) const {
-            return assign( name, wrap( x ) ) ;    
+        template <typename T>
+        void assign( const std::string& name, const T& x) const {
+            if( exists( name) && bindingIsLocked(name) ) 
+                stop("binding is locked : %s", name) ;
+            Rf_defineVar( Symbol(name), wrap(x), data );
         }
     
         /**
@@ -173,7 +114,7 @@ namespace Rcpp{
         bool remove( const std::string& name ){
             if( exists(name) ){
                 if( bindingIsLocked(name) ){
-                    throw binding_is_locked(name) ;
+                    stop("binding is locked: %s", name); 
                 } else{
                     /* unless we want to copy all of do_remove, 
                        we have to go back to R to do this operation */
@@ -186,7 +127,7 @@ namespace Rcpp{
                     Rf_eval( call, R_GlobalEnv ) ;
                 }
             } else{
-                throw no_such_binding(name) ;
+                stop("no such binding: %s", name) ;
             }      
             return true;
         
@@ -201,52 +142,23 @@ namespace Rcpp{
             R_LockEnvironment( data, bindings ? TRUE: FALSE ) ;
         }
     
-        /**
-         * Locks the given binding in the environment. 
-         * see ?bindingIsLocked
-         *
-         * @throw no_such_binding if there is no such binding in this environment
-         */
         void lockBinding(const std::string& name){
-            if( !exists( name) ) throw no_such_binding(name) ;
+            if( !exists( name) ) stop("no such binding: %s", name) ;
             R_LockBinding( Symbol(name), data ); 
         }
     
-        /**
-         * unlocks the given binding
-         * see ?bindingIsLocked
-         *
-         * @throw no_such_binding if there is no such binding in this environment
-         */
         void unlockBinding(const std::string& name){
-            if( !exists( name) ) throw no_such_binding(name) ;
+            if( !exists( name) ) stop("no such binding: %s", name) ;
             R_unLockBinding( Symbol(name), data );
         }
     
-        /**
-         * @param name name of a potential binding
-         *
-         * @return true if the binding is locked in this environment
-         * see ?bindingIsLocked
-         *
-         * @throw no_such_binding if there is no such binding in this environment
-         */
         bool bindingIsLocked(const std::string& name) const {
-            if( !exists( name) ) throw no_such_binding(name) ;
+            if( !exists( name) ) stop("no such binding: %s", name) ;
             return R_BindingIsLocked(Symbol(name), data) ;
         }
     
-        /**
-         *
-         * @param name name of a binding
-         * 
-         * @return true if the binding is active in this environment
-         * see ?bindingIsActive
-         *
-         * @throw no_such_binding if there is no such binding in this environment
-         */
         bool bindingIsActive(const std::string& name) const {
-            if( !exists( name) ) throw no_such_binding(name) ;
+            if( !exists( name) ) stop("no such binding: %s", name) ;
             return R_BindingIsActive(Symbol(name), data) ;
         }
     
@@ -297,8 +209,8 @@ namespace Rcpp{
             try{
                 SEXP getNamespaceSym = Rf_install("getNamespace");
                 env = Rcpp_eval( Rf_lang2(getNamespaceSym, Rf_mkString(package.c_str()) ) ) ;
-            } catch( const eval_error& ex){
-                throw no_such_namespace( package  ) ; 
+            } catch( ... ){
+                stop("no such namespace : '%s' ", package);
             }
             return Environment( env ) ;        
         }

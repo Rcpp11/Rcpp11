@@ -31,7 +31,7 @@ namespace Rcpp{
                         data = internal::convert_using_rfunction( y, "as.formula") ;
                     }
                 } else{
-                    throw not_compatible( "cannot create formula from empty list or expression" ) ; 
+                    stop("cannot create formula from empty list or expression" ) ; 
                 }
                 break;
             default:

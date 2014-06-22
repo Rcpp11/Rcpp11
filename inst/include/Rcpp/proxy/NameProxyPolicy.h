@@ -23,7 +23,7 @@ namespace Rcpp{
                 try{
                     index = parent.offset(name) ;
                     parent[ index ] = rhs ;
-                } catch( const index_out_of_bounds& /* ex */ ){
+                } catch( ... ){
                     int n = parent.size() ;
                     CLASS v( n + 1 ) ;
                     

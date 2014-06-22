@@ -57,7 +57,7 @@ namespace Rcpp{
             T get() {
                 SEXP dims = ::Rf_getAttrib( object, R_DimSymbol ) ;
                 if( dims == R_NilValue || ::Rf_xlength(dims) != 2 ){
-                    throw ::Rcpp::not_a_matrix() ;
+                    stop("not a matrix") ;
                 }
                 int* dims_ = INTEGER(dims) ;
                 T result( dims_[0], dims_[1] ) ;

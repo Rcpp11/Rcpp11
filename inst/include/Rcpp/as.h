@@ -8,7 +8,7 @@ namespace Rcpp{
     namespace internal{
         
         template <typename T> T primitive_as( SEXP x ){
-            if( XLENGTH(x) != 1 ) throw ::Rcpp::not_compatible( "expecting a single value" ) ;
+            if( XLENGTH(x) != 1 ) stop( "expecting a single value, got vector if size %d", XLENGTH(x) ) ;
             const int RTYPE = ::Rcpp::traits::r_sexptype_traits<T>::rtype ;
             Shield<SEXP> y = r_cast<RTYPE>(x);
             typedef typename ::Rcpp::traits::storage_type<RTYPE>::type STORAGE;
@@ -23,12 +23,10 @@ namespace Rcpp{
         inline const char* check_single_string( SEXP x){
             if( TYPEOF(x) == CHARSXP ) return CHAR( x ) ;
             if( ! Rf_isString(x) ){
-                std::string message( "expecting a string. got object of R type : " ) ;
-                message += type2name(x) ;
-                throw ::Rcpp::not_compatible( message ) ;
+                stop("expecting a string, got object of R type : %s", type2name(x) ) ;
             }
             if (XLENGTH(x) != 1)
-                throw ::Rcpp::not_compatible( "expecting a single value");
+                stop( "expecting a single value");
             return CHAR( STRING_ELT( ::Rcpp::r_cast<STRSXP>(x) ,0 ) ) ;
         }
         
@@ -48,9 +46,7 @@ namespace Rcpp{
         template <> inline Rcpp::String as<Rcpp::String>(SEXP x, ::Rcpp::traits::r_type_string_tag ) ; 
     
         template <typename T> T as(SEXP x, ::Rcpp::traits::r_type_generic_tag ) {
-            RCPP_DEBUG( "as(SEXP = <%p>, r_type_generic_tag )", x ) ;
             ::Rcpp::traits::Exporter<T> exporter(x);
-            RCPP_DEBUG( "exporter type = %s", DEMANGLE(decltype(exporter)) ) ;
             return exporter.get() ;
         }
         
@@ -61,22 +57,6 @@ namespace Rcpp{
         
     }
         
-        
-    /** 
-     * Generic converted from SEXP to the typename. T can be any type that 
-     * has a constructor taking a SEXP, which is the case for all our 
-     * RObject and derived classes. 
-     *
-     * If it is not possible to add the SEXP constructor, e.g you don't control
-     * the type, you can specialize the as template to perform the 
-     * requested conversion
-     *
-     * This is used for example in Environment, so that for example the code
-     * below will work as long as there is a way to as<> the Foo type
-     *
-     * Environment x = ... ; // some environment
-     * Foo y = x["bla"] ;    // if as<Foo> makes sense then this works !!
-     */
     template <typename T> T as( SEXP m_sexp) {
         return internal::as<T>( m_sexp, typename traits::r_type_traits<T>::r_category() ) ;
     }

@@ -22,7 +22,8 @@ namespace Rcpp{
         
         template <typename eT, typename Expr>
         MatrixColumn& operator=( const SugarVectorExpression<eT, Expr>& expr ){
-            if( expr.size() != size() ) throw incompatible_dimensions() ;
+            if( expr.size() != size() ) 
+                stop("incompatible number of elements, expecting '%d', got '%d'", size(), expr.size() );
             expr.apply(*this) ;
             return *this;
         }

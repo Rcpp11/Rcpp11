@@ -23,7 +23,7 @@ namespace Rcpp{
                 break ;
             }
             default:
-                throw not_compatible("cannot convert to symbol (SYMSXP)") ;
+                stop("cannot convert to symbol (SYMSXP)") ;
             }       
         }
         

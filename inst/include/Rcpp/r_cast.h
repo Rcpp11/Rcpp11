@@ -9,8 +9,8 @@ namespace Rcpp{
             try{
                 SEXP funSym = Rf_install(fun);
                 res = Rcpp_eval( Rf_lang2( funSym, x ) ) ;
-            } catch( eval_error& /* e */){
-                throw ::Rcpp::not_compatible( std::string("could not convert using R function : ") + fun  ) ;
+            } catch( ... ){
+                stop("could not convert using R function '%s' ", fun) ;
             }
             return res;
         }
@@ -19,7 +19,7 @@ namespace Rcpp{
         // is different from the SEXP type of x 
         template <int TARGET>
         SEXP r_true_cast( SEXP /* x */) {
-            throw not_compatible( "not compatible" ) ;
+            stop( "not compatible" ) ;
         }
 
         template<> SEXP r_true_cast<INTSXP>(SEXP x) ;

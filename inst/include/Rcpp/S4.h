@@ -11,17 +11,11 @@ namespace Rcpp{
         
         inline void set(SEXP x){
            if( ! ::Rf_isS4(x) ){
-               throw not_s4() ;
+               stop("not an S4 object");
            } 
            data = x ;
         }
         
-        /**
-         * Creates an S4 object of the requested class. 
-         *
-         * @param klass name of the target S4 class
-         * @throw not_s4 if klass does not map to a known S4 class
-         */
         S4_Impl( const std::string& klass ) : 
             data( R_do_new_object(R_do_MAKE_CLASS(klass.c_str())) )
         {
@@ -41,7 +35,7 @@ namespace Rcpp{
     private:
         void check(const char* klass ){
             if (!Rf_inherits(data, klass))
-                throw S4_creation_error( klass ) ;    
+                stop("error creating S4 object of class: %s", klass) ;
         }
     } ;
 

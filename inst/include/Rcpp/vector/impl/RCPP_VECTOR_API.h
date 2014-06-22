@@ -2,12 +2,12 @@
          
     R_xlen_t offset(const std::string& name) const {
         SEXP names = RCPP_GET_NAMES(data) ;
-        if( names == R_NilValue ) throw index_out_of_bounds();
+        if( names == R_NilValue ) stop("vector has no names");
         int n = size() ;
     
         SEXP* data = internal::r_vector_start<STRSXP>(names) ;
         int index = std::find( data, data+n, Rf_mkChar(name.c_str()) ) - data ;
-        if( index == n ) throw index_out_of_bounds() ;
+        if( index == n ) stop("index out of bounds") ;
         return index ;
     }
         
@@ -54,7 +54,6 @@
     template <typename... Args> 
     static Vector create(Args&&... args) {
         typedef typename create_type<RTYPE, Args...>::type creator;
-        RCPP_DEBUG( "%s::create. creator type =%s\n", DEMANGLE(Vector), DEMANGLE(creator) ) ;
         Vector res = creator( std::forward<Args>(args)... ) ;
         return res ;
     }

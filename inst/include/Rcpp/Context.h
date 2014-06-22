@@ -11,7 +11,7 @@ namespace Rcpp {
         SET_TAG( CDDR(x), Rf_install("silent") );
         Shield<SEXP> res = Rf_eval( x, env) ;
         if( Rf_inherits( res, "try-error" ) ){
-            throw eval_error( CHAR(STRING_ELT(res, 0)) ) ;
+            stop( CHAR(STRING_ELT(res, 0)) ) ;
         }
         return res ;
     }
@@ -135,10 +135,10 @@ extern void* R_GlobalContext;
           SEXP condition = VECTOR_ELT(return_value,0) ;
 
           if( Rf_isNull(condition) ){
-              throw eval_error( R_curErrorBuf() ) ;
+              stop("eval error : %s", R_curErrorBuf()) ;
           } else {
               Shield<SEXP> msg = Rf_eval( Rf_lang2( Rf_install( "conditionMessage"),  condition ), R_GlobalEnv ) ;
-              throw eval_error( CHAR(STRING_ELT(msg, 0)) ) ;
+              stop("eval error : %s", CHAR(STRING_ELT(msg, 0)) ) ;
           }
         }
     }

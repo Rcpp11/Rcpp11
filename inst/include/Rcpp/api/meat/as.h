@@ -6,10 +6,10 @@ namespace internal{
 
     template <> inline Rcpp::String as<Rcpp::String>(SEXP x, ::Rcpp::traits::r_type_string_tag ) {
         if( ! Rf_isString(x) ){
-            throw ::Rcpp::not_compatible( "expecting a string" ) ;
+            stop("expecting a string, got %s", type2name(x) ) ;
         }
         if (Rf_xlength(x) != 1) {
-            throw ::Rcpp::not_compatible( "expecting a single value");
+            stop("expecting a single value, git a vector of length %d", Rf_xlength(x) ) ;
         }
         return STRING_ELT( x, 0 ) ;
     }

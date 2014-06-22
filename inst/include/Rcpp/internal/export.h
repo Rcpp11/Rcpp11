@@ -40,18 +40,18 @@ namespace Rcpp{
             Shield<SEXP> y = ::Rcpp::r_cast<RTYPE>(x) ;
             STORAGE* start = ::Rcpp::internal::r_vector_start<RTYPE>(y) ;
             std::transform( start, start + ::Rf_xlength(y) , first, caster<STORAGE,value_type> ) ;
-    }
+        }
         
-    template <typename InputIterator, typename value_type>
-    void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_generic_tag ) {
-        R_xlen_t n = ::Rf_xlength(x) ;
-        for( R_xlen_t i=0; i<n; i++, ++first ){
-            *first = ::Rcpp::as<value_type>( VECTOR_ELT(x, i) ) ;
-        }        
-    }
-    
-    template <typename InputIterator, typename value_type>
-    void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_primitive_tag ) {
+        template <typename InputIterator, typename value_type>
+        void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_generic_tag ) {
+            R_xlen_t n = ::Rf_xlength(x) ;
+            for( R_xlen_t i=0; i<n; i++, ++first ){
+                *first = ::Rcpp::as<value_type>( VECTOR_ELT(x, i) ) ;
+            }        
+        }
+        
+        template <typename InputIterator, typename value_type>
+        void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_primitive_tag ) {
             export_range__impl<InputIterator,value_type>(
                 x, 
                 first,
@@ -61,7 +61,7 @@ namespace Rcpp{
         
         template <typename InputIterator, typename value_type>
         void export_range__dispatch( SEXP x, InputIterator first, ::Rcpp::traits::r_type_string_tag ) {
-            if( ! Rf_isString( x) ) throw ::Rcpp::not_compatible( "expecting a string vector" ) ;
+            if( ! Rf_isString( x) ) stop( "expecting a string vector" ) ;
             R_xlen_t n = ::Rf_xlength(x) ;
             for( R_xlen_t i=0; i<n; i++, ++first ){
                 *first = as_string_elt<typename std::iterator_traits<InputIterator>::value_type> ( x, i ) ;
@@ -115,7 +115,7 @@ namespace Rcpp{
         
         template <typename T, typename value_type>
         void export_indexing__dispatch( SEXP x, T& res, ::Rcpp::traits::r_type_string_tag ) {
-            if( ! Rf_isString( x) ) throw Rcpp::not_compatible( "expecting a string vector" ) ;
+            if( ! Rf_isString( x) ) stop( "expecting a string vector" ) ;
             R_xlen_t n = ::Rf_xlength(x) ;
             for( R_xlen_t i=0; i<n; i++ ){
                 res[i] = as_string_elt< value_type >( x, i) ;

@@ -17,7 +17,9 @@ namespace Rcpp{
         
         MatrixRow& operator=( const MatrixRow& other ){
             if( &other != this ){
-                if( other.size() != size() ) throw incompatible_dimensions() ;
+                if( other.size() != size() ) {
+                    stop("incompatible size, expecting '%d', got '%d'", size(), other.size() ) ;
+                }
                 std::copy( other.begin(), other.end(), begin() ) ;
             }
             return *this ;    
@@ -25,7 +27,9 @@ namespace Rcpp{
         
         template <typename eT, typename Expr>
         MatrixRow& operator=( const SugarVectorExpression<eT, Expr>& expr ){
-            if( expr.size() != size() ) throw incompatible_dimensions() ;
+            if( expr.size() != size() ) {
+                stop("incompatible size, expecting '%d', got '%d'", size(), expr.size() ) ;
+            }
             expr.apply(*this) ;
             return *this;    
         }
@@ -38,14 +42,8 @@ namespace Rcpp{
         inline iterator begin() { return iterator( mat.begin() + index, nr ) ; }
         inline iterator end()   { return iterator( mat.begin() + index + n*nr , nr ) ; }
         
-        inline const_iterator begin() const {
-            RCPP_DEBUG( "MatrixRow::begin( mat.begin() = %p, index=%d, nr = %d )", mat.begin(), index, nr ) ;
-            return const_iterator( mat.begin() + index, nr ) ; 
-        }
-        inline const_iterator end() const { 
-            RCPP_DEBUG( "MatrixRow::end( mat.begin() = %p, index=%d, nr = %d )", mat.begin(), index, nr ) ;
-            return const_iterator( mat.begin() + index + n*nr , nr ) ; 
-        }
+        inline const_iterator begin() const { return const_iterator( mat.begin() + index, nr ) ; }
+        inline const_iterator end() const { return const_iterator( mat.begin() + index + n*nr , nr ) ; }
         
     private:
         Mat& mat ;

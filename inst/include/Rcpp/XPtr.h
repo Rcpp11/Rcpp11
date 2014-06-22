@@ -11,9 +11,7 @@ void standard_delete_finalizer(T* obj){
 template <typename T, void Finalizer(T*) >
 void finalizer_wrapper(SEXP p){
     if( TYPEOF(p) == EXTPTRSXP ){
-        T* ptr = (T*) R_ExternalPtrAddr(p) ;
-        RCPP_DEBUG( "finalizer_wrapper<%s>(SEXP p = <%p>). ptr = %p", DEMANGLE(T), p, ptr  )
-        Finalizer(ptr) ;
+        Finalizer( reinterpret_cast<T*>(R_ExternalPtrAddr(p)) ) ;
     }
 }
 
@@ -34,7 +32,7 @@ class XPtr :
     
     inline void set(SEXP x){
         if( TYPEOF(x) != EXTPTRSXP )
-            throw ::Rcpp::not_compatible( "expecting an external pointer" ) ;
+            stop( "expecting an external pointer" ) ;
         data = x ;    
     }
     
@@ -52,11 +50,11 @@ class XPtr :
     }
 
     T& operator*() const {
-        return *((T*)R_ExternalPtrAddr( data )) ;    
+        return *(reinterpret_cast<T*>(R_ExternalPtrAddr(data))) ;    
     }
       
     T* operator->() const {
-         return (T*)(R_ExternalPtrAddr(data));
+         return reinterpret_cast<T*>(R_ExternalPtrAddr(data));
     }
                 
     void setDeleteFinalizer() {
@@ -64,7 +62,7 @@ class XPtr :
     }
   
     inline operator T*(){ 
-        return (T*)( R_ExternalPtrAddr(data)) ;
+        return reinterpret_cast<T*>(R_ExternalPtrAddr(data)) ;
     }
 
 };

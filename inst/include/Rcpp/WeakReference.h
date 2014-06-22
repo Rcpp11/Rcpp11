@@ -8,7 +8,7 @@ namespace Rcpp{
     
         inline void set( SEXP x ){
             if( TYPEOF(x) != WEAKREFSXP )
-                throw not_compatible( "not a weak reference" ) ;
+                stop( "not a weak reference" ) ;
             data = x ;    
         }
         

@@ -122,12 +122,11 @@ namespace Rcpp{
         
         R_xlen_t offset(const std::string& name) const {
             SEXP names = RCPP_GET_NAMES(data) ;
-            if( names == R_NilValue ) throw index_out_of_bounds();
-            int n = size() ;
+            R_xlen_t n = size() ;
         
             SEXP* data = internal::r_vector_start<STRSXP>(names) ;
-            int index = std::find( data, data+n, Rf_mkChar(name.c_str()) ) - data ;
-            if( index == n ) throw index_out_of_bounds() ;
+            R_xlen_t index = std::find( data, data+n, Rf_mkChar(name.c_str()) ) - data ;
+            if( index == n ) stop("no such column name '%s'", name) ;
             return index ;
         }
     
@@ -147,7 +146,7 @@ namespace Rcpp{
                 try{
                     index = parent.offset(name) ;
                     parent[ index ] = rhs ;
-                } catch( const index_out_of_bounds& /* ex */ ){
+                } catch( ... ){
                     List v(parent) ;
                     v[name] = rhs ;
                     parent = DataFrame::from_list( v ) ;

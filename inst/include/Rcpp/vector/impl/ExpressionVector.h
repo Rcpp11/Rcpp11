@@ -39,7 +39,7 @@ namespace Rcpp{
             Shield<SEXP> expr = Rf_mkString( st );
             Shield<SEXP> res  = R_ParseVector(expr, -1, &status, R_NilValue);
             if( status != PARSE_OK ){
-                throw parse_error() ;
+                stop("parse error") ;
             }
             set_data(res) ;
         }

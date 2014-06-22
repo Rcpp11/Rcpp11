@@ -12,9 +12,9 @@ namespace internal{
         case CPLXSXP:
             return Rf_coerceVector( x, INTSXP) ;
         default:
-            throw ::Rcpp::not_compatible( "not compatible with INTSXP" ) ;
+            stop( "not compatible with INTSXP" ) ;
         }
-        return R_NilValue ; /* -Wall */
+        return R_NilValue ;
     }
     
     template<> inline SEXP r_true_cast<REALSXP>( SEXP x) {
@@ -25,9 +25,9 @@ namespace internal{
         case RAWSXP:
             return Rf_coerceVector( x, REALSXP );
         default:
-            throw ::Rcpp::not_compatible( "not compatible with REALSXP" ) ;
+            stop( "not compatible with REALSXP" ) ;
         }
-        return R_NilValue ; /* -Wall */
+        return R_NilValue ;
     }
     
     template<> inline SEXP r_true_cast<LGLSXP>( SEXP x) {
@@ -38,7 +38,7 @@ namespace internal{
         case RAWSXP:
             return Rf_coerceVector( x, LGLSXP );
         default:
-            throw ::Rcpp::not_compatible( "not compatible with LGLSXP" ) ;
+            stop( "not compatible with LGLSXP" ) ;
         }
         return R_NilValue ; /* -Wall */
     }
@@ -51,7 +51,7 @@ namespace internal{
         case CPLXSXP:
             return Rf_coerceVector( x, RAWSXP );
         default:
-            throw ::Rcpp::not_compatible( "not compatible with RAWSXP" ) ;
+            stop( "not compatible with RAWSXP" ) ;
         }
         return R_NilValue ; /* -Wall */
     }
@@ -65,7 +65,7 @@ namespace internal{
         case INTSXP:
             return Rf_coerceVector( x, CPLXSXP );
         default:
-            throw ::Rcpp::not_compatible( "not compatible with CPLXSXP" ) ;
+            stop( "not compatible with CPLXSXP" ) ;
         }
         return R_NilValue ; /* -Wall */
     }
@@ -89,7 +89,7 @@ namespace internal{
         case SYMSXP:
             return Rf_ScalarString( PRINTNAME( x ) ) ; 
         default:
-            throw ::Rcpp::not_compatible( "not compatible with STRSXP" ) ;
+            stop( "not compatible with STRSXP" ) ;
         }
         return R_NilValue ; /* -Wall */
     }

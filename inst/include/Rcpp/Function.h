@@ -14,7 +14,7 @@ namespace Rcpp{
                 data = x ;
                 break; 
             default:
-                throw not_compatible("cannot convert to function") ;
+                stop("cannot convert to function") ;
             }       
         }
         
@@ -45,7 +45,7 @@ namespace Rcpp{
          */
         SEXP environment() const {
             if( TYPEOF(data) != CLOSXP ) {
-                throw not_a_closure() ;
+                stop("not a closure, type = %s", type2name(data) ) ;
             }
             return CLOENV(data) ;    
         }

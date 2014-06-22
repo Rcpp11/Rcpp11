@@ -38,9 +38,7 @@ namespace Rcpp{
             if( index == 0 ) {
                 return push_front( object ) ;
             } else {
-                if( ref.isNULL( ) ) throw index_out_of_bounds() ;
-                
-                if( index > Rf_xlength(ref) ) throw index_out_of_bounds() ;
+                if( ref.isNULL() || index > Rf_xlength(ref) ) stop("index out of bounds") ;
                 
                 size_t i=1;
                 SEXP x = ref ;
@@ -58,7 +56,7 @@ namespace Rcpp{
         template <typename T>
         Node replace( R_xlen_t index, const T& object ) {
             CLASS& ref = get_ref() ;
-            if( index >= ::Rf_xlength(ref) ) throw index_out_of_bounds() ;
+            if( index >= ::Rf_xlength(ref) ) stop("index out of bounds") ;
               
             Shield<SEXP> x = pairlist( object );
             SEXP y = ref ;
@@ -80,7 +78,7 @@ namespace Rcpp{
         void remove( R_xlen_t index ){
             CLASS& ref = get_ref() ;
             SEXP x = ref ;
-            if( index >= Rf_xlength(ref) ) throw index_out_of_bounds() ;
+            if( index >= Rf_xlength(ref) ) stop("index out of bounds") ;
             if( index == 0 ){
                 ref = CDR(x) ;
             } else{

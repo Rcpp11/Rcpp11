@@ -51,6 +51,7 @@
 
 #include <Rcpp/api/CRTP.h>
 #include <Rcpp/complex.h>
+#include <Rcpp/utils/tinyformat.h>
 
 #include <Rcpp/exceptions.h>
 #include <Rcpp/internal/interrupt.h>

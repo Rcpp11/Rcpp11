@@ -36,7 +36,7 @@ namespace Rcpp{
         Matrix( SEXP x ){
             SEXP d = Rf_getAttrib(x,R_DimSymbol) ;
             if( d == R_NilValue || Rf_xlength(d) != 2)
-                throw not_a_matrix() ;
+                stop("not a matrix") ;
             vec = x ;
             dims = INTEGER(d) ;
         }
@@ -52,7 +52,9 @@ namespace Rcpp{
         
         template <typename eT, typename Expr>
         Matrix& operator=( const SugarMatrixExpression<eT,Expr>& expr ) {
-            if( nrow() != expr.nrow() || ncol() != expr.ncol() ) throw incompatible_dimensions() ;
+            if( nrow() != expr.nrow() || ncol() != expr.ncol() ) {
+                stop("incompatible dimensions, expecting (%d,%d), got (%d,%d)", nrow(), ncol(), expr.nrow(), expr.ncol()) ;
+            }
             expr.apply(*this) ;
             return *this ;
         }

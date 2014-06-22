@@ -10,7 +10,7 @@ namespace Rcpp {
         class DottedPairProxy : public GenericProxy<DottedPairProxy> {
         public:
             DottedPairProxy( CLASS& v, R_xlen_t index_ ) : node(R_NilValue){
-                if( index_ >= v.length() ) throw index_out_of_bounds() ;
+                if( index_ >= v.length() ) stop("index out of bounds") ;
                 SEXP x = v ; /* implicit conversion */
                 for( R_xlen_t i = 0; i<index_; i++, x = CDR(x) ) ;
                 node = x ;

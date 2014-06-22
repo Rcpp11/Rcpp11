@@ -13,7 +13,7 @@ public:
             parent(v), slot_name(name) 
         {
             if( !R_has_slot( v, slot_name) ){
-                throw no_such_slot() ; 
+                stop("no such slot: %s", name.c_str() ) ; 
             }  
         }
         
@@ -49,18 +49,18 @@ public:
     
     SlotProxy slot(const std::string& name) {
         SEXP x = ref() ;
-        if( !Rf_isS4(x) ) throw not_s4() ;
+        if( !Rf_isS4(x) ) stop("not an S4 object");
         return SlotProxy( static_cast<CLASS&>(*this) , name ) ;
     }
     const SlotProxy slot(const std::string& name) const {
         SEXP x = ref() ;
-        if( !Rf_isS4(x) ) throw not_s4() ;
+        if( !Rf_isS4(x) ) stop("not an S4 object");
         return SlotProxy( const_cast<CLASS&>(static_cast<const CLASS&>(*this)) , name ) ; 
     }
     
     bool hasSlot(const std::string& name) const {
         SEXP data = ref() ;
-        if( !Rf_isS4(data) ) throw not_s4() ;
+        if( !Rf_isS4(data) ) stop("not an S4 object");
         return R_has_slot( data, Rf_mkString(name.c_str()) ) ;    
     }
     

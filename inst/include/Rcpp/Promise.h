@@ -9,7 +9,7 @@ namespace Rcpp{
         
         inline void set(SEXP x){
             if( TYPEOF(x) != PROMSXP )
-                throw not_compatible("not a promise") ;
+                stop("not a promise") ;
             
             while(TYPEOF(PRCODE(x)) == PROMSXP){
                 x = PRCODE(x) ;
@@ -29,7 +29,9 @@ namespace Rcpp{
          */
         SEXP value() const{
             SEXP val = PRVALUE(data) ; 
-            if( val == R_UnboundValue ) throw unevaluated_promise() ;
+            if( val == R_UnboundValue ) {
+                stop("unevaluated promise");     
+            }
             return val ;    
         }
 
