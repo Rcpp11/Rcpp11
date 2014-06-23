@@ -36,6 +36,11 @@ namespace Rcpp{
         return sugar::Import<InputIterator>( begin, end ) ;    
     }
     
+    template <typename Container>
+    inline auto import( const Container& c ) -> decltype(import(c.begin(), c.end())) {
+        return import( c.begin(), c.end() ) ;    
+    }
+    
     template <typename InputIterator>
     inline sugar::Import<InputIterator> 
     import_n( InputIterator begin, R_xlen_t n ){

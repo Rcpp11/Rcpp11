@@ -56,6 +56,13 @@ namespace Rcpp {
         T obj ;
     } ;
     
+    namespace traits{
+        template <typename T>
+        struct input_parameter {
+            typedef typename Rcpp::InputParameter<T> type ;
+        } ;
+    }
+
 }
 
 #endif

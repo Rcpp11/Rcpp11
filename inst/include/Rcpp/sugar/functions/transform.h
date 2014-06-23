@@ -38,6 +38,11 @@ namespace Rcpp{
         return sugar::Transform<InputIterator, Function>( begin, end, fun ) ;    
     }
 
+    template <typename Container, typename Function>
+    inline auto transform( const Container& c, Function fun) -> decltype(transform(c.begin(), c.end(), fun)) {
+        return transform( c.begin(), c.end(), fun) ;    
+    }
+    
 
 
 } // Rcpp
