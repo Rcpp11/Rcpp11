@@ -14,10 +14,16 @@
     inline void set(SEXP x){                                                                  
         set_data(r_cast<RTYPE>(x)) ;                                                           
     }                                                                                         
-                                                                                              
-    Vector(R_xlen_t n) {                                                                           
+     
+    explicit Vector(R_xlen_t n) {                                                                           
+        reset(n) ;                                                                            
+    }
+    
+    #if defined(LONG_VECTOR_SUPPORT)
+    explicit Vector(int n) {                                                                           
         reset(n) ;                                                                            
     }                                                                                         
+    #endif
                                                                                               
     Vector(){                                                                                 
         reset(0);                                                                             

@@ -19,7 +19,7 @@ namespace Rcpp{
             }
         }
         
-        inline size_t size() const {
+        inline R_xlen_t size() const {
             return promises.size() ;    
         }
         

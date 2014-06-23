@@ -24,7 +24,7 @@ namespace Rcpp {
         }
         
         operator SEXP() const {
-            size_t n = data.size() ;
+            R_xlen_t n = data.size() ;
             NumericVector res(n) ;
             CharacterVector names_(n) ;
             auto it = data.begin() ;

@@ -23,19 +23,19 @@ namespace Rcpp{
             }
         }
         
-        inline size_t size() const {
+        inline R_xlen_t size() const {
             return promises.size() ;    
         }
         
-        inline Promise& promise(size_t i) {
+        inline Promise& promise(R_xlen_t i) {
             return promises[i] ;
         }
         
-        inline Environment environment(int i){
+        inline Environment environment(R_xlen_t i){
             return promises[i].environment() ;    
         }
         
-        inline Symbol& symbol(size_t i){
+        inline Symbol& symbol(R_xlen_t i){
             return symbols[i] ;
         }
         
