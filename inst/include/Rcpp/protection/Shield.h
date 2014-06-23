@@ -12,7 +12,7 @@ namespace Rcpp{
         ~Shield(){
             if( t != R_NilValue ) UNPROTECT(1) ;    
         }
-        Shield( const Shield& other ) : t(other.t_){
+        Shield( const Shield& other ) : t(other.t){
             if( t != R_NilValue ) PROTECT(t);
         }
         Shield& operator=( const Shield& ) = delete ;
