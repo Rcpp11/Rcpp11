@@ -21,7 +21,7 @@ namespace Rcpp{
         #undef RTYPE
     
     public:
-        Vector( int n, const char* s ) {
+        Vector( R_xlen_t n, const char* s ) {
             reset(n) ;
             std::fill( begin(), end(), Rf_mkChar(s) ) ;
         }

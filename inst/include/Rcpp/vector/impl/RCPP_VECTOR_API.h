@@ -15,7 +15,7 @@
         set_data(r_cast<RTYPE>(x)) ;                                                           
     }                                                                                         
                                                                                               
-    Vector(int n) {                                                                           
+    Vector(R_xlen_t n) {                                                                           
         reset(n) ;                                                                            
     }                                                                                         
                                                                                               

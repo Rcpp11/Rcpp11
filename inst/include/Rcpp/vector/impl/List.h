@@ -24,7 +24,7 @@ namespace Rcpp{
     public:
         
         template <typename U>
-        Vector( int n, const U& obj ) {
+        Vector( R_xlen_t n, const U& obj ) {
             reset(n) ;
             std::fill( begin(), end(), wrap(obj) ) ;
         }
