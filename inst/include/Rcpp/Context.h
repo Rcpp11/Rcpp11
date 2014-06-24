@@ -113,7 +113,7 @@ extern void* R_GlobalContext;
             SEXP value = PRIMFUN(ifun)(symb, ifun, args, R_GlobalEnv ) ;
             pair->second = VECTOR_ELT(CAR(value),4) ;
 
-            Fun& fun = *reinterpret_cast<Fun*>(pair->first) ;
+            Fun& fun = *pair->first ;
             fun() ;
 
         }
