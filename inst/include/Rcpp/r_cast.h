@@ -20,6 +20,7 @@ namespace Rcpp{
         template <int TARGET>
         SEXP r_true_cast( SEXP /* x */) {
             stop( "not compatible" ) ;
+            return R_NilValue ;
         }
 
         template<> SEXP r_true_cast<INTSXP>(SEXP x) ;
