@@ -5,3 +5,5 @@ src/*.so
 .Rhistory
 Rcpp11.Rproj
 .Rproj.user
+NEWS\.md
+
