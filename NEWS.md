@@ -1,4 +1,4 @@
-# Rcpp11 3.1.0.2
+# Rcpp11 3.1.1
 
 * sugar `sum` now supports complex sugar vector expressions
 
