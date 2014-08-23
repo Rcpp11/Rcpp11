@@ -6,7 +6,7 @@ namespace Rcpp{
     template <typename CLASS>
     class AttributeProxy : public GenericProxy<AttributeProxy<CLASS>> {
     public:
-        AttributeProxy( CLASS& v, Symbol name ) 
+        AttributeProxy( CLASS& v, SEXP name ) 
             : parent(v), attr_name(name)
         {}
         
@@ -31,7 +31,7 @@ namespace Rcpp{
         
     private:
         CLASS& parent; 
-        Symbol attr_name ;
+        SEXP attr_name ;
             
         SEXP get() const {
           return Rf_getAttrib( parent, attr_name ) ;
@@ -43,12 +43,12 @@ namespace Rcpp{
         
     template <typename CLASS>    
     AttributeProxy<CLASS> attr( CLASS& obj, const std::string& name) {
-        return AttributeProxy<CLASS>( obj, name ) ;
+        return AttributeProxy<CLASS>( obj, Rf_install(name.c_str()) ) ;
     }
     
     template <typename CLASS>    
     const AttributeProxy<CLASS> attr( const CLASS& obj, const std::string& name) {
-        return AttributeProxy<CLASS>( const_cast<CLASS&>(obj) , name ) ;  
+        return AttributeProxy<CLASS>( const_cast<CLASS&>(obj) , Rf_install(name.c_str()) ) ;  
     }
           
     inline bool has_attr( SEXP data, const std::string& attr) {

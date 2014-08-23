@@ -169,8 +169,8 @@ namespace Rcpp{
 
 #include <Rcpp/storage/storage.h>
 #include <Rcpp/proxy/GenericProxy.h>
-#include <Rcpp/Symbol.h>
 #include <Rcpp/proxy/proxy.h>
+#include <Rcpp/Symbol.h>
 
 #include <Rcpp/storage/PreserveStorage.h>
 #include <Rcpp/storage/NoProtectStorage.h>

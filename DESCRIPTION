@@ -1,6 +1,6 @@
 Package: Rcpp11
 Title: R and C++11
-Version: 3.1.1
+Version: 3.1.1.0.999
 Date: 2014-07-22
 Authors@R: c(
     person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),

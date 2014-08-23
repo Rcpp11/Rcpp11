@@ -6,11 +6,11 @@ namespace Rcpp{
     template <typename CLASS>
     class SlotProxy : public GenericProxy<SlotProxy<CLASS>> {
     public:
-        SlotProxy( CLASS& v, Symbol name) : 
+        SlotProxy( CLASS& v, SEXP name) : 
             parent(v), slot_name(name) 
         {
             if( !R_has_slot( v, slot_name) ){
-                stop("no such slot: %s", name.c_str() ) ; 
+                stop("no such slot: %s", CHAR(PRINTNAME(name)) ) ; 
             }  
         }
         
@@ -34,7 +34,7 @@ namespace Rcpp{
         
     private:
         CLASS& parent; 
-        Symbol slot_name ;
+        SEXP slot_name ;
             
         SEXP get() const {
             return R_do_slot( parent, slot_name ) ;
@@ -47,13 +47,13 @@ namespace Rcpp{
     template <typename CLASS>
     SlotProxy<CLASS> slot(CLASS& x, const std::string& name) {
         if( !Rf_isS4(x) ) stop("not an S4 object");
-        return SlotProxy<CLASS>(x, name ) ;
+        return SlotProxy<CLASS>(x, Rf_install(name.c_str()) ) ;
     }
     
     template <typename CLASS>
     const SlotProxy<CLASS> slot(const CLASS& x, const std::string& name) {
         if( !Rf_isS4(x) ) stop("not an S4 object");
-        return SlotProxy<CLASS>( const_cast<CLASS&>(x) , name ) ; 
+        return SlotProxy<CLASS>( const_cast<CLASS&>(x) , Rf_install(name.c_str()) ) ; 
     }
     
     inline bool has_slot(SEXP data, const std::string& name) {
