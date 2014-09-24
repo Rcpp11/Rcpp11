@@ -78,7 +78,7 @@ private:
   
 };
 
-std::string findLibR() {
+inline std::string findLibR() {
 
   std::string R_HOME{std::getenv("R_HOME")};
   if (R_HOME.empty()) {
