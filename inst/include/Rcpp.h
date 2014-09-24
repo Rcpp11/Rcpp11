@@ -10,6 +10,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <climits>
+#include <map>
 
 #include <Rcpp/macros/macros.h>
 #include <Rcpp/internal/library.h>
@@ -34,7 +35,6 @@
 #include <queue>
 #include <cxxabi.h>
 
-#include <map>
 #include <set>
 #include <stdexcept>
 #include <vector>

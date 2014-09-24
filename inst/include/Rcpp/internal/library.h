@@ -54,7 +54,9 @@ public:
   }
 
   inline void* operator[](std::string const& symbol) {
-
+    auto it = cache.find(symbol);
+    if( it != cache.end() ) return it->second ;
+      
     // Open the library, if necessary
     if (pLib_ == nullptr) {
       pLib_ = DL_OPEN(libPath_.c_str());
@@ -68,6 +70,7 @@ public:
     if (result == nullptr) {
       stop("Failed to find symbol: '%s'", symbol);
     }
+    cache.emplace(symbol,result);
     return result;
     
   }
@@ -76,6 +79,7 @@ private:
   std::string libPath_;
   void* pLib_;
   
+  std::map<std::string,void*> cache ; 
 };
 
 inline std::string findLibR() {
