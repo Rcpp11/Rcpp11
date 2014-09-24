@@ -88,7 +88,7 @@ std::string findLibR() {
 #if defined(__APPLE__)
   return R_HOME + "/lib/libR.dylib";
 #elif defined(__linux__)
-  return R_HOME + "/lib/libR.so"
+  return R_HOME + "/lib/libR.so";
 #elif defined(_WIN32)
     stop("Sorry -- no Windows yet!");
   return std::string();
