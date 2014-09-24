@@ -12,6 +12,7 @@
 #include <climits>
 
 #include <Rcpp/macros/macros.h>
+#include <Rcpp/internal/library.h>
 #include <Rcpp/R.h>
 
 #include <Rcpp/routines.h>
