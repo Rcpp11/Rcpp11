@@ -72,8 +72,6 @@ typedef struct RCNTXT {
     int browserfinish;          /* should browser finish this context without stopping */
 } RCNTXT ;
 
-extern void* R_GlobalContext;
-
     namespace Rcpp{
 
     // borrowed from rJava
