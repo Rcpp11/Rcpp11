@@ -72,13 +72,11 @@ typedef struct RCNTXT {
     int browserfinish;          /* should browser finish this context without stopping */
 } RCNTXT ;
 
-extern void* R_GlobalContext;
-
     namespace Rcpp{
 
     // borrowed from rJava
     inline SEXP get_current_call() {
-        RCNTXT* ctx = (RCNTXT*) R_GlobalContext;
+      RCNTXT* ctx = *(RCNTXT**) libR["R_GlobalContext"];
         /* skip the .External/.Call context to get at the underlying call */
         if (ctx->nextcontext && (ctx->callflag & CTXT_BUILTIN))
             ctx = ctx->nextcontext;
@@ -92,7 +90,7 @@ extern void* R_GlobalContext;
             typedef std::pair<Fun*, SEXP&> Pair ;
             Pair* pair = reinterpret_cast<Pair*>(data) ;
 
-            RCNTXT* ctx    = (RCNTXT*) R_GlobalContext ;
+            RCNTXT* ctx    = *(RCNTXT**) libR["R_GlobalContext"];
             ctx->callflag  = CTXT_FUNCTION ;
 
             // first call to .addCondHands to add a handler
