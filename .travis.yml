@@ -5,10 +5,6 @@ before_install:
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
   - ./travis-tool.sh github_package testthat
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
-  - sudo apt-get install -qq g++-4.8
-  - CXX1X="g++-4.8" CXX1XSTD="-std=c++11" 
   
 script:
   - R CMD INSTALL .

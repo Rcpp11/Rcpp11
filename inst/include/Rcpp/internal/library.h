@@ -70,7 +70,7 @@ public:
     if (result == nullptr) {
       stop("Failed to find symbol: '%s'", symbol);
     }
-    cache.emplace(symbol,result);
+    cache.insert( std::pair<std::string,void*>(symbol,result) );
     return result;
     
   }
