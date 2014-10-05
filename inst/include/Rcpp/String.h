@@ -171,15 +171,6 @@ namespace Rcpp {
             return data ;
         }
         
-        // inline operator std::string() const {
-        //     return get_cstring() ;
-        // }
-        // 
-        // inline operator std::wstring() const {
-        //     const char* s = get_cstring() ;
-        //     return std::wstring( s, s + strlen(s) );
-        // }
-
         inline const char* get_cstring() const {
             return CHAR(data) ;
         }
