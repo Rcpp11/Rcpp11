@@ -247,6 +247,12 @@ namespace Rcpp {
         }
 
     }
+    
+    template <> struct Wrapper<String>{
+        inline static SEXP wrap( const String& s ){
+            return CharacterVector{ s } ;    
+        }
+    } ;
 
 } // Rcpp
 
