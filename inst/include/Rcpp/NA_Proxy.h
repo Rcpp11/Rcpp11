@@ -6,7 +6,7 @@ namespace Rcpp{
     
         friend inline bool operator==(double x      , Rcpp::Na_Proxy){ return Rcpp::traits::is_na<REALSXP>(x) ; }
         friend inline bool operator==(int x         , Rcpp::Na_Proxy){ return Rcpp::traits::is_na<INTSXP>(x) ; }
-        friend inline bool operator==(Rcpp::String x, Rcpp::Na_Proxy){ return Rcpp::traits::is_na<STRSXP>(x.get_sexp()) ; }
+        friend inline bool operator==(Rcpp::String x, Rcpp::Na_Proxy){ return Rcpp::traits::is_na<STRSXP>(x) ; }
         friend inline bool operator==(Rcomplex x    , Rcpp::Na_Proxy){ return Rcpp::traits::is_na<CPLXSXP>(x) ; }
         friend inline bool operator==(SEXP x        , Rcpp::Na_Proxy){ return TYPEOF(x)==CHARSXP && Rcpp::traits::is_na<STRSXP>(x) ; }
         friend inline bool operator==(std::string   , Rcpp::Na_Proxy){ return false ; }
@@ -19,13 +19,19 @@ namespace Rcpp{
         }  
         
         template <typename T>
-        friend inline bool operator==(Rcpp::Na_Proxy na, T x){ return x == na ; } 
+        friend inline bool operator==(Rcpp::Na_Proxy na, T x){ 
+            return x == na ; 
+        } 
         
         template <typename T>
-        friend inline bool operator!=( Na_Proxy na, T x){ return !(x==na) ; }
+        friend inline bool operator!=( Na_Proxy na, T x){ 
+            return !(x==na) ; 
+        }
         
         template <typename T>
-        friend inline bool operator!=( T x, Na_Proxy na){ return !(x==na) ; }
+        friend inline bool operator!=( T x, Na_Proxy na){ 
+            return !(x==na) ; 
+        }
         
     public:
         
@@ -38,14 +44,13 @@ namespace Rcpp{
     } ;
     static Na_Proxy NA ;    
 
-    inline String::String( Na_Proxy ) : data(NA_STRING), valid(true), buffer_ready(false) {}
-    
+    inline String::String( Na_Proxy ) : data( NA_STRING ){}
+
     inline String& String::operator=( Na_Proxy ) {
-      data = NA_STRING ;
-      buffer_ready = false ;
-      valid = true ;
-      return *this ;  
-    }
-            
+        data = NA_STRING ;
+        return *this ;
+    }    
+
+    
 }
 #endif
