@@ -28,16 +28,17 @@ namespace Rcpp {
 
         /** from string proxy */
         template <typename Vec>
-        String( const internal::string_proxy<Vec>& proxy ): data( proxy.get() ){}
+        String( const internal::string_proxy<Vec>& proxy ): String( proxy.get() ){}
+
+        /** from a const char* */
+        String( const char* s) : data( Rf_mkCharCE(s, CE_UTF8) ){}
 
         /** from a std::string */
-        String( std::string s) : data( internal::make_charsexp(s) ){}
+        String( std::string s) : String(s.c_str()) {}
 
         String( const std::wstring& s) : data( internal::make_charsexp(s) ){}
 
-        /** from a const char* */
-        String( const char* s) : data( internal::make_charsexp(s) ){}
-
+        
         String( const wchar_t* s) : data(internal::make_charsexp(s)){}
 
         /** constructors from R primitives */
