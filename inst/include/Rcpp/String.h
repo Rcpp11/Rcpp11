@@ -21,7 +21,10 @@ namespace Rcpp {
         ~String() = default ;
         
         /** construct a string from a single CHARSXP SEXP */
-        String(SEXP charsxp) : data(charsxp){}
+        String(SEXP charsxp) {
+            if( TYPEOF(charsxp) != CHARSXP ) stop( "expecting a CHARSXP, got: %s", type2name(charsxp) ) ;
+            data = Rf_mkCharCE(Rf_translateCharUTF8(charsxp), CE_UTF8) ;
+        }
 
         /** from string proxy */
         template <typename Vec>
