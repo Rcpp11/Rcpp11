@@ -55,79 +55,48 @@ namespace Rcpp {
         
         inline String& operator=( Na_Proxy ) ; 
 
-        inline String& operator+=( const std::string& s){
-            return append<std::string, std::string>(s) ; 
+        template <typename T>
+        inline String& operator+=( T&& s ){
+            return append(std::forward<T>(s)) ;    
         }
-        inline String& operator+=( const char* s){
-            return append<const char*,std::string>(s) ;
-        }
-        inline String& operator+=( const std::wstring& s){ 
-            return append<std::wstring,std::wstring>( s ); 
-        }
-        inline String& operator+=( const wchar_t* s){ 
-            return append<const wchar_t*,std::wstring>( s ); 
-        }
-
+        
      private:
          
-         template <typename T, typename string_type>
-         inline String& append( const T& s ){
-            if( !is_na() ){
+         template <typename T>
+         inline String& append( T&& other ){
+             if( is_na() ) return *this ;
+             String s{ other} ;
+             if( s.is_na() ){
+                data = NA_STRING ;
+             } else {     
                 const char* raw = CHAR(data) ;
-                string_type res( raw, raw + strlen(raw) ) ;
-                res += s ;
+                std::string res( raw, raw + strlen(raw) ) ;
+                res += CHAR(s.data) ;
                 data = internal::make_charsexp(res) ;
-            }
-            return *this ;
+             }
+             return *this ;
          }
          
-         template <typename T, typename string_type>
-         inline String& prepend( const T& s ){
-            if( !is_na() ){
-                string_type res{s} ;
-                const char* raw = CHAR(data) ;
-                res.append( raw, raw + strlen(raw) ) ;
-                data = internal::make_charsexp(res) ;
-            }
-            return *this ;
+         template <typename T>
+         inline String& prepend( T&& other){
+             String s{other} ;
+             s += *this ;
+             data = s.data ;
+             return *this ;
          }
          
      public:
 
-        inline String& operator+=( const String& other ){
-            if( other.is_na() ){ 
-                data = NA_STRING ;
-                return *this ;
-            } 
-            return append<const char*,std::string>( CHAR(other.data) ) ;    
-        }
-        template <typename Vec>
-        inline String& operator+=( const internal::string_proxy<Vec>& proxy){
-            return this->operator+=( String(proxy) ) ;
-        }
-        inline String& operator+=( SEXP x){
-            return this->operator+=( String(x) ) ;
-        }
-
         template <typename T>
-        inline String& push_back( const T& s){
-            return this->operator+=(s) ;
+        inline String& push_back( T&& s){
+            return append(std::forward<T>(s)) ;
         }
         
-        inline String& push_front( const char* s){
-            return prepend<const char*,std::string>(s) ;
+        template <typename T>
+        inline String& push_front( T&& s){
+            return prepend(std::forward<T>(s)) ;
         }
-        inline String& push_front( const std::string& s){
-            return prepend<std::string,std::string>(s) ;
-        }
-        inline String& push_front( const Rcpp::String& s){
-            if( s.is_na() ){
-                data = NA_STRING ;
-                return *this ;
-            }
-            return prepend<const char*, std::string>( CHAR(s.data) ) ;
-        }
-
+        
         inline operator SEXP() const {
             return data ;
         }
