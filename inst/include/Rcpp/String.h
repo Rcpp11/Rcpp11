@@ -11,11 +11,15 @@ namespace Rcpp {
     public:
 
         /** default constructor */
-        String( ): data( Rf_mkChar("") ){}
+        String(): data( Rf_mkChar("") ){}
 
         /** copy constructor */
-        String( const String& other) : data( other.data ){}
-
+        String( const String& other) = default ;
+        String( String&& other ) = default ;
+        inline String& operator=( const String& other ) = default ;
+        inline String& operator=( String&& other ) = default ;
+        ~String() = default ;
+        
         /** construct a string from a single CHARSXP SEXP */
         String(SEXP charsxp) : data(charsxp){}
 
@@ -70,10 +74,6 @@ namespace Rcpp {
         inline String& operator=( const internal::string_proxy<Vec>& proxy){
             data = proxy.get() ; 
             return *this ;
-        }
-        inline String& operator=( const String& other ){ 
-            data = other.data ; 
-            return *this ; 
         }
         inline String& operator=( const std::string& s){ 
             data = internal::make_charsexp(s) ;
