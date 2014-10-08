@@ -36,10 +36,8 @@ namespace Rcpp {
         /** from a std::string */
         String( std::string s) : String(s.c_str()) {}
 
-        String( const std::wstring& s) : data( internal::make_charsexp(s) ){}
-
-        
         String( const wchar_t* s) : data(internal::make_charsexp(s)){}
+        String( const std::wstring& s) : String(s.c_str()){}
 
         /** constructors from R primitives */
         String( int x ) : data( internal::r_coerce<INTSXP,STRSXP>(x) ){}
@@ -48,54 +46,13 @@ namespace Rcpp {
         String( Rcomplex x ) : data( internal::r_coerce<CPLXSXP,STRSXP>(x) ){}
         String( Rbyte x ) : data( internal::r_coerce<RAWSXP,STRSXP>(x) ){}
         String( Na_Proxy ) ;
-
-        inline String& operator=( int x     ){ 
-            data = internal::r_coerce<INTSXP ,STRSXP>( x ) ; 
-            return *this ; 
-        }
-        inline String& operator=( double x  ){ 
-            data = internal::r_coerce<REALSXP,STRSXP>( x ) ; 
-            return *this ; 
-        }
-        inline String& operator=( Rbyte x   ){ 
-            data = internal::r_coerce<RAWSXP ,STRSXP>( x ) ; 
-            return *this ; 
-        }
-        inline String& operator=( Rboolean x ){ 
-            data = internal::r_coerce<LGLSXP ,STRSXP>( x ) ; 
-            return *this ; 
-        }
-        inline String& operator=( Rcomplex x){ 
-            data = internal::r_coerce<CPLXSXP,STRSXP>( x ) ; 
-            return *this ; 
-        }
-        inline String& operator=( SEXP x){ 
-            data = x ; 
-            return *this ; 
-        }
-
-        template <typename Vec>
-        inline String& operator=( const internal::string_proxy<Vec>& proxy){
-            data = proxy.get() ; 
+                
+        template <typename T>
+        inline String& operator=( T&& x){
+            data = String(std::forward<T>(x)).data ;
             return *this ;
         }
-        inline String& operator=( const std::string& s){ 
-            data = internal::make_charsexp(s) ;
-            return *this ; 
-        }
-        inline String& operator=( const char* s){ 
-            data = internal::make_charsexp(s) ;
-            return *this ; 
-        }
-        inline String& operator=( const std::wstring& s){  
-            data = internal::make_charsexp(s) ;
-            return *this ; 
-        }
-        inline String& operator=( const wchar_t* s){ 
-            data = internal::make_charsexp(s) ;
-            return *this ; 
-        }
-    
+        
         inline String& operator=( Na_Proxy ) ; 
 
         inline String& operator+=( const std::string& s){
