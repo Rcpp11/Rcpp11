@@ -60,33 +60,6 @@ namespace Rcpp {
             return append(std::forward<T>(s)) ;    
         }
         
-     private:
-         
-         template <typename T>
-         inline String& append( T&& other ){
-             if( is_na() ) return *this ;
-             String s{ other} ;
-             if( s.is_na() ){
-                data = NA_STRING ;
-             } else {     
-                const char* raw = CHAR(data) ;
-                std::string res( raw, raw + strlen(raw) ) ;
-                res += CHAR(s.data) ;
-                data = internal::make_charsexp(res) ;
-             }
-             return *this ;
-         }
-         
-         template <typename T>
-         inline String& prepend( T&& other){
-             String s{other} ;
-             s += *this ;
-             data = s.data ;
-             return *this ;
-         }
-         
-     public:
-
         template <typename T>
         inline String& push_back( T&& s){
             return append(std::forward<T>(s)) ;
@@ -129,6 +102,29 @@ namespace Rcpp {
             return data == NA_STRING ; 
         }
         
+        template <typename T>
+        inline String& append( T&& other ){
+            if( is_na() ) return *this ;
+            String s{ other} ;
+            if( s.is_na() ){
+               data = NA_STRING ;
+            } else {     
+               const char* raw = CHAR(data) ;
+               std::string res( raw, raw + strlen(raw) ) ;
+               res += CHAR(s.data) ;
+               data = internal::make_charsexp(res) ;
+            }
+            return *this ;
+        }
+        
+        template <typename T>
+        inline String& prepend( T&& other){
+            String s{other} ;
+            s += *this ;
+            data = s.data ;
+            return *this ;
+        }
+
     } ;
 
     namespace traits{
