@@ -4,7 +4,6 @@
 namespace Rcpp{
     namespace parallel{
     
-        #if defined(RCPP11_EXPERIMENTAL_PARALLEL)
         template <typename InputIterator, typename OutputIterator, typename Function>
         void transform( int nthreads, InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
             std::vector<std::thread> workers(nthreads-1) ;
@@ -19,12 +18,7 @@ namespace Rcpp{
             std::transform( begin + start, end, target + start, fun ) ;
             for( int i=0; i<nthreads-1; i++) workers[i].join() ;
         }
-        #else
-        template <typename InputIterator, typename OutputIterator, typename Function>
-        inline void transform( int, InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
-            std::transform( begin, end, target, fun ) ;
-        }
-        #endif
+        
     }   
 }
 

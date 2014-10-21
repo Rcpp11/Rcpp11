@@ -62,10 +62,7 @@
 #include <Rcpp/Demangler.h>
 #include <Rcpp/utils/describe.h>
 
-#if defined(RCPP11_EXPERIMENTAL_PARALLEL)
 #include <thread>
-#endif
-
 #include <Rcpp/utils/parallel/parallel.h>
 
 namespace Rcpp{

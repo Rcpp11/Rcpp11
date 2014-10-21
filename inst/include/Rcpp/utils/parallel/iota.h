@@ -4,7 +4,6 @@
 namespace Rcpp{
     namespace parallel{
              
-        #if defined(RCPP11_EXPERIMENTAL_PARALLEL)
         template <typename OutputIterator, typename T>
         inline void iota( int nthreads, OutputIterator begin, OutputIterator end, T start ){ 
             std::vector<std::thread> workers(nthreads-1) ;
@@ -18,13 +17,7 @@ namespace Rcpp{
             std::iota( begin + pos, end, start + pos ) ;
             for( int i=0; i<nthreads-1; i++) workers[i].join() ;
         }
-        #else
-        template <typename OutputIterator, typename T>
-        inline void iota( int, OutputIterator begin, OutputIterator end, T start ){ 
-            std::iota( begin, end, start ) ;
-        }
-        #endif
-    
+        
     }    
 }
 

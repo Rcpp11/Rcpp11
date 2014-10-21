@@ -4,7 +4,6 @@
 namespace Rcpp{
     namespace parallel{
         
-        #if defined(RCPP11_EXPERIMENTAL_PARALLEL)
         template <typename InputIterator, typename OutputIterator>
         inline void copy( int nthreads, InputIterator begin, InputIterator end, OutputIterator target ){ 
             std::vector<std::thread> workers(nthreads-1) ;
@@ -19,13 +18,6 @@ namespace Rcpp{
             for( int i=0; i<nthreads-1; i++) workers[i].join() ;
         }
         
-        #else
-        template <typename InputIterator, typename OutputIterator>
-        inline void copy( int, InputIterator begin, InputIterator end, OutputIterator target ){ 
-            std::copy( begin, end, target ) ;
-        }
-        #endif
-    
     }    
 }
 

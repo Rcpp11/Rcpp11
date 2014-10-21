@@ -4,7 +4,6 @@
 namespace Rcpp{
     namespace parallel{
         
-        #if defined(RCPP11_EXPERIMENTAL_PARALLEL)
         template <typename OutputIterator, typename Size, typename Generator>
         inline void generate_n( int nthreads, OutputIterator begin, R_xlen_t n, Generator gen ){ 
             std::vector<std::thread> workers(nthreads-1) ;
@@ -17,13 +16,7 @@ namespace Rcpp{
             std::generate_n( begin + pos, n-pos, gen ) ;
             for( int i=0; i<nthreads-1; i++) workers[i].join() ;
         }
-        #else
-        template <typename OutputIterator, typename Size, typename Generator>
-        inline void generate_n( int, OutputIterator begin, R_xlen_t n, Generator gen ){ 
-            std::generate_n( begin, n, gen ) ;
-        }
-        #endif
-    
+        
     }    
 }
 
