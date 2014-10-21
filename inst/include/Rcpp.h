@@ -4,6 +4,11 @@
 // #define RCPP11_EXPERIMENTAL_PRESERVE
 #define RCPP11_EXPERIMENTAL_PARALLEL
 
+// minimum size for parallel features to kick in
+#ifndef RCPP11_PARALLEL_MINIMUM_SIZE
+    #define RCPP11_PARALLEL_MINIMUM_SIZE 10000
+#endif
+
 #include <Rcpp/platform.h>
 
 #include <cmath>
