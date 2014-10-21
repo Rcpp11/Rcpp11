@@ -40,7 +40,7 @@ namespace Rcpp{
             } else {
                 if( is_null(ref) || index > Rf_xlength(ref) ) stop("index out of bounds") ;
                 
-                size_t i=1;
+                R_xlen_t i=1;
                 SEXP x = ref ;
                 while( i < index ){
                     x = CDR(x) ;
@@ -82,7 +82,7 @@ namespace Rcpp{
             if( index == 0 ){
                 ref = CDR(x) ;
             } else{
-                size_t i=1;
+                R_xlen_t i=1;
                 while( i<index ){ x = CDR(x) ; i++; }
                 SETCDR( x, CDDR(x) ) ;
             }

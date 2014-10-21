@@ -13,19 +13,19 @@ namespace internal{
     inline SEXP make_charsexp__impl__wstring( const wchar_t* data ){
         char* buffer = get_string_buffer() ;
         wcstombs( buffer, data, MAXELTSIZE ) ;
-        return Rf_mkChar(buffer) ;
+        return Rf_mkCharCE(Rf_translateCharUTF8(Rf_mkChar(buffer)), CE_UTF8) ;
     }
     inline SEXP make_charsexp__impl__wstring( wchar_t data ){
         wchar_t x[2] = { data, '\0' } ;
         char* buffer = get_string_buffer() ;
         wcstombs( buffer, x, MAXELTSIZE ) ;
-        return Rf_mkChar(buffer) ;
+        return Rf_mkCharCE( Rf_translateCharUTF8(Rf_mkChar(buffer)) , CE_UTF8) ;
     }
     inline SEXP make_charsexp__impl__wstring( const std::wstring& st ){
         return make_charsexp__impl__wstring( st.data()) ;
     }
     inline SEXP make_charsexp__impl__cstring( const char* data ){
-        return Rf_mkChar( data ) ;
+        return Rf_mkCharCE( data, CE_UTF8 ) ;
     }
     inline SEXP make_charsexp__impl__cstring( char data ){
         return Rf_mkCharLen( &data, 1 ) ;

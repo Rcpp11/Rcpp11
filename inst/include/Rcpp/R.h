@@ -85,8 +85,9 @@ typedef struct {
     int       arity;    /* function arity */
     PPinfo gram;     /* pretty-print info */
 } FUNTAB;
- 
-extern FUNTAB    R_FunTab[];        /* Built in functions */ 
+
+#define R_FunTab \
+  ( (FUNTAB*) libR["R_FunTab"] )
 
 #undef isNull
 #define RCPP_isNull(s)    (TYPEOF(s) == NILSXP)

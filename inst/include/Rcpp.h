@@ -2,7 +2,6 @@
 #define Rcpp11_h
 
 // #define RCPP11_EXPERIMENTAL_PRESERVE
-
 #define RCPP11_EXPERIMENTAL_PARALLEL
 
 #include <Rcpp/platform.h>
@@ -14,8 +13,10 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <climits>
+#include <map>
 
 #include <Rcpp/macros/macros.h>
+#include <Rcpp/internal/library.h>
 #include <Rcpp/R.h>
 
 #include <Rcpp/routines.h>
@@ -37,7 +38,6 @@
 #include <queue>
 #include <cxxabi.h>
 
-#include <map>
 #include <set>
 #include <stdexcept>
 #include <vector>
@@ -173,8 +173,8 @@ namespace Rcpp{
 
 #include <Rcpp/storage/storage.h>
 #include <Rcpp/proxy/GenericProxy.h>
-#include <Rcpp/Symbol.h>
 #include <Rcpp/proxy/proxy.h>
+#include <Rcpp/Symbol.h>
 
 #include <Rcpp/storage/PreserveStorage.h>
 #include <Rcpp/storage/NoProtectStorage.h>
