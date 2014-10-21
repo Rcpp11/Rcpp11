@@ -62,7 +62,7 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                apply_parallel( target ) ;
+                apply_serial( target ) ;
             }
             
             template <typename Target>
@@ -78,7 +78,7 @@ namespace Rcpp{
             template <typename Target>
             inline void apply_parallel( Target& target ) const {
                 // TODO: parallel version
-                apply(target) ;
+                apply_serial(target) ;
             }
             
             
@@ -107,7 +107,7 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
-                apply_parallel( target ) ; 
+                apply_serial( target ) ; 
             }
             
             template <typename Target>
@@ -117,7 +117,7 @@ namespace Rcpp{
             
             template <typename Target>
             inline void apply_parallel( Target& target ) const {
-                apply(target) ;
+                apply_serial(target) ;
             }
             
             inline const_iterator begin() const { return const_iterator( x, 0 ) ; }
