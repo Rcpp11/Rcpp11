@@ -1,8 +1,6 @@
 #ifndef Rcpp11_h
 #define Rcpp11_h
 
-// #define RCPP11_EXPERIMENTAL_PRESERVE
-
 #include <Rcpp/platform.h>
 
 #include <cmath>
