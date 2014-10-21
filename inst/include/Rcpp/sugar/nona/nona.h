@@ -23,6 +23,11 @@ namespace Rcpp{
             }
             
             template <typename Target>
+            void apply_serial( Target& target ){
+                data.get_ref().apply_serial(target) ;  
+            }
+            
+            template <typename Target>
             inline void apply_parallel( Target& target ) const {
                 data.get_ref().apply_parallel(target) ;    
             }

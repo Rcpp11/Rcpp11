@@ -57,7 +57,12 @@ namespace Rcpp{
             inline R_xlen_t size() const { return len ; }
         
             template <typename Target>
-            inline void apply(Target& target) const {
+            inline void apply( Target& target ) const {
+                apply_serial(target) ;    
+            }
+        
+            template <typename Target>
+            inline void apply_serial(Target& target) const {
                 if (n >= len) {
                     std::copy_n(data.begin(), len, target.begin() );
                     return;
@@ -79,7 +84,7 @@ namespace Rcpp{
             
             template <typename Target>
             inline void apply_parallel( Target& target ) const {
-                apply(target) ;    
+                apply_serial(target) ;    
             }
         
             inline const_iterator begin() const { return const_iterator( *this, 0 ) ; }

@@ -31,10 +31,10 @@ namespace Rcpp {
             }
             
             constant_iterator operator+(R_xlen_t n){ 
-                return constant_iterator(*this, i + n) ; 
+                return constant_iterator(value, i + n) ; 
             }
             constant_iterator operator-(R_xlen_t n){ 
-                return constant_iterator(*this, i - n) ; 
+                return constant_iterator(value, i - n) ; 
             }
             R_xlen_t operator-( const constant_iterator& other ) const {
                 return i - other.i ;

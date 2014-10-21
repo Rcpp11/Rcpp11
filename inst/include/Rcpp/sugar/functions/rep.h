@@ -55,6 +55,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel( target ) ;
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 auto it = target.begin() ;
                 
                 // then copy
@@ -95,6 +100,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel( target ) ; 
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::fill( target.begin(), target.end(), x ) ;    
             }
             

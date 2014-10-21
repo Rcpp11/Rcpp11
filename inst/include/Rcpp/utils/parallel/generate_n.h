@@ -5,12 +5,12 @@ namespace Rcpp{
     namespace parallel{
         
         template <typename OutputIterator, typename Size, typename Generator>
-        inline void generate_n( OutputIterator begin, R_xlen_t n, Generator gen ){ 
+        inline void generate_n( OutputIterator begin, Size n, Generator gen ){ 
             int nthreads = RCPP11_PARALLEL_NTHREADS ;
             if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){
                 std::vector<std::thread> workers(nthreads-1) ;
-                R_xlen_t chunk_size = n / nthreads ;
-                R_xlen_t pos = 0;
+                Size chunk_size = n / nthreads ;
+                Size pos = 0;
                 for( int i=0; i<nthreads-1; i++, pos += chunk_size){
                     workers[i] = std::thread( std::generate_n<OutputIterator, R_xlen_t, Generator>, 
                         begin + pos, chunk_size, gen) ;   

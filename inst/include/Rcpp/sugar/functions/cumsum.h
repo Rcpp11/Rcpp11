@@ -41,6 +41,11 @@ namespace Rcpp{
                 apply(target) ;
             }
             
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
+                apply(target) ;
+            }
+            
             inline const_iterator begin() const { return data.begin() ; }
             inline const_iterator end() const { return data.end() ; }
             

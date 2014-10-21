@@ -5,7 +5,12 @@ namespace Rcpp{
     namespace parallel{
         
         template <typename InputIterator, typename OutputIterator>
-        inline void copy( InputIterator begin, InputIterator end, OutputIterator target ){ 
+        inline void copy_impl( InputIterator begin, InputIterator end, OutputIterator target, std::input_iterator_tag ){
+            std::copy( begin, end, target ) ;
+        }
+        
+        template <typename InputIterator, typename OutputIterator>
+        inline void copy_impl( InputIterator begin, InputIterator end, OutputIterator target, std::random_access_iterator_tag ){
             R_xlen_t n = std::distance(begin, end) ;
             int nthreads = RCPP11_PARALLEL_NTHREADS ;
             if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){
@@ -22,7 +27,12 @@ namespace Rcpp{
             } else {
                 std::copy( begin, end, target ) ;    
             }
-        }       
+        } 
+        
+        template <typename InputIterator, typename OutputIterator>
+        inline void copy( InputIterator begin, InputIterator end, OutputIterator target ){
+            copy_impl( begin, end, target, typename std::iterator_traits<InputIterator>::iterator_category() ) ;        
+        }
         
     }    
 }

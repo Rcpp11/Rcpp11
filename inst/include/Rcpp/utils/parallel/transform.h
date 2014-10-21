@@ -5,7 +5,7 @@ namespace Rcpp{
     namespace parallel{
     
         template <typename InputIterator, typename OutputIterator, typename Function>
-        void transform( InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
+        void transform_impl( InputIterator begin, InputIterator end, OutputIterator target, Function fun, std::random_access_iterator_tag ){ 
             int nthreads = RCPP11_PARALLEL_NTHREADS ;
             R_xlen_t n = std::distance(begin, end) ;
             if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){   
@@ -23,6 +23,16 @@ namespace Rcpp{
             } else {
                 std::transform( begin, end, target, fun ) ;
             }
+        }
+        
+        template <typename InputIterator, typename OutputIterator, typename Function>
+        inline void transform_impl( InputIterator begin, InputIterator end, OutputIterator target, Function fun, std::input_iterator_tag ){ 
+            std::transform( begin, end, target, fun ) ;
+        }
+        
+        template <typename InputIterator, typename OutputIterator, typename Function>
+        inline void transform( InputIterator begin, InputIterator end, OutputIterator target, Function fun){
+            transform_impl( begin, end, target, fun, typename std::iterator_traits<InputIterator>::iterator_category() ) ;    
         }
         
     }   

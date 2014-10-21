@@ -68,6 +68,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel( target ) ;
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::transform( vec.begin(), vec.end(), target.begin(), 
                     typename function_wrapper_type<function_type, Target, eT>::type(fun)
                 );
@@ -113,6 +118,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel( target ) ;
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::transform( vec.begin(), vec.end(), target.begin(), 
                     typename function_wrapper_type<function_type, Target, elem_type>::type(fun)
                 );

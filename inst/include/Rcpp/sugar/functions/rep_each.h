@@ -19,6 +19,11 @@ namespace Rcpp{
         
             template <typename Target>
             inline void apply(Target& target) const {
+                apply_parallel(target) ;
+            }
+            
+            template <typename Target>
+            inline void apply_serial(Target& target) const {
                 auto it = target.begin();
                 auto source_it = sugar_begin(object) ;
                 for (R_xlen_t i=0; i < n; ++i, it += times, ++source_it) {

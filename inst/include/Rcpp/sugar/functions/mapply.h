@@ -222,9 +222,14 @@ namespace Rcpp{
             }
             inline const_iterator begin() const { return const_iterator( data, fun, any_prim_na, 0) ; }
             inline const_iterator end() const { return const_iterator( data, fun, any_prim_na, size() ) ; }
-               
+            
             template <typename Target>
             void apply( Target& target ) const {
+                apply_parallel( target ) ;
+            }
+            
+            template <typename Target>
+            void apply_serial( Target& target ) const {
                 if(any_prim_na){
                     std::fill( target.begin(), target.end(), static_cast<typename Target::value_type>(NA) ) ;
                 } else {

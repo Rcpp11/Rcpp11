@@ -22,6 +22,11 @@ namespace Rcpp{
             
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel(target ) ;
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::generate_n( target.begin(), n, call ) ;  
             }
             

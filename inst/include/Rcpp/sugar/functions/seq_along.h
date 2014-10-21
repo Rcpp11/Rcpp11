@@ -17,9 +17,14 @@ namespace Rcpp{
                 return 1 + i ;
             }
             inline R_xlen_t size() const { return len ; }
-             
+            
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel( target ) ;     
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::iota( target.begin(), target.end(), 1 ) ;     
             }
             
@@ -48,9 +53,14 @@ namespace Rcpp{
                 return index_start + i ;
             }
             inline R_xlen_t size() const { return index_end-index_start+1 ; }
-             
+            
             template <typename Target>
             inline void apply( Target& target ) const {
+                apply_parallel(target);
+            }
+            
+            template <typename Target>
+            inline void apply_serial( Target& target ) const {
                 std::iota( target.begin(), target.end(), index_start ) ;     
             }
             
