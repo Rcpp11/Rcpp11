@@ -3,6 +3,8 @@
 
 // #define RCPP11_EXPERIMENTAL_PRESERVE
 
+#define RCPP11_EXPERIMENTAL_PARALLEL
+
 #include <Rcpp/platform.h>
 
 #include <cmath>
