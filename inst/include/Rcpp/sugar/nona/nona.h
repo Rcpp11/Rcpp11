@@ -23,8 +23,8 @@ namespace Rcpp{
             }
             
             template <typename Target>
-            inline void apply_parallel( Target& target, int nthreads ) const {
-                data.get_ref().apply_parallel(target, nthreads) ;    
+            inline void apply_parallel( Target& target ) const {
+                data.get_ref().apply_parallel(target) ;    
             }
     
             

@@ -5,9 +5,10 @@ namespace Rcpp{
     namespace parallel{
     
         template <typename InputIterator, typename OutputIterator, typename Function>
-        void transform( int nthreads, InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
+        void transform( InputIterator begin, InputIterator end, OutputIterator target, Function fun ){ 
+            int nthreads = RCPP11_PARALLEL_NTHREADS ;
             R_xlen_t n = std::distance(begin, end) ;
-            if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){
+            if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){   
                 std::vector<std::thread> workers(nthreads-1) ;
                 R_xlen_t chunk_size = n / nthreads ;
                 R_xlen_t start=0; 

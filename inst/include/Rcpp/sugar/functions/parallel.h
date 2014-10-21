@@ -13,8 +13,8 @@ namespace Rcpp{
         public:
             typedef typename Expr::const_iterator const_iterator ;
             
-            Parallel( const SugarVectorExpression<eT,Expr>& data_, int nthreads_ ): 
-                data(data_), nthreads(nthreads_){}
+            Parallel( const SugarVectorExpression<eT,Expr>& data_): 
+                data(data_){}
             
             inline R_xlen_t size() const { 
                 return data.size(); 
@@ -22,12 +22,12 @@ namespace Rcpp{
            
             template <typename Target>
             inline void apply( Target& target ) const {
-                data.apply_parallel( target, nthreads ) ;     
+                data.apply_parallel( target ) ;     
             }
             
             template <typename Target>
-            inline void apply_parallel( Target& target, int nthreads ) const {
-                data.apply_parallel( target, nthreads ) ;     
+            inline void apply_parallel( Target& target ) const {
+                data.apply_parallel( target ) ;     
             }
            
             inline const_iterator begin() const { return data.get_ref().begin(); }
@@ -35,29 +35,24 @@ namespace Rcpp{
             
         private:
             const SugarVectorExpression<eT,Expr>& data ; 
-            int nthreads ;
+            
         } ;
     
-        
-        class Threads{
-        public:
-            Threads(int n_): n(n_){}
-            int n ;
-        } ;
+        struct Threads{} ;
         
     }
     
     template <typename eT, typename Expr>
-    inline sugar::Parallel<eT,Expr> threaded( const SugarVectorExpression<eT,Expr>& expr, int nthreads ){
-        return sugar::Parallel<eT,Expr>( expr, nthreads );   
+    inline sugar::Parallel<eT,Expr> threaded( const SugarVectorExpression<eT,Expr>& expr ){
+        return sugar::Parallel<eT,Expr>( expr );   
     }
     
     template <typename eT, typename Expr>
     inline sugar::Parallel<eT,Expr> operator>>( sugar::Threads threads, const SugarVectorExpression<eT,Expr>& expr ){
-        return threaded( expr, threads.n ) ;    
+        return threaded( expr ) ;    
     }
         
-    inline sugar::Threads threads(int n){ return sugar::Threads(n); }
+    inline sugar::Threads threads(){ return sugar::Threads(); }
     
 }
 

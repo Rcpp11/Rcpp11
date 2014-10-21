@@ -78,7 +78,7 @@ namespace Rcpp{
             }
             
             template <typename Target>
-            inline void apply_parallel( Target& target, int nthreads ) const {
+            inline void apply_parallel( Target& target ) const {
                 apply(target) ;    
             }
         

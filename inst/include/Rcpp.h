@@ -9,6 +9,11 @@
     #define RCPP11_PARALLEL_MINIMUM_SIZE 10000
 #endif
 
+#ifndef RCPP11_PARALLEL_NTHREADS
+    #define RCPP11_PARALLEL_NTHREADS std::thread::hardware_concurrency()
+#endif
+
+
 #include <Rcpp/platform.h>
 
 #include <cmath>

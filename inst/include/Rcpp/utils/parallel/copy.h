@@ -5,8 +5,9 @@ namespace Rcpp{
     namespace parallel{
         
         template <typename InputIterator, typename OutputIterator>
-        inline void copy( int nthreads, InputIterator begin, InputIterator end, OutputIterator target ){ 
+        inline void copy( InputIterator begin, InputIterator end, OutputIterator target ){ 
             R_xlen_t n = std::distance(begin, end) ;
+            int nthreads = RCPP11_PARALLEL_NTHREADS ;
             if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){
                 std::vector<std::thread> workers(nthreads-1) ;
                 R_xlen_t chunk_size = n / nthreads ;

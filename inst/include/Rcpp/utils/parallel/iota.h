@@ -5,8 +5,9 @@ namespace Rcpp{
     namespace parallel{
              
         template <typename OutputIterator, typename T>
-        inline void iota( int nthreads, OutputIterator begin, OutputIterator end, T start ){ 
+        inline void iota( OutputIterator begin, OutputIterator end, T start ){ 
             R_xlen_t n = std::distance(begin, end) ;
+            int nthreads = RCPP11_PARALLEL_NTHREADS ;
             if( n > RCPP11_PARALLEL_MINIMUM_SIZE ){
                 std::vector<std::thread> workers(nthreads-1) ;
                 R_xlen_t chunk_size = n / nthreads ;

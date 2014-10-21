@@ -16,8 +16,8 @@ namespace Rcpp{
                 std::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
             }
             
-            inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT, Expr>& expr ){
-                parallel::copy( nthreads, sugar_begin(expr), sugar_end(expr), target.begin() );
+            inline void apply_parallel( Target& target, const SugarVectorExpression<eT, Expr>& expr ){
+                parallel::copy( sugar_begin(expr), sugar_end(expr), target.begin() );
             }
         } ;
         
@@ -30,9 +30,9 @@ namespace Rcpp{
                 });    
             }
             
-            inline void apply_parallel( Target& target, int nthreads, const SugarVectorExpression<eT,Expr>& expr ){
+            inline void apply_parallel( Target& target, const SugarVectorExpression<eT,Expr>& expr ){
                 typedef typename traits::r_vector_element_converter< Target::r_type::value >::type converter ;
-                parallel::transform( nthreads, sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
+                parallel::transform( sugar_begin(expr), sugar_end(expr), target.begin(), [](eT x){
                         return converter::get(x) ;
                 });    
             }
@@ -64,11 +64,11 @@ namespace Rcpp{
     
     template <typename eT, typename Expr>
     template <typename Target>
-    void SugarVectorExpression<eT,Expr>::apply_parallel( Target& target, int nthreads ) const {
+    void SugarVectorExpression<eT,Expr>::apply_parallel( Target& target ) const {
         if( std::is_base_of<sugar::custom_sugar_vector_expression, Expr>::value )
-            get_ref().apply_parallel(target, nthreads) ;
+            get_ref().apply_parallel(target) ;
         else 
-            sugar::sugar_vector_expression_op<Target, eT, Expr, std::is_same<eT, typename Target::value_type >::value >().apply_parallel( target, nthreads, *this ) ;  
+            sugar::sugar_vector_expression_op<Target, eT, Expr, std::is_same<eT, typename Target::value_type >::value >().apply_parallel( target, *this ) ;  
     }
     
     template <typename eT, typename Expr>
