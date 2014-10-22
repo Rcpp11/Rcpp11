@@ -57,14 +57,14 @@ namespace Rcpp{
         
     } ;
     
-    // template <int N, typename Storage = PreserveStorage> using NumericArray   = Array<N, REALSXP, Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using DoubleArray    = Array<N, REALSXP, Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using IntegerArray   = Array<N, INTSXP , Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using StringArray    = Array<N, STRSXP , Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using CharacterArray = Array<N, STRSXP , Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using LogicalArray   = Array<N, LGLSXP , Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using RawArray       = Array<N, RAWSXP , Storage> ;
-    // template <int N, typename Storage = PreserveStorage> using ComplexArray   = Array<N, CPLXSXP, Storage> ;
+    template <int N, typename Storage = PreserveStorage> using NumericArray   = Array<N, REALSXP, Storage> ;
+    template <int N, typename Storage = PreserveStorage> using DoubleArray    = Array<N, REALSXP, Storage> ;
+    template <int N, typename Storage = PreserveStorage> using IntegerArray   = Array<N, INTSXP , Storage> ;
+    template <int N, typename Storage = PreserveStorage> using StringArray    = Array<N, STRSXP , Storage> ;
+    template <int N, typename Storage = PreserveStorage> using CharacterArray = Array<N, STRSXP , Storage> ;
+    template <int N, typename Storage = PreserveStorage> using LogicalArray   = Array<N, LGLSXP , Storage> ;
+    template <int N, typename Storage = PreserveStorage> using RawArray       = Array<N, RAWSXP , Storage> ;
+    template <int N, typename Storage = PreserveStorage> using ComplexArray   = Array<N, CPLXSXP, Storage> ;
     
 } // Rcpp 
 
