@@ -1,3 +1,7 @@
+# Rcpp11 3.1.2
+
+* New `wrap` implementation for `std::tuple<Args...>` (#195)
+
 # Rcpp11 3.1.1
 
 * sugar `sum` now supports complex sugar vector expressions
