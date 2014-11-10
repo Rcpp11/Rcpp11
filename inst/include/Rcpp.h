@@ -234,6 +234,8 @@ namespace Rcpp{
 
 #include <Rcpp/Timer.h>
 
+#include <Rcpp/vector/dimnames.h>
+
 namespace Rcpp11 = Rcpp ;
 
 #endif

@@ -2,6 +2,8 @@
 
 * New `wrap` implementation for `std::tuple<Args...>` (#195)
 
+* `colnames` and `rownames` setters for matrices (#210). 
+
 # Rcpp11 3.1.1
 
 * sugar `sum` now supports complex sugar vector expressions
