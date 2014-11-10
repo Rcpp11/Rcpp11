@@ -4,6 +4,11 @@
 
 * `colnames` and `rownames` setters for matrices (#210). 
 
+* Most sugar functions are now processing the expression in parallel. 
+
+* Forbidden symbols from the C/R API are no longer directly used, so packages can 
+  use Rcpp11 without getting the NOTE as before. 
+
 # Rcpp11 3.1.1
 
 * sugar `sum` now supports complex sugar vector expressions
