@@ -64,6 +64,11 @@ namespace Rcpp {
         return ColNamesProxy<Matrix<RTYPE, Storage>>(const_cast<Matrix<RTYPE,Storage>&>(m)) ;    
     }
     
+    template <typename Storage>
+    inline RowNamesProxy<DataFrame_Impl<Storage>> rownames( const DataFrame_Impl<Storage>& df ){
+        return RowNamesProxy<DataFrame_Impl<Storage>>( const_cast<DataFrame_Impl<Storage>&>(df) ) ;    
+    }
+    
 }
 
 #endif

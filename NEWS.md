@@ -1,3 +1,7 @@
+# Rcpp11 3.2.0
+
+* `rownames` setter and getter for `DataFrame` (#210)
+
 # Rcpp11 3.1.2
 
 * New `wrap` implementation for `std::tuple<Args...>` (#195)
