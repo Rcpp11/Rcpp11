@@ -7,9 +7,9 @@ before_install:
   - ./travis-tool.sh github_package hadley/testthat
   - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
   - sudo apt-get -qq update
-  - sudo apt-get -qq install g++-4.8     
+  - sudo apt-get -qq install g++-4.9     
   - mkdir ~/.R
-  - echo -e "CC=gcc-4.8 -std=gnu99\nCXX=g++-4.8 -std=c++11\nnCXX1X=g++-4.8\nCXXFLAGS=-g -O3\nCXX1XFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
+  - echo -e "CC=gcc-4.9 -std=gnu99\nCXX=g++-4.8 -std=c++11\nnCXX1X=g++-4.9\nCXXFLAGS=-g -O3\nCXX1XFLAGS=-g -O3\nCFLAGS=-g -O3\n" > ~/.R/Makevars
   
 script:
   - R CMD INSTALL .
