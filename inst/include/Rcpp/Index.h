@@ -46,6 +46,10 @@ namespace Rcpp{
             return dimensions.begin() ; 
         }
         
+        inline int get_dim(int i) const {
+            return dimensions[i] ;    
+        }
+        
     private:
         
         template <typename... Args >
