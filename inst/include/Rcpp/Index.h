@@ -42,7 +42,9 @@ namespace Rcpp{
             return dimensions[i] ;
         }
         
-        inline typename std::array<size_t,N>::iterator begin(){ return dimensions.begin() ; }
+        inline typename std::array<int,N>::iterator begin(){ 
+            return dimensions.begin() ; 
+        }
         
     private:
         
