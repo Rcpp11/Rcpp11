@@ -4,7 +4,7 @@
 namespace Rcpp{
 
     template <int RTYPE, typename Storage>
-    class SquareMatrix : Matrix<RTYPE, Storage> {
+    class SquareMatrix : public Matrix<RTYPE, Storage> {
     public:
         using Base = Matrix<RTYPE, Storage> ;
         
