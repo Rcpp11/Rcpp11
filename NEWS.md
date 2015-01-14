@@ -2,6 +2,8 @@
 
 * `rownames` setter and getter for `DataFrame` (#210)
 
+* Added `operator+=`, `-=`, `*=` and `/=` where the rhs is a sugar expression. 
+
 # Rcpp11 3.1.2
 
 * New `wrap` implementation for `std::tuple<Args...>` (#195)
