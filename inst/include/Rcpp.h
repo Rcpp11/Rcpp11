@@ -184,8 +184,7 @@ namespace Rcpp{
 #include <Rcpp/proxy/proxy.h>
 #include <Rcpp/Symbol.h>
 
-#include <Rcpp/storage/PreserveStorage.h>
-#include <Rcpp/storage/NoProtectStorage.h>
+#include <Rcpp/storage/storage.h>
 
 #include <Rcpp/Node.h>
 #include <Rcpp/grow.h>
@@ -236,6 +235,7 @@ namespace Rcpp{
 #include <Rcpp/Timer.h>
 
 #include <Rcpp/vector/dimnames.h>
+#include <Rcpp/Strict.h>
 
 namespace Rcpp11 = Rcpp ;
 
