@@ -6,6 +6,8 @@
 
 * Added template class `Strict` to implement more rigid (no automatic coercion) 
   arguments in attribute generated functions. 
+  
+* Added `operator+=` etc ... for `Vector` x `primitive` case.   
 
 # Rcpp11 3.1.2
 

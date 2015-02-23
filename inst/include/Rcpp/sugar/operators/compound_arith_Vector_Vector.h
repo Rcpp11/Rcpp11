@@ -25,5 +25,4 @@ inline Expr1& operator/=( Expr1& lhs, const Rcpp::SugarVectorExpression<eT, Expr
     return lhs ;
 }
 
-
 #endif
