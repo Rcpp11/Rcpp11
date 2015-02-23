@@ -9,6 +9,8 @@
   
 * Added `operator+=` etc ... for `Vector` x `primitive` case.   
 
+* Added `operator+=` etc ... for `Matrix` x `primitive` case. 
+
 # Rcpp11 3.1.2
 
 * New `wrap` implementation for `std::tuple<Args...>` (#195)
