@@ -10,6 +10,10 @@
 #include <Rcpp/sugar/operators/arith_Vector_Primitive.h>
 #include <Rcpp/sugar/operators/arith_Primitive_Vector.h>
 
+// compound arith vectors
+#include <Rcpp/sugar/operators/compound_arith_Vector_Vector.h>
+#include <Rcpp/sugar/operators/compound_arith_Vector_primitive.h>
+
 // unary operators
 #include <Rcpp/sugar/operators/unary_Vector.h>
 

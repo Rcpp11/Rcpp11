@@ -10,7 +10,6 @@ operator+(const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( 
 template <typename eT, typename Expr>
 inline auto
 operator-( const Rcpp::SugarVectorExpression<eT,Expr>& lhs, eT rhs) -> decltype( mapply( std::minus<eT>(), lhs, rhs ) ) {
-    RCPP_DEBUG( "%s - %s (%d)\n", DEMANGLE(Expr), DEMANGLE(eT), rhs )
     return mapply( std::minus<eT>(), lhs, rhs ) ;
 }
 

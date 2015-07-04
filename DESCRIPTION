@@ -1,7 +1,7 @@
 Package: Rcpp11
 Title: R and C++11
-Version: 3.1.1.0.999
-Date: 2014-07-22
+Version: 3.1.2.0.1
+Date: 2014-11-10
 Authors@R: c(
     person("Romain", "Francois", role = c("aut", "cre"), email = "romain@r-enthusiasts.com"),
     person("Kevin", "Ushey", role = "aut", email = "kevinushey@gmail.com"),
@@ -9,7 +9,7 @@ Authors@R: c(
     )
 Description: Rcpp11 includes a header only C++11 library that facilitates 
   integration between R and modern C++. 
-Depends: R (>= 3.1.1)
+Depends: R (>= 3.1.2)
 License: MIT + file LICENSE
 SystemRequirements: C++11
 

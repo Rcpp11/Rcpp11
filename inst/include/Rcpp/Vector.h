@@ -33,5 +33,6 @@
 #include <Rcpp/vector/MatrixColumn.h>
 #include <Rcpp/vector/MatrixRow.h>
 #include <Rcpp/vector/Matrix.h>
+#include <Rcpp/vector/SquareMatrix.h>
 
 #endif

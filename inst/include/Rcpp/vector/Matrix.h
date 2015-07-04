@@ -93,6 +93,38 @@ namespace Rcpp{
         inline Row row(int i){ return Row(*this, i) ; }
         inline Row operator()(int i, internal::NamedPlaceHolder){ return row(i); }
         
+        template <typename T>
+        inline Matrix& operator+=( T x ){
+            for( auto& val: *this){ 
+                val += x; 
+            }
+            return *this ;
+        }
+        
+        template <typename T>
+        inline Matrix& operator*=( T x ){
+            for( auto& val: *this){ 
+                val *= x; 
+            }
+            return *this ;
+        }
+        
+        template <typename T>
+        inline Matrix& operator/=( T x ){
+            for( auto& val: *this){ 
+                val /= x; 
+            }
+            return *this ;
+        }
+        
+        template <typename T>
+        inline Matrix& operator-=( T x ){
+            for( auto& val: *this){ 
+                val -= x; 
+            }
+            return *this ;
+        }
+        
     private:
         
         inline R_xlen_t offset(int i, int j) const {

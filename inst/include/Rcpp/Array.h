@@ -51,6 +51,10 @@ namespace Rcpp{
             return *this ;
         }
         
+        inline int get_dim(int i) const {
+            return index.get_dim(i) ;        
+        }
+        
     private:
         Index<N> index ;
         Vec data ;

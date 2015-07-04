@@ -1,6 +1,26 @@
+# Rcpp11 3.2.0
+
+* `rownames` setter and getter for `DataFrame` (#210)
+
+* Added `operator+=`, `-=`, `*=` and `/=` where the rhs is a sugar expression. 
+
+* Added template class `Strict` to implement more rigid (no automatic coercion) 
+  arguments in attribute generated functions. 
+  
+* Added `operator+=` etc ... for `Vector` x `primitive` case.   
+
+* Added `operator+=` etc ... for `Matrix` x `primitive` case. 
+
 # Rcpp11 3.1.2
 
 * New `wrap` implementation for `std::tuple<Args...>` (#195)
+
+* `colnames` and `rownames` setters for matrices (#210). 
+
+* Most sugar functions are now processing the expression in parallel. 
+
+* Forbidden symbols from the C/R API are no longer directly used, so packages can 
+  use Rcpp11 without getting the NOTE as before. 
 
 # Rcpp11 3.1.1
 

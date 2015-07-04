@@ -19,11 +19,11 @@ namespace Rcpp{
         typedef const_reference    const_Proxy     ;
         typedef value_type*        iterator        ;
         typedef const value_type*  const_iterator  ;
-            
+
         #define RTYPE LGLSXP
         #include <Rcpp/vector/impl/RCPP_VECTOR_API.h>
         #undef RTYPE
-        
+
     public:
         Vector( R_xlen_t n, value_type x ) {
             reset(n);
@@ -41,8 +41,8 @@ namespace Rcpp{
         }
         Vector( std::initializer_list<bool> list ){
             reset(list.size());
-            std::transform( list.begin(), list.end(), [](bool b){
-                return b ? TRUE : FALSE ;        
+            std::transform( list.begin(), list.end(), begin(), [](bool b){
+                return b ? TRUE : FALSE ;
             }) ;
         }
 
@@ -59,7 +59,7 @@ namespace Rcpp{
             UNPROTECT(1) ;
             names(*this) = nams ;
         }
-        
+
         Vector( std::initializer_list<traits::named_object<bool>> list ){
             int n = list.size() ;
             reset(n);
