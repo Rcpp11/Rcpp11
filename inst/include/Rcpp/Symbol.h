@@ -14,12 +14,12 @@ namespace Rcpp{
                 data = x ;
                 break; /* nothing to do */
             case CHARSXP: {
-                data = Rf_install(CHAR(x));     
+                data = Rf_installChar(x);     
                 break ;
             }
             case STRSXP: {
                 /* FIXME: check that there is at least one element */
-                data = Rf_install( CHAR(STRING_ELT(x, 0 )) ); 
+                data = Rf_installChar( STRING_ELT(x, 0 ) ); 
                 break ;
             }
             default:
