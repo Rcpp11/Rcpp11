@@ -111,7 +111,7 @@ namespace Rcpp{
             PRIMFUN(ifun)(symb, ifun, args, R_GlobalEnv );
 
             // call it a second time to get the current R_HandlerStack
-            CAR(args) = R_NilValue ;
+            SETCAR(args, R_NilValue);
             SEXP value = PRIMFUN(ifun)(symb, ifun, args, R_GlobalEnv ) ;
             pair->second = VECTOR_ELT(CAR(value),4) ;
 
